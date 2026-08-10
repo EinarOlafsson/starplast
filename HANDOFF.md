@@ -83,14 +83,48 @@ Read `.claude/skills/toxoplasma-scientist/SKILL.md` before interpreting anything
 - **Never compare a gene set against the whole proteome** — 86% of adequately powered motif claims fail a
   matched background, and set median protein length predicts apparent enrichment at ρ ≈ +0.8.
 
-## State at handoff
+## Start a session on this project by pasting this
 
-**Built:** `starplast/build_graph.py` (data prep), `starplast/app.py` (v0+v1 UI), `pyproject.toml`.
+```
+Read /mnt/firecuda2/Claude/toxoplasma_projects/starplast/HANDOFF.md and continue starplast.
+The app builds and passes a headless smoke test; v0+v1 are done and pushed to
+github.com/EinarOlafsson/starplast (private). Do not re-derive the design decisions in that file.
+Next: <state what you want — e.g. "v2 species switching", or "raise literature coverage above 601 genes">.
+```
 
-**Not built yet:** v2 (species switching, cross-species orthology edges) and v3 (continuous star-map zoom
-polish). Both deliberately deferred — v3 is most of the effort and least of the value.
+## State at handoff — verified 2026-08-10
 
-**GitHub:** repo `starplast`, private, on account `EinarOlafsson`.
+**Built and working.** `build_graph.py`, `fetch_names.py`, `app.py`, `pyproject.toml`, `README.md`.
+Headless smoke test passes: 8,140 nodes, all 6 edge types, all 3 LOD levels, all 5 colour modes, picking,
+search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
+
+**Numbers as built** (do not quote the older estimates):
+
+| | |
+|---|---|
+| genes | 8,140 (node table, deduplicated) |
+| compartments | 27 including `unassigned` |
+| co-mention edges | 382 (≥2 shared abstracts) |
+| orthogroup / coexpression / compartment / cofitness / domain | 3,452 / 49,293 / 118,712 / 88,997 / 10,399 |
+| genes named in **any** of 33,924 abstracts | **601 (7.4%)** |
+| cache size | 2.7 MB total, committed |
+
+**The 601 figure needs one caveat stated wherever it is used.** Genes are matched by ToxoDB symbol
+(1,492 symbols resolve uniquely; 38 ambiguous symbols are dropped rather than guessed) or by `TGME49_`
+accession. A gene with no symbol and no accession mention is invisible to the count, and abstracts are not
+full texts. So 601 is a **lower bound on attention**, and the honest claim is "at most 7.4% of the proteome
+is named in the abstract-level literature". Raising it is the obvious v2 job: match against the 3,874
+downloaded full texts, and add ToxoDB aliases/previous IDs.
+
+**Not built:** v2 (species switching, cross-species orthology edges) and v3 (continuous star-map zoom).
+Deliberately deferred — v3 is most of the effort and least of the value.
+
+**GitHub:** `git@github.com:EinarOlafsson/starplast.git`, **private**, branch `main`, first commit
+`61812bd`.
+
+> **Hazard:** this working copy sits inside the Syncthing tree, so `.git` replicates to the work machine.
+> `cellect/` already does this, so it is established practice here — but commit from **one machine at a
+> time**, or Syncthing will fork objects in `.git` and produce `*.sync-conflict-*` inside it.
 
 ## The queue this app serves
 
