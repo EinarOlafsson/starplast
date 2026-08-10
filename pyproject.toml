@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "starplast"
+version = "0.2.0"
+description = "A 3D browser for the Toxoplasma gondii knowledge map"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Einar Olafsson", email = "einar.olafsson@gmail.com"}]
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "pyarrow>=12",
+    "PyQt6>=6.5",
+    "pyqtgraph>=0.13",
+    "PyOpenGL>=3.1",
+    "scikit-learn>=1.3",
+    "umap-learn>=0.5",
+    "openpyxl>=3.1",
+]
+
+[project.scripts]
+starplast = "starplast.app:main"
+
+[project.urls]
+Homepage = "https://github.com/EinarOlafsson/starplast"
+
+[tool.setuptools]
+packages = ["starplast"]
+
+[tool.setuptools.package-data]
+starplast = ["../data/*.npz", "../data/*.parquet"]
