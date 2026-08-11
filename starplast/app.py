@@ -37,6 +37,7 @@ EDGE_TYPES = [
     ("compartment", "shared compartment (hyperLOPIT)"),
     ("cofitness", "co-fitness (7 CRISPR screens)"),
     ("domain", "shared InterPro domain"),
+    ("structural_hole", "structural hole (biology links them, literature does not)"),
 ]
 # Both co-mention types are attention-biased and both carry a corrected residual, so the attention toggle
 # governs each of them. They are kept separate because they are different populations: every abstract in
@@ -356,7 +357,9 @@ class Window(QtWidgets.QMainWindow):
             col = {"comention": (0.95, 0.85, 0.35, 0.5), "comention_ft": (0.95, 0.62, 0.25, 0.45),
                    "orthogroup": (0.35, 0.85, 0.55, 0.5),
                    "coexpression": (0.40, 0.65, 0.95, 0.45), "compartment": (0.75, 0.75, 0.80, 0.25),
-                   "cofitness": (0.95, 0.45, 0.75, 0.5), "domain": (0.60, 0.55, 0.45, 0.3)}[k]
+                   "cofitness": (0.95, 0.45, 0.75, 0.5), "domain": (0.60, 0.55, 0.45, 0.3),
+                   # deliberately the loudest colour in the palette: a hole is the thing to look at
+                   "structural_hole": (1.00, 0.25, 0.25, 0.85)}[k]
             # Fade each edge by its own weight. Drawn at one flat alpha, 7,733 full-text edges are an
             # opaque hairball in which the strongest and the weakest look identical -- which also made
             # the attention toggle almost invisible, though it reorders exactly this quantity. Scaling
@@ -439,6 +442,9 @@ class Window(QtWidgets.QMainWindow):
                 ("papers with it in the abstract", num(r.get("n_papers_substantive"), "{:.0f}")),
                 ("papers naming it only in passing",
                  num(r.get("n_papers_incidental"), "{:.0f}")),
+                ("structural holes", num(r.get("n_holes"), "{:.0f}")
+                 + (" <i>— genes it behaves like but is never discussed with</i>"
+                    if r.get("n_holes", 0) else "")),
                 ("log2 FPKM tachyzoite", num(r.get("expr_tachy"))),
                 ("log2 FPKM tissue cyst", num(r.get("expr_cyst")))]
         tbl = "".join(f"<tr><td style='color:#888;padding-right:10px'>{k}</td>"

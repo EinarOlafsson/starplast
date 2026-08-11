@@ -23,7 +23,7 @@ expression, seven CRISPR fitness screens, hyperLOPIT compartment, paralog number
 phosphosites, mean AlphaFold pLDDT. Two genes near each other are biologically similar. A force-directed
 layout would look similar and mean nothing.
 
-**Seven edge types, never merged.**
+**Eight edge types, never merged.**
 
 | edge | n | source |
 |---|---|---|
@@ -34,6 +34,7 @@ layout would look similar and mean nothing.
 | `compartment` | 118,712 | hyperLOPIT |
 | `cofitness` | 88,997 | 7 CRISPR screens, top-25 at r ≥ 0.90 |
 | `domain` | 10,399 | shared InterPro domain |
+| `structural_hole` | 255 | **derived** — see below |
 
 They answer different questions and disagree with each other; merging them into one "relatedness" score
 would be the single easiest way to make this tool lie. The two co-mention types stay separate for the same
@@ -74,6 +75,36 @@ Genes below 7 abstracts get an explicit warning: absence of evidence there is ab
 the two sources separately — abstracts cover the whole field, full texts are only the openly deposited
 subset, so full-text coverage answers a different question and cannot be quoted as if it covered
 *Toxoplasma* research generally.
+
+**Structural holes: where the biology connects two genes and the literature never has.** This is what the
+map is for — not what the field says, but where its own data says there is a crossing nobody has made.
+
+A hole is a pair that **co-expresses across the stage series AND co-behaves across the seven CRISPR
+screens, yet appears together in no abstract and no open-access paragraph**. 255 such pairs over 457
+genes; 6 have both endpoints already well studied, which makes those the sharpest.
+
+Two confound controls do the real work, and both were found by looking at what the first version returned:
+
+- **Homology cannot be one of the two legs.** `orthogroup` and `domain` are one fact, not two — paralogs
+  almost always share domains. Counting them separately made 53 of the first 66 candidates pure paralogy.
+  Allowing homology to pair with expression admitted 291 more, **76% of them same-orthogroup**, because
+  paralogs co-express *because* they are paralogs. Requiring both independent phenotype measurements
+  leaves 3 paralogs in 255 pairs.
+- **`compartment` is excluded entirely.** Sharing one of 27 hyperLOPIT classes is real co-localisation but
+  hopelessly unspecific at 118,712 edges, and hyperLOPIT assignment tracks abundance — so it would
+  preferentially link well-expressed genes, which are the ones already well studied.
+
+A hole is a *derived* relation — the absence of a co-mention across a pair the measurements agree about —
+and a hypothesis generator, not evidence. The sharpest six:
+
+| | |
+|---|---|
+| LMF1 — ATPTG9 | mitochondrion–IMC tether · ATP synthase subunit |
+| BFD2 — AC11 | bradyzoite formation deficient · apical cap protein |
+| RON13 — ISP2 | rhoptry neck kinase · IMC sub-compartment protein |
+| GRA44 — CLIP | dense granule protein · CLAMP-linked invasion protein |
+| SRS51 — GRA12D | SAG-related sequence · dense granule protein |
+| TGME49_224620 — BAG1 | hypothetical protein · bradyzoite antigen |
 
 **Genes are resolved through an identity layer, not a symbol table.** The literature does not use one
 identifier for a gene. `starplast/identity.py` resolves all of them to one canonical ME49 accession:

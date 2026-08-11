@@ -270,6 +270,76 @@ def test_attention_depth_deduplicates_papers_across_sources():
     assert d.loc["g", "n_papers_incidental"] == 0
 
 
+def _edges(**kw):
+    """Build an edges dict of the shape build_graph passes around: label -> (a, b, w, r)."""
+    import numpy as np
+    out = {}
+    for k, ps in kw.items():
+        if not ps:
+            continue
+        a = np.array([p[0] for p in ps]); b = np.array([p[1] for p in ps])
+        w = np.ones(len(ps))
+        out[k] = (a, b, w, w)
+    return out
+
+
+def _nodes(n=6):
+    return pd.DataFrame({"gene_id": [f"g{i}" for i in range(n)],
+                         "attention_depth": ["focal"] * n})
+
+
+def test_structural_hole_needs_two_independent_families():
+    """orthogroup + domain is one fact, not two: paralogs almost always share domains.
+
+    Before this collapse, 53 of the 66 sharpest candidates were nothing but paralogy.
+    """
+    from starplast import build_graph as B
+    e = _edges(orthogroup=[(0, 1)], domain=[(0, 1)])
+    assert B.structural_holes(e, _nodes()) is None
+
+    e = _edges(coexpression=[(0, 1)], cofitness=[(0, 1)])
+    hole = B.structural_holes(e, _nodes())
+    assert hole is not None and len(hole[0]) == 1
+
+
+def test_homology_cannot_be_one_of_the_two_legs():
+    """Paralogs co-express *because* they are paralogs, so homology corroborates but never qualifies.
+
+    Allowing it admitted 291 expression+homology pairs, 76% of them same-orthogroup, and put one
+    protein family at the top of every ranking.
+    """
+    from starplast import build_graph as B
+    assert B.structural_holes(_edges(coexpression=[(0, 1)], orthogroup=[(0, 1)]), _nodes()) is None
+    assert B.structural_holes(_edges(cofitness=[(0, 1)], domain=[(0, 1)]), _nodes()) is None
+    # both phenotypes present: homology may ride along and raises the weight
+    hole = B.structural_holes(
+        _edges(coexpression=[(0, 1)], cofitness=[(0, 1)], domain=[(0, 1)]), _nodes())
+    assert hole is not None and hole[2][0] == 3.0
+
+
+def test_structural_hole_requires_the_literature_to_be_silent():
+    """A pair discussed anywhere -- any abstract, any open-access paragraph -- is not a hole."""
+    from starplast import build_graph as B
+    base = dict(coexpression=[(0, 1)], cofitness=[(0, 1)])
+    assert B.structural_holes(_edges(**base), _nodes()) is not None
+    assert B.structural_holes(_edges(comention=[(0, 1)], **base), _nodes()) is None
+    assert B.structural_holes(_edges(comention_ft=[(0, 1)], **base), _nodes()) is None
+
+
+def test_structural_hole_counts_per_gene():
+    from starplast import build_graph as B
+    n = _nodes()
+    e = _edges(coexpression=[(0, 1), (0, 2)], cofitness=[(0, 1), (0, 2)])
+    B.structural_holes(e, n)
+    assert n.n_holes.tolist() == [2, 1, 1, 0, 0, 0]
+
+
+def test_compartment_alone_never_makes_a_hole():
+    """Sharing one of 27 hyperLOPIT classes is too unspecific, and tracks abundance."""
+    from starplast import build_graph as B
+    assert B.structural_holes(_edges(compartment=[(0, 1)], coexpression=[(0, 1)]), _nodes()) is None
+
+
 def test_attention_correction_rewards_unexpected_pairs(ix):
     """Two rarely-studied genes that always appear together score positive despite a small raw count."""
     docs = ([_doc(f"pmid:x{i}", "abstract", ["nothing here"]) for i in range(200)] +

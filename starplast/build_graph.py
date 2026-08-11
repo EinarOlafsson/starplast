@@ -237,7 +237,82 @@ def build_edges(nodes: pd.DataFrame):
     if len(rna) >= 3:
         corr_edges(rna, "coexpression", 0.95)
     corr_edges(FIT, "cofitness", 0.90)
+
+    # Derived last, because it is defined over the other edge types.
+    hole = structural_holes(edges, nodes)
+    if hole is not None:
+        edges["structural_hole"] = hole
     return edges
+
+
+# --------------------------------------------------------------------------- structural holes
+# Independent lines of biological evidence. `orthogroup` and `domain` are ONE family, not two: paralogs
+# almost always share domains, so counting them separately manufactures agreement out of one fact. That
+# collapse is not cosmetic -- of the 66 sharpest candidates before it, 53 were nothing but paralogy.
+#
+# `compartment` is excluded entirely. Sharing one of 27 hyperLOPIT classes is real co-localisation but far
+# too unspecific at 118,712 edges, and hyperLOPIT assignment tracks abundance, so it would preferentially
+# link the well-expressed genes that are already well studied.
+EVIDENCE_FAMILY = {"coexpression": "expression", "cofitness": "fitness",
+                   "orthogroup": "homology", "domain": "homology"}
+
+# A hole must rest on both independent *phenotype* measurements: co-expression across the stage series and
+# co-fitness across the CRISPR screens. Homology can corroborate but cannot be one of the two legs.
+# Allowing it as a leg admitted 291 expression+homology pairs of which 220 (76%) were same-orthogroup
+# paralogs -- genes that co-express *because* they are paralogs -- and put one protein family at the top
+# of every ranking. Requiring both phenotypes leaves 3 paralogs in 255 pairs.
+REQUIRED_FAMILIES = frozenset({"expression", "fitness"})
+
+
+def structural_holes(edges: dict, nodes: pd.DataFrame):
+    """Gene pairs that two independent kinds of biology link and the literature never has.
+
+    This is the app's governing question: not what the field says, but where its map has a gap that the
+    data says should be crossed. A hole is a *derived* relation, not an observed one -- it is the absence
+    of a co-mention edge across a pair the measurements agree about -- and it is labelled as such.
+
+    Both co-mention layers count as literature, so a pair discussed anywhere, in any abstract or any
+    open-access paragraph, is not a hole.
+    """
+    def undirected(key):
+        a, b = edges[key][0], edges[key][1]
+        return set(map(tuple, np.sort(np.stack([a, b], 1), axis=1))) if len(a) else set()
+
+    fam = defaultdict(set)
+    for key, family in EVIDENCE_FAMILY.items():
+        if key in edges:
+            for p in undirected(key):
+                fam[p].add(family)
+    lit = set()
+    for key in ("comention", "comention_ft"):
+        if key in edges:
+            lit |= undirected(key)
+
+    holes = {p: f for p, f in fam.items() if REQUIRED_FAMILIES <= f and p not in lit}
+    if not holes:
+        nodes["n_holes"] = 0
+        return None
+    a = np.array([p[0] for p in holes])
+    b = np.array([p[1] for p in holes])
+    w = np.array([float(len(f)) for f in holes.values()])
+
+    deg = Counter()
+    for i, j in holes:
+        deg[i] += 1
+        deg[j] += 1
+    nodes["n_holes"] = [deg.get(i, 0) for i in range(len(nodes))]
+
+    depth = nodes.attention_depth.to_numpy()
+    studied = np.isin(depth, ["focal", "substantive"])
+    sharp = int((studied[a] & studied[b]).sum())
+    og = nodes.orthogroup.astype(str).to_numpy() if "orthogroup" in nodes.columns else None
+    par = 0 if og is None else sum(
+        1 for i, j in holes if og[i] == og[j] and og[i] not in ("", "nan", "None"))
+    log(f"structural_hole: {len(a):,} pairs over {len(deg):,} genes "
+        f"({sharp} with both endpoints studied -- the sharpest); "
+        f"{sum(1 for f in fam.values() if REQUIRED_FAMILIES <= f) - len(holes):,} candidate pairs are "
+        f"already co-mentioned and so are not holes; {par} pairs are paralogs")
+    return a, b, w, w.copy()
 
 
 # --------------------------------------------------------------------------- embedding
@@ -274,7 +349,7 @@ def main():
 
     keep = ["gene_id", "product", "compartment", "orthogroup", "n_publications", "n_fulltext",
             "lit_tier", "attention_depth", "n_papers_focal", "n_papers_substantive",
-            "n_papers_incidental", "has_domain",
+            "n_papers_incidental", "n_holes", "has_domain",
             "lineage_specific", "paralog_number", "mean_plddt", "n_interpro", "n_phosphosites",
             "expr_tachy", "expr_cyst", "expr_max"] + FIT
     keep = [c for c in keep if c in nodes.columns]

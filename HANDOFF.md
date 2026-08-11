@@ -22,7 +22,7 @@ pip install -e .            # installs the console_scripts entry point
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: builds data/graph.npz (~4 min)
 starplast                   # launch
-pytest tests/ -q            # 37 tests, headless, no network, ~1 s
+pytest tests/ -q            # 42 tests, headless, no network, ~1 s
 ```
 
 If the GL widget fails on a headless machine, that is expected — this needs a display. The test suite is
@@ -35,7 +35,7 @@ Force-directed position is aesthetic and arbitrary; two adjacent nodes mean noth
 (expression × 7 fitness screens × compartment × orthology breadth × domain content × disorder) gives
 positions where proximity is interpretable. Precomputed and cached — never laid out live.
 
-**2. Seven edge types, toggleable, never merged silently.**
+**2. Eight edge types, toggleable, never merged silently.**
 "The knowledge map" is not one graph. Each edge type answers a different question:
 
 | edge | source | note |
@@ -47,6 +47,7 @@ positions where proximity is interpretable. Precomputed and cached — never lai
 | `compartment` | hyperLOPIT (26 compartments) | clean |
 | `cofitness` | the 7 CRISPR screens | real and underused by the field |
 | `domain` | InterPro shared domains | weakest; included for completeness |
+| `structural_hole` | **derived** from the above | biology links them, literature does not -- see decision 3c |
 
 **2b. Gene identity is its own layer, and cross-strain accessions map by numeric suffix.** (Added v1.1.)
 The literature calls one gene `TGME49_208830`, `TGME49_008830`, `TGGT1_208830`, `GRA16` and `TgGRA16`.
@@ -75,6 +76,25 @@ while every array-level test passed, because they checked the colour array and n
 now occlude (translucent + depth test) and edge alpha scales with edge weight, without which the attention
 toggle is visually almost a no-op. Both are pinned by tests that read the GL state. **Render the app and
 look at it before believing a display claim.**
+
+**3c. Structural holes are the point of the app, and their confound controls are not optional.**
+(Added v1.1.) A hole is a pair that **co-expresses across the stage series AND co-behaves across the seven
+CRISPR screens, yet appears in no abstract and no open-access paragraph**: the data says these belong
+together and the field has never said it. 255 pairs over 457 genes, 6 with both endpoints already studied.
+
+Two rules keep it from being a paralogy detector, and both were found by looking at output, not by
+reasoning:
+
+- **Homology (`orthogroup`/`domain`) is one family and can never be one of the two legs.** Counted as two,
+  53 of the first 66 candidates were pure paralogy. Allowed to pair with expression, it admitted 291 more,
+  **76% same-orthogroup** — paralogs co-express *because* they are paralogs, which is one fact twice. The
+  strict rule leaves 3 paralogs in 255 pairs.
+- **`compartment` is excluded entirely** — 118,712 edges is far too unspecific, and hyperLOPIT assignment
+  tracks abundance, so it would preferentially link the well-expressed genes that are already well studied.
+
+Relaxing either rule puts one protein family at the top of every ranking. A hole is *derived* — the
+absence of a co-mention across a pair the measurements agree about — and is a hypothesis generator, not
+evidence. Say so wherever it is used.
 
 **4. Level of detail is data-driven, not invented tiers.**
 galaxy = hyperLOPIT compartment (26) → solar system = orthogroup / co-expression module → planet = gene →
@@ -113,9 +133,9 @@ Read `.claude/skills/toxoplasma-scientist/SKILL.md` before interpreting anything
 
 ```
 Read /mnt/firecuda2/Claude/toxoplasma_projects/starplast/HANDOFF.md and continue starplast.
-v0+v1+v1.1 are done and pushed to github.com/EinarOlafsson/starplast (private); 37 tests pass
+v0+v1+v1.1 are done and pushed to github.com/EinarOlafsson/starplast (private); 42 tests pass
 headless. Do not re-derive the design decisions in that file.
-Next: <state what you want — e.g. "v2 species switching", or "structural holes in the map">.
+Next: <state what you want — e.g. "v2 species switching", or "rank the structural holes">.
 ```
 
 Fill the `Next:` line in before sending — leaving the placeholder just costs a round trip.
@@ -123,9 +143,9 @@ Fill the `Next:` line in before sending — leaving the placeholder just costs a
 ## State at handoff — verified 2026-08-10 (v1.1)
 
 **Built and working.** `identity.py`, `corpus.py`, `literature.py`, `build_graph.py`, `fetch_names.py`,
-`app.py`, `tests/`, `pyproject.toml`, `README.md`. **37 tests pass headless** (`pytest tests/ -q`), covering
+`app.py`, `tests/`, `pyproject.toml`, `README.md`. **42 tests pass headless** (`pytest tests/ -q`), covering
 identity resolution, every precision guard, JATS parsing, the mentions table, the attention arithmetic,
-the attention-depth tiering, and the app itself offscreen: 8,140 nodes, all 7 edge types, all 3 LOD levels, all 6 colour modes, picking,
+the attention-depth tiering, and the app itself offscreen: 8,140 nodes, all 8 edge types, all 3 LOD levels, all 6 colour modes, picking,
 search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
 
 **Numbers as built** (do not quote the older estimates):
@@ -136,6 +156,7 @@ search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
 | compartments | 27 including `unassigned` |
 | co-mention edges, abstracts | 435 (≥2 shared abstracts) |
 | co-mention edges, full text | 7,733 (≥2 shared paragraphs) |
+| structural holes | 255 pairs over 457 genes (6 with both endpoints studied) |
 | orthogroup / coexpression / compartment / cofitness / domain | 3,452 / 49,293 / 118,712 / 88,997 / 10,399 |
 | genes named in 33,924 abstracts | 745 (9.2%) |
 | genes named in 6,667 OA full texts | 2,546 (31.3%) |
