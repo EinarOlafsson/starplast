@@ -71,13 +71,17 @@ REGISTRY = [
     Dataset("alphafold", "AlphaFold DB", "reference", "structure",
             "Per-gene mean pLDDT; coordinates fetched on demand", ("mean_plddt",),
             "6,480 (79.6%)", accession="AlphaFold DB",
+            citation="Jumper et al. 2021, AlphaFold Protein Structure Database",
             note="Missing for the largest proteins, which here are disproportionately secreted effectors."),
 
     # ------------------------------------------------------------------ localisation
     Dataset("lopit_tgon", "T. gondii hyperLOPIT", "post_translation", "LOPIT",
             "Subcellular compartment, MAP and MCMC, with posteriors",
             ("compartment", "lopit_map", "lopit_mcmc", "lopit_prob_map", "lopit_prob_mcmc"),
-            "3,827 (47.0%)", path="datasets/lopit_toxoplasma_gondii_ME49.csv",
+            "3,827 (47.0%)", pmid="33053376",
+            citation="A Comprehensive Subcellular Atlas of the Toxoplasma Proteome via hyperLOPIT "
+                     "(Barylyuk et al. 2020)",
+            path="datasets/lopit_toxoplasma_gondii_ME49.csv",
             note="MAP and MCMC disagree for 980 of 3,827 (26%). Assignment tracks abundance, so the "
                  "unassigned half is biased toward low-abundance proteins."),
     Dataset("lopit_pfal", "P. falciparum LOPIT", "post_translation", "LOPIT",
@@ -103,6 +107,9 @@ REGISTRY = [
     # ------------------------------------------------------------------ genetic screens
     Dataset("crispr_invitro", "In vitro CRISPR fitness (HFF)", "DNA", "CRISPR_screen",
             "Competitive growth in fibroblasts", ("fit_invitro_hff",), "7,325 (90.0%)",
+            pmid="27594426",
+            citation="A Genome-wide CRISPR Screen in Toxoplasma Identifies Essential Apicomplexan Genes "
+                     "(Sidik et al. 2016)",
             note="Competitive growth, NOT essentiality. Predicted from protein features at R2 = 0.453, "
                  "while the other screens are predicted at -0.105 to +0.102."),
     Dataset("crispr_invivo_composite", "In vivo CRISPR composite scores", "DNA", "CRISPR_screen",
@@ -113,6 +120,9 @@ REGISTRY = [
             note="Corresponds to the in vivo CRISPR platform paper; confirm before citing."),
     Dataset("crispr_macrophage", "Macrophage CRISPR screens", "DNA", "CRISPR_screen",
             "Naive BMDM and IFN-gamma survival", ("fit_naive_bmdm", "fit_ifng"), "7,402 (90.9%)",
+            pmid="25867017",
+            citation="Forward genetics screens using macrophages to identify Toxoplasma gondii genes "
+                     "important for resistance to IFN-gamma (2015) -- CONFIRM this is the source",
             note="Sign convention is INVERTED relative to the other screens."),
     Dataset("crispr_young2019", "Young 2019 in vivo screen", "DNA", "CRISPR_screen",
             "In vivo fitness", ("fit_invivo_young2019",), "115"),
@@ -165,7 +175,9 @@ REGISTRY = [
     # ------------------------------------------------------------------ interactions
     Dataset("starpath_xlms", "StarPath crosslink MS", "post_translation", "XLMS",
             "Measured physical proximity; residue-level crosslinks and Chai-1 complexes",
-            ("n_xlink_partners", "best_model_agreement"), "2,842 pairs / 1,630 genes",
+            ("n_xlink_partners", "best_model_agreement"), "2,842 pairs / 1,630 genes", pmid="40874616",
+            citation="Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and "
+                     "machine learning (2025)",
             path="starpath_crosslinks.json, starpath_dump/cifs/",
             note="RH88 accessions do NOT map to ME49 by suffix; use the alias column. 60% of predicted "
                  "complexes place no crosslink within reach; only 162 pairs are trustworthy."),

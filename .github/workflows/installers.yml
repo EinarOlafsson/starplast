@@ -1,0 +1,41 @@
+name: installers
+
+# Manual, and on a tag. Building three installers on every push is a lot of CI minutes for
+# artefacts nobody downloads between releases.
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            script: bash packaging/build_debian.sh
+            artefact: build/deb/*.deb
+          - os: macos-latest
+            script: bash packaging/build_macos.sh
+            artefact: build/mac/*.dmg
+          - os: windows-latest
+            script: powershell -File packaging/build_windows.ps1
+            artefact: build/win/dist/starplast/**
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # Qt 6 needs these at build and run time; without libxcb-cursor0 the platform plugin
+      # fails to load with no useful message.
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libgl1 libegl1 libxcb-cursor0
+      - run: python -m pip install --upgrade pip pyinstaller && pip install -e .
+      - run: ${{ matrix.script }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: starplast-${{ matrix.os }}
+          path: ${{ matrix.artefact }}
+          if-no-files-found: error

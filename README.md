@@ -179,6 +179,38 @@ class carved `Sant` out of French `Santé` and handed one gene 23 abstracts); an
 not re-read as a symbol (`TGGT1_209030` is not a mention of the gene symbolled `GT1`); and *Toxoplasma*
 strain designations are blocked outright. Each of those is pinned by a test.
 
+## Finding structures that predict something they were never told
+
+The point of the apparatus. `starplast/search.py` walks combinations of datasets and hyperparameters and
+scores each by how well it recovers a label that was **excluded from the embedding**:
+
+```python
+from starplast.search import search
+R, per_label = search(nodes, target="lopit_unified", sample_size=3000)
+```
+
+The target and everything that restates it are removed from every map first — for `lopit_unified` that is
+six columns, including `compartment`, `lopit_map` and `lopit_mcmc`. Precision and recall are kept
+separately, because a cluster that is 100% apicoplast but holds 5% of apicoplast proteins is useless for
+inference while one holding 97% at 90% precision is the goal.
+
+**What 164 runs actually found, and why the guard matters.** With hyperLOPIT leaked into the embedding,
+the battery reports it separating clusters at V = 0.96 — a spectacular result, and an artefact. Held out
+properly, the best structure over 164 combinations reaches **mean F1 0.362**:
+
+| label | n | precision | recall | F1 | from |
+|---|---|---|---|---|---|
+| apical secretory | 95 | 0.68 | 0.53 | **0.59** | expression + fitness |
+| nucleus | 398 | 0.46 | 0.62 | 0.53 | expression + fitness + interactions |
+| cytosol | 132 | 0.27 | 0.81 | 0.41 | expression + fitness |
+| ER | 88 | 0.34 | 0.51 | 0.41 | published screens + protein features |
+| mitochondrion | 167 | 0.25 | 0.33 | 0.29 | fitness + screens + interactions |
+
+So localisation is **only weakly predictable** from expression and fitness — apical secretory best, which
+fits, since secretory proteins carry distinctive stage-expression profiles. That is a smaller claim than
+the circular version, and it is the true one. Every run records its full recipe, seed and scores, so a hit
+can be rebuilt exactly.
+
 ## Interpretation rules the UI enforces
 
 - **"unassigned" is grey, not a 27th compartment.** hyperLOPIT assignment tracks protein abundance, so a
@@ -187,6 +219,9 @@ strain designations are blocked outright. Each of those is pinned by a test.
   protein features (R² = 0.45); the five in vivo screens are not (−0.11 to +0.10). The panel says so.
 - **Missing values are rendered grey, never mapped onto the colour scale.** Missingness here is
   informative — large secreted proteins are exactly the ones AlphaFold DB skips.
+- **Colour maps match the data.** Sequential for ordered quantities, diverging only where values
+  genuinely straddle a midpoint, categorical for unordered classes. A diverging map on a positive
+  quantity invents a midpoint; a sequential map on a residual hides its sign.
 - **Depth of attention is categorical, not a ramp.** `focal` / `substantive` / `incidental` are read off
   where a paper names a gene; shading them along a gradient would imply a measured quantity. Genes named
   nowhere stay grey with everything else that is unknown rather than zero.

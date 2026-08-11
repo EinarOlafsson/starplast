@@ -54,7 +54,8 @@ def test_cache_loads_with_expected_shape(win):
 def test_depth_of_attention_is_categorical_and_grey_when_unnamed(win):
     """Never-named genes must stay grey with everything else unknown, not sit at the bottom of a ramp."""
     import numpy as np
-    from starplast.app import DEPTH_COLOUR, GREY
+    from starplast.app import DEPTH_COLOUR
+    from starplast import theme as TH
     i = win.colour_by.findText("depth of attention")
     assert i >= 0
     win.colour_by.setCurrentIndex(i)
@@ -62,11 +63,14 @@ def test_depth_of_attention_is_categorical_and_grey_when_unnamed(win):
     c = win.colours(np.ones(win.n, bool))
     unnamed = (win.nodes.attention_depth.astype(str) == "").to_numpy()
     if unnamed.any():
-        assert np.allclose(c[unnamed][:, :3], np.array(GREY, dtype=np.float32))
+        # The unknown grey is derived from the active theme's fg_dim, not a module constant,
+        # so a theme switch cannot leave it invisible against the new ground.
+        expected = np.array(TH.unknown_colour(win.theme)[:3], dtype=np.float32)
+        assert np.allclose(c[unnamed][:, :3], expected, atol=1e-5)
     for tier, col in DEPTH_COLOUR.items():
         m = (win.nodes.attention_depth.astype(str) == tier).to_numpy()
         if m.any():
-            assert np.allclose(c[m][:, :3], np.array(col, dtype=np.float32))
+            assert np.allclose(c[m][:, :3], np.array(col, dtype=np.float32), atol=1e-5)
 
 
 def test_listed_genes_are_not_reported_as_studied(win):

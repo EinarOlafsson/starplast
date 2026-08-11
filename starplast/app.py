@@ -24,6 +24,8 @@ import pandas as pd
 os.environ.setdefault("PYQTGRAPH_QT_LIB", "PyQt6")
 
 from PyQt6 import QtCore, QtGui, QtWidgets  # noqa: E402
+
+from . import theme as TH  # noqa: E402
 import pyqtgraph as pg  # noqa: E402
 import pyqtgraph.opengl as gl  # noqa: E402
 
@@ -53,6 +55,7 @@ FIT = ["fit_invitro_hff", "fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver"
 
 # Qualitative palette; "unassigned" is deliberately grey, because a missing hyperLOPIT call means
 # unknown (assignment tracks abundance) and must not read as a 27th compartment.
+# Kept as a fallback: the categorical colour map chosen in the UI supersedes it.
 PALETTE = [
     (0.90, 0.24, 0.24), (0.20, 0.55, 0.90), (0.25, 0.75, 0.35), (0.95, 0.65, 0.15),
     (0.65, 0.35, 0.85), (0.15, 0.80, 0.78), (0.95, 0.45, 0.70), (0.55, 0.75, 0.20),
@@ -62,7 +65,7 @@ PALETTE = [
     (0.70, 0.70, 0.90), (0.55, 0.45, 0.20), (0.30, 0.85, 0.60), (0.90, 0.40, 0.45),
     (0.50, 0.50, 0.95), (0.65, 0.85, 0.35),
 ]
-GREY = (0.45, 0.45, 0.48)
+GREY = (0.45, 0.45, 0.48)   # fallback; the live value comes from TH.unknown_colour(theme)
 
 # Depth of attention is categorical (see literature.DEPTH_OF): named in a title / in an abstract / only in
 # a body or caption. Distinct hues rather than a ramp, because the tiers are not a measured quantity.
@@ -134,6 +137,10 @@ class Map3D(gl.GLViewWidget):
 class Window(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
+        self.theme = 'dark'
+        self.point_style = TH.DEFAULT_POINT_STYLE
+        self.point_mode = 'occlude'
+        self.cmap_name = None
         self.nodes, self.xyz, self.edges, self.models = load()
         self.n = len(self.nodes)
         self.sel = None
@@ -143,7 +150,8 @@ class Window(QtWidgets.QMainWindow):
         comps = sorted(self.nodes.compartment.astype(str).unique())
         self.comps = [c for c in comps if c != "unassigned"] + \
                      (["unassigned"] if "unassigned" in comps else [])
-        self.colour_of = {c: PALETTE[i % len(PALETTE)] for i, c in enumerate(self.comps)}
+        self.colour_of = dict(zip(self.comps,
+                                  TH.categorical_colours(len(self.comps), self.theme)))
         self.colour_of["unassigned"] = GREY
 
         self.view = Map3D(self.xyz)
@@ -161,8 +169,92 @@ class Window(QtWidgets.QMainWindow):
         self.setCentralWidget(self.view)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self._left())
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self._right())
+        self._analysis()
         self.status = self.statusBar()
+        self.apply_theme(self.theme)
         self.redraw()
+
+    # ------------------------------------------------------------------ appearance
+    def _cmap_for(self, values):
+        """The colour map for a column: the user's choice if it suits the data, else the right default.
+
+        A diverging map on a strictly positive quantity invents a midpoint, and a sequential map on a
+        residual hides its sign, so the column's kind has the final say over an inappropriate choice.
+        """
+        kind = TH.kind_for_column(values)
+        if self.cmap_name and TH.CMAPS.get(self.cmap_name, (None,))[0] == kind:
+            return TH.CMAPS[self.cmap_name][1]
+        return TH.DEFAULT_CMAP[kind]
+
+    def apply_theme(self, name: str):
+        """Repaint everything from the palette -- widgets, GL background, and the compartment colours."""
+        self.theme = name
+        app = QtWidgets.QApplication.instance()
+        if app is not None:
+            app.setStyleSheet(TH.stylesheet(name))
+        self.view.setBackgroundColor(pg.mkColor(TH.palette_for(name)["bg"]))
+        # Recolour the classes for this ground, then restore the deliberate grey for "unknown".
+        self.colour_of = dict(zip(self.comps,
+                                  TH.categorical_colours(len(self.comps), name, self.cmap_name)))
+        self.colour_of["unassigned"] = TH.unknown_colour(name)[:3]
+        if hasattr(self, "theme_box") and self.theme_box.currentText() != name:
+            self.theme_box.blockSignals(True)
+            self.theme_box.setCurrentText(name)
+            self.theme_box.blockSignals(False)
+        self.redraw()
+
+    def apply_point_style(self):
+        st = TH.POINT_STYLES[self.point_style]
+        self.scatter.setGLOptions(TH.gl_options(self.point_mode))
+        self.scatter.setData(pos=self.xyz, color=self.colours(self.visible_mask()),
+                             size=st["size"])
+        self.redraw()
+
+    def _analysis(self):
+        """The analysis dock: data selection, tuning, clustering, the battery and the search.
+
+        Tabbed with the evidence panel rather than given its own area, so the map keeps the width. Import
+        failures are caught: the panel needs scikit-learn and umap-learn, and the browser must still open
+        without them.
+        """
+        try:
+            from .analysis_panel import AnalysisPanel
+            from .tuning import EmbeddingStore
+        except Exception as e:
+            self.statusBar().showMessage(f"analysis panel unavailable: {e}")
+            return
+        d = QtWidgets.QDockWidget("analysis")
+        d.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
+        panel = AnalysisPanel(self.nodes, store=EmbeddingStore(os.path.join(DATA, "embeddings")))
+        panel.status.connect(lambda m: self.statusBar().showMessage(m))
+        panel.embedding_ready.connect(self.use_embedding)
+        d.setWidget(panel)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, d)
+        self.tabifyDockWidget(self.right_dock, d)
+        self.right_dock.raise_()
+        self.analysis_dock = d
+
+    def use_embedding(self, coords, rows):
+        """Swap the displayed map for one the analysis panel just built."""
+        full = np.zeros((self.n, 3), dtype=np.float32)
+        full[rows] = coords
+        self.xyz = full
+        self.view.xyz = full
+        self.scatter.setData(pos=self.xyz)
+        self.redraw()
+        self.statusBar().showMessage(f"showing a rebuilt map over {int(np.sum(rows)):,} genes")
+
+    def _on_cmap(self, name):
+        self.cmap_name = None if name.startswith("auto") else name
+        self.redraw()
+
+    def _on_point_style(self, name):
+        self.point_style = name
+        self.apply_point_style()
+
+    def _on_point_mode(self, name):
+        self.point_mode = name
+        self.apply_point_style()
 
     # ------------------------------------------------------------------ panels
     def _left(self):
@@ -205,6 +297,32 @@ class Window(QtWidgets.QMainWindow):
             self.edge_cb[k] = cb
             L.addWidget(cb)
 
+        # ---- appearance
+        app_box = QtWidgets.QGroupBox("appearance")
+        ab = QtWidgets.QFormLayout(app_box)
+        self.theme_box = QtWidgets.QComboBox()
+        self.theme_box.addItems(TH.THEMES)
+        self.theme_box.currentTextChanged.connect(self.apply_theme)
+        self.cmap_box = QtWidgets.QComboBox()
+        self.cmap_box.addItem("auto (match the data)")
+        self.cmap_box.addItems(list(TH.CMAPS))
+        self.cmap_box.currentTextChanged.connect(self._on_cmap)
+        self.point_box = QtWidgets.QComboBox()
+        self.point_box.addItems(list(TH.POINT_STYLES))
+        self.point_box.setCurrentText(TH.DEFAULT_POINT_STYLE)
+        self.point_box.currentTextChanged.connect(self._on_point_style)
+        self.mode_box = QtWidgets.QComboBox()
+        self.mode_box.addItems(TH.POINT_MODES)
+        self.mode_box.setToolTip(
+            "occlude: nearer points hide farther ones -- the correct default.\n"
+            "additive: overlaps sum, which reads as density but saturates dense regions to white.")
+        self.mode_box.currentTextChanged.connect(self._on_point_mode)
+        ab.addRow("theme", self.theme_box)
+        ab.addRow("colour map", self.cmap_box)
+        ab.addRow("points", self.point_box)
+        ab.addRow("rendering", self.mode_box)
+        L.addWidget(app_box)
+
         self.attn = QtWidgets.QCheckBox("attention-corrected co-mention")
         self.attn.setChecked(True)     # a correctness default, not a preference
         self.attn.setToolTip("Raw co-mention counts track how often a gene is studied, not how "
@@ -246,6 +364,7 @@ class Window(QtWidgets.QMainWindow):
         self.detail.setHtml("<p style='color:#888'>Click a gene.</p>")
         self.detail.setMinimumWidth(400)
         d.setWidget(self.detail)
+        self.right_dock = d          # the analysis dock tabs against this one
         return d
 
     # ------------------------------------------------------------------ drawing
@@ -267,18 +386,18 @@ class Window(QtWidgets.QMainWindow):
             vals = self.nodes[col_name].astype(str)
             for comp, col in self.colour_of.items():
                 c[(vals == comp).to_numpy(), :3] = col
-            c[(vals == "unassigned").to_numpy(), :3] = GREY
+            c[(vals == "unassigned").to_numpy(), :3] = TH.unknown_colour(self.theme)[:3]
         elif mode == "depth of attention":
             # Categorical, not a scale: these tiers are read off document structure (title / abstract /
             # body-only), so shading them along a gradient would imply a quantity that does not exist.
             # Never-named genes stay grey with everything else that is unknown rather than absent.
             if "attention_depth" not in self.nodes.columns:
-                c[:, :3] = GREY
+                c[:, :3] = TH.unknown_colour(self.theme)[:3]
             else:
                 d = self.nodes.attention_depth.astype(str).to_numpy()
                 for tier, col in DEPTH_COLOUR.items():
                     c[d == tier, :3] = col
-                c[d == "", :3] = GREY
+                c[d == "", :3] = TH.unknown_colour(self.theme)[:3]
         else:
             col = {"in vitro fitness": "fit_invitro_hff", "publications": "n_publications",
                    "structure confidence (pLDDT)": "mean_plddt"}.get(mode)
@@ -292,9 +411,9 @@ class Window(QtWidgets.QMainWindow):
             if ok.sum():
                 lo, hi = np.nanpercentile(v[ok], [2, 98])
                 t = np.clip((v - lo) / max(hi - lo, 1e-9), 0, 1)
-                cm = pg.colormap.get("viridis")
+                cm = TH.resolve_cmap(self._cmap_for(v))
                 c[:, :3] = cm.map(np.nan_to_num(t, nan=0.0), mode="float")[:, :3]
-            c[~ok, :3] = GREY          # informative missingness stays grey, never mapped to a value
+            c[~ok, :3] = TH.unknown_colour(self.theme)[:3]   # missingness stays grey, never a value
         c[:, 3] = np.where(vis, 0.95, 0.06)
         if self.sel is not None:
             c[self.sel] = (1.0, 1.0, 1.0, 1.0)

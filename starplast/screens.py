@@ -54,6 +54,18 @@ def _acc(series: pd.Series) -> pd.Series:
     return raw.map(lambda s: _RESOLVE(s) if isinstance(s, str) else s)
 
 
+def _find(root: str, filename: str):
+    """Locate a supplement whether it sits flat in `root` or one PMID directory down."""
+    direct = os.path.join(root, filename)
+    if os.path.exists(direct):
+        return direct
+    for sub in sorted(os.listdir(root)) if os.path.isdir(root) else []:
+        cand = os.path.join(root, sub, filename)
+        if os.path.exists(cand):
+            return cand
+    return direct
+
+
 def _read(path, **kw):
     return pd.read_excel(path, **kw) if os.path.exists(path) else None
 
@@ -66,11 +78,16 @@ def crispr_screens(base: str, log=print, resolve=None) -> pd.DataFrame:
     """
     global _RESOLVE
     _RESOLVE = resolve
-    D = os.path.join(base, "datasets", "crispr_screens")
+    # The screens were migrated into datasets/<level>/<type>/<PMID>/. Both layouts are searched, since
+    # a flat crispr_screens/ is what an older checkout has and silently finding nothing is the failure
+    # this exact move already caused once.
+    roots = [os.path.join(base, "datasets", "DNA", "CRISPR_screen"),
+             os.path.join(base, "datasets", "crispr_screens")]
+    D = next((r for r in roots if os.path.isdir(r)), roots[0])
     out = []
 
     # --- GRA17 synthetic lethality: genome-wide, header on the second row
-    f = os.path.join(D, "gra17_synthlethal_PMC10409377_S1_phenotypes.xlsx")
+    f = _find(D, "gra17_synthlethal_PMC10409377_S1_phenotypes.xlsx")
     d = _read(f, sheet_name="TableS1_ALL_DATA", header=1)
     if d is not None:
         d = d.rename(columns=lambda c: str(c).strip())
@@ -91,7 +108,7 @@ def crispr_screens(base: str, log=print, resolve=None) -> pd.DataFrame:
     # --- GRA12: two targeted screens, deliberately not merged
     for tag, fn, sheet in (("s1", "gra12_PMC12003902_D3_gene_L2FC_screen1.xlsx", "2D.Gene L2FCs"),
                            ("s2", "gra12_PMC12003902_D4_gene_L2FC_screen2.xlsx", "3D.Gene L2FCs")):
-        d = _read(os.path.join(D, fn), sheet_name=sheet)
+        d = _read(_find(D, fn), sheet_name=sheet)
         if d is None:
             continue
         t = pd.DataFrame({
@@ -110,7 +127,7 @@ def crispr_screens(base: str, log=print, resolve=None) -> pd.DataFrame:
                         ["Phenotype scores"])):
         for sh in sheets:
             for hdr in (0, 1):
-                d = _read(os.path.join(D, fn), sheet_name=sh, header=hdr)
+                d = _read(_find(D, fn), sheet_name=sh, header=hdr)
                 if d is None or "Gene" not in [str(c).strip() for c in d.columns]:
                     continue
                 d = d.rename(columns=lambda c: str(c).strip())
@@ -131,7 +148,7 @@ def crispr_screens(base: str, log=print, resolve=None) -> pd.DataFrame:
         log(f"screens: in vivo platform (targeted) -> {len(out[-1]):,} genes")
 
     # --- host-transcription effectors: Target -> gene via the sgRNA map the paper ships
-    gmap = _read(os.path.join(D, "hosttx_effectors_PMC12033024_D3_sgRNA_gene_map.xlsx"))
+    gmap = _read(_find(D, "hosttx_effectors_PMC12033024_D3_sgRNA_gene_map.xlsx"))
     if gmap is not None:
         gmap = gmap.rename(columns=lambda c: str(c).strip())
         idcol = next((c for c in ("Gene_ID_Updated", "Gene_ID_Old") if c in gmap.columns), None)
@@ -144,7 +161,7 @@ def crispr_screens(base: str, log=print, resolve=None) -> pd.DataFrame:
         recs = []
         for fn in ("hosttx_effectors_PMC12033024_D4A_T2_statistic.xlsx",
                    "hosttx_effectors_PMC12033024_D5_T2_statistic.xlsx"):
-            d = _read(os.path.join(D, fn))
+            d = _read(_find(D, fn))
             if d is None:
                 continue
             d = d.rename(columns=lambda c: str(c).strip())
