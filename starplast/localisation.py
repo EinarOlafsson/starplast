@@ -43,6 +43,12 @@ DONORS = ("pfal", "cpar")
 
 UNMAPPED = "(lineage-specific: unmapped)"
 
+# Transfer gating, set from the calibration in `lopit_labels`. 0.80 keeps the conserved organelles
+# (proteasome, ER, ribosome, mitochondrion, apicoplast, pellicle) and rejects cytosol (35.7%) and the
+# golgi/secretory system (6.1%), whose organisation differs too much between these species to transfer.
+MIN_TRANSFER_ACCURACY = 0.80
+MIN_CALIBRATION = 10          # (category, donor-set) combinations rarer than this are not scored
+
 
 def _vocabulary(ds: str) -> dict:
     """(species, native term) -> unified category."""
@@ -125,15 +131,55 @@ def lopit_labels(ds: str, nodes: pd.DataFrame, log=print) -> pd.DataFrame:
         nodes["ortholopit_label"] = nodes.gene_id.map(label)
         nodes["ortholopit_donors"] = nodes.gene_id.map(who)
 
+    # ---- calibrate the transfer against genes that carry BOTH labels, then gate on the result
+    #
+    # 826 genes have a measured label and would also receive a transferred one. Scoring the transfer
+    # against them costs nothing and is not circular: transfers are only *applied* where a measured label
+    # is absent, so the calibration set and the application set are disjoint by construction.
+    #
+    # Overall accuracy is 71.8% against 17.8% expected from category frequencies (4.0x), but the average
+    # hides the useful signal. Conserved organelles transfer well -- proteasome 100%, ER 97.5%,
+    # ribosome 94.9%, mitochondrion 93.2%. The soluble and secretory compartments do not: cytosol 35.7%
+    # (usually mislabelled nucleus) and golgi/secretory 6.1%. Two donors agreeing is worth far more than
+    # one: 96.3% for Cp+Pf together against 65.9% for Pf alone.
+    dual = nodes[nodes.ortholopit_label.notna() & nodes.lopit_unified.notna()]
+    acc = {}
+    if len(dual):
+        hit = dual.lopit_unified == dual.ortholopit_label
+        for key, idx in dual.groupby([dual.ortholopit_label, dual.ortholopit_donors]).groups.items():
+            sub = hit.loc[idx]
+            if len(sub) >= MIN_CALIBRATION:
+                acc[key] = float(sub.mean())
+    nodes["ortholopit_accuracy"] = [
+        acc.get((lab, don), np.nan)
+        for lab, don in zip(nodes.ortholopit_label, nodes.ortholopit_donors)]
+
+    # A transfer is accepted when its own (category, donor-set) validated at or above the threshold, or
+    # when it was never calibrated but rests on more than one donor. Everything else is retained in
+    # `ortholopit_label` for inspection but is NOT promoted into `compartment_best`.
+    multi_donor = nodes.ortholopit_donors.astype(str).str.contains(r"\+", na=False)
+    nodes["ortholopit_accepted"] = (
+        nodes.ortholopit_label.notna()
+        & ((nodes.ortholopit_accuracy >= MIN_TRANSFER_ACCURACY)
+           | (nodes.ortholopit_accuracy.isna() & multi_donor)))
+    if len(dual):
+        log(f"orthoLOPIT calibration on {len(dual):,} dual-labelled genes: "
+            f"{(dual.lopit_unified == dual.ortholopit_label).mean():.1%} overall. "
+            f"Gating is per (category, donor-set), so a category can pass from one donor and fail "
+            f"from another:")
+        for (lab, don), v in sorted(acc.items(), key=lambda kv: -kv[1]):
+            mark = "keep  " if v >= MIN_TRANSFER_ACCURACY else "reject"
+            log(f"    {mark} {v:5.1%}  {lab:26s} from {don}")
+
     # ---- provenance, and the best available label
     measured = nodes.compartment.notna()
-    transferred = ~measured & nodes.ortholopit_label.notna()
+    transferred = ~measured & nodes.ortholopit_accepted
     nodes["compartment_source"] = np.where(measured, "hyperLOPIT",
                                            np.where(transferred, "orthoLOPIT", "unknown"))
     # unified space, so a transferred coarse category and a measured fine one are never mixed in one column
     nodes["compartment_best"] = nodes.lopit_unified.where(measured)
     nodes["compartment_best"] = nodes.compartment_best.fillna(
-        nodes.ortholopit_label).fillna("unassigned")
+        nodes.ortholopit_label.where(nodes.ortholopit_accepted)).fillna("unassigned")
     # hyperLOPIT assignment tracks abundance: a missing call is unknown, never a 27th compartment
     nodes["compartment"] = nodes.compartment.fillna("unassigned")
     log(f"localisation: {int(measured.sum()):,} measured + {int(transferred.sum()):,} orthoLOPIT "

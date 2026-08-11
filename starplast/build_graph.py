@@ -428,7 +428,10 @@ def main():
     # The app is meant to be standalone, so ship every column that survives the build rather than an
     # allowlist that silently drops whole assays -- an earlier version kept 3 of 18 RNA columns and 7 of
     # 8 fitness screens without saying so. Only genuinely internal scratch columns are dropped.
-    DROP = {"structure_path"}
+    # Exact duplicates carried in from the upstream table. Left in place they would inflate any
+    # feature selection that picks "all localisation columns", and double-weight that block in an
+    # embedding. `compartment` is kept over `lopit_map` because it carries the explicit "unassigned".
+    DROP = {"structure_path", "lopit_class", "lopit_posterior", "gene_product"}
     keep = [c for c in nodes.columns if c not in DROP]
     nodes[keep].to_parquet(os.path.join(OUT, "nodes.parquet"), index=False)
 
