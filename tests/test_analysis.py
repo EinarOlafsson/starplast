@@ -212,3 +212,46 @@ def test_import_routes_through_the_identity_resolver():
     df = pd.DataFrame({"id": ["TGME49_008830"], "v": [1.0]})
     out = T.import_table(df, "id", resolve=lambda a: "TGME49_208830", log=lambda *a: None)
     assert list(out.index) == ["TGME49_208830"]
+
+
+# --------------------------------------------------------------------------- sources
+def test_quantification_is_inferred_from_range_not_filename():
+    """Both directions of the same mistake, from the same GEO series.
+
+    Real FPKM reaching 16,520 must be logged; the already-logged derivative of it, still named FPKM,
+    must not be logged twice. An earlier version returned "log_intensity" for anything non-integer and
+    so silently skipped the log on real FPKM.
+    """
+    from starplast import sources as S
+    rng = np.random.default_rng(0)
+    real_fpkm = pd.Series(rng.gamma(1.2, 400, 4000))            # wide, positive, non-integer
+    already_log = np.log2(real_fpkm + 1)
+    assert S.infer_quant(real_fpkm, "GSE108740_FPKM") == "fpkm"
+    assert S.infer_quant(already_log, "rna108740_Tachyzoites_FPKM") == "log_intensity"
+    assert S.infer_quant(pd.Series(rng.normal(0, 2, 500)), "LFCs") == "lfc"
+
+
+def test_normalise_never_logs_twice():
+    from starplast import sources as S
+    df = pd.DataFrame({"a": [0.0, 10.0, 16520.0, 3.0] * 25})
+    once = S.normalise(df, "fpkm", log=lambda *a: None)
+    twice = S.normalise(once, "log_intensity", log=lambda *a: None)
+    assert once.max().max() < 20, "linear intensity should be logged"
+    # centring is idempotent-ish; the point is that no second log is applied
+    assert abs(twice.max().max() - once.max().max()) < 1e-9
+
+
+def test_ratios_are_left_alone():
+    """Centring a log-ratio moves its zero, which is the reference condition."""
+    from starplast import sources as S
+    df = pd.DataFrame({"lfc": [-3.0, 0.0, 2.5, 1.0] * 25})
+    out = S.normalise(df, "lfc", log=lambda *a: None)
+    assert (out.lfc == df.lfc).all()
+
+
+def test_rank_normalise_puts_incomparable_units_on_one_axis():
+    from starplast import sources as S
+    df = pd.DataFrame({"fpkm": [1.0, 10.0, 100.0, 1000.0], "ibaq": [30.0, 25.0, 20.0, 15.0]})
+    r = S.rank_normalise(df)
+    assert r.min().min() >= -0.5 and r.max().max() <= 0.5
+    assert r.fpkm.corr(r.ibaq) < 0, "opposite orderings must stay opposite"
