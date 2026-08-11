@@ -1,6 +1,6 @@
 # starplast
 
-A 3D browser for the *Toxoplasma gondii* knowledge map. 8,140 genes as points in space, seven kinds of
+A 3D browser for the *Toxoplasma gondii* knowledge map. 8,140 genes as points in space, twelve kinds of
 relation as toggleable edges, and one panel per gene showing everything that is actually known about it —
 including when the answer is "nothing".
 
@@ -10,18 +10,30 @@ python -m starplast.fetch_names     # one-off: ToxoDB symbols, previous IDs, str
 python -m starplast.build_graph     # one-off, ~4 min: builds data/graph.npz
 starplast
 
-pytest tests/ -q                    # 35 tests, headless, no network
+pytest tests/ -q                    # 51 tests, headless, no network
 ```
 
-Needs a display (PyQt6 + OpenGL). `build_graph` needs the source datasets listed below; the built cache
-(`data/graph.npz`, `data/nodes.parquet`) is self-contained, so the app runs without them.
+Needs a display (PyQt6 + OpenGL). **The app is standalone**: the committed cache (11 MB) carries every
+measurement for all 8,140 genes — 85 columns covering 8 CRISPR fitness screens, 4 published screens, the
+full 18-column transcriptomic series, protein abundance, sequence and structure metadata — so `starplast`
+needs no dataset, no network and no build step. `build_graph` is only for regenerating the cache.
+
+The one deliberate exception is **coordinates**. 6,538 AlphaFold models and 12,265 crosslink complexes are
+gigabytes, so `structures.py` resolves them on demand: a local mirror if present, else AlphaFold DB,
+cached under `~/.cache/starplast`. Everything you need to *decide* is offline; only the picture is fetched.
 
 ## What makes it different from a network viewer
 
-**Position means something.** Node coordinates are a 3D UMAP embedding of a 43-feature matrix — stage
-expression, seven CRISPR fitness screens, hyperLOPIT compartment, paralog number, domain count,
-phosphosites, mean AlphaFold pLDDT. Two genes near each other are biologically similar. A force-directed
-layout would look similar and mean nothing.
+**Position means something — with two caveats worth knowing.** Node coordinates are a 3D UMAP embedding
+of a 43-feature matrix: stage expression, seven CRISPR fitness screens, hyperLOPIT compartment, paralog
+number, domain count, phosphosites, mean AlphaFold pLDDT. Two genes near each other are biologically
+similar, and a force-directed layout would look similar while meaning nothing.
+
+The caveats: missing values are median-imputed, so "was this gene measured" is faintly visible as geometry
+(genes lacking fitness data sit 0.38 map-radii from those that have it); and the compartment block, at
+×0.5 over 27 one-hot columns, contributes only **1.1%** of the matrix variance rather than the balanced
+share the design intends. Both are open issues. Note that `structural_hole` and `unwritten_interaction`
+are computed from **edges**, never from embedding distance, so neither is affected.
 
 **Twelve edge types, never merged.**
 
@@ -211,6 +223,30 @@ documents:
 `data/mentions.parquet` is the auditable intermediate: one row per gene × document × section ×
 match kind, carrying the confidence tier. Coverage, publication counts and both co-mention layers are all
 recomputable from it.
+
+## What ships, and what it covers
+
+Coverage varies enormously by assay, and the app shows "—" for not-measured rather than implying zero:
+
+| data | columns | genes covered |
+|---|---|---|
+| CRISPR fitness (in vitro, 4× in vivo, naive BMDM, IFN-γ) | 7 | ~90% |
+| CRISPR, Young 2019 in vivo | 1 | 115 |
+| **GRA17 synthetic-lethal, genome-wide** (PMC10409377) | 3 | **7,553** |
+| GRA12 strains/subspecies, 2 screens (PMC12003902) | 6 | 236 / 232 |
+| in vivo CRISPR platform (PMC6722137) | 1 | 168 |
+| host-transcription effectors (PMC12033024) | 2 | 252 |
+| transcriptomics: stage series + **oocyst sporulation** | 18 + 4 | ~95% |
+| protein abundance, log2 iBAQ (Pru IP) | 1 | 748 |
+| phosphosite count | 1 | 14.4% |
+| AlphaFold pLDDT | 1 | 79.6% |
+| sequence, length, TM, signal peptide, LOPIT posterior, Pfam, InterPro | 12 | ~100% |
+| crosslink / IP-MS / structural-similarity partners | 4 | edge-derived |
+
+Two honest gaps. The **GRA12 screens are not replicates** — their in-vivo L2FCs correlate at r = 0.41 —
+so they are kept as separate columns. And **there is no deep proteome in this tree**: the only mass-spec
+abundance is two Pru immunoprecipitation experiments (424 and 594 proteins), which is enrichment, not
+coverage.
 
 ## Data sources
 

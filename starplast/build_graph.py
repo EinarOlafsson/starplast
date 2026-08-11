@@ -24,7 +24,7 @@ from collections import Counter, defaultdict
 import numpy as np
 import pandas as pd
 
-from . import corpus, identity, interactions, literature
+from . import corpus, identity, interactions, literature, screens
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = os.path.dirname(HERE)                      # toxoplasma_projects
@@ -64,14 +64,37 @@ def load_nodes() -> pd.DataFrame:
         else:
             n[c] = np.nan
 
-    rna = [c for c in n.columns if c.startswith("rna108740_")]
+    # Every RNA column is kept, not just the three summaries. The second series (rna206344) is the
+    # oocyst sporulation time course -- a whole life-stage axis that summarising to tachyzoite/cyst/max
+    # threw away entirely.
+    rna = [c for c in n.columns if c.startswith("rna")]
     for c in rna:
         n[c] = pd.to_numeric(n[c], errors="coerce")
     tach = [c for c in rna if "Tachyzoite" in c or "Tachyzoites" in c]
     cyst = [c for c in rna if "Tissue_cyst" in c or "Tissue_cysts" in c]
+    spor = [c for c in rna if "Sporulat" in c or "Unsporulated" in c]
     n["expr_tachy"] = np.log2(n[tach].mean(axis=1) + 1) if tach else np.nan
     n["expr_cyst"] = np.log2(n[cyst].mean(axis=1) + 1) if cyst else np.nan
     n["expr_max"] = np.log2(n[rna].max(axis=1) + 1) if rna else np.nan
+    n["expr_sporulated"] = np.log2(n[spor].mean(axis=1) + 1) if spor else np.nan
+
+    # Published screens and mass-spec abundance, joined on gene id. Left missing where a targeted screen
+    # never tested a gene -- absent from a 237-gene library is not a measurement of zero effect.
+    #
+    # Accessions go through the identity layer: papers cite whatever id was current when they were
+    # written, and the 2019 in vivo screen uses pre-2012 ones for every single gene.
+    ix = identity.build_index(n.gene_id, os.path.join(OUT, "toxodb_identity.tsv"),
+                              log=lambda *a: None)
+
+    def resolve(acc):
+        hit = ix.lookup.get(identity.norm(acc))
+        return hit[0] if hit else None
+
+    for tbl in (screens.crispr_screens(BASE, log=log, resolve=resolve),
+                screens.proteomics(BASE, log=log, resolve=resolve)):
+        if tbl is not None and not tbl.empty:
+            for c in tbl.columns:
+                n[c] = n.gene_id.map(tbl[c])
 
     # hyperLOPIT assignment tracks abundance, so unassigned must read as UNKNOWN, never as a compartment
     n["compartment"] = n["compartment"].fillna("unassigned")
@@ -407,13 +430,11 @@ def main():
     edges = build_edges(nodes)
     xyz = embed(nodes)
 
-    keep = ["gene_id", "product", "compartment", "orthogroup", "n_publications", "n_fulltext",
-            "lit_tier", "attention_depth", "n_papers_focal", "n_papers_substantive",
-            "n_papers_incidental", "n_holes", "n_xlink_partners", "n_struct_similar",
-            "n_ipms_partners", "best_model_agreement", "has_domain",
-            "lineage_specific", "paralog_number", "mean_plddt", "n_interpro", "n_phosphosites",
-            "expr_tachy", "expr_cyst", "expr_max"] + FIT
-    keep = [c for c in keep if c in nodes.columns]
+    # The app is meant to be standalone, so ship every column that survives the build rather than an
+    # allowlist that silently drops whole assays -- an earlier version kept 3 of 18 RNA columns and 7 of
+    # 8 fitness screens without saying so. Only genuinely internal scratch columns are dropped.
+    DROP = {"structure_path"}
+    keep = [c for c in nodes.columns if c not in DROP]
     nodes[keep].to_parquet(os.path.join(OUT, "nodes.parquet"), index=False)
 
     flat = {"xyz": xyz}

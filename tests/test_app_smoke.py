@@ -188,6 +188,29 @@ def test_model_disagreement_is_reported_not_hidden(win):
     assert "does not place them in contact" in win.detail.toHtml()
 
 
+def test_published_screens_and_proteomics_are_shipped(win):
+    """Standalone means every measurement is in the cache, not fetched later."""
+    need = {"crispr_gra17_synthlethal_delta", "crispr_gra12s1_l2fc_invivo",
+            "crispr_invivo_platform_lfc", "hosttx_T2", "protein_ibaq_log2",
+            "expr_sporulated", "fit_invivo_young2019", "sequence", "length"}
+    assert need <= set(win.nodes.columns), f"missing: {need - set(win.nodes.columns)}"
+
+
+def test_superseded_accessions_still_resolve(win):
+    """The 2019 in vivo screen cites pre-2012 ids for every gene; unresolved it contributes nothing."""
+    assert win.nodes.crispr_invivo_platform_lfc.notna().sum() > 100
+
+
+def test_untested_genes_read_as_unmeasured_not_zero(win):
+    """A targeted library leaves most genes untested. That must stay missing, never become 0.0."""
+    import numpy as np
+    col = win.nodes.crispr_gra12s1_l2fc_invivo
+    assert col.isna().sum() > 7000, "targeted screen should be missing for most genes"
+    i = int(np.where(col.isna().to_numpy())[0][0])
+    win.on_pick(i)
+    assert "—" in win.detail.toHtml()
+
+
 def test_search_finds_a_known_gene(win):
     win.search.setText("TGME49_208830")            # GRA16
     win.do_search()

@@ -469,6 +469,20 @@ class Window(QtWidgets.QMainWindow):
             f"<tr><td style='color:#888;padding-right:10px'>{c.replace('fit_', '')}</td>"
             f"<td>{num(r.get(c))}</td></tr>" for c in FIT if c in self.nodes.columns)
 
+        # Published screens, each with its own scope. Targeted libraries leave most genes untested, and
+        # untested is shown as "—", never as zero effect.
+        pub = [("GRA17 synthetic-lethal Δ", "crispr_gra17_synthlethal_delta"),
+               ("GRA17 candidate", "crispr_gra17_candidate"),
+               ("GRA12 screen 1 in vivo L2FC", "crispr_gra12s1_l2fc_invivo"),
+               ("GRA12 screen 2 in vivo L2FC", "crispr_gra12s2_l2fc_invivo"),
+               ("in vivo platform mean lfc", "crispr_invivo_platform_lfc"),
+               ("host-transcription T²", "hosttx_T2"),
+               ("protein abundance log2 iBAQ", "protein_ibaq_log2"),
+               ("log2 FPKM sporulated oocyst", "expr_sporulated")]
+        pub = "".join(
+            f"<tr><td style='color:#888;padding-right:10px'>{lab}</td>"
+            f"<td>{num(r.get(c))}</td></tr>" for lab, c in pub if c in self.nodes.columns)
+
         nb = []
         for k, label in EDGE_TYPES:
             if k not in self.edges:
@@ -543,6 +557,9 @@ class Window(QtWidgets.QMainWindow):
         <h4>CRISPR screens <span style="color:#888;font-weight:normal">— competitive growth,
         not essentiality; the screens do not agree with each other</span></h4>
         <table>{fit}</table>
+        <h4>published screens &amp; abundance <span style="color:#888;font-weight:normal">— targeted
+        libraries leave most genes untested; "—" means not measured, not no effect</span></h4>
+        <table>{pub}</table>
         {xl}
         <h4>neighbours by edge type</h4>
         {''.join(nb) or '<p style="color:#888">no edges</p>'}

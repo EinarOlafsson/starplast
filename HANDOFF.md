@@ -22,7 +22,7 @@ pip install -e .            # installs the console_scripts entry point
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: builds data/graph.npz (~4 min)
 starplast                   # launch
-pytest tests/ -q            # 48 tests, headless, no network, ~1 s
+pytest tests/ -q            # 51 tests, headless, no network, ~1 s
 ```
 
 If the GL widget fails on a headless machine, that is expected — this needs a display. The test suite is
@@ -118,6 +118,22 @@ are dense-granule proteins, which are disordered, so this is expected rather tha
 > `TGRH88_016370` is `TGME49_210408`, not `TGME49_216370`. Use the alias column the export ships. The
 > suffix rule that works for GT1 and VEG (decision 2b) is wrong here and would silently mis-assign.
 
+**3e. Standalone means every measurement ships; coordinates are the one exception.** (Added v1.3.) The
+cache is 11 MB and carries 85 columns for all 8,140 genes. An earlier `keep` allowlist silently shipped
+3 of 18 RNA columns and 7 of 8 fitness screens; the build now ships every column that survives, with an
+explicit drop list. Structures resolve on demand (`structures.py`) because 6,538 AlphaFold models plus
+12,265 crosslink CIFs are gigabytes and git is the wrong place for them.
+
+**Screen accessions must go through the identity layer.** Papers cite whatever id was current when they
+were written. The 2019 in vivo screen uses pre-2012 `TGME49_0xxxxx` ids for *every* gene: unresolved it
+contributed 0 of 8,140, resolved it contributes 168. Any future dataset join has this failure mode.
+
+**Coverage is wildly uneven and "not measured" is not "no effect".** GRA17 is genome-wide (7,553); GRA12
+is 236 targeted genes across two screens that are NOT replicates (in-vivo L2FC r = 0.41, kept separate);
+the host-transcription screen is 252. There is **no deep proteome in this tree** — the only abundance is
+two Pru IP experiments totalling 748 proteins, which is enrichment, not coverage. Do not present it as
+proteome-wide.
+
 **4. Level of detail is data-driven, not invented tiers.**
 galaxy = hyperLOPIT compartment (26) → solar system = orthogroup / co-expression module → planet = gene →
 surface = that gene's evidence (papers, domains, screens, phenotypes).
@@ -159,7 +175,7 @@ Read `.claude/skills/toxoplasma-scientist/SKILL.md` before interpreting anything
 
 ```
 Read /mnt/firecuda2/Claude/toxoplasma_projects/starplast/HANDOFF.md and continue starplast.
-v0+v1+v1.1+v1.2 are done and pushed to github.com/EinarOlafsson/starplast (private); 48 tests pass
+v0+v1+v1.1+v1.2 are done and pushed to github.com/EinarOlafsson/starplast (private); 51 tests pass
 headless. Do not re-derive the design decisions in that file.
 Next: <state what you want — e.g. "v2 species switching", or "rank the structural holes">.
 ```
@@ -169,7 +185,7 @@ Fill the `Next:` line in before sending — leaving the placeholder just costs a
 ## State at handoff — verified 2026-08-11 (v1.2)
 
 **Built and working.** `identity.py`, `corpus.py`, `literature.py`, `build_graph.py`, `fetch_names.py`,
-`interactions.py`, `app.py`, `tests/`, `pyproject.toml`, `README.md`. **48 tests pass headless** (`pytest tests/ -q`), covering
+`interactions.py`, `app.py`, `tests/`, `pyproject.toml`, `README.md`. **51 tests pass headless** (`pytest tests/ -q`), covering
 identity resolution, every precision guard, JATS parsing, the mentions table, the attention arithmetic,
 the attention-depth tiering, and the app itself offscreen: 8,140 nodes, all 12 edge types, all 3 LOD levels, all 6 colour modes, picking,
 search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
