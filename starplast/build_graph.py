@@ -24,7 +24,7 @@ from collections import Counter, defaultdict
 import numpy as np
 import pandas as pd
 
-from . import corpus, identity, interactions, literature, screens
+from . import corpus, identity, interactions, literature, localisation, screens
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = os.path.dirname(HERE)                      # toxoplasma_projects
@@ -46,10 +46,7 @@ def load_nodes() -> pd.DataFrame:
     n = n.drop_duplicates("gene_id").reset_index(drop=True)
     log(f"{len(n)} genes from the node table")
 
-    lp = pd.read_csv(os.path.join(DS, "lopit_toxoplasma_gondii_ME49.csv"), low_memory=False)
-    lp = lp[["gene_source_id", "MAP_location"]].rename(
-        columns={"gene_source_id": "gene_id", "MAP_location": "compartment"})
-    n = n.merge(lp.drop_duplicates("gene_id"), on="gene_id", how="left")
+    n = localisation.lopit_labels(DS, n, log=log)
 
     prod = pd.read_csv(os.path.join(DS, "orthomcl_toxoplasma_gondii_ME49.csv"), low_memory=False)
     prod = prod[["gene_source_id", "gene_product"]].rename(columns={"gene_source_id": "gene_id"})
@@ -96,8 +93,6 @@ def load_nodes() -> pd.DataFrame:
             for c in tbl.columns:
                 n[c] = n.gene_id.map(tbl[c])
 
-    # hyperLOPIT assignment tracks abundance, so unassigned must read as UNKNOWN, never as a compartment
-    n["compartment"] = n["compartment"].fillna("unassigned")
     n["has_domain"] = n.get("has_domain", pd.Series(False, index=n.index)) \
         .astype("boolean").fillna(False).astype(int)
     n["lineage_specific"] = n.get("lineage_specific", pd.Series(False, index=n.index)) \

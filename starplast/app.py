@@ -186,7 +186,8 @@ class Window(QtWidgets.QMainWindow):
 
         L.addWidget(QtWidgets.QLabel("<b>colour by</b>"))
         self.colour_by = QtWidgets.QComboBox()
-        self.colour_by.addItems(["compartment", "in vitro fitness", "publications",
+        self.colour_by.addItems(["compartment", "compartment (incl. transferred)",
+                                 "in vitro fitness", "publications",
                                  "depth of attention",
                                  "structure confidence (pLDDT)", "cyst / tachyzoite expression"])
         self.colour_by.currentIndexChanged.connect(self.redraw)
@@ -257,10 +258,16 @@ class Window(QtWidgets.QMainWindow):
     def colours(self, vis):
         mode = self.colour_by.currentText()
         c = np.zeros((self.n, 4), dtype=np.float32)
-        if mode == "compartment":
+        if mode.startswith("compartment"):
+            # The default colours the MEASURED hyperLOPIT call only. The second mode fills in
+            # ortholog-transferred labels, which are inferences from another species -- offered because
+            # coverage matters, kept separate because provenance matters more.
+            col_name = ("compartment_best" if "transferred" in mode
+                        and "compartment_best" in self.nodes.columns else "compartment")
+            vals = self.nodes[col_name].astype(str)
             for comp, col in self.colour_of.items():
-                m = (self.nodes.compartment.astype(str) == comp).to_numpy()
-                c[m, :3] = col
+                c[(vals == comp).to_numpy(), :3] = col
+            c[(vals == "unassigned").to_numpy(), :3] = GREY
         elif mode == "depth of attention":
             # Categorical, not a scale: these tiers are read off document structure (title / abstract /
             # body-only), so shading them along a gradient would imply a quantity that does not exist.
