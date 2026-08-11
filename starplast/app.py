@@ -140,6 +140,11 @@ class Window(QtWidgets.QMainWindow):
         self.view = Map3D(self.xyz)
         self.view.picked.connect(self.on_pick)
         self.scatter = gl.GLScatterPlotItem(pos=self.xyz, size=5.0, pxMode=True)
+        # GLScatterPlotItem blends additively by default, which sums the colours of overlapping points.
+        # With 8,140 genes in dense UMAP clusters every mode rendered as one white blob and the colour
+        # encoding -- the thing the map is for -- was invisible. Translucent blending with depth testing
+        # makes nearer points occlude farther ones instead of adding to them.
+        self.scatter.setGLOptions("translucent")
         self.view.addItem(self.scatter)
         self.centroid_item = None
         self.edge_items = []
@@ -352,7 +357,22 @@ class Window(QtWidgets.QMainWindow):
                    "orthogroup": (0.35, 0.85, 0.55, 0.5),
                    "coexpression": (0.40, 0.65, 0.95, 0.45), "compartment": (0.75, 0.75, 0.80, 0.25),
                    "cofitness": (0.95, 0.45, 0.75, 0.5), "domain": (0.60, 0.55, 0.45, 0.3)}[k]
-            it = gl.GLLinePlotItem(pos=seg, color=col, width=1.0, mode="lines", antialias=True)
+            # Fade each edge by its own weight. Drawn at one flat alpha, 7,733 full-text edges are an
+            # opaque hairball in which the strongest and the weakest look identical -- which also made
+            # the attention toggle almost invisible, though it reorders exactly this quantity. Scaling
+            # alpha by weight is what lets the corrected view read differently from the raw one.
+            cols = np.empty((idx.size * 2, 4), np.float32)
+            cols[:, :3] = col[:3]
+            ww = w[idx].astype(float)
+            if idx.size > 20 and np.ptp(ww) > 0:
+                lo, hi = np.percentile(ww, [10, 95])
+                t = np.clip((ww - lo) / max(hi - lo, 1e-9), 0.0, 1.0)
+            else:
+                t = np.ones(idx.size)
+            alpha = (col[3] * (0.12 + 0.88 * t)).astype(np.float32)
+            cols[0::2, 3] = alpha
+            cols[1::2, 3] = alpha
+            it = gl.GLLinePlotItem(pos=seg, color=cols, width=1.0, mode="lines", antialias=True)
             self.view.addItem(it)
             self.edge_items.append(it)
 

@@ -22,7 +22,7 @@ pip install -e .            # installs the console_scripts entry point
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: builds data/graph.npz (~4 min)
 starplast                   # launch
-pytest tests/ -q            # 35 tests, headless, no network, ~1 s
+pytest tests/ -q            # 37 tests, headless, no network, ~1 s
 ```
 
 If the GL widget fails on a headless machine, that is expected — this needs a display. The test suite is
@@ -69,6 +69,13 @@ the expectation's denominator is the number of **units** (independence is define
 sum of per-gene counts), and per-gene unit counts are taken over the **same** population co-mention is
 counted over, i.e. after list-like units are excluded.
 
+**3b. What the map draws must be visible, and that is testable.** (Added v1.1.) The scatter blended
+additively, so 8,140 overlapping points summed to white and every colour mode rendered as one blob --
+while every array-level test passed, because they checked the colour array and never the render. Points
+now occlude (translucent + depth test) and edge alpha scales with edge weight, without which the attention
+toggle is visually almost a no-op. Both are pinned by tests that read the GL state. **Render the app and
+look at it before believing a display claim.**
+
 **4. Level of detail is data-driven, not invented tiers.**
 galaxy = hyperLOPIT compartment (26) → solar system = orthogroup / co-expression module → planet = gene →
 surface = that gene's evidence (papers, domains, screens, phenotypes).
@@ -106,10 +113,9 @@ Read `.claude/skills/toxoplasma-scientist/SKILL.md` before interpreting anything
 
 ```
 Read /mnt/firecuda2/Claude/toxoplasma_projects/starplast/HANDOFF.md and continue starplast.
-v0+v1+v1.1 are done and pushed to github.com/EinarOlafsson/starplast (private); 35 tests pass
+v0+v1+v1.1 are done and pushed to github.com/EinarOlafsson/starplast (private); 37 tests pass
 headless. Do not re-derive the design decisions in that file.
-Next: <state what you want — e.g. "v2 species switching", or "co-mention restricted to focal
-papers only">.
+Next: <state what you want — e.g. "v2 species switching", or "structural holes in the map">.
 ```
 
 Fill the `Next:` line in before sending — leaving the placeholder just costs a round trip.
@@ -117,7 +123,7 @@ Fill the `Next:` line in before sending — leaving the placeholder just costs a
 ## State at handoff — verified 2026-08-10 (v1.1)
 
 **Built and working.** `identity.py`, `corpus.py`, `literature.py`, `build_graph.py`, `fetch_names.py`,
-`app.py`, `tests/`, `pyproject.toml`, `README.md`. **35 tests pass headless** (`pytest tests/ -q`), covering
+`app.py`, `tests/`, `pyproject.toml`, `README.md`. **37 tests pass headless** (`pytest tests/ -q`), covering
 identity resolution, every precision guard, JATS parsing, the mentions table, the attention arithmetic,
 the attention-depth tiering, and the app itself offscreen: 8,140 nodes, all 7 edge types, all 3 LOD levels, all 6 colour modes, picking,
 search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
@@ -167,6 +173,13 @@ existed before.
 - **The full-text corpus grew under the build** — 5,493 → 6,667 files during this session — so every
   full-text number is a snapshot. `build_graph` logs the file count it actually saw; trust that over this
   table.
+
+**Already tried, do not redo: co-mention restricted to focal papers.** `comention` is *already* that
+layer. Rebuilding it over every readable paper's title and abstract, rather than the abstract corpus
+alone, adds 22 papers and 20 edges, because the PubMed corpus already contains 1,109 of the 1,131
+open-access papers that name a gene focally. Measured, not assumed. The corollary is worth keeping: the
+1,816 `incidental` genes participate in `comention_ft` and nothing else, so that layer is the only edge
+type connecting genes nobody has written about focally.
 
 **Not built:** v2 (species switching, cross-species orthology edges) and v3 (continuous star-map zoom).
 Deliberately deferred — v3 is most of the effort and least of the value. Note that v2 got cheaper: the

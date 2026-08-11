@@ -111,6 +111,11 @@ strain designations are blocked outright. Each of those is pinned by a test.
   where a paper names a gene; shading them along a gradient would imply a measured quantity. Genes named
   nowhere stay grey with everything else that is unknown rather than zero.
 - **Draw caps are stated.** Above 20,000 drawn edges the status bar reports what was dropped.
+- **Edge opacity encodes edge weight.** At one flat alpha the strongest and weakest edges look alike, and
+  the attention toggle — which reorders exactly that quantity — becomes visually almost a no-op.
+- **Points occlude, they do not sum.** The scatter uses translucent blending with depth testing. With
+  additive blending, 8,140 overlapping points saturated to white and every colour mode rendered as one
+  featureless blob while the array-level tests all still passed.
 
 ## Controls
 

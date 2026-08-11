@@ -123,6 +123,38 @@ def test_attention_toggle_changes_drawn_comention(win):
         win.redraw()
 
 
+def test_scatter_does_not_blend_additively(win):
+    """Additive blending summed 8,140 overlapping points to white and hid the colour encoding entirely.
+
+    Every colour mode rendered as one white blob while all the array-level tests still passed, so this
+    checks the GL state the renderer actually uses.
+    """
+    from OpenGL.GL import GL_DEPTH_TEST, GL_ONE, GL_SRC_ALPHA
+    opts = getattr(win.scatter, "_GLGraphicsItem__glOpts", None)
+    assert opts, "could not read the scatter's GL options"
+    assert opts.get(GL_DEPTH_TEST) is True, "depth testing off: points sum instead of occluding"
+    src, dst = opts.get("glBlendFunc", (None, None))
+    assert (src, dst) != (GL_SRC_ALPHA, GL_ONE), "additive blending is back"
+
+
+def test_edge_alpha_encodes_weight(win):
+    """Drawn at one flat alpha the strongest and weakest edges look identical, which also made the
+    attention toggle -- which reorders exactly that quantity -- visually almost a no-op."""
+    import numpy as np
+    k = "comention_ft" if "comention_ft" in win.edges else "comention"
+    for other, _ in __import__("starplast.app", fromlist=["EDGE_TYPES"]).EDGE_TYPES:
+        win.edge_cb[other].setChecked(other == k)
+    win.all_edges.setChecked(True)
+    win.sel = None
+    win.redraw()
+    assert win.edge_items, "no edge item was drawn"
+    colours = [np.asarray(it.color) for it in win.edge_items
+               if getattr(it, "color", None) is not None and np.asarray(it.color).ndim == 2]
+    assert colours, "edges drawn with a single flat colour, not a per-edge colour array"
+    alphas = np.concatenate([c[:, 3] for c in colours])
+    assert alphas.ptp() > 0.01, "edge alpha does not vary with weight"
+
+
 def test_search_finds_a_known_gene(win):
     win.search.setText("TGME49_208830")            # GRA16
     win.do_search()
