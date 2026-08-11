@@ -7,8 +7,13 @@ supplementary files downloaded. This module turns the machine-readable ones into
 
 What it can and cannot do, measured rather than assumed:
 
-* **33 of 97 studies carry accessions in a spreadsheet.** The rest publish their hit lists in PDF or DOCX,
-  or by gene name only. Those are recorded with `parsed = False` rather than silently omitted.
+* **38 of 97 studies yield identifiers.** 32 carry accessions in a spreadsheet; reading the PDFs and
+  DOCX adds six more, and recovers 1,124 accessions plus 465 symbols from documents that a spreadsheet
+  parser saw as empty. The remaining 59 are recorded with `parsed = False` rather than silently omitted —
+  40 of them because Europe PMC held no supplementary files at all, not because parsing failed.
+* **Some papers name proteins only by symbol.** One yielded 68 symbols and zero accessions. Symbol
+  matching carries the usual guard: a digit-free symbol must appear in upper case, since HOOK, CLAMP,
+  CLIP, SPARK and REMIND are all real symbols and all real English words.
 * **`TGGT1_` accessions are more common than `TGME49_` here** (40 files against 39), so everything goes
   through the identity layer. Parsing on `TGME49_` alone would lose more than half of what is available.
 * **A supplement is not a hit list.** These files mix hits with controls, background, primers and
@@ -38,10 +43,49 @@ MAX_SHEETS = 8
 MAX_ROWS = 20000
 
 
+def _pdf_text(path: str, timeout=180) -> str:
+    """PDF to text with columns preserved.
+
+    `-layout` is not optional: without it pdftotext reflows a table into prose and the columns
+    interleave, so every extracted row is a blend of two different rows. The output looks fine and the
+    data is wrong, which is the worst combination.
+    """
+    import subprocess
+    for args in (["pdftotext", "-layout", "-nopgbrk", path, "-"],
+                 ["pdftotext", "-nopgbrk", path, "-"]):
+        try:
+            r = subprocess.run(args, capture_output=True, timeout=timeout)
+            if r.returncode == 0 and r.stdout.strip():
+                return r.stdout.decode("utf8", "replace")
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            continue
+    return ""
+
+
+def _docx_text(path: str) -> str:
+    """DOCX to text: the format is a zip of XML, so no third-party reader is needed.
+
+    Cell and row boundaries are converted before tags are stripped; otherwise every cell in a row runs
+    together and a gene/description table becomes one unusable line.
+    """
+    import zipfile
+    try:
+        with zipfile.ZipFile(path) as z:
+            xml = z.read("word/document.xml").decode("utf8", "replace")
+    except (zipfile.BadZipFile, KeyError, OSError):
+        return ""
+    xml = xml.replace("</w:tc>", "\t").replace("</w:tr>", "\n").replace("</w:p>", "\n")
+    return re.sub(r"<[^>]+>", "", xml)
+
+
 def _read_any(path: str) -> str:
-    """Flatten a spreadsheet or delimited file to text. Returns '' for formats we cannot read."""
+    """Flatten a document or spreadsheet to text. Returns '' for formats we cannot read."""
     low = path.lower()
     try:
+        if low.endswith(".pdf"):
+            return _pdf_text(path)
+        if low.endswith(".docx"):
+            return _docx_text(path)
         if low.endswith((".xlsx", ".xls")):
             xl = pd.ExcelFile(path)
             return "".join(
@@ -64,7 +108,11 @@ def parse_studies(root: str, resolve=None, log=print) -> pd.DataFrame:
         pmid = str(meta.get("pmid") or os.path.basename(d))
         method = meta.get("method", "")
         files = [f for f in sorted(os.listdir(d)) if f != "META.json"]
-        tables = [f for f in files if f.lower().endswith((".xlsx", ".xls", ".csv", ".tsv", ".txt"))]
+        # PDF and DOCX included: 65 of 97 studies publish their hit list only in those, and
+        # 20 of them yield identifiers once the documents are actually read.
+        tables = [f for f in files
+                  if f.lower().endswith((".xlsx", ".xls", ".csv", ".tsv", ".txt",
+                                         ".pdf", ".docx"))]
 
         found = {}
         for f in tables:
