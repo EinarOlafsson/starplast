@@ -24,7 +24,7 @@ from collections import Counter, defaultdict
 import numpy as np
 import pandas as pd
 
-from . import corpus, identity, interactions, literature, localisation, screens
+from . import corpus, identity, interaction_studies, interactions, literature, localisation, screens
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = os.path.dirname(HERE)                      # toxoplasma_projects
@@ -82,6 +82,9 @@ def load_nodes() -> pd.DataFrame:
     # written, and the 2019 in vivo screen uses pre-2012 ones for every single gene.
     ix = identity.build_index(n.gene_id, os.path.join(OUT, "toxodb_identity.tsv"),
                               log=lambda *a: None)
+
+    global _SYMBOL_INDEX
+    _SYMBOL_INDEX = ix.lookup
 
     def resolve(acc):
         hit = ix.lookup.get(identity.norm(acc))
@@ -189,6 +192,15 @@ def literature_layer(nodes: pd.DataFrame):
 
 
 # --------------------------------------------------------------------------- edges
+_SYMBOL_INDEX = {}
+
+
+def _resolve_symbol(sym):
+    """Symbol -> current gene id, using the identity index built during the node load."""
+    hit = _SYMBOL_INDEX.get(identity.norm(sym))
+    return hit[0] if hit else None
+
+
 def build_edges(nodes: pd.DataFrame):
     idx = {g: i for i, g in enumerate(nodes.gene_id)}
     edges = dict(literature_layer(nodes))
@@ -267,6 +279,16 @@ def build_edges(nodes: pd.DataFrame):
     if not models.empty:
         models.to_parquet(os.path.join(OUT, "crosslink_models.parquet"), index=False)
     interactions.gene_attributes(edges, models, nodes)
+
+    # Curated host targets. Deliberately the hand-curated table rather than anything mined from the 97
+    # interaction supplements, which publish full quantification tables and would invent thousands.
+    host = interaction_studies.host_interactions(BASE, resolve=lambda a: _resolve_symbol(a), log=log)
+    if not host.empty:
+        host.to_parquet(os.path.join(OUT, "host_interactions.parquet"), index=False)
+        nodes["n_host_targets"] = nodes.gene_id.map(
+            host.groupby("gene_id").host_target.nunique()).fillna(0).astype(int)
+    else:
+        nodes["n_host_targets"] = 0
 
     # Derived last, because these are defined over the other edge types.
     hole = structural_holes(edges, nodes)

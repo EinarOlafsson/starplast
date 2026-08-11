@@ -133,3 +133,34 @@ def study_gene_counts(members: pd.DataFrame, nodes_index) -> pd.Series:
         return pd.Series(0, index=nodes_index, dtype=int)
     c = members.groupby("gene_id").pmid.nunique()
     return pd.Series(nodes_index).map(c).fillna(0).astype(int).values
+
+
+# --------------------------------------------------------------------------- host targets
+def host_interactions(base: str, resolve=None, log=print) -> pd.DataFrame:
+    """Curated Toxoplasma-protein to host-protein interactions.
+
+    Deliberately the curated table rather than anything mined from the 97 supplements. Those publish
+    complete quantification tables -- median 754 genes, largest 7,866 -- so extracting host targets from
+    them automatically would invent thousands of interactions. 31 curated pairs with a stated mode,
+    confidence and reference are worth more than that, and can be defended one by one.
+
+    The parasite side is given by symbol (ROP16, GRA24), so it goes through the identity layer.
+    """
+    path = os.path.join(base, "known_host_parasite_interactions.csv")
+    if not os.path.exists(path):
+        log("no curated host-parasite table found")
+        return pd.DataFrame()
+    d = pd.read_csv(path)
+    d = d[d.organism.astype(str).str.contains("gondii", case=False, na=False)]
+    if resolve is not None:
+        d["gene_id"] = d.parasite_protein.astype(str).map(
+            lambda s: resolve(re.sub(r"[-\s]", "", s.strip()).upper()))
+    else:
+        d["gene_id"] = None
+    ok = d.gene_id.notna()
+    log(f"host interactions: {len(d)} curated pairs, {int(ok.sum())} resolved to a gene "
+        f"({d.loc[ok, 'gene_id'].nunique()} distinct parasite proteins, "
+        f"{d.loc[ok, 'host_target'].nunique()} host targets)")
+    if (~ok).any():
+        log(f"  unresolved parasite symbols: {', '.join(sorted(set(d.loc[~ok, 'parasite_protein'].astype(str)))[:8])}")
+    return d[ok].reset_index(drop=True)

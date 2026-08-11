@@ -586,6 +586,7 @@ class Window(QtWidgets.QMainWindow):
                 ("crosslinked partners (XL-MS)", num(r.get("n_xlink_partners"), "{:.0f}")),
                 ("IP-MS partners", num(r.get("n_ipms_partners"), "{:.0f}")),
                 ("structurally similar (TM ≥ 0.7)", num(r.get("n_struct_similar"), "{:.0f}")),
+                ("curated host targets", num(r.get("n_host_targets"), "{:.0f}")),
                 ("log2 FPKM tachyzoite", num(r.get("expr_tachy"))),
                 ("log2 FPKM tissue cyst", num(r.get("expr_cyst")))]
         tbl = "".join(f"<tr><td style='color:#888;padding-right:10px'>{k}</td>"

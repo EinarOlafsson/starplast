@@ -22,7 +22,7 @@ pip install -e .            # installs the console_scripts entry point
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: builds data/graph.npz (~4 min)
 starplast                   # launch
-pytest tests/ -q            # 51 tests, headless, no network, ~1 s
+pytest tests/ -q            # 67 tests, headless, no network, ~1 s
 ```
 
 If the GL widget fails on a headless machine, that is expected — this needs a display. The test suite is
@@ -134,6 +134,16 @@ the host-transcription screen is 252. There is **no deep proteome in this tree**
 two Pru IP experiments totalling 748 proteins, which is enrichment, not coverage. Do not present it as
 proteome-wide.
 
+**3f. The search is the point; the circularity guard is what makes it valid.** (Added v1.4.)
+`search.py` walks dataset combinations x hyperparameters and scores each by recovery of a label
+*excluded from the embedding*. With hyperLOPIT leaked in, the battery reports it separating clusters at
+V = 0.96. Held out properly, the best of 164 runs reaches **mean F1 0.362** -- apical secretory best at
+0.59, nucleus 0.53, mitochondrion 0.29. Localisation is only weakly predictable from expression and
+fitness, and that smaller claim is the true one. Precision and recall are never blended: a cluster that
+is 100% apicoplast holding 5% of apicoplast proteins is useless for inference.
+
+**Every run stores its full recipe, seed and scores.** A hit nobody can rebuild is not a result.
+
 **4. Level of detail is data-driven, not invented tiers.**
 galaxy = hyperLOPIT compartment (26) → solar system = orthogroup / co-expression module → planet = gene →
 surface = that gene's evidence (papers, domains, screens, phenotypes).
@@ -175,9 +185,10 @@ Read `.claude/skills/toxoplasma-scientist/SKILL.md` before interpreting anything
 
 ```
 Read /mnt/firecuda2/Claude/toxoplasma_projects/starplast/HANDOFF.md and continue starplast.
-v0+v1+v1.1+v1.2 are done and pushed to github.com/EinarOlafsson/starplast (private); 51 tests pass
+v0+v1+v1.1+v1.2 are done and pushed to github.com/EinarOlafsson/starplast (private); 67 tests pass
 headless. Do not re-derive the design decisions in that file.
-Next: <state what you want — e.g. "v2 species switching", or "rank the structural holes">.
+Next: <state what you want — e.g. "v2 species switching", "search a new target", or
+"curate hit lists from the 65 PDF-only interaction studies">.
 ```
 
 Fill the `Next:` line in before sending — leaving the placeholder just costs a round trip.
@@ -185,7 +196,7 @@ Fill the `Next:` line in before sending — leaving the placeholder just costs a
 ## State at handoff — verified 2026-08-11 (v1.2)
 
 **Built and working.** `identity.py`, `corpus.py`, `literature.py`, `build_graph.py`, `fetch_names.py`,
-`interactions.py`, `app.py`, `tests/`, `pyproject.toml`, `README.md`. **51 tests pass headless** (`pytest tests/ -q`), covering
+`interactions.py`, `app.py`, `tests/`, `pyproject.toml`, `README.md`. **67 tests pass headless** (`pytest tests/ -q`), covering
 identity resolution, every precision guard, JATS parsing, the mentions table, the attention arithmetic,
 the attention-depth tiering, and the app itself offscreen: 8,140 nodes, all 12 edge types, all 3 LOD levels, all 6 colour modes, picking,
 search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
