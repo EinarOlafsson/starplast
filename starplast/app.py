@@ -11,6 +11,7 @@ Level of detail follows the data, not invented tiers:
 """
 from __future__ import annotations
 
+import json
 import os
 import sys
 
@@ -37,7 +38,11 @@ EDGE_TYPES = [
     ("compartment", "shared compartment (hyperLOPIT)"),
     ("cofitness", "co-fitness (7 CRISPR screens)"),
     ("domain", "shared InterPro domain"),
+    ("xlms", "crosslink MS — measured physical proximity"),
+    ("ip_ms", "IP-MS — replicated pulldown of a tagged bait"),
+    ("struct", "structural similarity (Foldseek TM ≥ 0.7)"),
     ("structural_hole", "structural hole (biology links them, literature does not)"),
+    ("unwritten_interaction", "measured to bind, never written about"),
 ]
 # Both co-mention types are attention-biased and both carry a corrected residual, so the attention toggle
 # governs each of them. They are kept separate because they are different populations: every abstract in
@@ -78,7 +83,10 @@ def load():
         if f"{k}__a" in z.files:
             edges[k] = {"a": z[f"{k}__a"], "b": z[f"{k}__b"],
                         "w": z[f"{k}__w"], "r": z[f"{k}__r"]}
-    return nodes, xyz, edges
+    # Optional: the crosslink model table, which says how a measured interaction is thought to happen.
+    mp = os.path.join(DATA, "crosslink_models.parquet")
+    models = pd.read_parquet(mp) if os.path.exists(mp) else pd.DataFrame()
+    return nodes, xyz, edges, models
 
 
 class Map3D(gl.GLViewWidget):
@@ -126,7 +134,7 @@ class Map3D(gl.GLViewWidget):
 class Window(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.nodes, self.xyz, self.edges = load()
+        self.nodes, self.xyz, self.edges, self.models = load()
         self.n = len(self.nodes)
         self.sel = None
         self.setWindowTitle("starplast — Toxoplasma knowledge map")
@@ -358,8 +366,12 @@ class Window(QtWidgets.QMainWindow):
                    "orthogroup": (0.35, 0.85, 0.55, 0.5),
                    "coexpression": (0.40, 0.65, 0.95, 0.45), "compartment": (0.75, 0.75, 0.80, 0.25),
                    "cofitness": (0.95, 0.45, 0.75, 0.5), "domain": (0.60, 0.55, 0.45, 0.3),
-                   # deliberately the loudest colour in the palette: a hole is the thing to look at
-                   "structural_hole": (1.00, 0.25, 0.25, 0.85)}[k]
+                   # measured physical evidence gets its own cool, high-contrast family
+                   "xlms": (0.30, 0.95, 0.90, 0.65), "ip_ms": (0.20, 1.00, 0.55, 0.90),
+                   "struct": (0.70, 0.80, 0.30, 0.45),
+                   # deliberately the loudest colours in the palette: these are the things to look at
+                   "structural_hole": (1.00, 0.25, 0.25, 0.85),
+                   "unwritten_interaction": (1.00, 0.55, 0.00, 0.90)}[k]
             # Fade each edge by its own weight. Drawn at one flat alpha, 7,733 full-text edges are an
             # opaque hairball in which the strongest and the weakest look identical -- which also made
             # the attention toggle almost invisible, though it reorders exactly this quantity. Scaling
@@ -445,6 +457,9 @@ class Window(QtWidgets.QMainWindow):
                 ("structural holes", num(r.get("n_holes"), "{:.0f}")
                  + (" <i>— genes it behaves like but is never discussed with</i>"
                     if r.get("n_holes", 0) else "")),
+                ("crosslinked partners (XL-MS)", num(r.get("n_xlink_partners"), "{:.0f}")),
+                ("IP-MS partners", num(r.get("n_ipms_partners"), "{:.0f}")),
+                ("structurally similar (TM ≥ 0.7)", num(r.get("n_struct_similar"), "{:.0f}")),
                 ("log2 FPKM tachyzoite", num(r.get("expr_tachy"))),
                 ("log2 FPKM tissue cyst", num(r.get("expr_cyst")))]
         tbl = "".join(f"<tr><td style='color:#888;padding-right:10px'>{k}</td>"
@@ -470,6 +485,42 @@ class Window(QtWidgets.QMainWindow):
             nb.append(f"<p><b>{label}</b> — {int(m.sum())} edges<br>"
                       f"<span style='color:#aaa;font-size:11px'>{names}</span></p>")
 
+        # How the measured binding is thought to happen: the crosslinked residues, the predicted
+        # complexes, and whether those complexes place the crosslinks within reach. A model that does not
+        # satisfy them is reported as such rather than dropped -- it says the model fails to explain the
+        # measurement, not that the measurement is wrong.
+        xl = ""
+        if len(self.models):
+            m = self.models[(self.models.gene_a == gid) | (self.models.gene_b == gid)]
+            if len(m):
+                items = []
+                for row in m.sort_values("n_crosslinks", ascending=False).head(6).itertuples():
+                    other = row.gene_b if row.gene_a == gid else row.gene_a
+                    pos = json.loads(row.crosslink_positions or "[]")[:3]
+                    res = ", ".join(f"{p[0]}–{p[1]}" for p in pos if p and p[0] is not None)
+                    agree = ("model does not place them in contact"
+                             if isinstance(row.frac_satisfied, float) and row.frac_satisfied == 0
+                             else f"{row.frac_satisfied:.0%} of crosslinks satisfied"
+                             if np.isfinite(row.frac_satisfied) else "not modelled")
+                    nm = int(row.n_models) if np.isfinite(row.n_models) else 0
+                    ok = bool(getattr(row, "model_trustworthy", False))
+                    items.append(
+                        f"<li>{other} — {row.n_crosslinks} crosslink(s)"
+                        + (f" at residues {res}" if res else "")
+                        + ("  <b style='color:#6c6'>model usable</b>" if ok else "")
+                        + f"<br><span style='color:#888'>{agree}"
+                        + (f" · {nm} Chai-1 models" if nm else "")
+                        + (f" · ipTM {row.chai_iptm:.2f}" if np.isfinite(row.chai_iptm) else "")
+                        + "</span></li>")
+                where = m.model_dir.dropna().iloc[0] if m.model_dir.notna().any() else None
+                xl = ("<p><b>How the binding is modelled</b> <span style='color:#888;"
+                      "font-weight:normal;font-size:11px'>— the crosslink is the measurement; the "
+                      "model is a guess at the pose, and 60% of them explain no crosslink at all"
+                      "</span></p><ul style='margin-top:2px'>"
+                      + "".join(items) + "</ul>"
+                      + (f"<p style='color:#666;font-size:11px'>structures: {where}/"
+                         f"&lt;id&gt;_model_&lt;0-3&gt;.cif</p>" if where else ""))
+
         # Being named is not being studied. A gene reached only through a screen's hit table would
         # otherwise read as attended-to simply because coverage counts every tier alike.
         if r.get("attention_depth", "") == "incidental":
@@ -492,6 +543,7 @@ class Window(QtWidgets.QMainWindow):
         <h4>CRISPR screens <span style="color:#888;font-weight:normal">— competitive growth,
         not essentiality; the screens do not agree with each other</span></h4>
         <table>{fit}</table>
+        {xl}
         <h4>neighbours by edge type</h4>
         {''.join(nb) or '<p style="color:#888">no edges</p>'}
         <p><a href="https://toxodb.org/toxo/app/record/gene/{gid}">ToxoDB record</a> ·

@@ -24,7 +24,7 @@ from collections import Counter, defaultdict
 import numpy as np
 import pandas as pd
 
-from . import corpus, identity, literature
+from . import corpus, identity, interactions, literature
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = os.path.dirname(HERE)                      # toxoplasma_projects
@@ -88,6 +88,9 @@ ABSTRACTS = os.path.join(BASE, ".claude", "skills", "toxoplasma-scientist", "cor
 # Open-access full texts. Machine-local: on a machine without this disk the build silently falls back to
 # abstracts only, which is why the committed cache is what the app actually ships.
 FULLTEXTS = "/mnt/wd4tb/skill_corpora/toxoplasma-scientist"
+# Physical binding (StarPath XL-MS, IP-MS) and Foldseek structural similarity, already resolved to
+# TGME49_ gene ids by the toxonet build.
+TOXONET = os.path.join(BASE, "toxonet", "data", "interim", "edges_v3.parquet")
 
 
 def literature_layer(nodes: pd.DataFrame):
@@ -238,10 +241,22 @@ def build_edges(nodes: pd.DataFrame):
         corr_edges(rna, "coexpression", 0.95)
     corr_edges(FIT, "cofitness", 0.90)
 
-    # Derived last, because it is defined over the other edge types.
+    # Measured physical binding and structural similarity. Already keyed by TGME49_ gene id upstream, so
+    # these bypass the identity layer entirely.
+    bind, _ = interactions.load_toxonet(TOXONET, nodes.gene_id, log=log)
+    edges.update(bind)
+    models = interactions.crosslink_models(BASE, set(nodes.gene_id), log=log)
+    if not models.empty:
+        models.to_parquet(os.path.join(OUT, "crosslink_models.parquet"), index=False)
+    interactions.gene_attributes(edges, models, nodes)
+
+    # Derived last, because these are defined over the other edge types.
     hole = structural_holes(edges, nodes)
     if hole is not None:
         edges["structural_hole"] = hole
+    unwritten = unwritten_interactions(edges, nodes)
+    if unwritten is not None:
+        edges["unwritten_interaction"] = unwritten
     return edges
 
 
@@ -315,6 +330,51 @@ def structural_holes(edges: dict, nodes: pd.DataFrame):
     return a, b, w, w.copy()
 
 
+def unwritten_interactions(edges: dict, nodes: pd.DataFrame):
+    """Pairs that were *measured* to interact and that no paper has ever discussed together.
+
+    A stronger claim than `structural_hole`, and a different one. A hole says two independent phenotype
+    measurements predict a relationship. This says a physical interaction was observed -- two residues
+    covalently joined in a cell lysate, or a replicated pulldown -- and the literature still never put the
+    two proteins in one sentence.
+
+    This is a merge of `xlms` and `ip_ms`, and it is an explicit, labelled one rather than a silent
+    blending of edge types: both remain separately toggleable.
+    """
+    src = [k for k in ("xlms", "ip_ms") if k in edges]
+    if not src:
+        return None
+
+    def undirected(key):
+        a, b = edges[key][0], edges[key][1]
+        return set(map(tuple, np.sort(np.stack([a, b], 1), axis=1))) if len(a) else set()
+
+    lit = set()
+    for key in ("comention", "comention_ft"):
+        if key in edges:
+            lit |= undirected(key)
+
+    measured = {}
+    for key in src:
+        a, b, w, _ = edges[key]
+        for i, j, weight in zip(a, b, w):
+            p = (min(i, j), max(i, j))
+            measured[p] = max(measured.get(p, 0.0), float(weight))
+    silent = {p: w for p, w in measured.items() if p not in lit}
+    if not silent:
+        return None
+
+    a = np.array([p[0] for p in silent])
+    b = np.array([p[1] for p in silent])
+    w = np.array(list(silent.values()))
+    depth = nodes.attention_depth.to_numpy()
+    studied = np.isin(depth, ["focal", "substantive"])
+    log(f"unwritten_interaction: {len(a):,} measured interactions never co-mentioned "
+        f"({len(a) / max(len(measured), 1):.0%} of all measured pairs); "
+        f"{int((studied[a] & studied[b]).sum())} join two genes that are each well studied")
+    return a, b, w, w.copy()
+
+
 # --------------------------------------------------------------------------- embedding
 def embed(nodes: pd.DataFrame) -> np.ndarray:
     """3D UMAP of a multimodal feature matrix, so position means biological similarity."""
@@ -349,7 +409,8 @@ def main():
 
     keep = ["gene_id", "product", "compartment", "orthogroup", "n_publications", "n_fulltext",
             "lit_tier", "attention_depth", "n_papers_focal", "n_papers_substantive",
-            "n_papers_incidental", "n_holes", "has_domain",
+            "n_papers_incidental", "n_holes", "n_xlink_partners", "n_struct_similar",
+            "n_ipms_partners", "best_model_agreement", "has_domain",
             "lineage_specific", "paralog_number", "mean_plddt", "n_interpro", "n_phosphosites",
             "expr_tachy", "expr_cyst", "expr_max"] + FIT
     keep = [c for c in keep if c in nodes.columns]

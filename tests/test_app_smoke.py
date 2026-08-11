@@ -155,6 +155,39 @@ def test_edge_alpha_encodes_weight(win):
     assert alphas.ptp() > 0.01, "edge alpha does not vary with weight"
 
 
+def test_measured_binding_and_structure_layers_present(win):
+    for k in ("xlms", "struct", "unwritten_interaction"):
+        assert k in win.edges, f"{k} missing from the cache"
+    assert {"n_xlink_partners", "n_struct_similar", "best_model_agreement"} <= set(win.nodes.columns)
+
+
+def test_panel_shows_how_the_binding_is_modelled(win):
+    """The crosslink model table is what answers 'how does this binding happen'."""
+    import numpy as np
+    if not len(win.models):
+        pytest.skip("no crosslink model table in cache")
+    gid = win.models.iloc[0].gene_a
+    i = int(np.where(win.nodes.gene_id.to_numpy() == gid)[0][0])
+    win.on_pick(i)
+    html = win.detail.toHtml()
+    assert "How the binding is modelled" in html
+    assert "crosslink" in html.lower()
+
+
+def test_model_disagreement_is_reported_not_hidden(win):
+    """frac_satisfied == 0 means the model fails to explain the measurement; say so."""
+    import numpy as np
+    if not len(win.models) or "frac_satisfied" not in win.models:
+        pytest.skip("no satisfaction scores")
+    bad = win.models[win.models.frac_satisfied == 0]
+    if not len(bad):
+        pytest.skip("no unsatisfied models")
+    gid = bad.iloc[0].gene_a
+    i = int(np.where(win.nodes.gene_id.to_numpy() == gid)[0][0])
+    win.on_pick(i)
+    assert "does not place them in contact" in win.detail.toHtml()
+
+
 def test_search_finds_a_known_gene(win):
     win.search.setText("TGME49_208830")            # GRA16
     win.do_search()

@@ -334,6 +334,31 @@ def test_structural_hole_counts_per_gene():
     assert n.n_holes.tolist() == [2, 1, 1, 0, 0, 0]
 
 
+def test_unwritten_interaction_is_measured_binding_the_literature_missed():
+    """A stronger claim than a hole: the interaction was observed, not predicted."""
+    from starplast import build_graph as B
+    n = _nodes()
+    e = _edges(xlms=[(0, 1), (2, 3)], comention=[(2, 3)])
+    a, b, w, _ = B.unwritten_interactions(e, n)
+    assert list(zip(a, b)) == [(0, 1)], "a co-mentioned pair is not unwritten"
+
+
+def test_unwritten_interaction_merges_xlms_and_ipms_explicitly():
+    """The merge is labelled, and both source types stay separately toggleable."""
+    from starplast import build_graph as B
+    e = _edges(xlms=[(0, 1)], ip_ms=[(2, 3)])
+    a, b, _, _ = B.unwritten_interactions(e, _nodes())
+    assert sorted(zip(a, b)) == [(0, 1), (2, 3)]
+    assert "xlms" in e and "ip_ms" in e
+
+
+def test_unwritten_interaction_needs_measured_evidence():
+    """Correlational edge types alone never qualify -- that is what structural_hole is for."""
+    from starplast import build_graph as B
+    assert B.unwritten_interactions(_edges(coexpression=[(0, 1)], cofitness=[(0, 1)]),
+                                    _nodes()) is None
+
+
 def test_compartment_alone_never_makes_a_hole():
     """Sharing one of 27 hyperLOPIT classes is too unspecific, and tracks abundance."""
     from starplast import build_graph as B

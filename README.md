@@ -23,10 +23,13 @@ expression, seven CRISPR fitness screens, hyperLOPIT compartment, paralog number
 phosphosites, mean AlphaFold pLDDT. Two genes near each other are biologically similar. A force-directed
 layout would look similar and mean nothing.
 
-**Eight edge types, never merged.**
+**Twelve edge types, never merged.**
 
 | edge | n | source |
 |---|---|---|
+| `xlms` | 2,842 | **StarPath DSS crosslink MS** — measured physical proximity in a cell lysate |
+| `ip_ms` | 64 | replicated IP-MS of a tagged bait, against an untagged control |
+| `struct` | 11,684 | **Foldseek TM-align ≥ 0.7** over 6,900 Toxoplasma AlphaFold models |
 | `comention` | 435 | 33,924 PubMed abstracts (2 shared abstracts minimum) |
 | `comention_ft` | 7,733 | 6,667 open-access full texts, **per paragraph** (2 shared paragraphs minimum) |
 | `orthogroup` | 3,452 | OrthoMCL |
@@ -35,6 +38,14 @@ layout would look similar and mean nothing.
 | `cofitness` | 88,997 | 7 CRISPR screens, top-25 at r ≥ 0.90 |
 | `domain` | 10,399 | shared InterPro domain |
 | `structural_hole` | 255 | **derived** — see below |
+| `unwritten_interaction` | 2,673 | **derived** — measured to bind, never written about |
+
+The first three are qualitatively different from everything else: they are **measurements, not
+correlations and not text**. A crosslink says two residues were covalently joined in a living-cell lysate,
+so those proteins were within the crosslinker's reach. Structural similarity needs no orthology, so it
+reaches lineage-specific effectors that homology edges cannot see. Crucially, none of the three is
+attention-biased — they are the first edge types here that can connect a gene nobody has written about to
+one everybody has.
 
 They answer different questions and disagree with each other; merging them into one "relatedness" score
 would be the single easiest way to make this tool lie. The two co-mention types stay separate for the same
@@ -105,6 +116,32 @@ and a hypothesis generator, not evidence. The sharpest six:
 | GRA44 — CLIP | dense granule protein · CLAMP-linked invasion protein |
 | SRS51 — GRA12D | SAG-related sequence · dense granule protein |
 | TGME49_224620 — BAG1 | hypothetical protein · bradyzoite antigen |
+
+**92% of measured interactions have never been written about.** Of 2,906 protein pairs shown by
+crosslink MS or IP-MS to physically interact, **2,673 appear together in no abstract and no open-access
+paragraph** — and 147 of those join two genes that are *each* individually well studied. That is the
+`unwritten_interaction` layer, and it is a stronger claim than a structural hole: the interaction was
+observed, not predicted. It is an explicit, labelled merge of `xlms` and `ip_ms`; both stay separately
+toggleable.
+
+**How the binding happens — with the models, and with their failure rate stated.** StarPath ships four
+Chai-1 predicted complexes per interaction (12,265 CIF files on local disk). `crosslink_models.parquet`
+joins each gene pair to its crosslinked residue positions, its model files, and whether the predicted
+pose actually puts those residues within reach. Selecting a gene lists its partners, the residues, and
+the verdict.
+
+The verdict is usually negative, and the app says so:
+
+| of 2,397 scored pairs | |
+|---|---|
+| model explains **no** crosslink | 1,447 (60%) |
+| explains ≥ 1 | 950 (40%) |
+| median interface ipTM | **0.16** |
+| **both confident (ipTM ≥ 0.5) and crosslink-consistent** | **162** |
+
+So the crosslink is the measurement; the model is a guess at the pose, and only ~162 pairs have a picture
+worth trusting. Those are flagged `model usable` in the panel. Many of the failures are dense-granule
+proteins, which are largely disordered — exactly where structure prediction should be expected to fail.
 
 **Genes are resolved through an identity layer, not a symbol table.** The literature does not use one
 identifier for a gene. `starplast/identity.py` resolves all of them to one canonical ME49 accession:
