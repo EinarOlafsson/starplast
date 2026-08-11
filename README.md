@@ -1,13 +1,16 @@
 # starplast
 
-A 3D browser for the *Toxoplasma gondii* knowledge map. 8,140 genes as points in space, six kinds of
+A 3D browser for the *Toxoplasma gondii* knowledge map. 8,140 genes as points in space, seven kinds of
 relation as toggleable edges, and one panel per gene showing everything that is actually known about it —
 including when the answer is "nothing".
 
 ```bash
 pip install -e .
-python -m starplast.build_graph     # one-off, ~2 min: builds data/graph.npz
+python -m starplast.fetch_names     # one-off: ToxoDB symbols, previous IDs, strain accessions
+python -m starplast.build_graph     # one-off, ~4 min: builds data/graph.npz
 starplast
+
+pytest tests/ -q                    # 35 tests, headless, no network
 ```
 
 Needs a display (PyQt6 + OpenGL). `build_graph` needs the source datasets listed below; the built cache
@@ -20,11 +23,12 @@ expression, seven CRISPR fitness screens, hyperLOPIT compartment, paralog number
 phosphosites, mean AlphaFold pLDDT. Two genes near each other are biologically similar. A force-directed
 layout would look similar and mean nothing.
 
-**Six edge types, never merged.**
+**Seven edge types, never merged.**
 
 | edge | n | source |
 |---|---|---|
-| `comention` | 382 | 33,924 PubMed abstracts (2 shared abstracts minimum) |
+| `comention` | 435 | 33,924 PubMed abstracts (2 shared abstracts minimum) |
+| `comention_ft` | 7,733 | 6,667 open-access full texts, **per paragraph** (2 shared paragraphs minimum) |
 | `orthogroup` | 3,452 | OrthoMCL |
 | `coexpression` | 49,293 | GSE108740 stage series, top-25 neighbours at r ≥ 0.95 |
 | `compartment` | 118,712 | hyperLOPIT |
@@ -32,7 +36,10 @@ layout would look similar and mean nothing.
 | `domain` | 10,399 | shared InterPro domain |
 
 They answer different questions and disagree with each other; merging them into one "relatedness" score
-would be the single easiest way to make this tool lie.
+would be the single easiest way to make this tool lie. The two co-mention types stay separate for the same
+reason: one is drawn from every abstract in the field, the other only from papers a publisher deposited
+open access. Full-text co-mention is counted per *paragraph*, because two genes named in one paragraph
+plausibly stand in a relation while two genes named anywhere in a 10,000-word paper mostly do not.
 
 **Attention correction is on by default.** Raw co-mention edges reproduce the literature's popularity
 contest — ROP18 and GRA16 become hubs because they are studied, not because they are central. The default
@@ -40,9 +47,57 @@ view shows log2(observed / expected) given each gene's own publication count, so
 co-mention than these two genes' individual fame predicts*. Switch it off and the status bar says
 `RAW co-mention (attention-biased)`.
 
-**The most important number in the app is 601.** Only 601 of 8,140 genes are named in any of 33,924
-abstracts, by symbol or accession. 93% of the proteome has never been the subject of a sentence. Genes below
-7 abstracts get an explicit warning in the detail panel: absence of evidence there is absence of attention.
+It is what makes the full-text layer worth having. Ranked by raw count, full-text co-mention returns the
+famous pairs — ROP18/ROP5, SAG1/GRA6. Ranked by the corrected residual it returns HDAC3/MORC, MIC1/MIC4
+and AP2XII-1/AP2XI-2: actual complexes, surfaced because they co-occur far more than their individual fame
+predicts.
+
+**Two numbers matter, and conflating them is the mistake this app exists to prevent.**
+
+| | genes | of proteome |
+|---|---|---|
+| named **anywhere** in the readable literature | 2,566 | 31.5% |
+| …of those, named only **in passing** (body or caption) | 1,816 | 71% of coverage |
+| named in a **title or abstract** — the honest attention figure | **750** | **9.2%** |
+| named in a **title** — the paper is about it | 286 | 3.5% |
+| named **nowhere** | 5,574 | 68.5% |
+
+Coverage rose from 601 to 2,566 when full texts and a real identity layer were added. **Attention barely
+moved: 601 → 750.** Almost everything the full texts add is a gene sitting in a screen's hit table, named
+once and never discussed. Reporting 2,566 as "genes the field has studied" would repeat exactly the error
+the attention correction exists to prevent, so the app tiers every gene by *where* it is named — `focal`
+(title), `substantive` (abstract), `incidental` (body/caption only) — and a gene reached only through hit
+tables is labelled **"Listed, not studied"** in its panel. The tiers are read off document structure, not
+assigned as weights.
+
+Genes below 7 abstracts get an explicit warning: absence of evidence there is absence of attention. Read
+the two sources separately — abstracts cover the whole field, full texts are only the openly deposited
+subset, so full-text coverage answers a different question and cannot be quoted as if it covered
+*Toxoplasma* research generally.
+
+**Genes are resolved through an identity layer, not a symbol table.** The literature does not use one
+identifier for a gene. `starplast/identity.py` resolves all of them to one canonical ME49 accession:
+
+| form | example | genes reached |
+|---|---|---|
+| current accession | `TGME49_208830` | 1,210 |
+| previous accession | `TGME49_008830` (pre-2012, still cited) | 369 |
+| strain accession | `TGGT1_208830`, `TGVEG_208830`, mapped by numeric suffix | 1,150 |
+| symbol | `GRA16`, `GRA-16` | 1,127 |
+| Tg-prefixed alias | `TgGRA16` | 744 |
+
+Only the first row existed before. The other four are why coverage moved.
+
+The suffix mapping is verified rather than assumed: ME49/GT1 pairs sharing a suffix and an OrthoMCL
+release share an orthogroup 99.53% of the time (VEG: 99.46%). Strings claimed by two genes are withdrawn
+and recorded, never guessed — 153 of them.
+
+Matching precision is guarded, because a false match does not crash anything, it just hands a gene
+attention it never had. Digit-free symbols must appear in upper case (`HOOK`, `CLAMP`, `CLIP`, `SPARK` and
+`REMIND` are all real symbols and all real English words); tokenisation is Unicode-aware (an ASCII-only
+class carved `Sant` out of French `Santé` and handed one gene 23 abstracts); an accession's own prefix is
+not re-read as a symbol (`TGGT1_209030` is not a mention of the gene symbolled `GT1`); and *Toxoplasma*
+strain designations are blocked outright. Each of those is pinned by a test.
 
 ## Interpretation rules the UI enforces
 
@@ -52,6 +107,9 @@ abstracts, by symbol or accession. 93% of the proteome has never been the subjec
   protein features (R² = 0.45); the five in vivo screens are not (−0.11 to +0.10). The panel says so.
 - **Missing values are rendered grey, never mapped onto the colour scale.** Missingness here is
   informative — large secreted proteins are exactly the ones AlphaFold DB skips.
+- **Depth of attention is categorical, not a ramp.** `focal` / `substantive` / `incidental` are read off
+  where a paper names a gene; shading them along a gradient would imply a measured quantity. Genes named
+  nowhere stay grey with everything else that is unknown rather than zero.
 - **Draw caps are stated.** Above 20,000 drawn edges the status bar reports what was dropped.
 
 ## Controls
@@ -65,14 +123,32 @@ abstracts, by symbol or accession. 93% of the proteome has never been the subjec
 | level of detail | compartment (galaxy) → orthogroup (system) → gene (planet) |
 | edge checkboxes | per-type; edges draw for the selected gene unless "draw all" is on |
 
+## How the literature layer is put together
+
+Four small modules instead of one scan, so every figure can be re-derived without re-reading 40,000
+documents:
+
+| module | job |
+|---|---|
+| `identity.py` | every string the literature uses for a gene → one canonical accession |
+| `corpus.py` | abstracts JSONL and PMC JATS XML → one `Document` stream, sectioned, references excluded |
+| `literature.py` | → `data/mentions.parquet`, the tidy table everything else derives from |
+| `build_graph.py` | composes those into edges, node columns and the UMAP embedding |
+
+`data/mentions.parquet` is the auditable intermediate: one row per gene × document × section ×
+match kind, carrying the confidence tier. Coverage, publication counts and both co-mention layers are all
+recomputable from it.
+
 ## Data sources
 
 Built from `/mnt/firecuda2/Claude/toxoplasma_projects` (home) — see `HANDOFF.md` for the full table and the
-work-machine paths. `data/toxodb_gene_names.tsv` is committed and regenerable with
-`python -m starplast.fetch_names`.
+work-machine paths. `data/toxodb_identity.tsv` and `data/toxodb_strain_{gt1,veg}.tsv` are committed and
+regenerable with `python -m starplast.fetch_names`. The open-access full texts live on a machine-local
+disk; where that disk is absent the build falls back to abstracts only and says so.
 
 ## Status
 
 v0 + v1 complete: precomputed embedding, GL scatter, picking, evidence panel, edge toggles, attention
-correction, level-of-detail. v2 (species switching via cross-species orthology) and v3 (continuous star-map
-zoom) are deliberately deferred — see `HANDOFF.md`.
+correction, level-of-detail. v1.1 adds the identity layer, the full-text layer and a real test suite.
+v2 (species switching via cross-species orthology) and v3 (continuous star-map zoom) are deliberately
+deferred — see `HANDOFF.md`.

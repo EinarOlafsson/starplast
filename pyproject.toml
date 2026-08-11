@@ -22,6 +22,9 @@ dependencies = [
     "openpyxl>=3.1",
 ]
 
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
 [project.scripts]
 starplast = "starplast.app:main"
 

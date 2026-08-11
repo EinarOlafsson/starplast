@@ -1,34 +1,57 @@
 #!/usr/bin/env python3
-"""Fetch the ToxoDB gene-name (symbol) table -> data/toxodb_gene_names.tsv.
+"""Fetch the ToxoDB identity tables -> data/toxodb_identity.tsv and data/toxodb_strain_{gt1,veg}.tsv.
 
-Needed because the OrthoMCL product strings carry a usable symbol for only ~400 genes, while ToxoDB has
-symbols for ~2,900. Without this table the literature layer under-counts massively: matching on products
-alone found only 234 of 8,140 genes named anywhere in 33,924 abstracts.
+The literature does not cite genes by one identifier, so the identity layer needs more than symbols:
 
-Run once; the file is committed so the build works offline.
+* ``gene_name``          -- the symbol (GRA16). ToxoDB has one for ~1,600 of 8,843 ME49 genes.
+* ``gene_previous_ids``  -- pre-2012 accessions (TGME49_008830) that older papers still cite.
+* GT1 / VEG accessions   -- the strain ids papers use interchangeably with ME49; they map to ME49 by
+                            numeric suffix (verified at 99.5% orthogroup agreement, see identity.py).
+
+Run once; the outputs are committed so the build works offline.
 """
 import json
 import os
 import urllib.request
 
-OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                   "data", "toxodb_gene_names.tsv")
+OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 URL = ("https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon"
        "/reports/attributesTabular")
 
+# ToxoDB's tabular report ships display names as the header; map them to stable column names.
+RENAME = {"Gene ID": "gene_id", "Gene Name or Symbol": "gene_name",
+          "Previous ID(s)": "previous_ids", "Ortholog Group": "orthogroup",
+          "Product Description": "product"}
 
-def main(organism="Toxoplasma gondii ME49"):
+
+def fetch(organism: str, attributes: list) -> str:
     body = {"searchConfig": {"parameters": {"organism": json.dumps([organism])}},
-            "reportConfig": {"attributes": ["primary_key", "gene_name", "gene_product",
-                                            "gene_source_id"],
-                             "includeHeader": True, "attachmentType": "plain"}}
+            "reportConfig": {"attributes": attributes, "includeHeader": True,
+                             "attachmentType": "plain"}}
     req = urllib.request.Request(
         URL, data=json.dumps(body).encode(),
         headers={"Content-Type": "application/json", "User-Agent": "starplast (research)"})
-    txt = urllib.request.urlopen(req, timeout=600).read().decode("utf8", "replace")
-    with open(OUT, "w") as fh:
-        fh.write(txt)
-    print(f"wrote {OUT}  ({len(txt.splitlines()) - 1} genes)")
+    return urllib.request.urlopen(req, timeout=900).read().decode("utf8", "replace")
+
+
+def write(txt: str, path: str) -> int:
+    lines = txt.splitlines()
+    if lines:
+        lines[0] = "\t".join(RENAME.get(c.strip(), c.strip()) for c in lines[0].split("\t"))
+    with open(path, "w") as fh:
+        fh.write("\n".join(lines) + "\n")
+    print(f"wrote {path}  ({len(lines) - 1} rows)")
+    return len(lines) - 1
+
+
+def main():
+    os.makedirs(OUT, exist_ok=True)
+    write(fetch("Toxoplasma gondii ME49",
+                ["primary_key", "gene_name", "gene_previous_ids", "gene_product"]),
+          os.path.join(OUT, "toxodb_identity.tsv"))
+    for tag, org in (("gt1", "Toxoplasma gondii GT1"), ("veg", "Toxoplasma gondii VEG")):
+        write(fetch(org, ["primary_key", "gene_name"]),
+              os.path.join(OUT, f"toxodb_strain_{tag}.tsv"))
 
 
 if __name__ == "__main__":

@@ -17,21 +17,31 @@ import sys
 import numpy as np
 import pandas as pd
 
-from PyQt6 import QtCore, QtGui, QtWidgets
-import pyqtgraph as pg
-import pyqtgraph.opengl as gl
+# pyqtgraph binds to whichever Qt it finds in sys.modules first. If anything imported PySide6 earlier,
+# its half of the GL widget comes from PySide6 while ours comes from PyQt6, and the app fails to import.
+# This package depends on PyQt6, so say so rather than depending on import order.
+os.environ.setdefault("PYQTGRAPH_QT_LIB", "PyQt6")
+
+from PyQt6 import QtCore, QtGui, QtWidgets  # noqa: E402
+import pyqtgraph as pg  # noqa: E402
+import pyqtgraph.opengl as gl  # noqa: E402
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(HERE, "data")
 
 EDGE_TYPES = [
     ("comention", "co-mention (33,924 abstracts)"),
+    ("comention_ft", "co-mention (open-access full texts)"),
     ("orthogroup", "shared orthogroup"),
     ("coexpression", "co-expression (stage series)"),
     ("compartment", "shared compartment (hyperLOPIT)"),
     ("cofitness", "co-fitness (7 CRISPR screens)"),
     ("domain", "shared InterPro domain"),
 ]
+# Both co-mention types are attention-biased and both carry a corrected residual, so the attention toggle
+# governs each of them. They are kept separate because they are different populations: every abstract in
+# the field, versus only the papers a publisher deposited open access.
+COMENTION = ("comention", "comention_ft")
 FIT = ["fit_invitro_hff", "fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver",
        "fit_invivo_spleen", "fit_naive_bmdm", "fit_ifng"]
 
@@ -47,6 +57,12 @@ PALETTE = [
     (0.50, 0.50, 0.95), (0.65, 0.85, 0.35),
 ]
 GREY = (0.45, 0.45, 0.48)
+
+# Depth of attention is categorical (see literature.DEPTH_OF): named in a title / in an abstract / only in
+# a body or caption. Distinct hues rather than a ramp, because the tiers are not a measured quantity.
+DEPTH_COLOUR = {"focal": (0.98, 0.86, 0.30),          # the paper is about this gene
+                "substantive": (0.35, 0.70, 0.95),    # a stated part of the paper's claims
+                "incidental": (0.55, 0.35, 0.60)}     # mentioned in passing, or listed in a table
 
 
 def load():
@@ -157,6 +173,7 @@ class Window(QtWidgets.QMainWindow):
         L.addWidget(QtWidgets.QLabel("<b>colour by</b>"))
         self.colour_by = QtWidgets.QComboBox()
         self.colour_by.addItems(["compartment", "in vitro fitness", "publications",
+                                 "depth of attention",
                                  "structure confidence (pLDDT)", "cyst / tachyzoite expression"])
         self.colour_by.currentIndexChanged.connect(self.redraw)
         L.addWidget(self.colour_by)
@@ -230,6 +247,17 @@ class Window(QtWidgets.QMainWindow):
             for comp, col in self.colour_of.items():
                 m = (self.nodes.compartment.astype(str) == comp).to_numpy()
                 c[m, :3] = col
+        elif mode == "depth of attention":
+            # Categorical, not a scale: these tiers are read off document structure (title / abstract /
+            # body-only), so shading them along a gradient would imply a quantity that does not exist.
+            # Never-named genes stay grey with everything else that is unknown rather than absent.
+            if "attention_depth" not in self.nodes.columns:
+                c[:, :3] = GREY
+            else:
+                d = self.nodes.attention_depth.astype(str).to_numpy()
+                for tier, col in DEPTH_COLOUR.items():
+                    c[d == tier, :3] = col
+                c[d == "", :3] = GREY
         else:
             col = {"in vitro fitness": "fit_invitro_hff", "publications": "n_publications",
                    "structure confidence (pLDDT)": "mean_plddt"}.get(mode)
@@ -303,9 +331,9 @@ class Window(QtWidgets.QMainWindow):
         for k in active:
             e = self.edges[k]
             a, b = e["a"], e["b"]
-            w = e["r"] if (k == "comention" and self.attn.isChecked()) else e["w"]
+            w = e["r"] if (k in COMENTION and self.attn.isChecked()) else e["w"]
             keep = vis[a] & vis[b]
-            if k == "comention" and self.attn.isChecked():
+            if k in COMENTION and self.attn.isChecked():
                 keep &= w > 0          # corrected mode shows only more-than-expected pairs
             if self.sel is not None and not self.all_edges.isChecked():
                 keep &= (a == self.sel) | (b == self.sel)
@@ -320,7 +348,8 @@ class Window(QtWidgets.QMainWindow):
             seg = np.empty((idx.size * 2, 3), np.float32)
             seg[0::2] = self.xyz[a[idx]]
             seg[1::2] = self.xyz[b[idx]]
-            col = {"comention": (0.95, 0.85, 0.35, 0.5), "orthogroup": (0.35, 0.85, 0.55, 0.5),
+            col = {"comention": (0.95, 0.85, 0.35, 0.5), "comention_ft": (0.95, 0.62, 0.25, 0.45),
+                   "orthogroup": (0.35, 0.85, 0.55, 0.5),
                    "coexpression": (0.40, 0.65, 0.95, 0.45), "compartment": (0.75, 0.75, 0.80, 0.25),
                    "cofitness": (0.95, 0.45, 0.75, 0.5), "domain": (0.60, 0.55, 0.45, 0.3)}[k]
             it = gl.GLLinePlotItem(pos=seg, color=col, width=1.0, mode="lines", antialias=True)
@@ -383,6 +412,13 @@ class Window(QtWidgets.QMainWindow):
                 ("phosphosites", num(r.get("n_phosphosites"), "{:.0f}")),
                 ("mean pLDDT", num(r.get("mean_plddt"))),
                 ("abstracts naming it", num(r.get("n_publications"), "{:.0f}")),
+                ("open-access full texts naming it", num(r.get("n_fulltext"), "{:.0f}")
+                 + ("" if not r.get("lit_tier") else
+                    f" <i>— by {r.get('lit_tier')}</i>")),
+                ("papers with it in the title", num(r.get("n_papers_focal"), "{:.0f}")),
+                ("papers with it in the abstract", num(r.get("n_papers_substantive"), "{:.0f}")),
+                ("papers naming it only in passing",
+                 num(r.get("n_papers_incidental"), "{:.0f}")),
                 ("log2 FPKM tachyzoite", num(r.get("expr_tachy"))),
                 ("log2 FPKM tissue cyst", num(r.get("expr_cyst")))]
         tbl = "".join(f"<tr><td style='color:#888;padding-right:10px'>{k}</td>"
@@ -400,7 +436,7 @@ class Window(QtWidgets.QMainWindow):
             m = (e["a"] == i) | (e["b"] == i)
             if not m.any():
                 continue
-            w = e["r"] if (k == "comention" and self.attn.isChecked()) else e["w"]
+            w = e["r"] if (k in COMENTION and self.attn.isChecked()) else e["w"]
             part = np.where(e["a"][m] == i, e["b"][m], e["a"][m])
             ww = w[m]
             o = np.argsort(-ww)[:8]
@@ -408,9 +444,19 @@ class Window(QtWidgets.QMainWindow):
             nb.append(f"<p><b>{label}</b> — {int(m.sum())} edges<br>"
                       f"<span style='color:#aaa;font-size:11px'>{names}</span></p>")
 
-        att = ("" if r.get("n_publications", 0) > 6 else
-               "<p style='color:#c9a227'><b>Effectively uncharacterised</b> — named in ≤6 abstracts. "
-               "Absence of evidence here is absence of attention, not absence of function.</p>")
+        # Being named is not being studied. A gene reached only through a screen's hit table would
+        # otherwise read as attended-to simply because coverage counts every tier alike.
+        if r.get("attention_depth", "") == "incidental":
+            att = ("<p style='color:#c9a227'><b>Listed, not studied</b> — named in "
+                   f"{int(r.get('n_papers_incidental', 0))} paper(s), never in a title or abstract. "
+                   "Most such mentions are entries in a screen's hit table.</p>")
+        elif r.get("n_publications", 0) > 6:
+            att = ""
+        else:
+            att = ("<p style='color:#c9a227'><b>Effectively uncharacterised</b> — named in ≤6 abstracts"
+                   + (f", {int(r.get('n_fulltext', 0))} open-access full texts"
+                      if r.get("n_fulltext", 0) else "")
+                   + ". Absence of evidence here is absence of attention, not absence of function.</p>")
 
         self.detail.setHtml(f"""
         <h2 style="margin-bottom:2px">{gid}</h2>

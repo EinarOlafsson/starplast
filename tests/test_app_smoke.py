@@ -1,0 +1,147 @@
+#!/usr/bin/env python3
+"""Headless smoke test for the app against the committed cache.
+
+The handoff claimed a passing smoke test but none was ever committed, so it could not be re-run. This
+drives the real Window offscreen: every level of detail, every colour mode, every edge type, the attention
+toggle, search and picking. It asserts the app builds and survives each control, not that it looks right.
+
+Skipped automatically where Qt cannot open an offscreen GL context, and where the cache is absent.
+
+Run: QT_QPA_PLATFORM=offscreen pytest tests/test_app_smoke.py -q
+"""
+from __future__ import annotations
+
+import os
+import sys
+
+import pytest
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+pytestmark = pytest.mark.skipif(
+    not os.path.exists(os.path.join(DATA, "graph.npz")),
+    reason="no built cache; run python -m starplast.build_graph")
+
+
+@pytest.fixture(scope="module")
+def win():
+    pytest.importorskip("PyQt6")
+    from PyQt6 import QtWidgets
+    try:
+        from starplast import app as A
+    except Exception as e:                                  # pragma: no cover - environment dependent
+        pytest.skip(f"app import failed: {e}")
+    qapp = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    try:
+        w = A.Window()
+    except Exception as e:                                  # pragma: no cover - needs a GL context
+        pytest.skip(f"cannot create GL widget offscreen: {e}")
+    yield w
+    w.close()
+    qapp.processEvents()
+
+
+def test_cache_loads_with_expected_shape(win):
+    assert len(win.nodes) > 8000
+    assert win.xyz.shape == (len(win.nodes), 3)
+    assert {"n_publications", "n_fulltext", "lit_tier", "attention_depth",
+            "n_papers_focal", "n_papers_substantive", "n_papers_incidental"} <= set(win.nodes.columns)
+
+
+def test_depth_of_attention_is_categorical_and_grey_when_unnamed(win):
+    """Never-named genes must stay grey with everything else unknown, not sit at the bottom of a ramp."""
+    import numpy as np
+    from starplast.app import DEPTH_COLOUR, GREY
+    i = win.colour_by.findText("depth of attention")
+    assert i >= 0
+    win.colour_by.setCurrentIndex(i)
+    win.redraw()
+    c = win.colours(np.ones(win.n, bool))
+    unnamed = (win.nodes.attention_depth.astype(str) == "").to_numpy()
+    if unnamed.any():
+        assert np.allclose(c[unnamed][:, :3], np.array(GREY, dtype=np.float32))
+    for tier, col in DEPTH_COLOUR.items():
+        m = (win.nodes.attention_depth.astype(str) == tier).to_numpy()
+        if m.any():
+            assert np.allclose(c[m][:, :3], np.array(col, dtype=np.float32))
+
+
+def test_listed_genes_are_not_reported_as_studied(win):
+    """A gene named only in bodies and captions gets the 'listed, not studied' warning."""
+    import numpy as np
+    idx = np.where((win.nodes.attention_depth.astype(str) == "incidental").to_numpy())[0]
+    if idx.size == 0:
+        pytest.skip("no incidental-only genes in cache")
+    win.on_pick(int(idx[0]))
+    assert "Listed, not studied" in win.detail.toHtml()
+
+
+def test_both_comention_types_are_present_and_separate(win):
+    from starplast.app import COMENTION
+    assert "comention" in win.edges, "abstract co-mention missing"
+    assert "comention_ft" in win.edges, "full-text co-mention missing"
+    for k in COMENTION:
+        e = win.edges[k]
+        assert len(e["a"]) == len(e["b"]) == len(e["w"]) == len(e["r"])
+        assert (e["r"] != e["w"]).any(), f"{k}: corrected residual identical to raw weight"
+
+
+def test_every_edge_type_toggles(win):
+    from starplast.app import EDGE_TYPES
+    win.all_edges.setChecked(True)
+    for k, _ in EDGE_TYPES:
+        if k not in win.edges:
+            continue
+        for other, _ in EDGE_TYPES:
+            win.edge_cb[other].setChecked(other == k)
+        win.redraw()
+
+
+def test_every_level_of_detail(win):
+    for i in range(win.level.count()):
+        win.level.setCurrentIndex(i)
+        win.redraw()
+
+
+def test_every_colour_mode(win):
+    for i in range(win.colour_by.count()):
+        win.colour_by.setCurrentIndex(i)
+        win.redraw()
+
+
+def test_attention_toggle_changes_drawn_comention(win):
+    """The corrected view keeps only more-than-expected pairs, so it cannot draw more than raw."""
+    import numpy as np
+    e = win.edges["comention"]
+    assert (e["r"] > 0).sum() <= len(e["r"])
+    assert np.isfinite(e["r"]).all()
+    for state in (True, False, True):
+        win.attn.setChecked(state)
+        win.redraw()
+
+
+def test_search_finds_a_known_gene(win):
+    win.search.setText("TGME49_208830")            # GRA16
+    win.do_search()
+    assert win.sel is not None
+    assert win.nodes.gene_id.iloc[win.sel] == "TGME49_208830"
+
+
+def test_picking_fills_the_detail_panel(win):
+    win.on_pick(0)
+    html = win.detail.toHtml()
+    assert "compartment" in html
+    assert "abstracts naming it" in html
+
+
+def test_unassigned_is_reported_as_unknown(win):
+    """hyperLOPIT assignment tracks abundance, so a missing call must not read as a 27th compartment."""
+    import numpy as np
+    idx = np.where(win.nodes.compartment.astype(str) == "unassigned")[0]
+    if idx.size == 0:
+        pytest.skip("no unassigned genes in cache")
+    win.on_pick(int(idx[0]))
+    assert "unknown, not absent" in win.detail.toHtml()

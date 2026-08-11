@@ -17,14 +17,14 @@ Output: data/graph.npz + data/nodes.parquet
 """
 from __future__ import annotations
 
-import json
+import itertools
 import os
-import re
-import sys
 from collections import Counter, defaultdict
 
 import numpy as np
 import pandas as pd
+
+from . import corpus, identity, literature
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = os.path.dirname(HERE)                      # toxoplasma_projects
@@ -83,114 +83,94 @@ def load_nodes() -> pd.DataFrame:
 
 
 # --------------------------------------------------------------------------- literature
-GENE_RX = re.compile(
-    r"\b((?:GRA|ROP|RON|MIC|SRS|SAG|MYR|ASP|AP2[A-Z]*|CDPK|IMC|WNG|FIKK|SUB|CST|MORC|HDAC|BFD|TgIST|"
-    r"TEEGR|HCE|MAF|PPM|RASP|NSM)\d{0,3}[A-Za-z]?)\b")
+ABSTRACTS = os.path.join(BASE, ".claude", "skills", "toxoplasma-scientist", "corpus",
+                         "pubmed_toxoplasma.jsonl")
+# Open-access full texts. Machine-local: on a machine without this disk the build silently falls back to
+# abstracts only, which is why the committed cache is what the app actually ships.
+FULLTEXTS = "/mnt/wd4tb/skill_corpora/toxoplasma-scientist"
 
 
-def literature_edges(nodes: pd.DataFrame):
-    """Co-mention counts plus per-gene publication counts, from all 33,924 abstracts.
+def literature_layer(nodes: pd.DataFrame):
+    """Scan both literature sources through the identity layer; return co-mention edges and node columns.
 
-    Genes are matched two ways: by accession (TGME49_xxxxxx) and by the names that map to exactly one gene
-    in the product annotation. Names mapping to several genes are discarded rather than guessed.
+    This replaces an earlier one-pass scan that matched only current ME49 accessions and ToxoDB symbols.
+    That version could not see the old TGME49_0xxxxx accessions, the GT1/VEG accessions papers use
+    interchangeably, or the Tg- prefixed symbol forms, and it wrote no intermediate anyone could audit.
+    See identity.py, corpus.py and literature.py for the three layers this composes.
+
+    Abstracts and full texts stay separate all the way through: they are different populations (all of
+    PubMed versus whichever papers a publisher deposited open access) and support different claims.
     """
-    path = os.path.join(BASE, ".claude", "skills", "toxoplasma-scientist", "corpus",
-                        "pubmed_toxoplasma.jsonl")
-    if not os.path.exists(path):
-        log("abstracts not found; co-mention edges will be empty")
-        return Counter(), Counter()
+    ix = identity.build_index(nodes.gene_id, os.path.join(OUT, "toxodb_identity.tsv"), log=log)
+    identity.add_strain_accessions(
+        ix, {"GT1": os.path.join(OUT, "toxodb_strain_gt1.tsv"),
+             "VEG": os.path.join(OUT, "toxodb_strain_veg.tsv")}, log=log)
 
-    name2gene, multi = {}, set()
-
-    def add(sym, gid):
-        k = sym.upper()
-        if k in name2gene and name2gene[k] != gid:
-            multi.add(k)
-        name2gene[k] = gid
-
-    # ToxoDB symbols are the main source: products carry a usable symbol for only ~400 genes, and
-    # matching on products alone found 234 of 8,140 genes named anywhere in the corpus.
-    names_tsv = os.path.join(OUT, "toxodb_gene_names.tsv")
-    if os.path.exists(names_tsv):
-        # keep_default_na=False, or ToxoDB's literal "N/A" symbol is read as a missing value
-        t = pd.read_csv(names_tsv, sep="\t", keep_default_na=False, dtype=str)
-        t.columns = ["gene_id", "gene_name", "product", "src"][:len(t.columns)]
-        for gid, sym in zip(t.gene_id, t.gene_name):
-            sym = (sym or "").strip()
-            if len(sym) < 3 or sym in ("N/A", "n/a"):
-                continue
-            # a symbol needs a digit or four capitals to be safely matchable in free text:
-            # "AAP" would otherwise match prose, "GRA16" and "MORC" would not
-            if not (any(c.isdigit() for c in sym) or (sym.isupper() and len(sym) >= 4)):
-                continue
-            add(sym, gid)
-        log(f"{len(name2gene)} symbols from ToxoDB")
+    docs = list(corpus.iter_abstracts(ABSTRACTS))
+    if not docs:
+        log(f"abstracts not found at {ABSTRACTS}; literature layer will be empty")
+    n_ft = corpus.count_fulltexts(FULLTEXTS)
+    if n_ft:
+        log(f"{n_ft:,} open-access full texts on disk")
+        docs = itertools.chain(docs, corpus.iter_fulltexts(FULLTEXTS))
     else:
-        log("data/toxodb_gene_names.tsv absent -- run python -m starplast.fetch_names; "
-            "literature layer will badly under-count")
+        log(f"no full texts at {FULLTEXTS} (machine-local); scanning abstracts only")
 
-    for gid, prod in zip(nodes.gene_id, nodes["product"].astype(str)):
-        for s in set(GENE_RX.findall(prod)):
-            add(s, gid)
-    for k in multi:
-        name2gene.pop(k, None)
-    known = set(nodes.gene_id)
-    name2gene = {k: v for k, v in name2gene.items() if v in known}
-    acc_rx = re.compile(r"\bTGME49_(\d{5,6}[A-Za-z]?)\b")
-    sym_rx = re.compile(r"\b(" + "|".join(sorted((re.escape(k) for k in name2gene),
-                                                 key=len, reverse=True)) + r")\b", re.I)
-    log(f"{len(name2gene)} gene symbols resolve to exactly one gene "
-        f"({len(multi)} ambiguous symbols dropped rather than guessed)")
+    mentions, co, meta = literature.scan(docs, ix, log=log)
+    if mentions.empty:
+        nodes["n_publications"] = 0
+        nodes["n_fulltext"] = 0
+        nodes["lit_tier"] = ""
+        nodes["attention_depth"] = ""
+        for d in literature.DEPTH_ORDER:
+            nodes[f"n_papers_{d}"] = 0
+        return {}
 
-    pubs, co = Counter(), Counter()
-    n_abs = 0
-    for line in open(path):
-        try:
-            r = json.loads(line)
-        except Exception:
+    # The auditable intermediate: every downstream literature figure can be recomputed from this file
+    # without re-scanning 40,000 documents.
+    mentions.to_parquet(os.path.join(OUT, "mentions.parquet"), index=False)
+    log("coverage by source and confidence tier:\n" +
+        literature.coverage(mentions).to_string(index=False))
+
+    idx = {g: i for i, g in enumerate(nodes.gene_id)}
+    edges = {}
+    for src, label in (("abstract", "comention"), ("fulltext", "comention_ft")):
+        pairs = literature.comention_edges(co.get(src, Counter()), meta, src)
+        if not pairs:
             continue
-        n_abs += 1
-        txt = (r.get("title") or "") + " " + (r.get("abstract") or "")
-        hits = {f"TGME49_{m.group(1)}" for m in acc_rx.finditer(txt)}
-        hits |= {name2gene[m.group(1).upper()] for m in sym_rx.finditer(txt)}
-        hits &= known
-        if not hits:
-            continue
-        for g in hits:
-            pubs[g] += 1
-        hs = sorted(hits)
-        # abstracts naming very many genes are usually lists or screens: they inflate co-mention
-        # without evidencing a relation, so they are excluded
-        if len(hs) > 12:
-            continue
-        for i in range(len(hs)):
-            for j in range(i + 1, len(hs)):
-                co[(hs[i], hs[j])] += 1
-    log(f"{n_abs:,} abstracts scanned; {len(pubs)} genes mentioned; {len(co):,} co-mention pairs")
-    return co, pubs
+        a = np.array([idx[g1] for g1, _, _, _ in pairs])
+        b = np.array([idx[g2] for _, g2, _, _ in pairs])
+        w = np.array([x for _, _, x, _ in pairs])
+        r = np.array([x for _, _, _, x in pairs])
+        edges[label] = (a, b, w, r)
+        log(f"{label}: {len(a):,} edges (raw + attention-corrected residual)")
+
+    abstracts = literature.publication_counts(mentions, "abstract")
+    fulltext = literature.publication_counts(mentions, "fulltext")
+    nodes["n_publications"] = nodes.gene_id.map(abstracts).fillna(0).astype(int)
+    nodes["n_fulltext"] = nodes.gene_id.map(fulltext).fillna(0).astype(int)
+    # Best evidence available for each gene, so the app can say what a mention actually rests on.
+    best = (mentions.assign(rank=mentions.tier.map({"accession": 0, "symbol": 1}))
+            .sort_values("rank").drop_duplicates("gene_id").set_index("gene_id").tier)
+    nodes["lit_tier"] = nodes.gene_id.map(best).fillna("")
+
+    # Depth of attention: being named is not being studied (see literature.DEPTH_OF).
+    depth = literature.attention_depth(mentions)
+    for c in depth.columns:
+        nodes[c] = nodes.gene_id.map(depth[c]).fillna(0 if c.startswith("n_") else "")
+        if c.startswith("n_"):
+            nodes[c] = nodes[c].astype(int)
+    counts = nodes.attention_depth.value_counts()
+    log("depth of attention: " + ", ".join(
+        f"{counts.get(d, 0):,} {d}" for d in literature.DEPTH_ORDER) +
+        f", {int((nodes.attention_depth == '').sum()):,} never named")
+    return edges
 
 
 # --------------------------------------------------------------------------- edges
 def build_edges(nodes: pd.DataFrame):
     idx = {g: i for i, g in enumerate(nodes.gene_id)}
-    edges = {}
-
-    co, pubs = literature_edges(nodes)
-    if co:
-        tot = sum(pubs.values()) or 1
-        a, b, raw, resid = [], [], [], []
-        for (g1, g2), c in co.items():
-            if c < 2:                    # a single shared abstract is not a relation
-                continue
-            # attention correction: expected co-mention if the two genes were mentioned independently
-            exp = pubs[g1] * pubs[g2] / tot
-            a.append(idx[g1]); b.append(idx[g2])
-            raw.append(float(c)); resid.append(float(np.log2((c + 0.5) / (exp + 0.5))))
-        edges["comention"] = (np.array(a), np.array(b), np.array(raw), np.array(resid))
-        log(f"comention: {len(a):,} edges (raw + attention-corrected residual)")
-        nodes["n_publications"] = nodes.gene_id.map(pubs).fillna(0).astype(int)
-    else:
-        nodes["n_publications"] = 0
+    edges = dict(literature_layer(nodes))
 
     def pair_from_groups(series, label, cap=400):
         """Edges within shared-category groups; groups larger than `cap` are skipped as uninformative."""
@@ -292,7 +272,9 @@ def main():
     edges = build_edges(nodes)
     xyz = embed(nodes)
 
-    keep = ["gene_id", "product", "compartment", "orthogroup", "n_publications", "has_domain",
+    keep = ["gene_id", "product", "compartment", "orthogroup", "n_publications", "n_fulltext",
+            "lit_tier", "attention_depth", "n_papers_focal", "n_papers_substantive",
+            "n_papers_incidental", "has_domain",
             "lineage_specific", "paralog_number", "mean_plddt", "n_interpro", "n_phosphosites",
             "expr_tachy", "expr_cyst", "expr_max"] + FIT
     keep = [c for c in keep if c in nodes.columns]
