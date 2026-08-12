@@ -63,3 +63,29 @@ def test_the_api_reference_builds(tmp_path):
     assert r.returncode == 0, r.stderr.decode()[-2000:]
     produced = os.listdir(os.path.join(tmp_path, "starplast"))
     assert len(produced) > 20, produced
+
+
+def test_every_packaged_skill_has_frontmatter_and_substance():
+    """A skill is worth a folder when the knowledge is the expensive part. One without a description
+    cannot be discovered, and one that only restates what the code does is not a skill."""
+    import re
+    root = os.path.join(ROOT, "skills")
+    folders = [f for f in os.listdir(root) if os.path.isdir(os.path.join(root, f))]
+    assert folders, "no skills packaged"
+    for f in folders:
+        md = os.path.join(root, f, "SKILL.md")
+        assert os.path.exists(md), f"{f} has no SKILL.md"
+        text = open(md, encoding="utf8").read()
+        assert text.startswith("---"), f"{f} has no frontmatter"
+        assert re.search(r"^name:\s*\S", text, re.M), f"{f} declares no name"
+        assert re.search(r"^description:\s*\S", text, re.M), f"{f} declares no description"
+        assert len(text.split()) > 200, f"{f} is too thin to be worth a folder"
+
+
+def test_the_skills_readme_lists_every_packaged_skill():
+    """The index is how anyone finds them; a skill absent from it is a folder nobody opens."""
+    root = os.path.join(ROOT, "skills")
+    readme = open(os.path.join(root, "README.md"), encoding="utf8").read()
+    for f in os.listdir(root):
+        if os.path.isdir(os.path.join(root, f)):
+            assert f in readme, f"{f} is packaged but not listed in skills/README.md"

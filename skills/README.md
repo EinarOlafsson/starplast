@@ -10,6 +10,7 @@ session automatically. The copies here travel with the repository.
 | skill | for |
 |---|---|
 | `parse-supplements` | pulling text and gene identifiers out of published supplementary files — PDF, DOCX, XLS/XLSX — when the hit list is not in a machine-readable table |
+| `held-out-recovery` | scoring whether a structure recovered something real: circularity guards that survive renamed and derived columns, why absence classes inflate every score, and the negative control that catches what the guards miss |
 
 ## What makes something worth saving here
 
@@ -34,9 +35,6 @@ Techniques used here that would generalise, if a second project needs them:
   accession was current when written; strain accessions may outnumber the
   reference ones; ambiguity must be recorded rather than guessed
   (`starplast/identity.py`)
-- **the circularity guard for cluster enrichment** — naming the columns an
-  embedding used is not enough, because a renamed or derived column defeats it;
-  association with the inputs has to be measured (`starplast/clustering.py`)
 - **normalising by quantification type** — the range decides, not the filename;
   the same series can be raw FPKM in one file and already-logged in another
   (`starplast/sources.py`)
