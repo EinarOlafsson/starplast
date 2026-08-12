@@ -134,13 +134,34 @@ the host-transcription screen is 252. There is **no deep proteome in this tree**
 two Pru IP experiments totalling 748 proteins, which is enrichment, not coverage. Do not present it as
 proteome-wide.
 
-**3f. The search is the point; the circularity guard is what makes it valid.** (Added v1.4.)
+**3f. The search is the point; the circularity guard is what makes it valid.** (Added v1.4;
+substantially revised 2026-08-12 — read this whole entry before quoting any recovery number.)
 `search.py` walks dataset combinations x hyperparameters and scores each by recovery of a label
 *excluded from the embedding*. With hyperLOPIT leaked in, the battery reports it separating clusters at
-V = 0.96. Held out properly, the best of 164 runs reaches **mean F1 0.362** -- apical secretory best at
-0.59, nucleus 0.53, mitochondrion 0.29. Localisation is only weakly predictable from expression and
-fitness, and that smaller claim is the true one. Precision and recall are never blended: a cluster that
-is 100% apicoplast holding 5% of apicoplast proteins is useless for inference.
+V = 0.96. Held out, the number is far smaller — and it took a negative control to find out how much
+smaller.
+
+**The negative control failed, and it reinterpreted every other number.** Scoring `attention_depth` —
+how much a gene has been *studied* — gave mean F1 0.654, above both measured targets. The per-label
+table says why: essentially all of it came from one class, the never-named genes, at F1 0.77 over
+1,439 of them, while the real attention tiers scored 0.14–0.35. The map was not ranking attention. It
+was separating genes that have been **measured** from genes that have not, which is a property of
+missingness — a gene absent from most assays is absent from most of the feature matrix.
+
+`compartment` was carried by the same artefact: its best-recovered label was `unassigned` at F1 0.39,
+and since hyperLOPIT assignment tracks abundance, `unassigned` is largely "too scarce to call". The
+honest number for localisation is **0.207**, not 0.484 and not 0.362; real compartments sit at
+0.21–0.35.
+
+So `score_recovery` now excludes labels meaning "not measured" — unassigned, unknown, empty, nan.
+**Any label with an absence class will otherwise be recovered for the wrong reason.**
+
+`cellcycle_phase` has no absence class, and it is the one target with a clean signal: mean F1 0.489
+with every label a real phase (C 0.54, S 0.53, M 0.37, G1b 0.25). Which reverses the assumption the
+project started from — location was the target that had data; cell cycle is the one the map organises.
+
+Precision and recall are never blended: a cluster that is 100% apicoplast holding 5% of apicoplast
+proteins is useless for inference.
 
 **Every run stores its full recipe, seed and scores.** A hit nobody can rebuild is not a result.
 

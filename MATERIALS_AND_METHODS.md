@@ -161,13 +161,61 @@ lineage specificity), z-scored following median imputation, concatenated with 27
 scaled by 0.5. Points are rendered with translucent blending and depth testing, and edge opacity scales
 with edge weight.
 
+## Structure search and held-out label recovery
+
+Positions in the map are an embedding of measured features; whether that embedding organises anything
+biological is a separate question, and it is answered by searching for structures that recover a label
+the embedding was never given.
+
+For a target label, every node-table column that substantially restates it is excluded from the feature
+matrix before embedding. Exclusion is by measurement rather than by name: association between each
+column and the target is computed (Cramér's V for categorical pairs, Pearson correlation for continuous
+pairs, and the correlation ratio for mixed pairs, all on 0–1 so one threshold applies), and any column
+at or above 0.8 is removed along with the target itself. Naming the columns is not sufficient — in an
+earlier version `compartment` fed an embedding and its exact twin `lopit_map` together with its
+derivations `lopit_unified` and `compartment_best` were duly reported as the top held-out discoveries at
+V = 0.96.
+
+Measured association is necessary but not sufficient. A label computed as a function of several columns
+is a *joint* function of them: `stage_enriched_derived` is the argmax of three expression columns and
+associates with each individually at only 0.56–0.66, below any workable threshold, while being fully
+determined by the three together. Derived columns therefore additionally declare their sources in the
+dataset registry, and a declared source is excluded together with the rest of its feature block.
+
+Each combination of dataset blocks, missing-value policy, scaling and UMAP and HDBSCAN hyperparameters
+is scored by how well the resulting clusters recover the held-out label. For each label the single best
+cluster is taken, and precision and recall are reported separately and never blended, because a cluster
+that is purely apicoplast while holding 5% of apicoplast proteins supports no inference. The summary
+statistic is the label-size-weighted mean F1, so a structure that isolates one small class does not
+outrank one that organises the proteome. Every run records its full recipe, seed, sample and the exact
+set of columns excluded, so a result can be re-derived rather than trusted.
+
+**Labels meaning "not measured" are excluded from scoring.** This is not a detail. Scored with them
+included, localisation reached mean F1 0.484 and its single best-recovered label was `unassigned`
+(F1 0.39); excluded, the same run scores 0.207, with real compartments between 0.21 and 0.35. Because
+hyperLOPIT assignment tracks protein abundance, `unassigned` is largely "too scarce to call", so a
+structure separating it is separating measured genes from unmeasured ones.
+
+A negative control makes the point unarguable. Scoring depth of literature attention — how much a gene
+has been studied — gives mean F1 0.654, higher than either measured target, and essentially all of it
+comes from the never-named class at F1 0.77 over 1,439 genes, while the genuine attention tiers score
+0.14–0.35. The embedding encodes which genes have been measured, because a gene absent from most assays
+is absent from most of the feature matrix. Any target carrying an absence class inherits that signal.
+
+Under the corrected rule, cell-cycle phase is the target with a clean result: it has no absence class,
+and every one of its labels is a real phase. A positive control behaves as required, with the derived
+stage label — a deterministic function of expression columns the embedding contains — recovered well
+above the measured targets.
+
 ## Limitations
 
 Several limitations follow from the above and should be read alongside any use of the map.
 
 Missing values are imputed to the column median before embedding, so the pattern of *which genes were
 measured* is partially encoded in node position: genes lacking fitness data lie 0.38 map-radii from those
-possessing it (mean pLDDT 0.21; phosphosite count 0.22). Since phosphosite counts are missing for 85.6% of
+possessing it (mean pLDDT 0.21; phosphosite count 0.22). The structure search quantifies the consequence:
+a clustering recovers "named in no paper at all" at F1 0.77, which is higher than it recovers any
+biological label, so this is the dominant organising signal in the map rather than a marginal one. Since phosphosite counts are missing for 85.6% of
 genes, that variable functions largely as an indicator of inclusion in a phosphoproteomics experiment.
 Relatedly, the hyperLOPIT block contributes only 1.1% of the feature matrix's variance and therefore has
 little influence on position despite being included. UMAP preserves local neighbourhoods rather than global
