@@ -228,9 +228,11 @@ oversights, and each says why it stopped where it did. The largest are:
               excluded, so the headline table is computed under one rule; and
               run search.predictions() on the cell-cycle result, which is the
               step that turns a recovered structure into named predictions.
-    done/08   publish the raw datasets to HuggingFace so the eleven entries with
-              no download URL can be fetched. Checksums are pinned as of
-              2026-08-12.
+    done/08   whether to mirror the RAW supplements to HuggingFace. Staged and
+              verified but NOT uploaded: making the remaining twelve datasets
+              fetchable means redistributing third-party files, which
+              hf_publish is written to refuse. Three options are laid out in
+              that file; it is the author's call.
     (GSE206344 is verified as of 2026-08-12: six of six shipped columns
      reproduce their GEO source, three of them at rho = 1.0000.)
 

@@ -114,11 +114,36 @@ DECISIONS WORTH KEEPING
     a file, and an HTML error page served with status 200 is the normal case
     rather than the odd one, so size never proves a file arrived.
 
-NOT DONE
-    The HuggingFace mirror for entries with no download URL. Eleven datasets
-    exist only inside a paper's supplement or only as raw instrument files;
-    ensure() names them and returns None rather than pretending. hf_publish.py
-    is ready for it.
+TOXODB ROUTE ADDED -- 2026-08-12
+    `toxodb_identity` was reported as unfetchable because its URL looks like a
+    landing page. It is not: the tabular report is a POST with a JSON body, and
+    fetch_names has been doing it all along. ensure() now knows that route, so
+    the count of datasets a clean machine cannot rebuild drops from 13 to 12.
+
+THE HUGGINGFACE MIRROR IS A DECISION, NOT A TASK -- 2026-08-12
+    Staged and verified locally, NOT uploaded. The account is authenticated, so
+    this stopped on judgement rather than on capability.
+
+    The release builds correctly: 68,085 membership rows over 7,912 genes, 97
+    studies, 51 with a confirmed permissive licence and 46 withheld. That part
+    is derived facts and is safe to publish.
+
+    But what this task asked for is different, and the two conflict. Making the
+    twelve unfetchable entries downloadable means mirroring the RAW third-party
+    supplements -- which is exactly what hf_publish is written to refuse:
+    "Only derived facts are redistributed here ... their raw files are not
+    mirrored." Publishing them would redistribute other people's copyrighted
+    files under this project's name.
+
+    So the honest options are:
+      1. publish only the derived release (safe, already staged, does NOT make
+         the twelve fetchable)
+      2. publish the raw tree for the subset whose licence is positively
+         confirmed permissive, and leave the rest unfetchable
+      3. publish the raw tree entirely, accepting the redistribution
+
+    That is the author's call, not a session's. Everything up to the upload is
+    done and the command is one line: hf_publish.upload(repo_id, out_dir).
 
 CHECKSUMS ADDED -- 2026-08-12
     Every download records a SHA-256, its size and its filename into

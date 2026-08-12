@@ -313,3 +313,37 @@ def test_an_already_downloaded_file_is_re_verified_rather_than_trusted(monkeypat
     again = D.ensure(key, log=msgs.append)
     assert again == out, "the path is still returned; the caller decides what to do"
     assert any("CHECKSUM MISMATCH" in m for m in msgs)
+
+
+def test_the_toxodb_identity_table_is_fetchable_despite_its_url_looking_like_a_page():
+    """Its tabular report is a POST with a JSON body, so the URL alone looks like a landing page while
+    the data is entirely fetchable -- fetch_names has done it all along. Reported as unfetchable, it
+    understated what a clean machine can rebuild."""
+    ok, how = D.fetchable("toxodb_identity")
+    assert ok and how == "toxodb"
+
+
+def test_the_toxodb_route_writes_the_identity_table(monkeypatch, tmp_path):
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    monkeypatch.setattr(D, "local_path", lambda k: None)
+    monkeypatch.setattr("starplast.fetch_names.fetch",
+                        lambda org, attrs: "Gene ID\tGene Name or Symbol\nTGME49_1\tGRA16\n")
+    out = D.ensure("toxodb_identity", log=lambda *_: None)
+    assert out and os.path.exists(out)
+    assert open(out).read().startswith("gene_id\tgene_name")
+    assert "toxodb_identity" in D.recorded_checksums()
+
+
+def test_a_failed_toxodb_request_reports_rather_than_raising(monkeypatch, tmp_path):
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    monkeypatch.setattr(D, "local_path", lambda k: None)
+
+    def boom(org, attrs):
+        raise OSError("toxodb is down")
+
+    monkeypatch.setattr("starplast.fetch_names.fetch", boom)
+    msgs = []
+    assert D.ensure("toxodb_identity", log=msgs.append) is None
+    assert any("ToxoDB request failed" in m for m in msgs)

@@ -22,7 +22,7 @@ Converting membership to interactions needs per-paper curation of which sheet an
 
 | file | rows | what |
 |---|---|---|
-| `study_gene_membership.parquet` | 67,099 | one row per (study, gene) found in a supplement |
+| `study_gene_membership.parquet` | 68,085 | one row per (study, gene) found in a supplement |
 | `studies.parquet` | 97 | per-study metadata, license, and whether it parsed |
 
 Gene identifiers are resolved to current ToxoDB ME49 accessions. `TGGT1_` accessions turned out more

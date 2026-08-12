@@ -319,6 +319,11 @@ def fetchable(key: str) -> tuple:
     d = get(key)
     if not d.url:
         return False, "no download URL recorded"
+    if d.url.startswith(TOXODB):
+        # ToxoDB's tabular report is a POST with a JSON body, so the URL alone looks like a landing
+        # page while the data is entirely fetchable -- fetch_names has done it all along. Reporting it
+        # as unfetchable understated what a clean machine can rebuild by one dataset.
+        return True, "toxodb"
     if d.accession and d.accession.startswith("GSE"):
         return True, "geo"                       # the FTP supplementary listing, not the landing page
     if any(h in d.url for h in _PAGE_HOSTS):
@@ -352,6 +357,19 @@ def ensure(key: str, log=print) -> str | None:
     if how == "geo":
         got = sources.geo_supplementary(d.accession, dest, log=log)
         return got[0] if got else None
+
+    if how == "toxodb":
+        from . import fetch_names
+        out = os.path.join(dest, os.path.basename(d.path or f"{key}.tsv"))
+        try:
+            fetch_names.write(fetch_names.fetch("Toxoplasma gondii ME49",
+                                                ["primary_key", "gene_name", "gene_previous_ids",
+                                                 "gene_product"]), out)
+        except Exception as e:                    # noqa: BLE001 -- any transport failure is the same
+            log(f"{key}: ToxoDB request failed ({e})")
+            return None
+        record_checksum(key, out)
+        return out
 
     name = d.url.rsplit("/", 1)[-1].split("?")[0] or f"{key}.dat"
     out = os.path.join(dest, name)
