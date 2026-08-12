@@ -30,7 +30,15 @@ from . import theme as TH  # noqa: E402
 import pyqtgraph as pg  # noqa: E402
 import pyqtgraph.opengl as gl  # noqa: E402
 
-from . import paths
+from . import lod  # noqa: E402
+from . import paths  # noqa: E402
+from .chat import ChatPanel  # noqa: E402
+from .console import ConsolePanel  # noqa: E402
+from .jobs import FAILED, JobRunner  # noqa: E402
+# The same absence labels the held-out search excludes. Shared rather than restated, so "unassigned"
+# cannot come to mean one thing in the scoring and another in the browser.
+from .search import ABSENCE_LABELS as ABSENCE  # noqa: E402
+
 # Resolved rather than assumed. The cache used to be located as "the directory above the package",
 # which is true in a source checkout and false in an installed wheel.
 DATA = paths.data_dir()
@@ -55,6 +63,89 @@ EDGE_TYPES = [
 COMENTION = ("comention", "comention_ft")
 FIT = ["fit_invitro_hff", "fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver",
        "fit_invivo_spleen", "fit_naive_bmdm", "fit_ifng"]
+
+EDGE_CAP = 20000        # per type, on drawing only. Stated in the tooltip rather than applied silently.
+
+COLOUR_MODES = ["compartment", "compartment (incl. transferred)", "in vitro fitness",
+                "publications", "depth of attention", "structure confidence (pLDDT)",
+                "cyst / tachyzoite expression"]
+
+# None means "follow the point style". The rest are absolute pixel sizes.
+POINT_SIZES = [("Automatic", None), ("Tiny (2 px)", 2.0), ("Small (4 px)", 4.0),
+               ("Medium (7 px)", 7.0), ("Large (11 px)", 11.0), ("Huge (16 px)", 16.0)]
+
+EDGE_EXPLANATION = (
+    "They are kept as separate layers rather than added together into one 'interaction' edge.\n\n"
+    "The twelve types are not twelve measurements of the same thing. A crosslink-MS edge is a "
+    "measured physical contact. A co-mention edge is two genes appearing in one abstract, which "
+    "happens to popular genes far more than to related ones. A co-expression edge is a correlation "
+    "across a stage series.\n\n"
+    "Combining them would let the weakest inference borrow the credibility of the strongest "
+    "measurement: a merged score of 0.8 cannot tell you whether two proteins were measured touching "
+    "or merely mentioned together, and there is no honest weighting that recovers the difference "
+    "afterwards. So they are drawn in separate colours and toggled independently, and the answer to "
+    "'are these two related' is 'by which evidence'.")
+
+MAP_EXPLANATION = (
+    "Position is similarity in expression, fitness screens, protein features and literature "
+    "co-mention, reduced to three dimensions by UMAP. That is all it is.\n\n"
+    "Held-out testing on the full proteome found that no target is reliably recovered: cell cycle "
+    "recovers 0 of 5 phases and localisation 1 of 24 compartments. Localisation scores below the "
+    "negative control — the map reflects how much a gene has been studied better than it reflects "
+    "where the protein is.\n\n"
+    "So proximity here is a hypothesis to check, never evidence on its own. No predictions are "
+    "issued from it. Grey means unknown; it never means zero and never means a category.")
+
+# How many distinct values a column may have and still be offered as a filter category. Above this it
+# is an identifier rather than a class -- orthogroup has 7,331 values, and a list that long is not a
+# filter, it is a scrolling exercise.
+MAX_CATEGORY_VALUES = 60
+# Columns that are categorical by dtype but meaningless as a filter: provenance flags and internals.
+CATEGORY_DENYLIST = {"gene_id", "product", "symbol", "orthogroup"}
+
+
+def as_text(s):
+    """A plain string Series with missing values as "".
+
+    `.astype(str)` is not enough. Under pandas 3 a string column has dtype `str` and keeps NA through
+    the cast, so the result mixes `str` with `nan`: sorting it raises TypeError, and the NaNs compare
+    unequal to everything including themselves. Under pandas 2 the same cast produced the literal
+    "nan". Neither is what the caller wants, so missing becomes "", which ABSENCE already treats as
+    absence -- the same convention the held-out search uses.
+    """
+    return s.astype("object").where(s.notna(), "").astype(str)
+
+
+def category_columns(nodes) -> list[str]:
+    """Every column that can serve as a filter class, best first.
+
+    The compartment field used to be the only one, hardcoded, which meant the map could be filtered by
+    the single worst-recovered property in it and by nothing else. Any column with a small number of
+    repeated values is a legitimate way to slice the proteome, so the panel offers all of them and
+    lets the user decide which question they are asking.
+    """
+    from pandas.api import types as pdt
+    out = []
+    for c in nodes.columns:
+        if c in CATEGORY_DENYLIST:
+            continue
+        s = nodes[c]
+        # Asked as "is it NOT a quantity", not as "is the dtype object". pandas 3 gives string columns
+        # dtype `str` where pandas 2 gave `object`, so testing for object found nothing but the one
+        # boolean column -- every filter category silently disappeared in a newer pandas while every
+        # test went on passing against the older one.
+        if pdt.is_numeric_dtype(s) and not pdt.is_bool_dtype(s):
+            continue
+        if pdt.is_datetime64_any_dtype(s) or pdt.is_timedelta64_dtype(s):
+            continue
+        n = s.nunique(dropna=True)
+        if 2 <= n <= MAX_CATEGORY_VALUES:
+            out.append(c)
+    # compartment first because it is the historical default and what most users arrive looking for,
+    # then the other measured classes, then everything else alphabetically.
+    front = [c for c in ("compartment", "compartment_best", "cellcycle_phase",
+                         "stage_enriched_derived", "lit_tier", "attention_depth") if c in out]
+    return front + sorted(c for c in out if c not in front)
 
 # Qualitative palette; "unassigned" is deliberately grey, because a missing hyperLOPIT call means
 # unknown (assignment tracks abundance) and must not read as a 27th compartment.
@@ -254,12 +345,29 @@ class Window(QtWidgets.QMainWindow):
         self.setWindowTitle("starplast — Toxoplasma knowledge map")
         self.resize(1580, 950)
 
-        comps = sorted(self.nodes.compartment.astype(str).unique())
-        self.comps = [c for c in comps if c != "unassigned"] + \
-                     (["unassigned"] if "unassigned" in comps else [])
+        self.categories = category_columns(self.nodes)
+        self.category = "compartment" if "compartment" in self.categories else self.categories[0]
+        comps = sorted(as_text(self.nodes[self.category]).unique())
+        absent = {str(x).lower() for x in ABSENCE}
+        self.comps = ([c for c in comps if c.lower() not in absent]
+                      + [c for c in comps if c.lower() in absent])
         self.colour_of = dict(zip(self.comps,
                                   TH.categorical_colours(len(self.comps), self.theme)))
-        self.colour_of["unassigned"] = GREY
+        for c in self.comps:
+            if c.lower() in absent:
+                self.colour_of[c] = GREY
+
+        # Level of detail, colouring and edge state now live in the menus, so they are plain
+        # attributes with menu actions over them rather than widgets read out of a side panel.
+        self.level_idx = 2                    # gene tier: the map as it actually is
+        self.colour_mode = "compartment"
+        self.point_size = None                # None means "whatever the point style says"
+        self.edge_on = {k: (k in ("comention", "cofitness") and k in self.edges)
+                        for k, _ in EDGE_TYPES}
+        self.attn_on = True                   # a correctness default, not a preference
+        self.all_edges_on = False
+        self._galaxies = None                 # computed lazily; the grid pass is not free
+        self._spin_home = None                # where spin started, so it can be put back
 
         self.view = Map3D(self.xyz)
         self.view.picked.connect(self.on_pick)
@@ -277,10 +385,18 @@ class Window(QtWidgets.QMainWindow):
         self.edge_items = []
 
         self.setCentralWidget(self.view)
+        self.jobs = JobRunner(self)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self._left())
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self._right())
         self._analysis()
+        self._tool_docks()
         self.status = self.statusBar()
+        self._progress()
+        self._menus()
+        # Right-click belongs on the thing being configured. The spin button used to be a permanent
+        # control the size of a paragraph for something toggled once a session.
+        self.view.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.view.customContextMenuRequested.connect(self._context_menu)
         self.apply_theme(self.theme)
         self.redraw()
 
@@ -350,9 +466,183 @@ class Window(QtWidgets.QMainWindow):
         full[rows] = coords
         self.xyz = full
         self.view.xyz = full
+        # The galaxy tier is derived from the coordinates, so a new embedding invalidates it. Left
+        # cached, the coarse tier would go on describing the map that was replaced.
+        self._galaxies = None
         self.scatter.setData(pos=self.xyz)
         self.redraw()
         self.statusBar().showMessage(f"showing a rebuilt map over {int(np.sum(rows)):,} genes")
+
+    # ------------------------------------------------------------------ menus
+    def _menus(self):
+        """Every setting, in the menu bar. The panel keeps only what is used continuously."""
+        mb = self.menuBar()
+
+        # ---- File
+        f = mb.addMenu("&File")
+        a = f.addAction("Export image…")
+        a.setShortcut("Ctrl+E")
+        a.triggered.connect(self.export_image)
+        f.addAction("Export visible genes (CSV)…").triggered.connect(self.export_visible)
+        f.addAction("Export relationships (CSV)…").triggered.connect(self.export_relationships)
+        f.addAction("Export graph (GraphML)…").triggered.connect(self.export_graphml)
+        f.addSeparator()
+        q = f.addAction("Quit")
+        q.setShortcut("Ctrl+Q")
+        q.triggered.connect(self.close)
+
+        # ---- View
+        v = mb.addMenu("&View")
+        lvl = v.addMenu("Level of detail")
+        lvl.setToolTipsVisible(True)
+        self.level_group = QtGui.QActionGroup(self)
+        for i, (name, tip) in enumerate([
+                ("Galaxy — spatial structures", "Coarse structures found in the embedding itself."),
+                ("System — orthogroup centroids", "One point per orthogroup with at least four members."),
+                ("Planet — every gene", "All 8,140 genes. The map as it is.")]):
+            act = lvl.addAction(name)
+            act.setCheckable(True)
+            act.setChecked(i == self.level_idx)
+            act.setToolTip(tip)
+            act.setData(i)
+            self.level_group.addAction(act)
+            act.triggered.connect(lambda _c, k=i: self.set_level(k))
+
+        col = v.addMenu("Colour by")
+        self.colour_group = QtGui.QActionGroup(self)
+        for name in COLOUR_MODES:
+            act = col.addAction(name)
+            act.setCheckable(True)
+            act.setChecked(name == self.colour_mode)
+            self.colour_group.addAction(act)
+            act.triggered.connect(lambda _c, n=name: self.set_colour_mode(n))
+
+        ps = v.addMenu("Point size")
+        self.size_group = QtGui.QActionGroup(self)
+        for label, val in POINT_SIZES:
+            act = ps.addAction(label)
+            act.setCheckable(True)
+            act.setChecked(val is None)
+            act.setData(val)
+            self.size_group.addAction(act)
+            act.triggered.connect(lambda _c, s=val: self.set_point_size(s))
+
+        v.addSeparator()
+        self.spin_act = v.addAction("Spin")
+        self.spin_act.setCheckable(True)
+        self.spin_act.setShortcut("Ctrl+R")
+        self.spin_act.setToolTip(
+            "Rotate the map continuously. Depth in a 3D scatter reads only when it moves: a still "
+            "frame of 8,140 points is a flat disc however good the shading is, and parallax is the "
+            "only cue that separates a near point from a far one.")
+        self.spin_act.toggled.connect(self.toggle_spin)
+        self.spin_busy_act = v.addAction("Spin while a job runs")
+        self.spin_busy_act.setCheckable(True)
+        self.spin_busy_act.setChecked(True)
+        self.spin_busy_act.setToolTip(
+            "Spin while something is running and stop where it started, so the motion says 'working' "
+            "without also moving the camera you had set up.")
+        v.addSeparator()
+        v.addAction("Reset view / clear filters").triggered.connect(self.reset)
+        v.addAction("Preferences…").triggered.connect(self.open_preferences)
+
+        # ---- Edges
+        self.edge_menu = mb.addMenu("&Edges")
+        self.edge_menu.setToolTipsVisible(True)
+        self.edge_act = {}
+        for k, label in EDGE_TYPES:
+            act = self.edge_menu.addAction(label)
+            act.setCheckable(True)
+            act.setEnabled(k in self.edges)
+            act.setChecked(self.edge_on.get(k, False) and k in self.edges)
+            n = len(self.edges[k]["a"]) if k in self.edges else 0
+            act.setToolTip(f"{n:,} edges" if n else "not present in this build")
+            act.toggled.connect(lambda on, key=k: self.set_edge(key, on))
+            self.edge_act[k] = act
+        self.edge_menu.addSeparator()
+        self.all_edges_act = self.edge_menu.addAction("Draw all active edges")
+        self.all_edges_act.setCheckable(True)
+        self.all_edges_act.setChecked(self.all_edges_on)
+        self.all_edges_act.setToolTip(
+            f"Off, edges are drawn only for the gene you have selected -- the only view you can "
+            f"actually trace. On, every active edge is drawn, up to the strongest {EDGE_CAP:,} per "
+            f"type, and alpha falls as the count rises so a dense layer reads as brightness rather "
+            f"than as a solid sheet over the map.")
+        self.all_edges_act.toggled.connect(lambda on: (setattr(self, "all_edges_on", on),
+                                                       self.redraw()))
+        self.attn_act = self.edge_menu.addAction("Attention-corrected co-mention")
+        self.attn_act.setCheckable(True)
+        self.attn_act.setChecked(self.attn_on)
+        self.attn_act.setToolTip(
+            "Raw co-mention counts track how often a gene is studied, not how related two genes are. "
+            "Corrected shows log2 observed/expected given each gene's own publication count.")
+        self.attn_act.toggled.connect(lambda on: (setattr(self, "attn_on", on), self.redraw()))
+        self.edge_menu.addSeparator()
+        self.edge_menu.addAction("Why are these never combined?").triggered.connect(self.explain_edges)
+
+        # ---- Tools
+        t = mb.addMenu("&Tools")
+        for dock in (self.console_dock, self.jobs_dock, self.chat_dock,
+                     getattr(self, "analysis_dock", None), self.right_dock):
+            if dock is not None:
+                t.addAction(dock.toggleViewAction())
+
+        h = mb.addMenu("&Help")
+        h.addAction("What this map does and does not show").triggered.connect(self.explain_map)
+
+    def _context_menu(self, pos):
+        """Right-click on the map. Shows the menu; `build_context_menu` makes it."""
+        m = self.build_context_menu()
+        m.exec(self.view.mapToGlobal(pos))
+        return m
+
+    def build_context_menu(self):
+        """Construct the menu without showing it.
+
+        Split from `_context_menu` for the same reason `build_preferences` is split from
+        `open_preferences`: exec() enters a modal loop and does not return until a human closes the
+        menu, so a test that called it hung forever instead of failing.
+        """
+        m = QtWidgets.QMenu(self)
+        m.addAction(self.spin_act)
+        m.addSeparator()
+        lvl = m.addMenu("Level of detail")
+        for act in self.level_group.actions():
+            lvl.addAction(act)
+        ps = m.addMenu("Point size")
+        for act in self.size_group.actions():
+            ps.addAction(act)
+        m.addSeparator()
+        m.addAction("Export image…").triggered.connect(self.export_image)
+        m.addAction("Export visible genes (CSV)…").triggered.connect(self.export_visible)
+        m.addAction("Export relationships (CSV)…").triggered.connect(self.export_relationships)
+        m.addAction("Export graph (GraphML)…").triggered.connect(self.export_graphml)
+        m.addSeparator()
+        m.addAction("Reset view / clear filters").triggered.connect(self.reset)
+        return m
+
+    # ------------------------------------------------------------------ menu state
+    def set_level(self, i: int):
+        self.level_idx = int(i)
+        self.on_level_changed()
+
+    def set_colour_mode(self, name: str):
+        self.colour_mode = name
+        self.redraw()
+
+    def set_point_size(self, size):
+        self.point_size = size
+        self.redraw()
+
+    def set_edge(self, key: str, on: bool):
+        self.edge_on[key] = bool(on)
+        self.redraw()
+
+    def explain_edges(self):
+        QtWidgets.QMessageBox.information(self, "Why edge types are kept separate", EDGE_EXPLANATION)
+
+    def explain_map(self):
+        QtWidgets.QMessageBox.information(self, "What this map shows", MAP_EXPLANATION)
 
     def open_preferences(self):
         """Appearance settings, gathered in one place rather than crowding the map panel."""
@@ -437,12 +727,98 @@ class Window(QtWidgets.QMainWindow):
         form.addRow(close)
         return d
 
+    # ------------------------------------------------------------------ docks, jobs, progress
+    def _tool_docks(self):
+        """Console, jobs and assistant, tabbed together at the bottom.
+
+        Hidden on startup. They are for when something is running or has gone wrong, and a browser
+        that opens with three empty panels across the bottom has spent its screen space on nothing.
+        """
+        self.console = ConsolePanel()
+        self.console.install()
+        self.console_dock = QtWidgets.QDockWidget("console", self)
+        self.console_dock.setWidget(self.console)
+
+        self.jobs_view = QtWidgets.QTreeWidget()
+        self.jobs_view.setHeaderLabels(["job", "state", "detail"])
+        self.jobs_view.setToolTip("Everything started this session, including what has finished. A "
+                                  "failed job keeps its error here rather than vanishing with it.")
+        self.jobs_view.setRootIsDecorated(False)
+        self.jobs_dock = QtWidgets.QDockWidget("jobs", self)
+        self.jobs_dock.setWidget(self.jobs_view)
+
+        self.chat = ChatPanel(context_provider=self.describe_state)
+        self.chat_dock = QtWidgets.QDockWidget("assistant", self)
+        self.chat_dock.setWidget(self.chat)
+
+        area = QtCore.Qt.DockWidgetArea.BottomDockWidgetArea
+        for d in (self.console_dock, self.jobs_dock, self.chat_dock):
+            self.addDockWidget(area, d)
+            d.hide()
+        self.tabifyDockWidget(self.console_dock, self.jobs_dock)
+        self.tabifyDockWidget(self.jobs_dock, self.chat_dock)
+
+        self.jobs.started.connect(self._refresh_jobs)
+        self.jobs.progress.connect(lambda *_: self._refresh_jobs())
+        self.jobs.finished.connect(lambda *_: self._refresh_jobs())
+        self.jobs.busy_changed.connect(self._on_busy)
+
+    def _progress(self):
+        """An indeterminate bar in the status bar, shown only while something is running."""
+        self.progress_bar = QtWidgets.QProgressBar()
+        self.progress_bar.setRange(0, 0)            # indeterminate until a job reports a percentage
+        self.progress_bar.setMaximumWidth(180)
+        self.progress_bar.setTextVisible(False)
+        self.progress_bar.hide()
+        self.status.addPermanentWidget(self.progress_bar)
+
+    def _on_busy(self, busy: bool):
+        """Show the bar, and optionally spin, while work is outstanding."""
+        self.progress_bar.setVisible(busy)
+        if self.spin_busy_act.isChecked():
+            if busy and not self.spin_act.isChecked():
+                self._spin_home = self._camera_state()
+                self._spin_for_job = True
+                self.spin_act.setChecked(True)
+            elif not busy and getattr(self, "_spin_for_job", False):
+                self._spin_for_job = False
+                self.spin_act.setChecked(False)
+                # Put the camera back where it was. A spinner that leaves the map at a random angle
+                # has destroyed the view the user set up, which costs more than the reassurance.
+                self._restore_camera(self._spin_home)
+                self._spin_home = None
+
+    def _camera_state(self):
+        p = self.view.opts
+        return (float(p.get("azimuth", 0.0)), float(p.get("elevation", 0.0)),
+                float(p.get("distance", 40.0)))
+
+    def _restore_camera(self, state):
+        if not state:
+            return
+        az, el, dist = state
+        self.view.setCameraPosition(distance=dist, elevation=el, azimuth=az)
+
+    def _refresh_jobs(self, *_):
+        self.jobs_view.clear()
+        for j in sorted(self.jobs.jobs.values(), key=lambda x: -x.id):
+            detail = j.error or j.note or ""
+            it = QtWidgets.QTreeWidgetItem([j.name, j.state, detail])
+            if j.state == FAILED:
+                it.setToolTip(2, j.traceback or j.error)
+            self.jobs_view.addTopLevelItem(it)
+
+    def run_job(self, fn, name: str):
+        """Submit background work. The one entry point, so everything slow is visible in one place."""
+        job = self.jobs.submit(fn, name)
+        self.status.showMessage(f"{name}…")
+        return job
+
     def toggle_spin(self, on: bool):
         """Rotate the camera continuously. Depth in a 3D scatter only reads when it moves."""
         if not hasattr(self, "_spin_timer"):
             self._spin_timer = QtCore.QTimer(self)
             self._spin_timer.timeout.connect(self._spin_step)
-        self.spin_btn.setText("❚❚  spinning" if on else "▶  spin")
         if on:
             self._spin_timer.start(33)          # ~30 fps; smooth without burning the GPU
         else:
@@ -476,7 +852,14 @@ class Window(QtWidgets.QMainWindow):
 
     # ------------------------------------------------------------------ panels
     def _left(self):
-        d = QtWidgets.QDockWidget("map")
+        """Search and the category filter. Everything else moved into the menus.
+
+        This panel used to carry the level, the colouring, twelve edge checkboxes, spin, preferences
+        and the compartment list all at once, which is most of the application's settings stacked in a
+        column beside a 3D view. Settings that are chosen once belong in a menu; the two things used
+        continuously -- finding a gene and narrowing the field -- stay on screen.
+        """
+        d = QtWidgets.QDockWidget("find")
         d.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
         w = QtWidgets.QWidget()
         L = QtWidgets.QVBoxLayout(w)
@@ -490,99 +873,74 @@ class Window(QtWidgets.QMainWindow):
         self.search.returnPressed.connect(self.do_search)
         L.addWidget(self.search)
 
-        L.addWidget(QtWidgets.QLabel("<b>level of detail</b>"))
-        self.level = QtWidgets.QComboBox()
-        self.level.setToolTip(
-            "What a point stands for. The two coarser tiers draw centroids over the faded genes, so "
-            "you keep the whole map in view rather than swapping between three unrelated pictures.")
-        self.level.addItems(["compartment (galaxy)", "orthogroup / module (system)",
-                             "gene (planet)"])
-        self.level.setCurrentIndex(2)
-        self.level.currentIndexChanged.connect(self.on_level_changed)
-        L.addWidget(self.level)
+        L.addWidget(QtWidgets.QLabel("<b>filter by</b>"))
+        self.category_box = QtWidgets.QComboBox()
+        self.category_box.setToolTip(
+            "Which classification to filter and fly by. Any column with a manageable number of "
+            "repeated values is offered, not compartment alone -- localisation is the worst-recovered "
+            "property in this map, so it is a poor thing to be the only way in.")
+        self.category_box.addItems(self.categories)
+        if "compartment" in self.categories:
+            self.category_box.setCurrentText("compartment")
+        self.category_box.currentTextChanged.connect(self.on_category_changed)
+        L.addWidget(self.category_box)
 
-        L.addWidget(QtWidgets.QLabel("<b>colour by</b>"))
-        self.colour_by = QtWidgets.QComboBox()
-        self.colour_by.setToolTip(
-            "Each mode is a different claim. 'compartment' is the measured hyperLOPIT call only; "
-            "'incl. transferred' fills in ortholog inferences from other species, which is more "
-            "coverage and weaker evidence. Grey always means unknown, never a category and never zero.")
-        self.colour_by.addItems(["compartment", "compartment (incl. transferred)",
-                                 "in vitro fitness", "publications",
-                                 "depth of attention",
-                                 "structure confidence (pLDDT)", "cyst / tachyzoite expression"])
-        self.colour_by.currentIndexChanged.connect(self.redraw)
-        L.addWidget(self.colour_by)
-
-        L.addWidget(QtWidgets.QLabel("<b>edge types</b> (never merged)"))
-        self.edge_cb = {}
-        for k, label in EDGE_TYPES:
-            cb = QtWidgets.QCheckBox(label)
-            cb.setEnabled(k in self.edges)
-            cb.setChecked(k in ("comention", "cofitness") and k in self.edges)
-            cb.stateChanged.connect(self.redraw)
-            n = len(self.edges[k]["a"]) if k in self.edges else 0
-            cb.setToolTip(f"{n:,} edges")
-            self.edge_cb[k] = cb
-            L.addWidget(cb)
-
-        # ---- view controls. The appearance settings live in Preferences, as in spaCR: they are set
-        # once and then in the way, whereas spin and reset are used constantly.
-        row = QtWidgets.QHBoxLayout()
-        self.spin_btn = QtWidgets.QPushButton("▶  spin")
-        self.spin_btn.setToolTip(
-            "Rotate continuously. Depth in a 3D scatter reads only when it moves -- a still frame of "
-            "8,140 points is a flat disc however good the shading is.")
-        self.spin_btn.setCheckable(True)
-        self.spin_btn.setToolTip("Rotate the map slowly and continuously. A 3D scatter reads as a "
-                                 "shape only when it moves.")
-        self.spin_btn.toggled.connect(self.toggle_spin)
-        prefs = QtWidgets.QPushButton("preferences…")
-        prefs.setToolTip("Theme, colour map, point style and rendering mode")
-        prefs.clicked.connect(self.open_preferences)
-        row.addWidget(self.spin_btn); row.addWidget(prefs)
-        L.addLayout(row)
-
-        self.attn = QtWidgets.QCheckBox("attention-corrected co-mention")
-        self.attn.setChecked(True)     # a correctness default, not a preference
-        self.attn.setToolTip("Raw co-mention counts track how often a gene is studied, not how "
-                             "related two genes are. Corrected mode shows log2 observed/expected "
-                             "given each gene's own publication count.")
-        self.attn.stateChanged.connect(self.redraw)
-        L.addWidget(self.attn)
-
-        self.all_edges = QtWidgets.QCheckBox("draw all active edges (capped)")
-        self.all_edges.setToolTip(
-            "Off, edges are drawn only for the selected gene, which is the only view you can actually "
-            "trace. On, the strongest 20,000 per type are drawn and alpha falls with the count, so a "
-            "dense layer reads as brightness rather than hiding the map beneath a solid sheet.")
-        self.all_edges.stateChanged.connect(self.redraw)
-        L.addWidget(self.all_edges)
-
-        L.addWidget(QtWidgets.QLabel("<b>compartments</b>"))
         self.comp_list = QtWidgets.QListWidget()
         self.comp_list.setToolTip(
-            "Select to show only those compartments; select none to show everything. Double-click "
-            "flies to a compartment's centroid. The count is genes with a MEASURED call, so it is "
-            "smaller than the compartment really is.")
+            "Select to show only those classes; select none to show everything. Double-click flies to "
+            "a class's centroid. Counts are of genes with a value, so a class is at least this big and "
+            "possibly bigger.")
         self.comp_list.setSelectionMode(
             QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
-        for c in self.comps:
-            it = QtWidgets.QListWidgetItem(f"{c}  ({int((self.nodes.compartment == c).sum())})")
-            it.setData(QtCore.Qt.ItemDataRole.UserRole, c)
-            r, g, b = self.colour_of[c]
-            it.setForeground(QtGui.QColor.fromRgbF(r, g, b))
-            self.comp_list.addItem(it)
         self.comp_list.itemSelectionChanged.connect(self.redraw)
         self.comp_list.itemDoubleClicked.connect(self.fly_to_compartment)
         L.addWidget(self.comp_list, 1)
+        self._fill_category_list()
 
         b = QtWidgets.QPushButton("reset view / clear filters")
         b.clicked.connect(self.reset)
         L.addWidget(b)
         d.setWidget(w)
-        w.setMinimumWidth(310)
+        w.setMinimumWidth(260)
         return d
+
+    def _fill_category_list(self):
+        """Rebuild the value list for the current category, ordered by size with absences last."""
+        self.comp_list.blockSignals(True)
+        self.comp_list.clear()
+        vals = as_text(self.nodes[self.category])
+        counts = vals.value_counts()
+        absent = {str(x).lower() for x in ABSENCE}
+        named = [v for v in counts.index if str(v).lower() not in absent]
+        # Absence values are kept but sunk to the bottom: "unassigned" is usually the largest class in
+        # this proteome, and sorting by size alone would put "we do not know" at the top of every list.
+        tail = [v for v in counts.index if str(v).lower() in absent]
+        for v in named + tail:
+            it = QtWidgets.QListWidgetItem(f"{v}  ({int(counts[v]):,})")
+            it.setData(QtCore.Qt.ItemDataRole.UserRole, v)
+            col = self.colour_of.get(v)
+            if col is not None:
+                it.setForeground(QtGui.QColor.fromRgbF(*col))
+            if str(v).lower() in absent:
+                it.setToolTip("Absence, not a class: these genes have no measurement, which is not "
+                              "the same as measuring zero.")
+            self.comp_list.addItem(it)
+        self.comp_list.blockSignals(False)
+
+    def on_category_changed(self, name: str):
+        """Switch the filter column, rebuild its palette and its list."""
+        self.category = name
+        vals = sorted(as_text(self.nodes[name]).unique())
+        absent = {str(x).lower() for x in ABSENCE}
+        self.comps = ([v for v in vals if str(v).lower() not in absent]
+                      + [v for v in vals if str(v).lower() in absent])
+        self.colour_of = dict(zip(self.comps,
+                                  TH.categorical_colours(len(self.comps), self.theme, self.cmap_name)))
+        for v in self.comps:
+            if str(v).lower() in absent:
+                self.colour_of[v] = TH.unknown_colour(self.theme)[:3]
+        self._fill_category_list()
+        self.redraw()
 
     def _right(self):
         d = QtWidgets.QDockWidget("evidence")
@@ -600,10 +958,10 @@ class Window(QtWidgets.QMainWindow):
         sel = [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.comp_list.selectedItems()]
         if not sel:
             return np.ones(self.n, bool)
-        return self.nodes.compartment.astype(str).isin(sel).to_numpy()
+        return as_text(self.nodes[self.category]).isin(sel).to_numpy()
 
     def colours(self, vis):
-        mode = self.colour_by.currentText()
+        mode = self.colour_mode
         c = np.zeros((self.n, 4), dtype=np.float32)
         if mode.startswith("compartment"):
             # The default colours the MEASURED hyperLOPIT call only. The second mode fills in
@@ -611,7 +969,7 @@ class Window(QtWidgets.QMainWindow):
             # coverage matters, kept separate because provenance matters more.
             col_name = ("compartment_best" if "transferred" in mode
                         and "compartment_best" in self.nodes.columns else "compartment")
-            vals = self.nodes[col_name].astype(str)
+            vals = as_text(self.nodes[col_name])
             for comp, col in self.colour_of.items():
                 c[(vals == comp).to_numpy(), :3] = col
             c[(vals == "unassigned").to_numpy(), :3] = TH.unknown_colour(self.theme)[:3]
@@ -622,7 +980,7 @@ class Window(QtWidgets.QMainWindow):
             if "attention_depth" not in self.nodes.columns:
                 c[:, :3] = TH.unknown_colour(self.theme)[:3]
             else:
-                d = self.nodes.attention_depth.astype(str).to_numpy()
+                d = as_text(self.nodes.attention_depth).to_numpy()
                 for tier, col in DEPTH_COLOUR.items():
                     c[d == tier, :3] = col
                 c[d == "", :3] = TH.unknown_colour(self.theme)[:3]
@@ -648,9 +1006,19 @@ class Window(QtWidgets.QMainWindow):
             c[self.sel] = (1.0, 1.0, 1.0, 1.0)
         return c
 
+    def galaxy_labels(self):
+        """Coarse spatial components of the embedding, computed once and cached.
+
+        Cached because the grid pass walks every occupied cell and the tier is switched to more often
+        than the embedding changes. `use_embedding` clears it.
+        """
+        if self._galaxies is None:
+            self._galaxies = lod.galaxies(self.xyz)
+        return self._galaxies
+
     def redraw(self):
         vis = self.visible_mask()
-        lvl = self.level.currentIndex()
+        lvl = self.level_idx
 
         for it in self.edge_items:
             self.view.removeItem(it)
@@ -660,7 +1028,9 @@ class Window(QtWidgets.QMainWindow):
             self.centroid_item = None
 
         st = TH.POINT_STYLES.get(self.point_style, TH.POINT_STYLES[TH.DEFAULT_POINT_STYLE])
-        base = float(st["size"])
+        # An explicit point size overrides the style's. The style still supplies the rest of its
+        # look, so "large" plus an explicit 4 px is a large-style point drawn at 4 px.
+        base = float(self.point_size if self.point_size is not None else st["size"])
         # redraw() sets sizes every time, so the chosen point style has to be applied here rather than
         # only in apply_point_style -- otherwise picking a style changed nothing the moment anything
         # else triggered a redraw.
@@ -668,27 +1038,42 @@ class Window(QtWidgets.QMainWindow):
         if self.sel is not None:
             sizes[self.sel] = max(base * 3.0, 12.0)
         if lvl == 0:
-            # galaxy level: genes recede, compartment centroids carry the map
+            # Galaxy level: genes recede and coarse SPATIAL structures carry the map.
+            #
+            # This used to draw one centroid per compartment, and it produced a cluster of dots in the
+            # middle of the screen -- correctly, which was the problem. A compartment's genes are
+            # scattered across the whole embedding, so their mean lands near the centre of it: the
+            # median compartment centroid sits 0.17 of the map radius from the middle while the
+            # median compartment's own members spread 0.37 of the radius. The centroids were an
+            # honest average of something with no spatial meaning, drawn as though it had one, and
+            # the held-out search says the same thing from the other side -- compartment is the
+            # worst-recovered target in this map, below the study-effort control.
+            #
+            # So the tier is computed from the embedding itself. See lod.py.
             sizes = np.full(self.n, max(base * 0.4, 1.5), np.float32)
-            pos, col, ssz = [], [], []
-            for c in self.comps:
-                m = (self.nodes.compartment.astype(str) == c).to_numpy() & vis
-                if m.sum() < 3:
-                    continue
-                pos.append(self.xyz[m].mean(0))
-                col.append((*self.colour_of[c], 0.95))
-                ssz.append(float(8 + 26 * np.sqrt(m.sum() / max(vis.sum(), 1))))
-            if pos:
+            lab = self.galaxy_labels()
+            pos, num, spread = lod.centroids(self.xyz, np.where(vis, lab, -1))
+            dom = lod.dominant(as_text(self.nodes[self.category]).to_numpy(),
+                               np.where(vis, lab, -1), ignore=ABSENCE)
+            self._galaxy_info = []
+            col, ssz = [], []
+            for i in range(len(pos)):
+                name, frac = dom.get(i, ("mixed", 0.0))
+                col.append((*self.colour_of.get(name, TH.unknown_colour(self.theme)[:3]), 0.95))
+                ssz.append(float(10 + 30 * np.sqrt(num[i] / max(vis.sum(), 1))))
+                self._galaxy_info.append((int(num[i]), name, frac))
+            if len(pos):
                 self.centroid_item = gl.GLScatterPlotItem(
-                    pos=np.array(pos, np.float32), color=np.array(col, np.float32),
+                    pos=pos.astype(np.float32), color=np.array(col, np.float32),
                     size=np.array(ssz, np.float32), pxMode=True)
+                self.centroid_item.setGLOptions("translucent")
                 self.view.addItem(self.centroid_item)
         elif lvl == 1:
             # System level: orthogroups get their own centroids, the way compartments do at galaxy
             # level. Previously this tier did nothing at all unless a gene happened to be selected, so
             # it was indistinguishable from the gene level -- the middle of a three-tier hierarchy
             # silently missing.
-            og = self.nodes.orthogroup.astype(str).to_numpy()
+            og = as_text(self.nodes.orthogroup).to_numpy()
             sizes = np.full(self.n, max(base * 0.5, 2.0), np.float32)
             pos, col, ssz = [], [], []
             groups = {}
@@ -699,7 +1084,7 @@ class Window(QtWidgets.QMainWindow):
                 if len(idx) < MIN_ORTHOGROUP_FOR_SYSTEM:
                     continue
                 pos.append(self.xyz[idx].mean(0))
-                comp = self.nodes.compartment.astype(str).iloc[idx[0]]
+                comp = as_text(self.nodes[self.category]).iloc[idx[0]]
                 col.append((*self.colour_of.get(comp, TH.unknown_colour(self.theme)[:3]), 0.9))
                 ssz.append(float(6 + 18 * np.sqrt(len(idx) / 40.0)))
             if pos:
@@ -732,11 +1117,19 @@ class Window(QtWidgets.QMainWindow):
         self._draw_selection_halo()
         self.draw_edges(vis)
 
-        act = [k for k, _ in EDGE_TYPES if self.edge_cb[k].isChecked()]
-        note = "" if self.attn.isChecked() else "  ·  RAW co-mention (attention-biased)"
+        act = [k for k, _ in EDGE_TYPES if self.edge_on.get(k)]
+        note = "" if self.attn_on else "  ·  RAW co-mention (attention-biased)"
+        extra = ""
+        if lvl == 0 and getattr(self, "_galaxy_info", None):
+            # Say what the blobs are. A tier that draws five unexplained spheres is not an
+            # abstraction, it is a mystery.
+            extra = ("  ·  " + ", ".join(f"{n:,} genes ({name} {frac*100:.0f}%)"
+                                         for n, name, frac in self._galaxy_info[:4]))
+        if not self.edge_on.get("comention", False) and not act:
+            note += "  ·  select a gene to see its edges, or Edges ▸ Draw all active edges"
         self.status.showMessage(
             f"{int(vis.sum()):,} / {self.n:,} genes shown  ·  edges: "
-            f"{', '.join(act) if act else 'none'}{note}")
+            f"{', '.join(act) if act else 'none'}{note}{extra}")
 
     def on_level_changed(self):
         """Move the camera to suit the tier, easing rather than cutting.
@@ -745,7 +1138,7 @@ class Window(QtWidgets.QMainWindow):
         a change of scale, which is what the three tiers actually are.
         """
         r = self.view.data_radius()
-        self.view.animate_distance(max(r * (2.0, 1.6, 1.25)[self.level.currentIndex()], 10.0))
+        self.view.animate_distance(max(r * (2.0, 1.6, 1.25)[self.level_idx], 10.0))
         self.redraw()
 
     def _draw_ground(self):
@@ -806,19 +1199,19 @@ class Window(QtWidgets.QMainWindow):
         self.view.addItem(self.halo_item)
 
     def draw_edges(self, vis):
-        active = [k for k, _ in EDGE_TYPES if self.edge_cb[k].isChecked() and k in self.edges]
+        active = [k for k, _ in EDGE_TYPES if self.edge_on.get(k) and k in self.edges]
         if not active:
             return
         for k in active:
             e = self.edges[k]
             a, b = e["a"], e["b"]
-            w = e["r"] if (k in COMENTION and self.attn.isChecked()) else e["w"]
+            w = e["r"] if (k in COMENTION and self.attn_on) else e["w"]
             keep = vis[a] & vis[b]
-            if k in COMENTION and self.attn.isChecked():
+            if k in COMENTION and self.attn_on:
                 keep &= w > 0          # corrected mode shows only more-than-expected pairs
-            if self.sel is not None and not self.all_edges.isChecked():
+            if self.sel is not None and not self.all_edges_on:
                 keep &= (a == self.sel) | (b == self.sel)
-            elif not self.all_edges.isChecked():
+            elif not self.all_edges_on:
                 continue               # nothing selected, whole map not requested: draw nothing
             idx = np.where(keep)[0]
             if idx.size == 0:
@@ -881,12 +1274,12 @@ class Window(QtWidgets.QMainWindow):
         q = self.search.text().strip().lower()
         if not q:
             return
-        gid = self.nodes.gene_id.astype(str).str.lower()
+        gid = as_text(self.nodes.gene_id).str.lower()
         hit = np.where(gid == q)[0]
         if hit.size == 0:
             hit = np.where(gid.str.contains(q, regex=False))[0]
         if hit.size == 0:
-            hit = np.where(self.nodes["product"].astype(str).str.lower()
+            hit = np.where(as_text(self.nodes["product"]).str.lower()
                            .str.contains(q, regex=False))[0]
         if hit.size == 0:
             self.status.showMessage(f"no match for {q!r}")
@@ -898,10 +1291,10 @@ class Window(QtWidgets.QMainWindow):
 
     def fly_to_compartment(self, item):
         c = item.data(QtCore.Qt.ItemDataRole.UserRole)
-        m = (self.nodes.compartment.astype(str) == c).to_numpy()
+        m = (as_text(self.nodes[self.category]) == c).to_numpy()
         if m.sum():
             self.view.setCameraPosition(pos=pg.Vector(*self.xyz[m].mean(0)), distance=60)
-            self.level.setCurrentIndex(2)
+            self.set_level(2)
 
     def reset(self):
         self.sel = None
@@ -909,6 +1302,238 @@ class Window(QtWidgets.QMainWindow):
         self.view.fit_view()
         self.detail.setHtml("<p style='color:#888'>Click a gene.</p>")
         self.redraw()
+
+    # ------------------------------------------------------------------ export
+    def _ask_path(self, caption: str, filt: str, default: str) -> str:
+        path, _ = QtWidgets.QFileDialog.getSaveFileName(self, caption, default, filt)
+        return path
+
+    def export_image(self, path: str = ""):
+        """The current frame as a PNG, at the size it is on screen."""
+        path = path or self._ask_path("Export image", "PNG image (*.png)", "starplast.png")
+        if not path:
+            return None
+        img = self.view.grabFramebuffer()
+        ok = img.save(path)
+        self.status.showMessage(f"wrote {path}" if ok else f"could not write {path}")
+        return path if ok else None
+
+    def default_export_columns(self) -> list[str]:
+        """What to tick when the picker opens: identity, the active filter, the active colouring.
+
+        Taken from the current view rather than fixed, because the columns worth exporting are
+        usually the ones being looked at.
+        """
+        want = ["gene_id", "product", self.category]
+        want += {"in vitro fitness": ["fit_invitro_hff"],
+                 "publications": ["n_publications"],
+                 "structure confidence (pLDDT)": ["mean_plddt"],
+                 "depth of attention": ["attention_depth"],
+                 "cyst / tachyzoite expression": ["expr_cyst", "expr_tachy"],
+                 }.get(self.colour_mode, ["compartment"])
+        seen, out = set(), []
+        for c in want:
+            if c in self.nodes.columns and c not in seen:
+                seen.add(c)
+                out.append(c)
+        return out
+
+    def choose_export_columns(self, preselect=None):
+        """A checkable list of every column, for picking what an export carries.
+
+        Built rather than shown, for the same reason as the context menu: exec() enters a modal loop
+        and does not return until a human closes it.
+        """
+        d = QtWidgets.QDialog(self)
+        d.setWindowTitle("Columns to export")
+        L = QtWidgets.QVBoxLayout(d)
+        L.addWidget(QtWidgets.QLabel(
+            "The gene id and coordinates are always written. Tick anything else to carry along."))
+        filt = QtWidgets.QLineEdit(placeholderText="filter columns…")
+        L.addWidget(filt)
+        lst = QtWidgets.QListWidget()
+        lst.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.NoSelection)
+        chosen = set(preselect if preselect is not None else self.default_export_columns())
+        for c in self.nodes.columns:
+            it = QtWidgets.QListWidgetItem(str(c))
+            it.setFlags(it.flags() | QtCore.Qt.ItemFlag.ItemIsUserCheckable)
+            it.setCheckState(QtCore.Qt.CheckState.Checked if c in chosen
+                             else QtCore.Qt.CheckState.Unchecked)
+            lst.addItem(it)
+        L.addWidget(lst, 1)
+
+        def apply_filter(text):
+            t = text.strip().lower()
+            for i in range(lst.count()):
+                lst.item(i).setHidden(bool(t) and t not in lst.item(i).text().lower())
+        filt.textChanged.connect(apply_filter)
+
+        row = QtWidgets.QHBoxLayout()
+        for label, state in (("all", QtCore.Qt.CheckState.Checked),
+                             ("none", QtCore.Qt.CheckState.Unchecked)):
+            btn = QtWidgets.QPushButton(label)
+            # Only what the filter is showing, so "none" after filtering clears that group rather
+            # than silently discarding ticks the user cannot currently see.
+            btn.clicked.connect(lambda _c, s=state: [lst.item(i).setCheckState(s)
+                                                     for i in range(lst.count())
+                                                     if not lst.item(i).isHidden()])
+            row.addWidget(btn)
+        L.addLayout(row)
+        bb = QtWidgets.QDialogButtonBox(
+            QtWidgets.QDialogButtonBox.StandardButton.Ok
+            | QtWidgets.QDialogButtonBox.StandardButton.Cancel)
+        bb.accepted.connect(d.accept)
+        bb.rejected.connect(d.reject)
+        L.addWidget(bb)
+        d.column_list = lst          # so a caller can read the ticks without entering exec()
+        return d
+
+    @staticmethod
+    def _ticked(dialog) -> list[str]:
+        lst = dialog.column_list
+        return [lst.item(i).text() for i in range(lst.count())
+                if lst.item(i).checkState() == QtCore.Qt.CheckState.Checked]
+
+    def export_visible(self, path: str = "", columns=None):
+        """The genes currently passing the filter, with their coordinates and chosen columns.
+
+        Coordinates travel with the rows because a gene list without them cannot reproduce what was
+        on screen, and reproducing what was on screen is the point of exporting it.
+        """
+        path = path or self._ask_path("Export visible genes", "CSV (*.csv)", "starplast_genes.csv")
+        if not path:
+            return None
+        if columns is None:
+            d = self.choose_export_columns()
+            if not d.exec():
+                return None
+            columns = self._ticked(d)
+        vis = self.visible_mask()
+        cols = ["gene_id"] + [c for c in columns if c != "gene_id" and c in self.nodes.columns]
+        out = self.nodes.loc[vis, cols].copy()
+        out["x"], out["y"], out["z"] = self.xyz[vis, 0], self.xyz[vis, 1], self.xyz[vis, 2]
+        out.to_csv(path, index=False)
+        self.status.showMessage(f"wrote {len(out):,} genes and {len(cols)} columns to {path}")
+        return path
+
+    def export_relationships(self, path: str = "", columns=None):
+        """Every active edge between two visible genes, one row per edge, as CSV.
+
+        The GraphML export is for Cytoscape; this is for a spreadsheet, and it is what "export the
+        relationships I can see" actually means. Both endpoints carry the chosen columns, suffixed
+        `_a` and `_b`, so the file can be read without joining it back against anything.
+
+        The edge type is a column and is never collapsed. A row saying only that two genes are
+        related at weight 0.8 has lost whether they were measured touching or merely mentioned
+        together, which is the distinction the whole application is built around.
+        """
+        path = path or self._ask_path("Export relationships", "CSV (*.csv)", "starplast_edges.csv")
+        if not path:
+            return None
+        if columns is None:
+            d = self.choose_export_columns()
+            if not d.exec():
+                return None
+            columns = self._ticked(d)
+        vis = self.visible_mask()
+        cols = [c for c in columns if c in self.nodes.columns and c != "gene_id"]
+        active = [k for k, _ in EDGE_TYPES if self.edge_on.get(k) and k in self.edges]
+        gid = self.nodes.gene_id.to_numpy()
+        frames = []
+        for k in active:
+            e = self.edges[k]
+            a, b = e["a"], e["b"]
+            corrected = k in COMENTION and self.attn_on
+            w = e["r"] if corrected else e["w"]
+            keep = vis[a] & vis[b]
+            if corrected:
+                keep &= w > 0
+            if self.sel is not None and not self.all_edges_on:
+                # Match what is drawn. Exporting a whole layer while the screen shows one gene's
+                # neighbourhood hands back a different graph from the one being looked at.
+                keep &= (a == self.sel) | (b == self.sel)
+            idx = np.flatnonzero(keep)
+            if not idx.size:
+                continue
+            f = pd.DataFrame({
+                "gene_a": gid[a[idx]], "gene_b": gid[b[idx]], "edge_type": k,
+                "weight": w[idx],
+                "weight_kind": "attention-corrected log2 obs/exp" if corrected else "raw",
+            })
+            for side, ends in (("a", a[idx]), ("b", b[idx])):
+                for c in cols:
+                    f[f"{c}_{side}"] = self.nodes[c].to_numpy()[ends]
+            frames.append(f)
+        if not frames:
+            self.status.showMessage("no edges visible to export — turn on an edge type, then select "
+                                    "a gene or use Edges ▸ Draw all active edges")
+            return None
+        out = pd.concat(frames, ignore_index=True)
+        out.to_csv(path, index=False)
+        self.status.showMessage(f"wrote {len(out):,} relationships over {len(active)} edge "
+                                f"type(s) to {path}")
+        return path
+
+    def export_graphml(self, path: str = ""):
+        """The active edge types over the visible genes, as GraphML for Cytoscape or networkx.
+
+        Each edge keeps its type as an attribute rather than being merged into a generic edge, for
+        the same reason the layers are never combined on screen -- see Edges ▸ Why are these never
+        combined? An exported file outlives the session, so it is exactly where a merged score would
+        do the most damage.
+        """
+        path = path or self._ask_path("Export graph", "GraphML (*.graphml)", "starplast.graphml")
+        if not path:
+            return None
+        vis = self.visible_mask()
+        active = [k for k, _ in EDGE_TYPES if self.edge_on.get(k) and k in self.edges]
+        idx = np.flatnonzero(vis)
+        gid = as_text(self.nodes.gene_id).to_numpy()
+        from xml.sax.saxutils import escape as _esc
+        lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+                 '<graphml xmlns="http://graphml.graphdrawing.org/xmlns">',
+                 '<key id="label" for="node" attr.name="label" attr.type="string"/>',
+                 '<key id="etype" for="edge" attr.name="type" attr.type="string"/>',
+                 '<key id="w" for="edge" attr.name="weight" attr.type="double"/>',
+                 '<graph edgedefault="undirected">']
+        for i in idx:
+            lines.append(f'<node id="n{i}"><data key="label">{_esc(gid[i])}</data></node>')
+        n_edges = 0
+        for k in active:
+            e = self.edges[k]
+            a, b = e["a"], e["b"]
+            w = e["r"] if (k in COMENTION and self.attn_on) else e["w"]
+            keep = vis[a] & vis[b]
+            for j in np.flatnonzero(keep):
+                lines.append(f'<edge source="n{a[j]}" target="n{b[j]}">'
+                             f'<data key="etype">{k}</data>'
+                             f'<data key="w">{float(w[j]):.6g}</data></edge>')
+                n_edges += 1
+        lines += ["</graph>", "</graphml>"]
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(lines))
+        self.status.showMessage(f"wrote {len(idx):,} nodes and {n_edges:,} edges to {path}")
+        return path
+
+    def describe_state(self) -> str:
+        """A briefing for the assistant: what is on screen right now."""
+        vis = self.visible_mask()
+        bits = [f"Level: {['galaxy','system','planet'][self.level_idx]}.",
+                f"Colouring: {self.colour_mode}.",
+                f"Filter column: {self.category}.",
+                f"{int(vis.sum()):,} of {self.n:,} genes visible."]
+        active = [k for k, _ in EDGE_TYPES if self.edge_on.get(k)]
+        bits.append(f"Edge layers on: {', '.join(active) if active else 'none'}"
+                    + ("" if self.attn_on else " (co-mention shown RAW, attention-biased)") + ".")
+        if self.sel is not None:
+            r = self.nodes.iloc[self.sel]
+            bits.append(f"\nSelected gene: {r.gene_id} — {r.get('product', '?')}")
+            for c in ("compartment", "cellcycle_phase", "n_publications", "mean_plddt"):
+                if c in self.nodes.columns:
+                    bits.append(f"  {c}: {r[c]}")
+        else:
+            bits.append("No gene is selected.")
+        return "\n".join(bits)
 
     # ------------------------------------------------------------------ detail
     def show_detail(self, i):
@@ -972,7 +1597,7 @@ class Window(QtWidgets.QMainWindow):
             m = (e["a"] == i) | (e["b"] == i)
             if not m.any():
                 continue
-            w = e["r"] if (k in COMENTION and self.attn.isChecked()) else e["w"]
+            w = e["r"] if (k in COMENTION and self.attn_on) else e["w"]
             part = np.where(e["a"][m] == i, e["b"][m], e["a"][m])
             ww = w[m]
             o = np.argsort(-ww)[:8]

@@ -281,7 +281,13 @@ def test_the_variance_shares_sum_to_one_and_no_block_dominates_by_column_count(n
 
 
 # --------------------------------------------------------------------------- the rebuild
-DATASET_ROOT_PRESENT = bool(paths.dataset_roots())
+# Probed by landmark rather than by "does a dataset root directory exist".
+#
+# dataset_roots() includes the user cache, which is where ensure() stages its downloads -- so
+# fetching a single dataset created that directory, and every test guarded on it stopped skipping and
+# started failing on a machine holding none of the raw tree. The bookkeeping ensure() leaves behind
+# is not the raw inputs. Landmark files that only the real tree carries answer the actual question.
+DATASET_ROOT_PRESENT = any(datasets.local_path(k) for k in ("lopit_tgon", "orthomcl"))
 
 
 @pytest.mark.skipif(not DATASET_ROOT_PRESENT,

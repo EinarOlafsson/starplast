@@ -23,6 +23,7 @@ os.environ.setdefault("PYQTGRAPH_QT_LIB", "PyQt6")
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from starplast import theme as TH  # noqa: E402
+from starplast.app import COLOUR_MODES  # noqa: E402
 
 
 @pytest.fixture(scope="module")
@@ -47,10 +48,10 @@ def test_every_colour_mode_produces_a_full_colour_array(win):
     """Each mode is a different claim about the data, and one that silently falls through to the
     previous mode's colours is indistinguishable from one that works."""
     seen = []
-    for i in range(win.colour_by.count()):
-        win.colour_by.setCurrentIndex(i)
+    for i in range(len(COLOUR_MODES)):
+        win.set_colour_mode(COLOUR_MODES[i])
         c = np.asarray(win.scatter.color)
-        assert c.shape == (win.n, 4), win.colour_by.currentText()
+        assert c.shape == (win.n, 4), win.colour_mode
         assert np.isfinite(c).all()
         seen.append(c.copy())
     assert any(not np.allclose(seen[0], s) for s in seen[1:]), "every mode drew the same colours"
@@ -59,8 +60,8 @@ def test_every_colour_mode_produces_a_full_colour_array(win):
 def test_unknown_is_drawn_in_its_own_grey_rather_than_as_a_category(win):
     """"Not measured" is not a compartment, and giving it a categorical colour would put it in the
     legend beside real ones."""
-    for i in range(win.colour_by.count()):
-        win.colour_by.setCurrentIndex(i)
+    for i in range(len(COLOUR_MODES)):
+        win.set_colour_mode(COLOUR_MODES[i])
         c = np.asarray(win.scatter.color)
         assert c.shape[0] == win.n
 
@@ -68,7 +69,7 @@ def test_unknown_is_drawn_in_its_own_grey_rather_than_as_a_category(win):
 def test_the_colour_map_choice_reaches_the_categorical_modes_too(win):
     """It used to affect only the continuous ramp, so choosing a map while colouring by compartment --
     the default -- appeared to do nothing."""
-    win.colour_by.setCurrentIndex(0)
+    win.set_colour_mode(COLOUR_MODES[0])
     before = np.asarray(win.scatter.color).copy()
     categorical = next(n for n, (kind, _) in TH.CMAPS.items() if kind == "categorical")
     win._on_cmap(categorical)          # the handler, which rebuilds the per-compartment palette
@@ -85,7 +86,7 @@ def test_choosing_auto_returns_to_the_default_palette(win):
 
 def test_a_continuous_map_does_not_disturb_the_compartment_palette(win):
     """A sequential ramp has nothing to say about 27 categories, so the categorical palette stands."""
-    win.colour_by.setCurrentIndex(0)
+    win.set_colour_mode(COLOUR_MODES[0])
     seq = next(n for n, (kind, _) in TH.CMAPS.items() if kind == "sequential")
     before = dict(win.colour_of)
     win._on_cmap(seq)
@@ -134,17 +135,17 @@ def test_every_level_of_detail_draws_something(win):
     """The middle tier did nothing at all unless a gene happened to be selected, making it
     indistinguishable from the gene level."""
     drawn = {}
-    for i in range(win.level.count()):
-        win.level.setCurrentIndex(i)
+    for i in range(3):
+        win.set_level(i)
         win.redraw()
         drawn[i] = win.centroid_item is not None
     assert drawn[0] and drawn[1], "the compartment and orthogroup tiers must draw their own markers"
-    win.level.setCurrentIndex(2)
+    win.set_level(2)
     win.redraw()
 
 
 def test_changing_level_moves_the_camera_rather_than_cutting(win):
-    win.level.setCurrentIndex(2)
+    win.set_level(2)
     win.on_level_changed()
     assert win.view._cam_timer is not None and win.view._cam_timer.isActive()
     win.view._cam_timer.stop()
@@ -153,29 +154,29 @@ def test_changing_level_moves_the_camera_rather_than_cutting(win):
 # --------------------------------------------------------------------------- edges
 def test_every_edge_type_can_be_toggled_on_its_own(win):
     from starplast.app import EDGE_TYPES
-    win.all_edges.setChecked(True)
+    win.all_edges_act.setChecked(True)
     for k, _ in EDGE_TYPES:
-        for cb in win.edge_cb.values():
+        for cb in win.edge_act.values():
             cb.setChecked(False)
-        win.edge_cb[k].setChecked(True)
+        win.set_edge(k, True)
         win.redraw()
         if k in win.edges:
             assert win.edge_items, f"{k} is present in the graph but drew nothing"
-    win.all_edges.setChecked(False)
+    win.all_edges_act.setChecked(False)
 
 
 def test_with_nothing_selected_and_draw_all_off_no_edges_are_drawn(win):
     """8,140 genes' edges at once is not a view of anything."""
     win.sel = None
-    win.all_edges.setChecked(False)
-    for cb in win.edge_cb.values():
+    win.all_edges_act.setChecked(False)
+    for cb in win.edge_act.values():
         cb.setChecked(True)
     win.redraw()
     assert win.edge_items == []
 
 
 def test_selecting_a_gene_draws_only_its_own_edges(win):
-    win.all_edges.setChecked(False)
+    win.all_edges_act.setChecked(False)
     win.on_pick(3000)
     assert isinstance(win.edge_items, list)
 
@@ -184,22 +185,22 @@ def test_the_attention_toggle_changes_which_comention_edges_are_drawn(win):
     """Raw co-mention is confidently misleading, so the corrected residual is the default. The toggle
     reorders exactly the quantity the edge alpha encodes."""
     from starplast.app import EDGE_TYPES, COMENTION
-    for cb in win.edge_cb.values():
+    for cb in win.edge_act.values():
         cb.setChecked(False)
     for k in COMENTION:
-        if k in win.edge_cb:
-            win.edge_cb[k].setChecked(True)
-    win.all_edges.setChecked(True)
+        if k in win.edge_act:
+            win.set_edge(k, True)
+    win.all_edges_act.setChecked(True)
 
-    win.attn.setChecked(True)
+    win.attn_act.setChecked(True)
     win.redraw()
     corrected = sum(len(i.pos) for i in win.edge_items)
-    win.attn.setChecked(False)
+    win.attn_act.setChecked(False)
     win.redraw()
     raw = sum(len(i.pos) for i in win.edge_items)
     assert corrected != raw, "the correction must change what is shown"
-    win.attn.setChecked(True)
-    win.all_edges.setChecked(False)
+    win.attn_act.setChecked(True)
+    win.all_edges_act.setChecked(False)
 
 
 # --------------------------------------------------------------------------- search and navigation
@@ -272,9 +273,9 @@ def test_filtering_by_compartment_reduces_what_is_visible(win):
 
 
 def test_flying_to_a_compartment_switches_to_the_gene_level(win):
-    win.level.setCurrentIndex(0)
+    win.set_level(0)
     win.fly_to_compartment(win.comp_list.item(0))
-    assert win.level.currentIndex() == 2
+    assert win.level_idx == 2
 
 
 # --------------------------------------------------------------------------- preferences and spin
@@ -325,7 +326,7 @@ def test_depth_cueing_and_the_horizon_can_each_be_turned_off(win):
 def test_every_main_window_control_explains_itself(win):
     """The useful tooltip says WHY, not what. "Grey always means unknown, never a category and never
     zero" is worth reading; "colour mode" is not."""
-    for attr in ("search", "level", "colour_by", "spin_btn", "attn", "all_edges", "comp_list"):
+    for attr in ("search", "category_box", "spin_act", "attn_act", "all_edges_act", "comp_list"):
         tip = getattr(win, attr).toolTip()
         assert tip, f"{attr} has no tooltip"
         assert len(tip.split()) >= 15, f"{attr}'s tooltip only restates its label: {tip!r}"
@@ -334,7 +335,7 @@ def test_every_main_window_control_explains_itself(win):
 def test_every_edge_checkbox_says_what_the_relation_means(win):
     """Twelve edge types, several of which are inferences rather than measurements, and the checkbox
     label alone cannot carry that distinction."""
-    for k, cb in win.edge_cb.items():
+    for k, cb in win.edge_act.items():
         assert cb.toolTip(), f"edge type {k} has no tooltip"
 
 
@@ -463,9 +464,9 @@ def test_choosing_a_point_style_and_mode_through_the_handlers(win):
 def test_the_named_colour_map_is_used_for_the_continuous_ramp(win):
     seq = next(n for n, (kind, _) in TH.CMAPS.items() if kind == "sequential")
     win._on_cmap(seq)
-    idx = next(i for i in range(win.colour_by.count())
-               if "fitness" in win.colour_by.itemText(i).lower())
-    win.colour_by.setCurrentIndex(idx)
+    idx = next(i for i in range(len(COLOUR_MODES))
+               if "fitness" in COLOUR_MODES[i].lower())
+    win.set_colour_mode(COLOUR_MODES[idx])
     assert np.asarray(win.scatter.color).shape == (win.n, 4)
     win._on_cmap("auto (match the data)")
 
@@ -580,9 +581,9 @@ def test_nothing_on_screen_selects_nothing(win, monkeypatch):
 def test_attention_colouring_survives_a_table_without_the_column(win, monkeypatch):
     """The column is absent on a cache built before the literature layer existed, and the mode must
     grey out rather than raise."""
-    idx = next(i for i in range(win.colour_by.count())
-               if "attention" in win.colour_by.itemText(i).lower())
-    win.colour_by.setCurrentIndex(idx)
+    idx = next(i for i in range(len(COLOUR_MODES))
+               if "attention" in COLOUR_MODES[i].lower())
+    win.set_colour_mode(COLOUR_MODES[idx])
     real = win.nodes
     try:
         win.nodes = real.drop(columns=["attention_depth"])
@@ -590,18 +591,18 @@ def test_attention_colouring_survives_a_table_without_the_column(win, monkeypatc
         assert np.asarray(win.scatter.color).shape == (win.n, 4)
     finally:
         win.nodes = real
-        win.colour_by.setCurrentIndex(0)
+        win.set_colour_mode(COLOUR_MODES[0])
         win.redraw()
 
 
 def test_a_compartment_with_too_few_visible_genes_gets_no_centroid(win):
     """A centroid of two points is a midpoint, not a landmark."""
-    win.level.setCurrentIndex(0)
+    win.set_level(0)
     win.comp_list.clearSelection()
     win.comp_list.item(0).setSelected(True)
     win.redraw()
     win.comp_list.clearSelection()
-    win.level.setCurrentIndex(2)
+    win.set_level(2)
     win.redraw()
 
 

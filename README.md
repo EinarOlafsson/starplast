@@ -67,22 +67,36 @@ drifts from the docstrings it came from.
 A gene is selected in both: the halo marks it, and its edges fan out to the genes it is related to.
 Grey is *unknown*, never a category and never zero — 5,574 genes are named in no paper at all.
 
-The level of detail follows the data rather than invented tiers. Compartment centroids, orthogroup
-centroids, then genes:
+The level of detail follows the data rather than invented tiers. Coarse spatial structures found in
+the embedding, then orthogroup centroids, then genes:
 
-| compartment | orthogroup | gene |
+| galaxy | orthogroup | gene |
 |---|---|---|
-| ![compartment tier](docs/screenshots/lod_0_compartment.png) | ![orthogroup tier](docs/screenshots/lod_1_orthogroup.png) | ![gene tier](docs/screenshots/lod_2_gene.png) |
+| ![galaxy tier](docs/screenshots/lod_0_compartment.png) | ![orthogroup tier](docs/screenshots/lod_1_orthogroup.png) | ![gene tier](docs/screenshots/lod_2_gene.png) |
+
+The coarsest tier is computed from the embedding itself, not from compartment. Compartment centroids
+were tried first and collapsed into a blob in the middle of the screen, because a compartment's genes
+are spread across the whole map and the mean of scattered points is the middle — HANDOFF decision 4.
+
+### Controls
+
+Settings live in the menu bar; the panel keeps only what is used continuously.
 
 | | |
 |---|---|
 | left-drag / scroll | rotate / zoom |
 | left-click a gene | select it; fills the evidence panel |
+| right-click the map | spin, level of detail, point size, export, reset view |
 | search box | gene ID or product text, then flies to it |
-| double-click a compartment | fly to that compartment's centroid |
-| level of detail | compartment → orthogroup → gene |
-| edge checkboxes | per relation type; edges draw for the selected gene unless "draw all" is on |
-| Preferences | theme, colour map, point style, rendering, depth cueing, horizon grid |
+| filter by | any categorical column — compartment, cell-cycle phase, attention depth, and others |
+| double-click a value | fly to that class's centroid |
+| **View** | level of detail, colour by, point size, spin, theme, preferences |
+| **Edges** | the twelve relation types, "draw all active edges", attention correction, and why they are never combined |
+| **File** | export the image, the visible genes as CSV, or the active graph as GraphML |
+| **Tools** | console, running jobs, and an assistant that is told what is on screen |
+
+Edges draw only for the selected gene unless *Edges ▸ Draw all active edges* is on, which draws the
+strongest 20,000 per type.
 
 ## Datasets included
 

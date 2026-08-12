@@ -21,6 +21,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from starplast import paths
+from starplast.app import COLOUR_MODES  # noqa: E402
 
 DATA = paths.data_dir()
 pytestmark = pytest.mark.skipif(
@@ -58,9 +59,9 @@ def test_depth_of_attention_is_categorical_and_grey_when_unnamed(win):
     import numpy as np
     from starplast.app import DEPTH_COLOUR
     from starplast import theme as TH
-    i = win.colour_by.findText("depth of attention")
+    i = COLOUR_MODES.index("depth of attention")
     assert i >= 0
-    win.colour_by.setCurrentIndex(i)
+    win.set_colour_mode(COLOUR_MODES[i])
     win.redraw()
     c = win.colours(np.ones(win.n, bool))
     unnamed = (win.nodes.attention_depth.astype(str) == "").to_numpy()
@@ -97,24 +98,24 @@ def test_both_comention_types_are_present_and_separate(win):
 
 def test_every_edge_type_toggles(win):
     from starplast.app import EDGE_TYPES
-    win.all_edges.setChecked(True)
+    win.all_edges_act.setChecked(True)
     for k, _ in EDGE_TYPES:
         if k not in win.edges:
             continue
         for other, _ in EDGE_TYPES:
-            win.edge_cb[other].setChecked(other == k)
+            win.set_edge(other, other == k)
         win.redraw()
 
 
 def test_every_level_of_detail(win):
-    for i in range(win.level.count()):
-        win.level.setCurrentIndex(i)
+    for i in range(3):
+        win.set_level(i)
         win.redraw()
 
 
 def test_every_colour_mode(win):
-    for i in range(win.colour_by.count()):
-        win.colour_by.setCurrentIndex(i)
+    for i in range(len(COLOUR_MODES)):
+        win.set_colour_mode(COLOUR_MODES[i])
         win.redraw()
 
 
@@ -125,7 +126,7 @@ def test_attention_toggle_changes_drawn_comention(win):
     assert (e["r"] > 0).sum() <= len(e["r"])
     assert np.isfinite(e["r"]).all()
     for state in (True, False, True):
-        win.attn.setChecked(state)
+        win.attn_act.setChecked(state)
         win.redraw()
 
 
@@ -149,8 +150,8 @@ def test_edge_alpha_encodes_weight(win):
     import numpy as np
     k = "comention_ft" if "comention_ft" in win.edges else "comention"
     for other, _ in __import__("starplast.app", fromlist=["EDGE_TYPES"]).EDGE_TYPES:
-        win.edge_cb[other].setChecked(other == k)
-    win.all_edges.setChecked(True)
+        win.set_edge(other, other == k)
+    win.all_edges_act.setChecked(True)
     win.sel = None
     win.redraw()
     assert win.edge_items, "no edge item was drawn"
