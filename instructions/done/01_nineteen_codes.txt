@@ -1,0 +1,46 @@
+================================================================================
+DONE — THE NINETEEN CODES (P1 P2, U1-U7, F1-F4, V1, D1 D2, I1, C1)
+================================================================================
+
+Finished 2026-08-11, commits cb6d5f9 .. de1dd4e.
+
+WHAT WAS DONE
+    P1  parsed 97 interaction supplements -> membership, NOT edges
+    P2  18 curated host targets (ROP16-STAT3/6, GRA24-p38alpha, ...)
+    U1-U7  feature selection, NaN policy, UMAP walk, embedding store, CSV
+           import with regex repair, DBSCAN/HDBSCAN walks, hypothesis battery
+    F1-F4  imputation, LOPIT variance share, 4 redundant columns, normalisation
+    V1  orthoLOPIT validated and gated
+    D1  HuggingFace release staged, licence-gated
+    D2  proteomics datasets fetched
+    I1  PyInstaller spec + build scripts for deb/dmg/exe + CI
+    C1  citations 21 unresolved -> 16
+
+WHAT THE RESULTS ACTUALLY WERE
+    Block weights now control influence. hyperLOPIT had been taking 56% of the
+    matrix by having 27 one-hot columns; robust scaling had inflated the
+    published screens to half. Four blocks at weight 1.0 now give 23.5% each.
+
+    F1 was overstated when first reported and the correction stands: median
+    imputation was described as leaking study effort into position. Measured,
+    the gap survives dropping the offending column and missingness between
+    assays correlates at only r = 0.07-0.15, so there is no single "was this
+    gene studied" factor. Much of the gap is real biology that missingness
+    tracks. The defect was that the choice was hidden, not that the gap exists.
+    drop_genes was also a silent no-op and now works -- revealing that only 3
+    of 8,140 genes have complete data.
+
+    V1 changed the LOPIT design. orthoLOPIT is 71.8% accurate overall (4.0x
+    chance) but that average hides everything: two donors agreeing gives 96.3%,
+    Plasmodium alone 65.9%; proteasome 100%, ER 97.5%, but cytosol 35.7% and
+    golgi/secretory 6.1%. Transfers are gated on their own validated accuracy.
+    Accepted ones are 93.2% correct, at the cost of 126 -> 28 labels.
+
+    P1 did not produce edges, deliberately. Median genes per parsed study is
+    754 and the largest lists 7,866 -- these are complete quantification
+    tables. Treating membership as interaction would have invented ~50,000
+    false edges.
+
+HOW IT WAS VERIFIED
+    67 tests at the time, all headless. Each confound control has a test that
+    fails against the previous behaviour, not just one that passes now.

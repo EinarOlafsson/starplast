@@ -1,0 +1,253 @@
+================================================================================
+STARPLAST — WHAT IT IS, WHERE IT STANDS, WHAT IS LEFT
+================================================================================
+
+Written 2026-08-11. Every file in open/ is one piece of unfinished work with
+enough context to pick it up cold. Same arrangement as spacr/instructions.
+
+Each task file says the same four things: what the state is, why it matters,
+what to do, and how to know it worked. Where something is NOT worth doing,
+that is said too, with the reason -- a decision not to act is also a result,
+and re-deriving it later costs the same as deriving it once.
+
+    TEMPLATE.txt    the shape every task file takes
+    open/           unfinished. Written BEFORE the work starts, kept current
+                    WHILE it runs.
+    done/           finished, with what was actually done and how it was
+                    verified.
+
+`HANDOFF.md` in the repo root holds the design decisions and their reasons.
+This file holds the work list and the orientation. They do not duplicate:
+if you want to know WHY the map is a UMAP, read HANDOFF; if you want to know
+what to do next, read here.
+
+
+================================================================================
+WHAT STARPLAST IS
+================================================================================
+
+A PyQt6 desktop application. 8,140 *Toxoplasma gondii* genes are points in a
+3D space; the relations between them are toggleable edges; clicking a gene
+shows everything known about it, including when the answer is "nothing".
+
+Terminal entry point: `starplast`
+
+It is the front end for the information map -- entities and relations pulled
+out of the literature, with inference over the map's *structural holes* rather
+than over what authors said their gaps were.
+
+The single idea the whole thing is built around: **most of this proteome has
+never been studied, and any tool that does not say so will mislead you.** 5,574
+of 8,140 genes are named in no paper at all. 71% of the genes that ARE named
+appear only in a screen's hit table, never in a title or abstract. So every
+layer distinguishes measurement from inference from absence, and refuses to
+let one read as another.
+
+
+--------------------------------------------------------------------------------
+THE DATA MODEL — TWO SHAPES, AND PEOPLE CONFUSE THEM
+--------------------------------------------------------------------------------
+
+    data/nodes.parquet       one row per GENE       8,140 x 165 columns
+    data/graph.npz           one row per GENE PAIR  12 edge types, ~296k edges
+    data/mentions.parquet    gene x document        which paper named which gene
+    data/crosslink_models.parquet   one crosslinked pair, its residues + models
+
+A crosslink is inherently pairwise -- "GRA7 residue 124 joins GRA2 residue 102"
+-- so it cannot be a property of one gene. The node table carries only counts
+(`n_xlink_partners`); the pairs live in graph.npz. Same for co-mention,
+structural similarity and IP-MS. Asking "is the crosslink data in the table"
+gets the answer "only as a summary".
+
+The cache is 11 MB, committed, and self-contained: the application needs no
+network, no dataset and no build step. Only 3D coordinates for structures are
+fetched on demand.
+
+
+--------------------------------------------------------------------------------
+THE MODULES, IN THE ORDER DATA FLOWS
+--------------------------------------------------------------------------------
+
+    datasets.py       the provenance registry -- 26 datasets, machine-readable.
+                      datasets.unresolved() lists citations still unconfirmed.
+    identity.py       every string the literature uses for a gene -> one
+                      canonical accession, tagged by confidence
+    corpus.py         abstracts + PMC JATS -> one sectioned Document stream
+    literature.py     -> mentions.parquet, the auditable intermediate
+    localisation.py   hyperLOPIT MAP + MCMC, and orthoLOPIT transfer
+    screens.py        four published CRISPR screens + iBAQ
+    expression.py     six further expression datasets (in vivo, stress, MORC,
+                      proteome, phospho, oocyst)
+    sources.py        download from GEO/PRIDE; normalise by quantification type
+    interactions.py   crosslink MS, IP-MS, Foldseek structural similarity
+    interaction_studies.py  97 tagged-protein studies -> membership
+    structures.py     coordinates on demand (local mirror, else AlphaFold DB)
+    build_graph.py    composes all of it into the cache
+    ---
+    embedding.py      configurable matrix: blocks, NaN policy, scaling, weights
+    clustering.py     DBSCAN/HDBSCAN walks + the cluster hypothesis battery
+    tuning.py         seeded UMAP walk, embedding store, CSV import
+    search.py         THE POINT: walk dataset combos, score held-out recovery
+    ---
+    theme.py          4 palettes, colour maps by kind, point styles
+    app.py            the browser
+    analysis_panel.py the analysis tab (data -> map -> clusters -> meaning ->
+                      search)
+
+
+================================================================================
+WHAT A NEXT SESSION MUST NOT REDISCOVER
+================================================================================
+
+Each of these cost real time to find. Most were silent failures: the code ran,
+the output looked fine, the numbers were wrong.
+
+IDENTITY
+  Papers cite whatever accession was current when they were written. One 2019
+  in vivo screen uses pre-2012 `TGME49_0xxxxx` ids for EVERY gene and
+  contributed 0 of 8,140 rows until routed through identity.py; then 168.
+  `TGGT1_` strain accessions are MORE common than `TGME49_` in interaction
+  supplements. Any new dataset join has this failure mode.
+
+  StarPath is the exception to the suffix rule: it uses RH88 accessions whose
+  numbering does NOT correspond to ME49. TGRH88_016370 is TGME49_210408, not
+  _216370. Use the alias column the export ships.
+
+SYMBOL MATCHING
+  HOOK, CLAMP, CLIP, SPARK and REMIND are all real Toxoplasma gene symbols and
+  all ordinary English words. Digit-free symbols must appear in UPPER CASE or
+  the corpus fills with prose. Tokenise Unicode-aware: an ASCII class truncates
+  French "Sante" to "Sant", which is also a real symbol.
+
+  "GT1" is both a strain name and the symbol of TGME49_214320 (glucose
+  transporter). Strain designations are blocked outright.
+
+CIRCULARITY
+  This is the one that matters. Naming the columns an embedding used is NOT
+  enough to keep a finding honest. `compartment` fed one embedding and the
+  battery duly reported its exact twin `lopit_map` and its derivations
+  `lopit_unified`, `compartment_best` as the top held-out discoveries at
+  V = 0.96. Association with the inputs is now MEASURED; anything >= 0.95 is
+  marked derived, and every result carries `assoc_with_input`.
+
+  The size of the effect: with hyperLOPIT leaked in, "LOPIT separates the
+  clusters at V = 0.96". Held out properly, the best of 164 runs reaches
+  mean F1 0.362. The guard is the difference between a spectacular artefact
+  and a modest truth.
+
+CONFOUNDS IN THE DERIVED LAYERS
+  Structural holes: orthogroup and domain are ONE evidence family, not two --
+  paralogs almost always share domains. Counted separately, 53 of the first 66
+  candidates were pure paralogy. Letting homology pair with expression admitted
+  291 more, 76% same-orthogroup. Both phenotype measurements are required.
+  compartment is excluded entirely: too unspecific, and it tracks abundance.
+
+QUANTIFICATION
+  The same GEO series demonstrates both ways to get this wrong, and neither is
+  visible in the output. GEO's GSE108740_FPKM.xlsx reaches 16,520 and is real
+  FPKM -- skip the log and one gene dominates every distance. The columns
+  derived from it in the node table, still named rna108740_*_FPKM, top out at
+  9.7 because they were logged upstream -- log them again and real variation
+  compresses to nothing. THE RANGE DECIDES, NOT THE FILENAME.
+
+  The 8 CRISPR screens share neither sign convention nor scale. Naive-BMDM and
+  IFN-gamma are inverted; SDs differ ~15x. The two GRA12 screens are NOT
+  replicates (in-vivo L2FC r = 0.41). Rank-normalise before pooling anything.
+
+WHAT SUPPLEMENTS ACTUALLY CONTAIN
+  A supplement is usually the paper's COMPLETE quantification table, not its
+  hit list. Median genes per parsed interaction study is 754; the largest lists
+  7,866 -- essentially the whole proteome. Treating membership as interaction
+  would manufacture ~50,000 false edges. That is why
+  interaction_studies.py reports membership and stops there.
+
+  PRIDE deposits RAW instrument files. Checked across PXD019729, PXD065585 and
+  PXD043808: not one RESULT file. Per-protein quantification exists only in the
+  papers' supplementary tables. GEO, by contrast, deposits processed matrices
+  and can be automated end to end.
+
+RENDERING
+  GLScatterPlotItem blends ADDITIVELY by default. 8,140 overlapping points
+  summed to white and every colour mode rendered as one featureless blob --
+  while every array-level test passed, because they checked the colour array
+  and never the render. RENDER THE APP AND LOOK AT IT before believing a
+  display claim.
+
+  pyqtgraph ships no "coolwarm": its diverging maps come from the CET set.
+  Offering a matplotlib name raises FileNotFoundError inside a paint call.
+
+  pyqtgraph's `projectionMatrix()` signature has changed twice: no arguments,
+  then (region=None), now (region, viewport). app.py tries all three.
+
+ENVIRONMENT
+  pytest-qt imports PySide6 at plugin load, so pyqtgraph binds to PySide6 while
+  the app hard-imports PyQt6 -- the app then fails to import under pytest while
+  working perfectly when launched. PYQTGRAPH_QT_LIB=PyQt6 is pinned in app.py
+  and tests/conftest.py.
+
+  The working copy sits in the Syncthing tree, so .git replicates to the work
+  machine. Commit from ONE machine at a time or Syncthing forks objects inside
+  .git.
+
+
+================================================================================
+NUMBERS AS BUILT (verified 2026-08-11, commit a4bf648)
+================================================================================
+
+    genes                       8,140
+    node columns                  165
+    edge types                     12   (~296,000 edges)
+    tests                          71   headless, no network, ~30 s
+    cache                       11 MB   committed, self-contained
+
+    named in a title                286   3.5%
+    named in an abstract            464
+    named only in passing         1,816   71% of all coverage
+    named nowhere                 5,574   68.5%
+    -> the honest attention figure is 750 (9.2%), NOT 2,566
+
+    hyperLOPIT measured           3,827   47%
+    + orthoLOPIT accepted            28   gated at 93.2% validated accuracy
+    structural holes                255   over 457 genes
+    unwritten interactions        2,673   92% of all measured interactions
+    crosslink models trustworthy    162   of 2,397 scored -- 60% explain nothing
+
+
+================================================================================
+OPEN — IN THE ORDER TO DO THEM
+================================================================================
+
+    open/01_verify_projectionmatrix_fix.txt     BLOCKS EVERYTHING ELSE
+    open/02_visual_quality.txt                  what you look at every session
+    open/03_api_reference_and_readme.txt        documents 01 and 02, so after
+    open/04_search_more_targets.txt             the machinery exists, unused
+    open/05_rebuild_expression_from_geo.txt     NEEDS A DECISION
+    open/06_studies_with_no_supplementary.txt   lowest value, most effort
+
+Why not docs first: normally yes, but 03 documents a UI that 02 is about to
+change, so it would need rewriting immediately.
+
+
+================================================================================
+DONE
+================================================================================
+
+    done/01_nineteen_codes.txt         P1 P2 U1-U7 F1-F4 V1 D1 D2 I1 C1
+    done/02_six_expression_datasets.txt 95 -> 165 columns
+    done/03_gui_bugs.txt               picking, LOD, dead controls, read-only
+
+
+================================================================================
+RUNNING IT
+================================================================================
+
+    pip install -e .
+    python -m starplast.fetch_names     # one-off, needs network
+    python -m starplast.build_graph     # rebuilds data/, ~5 min
+    pytest tests/ -q                    # 71 tests, headless, no network
+    starplast
+
+Needs a display and OpenGL. The test suite does not.
+
+Repo: git@github.com:EinarOlafsson/starplast.git (private, branch main)
+Working copy: /mnt/firecuda2/Claude/toxoplasma_projects/starplast

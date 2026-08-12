@@ -1,0 +1,39 @@
+================================================================================
+REBUILD THE EXISTING EXPRESSION COLUMNS FROM THE GEO SOURCES -- NEEDS A DECISION
+================================================================================
+
+STATE
+    The GEO source matrices are downloaded and sitting in
+    datasets/transcription/RNAseq/: GSE108740_FPKM.xlsx and both GSE206344
+    tables.
+
+    The node table does NOT use them. Its rna108740_* and rna206344_* columns
+    come from the upstream toxonet build, already processed by someone else.
+    The six datasets added in expression.py DO go through sources.normalise().
+
+    So the table now mixes two provenances: 18 columns processed upstream by
+    unknown means, and 70 processed here by a declared rule.
+
+WHY IT MATTERS
+    Mostly consistency, and it is not urgent. But the evidence that it matters
+    is concrete: the upstream rna108740_* columns top out at 9.7 while the GEO
+    source reaches 16,520, so a transform was applied that nobody here can
+    name. Anything that treats those 18 columns as comparable with the 70 is
+    assuming something unverified.
+
+WHAT TO DO
+    Only with the user's agreement -- it changes every existing expression
+    column and therefore the embedding, the clusters and every published
+    figure derived from them.
+
+    If yes: load both GEO matrices through sources.normalise("fpkm") and
+    ("log_intensity") respectively, replace the rna* columns, rebuild, and
+    diff the embedding before and after. Report how far genes moved.
+
+HOW TO KNOW IT WORKED
+    Every expression column has one declared quantification type and one
+    declared transform. sources.infer_quant() agrees with the declaration.
+
+TRAPS
+    Do not "harmonise" by logging the upstream columns again. They are already
+    logged. Range decides, not filename -- see 00_INDEX.

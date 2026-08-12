@@ -1,0 +1,40 @@
+================================================================================
+DONE — PICKING, LEVEL OF DETAIL, AND THE CONTROLS THAT DID NOTHING
+================================================================================
+
+Finished 2026-08-11, commit a4bf648. Reported by the user with a traceback.
+
+WHAT WAS WRONG
+    1. Clicking a gene raised TypeError from projectionMatrix() -- pyqtgraph
+       changed the signature. Every click printed a traceback and selected
+       nothing. See open/01: the fix is written but UNTESTED against the
+       version that failed.
+
+    2. The middle LOD tier did nothing at all unless a gene happened to be
+       selected, making it indistinguishable from the gene tier. A three-tier
+       hierarchy was silently a two-tier one. It now draws orthogroup centroids
+       the way the galaxy tier draws compartment centroids:
+       27 compartment markers -> 44 orthogroup markers -> genes.
+
+    3. The point-style control was applied in apply_point_style() and then
+       overwritten by redraw(), which sets sizes itself. Any redraw undid the
+       choice. Sizes are now derived from the style inside redraw().
+
+    4. The colour-map control only touched the continuous ramp, so choosing a
+       map while colouring by compartment -- the default mode -- did nothing.
+       Categorical colours are now rebuilt too.
+
+    5. umap returns a read-only array in recent versions; in-place centring
+       raised "output array is read-only". Copied, not viewed, in embedding.py
+       and search.py.
+
+ALSO ADDED
+    Preferences dialog (as in spacr), a spin toggle using view.orbit() so
+    nothing recomputes per frame, and a camera that frames the data instead of
+    assuming distance 170 -- which is why the map looked like a small island
+    after the embedding's extent changed.
+
+HOW IT WAS VERIFIED
+    All three LOD tiers rendered and inspected: 27 / 44 / 0 centroid markers
+    and distinct point sizes. project() returns 8,140 finite positions. Themes,
+    point styles and render modes exercised offscreen. 71 tests.

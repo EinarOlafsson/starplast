@@ -181,10 +181,20 @@ Read `.claude/skills/toxoplasma-scientist/SKILL.md` before interpreting anything
 - **Never compare a gene set against the whole proteome** — 86% of adequately powered motif claims fail a
   matched background, and set median protein length predicts apparent enrichment at ρ ≈ +0.8.
 
+## Where the work list lives
+
+`instructions/` tracks unfinished work across sessions, in the same arrangement as
+spacr/instructions: `00_INDEX.txt` orients a cold start and lists the open tasks in the order to do
+them, `open/` holds one file per unfinished task, `done/` records what was finished and how it was
+verified. Read `instructions/00_INDEX.txt` first — it carries the traps that cost real time to find.
+
+`skills/` holds reusable techniques worked out here, also installed under `.claude/skills/`.
+
 ## Start a session on this project by pasting this
 
 ```
-Read /mnt/firecuda2/Claude/toxoplasma_projects/starplast/HANDOFF.md and continue starplast.
+Read /mnt/firecuda2/Claude/toxoplasma_projects/starplast/instructions/00_INDEX.txt and
+HANDOFF.md, then continue starplast.
 v0+v1+v1.1+v1.2 are done and pushed to github.com/EinarOlafsson/starplast (private); 67 tests pass
 headless. Do not re-derive the design decisions in that file.
 Next: <state what you want — e.g. "v2 species switching", "search a new target", or

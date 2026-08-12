@@ -1,0 +1,38 @@
+================================================================================
+THE 40 INTERACTION STUDIES WITH NO SUPPLEMENTARY FILES ON DISK
+================================================================================
+
+STATE
+    97 tagged-protein interaction studies were catalogued from the abstract
+    corpus. 38 now yield identifiers -- 32 from spreadsheets, 6 more once the
+    PDFs and DOCX were read.
+
+    Of the 59 that do not: 40 have NO files at all. Europe PMC's
+    supplementaryFiles endpoint returned 404 for them. That is not a parsing
+    failure, and the earlier framing of "65 unread documents" overstated what
+    is recoverable. Only 25 ever had anything to read; 20 of those gave
+    something up.
+
+WHY IT MATTERS
+    Marginal. The parsed studies already produce 68,085 memberships over 7,912
+    genes, and membership is not interaction anyway (see 00_INDEX). More
+    membership rows do not move any conclusion.
+
+WHAT TO DO
+    Probably nothing. If it is ever wanted, it means fetching from each
+    publisher individually -- Elsevier, Wiley and Springer each need their own
+    handling, some behind paywalls -- for data that still needs per-paper
+    curation before it becomes an edge.
+
+    Better use of the same effort: curate hit lists from the 38 studies that DO
+    parse. That is what would turn membership into interactions, which is the
+    thing actually missing.
+
+HOW TO KNOW IT WORKED
+    Not applicable unless attempted. If attempted, the check is the same as for
+    curation: does a named bait connect to a named set of hits, with the
+    paper's own threshold column cited.
+
+TRAPS
+    Do not resume the framing that these are 40 documents waiting to be parsed.
+    They are 40 studies whose supplementary data is not accessible from here.
