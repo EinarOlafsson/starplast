@@ -98,6 +98,12 @@ def walk_umap(nodes: pd.DataFrame, spec: EmbeddingSpec,
             log(f"  n_neighbors={nn:4d} min_dist={md:<5} "
                 f"trust={row['trustworthiness']:.3f} "
                 f"clusters={row.get('n_clusters_hdbscan', '-')}")
+    if not out:
+        # Same shape as a populated result. Built from [], the frame has no columns at all and sorting
+        # raises KeyError -- so a grid where every setting was skipped crashed instead of reporting
+        # that nothing was runnable.
+        return pd.DataFrame(columns=["n_neighbors", "min_dist", "seed", "sample_size",
+                                     "trustworthiness", "continuity_proxy"])
     return pd.DataFrame(out).sort_values("trustworthiness", ascending=False)
 
 
@@ -151,6 +157,11 @@ class EmbeddingStore:
 
 # --------------------------------------------------------------------------- import
 GENE_RX = re.compile(r"TGME49_\d{5,6}", re.I)
+# What import_table EXTRACTS. Wider than GENE_RX on purpose: a table keyed on TGGT1_ or TGVEG_ has to
+# reach `resolve` to be mapped forward, and extracting with the ME49-only pattern discarded those rows
+# before the identity layer ever saw them -- silently, and in exactly the case the docstring promises
+# is handled. TGGT1_ accessions are more common than TGME49_ in published supplements.
+IMPORT_RX = re.compile(r"TG(?:ME49|GT1|VEG)_\d{5,6}", re.I)
 # Deliberately loose: catches TgME49.208830, TGME49-208830, tgme49 208830, bare 6-digit accessions.
 # Used only to *suggest* a column, never to parse one -- a malformed column is precisely the case where
 # the user needs a suggestion, so refusing to guess is unhelpful.
@@ -204,7 +215,7 @@ def import_table(path_or_df, gene_column: str | None = None, pattern: str | None
     raw = df[col].astype(str)
     if pattern:
         raw = raw.str.replace(pattern, replacement, regex=True)
-    ids = raw.str.extract(f"({GENE_RX.pattern})", expand=False, flags=re.I)
+    ids = raw.str.extract(f"({IMPORT_RX.pattern})", expand=False, flags=re.I)
     ids = ids.str.upper().str.replace("TGME49_", "TGME49_", regex=False)
     if resolve is not None:
         ids = ids.map(lambda x: resolve(x) if isinstance(x, str) else x)

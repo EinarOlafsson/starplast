@@ -244,12 +244,18 @@ def build_edges(nodes: pd.DataFrame):
         d = pd.read_csv(ip, low_memory=False)
         c0 = "gene_source_id" if "gene_source_id" in d.columns else d.columns[0]
         d = d[d.interpro_id.notna()]
-        dom = defaultdict(list)
+        # A set per domain, not a list. InterPro reports one row per MATCH, so a protein with two
+        # copies of the same domain -- common, and the norm for repeat families -- appeared twice in the
+        # member list. The pair loop then emitted (g, g) as an edge and duplicated every pair involving
+        # it: 31 self-edges and 106 duplicated pairs in the shipped graph. A self-edge draws as a
+        # zero-length line and a duplicate draws twice, reading as twice the evidence.
+        dom = defaultdict(set)
         for g, i in zip(d[c0], d.interpro_id.astype(str)):
             if g in idx:
-                dom[i].append(idx[g])
+                dom[i].add(idx[g])
         a, b, w = [], [], []
-        for i, ii in dom.items():
+        for i, members in dom.items():
+            ii = sorted(members)                     # canonical order, so a < b for every pair
             if 2 <= len(ii) <= 60:
                 for x in range(len(ii)):
                     for y in range(x + 1, len(ii)):

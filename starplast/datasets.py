@@ -372,3 +372,53 @@ def ensure(key: str, log=print) -> str | None:
 def missing() -> list:
     """Registry entries whose data is not on this machine. The honest first-run report."""
     return [d.key for d in REGISTRY if d.path and not local_path(d.key)]
+
+
+# --------------------------------------------------------------------------- documentation
+LEVEL_ORDER = ("DNA", "transcription", "translation", "post_translation", "reference")
+LEVEL_TITLE = {
+    "DNA": "DNA — genetic perturbation and DNA-level readouts",
+    "transcription": "Transcription — RNA abundance",
+    "translation": "Translation — protein abundance",
+    "post_translation": "Post-translation — properties of the folded protein",
+    "reference": "Reference — not a study result",
+}
+
+
+def _reference(d: "Dataset") -> str:
+    """What a reader needs to judge the data: the publication, not the file path.
+
+    A path is an implementation detail that changes with the layout; a PMID does not. Where neither a
+    citation nor an accession is recorded, that is stated rather than left blank -- `unresolved()`
+    exists so those cannot reach a manuscript unchecked, and a blank cell would hide them.
+    """
+    bits = []
+    if d.citation:
+        bits.append(d.citation)
+    if d.pmid:
+        bits.append(f"PMID [{d.pmid}](https://pubmed.ncbi.nlm.nih.gov/{d.pmid}/)")
+    if d.accession:
+        bits.append(f"`{d.accession}`")
+    return "; ".join(bits) if bits else "*citation not yet confirmed*"
+
+
+def readme_table() -> str:
+    """The dataset table for the README, as markdown, generated from this registry.
+
+    Generated rather than written by hand because a hand-written table drifts the moment a dataset is
+    added, and a README that misstates which data is inside is worse than one that omits it. A test
+    asserts the committed README matches what this produces.
+    """
+    lines = []
+    for level in LEVEL_ORDER:
+        entries = [d for d in REGISTRY if d.level == level]
+        if not entries:
+            continue
+        lines.append(f"### {LEVEL_TITLE[level]}")
+        lines.append("")
+        lines.append("| Dataset | Type of data | Coverage | Reference |")
+        lines.append("|---|---|---|---|")
+        for d in sorted(entries, key=lambda x: x.name):
+            lines.append(f"| {d.name} | {d.provides} | {d.coverage or '—'} | {_reference(d)} |")
+        lines.append("")
+    return "\n".join(lines).rstrip() + "\n"
