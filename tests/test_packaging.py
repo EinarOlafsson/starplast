@@ -67,3 +67,33 @@ def test_every_optional_analysis_dependency_is_named(spec):
     analysis panel would be dead in the installed build."""
     for pkg in ("umap", "numba", "pynndescent", "sklearn.cluster"):
         assert pkg in spec, pkg
+
+
+# --------------------------------------------------------------------------- what ships
+def test_the_shipped_cache_holds_only_what_the_application_reads():
+    """Everything under starplast/data is carried by every install. Analysis output belongs in
+    results/, where a reader can find it and a user does not have to download it."""
+    from starplast import paths
+    d = paths.data_dir()
+    strays = [f for f in os.listdir(d)
+              if f.endswith((".csv", ".log", ".txt")) or f.startswith("search_")]
+    assert not strays, f"analysis output inside the shipped cache: {strays}"
+
+
+def test_the_wheel_carries_the_files_the_application_needs():
+    """The three identity tables were silently omitted once, because the package-data glob matched two
+    extensions and did not recurse."""
+    # tomllib is 3.11+; this project supports 3.10, so the line is read directly rather than adding
+    # a dependency to check one setting.
+    text = open(os.path.join(ROOT, "pyproject.toml"), encoding="utf8").read()
+    line = next(l for l in text.splitlines() if l.strip().startswith("starplast = ["))
+    globs = re.findall(r'"([^"]+)"', line)
+    joined = " ".join(globs)
+    for ext in (".npz", ".parquet", ".tsv"):
+        assert ext in joined, f"package-data does not ship {ext}"
+    assert any("**" in g for g in globs), "package-data does not recurse into subdirectories"
+
+
+def test_results_are_kept_out_of_the_package():
+    assert os.path.isdir(os.path.join(ROOT, "results"))
+    assert os.path.exists(os.path.join(ROOT, "results", "README.md"))

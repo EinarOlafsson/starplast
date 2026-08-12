@@ -191,15 +191,15 @@ ENVIRONMENT
 
 
 ================================================================================
-NUMBERS AS BUILT (verified 2026-08-11, commit a4bf648)
+NUMBERS AS BUILT (re-measured 2026-08-12 against the cache itself, not the record)
 ================================================================================
 
     genes                       8,140
-    node columns                  165
-    edge types                     12   (~296,000 edges)
-    tests                         860   headless, no network, ~40 s
+    node columns                  169
+    edge types                     12   (296,412 edges)
+    tests                         889   headless, no network, ~30 s
     coverage                     100%   every module, no pragma exemptions
-    cache                       11 MB   committed, self-contained
+    cache                       17 MB   committed, self-contained, inside the package
 
     named in a title                286   3.5%
     named in an abstract            464
@@ -212,6 +212,12 @@ NUMBERS AS BUILT (verified 2026-08-11, commit a4bf648)
     structural holes                255   over 457 genes
     unwritten interactions        2,673   92% of all measured interactions
     crosslink models trustworthy    162   of 2,397 scored -- 60% explain nothing
+    cell-cycle phase, measured      873   G1a/G1b/S/M/C, the only non-location target
+    stage enrichment, DERIVED     1,911   named _derived and registered as such
+
+RECOVERY, once absence labels are excluded from scoring (see done/10):
+    cell-cycle phase            F1 0.489   every label a real phase
+    localisation                F1 0.207   was 0.484 with `unassigned` scored
 
 
 ================================================================================
