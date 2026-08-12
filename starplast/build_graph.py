@@ -24,7 +24,8 @@ from collections import Counter, defaultdict
 import numpy as np
 import pandas as pd
 
-from . import corpus, identity, interaction_studies, interactions, literature, localisation, screens
+from . import (corpus, expression, identity, interaction_studies, interactions, literature,
+               localisation, screens)
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = os.path.dirname(HERE)                      # toxoplasma_projects
@@ -91,7 +92,8 @@ def load_nodes() -> pd.DataFrame:
         return hit[0] if hit else None
 
     for tbl in (screens.crispr_screens(BASE, log=log, resolve=resolve),
-                screens.proteomics(BASE, log=log, resolve=resolve)):
+                screens.proteomics(BASE, log=log, resolve=resolve),
+                expression.load_all(BASE, resolve=resolve, log=log)):
         if tbl is not None and not tbl.empty:
             for c in tbl.columns:
                 n[c] = n.gene_id.map(tbl[c])

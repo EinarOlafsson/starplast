@@ -67,6 +67,10 @@ PALETTE = [
 ]
 GREY = (0.45, 0.45, 0.48)   # fallback; the live value comes from TH.unknown_colour(theme)
 
+# An orthogroup needs this many visible members before it earns a marker at system level. Below it the
+# view fills with thousands of singleton markers, which is the gene level with extra steps.
+MIN_ORTHOGROUP_FOR_SYSTEM = 4
+
 # Depth of attention is categorical (see literature.DEPTH_OF): named in a title / in an abstract / only in
 # a body or caption. Distinct hues rather than a ramp, because the tiers are not a measured quantity.
 DEPTH_COLOUR = {"focal": (0.98, 0.86, 0.30),          # the paper is about this gene
@@ -100,10 +104,38 @@ class Map3D(gl.GLViewWidget):
     def __init__(self, xyz):
         super().__init__()
         self.xyz = xyz
-        self.setCameraPosition(distance=170)
+        self.fit_view()
+
+    def fit_view(self, margin=1.35):
+        """Frame the data rather than assuming a fixed distance.
+
+        The embedding is renormalised on every build and its extent changes with the feature set, so a
+        hard-coded 170 left the map as a small island in a large empty viewport.
+        """
+        if len(self.xyz):
+            centre = self.xyz.mean(0)
+            radius = float(np.linalg.norm(self.xyz - centre, axis=1).max())
+            self.setCameraPosition(pos=pg.Vector(*centre), distance=max(radius * margin, 10.0))
+        else:
+            self.setCameraPosition(distance=170)
 
     def _mvp(self):
-        m = self.projectionMatrix() * self.viewMatrix()
+        """Model-view-projection, across pyqtgraph versions.
+
+        `projectionMatrix()` took no arguments, then `(region=None)`, and in current releases requires
+        `(region, viewport)`. Calling the old way on a new pyqtgraph raises TypeError inside the mouse
+        handler, which is why clicking a gene printed a traceback and selected nothing.
+        """
+        try:
+            proj = self.projectionMatrix()
+        except TypeError:
+            dpr = self.devicePixelRatioF() if hasattr(self, "devicePixelRatioF") else 1.0
+            viewport = (0, 0, int(self.width() * dpr), int(self.height() * dpr))
+            try:
+                proj = self.projectionMatrix(None, viewport)
+            except TypeError:
+                proj = self.projectionMatrix(region=None, viewport=viewport)
+        m = proj * self.viewMatrix()
         return np.array([[r.x(), r.y(), r.z(), r.w()]
                          for r in (m.row(i) for i in range(4))], dtype=float)
 
@@ -125,7 +157,11 @@ class Map3D(gl.GLViewWidget):
         if ev.button() != QtCore.Qt.MouseButton.LeftButton:
             return
         p = ev.position()
-        sx, sy = self.project()
+        try:
+            sx, sy = self.project()
+        except Exception as exc:            # a mouse handler is the wrong place to raise
+            print(f"starplast: picking unavailable ({type(exc).__name__}: {exc})")
+            return
         d = np.hypot(sx - p.x(), sy - p.y())
         if np.all(np.isnan(d)):
             return
@@ -140,6 +176,7 @@ class Window(QtWidgets.QMainWindow):
         self.theme = 'dark'
         self.point_style = TH.DEFAULT_POINT_STYLE
         self.point_mode = 'occlude'
+        self._spin_speed = 0.35
         self.cmap_name = None
         self.nodes, self.xyz, self.edges, self.models = load()
         self.n = len(self.nodes)
@@ -244,8 +281,90 @@ class Window(QtWidgets.QMainWindow):
         self.redraw()
         self.statusBar().showMessage(f"showing a rebuilt map over {int(np.sum(rows)):,} genes")
 
+    def open_preferences(self):
+        """Appearance settings, gathered in one place rather than crowding the map panel."""
+        d = QtWidgets.QDialog(self)
+        d.setWindowTitle("Preferences")
+        form = QtWidgets.QFormLayout(d)
+
+        self.theme_box = QtWidgets.QComboBox()
+        self.theme_box.addItems(TH.THEMES)
+        self.theme_box.setCurrentText(self.theme)
+        self.theme_box.setToolTip("dark and light are the general pair; slate is a low-contrast dark "
+                                  "for long sessions, paper a high-contrast light for figures.")
+        self.theme_box.currentTextChanged.connect(self.apply_theme)
+
+        self.cmap_box = QtWidgets.QComboBox()
+        self.cmap_box.addItem("auto (match the data)")
+        self.cmap_box.addItems(list(TH.CMAPS))
+        if self.cmap_name:
+            self.cmap_box.setCurrentText(self.cmap_name)
+        self.cmap_box.setToolTip(
+            "Sequential for ordered quantities, diverging only where values straddle a midpoint, "
+            "categorical for classes. A map of the wrong kind is ignored in favour of the right "
+            "default, because a diverging ramp on a positive quantity invents a midpoint.")
+        self.cmap_box.currentTextChanged.connect(self._on_cmap)
+
+        self.point_box = QtWidgets.QComboBox()
+        self.point_box.addItems(list(TH.POINT_STYLES))
+        self.point_box.setCurrentText(self.point_style)
+        self.point_box.setToolTip("pinpoint suits 8,000 genes at once; halo shows density; large is "
+                                  "for a filtered subset.")
+        self.point_box.currentTextChanged.connect(self._on_point_style)
+
+        self.mode_box = QtWidgets.QComboBox()
+        self.mode_box.addItems(TH.POINT_MODES)
+        self.mode_box.setCurrentText(self.point_mode)
+        self.mode_box.setToolTip(
+            "occlude: nearer points hide farther ones — the correct default.\n"
+            "additive: overlaps sum, which reads as density but saturates dense regions to white "
+            "and destroys the colour encoding.")
+        self.mode_box.currentTextChanged.connect(self._on_point_mode)
+
+        self.spin_speed = QtWidgets.QDoubleSpinBox()
+        self.spin_speed.setRange(0.05, 3.0)
+        self.spin_speed.setSingleStep(0.05)
+        self.spin_speed.setValue(self._spin_speed)
+        self.spin_speed.setSuffix("  °/frame")
+        self.spin_speed.valueChanged.connect(lambda v: setattr(self, "_spin_speed", v))
+
+        form.addRow("theme", self.theme_box)
+        form.addRow("colour map", self.cmap_box)
+        form.addRow("points", self.point_box)
+        form.addRow("rendering", self.mode_box)
+        form.addRow("spin speed", self.spin_speed)
+        close = QtWidgets.QPushButton("close")
+        close.clicked.connect(d.accept)
+        form.addRow(close)
+        d.exec()
+
+    def toggle_spin(self, on: bool):
+        """Rotate the camera continuously. Depth in a 3D scatter only reads when it moves."""
+        if not hasattr(self, "_spin_timer"):
+            self._spin_timer = QtCore.QTimer(self)
+            self._spin_timer.timeout.connect(self._spin_step)
+        self.spin_btn.setText("❚❚  spinning" if on else "▶  spin")
+        if on:
+            self._spin_timer.start(33)          # ~30 fps; smooth without burning the GPU
+        else:
+            self._spin_timer.stop()
+
+    def _spin_step(self):
+        # orbit() moves the camera, not the data, so nothing is recomputed per frame.
+        self.view.orbit(self._spin_speed, 0)
+
     def _on_cmap(self, name):
+        """Apply a colour map. Categorical colours are rebuilt, not just the continuous ramp.
+
+        Only the ramp honoured this before, so choosing a map while colouring by compartment -- the
+        default mode -- appeared to do nothing at all.
+        """
         self.cmap_name = None if name.startswith("auto") else name
+        kind = TH.CMAPS.get(self.cmap_name, (None,))[0] if self.cmap_name else None
+        if kind in (None, "categorical"):
+            self.colour_of = dict(zip(self.comps, TH.categorical_colours(
+                len(self.comps), self.theme, self.cmap_name if kind == "categorical" else None)))
+            self.colour_of["unassigned"] = TH.unknown_colour(self.theme)[:3]
         self.redraw()
 
     def _on_point_style(self, name):
@@ -297,31 +416,19 @@ class Window(QtWidgets.QMainWindow):
             self.edge_cb[k] = cb
             L.addWidget(cb)
 
-        # ---- appearance
-        app_box = QtWidgets.QGroupBox("appearance")
-        ab = QtWidgets.QFormLayout(app_box)
-        self.theme_box = QtWidgets.QComboBox()
-        self.theme_box.addItems(TH.THEMES)
-        self.theme_box.currentTextChanged.connect(self.apply_theme)
-        self.cmap_box = QtWidgets.QComboBox()
-        self.cmap_box.addItem("auto (match the data)")
-        self.cmap_box.addItems(list(TH.CMAPS))
-        self.cmap_box.currentTextChanged.connect(self._on_cmap)
-        self.point_box = QtWidgets.QComboBox()
-        self.point_box.addItems(list(TH.POINT_STYLES))
-        self.point_box.setCurrentText(TH.DEFAULT_POINT_STYLE)
-        self.point_box.currentTextChanged.connect(self._on_point_style)
-        self.mode_box = QtWidgets.QComboBox()
-        self.mode_box.addItems(TH.POINT_MODES)
-        self.mode_box.setToolTip(
-            "occlude: nearer points hide farther ones -- the correct default.\n"
-            "additive: overlaps sum, which reads as density but saturates dense regions to white.")
-        self.mode_box.currentTextChanged.connect(self._on_point_mode)
-        ab.addRow("theme", self.theme_box)
-        ab.addRow("colour map", self.cmap_box)
-        ab.addRow("points", self.point_box)
-        ab.addRow("rendering", self.mode_box)
-        L.addWidget(app_box)
+        # ---- view controls. The appearance settings live in Preferences, as in spaCR: they are set
+        # once and then in the way, whereas spin and reset are used constantly.
+        row = QtWidgets.QHBoxLayout()
+        self.spin_btn = QtWidgets.QPushButton("▶  spin")
+        self.spin_btn.setCheckable(True)
+        self.spin_btn.setToolTip("Rotate the map slowly and continuously. A 3D scatter reads as a "
+                                 "shape only when it moves.")
+        self.spin_btn.toggled.connect(self.toggle_spin)
+        prefs = QtWidgets.QPushButton("preferences…")
+        prefs.setToolTip("Theme, colour map, point style and rendering mode")
+        prefs.clicked.connect(self.open_preferences)
+        row.addWidget(self.spin_btn); row.addWidget(prefs)
+        L.addLayout(row)
 
         self.attn = QtWidgets.QCheckBox("attention-corrected co-mention")
         self.attn.setChecked(True)     # a correctness default, not a preference
@@ -414,7 +521,8 @@ class Window(QtWidgets.QMainWindow):
                 cm = TH.resolve_cmap(self._cmap_for(v))
                 c[:, :3] = cm.map(np.nan_to_num(t, nan=0.0), mode="float")[:, :3]
             c[~ok, :3] = TH.unknown_colour(self.theme)[:3]   # missingness stays grey, never a value
-        c[:, 3] = np.where(vis, 0.95, 0.06)
+        alpha = float(TH.POINT_STYLES.get(self.point_style, {}).get('alpha', 0.95))
+        c[:, 3] = np.where(vis, alpha, 0.06)
         if self.sel is not None:
             c[self.sel] = (1.0, 1.0, 1.0, 1.0)
         return c
@@ -430,12 +538,17 @@ class Window(QtWidgets.QMainWindow):
             self.view.removeItem(self.centroid_item)
             self.centroid_item = None
 
-        sizes = np.where(vis, 5.0, 2.0).astype(np.float32)
+        st = TH.POINT_STYLES.get(self.point_style, TH.POINT_STYLES[TH.DEFAULT_POINT_STYLE])
+        base = float(st["size"])
+        # redraw() sets sizes every time, so the chosen point style has to be applied here rather than
+        # only in apply_point_style -- otherwise picking a style changed nothing the moment anything
+        # else triggered a redraw.
+        sizes = np.where(vis, base, max(base * 0.4, 1.5)).astype(np.float32)
         if self.sel is not None:
-            sizes[self.sel] = 15.0
+            sizes[self.sel] = max(base * 3.0, 12.0)
         if lvl == 0:
             # galaxy level: genes recede, compartment centroids carry the map
-            sizes = np.full(self.n, 2.0, np.float32)
+            sizes = np.full(self.n, max(base * 0.4, 1.5), np.float32)
             pos, col, ssz = [], [], []
             for c in self.comps:
                 m = (self.nodes.compartment.astype(str) == c).to_numpy() & vis
@@ -449,11 +562,33 @@ class Window(QtWidgets.QMainWindow):
                     pos=np.array(pos, np.float32), color=np.array(col, np.float32),
                     size=np.array(ssz, np.float32), pxMode=True)
                 self.view.addItem(self.centroid_item)
-        elif lvl == 1 and self.sel is not None:
+        elif lvl == 1:
+            # System level: orthogroups get their own centroids, the way compartments do at galaxy
+            # level. Previously this tier did nothing at all unless a gene happened to be selected, so
+            # it was indistinguishable from the gene level -- the middle of a three-tier hierarchy
+            # silently missing.
             og = self.nodes.orthogroup.astype(str).to_numpy()
-            same = og == og[self.sel]
-            if og[self.sel] not in ("", "nan", "None"):
-                sizes[same] = 10.0
+            sizes = np.full(self.n, max(base * 0.5, 2.0), np.float32)
+            pos, col, ssz = [], [], []
+            groups = {}
+            for i, g in enumerate(og):
+                if g not in ("", "nan", "None") and vis[i]:
+                    groups.setdefault(g, []).append(i)
+            for g, idx in groups.items():
+                if len(idx) < MIN_ORTHOGROUP_FOR_SYSTEM:
+                    continue
+                pos.append(self.xyz[idx].mean(0))
+                comp = self.nodes.compartment.astype(str).iloc[idx[0]]
+                col.append((*self.colour_of.get(comp, TH.unknown_colour(self.theme)[:3]), 0.9))
+                ssz.append(float(6 + 18 * np.sqrt(len(idx) / 40.0)))
+            if pos:
+                self.centroid_item = gl.GLScatterPlotItem(
+                    pos=np.array(pos, np.float32), color=np.array(col, np.float32),
+                    size=np.array(ssz, np.float32), pxMode=True)
+                self.centroid_item.setGLOptions("translucent")
+                self.view.addItem(self.centroid_item)
+            if self.sel is not None and og[self.sel] not in ("", "nan", "None"):
+                sizes[og == og[self.sel]] = max(base * 2.0, 9.0)
 
         self.scatter.setData(pos=self.xyz, color=self.colours(vis), size=sizes)
         self.draw_edges(vis)
@@ -552,7 +687,7 @@ class Window(QtWidgets.QMainWindow):
     def reset(self):
         self.sel = None
         self.comp_list.clearSelection()
-        self.view.setCameraPosition(pos=pg.Vector(0, 0, 0), distance=170)
+        self.view.fit_view()
         self.detail.setHtml("<p style='color:#888'>Click a gene.</p>")
         self.redraw()
 

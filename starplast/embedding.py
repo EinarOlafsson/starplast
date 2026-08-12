@@ -255,7 +255,9 @@ def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
         from sklearn.decomposition import PCA
         Y = PCA(n_components=spec.n_components,
                 random_state=spec.random_state).fit_transform(np.nan_to_num(X))
-    Y = np.asarray(Y, dtype=np.float32)
+    # umap returns a read-only array in recent versions; the in-place centring below
+    # then fails with "output array is read-only". Copy rather than view.
+    Y = np.array(Y, dtype=np.float32, copy=True)
     Y -= Y.mean(0)
     Y /= (np.abs(Y).max() + 1e-9)
     return Y * 50.0, names, rows

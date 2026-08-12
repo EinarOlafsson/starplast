@@ -184,8 +184,8 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
         for nn, md in itertools.product(n_neighbors_values, min_dist_values):
             if nn >= len(X):
                 continue
-            Y = np.asarray(umap.UMAP(n_components=3, n_neighbors=nn, min_dist=md,
-                                     metric="euclidean", random_state=seed).fit_transform(X))
+            Y = np.array(umap.UMAP(n_components=3, n_neighbors=nn, min_dist=md,
+                                     metric="euclidean", random_state=seed).fit_transform(X), copy=True)
             for mcs in min_cluster_sizes:
                 lab = cluster(Y, algorithm="hdbscan", min_cluster_size=mcs)
                 summary, per = score_recovery(lab, nodes[truth_col].iloc[idx])
