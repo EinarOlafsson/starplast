@@ -466,7 +466,11 @@ def embed(nodes: pd.DataFrame) -> np.ndarray:
         log(f"UMAP unavailable ({type(e).__name__}); falling back to PCA")
         from sklearn.decomposition import PCA
         Y = PCA(n_components=3, random_state=0).fit_transform(X)
-    Y = np.asarray(Y, dtype=np.float32)
+    # np.array, not np.asarray. umap returns a READ-ONLY array in recent versions, and asarray does
+    # not copy when the dtype already matches -- so the in-place centring below wrote into a read-only
+    # buffer and raised "output array is read-only". The same bug was fixed in embedding.py; this is
+    # its second home, and it is the one a user meets, because this is the path `build_graph` takes.
+    Y = np.array(Y, dtype=np.float32, copy=True)
     Y -= Y.mean(0)
     Y /= (np.abs(Y).max() + 1e-9)
     return Y * 50.0

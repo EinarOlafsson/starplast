@@ -77,6 +77,12 @@ def _view_with(signature: str):
             return _Matrix()
     elif signature == "region_viewport":
         def projectionMatrix(region, viewport):
+            # Indexes both, exactly as pyqtgraph 0.14 does. The first version of this stub accepted
+            # None without touching it, so it modelled a call the real library rejects -- the test
+            # passed while every click in the running app raised
+            # "'NoneType' object is not subscriptable" from inside the mouse handler.
+            x0, y0, w, h = viewport
+            _ = region[0], region[1], region[2], region[3]
             view.calls.append((region, viewport))
             return _Matrix()
     else:                                        # a C extension exposing no signature
@@ -101,8 +107,9 @@ def test_every_known_signature_is_called_correctly(signature):
     elif signature == "region":
         assert view.calls[0] == (None,)
     else:
-        # viewport is in device pixels, so the device pixel ratio has to be applied
-        assert view.calls[0] == (None, (0, 0, 1600, 1200))
+        # Device pixels, so the ratio is applied -- and the region is the whole widget rather than
+        # None, because pyqtgraph 0.14 indexes it.
+        assert view.calls[0] == ((0, 0, 1600, 1200), (0, 0, 1600, 1200))
 
 
 def test_the_convention_is_resolved_once_not_per_frame():

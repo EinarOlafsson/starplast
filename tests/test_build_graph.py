@@ -865,3 +865,32 @@ def test_python_dash_m_runs_a_real_build(monkeypatch, tmp_path):
     assert len(written) == n
     z = np.load(out / "graph.npz", allow_pickle=True)
     assert z["xyz"].shape == (n, 3) and np.isfinite(z["xyz"]).all()
+
+
+def test_the_embedding_is_writable_even_when_umap_returns_a_read_only_array(monkeypatch):
+    """umap returns a read-only array in recent versions, and np.asarray does NOT copy when the dtype
+    already matches -- so the in-place centring wrote into a read-only buffer and raised "output array
+    is read-only". Fixed once in embedding.py; this is its second home, and the one a user meets,
+    because it is the path build_graph takes."""
+    import types
+    n = 60
+    nodes = _nodes(n, expr_tachy=1.0, mean_plddt=80.0)
+
+    class FakeUMAP:
+        def __init__(self, **kw):
+            pass
+
+        def fit_transform(self, X):
+            out = np.zeros((len(X), 3), dtype=np.float32)
+            out[:, 0] = np.arange(len(X), dtype=np.float32)
+            out.setflags(write=False)          # exactly what recent umap hands back
+            return out
+
+    fake = types.ModuleType("umap")
+    fake.UMAP = FakeUMAP
+    monkeypatch.setitem(sys.modules, "umap", fake)
+
+    Y = BG.embed(nodes)                        # raised "output array is read-only" before the fix
+    assert Y.shape == (n, 3)
+    assert np.isfinite(Y).all()
+    Y[0, 0] = 1.0                              # and the caller must be able to write to it

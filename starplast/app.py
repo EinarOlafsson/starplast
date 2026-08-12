@@ -186,10 +186,19 @@ class Map3D(gl.GLViewWidget):
             except (TypeError, ValueError):          # C extension without introspection
                 self._proj_kind = "none"
 
+        dpr = self.devicePixelRatioF() if hasattr(self, "devicePixelRatioF") else 1.0
+        # Device pixels, not logical ones: on a HiDPI display a logical viewport puts the picking ray
+        # in the wrong place, which reads as "clicking is slightly off" rather than as a failure.
+        rect = (0, 0, int(self.width() * dpr), int(self.height() * dpr))
         if self._proj_kind == "region_viewport":
-            dpr = self.devicePixelRatioF() if hasattr(self, "devicePixelRatioF") else 1.0
-            return fn(None, (0, 0, int(self.width() * dpr), int(self.height() * dpr)))
+            # BOTH arguments are indexed by pyqtgraph 0.14 -- `region[0]`, `viewport` unpacked into
+            # four names -- so neither may be None. Passing None for the region raised
+            # "'NoneType' object is not subscriptable" from inside the mouse handler, which is exactly
+            # the crash this whole compat layer exists to prevent, arriving by a different door.
+            # The region for picking is the whole widget, so it IS the viewport.
+            return fn(rect, rect)
         if self._proj_kind == "region":
+            # Here `region=None` is the documented "use the whole viewport" default.
             return fn(None)
         return fn()
 
