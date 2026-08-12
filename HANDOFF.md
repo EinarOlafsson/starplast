@@ -143,24 +143,37 @@ substantially revised 2026-08-12 — read this whole entry before quoting any re
 V = 0.96. Held out, the number is far smaller — and it took a negative control to find out how much
 smaller.
 
-**The negative control failed, and it reinterpreted every other number.** Scoring `attention_depth` —
-how much a gene has been *studied* — gave mean F1 0.654, above both measured targets. The per-label
-table says why: essentially all of it came from one class, the never-named genes, at F1 0.77 over
-1,439 of them, while the real attention tiers scored 0.14–0.35. The map was not ranking attention. It
-was separating genes that have been **measured** from genes that have not, which is a property of
-missingness — a gene absent from most assays is absent from most of the feature matrix.
+**A negative control changed how every other number reads.** Scoring `attention_depth` — how much a
+gene has been *studied* — first gave mean F1 0.654, above both measured targets. The per-label table
+said why: essentially all of it came from one class, the never-named genes, at F1 0.77 over 1,439 of
+them. The map was not ranking attention. It was separating genes that have been **measured** from genes
+that have not, which is a property of missingness — a gene absent from most assays is absent from most
+of the feature matrix. `compartment` was carried by the same artefact, its best label being
+`unassigned`, and hyperLOPIT assignment tracks abundance so `unassigned` is largely "too scarce to
+call".
 
-`compartment` was carried by the same artefact: its best-recovered label was `unassigned` at F1 0.39,
-and since hyperLOPIT assignment tracks abundance, `unassigned` is largely "too scarce to call". The
-honest number for localisation is **0.207**, not 0.484 and not 0.362; real compartments sit at
-0.21–0.35.
+So `score_recovery` now excludes labels meaning "not measured" — unassigned, unknown, empty, nan — and
+all four targets were re-run under that rule, 328 runs each:
 
-So `score_recovery` now excludes labels meaning "not measured" — unassigned, unknown, empty, nan.
-**Any label with an absence class will otherwise be recovered for the wrong reason.**
+    stage_enriched_derived   0.709  →  0.709   positive control, unchanged
+    cellcycle_phase          0.489  →  0.489   measured, unchanged
+    attention_depth          0.654  →  0.339   NEGATIVE control
+    compartment              0.484  →  0.228   measured
 
-`cellcycle_phase` has no absence class, and it is the one target with a clean signal: mean F1 0.489
-with every label a real phase (C 0.54, S 0.53, M 0.37, G1b 0.25). Which reverses the assumption the
-project started from — location was the target that had data; cell cycle is the one the map organises.
+The two targets with no absence class did not move at all, which is the rule behaving as it should.
+The negative control now sits below both measured targets and **passes**: the map is not substantially
+organised by study effort among genes that have been studied.
+
+**But localisation (0.228) is now below the negative control (0.339).** Stated plainly: the map recovers
+how much a gene has been studied better than it recovers where the protein is. That caveat must travel
+with any localisation claim. Cell cycle at 0.489 is the only target that clears the floor, and it does
+so comfortably — which reverses the assumption the project started from. Location was the target that
+had data; cell cycle is the one the map organises.
+
+**Recovery is not prediction.** `search.predictions()` was run on the winning cell-cycle structure and
+produced nothing: its purest cluster is 52% one phase against an 80% bar, and no cluster in the top ten
+configurations exceeds that. F1 0.489 is carried by recall; there is not enough precision to place an
+uncharacterised gene. See `results/predictions_2026_08_12/`.
 
 Precision and recall are never blended: a cluster that is 100% apicoplast holding 5% of apicoplast
 proteins is useless for inference.

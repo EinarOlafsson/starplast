@@ -237,10 +237,9 @@ Every task written into this folder has been finished.
 "NOT DONE" section of each done/ file -- those are the honest remainders, not
 oversights, and each says why it stopped where it did. The largest are:
 
-    done/10   re-run all four search targets now that absence labels are
-              excluded, so the headline table is computed under one rule; and
-              run search.predictions() on the cell-cycle result, which is the
-              step that turns a recovered structure into named predictions.
+    done/10   a full-proteome run over a wider grid. The four targets have
+              been re-run under the corrected rule and predictions attempted;
+              what is left is more compute, not more method.
     done/08   whether to mirror the RAW supplements to HuggingFace. Staged and
               verified but NOT uploaded: making the remaining twelve datasets
               fetchable means redistributing third-party files, which
@@ -254,11 +253,18 @@ module, not 90%. Met on 2026-08-12, with no pragma exemptions -- where a line
 could not be executed it was deleted rather than excused. See done/12 for the
 nineteen bugs the work found, every one of them silent.
 
-READ done/10 BEFORE TRUSTING ANY RECOVERY NUMBER. The negative control scores
-0.654 against 0.489 for cell cycle and 0.484 for localisation, because a label
-with an absence class is recovered by the map separating measured genes from
-unmeasured ones. score_recovery now excludes absence labels; every number
-published before that change has to be recomputed.
+READ done/10 BEFORE QUOTING ANY RECOVERY NUMBER.
+
+    stage_enriched_derived  0.709   positive control
+    cellcycle_phase         0.489   the only target that clears the floor
+    attention_depth         0.339   NEGATIVE control -- the floor
+    compartment             0.228   below the floor
+
+The negative control passes: the map is not organised by study effort among
+genes that have been studied. But localisation is recovered LESS well than study
+effort, so a localisation claim has to carry that caveat. And recovery is not
+prediction -- the winning cell-cycle structure has no cluster pure enough to
+predict from.
 
 The README's scope was narrowed by instruction on 2026-08-11: it holds what
 the program does, how to run it, and a TABLE of the included datasets with

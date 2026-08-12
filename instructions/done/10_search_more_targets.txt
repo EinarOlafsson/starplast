@@ -122,3 +122,67 @@ STILL TO DO
       headline table is computed under one rule rather than two.
     * The grid is still 2x2x2 on a 3,000-gene subsample. A full-proteome run
       over a wider grid is hours, which is fine unattended.
+
+
+================================================================================
+RE-RUN COMPLETE -- 2026-08-12. THE NEGATIVE CONTROL PASSES.
+================================================================================
+
+All four targets re-run under the corrected rule, 328 configurations each. A
+re-run rather than a rescore, because excluding absence labels changes which
+configuration WINS, not only the winner's score.
+
+    stage_enriched_derived   0.709  ->  0.709   positive control, unchanged
+    cellcycle_phase          0.489  ->  0.489   measured, unchanged
+    attention_depth          0.654  ->  0.339   NEGATIVE control
+    compartment              0.484  ->  0.228   measured
+
+THE TWO TARGETS WITH NO ABSENCE CLASS DID NOT MOVE AT ALL
+    Which is the rule behaving exactly as it should. cellcycle_phase is one of
+    G1a/G1b/S/M/C or nothing; stage_enriched_derived is one of three stages or
+    nothing. Neither ever had a "not measured" class to be rewarded for finding,
+    so neither could be inflated by one.
+
+THE NEGATIVE CONTROL PASSES
+    0.654 -> 0.339, below both measured targets. Its per-label table shows the
+    first number was never about attention: incidental 0.40, focal 0.27,
+    substantive 0.15 once the never-named class is out.
+
+    So the map is NOT substantially organised by study effort among genes that
+    have been studied. It was separating measured genes from unmeasured ones --
+    a property of missingness, not of the literature. That is a considerably
+    better position for the project than 0.654 implied, and it is only visible
+    because the control was run.
+
+BUT LOCALISATION IS NOW BELOW THE NEGATIVE CONTROL
+    compartment 0.228 against attention_depth 0.339. Plainly: the map recovers
+    how much a gene has been studied better than it recovers where the protein
+    is. Any localisation claim from this map has to carry that caveat.
+
+    Cell cycle at 0.489 is the only target that clears the floor, and it clears
+    it comfortably.
+
+PREDICTIONS: NONE, AND THAT IS THE ANSWER
+    search.predictions() run on the winning cell-cycle structure produced
+    nothing at the default 80% purity bar. Its purest cluster is 52% one phase,
+    and no cluster in the ten best configurations exceeds 52%.
+
+    F1 0.489 and purity 52% are both true because F1 balances precision and
+    recall and here recall does the work: a cluster captures 55% of the C-phase
+    genes while being only 49% C-phase. For scoring whether the map organised
+    anything, recall counts; for predicting a phase for an unlabelled gene, only
+    precision does. Lowering the bar would manufacture predictions from clusters
+    that are half something else.
+
+    This is exactly why precision and recall are never blended into one number.
+
+EVERYTHING IS IN results/
+    search_2026_08_12/            the original run, kept as the evidence that
+                                  justified excluding absence labels
+    search_2026_08_12_corrected/  the four targets under the corrected rule
+    predictions_2026_08_12/       why there are no predictions
+
+NOT DONE
+    The grid is still 2x2x2 on a 3,000-gene subsample. A full-proteome run over
+    a wider grid is hours, which is fine unattended, and might raise cell cycle
+    enough to clear the prediction bar -- or confirm that it does not.

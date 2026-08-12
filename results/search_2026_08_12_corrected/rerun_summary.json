@@ -1,0 +1,38 @@
+{
+ "cellcycle_phase": {
+  "mean_f1": 0.4887174027000085,
+  "labels": 3,
+  "blocks": "expression_summary+fitness_screens+published_screens",
+  "n_neighbors": 15,
+  "min_dist": 0.25,
+  "min_cluster_size": 60,
+  "excluded": "cellcycle_phase"
+ },
+ "compartment": {
+  "mean_f1": 0.22845871202130005,
+  "labels": 10,
+  "blocks": "expression_raw+fitness_screens",
+  "n_neighbors": 50,
+  "min_dist": 0.25,
+  "min_cluster_size": 25,
+  "excluded": "compartment;compartment_best;lopit_map;lopit_mcmc;lopit_unified"
+ },
+ "stage_enriched_derived": {
+  "mean_f1": 0.7092507554538123,
+  "labels": 3,
+  "blocks": "expression_raw+fitness_screens",
+  "n_neighbors": 15,
+  "min_dist": 0.0,
+  "min_cluster_size": 60,
+  "excluded": "expr_cyst;expr_max;expr_sporulated;expr_tachy;stage_enriched_derived"
+ },
+ "attention_depth": {
+  "mean_f1": 0.33877435933287137,
+  "labels": 3,
+  "blocks": "expression_summary+expression_raw+fitness_screens",
+  "n_neighbors": 50,
+  "min_dist": 0.25,
+  "min_cluster_size": 25,
+  "excluded": "attention_depth"
+ }
+}
