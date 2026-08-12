@@ -197,7 +197,9 @@ NUMBERS AS BUILT (re-measured 2026-08-12 against the cache itself, not the recor
     genes                       8,140
     node columns                  169
     edge types                     12   (296,412 edges)
-    tests                         889   headless, no network, ~30 s
+    tests                         902   headless, no network, ~40 s
+                                        (900 fast + 2 marked slow: the real
+                                        build, and the pdoc pass)
     coverage                     100%   every module, no pragma exemptions
     cache                       17 MB   committed, self-contained, inside the package
 

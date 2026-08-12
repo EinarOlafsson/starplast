@@ -22,7 +22,7 @@ pip install -e .            # installs the console_scripts entry point
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min)
 starplast                   # launch
-pytest tests/ -q            # 891 tests, headless, no network, ~30 s
+pytest tests/ -q            # 902 tests, headless, no network, ~40 s
 pytest tests/ -q -m slow    # the real build and the pdoc pass, ~2 min
 ```
 
