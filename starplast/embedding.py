@@ -236,6 +236,13 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
         X = X[rows]
         log(f"  drop_genes: kept {int(rows.sum()):,} of {len(rows):,} genes with no missing value")
 
+    if X.shape[0] == 0:
+        # The mirror of the empty-column error above, which already existed. One all-missing column is
+        # enough for drop_genes to remove every gene, and the matrix then reported "0 genes x 4
+        # features" and carried on -- so the failure surfaced from inside UMAP, far from its cause.
+        raise ValueError("every gene was dropped by the missing-value policy; at least one selected "
+                         "column is missing for every gene")
+
     log(f"matrix: {X.shape[0]:,} genes x {X.shape[1]} features "
         f"({spec.na_policy}, {spec.scaling}"
         + (f", categorical x{spec.categorical_weight}" if spec.categorical else "") + ")")
@@ -301,4 +308,9 @@ def missingness_leak(coords: np.ndarray, nodes: pd.DataFrame, columns) -> pd.Dat
             continue
         gap = np.linalg.norm(coords[m].mean(0) - coords[~m].mean(0)) / r
         out.append({"column": c, "missing_frac": float(m.mean()), "centroid_gap": float(gap)})
-    return pd.DataFrame(out).sort_values("centroid_gap", ascending=False)
+    cols = ["column", "missing_frac", "centroid_gap"]
+    if not out:
+        # An empty frame built from [] has no columns at all, so sorting raised KeyError -- meaning the
+        # leak check crashed in exactly the case it should have reported as clean.
+        return pd.DataFrame(columns=cols)
+    return pd.DataFrame(out, columns=cols).sort_values("centroid_gap", ascending=False)
