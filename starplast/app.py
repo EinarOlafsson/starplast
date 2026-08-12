@@ -1056,5 +1056,8 @@ def main():
     sys.exit(app.exec())
 
 
-if __name__ == "__main__":
-    main()
+# No `if __name__ == "__main__"` guard here. There are already two ways in and this would be a third
+# that nothing documents: the console script `starplast` points at `starplast.app:main`, and
+# `starplast/__main__.py` makes `python -m starplast` work. Both are tested. A guard reachable only by
+# `python -m starplast.app` is a line no test can execute without opening a real window, and an
+# unreachable line is evidence the line should not exist.

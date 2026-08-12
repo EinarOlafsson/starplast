@@ -371,11 +371,15 @@ class AnalysisPanel(QtWidgets.QWidget):
     def _battery_done(self, result):
         S, D, lines = result
         held = S[S.evidence == "held_out"] if not S.empty else S
+        # `+` binds tighter than `or`, so the header made the whole expression truthy and the
+        # fallback was unreachable: a clustering that organised nothing showed the explanation alone,
+        # which reads as a result that has not loaded rather than as an honest empty answer.
+        body = ("".join(f"<p>• {ln}</p>" for ln in lines)
+                or "<p>nothing separated the clusters</p>")
         self.findings.setHtml(
             "<p style='color:#888'>Held-out features only. <b>assoc</b> is how much each feature "
             "restates something the map already used — a high value means the finding is close to "
-            "circular even when it is technically held out.</p>"
-            + "".join(f"<p>• {ln}</p>" for ln in lines) or "<p>nothing separated the clusters</p>")
+            "circular even when it is technically held out.</p>" + body)
         cols = [c for c in ("feature", "evidence", "score_type", "score", "assoc_with_input", "n", "q")
                 if c in held.columns]
         self._fill(self.battery_table, held[cols])

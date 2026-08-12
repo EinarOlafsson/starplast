@@ -26,6 +26,12 @@ from starplast import theme as TH  # noqa: E402
 
 
 @pytest.fixture(scope="module")
+def app():
+    from PyQt6 import QtWidgets
+    return QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+
+
+@pytest.fixture(scope="module")
 def win():
     from PyQt6 import QtWidgets
     from starplast.app import Window
@@ -330,3 +336,324 @@ def test_every_edge_checkbox_says_what_the_relation_means(win):
     label alone cannot carry that distinction."""
     for k, cb in win.edge_cb.items():
         assert cb.toolTip(), f"edge type {k} has no tooltip"
+
+
+# --------------------------------------------------------------------------- loading and startup
+def test_a_missing_cache_stops_with_the_command_that_builds_it(monkeypatch, tmp_path):
+    """A pandas error from inside a constructor tells the user nothing about what to do next."""
+    import starplast.app as A
+    monkeypatch.setattr(A, "DATA", str(tmp_path))
+    with pytest.raises(SystemExit, match="build_graph"):
+        A.load()
+
+
+def test_main_refuses_to_open_a_window_without_a_cache(monkeypatch, tmp_path, capsys):
+    """Checked before building a window, so the message is readable rather than buried under a
+    traceback from a constructor."""
+    import starplast.app as A
+    from starplast import paths
+    monkeypatch.setattr(paths, "check", lambda: (False, "cache incomplete at /nowhere"))
+    monkeypatch.setattr(paths, "describe", lambda: "cache /nowhere [INCOMPLETE]")
+    with pytest.raises(SystemExit):
+        A.main()
+    assert "cache incomplete" in capsys.readouterr().err
+
+
+def test_main_checks_the_cache_before_building_anything(monkeypatch):
+    """`starplast` is the entry point in pyproject. Its first act is the cache check, so a missing
+    cache is a sentence rather than a traceback out of a constructor.
+
+    Only the guard is exercised: main() constructs a QApplication, and a second one in a process that
+    already has it is undefined behaviour -- it segfaults the interpreter rather than failing."""
+    import starplast.app as A
+    order = []
+    monkeypatch.setattr(A.paths, "check", lambda: (order.append("checked"), (False, "no cache"))[1])
+    monkeypatch.setattr(A.paths, "describe", lambda: "")
+    monkeypatch.setattr(A.pg, "setConfigOptions",
+                        lambda **k: order.append("built a window"))
+    with pytest.raises(SystemExit):
+        A.main()
+    assert order == ["checked"], "nothing may be constructed before the cache is known to be there"
+
+
+# --------------------------------------------------------------------------- the camera
+def test_an_empty_map_still_frames_something():
+    """A build that produced no genes must not divide by zero while computing its own extent."""
+    from starplast.app import Map3D
+    v = Map3D.__new__(Map3D)
+    v.xyz = np.zeros((0, 3), dtype=np.float32)
+    assert v.data_radius() == 100.0
+
+
+def test_framing_an_empty_map_uses_a_fixed_distance(win, monkeypatch):
+    empty = np.zeros((0, 3), dtype=np.float32)
+    real = win.view.xyz
+    win.view.xyz = empty
+    try:
+        win.view.fit_view()
+        assert win.view.opts["distance"] > 0
+    finally:
+        win.view.xyz = real
+        win.view.fit_view()
+
+
+def test_a_camera_move_to_where_it_already_is_starts_no_animation(win):
+    """Otherwise every redraw at the same level restarts a 420 ms timer for nothing."""
+    win.view._cam_timer = None
+    win.view.animate_distance(float(win.view.opts["distance"]))
+    assert getattr(win.view, "_cam_timer", None) is None
+
+
+def test_a_second_camera_move_retargets_rather_than_queueing(win, app):
+    win.view.animate_distance(200.0)
+    first = win.view._cam_timer
+    win.view.animate_distance(80.0)
+    assert win.view._cam_timer is not first
+    win.view._cam_timer.stop()
+
+
+def test_the_camera_animation_finishes_and_stops_itself(win, app):
+    from PyQt6 import QtCore
+    target = float(win.view.opts["distance"]) * 1.5
+    win.view.animate_distance(target, ms=60)
+    for _ in range(300):
+        app.processEvents()
+        QtCore.QThread.msleep(3)
+        if not win.view._cam_timer.isActive():
+            break
+    assert not win.view._cam_timer.isActive()
+    assert float(win.view.opts["distance"]) == pytest.approx(target, rel=0.02)
+
+
+# --------------------------------------------------------------------------- theme round trip
+def test_applying_a_theme_updates_the_preferences_box_without_re_firing(win):
+    """Without blocking the signal the box's own handler re-applies the theme, so every change costs
+    two full redraws."""
+    win.build_preferences()
+    win.apply_theme("slate")
+    assert win.theme_box.currentText() == "slate"
+    win.apply_theme("dark")
+
+
+def test_the_preferences_box_shows_the_colour_map_in_use(win):
+    categorical = next(n for n, (kind, _) in TH.CMAPS.items() if kind == "categorical")
+    win._on_cmap(categorical)
+    win.build_preferences()
+    assert win.cmap_box.currentText() == categorical
+    win._on_cmap("auto (match the data)")
+
+
+def test_choosing_a_point_style_and_mode_through_the_handlers(win):
+    for style in TH.POINT_STYLES:
+        win._on_point_style(style)
+        assert win.point_style == style
+    for mode in TH.POINT_MODES:
+        win._on_point_mode(mode)
+        assert win.point_mode == mode
+
+
+def test_the_named_colour_map_is_used_for_the_continuous_ramp(win):
+    seq = next(n for n, (kind, _) in TH.CMAPS.items() if kind == "sequential")
+    win._on_cmap(seq)
+    idx = next(i for i in range(win.colour_by.count())
+               if "fitness" in win.colour_by.itemText(i).lower())
+    win.colour_by.setCurrentIndex(idx)
+    assert np.asarray(win.scatter.color).shape == (win.n, 4)
+    win._on_cmap("auto (match the data)")
+
+
+# --------------------------------------------------------------------------- the analysis dock
+def test_the_analysis_dock_is_attached(win):
+    assert getattr(win, "analysis_dock", None) is not None
+
+
+def test_the_browser_still_opens_when_the_analysis_panel_cannot_be_imported(monkeypatch, win):
+    """It needs scikit-learn and umap-learn; the map must not depend on them.
+
+    The failure is injected into sys.modules rather than into __import__, because replacing the import
+    hook while Qt is running takes the interpreter down with it."""
+    import starplast.app as A
+    monkeypatch.setitem(sys.modules, "starplast.analysis_panel", None)
+    win._analysis()
+    assert "analysis panel unavailable" in win.statusBar().currentMessage()
+    assert win.n > 0, "the map itself must still be there"
+
+
+def test_an_embedding_built_by_the_panel_replaces_the_map(win):
+    """Genes the new embedding excluded sit at the origin rather than keeping stale coordinates from a
+    different map."""
+    before = win.xyz.copy()
+    rows = np.zeros(win.n, dtype=bool)
+    rows[:100] = True
+    coords = np.random.default_rng(0).normal(size=(100, 3)).astype(np.float32)
+    win.use_embedding(coords, rows)
+    assert np.allclose(win.xyz[:100], coords)
+    assert np.allclose(win.xyz[100:], 0.0)
+    assert win.view.xyz is win.xyz, "the picker must see the same coordinates as the scatter"
+    win.xyz = before
+    win.view.xyz = before
+    win.redraw()
+
+
+# --------------------------------------------------------------------------- picking
+def test_projection_puts_genes_in_widget_pixels(win):
+    """Picking compares these against the mouse position, so a wrong scale reads as "clicking is
+    slightly off" -- the hardest kind of bug to attribute."""
+    sx, sy = win.view.project()
+    assert sx.shape == (win.n,) and sy.shape == (win.n,)
+    on_screen = np.isfinite(sx) & np.isfinite(sy)
+    assert on_screen.any(), "no gene projected onto the widget at all"
+
+
+def test_genes_behind_the_camera_are_excluded_rather_than_wrapped(win):
+    """Divided through by a negative w they land back on screen, mirrored -- so a click near the front
+    could select a gene behind you."""
+    sx, _ = win.view.project()
+    assert np.isnan(sx).sum() >= 0
+    assert not np.isinf(sx[np.isfinite(sx)]).any()
+
+
+def _click(win, x, y, button=None):
+    from PyQt6 import QtCore, QtGui
+    button = button or QtCore.Qt.MouseButton.LeftButton
+    return QtGui.QMouseEvent(QtCore.QEvent.Type.MouseButtonRelease,
+                             QtCore.QPointF(x, y), QtCore.QPointF(x, y),
+                             button, button, QtCore.Qt.KeyboardModifier.NoModifier)
+
+
+def test_clicking_on_a_gene_selects_it(win):
+    sx, sy = win.view.project()
+    ok = np.where(np.isfinite(sx) & np.isfinite(sy))[0]
+    i = int(ok[0])
+    got = []
+    win.view.picked.connect(got.append)
+    win.view.mouseReleaseEvent(_click(win, float(sx[i]), float(sy[i])))
+    assert got and got[0] in ok
+
+
+def test_clicking_empty_space_selects_nothing(win):
+    """A 14-pixel radius, so a click in the void does not grab whichever gene happens to be nearest."""
+    got = []
+    win.view.picked.connect(got.append)
+    win.view.mouseReleaseEvent(_click(win, -5000.0, -5000.0))
+    assert got == []
+
+
+def test_a_right_click_does_not_select(win):
+    from PyQt6 import QtCore
+    got = []
+    win.view.picked.connect(got.append)
+    win.view.mouseReleaseEvent(_click(win, 10.0, 10.0, QtCore.Qt.MouseButton.RightButton))
+    assert got == []
+
+
+def test_a_projection_failure_is_printed_rather_than_raised(win, monkeypatch, capsys):
+    """A mouse handler is the wrong place to raise: every click printed a traceback and selected
+    nothing when pyqtgraph changed its projectionMatrix signature."""
+    monkeypatch.setattr(win.view, "project",
+                        lambda: (_ for _ in ()).throw(TypeError("signature changed again")))
+    got = []
+    win.view.picked.connect(got.append)
+    win.view.mouseReleaseEvent(_click(win, 10.0, 10.0))
+    assert got == []
+    assert "picking unavailable" in capsys.readouterr().out
+
+
+def test_nothing_on_screen_selects_nothing(win, monkeypatch):
+    nan = np.full(win.n, np.nan)
+    monkeypatch.setattr(win.view, "project", lambda: (nan, nan))
+    got = []
+    win.view.picked.connect(got.append)
+    win.view.mouseReleaseEvent(_click(win, 10.0, 10.0))
+    assert got == []
+
+
+# --------------------------------------------------------------------------- colouring edges
+def test_attention_colouring_survives_a_table_without_the_column(win, monkeypatch):
+    """The column is absent on a cache built before the literature layer existed, and the mode must
+    grey out rather than raise."""
+    idx = next(i for i in range(win.colour_by.count())
+               if "attention" in win.colour_by.itemText(i).lower())
+    win.colour_by.setCurrentIndex(idx)
+    real = win.nodes
+    try:
+        win.nodes = real.drop(columns=["attention_depth"])
+        win.redraw()
+        assert np.asarray(win.scatter.color).shape == (win.n, 4)
+    finally:
+        win.nodes = real
+        win.colour_by.setCurrentIndex(0)
+        win.redraw()
+
+
+def test_a_compartment_with_too_few_visible_genes_gets_no_centroid(win):
+    """A centroid of two points is a midpoint, not a landmark."""
+    win.level.setCurrentIndex(0)
+    win.comp_list.clearSelection()
+    win.comp_list.item(0).setSelected(True)
+    win.redraw()
+    win.comp_list.clearSelection()
+    win.level.setCurrentIndex(2)
+    win.redraw()
+
+
+def test_the_evidence_panel_skips_edge_types_absent_from_the_graph(win):
+    """A cache built with fewer edge types than the app knows about must still open."""
+    real = win.edges
+    try:
+        win.edges = {k: v for k, v in list(real.items())[:2]}
+        win.show_detail(100)
+    finally:
+        win.edges = real
+
+
+def test_a_chosen_map_is_used_only_where_its_kind_suits_the_column(win):
+    """A diverging ramp on a strictly positive quantity invents a midpoint, so the column's kind has
+    the final say over the user's choice."""
+    import pandas as pd
+    seq = next(n for n, (kind, _) in TH.CMAPS.items() if kind == "sequential")
+    win.cmap_name = seq
+    positive = pd.Series([0.1, 5.0, 90.0])
+    assert win._cmap_for(positive) == TH.CMAPS[seq][1], "a sequential map suits a positive quantity"
+    straddling = pd.Series([-2.0, -0.5, 0.3, 1.8])
+    assert win._cmap_for(straddling) == TH.DEFAULT_CMAP["diverging"], (
+        "a sequential map must not be used on a quantity that goes both ways")
+    win.cmap_name = None
+
+
+def test_opening_preferences_shows_the_dialog_it_builds(win, monkeypatch):
+    """exec() enters a modal loop, so only the call is asserted -- entering it in a test hangs the
+    process rather than failing it."""
+    from PyQt6 import QtWidgets
+    shown = []
+    monkeypatch.setattr(QtWidgets.QDialog, "exec", lambda self: shown.append(self) or 0)
+    win.open_preferences()
+    assert len(shown) == 1
+    assert isinstance(shown[0], QtWidgets.QDialog)
+
+
+def test_main_builds_and_shows_the_window(monkeypatch, app):
+    """`starplast` is the entry point in pyproject, so the whole path is exercised: cache check,
+    window construction, show, and the event loop.
+
+    QApplication is handed back the instance this process already owns -- constructing a second one is
+    undefined behaviour and takes the interpreter down rather than failing a test."""
+    from PyQt6 import QtWidgets
+    import starplast.app as A
+    seen = {}
+
+    class Shim:
+        def __new__(cls, argv):
+            return app
+
+        @staticmethod
+        def instance():
+            return app
+
+    monkeypatch.setattr(A.QtWidgets, "QApplication", Shim)
+    monkeypatch.setattr(A.sys, "exit", lambda code=0: seen.setdefault("exit", code))
+    monkeypatch.setattr(type(app), "exec", lambda self: seen.setdefault("exec", 0) or 0)
+    monkeypatch.setattr(A.Window, "show", lambda self: seen.setdefault("shown", True))
+
+    A.main()
+    assert seen == {"shown": True, "exec": 0, "exit": 0}

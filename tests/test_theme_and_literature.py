@@ -213,3 +213,85 @@ def test_attention_over_nothing_returns_the_right_empty_shape():
     assert out.empty
     for c in ("n_papers_focal", "n_papers_substantive"):
         assert c in out.columns
+
+
+def test_a_level_with_no_datasets_is_skipped_from_the_table():
+    """The table is grouped by the on-disk taxonomy, and an empty heading would advertise a level of
+    the tree that holds nothing."""
+    from starplast import datasets as D
+    real = D.REGISTRY
+    try:
+        D.REGISTRY = [d for d in real if d.level == "reference"]
+        table = D.readme_table()
+        assert D.LEVEL_TITLE["reference"] in table
+        assert D.LEVEL_TITLE["DNA"] not in table
+    finally:
+        D.REGISTRY = real
+
+
+def test_a_pair_sharing_one_unit_is_not_a_relation():
+    """Two genes named once in the same paragraph is a coincidence; the threshold is what stops the
+    graph filling with them."""
+    from collections import Counter
+    co = Counter({("g1", "g2"): 1, ("g1", "g3"): 5})
+    meta = {"n_units": {"abstract": 100},
+            "unit_hits": {"abstract": {"g1": 10, "g2": 5, "g3": 5}}}
+    out = LIT.comention_edges(co, meta, "abstract", min_count=2)
+    pairs = {(a, b) for a, b, _, _ in out}
+    assert ("g1", "g3") in pairs
+    assert ("g1", "g2") not in pairs
+
+
+def test_an_unknown_name_falls_through_to_the_default(monkeypatch):
+    """Resolution happens inside a paint call, so a name pyqtgraph does not ship must fall back rather
+    than raise FileNotFoundError from inside rendering."""
+    import pyqtgraph as pg
+    calls = []
+    real = pg.colormap.get
+
+    def only_the_default(name, *a, **k):
+        calls.append(name)
+        if name == TH.DEFAULT_CMAP["sequential"]:
+            return real(name, *a, **k)
+        raise FileNotFoundError(name)
+
+    monkeypatch.setattr(pg.colormap, "get", only_the_default)
+    assert TH.resolve_cmap("no_such_map") is not None
+    assert calls == ["no_such_map", TH.DEFAULT_CMAP["sequential"]]
+
+
+def test_resolution_ends_rather_than_looping_when_nothing_can_be_built(monkeypatch):
+    """pyqtgraph returns None rather than raising for some unknown names, so the loop's guard is
+    `is not None` and the function still has to terminate in a value. It cannot invent a colour map,
+    but it must not raise from inside a paint call either."""
+    import pyqtgraph as pg
+    calls = []
+    monkeypatch.setattr(pg.colormap, "get", lambda name, *a, **k: calls.append(name))
+    assert TH.resolve_cmap("no_such_map") is None
+    assert calls[-1] == "viridis", "the last resort is asked for by name"
+
+
+def test_a_column_of_labels_with_a_few_numbers_is_categorical():
+    """Mostly non-numeric means labels, whatever the stray numbers look like."""
+    assert TH.kind_for_column(pd.Series(["a", "b", "c", "d", 1, 2])) == "categorical"
+
+
+def test_the_expectation_is_divided_by_units_not_by_the_sum_of_per_gene_counts():
+    """An earlier version used a larger, differently-scaled denominator, which inflated every
+    expectation and shrank every residual toward zero -- so the correction did almost nothing while
+    appearing to be applied."""
+    from collections import Counter
+    co = Counter({("g1", "g2"): 10})
+    meta = {"n_units": {"abstract": 100},
+            "unit_hits": {"abstract": {"g1": 20, "g2": 20}}}
+    (_, _, raw, residual), = LIT.comention_edges(co, meta, "abstract")
+    assert raw == 10.0
+    expected = 20 * 20 / 100                       # 4 units under independence
+    import math
+    assert residual == pytest.approx(math.log2((10 + 0.5) / (expected + 0.5)))
+
+
+def test_an_empty_column_is_categorical_rather_than_a_ramp_over_nothing():
+    """A filter that matched no genes leaves an empty column, and computing a range over it gives
+    NaN bounds -- so the colour bar would be drawn from NaN to NaN."""
+    assert TH.kind_for_column(pd.Series([], dtype=float)) == "categorical"

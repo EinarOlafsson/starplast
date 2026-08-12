@@ -124,3 +124,88 @@ TRAPS
     asserting it returned something: every real bug in this project was a wrong
     value, not an exception, and a test that only raises coverage catches none
     of them.
+
+
+================================================================================
+DONE -- 2026-08-12. 100% ON EVERY MODULE, AND 19 REAL BUGS.
+================================================================================
+
+    coverage      52%  ->  100%   (19 of 19 modules)
+    tests          71  ->  ~860
+    runtime               ~40 s headless, no network
+                          plus one `slow` test that runs a real build (~100 s)
+
+Not one `# pragma: no cover`. Where a line genuinely could not be executed it
+was deleted rather than excused: `interactions._num` was dead code, and app.py's
+`if __name__ == "__main__"` guard was a third entry point nothing documents --
+the console script and starplast/__main__.py already cover it and are both
+tested.
+
+WHAT THE TESTS FOUND
+
+Nineteen bugs, every one of them silent. In rough order of severity:
+
+  1. add_strain_accessions was wired into the literature path but NOT the
+     node-column path, so every dataset keyed on a TGGT1_ accession joined zero
+     rows -- and TGGT1_ is more common than TGME49_ in published supplements.
+  2. The circularity guard could not see numeric columns at all: _assoc_impl
+     compared categorical-to-categorical and continuous-to-continuous and
+     skipped every mixed pair.
+  3. ...and even fixed, a label that is a joint function of three columns is
+     invisible to any pairwise measure, so declared provenance was needed too.
+  4. `domain` edges: 31 self-edges and 106 duplicated pairs, because InterPro
+     reports one row per MATCH and repeat families match many times.
+  5. import_table extracted with an ME49-only pattern, discarding strain
+     accessions BEFORE the identity layer saw them -- in exactly the case its
+     docstring promised to handle.
+  6. expression._norm_acc normalised '-' and '.' but the pattern never let those
+     forms through, so three of the four mangled spellings resolved to nothing.
+  7. embed() median-filled, but the median of an all-missing column is NaN, so
+     one unparsed screen would kill the whole build with "Input contains NaN".
+  8. build_matrix with drop_genes silently produced a 0-gene matrix.
+  9. missingness_leak raised KeyError in exactly the case where the honest
+     answer is "nothing leaks".
+ 10. walk_umap raised KeyError when every grid point was skipped.
+ 11. hf_publish.build_release raised KeyError on an empty licence table.
+ 12. screens._read raised out of pd.read_excel when a workbook lacked a sheet,
+     taking the whole build down for one renamed tab.
+ 13. search passed min_cluster_size straight to HDBSCAN, which raises rather
+     than returning all-noise, so one grid point ended a 328-run walk.
+ 14. The search progress line fired on `runs % 40 == 0` at a stride that only
+     sometimes divides 40, so a twenty-minute walk could print nothing.
+ 15. The DOCX reader split every table row across two lines -- the same
+     corruption its docstring says it prevents, in the other direction.
+ 16. The analysis panel's "nothing separated the clusters" message was
+     unreachable: `+` binds tighter than `or`.
+ 17. The search tab's target list was hardcoded, so cellcycle_phase existed in
+     the module and in the table and could not be chosen.
+ 18. open_preferences ended in exec(), so it could not be tested at all without
+     hanging; construction is now split out.
+ 19. Absence labels were scored as classes -- see done/10, the one that changed
+     a published number.
+
+HOW THE HARD MODULES WERE DONE
+    The loaders are tested against synthetic supplements with the same SHAPE as
+    the real ones -- header on the second row, an accession column not called
+    gene_id, a gene listed twice, a two-row merged header -- because the shape
+    is what every historical bug was about, and the real files are not
+    committed.
+
+    build_graph gets a synthetic tree and one test that runs
+    `python -m starplast.build_graph` for real over sixty genes, which also
+    proves the resolver works for a fresh process rather than only for this one.
+
+    The GUI runs headless against the real cache, asserting on the item list and
+    on redraw ORDER as well as on the arrays -- three rendering bugs in this
+    project passed every array-level assertion.
+
+THE END-TO-END TEST
+    tests/test_pipeline_end_to_end.py runs over the committed cache and asserts
+    the invariants that hold ACROSS stages. It found bug 4 on its first run. The
+    rebuild-from-source checks skip when the raw tree is absent and run when the
+    resolver finds it -- verified both ways.
+
+WHAT IS NOT TESTED, AND WHY
+    Nothing is exempted. Two paths are marked `slow` rather than skipped: the
+    real `python -m` build (~100 s) and the pdoc documentation pass. Run them
+    with `pytest -m slow`.
