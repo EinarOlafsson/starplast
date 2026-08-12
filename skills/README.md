@@ -4,8 +4,15 @@ Reusable techniques this project had to work out, packaged so the next one does
 not rebuild them. Each folder is a Claude Code skill: a `SKILL.md` describing
 when to reach for it and what goes wrong, plus any scripts.
 
-These are also installed under `../.claude/skills/` so they are available to a
-session automatically. The copies here travel with the repository.
+The copies here travel with the repository, which is the point: a skill that
+exists only in one machine's `~/.claude/skills` is lost the moment the repository
+is cloned somewhere else.
+
+To make one available to a session, copy its folder into any `.claude/skills/`
+directory Claude Code reads — the user-level one, or a project-level one beside
+whatever you are working on. This README used to name a specific relative path,
+which stopped being true the moment the repository moved: the same one-machine
+assumption `paths.py` exists to remove, in prose.
 
 | skill | for |
 |---|---|
