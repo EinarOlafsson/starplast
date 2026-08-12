@@ -51,20 +51,14 @@ jobs:
         with:
           name: api-reference
           path: docs/api
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/api
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    # Pages has to be enabled on the repository before this can succeed; until then the build still
-    # runs and the reference is downloadable from the run's artifacts, rather than the whole workflow
-    # going red for a setting.
-    continue-on-error: true
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+# Publishing to GitHub Pages is deliberately not wired up. Pages on a private repository needs a paid
+# plan, so the deploy step could only ever fail here, and a job that is expected to fail teaches
+# people to ignore a red workflow. Held until the project is mature enough to be public.
+#
+# Nothing is lost meanwhile: the reference is built on every push to main and downloadable from the
+# run's artifacts. To publish later, make the repository public (or upgrade the plan), enable Pages
+# with "GitHub Actions" as the source, then restore the two steps: `actions/upload-pages-artifact@v3`
+# with `path: docs/api` at the end of build, and a `deploy` job running `actions/deploy-pages@v4`
+# with the `github-pages` environment. The `pages: write` and `id-token: write` permissions above are
+# already correct for that.

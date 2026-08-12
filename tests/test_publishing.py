@@ -153,7 +153,12 @@ def test_the_card_states_the_membership_caveat_prominently(tmp_path):
     HF.build_release(str(tmp_path), members, studies, licenses, log=lambda *_: None)
     card = open(os.path.join(tmp_path, "README.md")).read()
     assert "complete quantification table" in card
-    assert "7,866" in card
+    # The figures are computed from the members passed in, not written into the card by hand. They
+    # were constants, and the median had drifted to 754 against an actual 599 -- a stale number in
+    # the one section whose whole job is to stop people reading membership as interaction.
+    biggest = int(members.groupby("pmid").size().max())
+    assert f"{biggest:,}" in card
+    assert f"{int(members.groupby('pmid').size().median()):,}" in card
 
 
 def test_the_card_reports_how_many_licences_were_confirmed(tmp_path):
@@ -174,11 +179,43 @@ def test_an_empty_licence_table_withholds_everything_instead_of_crashing(tmp_pat
 
 
 def test_only_derived_facts_are_written_never_the_source_files(tmp_path):
-    """The withheld studies' raw supplements must not be mirrored."""
+    """The withheld studies' raw supplements must not be mirrored.
+
+    Asserted as "every file is a derived table or documentation" rather than as a fixed list, so
+    adding a document to the release does not read as a licensing regression -- while a mirrored
+    .xlsx still does.
+    """
     members, studies, licenses = _release_inputs()
     HF.build_release(str(tmp_path), members, studies, licenses, log=lambda *_: None)
-    assert sorted(os.listdir(tmp_path)) == ["README.md", "studies.parquet",
-                                            "study_gene_membership.parquet"]
+    written = sorted(os.listdir(tmp_path))
+    assert {"README.md", "studies.parquet", "study_gene_membership.parquet"} <= set(written)
+    allowed = {".parquet", ".md", ".ipynb"}
+    assert all(os.path.splitext(f)[1] in allowed for f in written), written
+
+
+def test_the_methods_and_the_notebook_travel_with_the_data(tmp_path):
+    """A dataset card is a summary. Anyone deciding whether they may use this needs the membership
+    caveat in full and a way to regenerate the tables, and a link to a private repo is neither."""
+    members, studies, licenses = _release_inputs()
+    HF.build_release(str(tmp_path), members, studies, licenses, log=lambda *_: None)
+    written = set(os.listdir(tmp_path))
+    assert "METHODS.md" in written
+    assert "build_hf_release.ipynb" in written
+    methods = open(os.path.join(tmp_path, "METHODS.md")).read()
+    # Whitespace-normalised: the source is hard-wrapped, so the phrase spans a newline.
+    flat = " ".join(methods.split())
+    assert "membership, not interaction" in flat.lower()
+    assert "No raw supplementary file is mirrored" in flat
+
+
+def test_a_release_staged_without_the_docs_says_so(tmp_path, monkeypatch):
+    """An installed wheel has no docs/ beside the package, and a release quietly missing its methods
+    is exactly the failure the copy exists to prevent."""
+    members, studies, licenses = _release_inputs()
+    monkeypatch.setattr(HF.os.path, "exists", lambda p: False)
+    said = []
+    HF.build_release(str(tmp_path), members, studies, licenses, log=said.append)
+    assert any("METHODS.md is not in this release" in m for m in said)
 
 
 # --------------------------------------------------------------------------- upload

@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import re
 
 import pandas as pd
@@ -86,6 +87,14 @@ def build_release(out_dir: str, members: pd.DataFrame, studies: pd.DataFrame,
     merged.to_parquet(os.path.join(out_dir, "studies.parquet"), index=False)
 
     n_ok = int(licenses.redistributable.sum()) if "redistributable" in licenses.columns else 0
+    # Computed, not written in by hand. These three numbers were stated as constants and the median
+    # had drifted to 754 against an actual 599 -- a stale figure in the one section of the card whose
+    # whole job is to stop people treating membership as interaction.
+    per_study = members.groupby("pmid").size() if len(members) else pd.Series(dtype=int)
+    med = int(per_study.median()) if len(per_study) else 0
+    n_big = int((per_study > 2000).sum()) if len(per_study) else 0
+    biggest = int(per_study.max()) if len(per_study) else 0
+    n_parsed = len(per_study)
     card = f"""---
 license: cc-by-4.0
 task_categories: [tabular-classification]
@@ -102,9 +111,13 @@ the publishers.
 ## This is membership, not interaction
 
 A study's supplement is usually its **complete quantification table**, not its hit list. Median genes per
-parsed study is 754; eleven list more than 2,000 and the largest lists 7,866 — essentially the whole
-proteome. Treating a row here as an interaction would manufacture tens of thousands of false edges.
+parsed study is {med:,}; {n_big} list more than 2,000 and the largest lists {biggest:,} — essentially the
+whole proteome. Treating a row here as an interaction would manufacture tens of thousands of false edges.
 Converting membership to interactions needs per-paper curation of which sheet and column mark enrichment.
+
+{n_parsed} of the {len(studies)} catalogued studies yielded a parsable supplement; the rest are listed in
+`studies.parquet` with the reason, because a study absent without explanation is indistinguishable from a
+study with no hits.
 
 ## Contents
 
@@ -127,6 +140,22 @@ away. Cite the original studies, not this table.
 Produced by [starplast](https://github.com/EinarOlafsson/starplast).
 """
     open(os.path.join(out_dir, "README.md"), "w").write(card)
+
+    # The methods and the notebook that rebuilds these tables travel WITH the data. A dataset card is
+    # a summary; anyone deciding whether they can use this needs the membership caveat in full and a
+    # way to regenerate the tables. Copied from the repository rather than restated here, so the
+    # published methods and the repository's copy cannot drift into disagreeing with each other.
+    here = os.path.dirname(os.path.abspath(__file__))
+    for src, dst in ((os.path.join(here, os.pardir, "docs", "hf_release_methods.md"), "METHODS.md"),
+                     (os.path.join(here, os.pardir, "notebooks", "build_hf_release.ipynb"),
+                      "build_hf_release.ipynb")):
+        if os.path.exists(src):
+            shutil.copyfile(src, os.path.join(out_dir, dst))
+        else:
+            # An installed wheel has no docs/ or notebooks/ beside the package. Worth saying rather
+            # than passing over: a release quietly missing its methods is the failure this prevents.
+            log(f"note: {os.path.basename(src)} is not beside the package, so {dst} is not in "
+                f"this release -- stage from a source checkout to include it")
     log(f"release staged in {out_dir}: {len(members):,} membership rows, {len(studies)} studies, "
         f"{n_ok} with a confirmed permissive license")
     return out_dir
