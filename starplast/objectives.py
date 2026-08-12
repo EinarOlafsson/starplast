@@ -107,6 +107,10 @@ OBJECTIVES = {
     "precision_at_recall": "the purest cluster that still holds enough of a label to annotate from",
 }
 
+#: How many shuffles the permutation null uses by default. Twenty is enough to separate a real
+#: structure from chance without doubling the cost of a walk.
+NULL_PERMUTATIONS = 20
+
 
 def pairs(labels: np.ndarray, truth: pd.Series, *, min_label: int = 15,
           min_cluster: int = 10, exclude_labels=ABSENCE_LABELS) -> pd.DataFrame:
@@ -144,12 +148,20 @@ def pairs(labels: np.ndarray, truth: pd.Series, *, min_label: int = 15,
 
 
 def score(labels: np.ndarray, truth: pd.Series, *, objective: str = "mean_f1",
-          weighting: str = "macro", category: str | None = None,
+          weighting: str = "macro", category=None,
           min_recall: float = 0.25, threshold: float = 0.5, **kw) -> dict:
     """Score a clustering under one named objective.
 
-    `category` restricts to a single label, which is what "find me a map where the GRAs cluster"
-    means. `weighting` is macro (every label equal) or size (every gene equal); macro is the default
+    `category` restricts scoring to one label or to several -- a string, or any sequence of them.
+    "Precision for dense granules" and "recall for dense granules and rhoptries" are both ordinary
+    questions, and they are different questions, so the objective and the label set are independent
+    choices rather than one combined mode.
+
+    With several, the aggregation follows the objective: the mean_* objectives average over the
+    chosen labels and the best_* objectives take the best among them. Nothing else changes, so a
+    score over two labels is comparable with a score over all of them.
+
+    `weighting` is macro (every label equal) or size (every gene equal); macro is the default
     because the alternative buries exactly the rare classes worth hunting.
     """
     if objective not in OBJECTIVES:
@@ -164,9 +176,12 @@ def score(labels: np.ndarray, truth: pd.Series, *, objective: str = "mean_f1",
         out["detail"] = "no (cluster, label) pair passed the size floors"
         return out
     if category is not None:
-        P = P[P.label == category]
+        wanted = [category] if isinstance(category, str) else list(category)
+        out["categories"] = wanted
+        P = P[P.label.isin(wanted)]
         if P.empty:
-            out["detail"] = f"no cluster holds enough {category!r}"
+            shown = ", ".join(map(str, wanted))
+            out["detail"] = f"no cluster holds enough of: {shown}"
             return out
 
     def _avg(frame, col, by):
@@ -255,3 +270,42 @@ def agreement(labels: np.ndarray, truth: pd.Series) -> dict:
     out["adjusted_rand"] = float(adjusted_rand_score(v[keep], labels[keep]))
     out["adjusted_mutual_info"] = float(adjusted_mutual_info_score(v[keep], labels[keep]))
     return out
+
+def null_score(labels: np.ndarray, truth: pd.Series, *, n_permutations: int = 20,
+               seed: int = 0, **kw) -> float:
+    """What this objective scores on the SAME clustering with the labels shuffled.
+
+    The baseline moves with the number of classes and with how uneven they are, and none of the raw
+    precision/recall/F1 objectives know that. Mean F1 of 0.30 across three balanced classes is worse
+    than guessing; the same 0.30 across twenty-four compartments of wildly different sizes is
+    remarkable. A search that compares configurations across targets is comparing against different
+    nulls without saying so.
+
+    Permutation rather than a formula: shuffling the labels preserves exactly how many classes there
+    are, how many genes are in each, and the sizes of the clusters they are being matched against,
+    so the null answers "what would this objective give me for nothing, on this data". That is the
+    same idea that makes ARI and AMI trustworthy, applied to whichever objective was chosen.
+    """
+    rng = np.random.default_rng(seed)
+    v = truth.astype("object").where(truth.notna(), "").astype(str).to_numpy()
+    out = []
+    for _ in range(max(1, n_permutations)):
+        out.append(score(labels, pd.Series(rng.permutation(v)), **kw)["score"])
+    return float(np.mean(out))
+
+
+def adjusted(labels: np.ndarray, truth: pd.Series, *, n_permutations: int = 20,
+             seed: int = 0, **kw) -> dict:
+    """A score, its permutation null, and the score corrected for it.
+
+    `adjusted = (score - null) / (1 - null)`, so 0 is "no better than shuffled labels" and 1 is
+    perfect, whatever the objective and however many classes there are. Negative means the structure
+    is worse than chance, which is a real result and should not be clipped away.
+    """
+    r = score(labels, truth, **kw)
+    r["null"] = null_score(labels, truth, n_permutations=n_permutations, seed=seed, **kw)
+    denom = 1.0 - r["null"]
+    r["adjusted"] = (r["score"] - r["null"]) / denom if abs(denom) > 1e-9 else float("nan")
+    r["n_labels"] = int(pd.Series(
+        truth.astype("object").where(truth.notna(), "").astype(str)).nunique())
+    return r

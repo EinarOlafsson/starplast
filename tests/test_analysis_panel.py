@@ -267,7 +267,7 @@ def test_the_walk_is_given_the_sample_size_and_seed_from_the_panel(panel, sync, 
     import starplast.tuning as T
     seen = {}
 
-    def fake(n, spec, sample_size=None, seed=None, log=None):
+    def fake(n, spec, sample_size=None, seed=None, log=None, **kw):
         seen.update(sample_size=sample_size, seed=seed, blocks=spec.blocks)
         return pd.DataFrame({"a": [1]})
 
@@ -429,7 +429,8 @@ def test_the_search_is_given_the_chosen_target_and_a_bounded_set_of_combinations
     import starplast.search as S
     seen = {}
 
-    def fake(n, target=None, block_sets=None, sample_size=None, seed=None, store=None, log=None):
+    def fake(n, target=None, block_sets=None, sample_size=None, seed=None, store=None,
+             objective=None, log=None, **kw):
         seen.update(target=target, n_sets=len(block_sets), sample_size=sample_size)
         return pd.DataFrame({"mean_f1": [0.1]}), pd.DataFrame()
 
@@ -459,3 +460,237 @@ def test_a_spec_that_selects_nothing_is_reported_in_place(panel):
     finally:
         AP.variance_share = orig
     assert "no numeric features selected" in panel.variance_view.toPlainText()
+
+
+# --------------------------------------------------------------------------- the objective chooser
+def test_the_search_offers_every_objective(panel):
+    """Which objective a walk maximises is the most consequential choice in it, and it used to be
+    made for the user with no way to change it."""
+    from starplast.objectives import OBJECTIVES
+    assert panel.objective.count() == len(OBJECTIVES)
+    names = {panel.objective.itemData(i) for i in range(panel.objective.count())}
+    assert names == set(OBJECTIVES)
+
+
+def test_the_objective_settings_travel_as_one_dict(panel):
+    """A score whose objective is not recorded beside it cannot be compared with another."""
+    s = panel.objective_settings()
+    # Every keyword objectives.score takes, so the whole scoring decision travels together. The
+    # floors are in here because they are part of it: min_cluster is what stops a four-gene cluster
+    # winning a purity objective, and a score recorded without it cannot be reproduced.
+    assert set(s) == {"objective", "weighting", "category", "min_recall",
+                      "min_cluster", "min_label"}
+    assert s["weighting"] == "macro", "size weighting buries the rare classes worth hunting"
+    import inspect
+    from starplast.objectives import score as score_fn
+    accepted = set(inspect.signature(score_fn).parameters)
+    assert set(s) <= accepted | {"min_cluster", "min_label"}, "a setting score() cannot accept"
+
+
+def test_the_focus_list_follows_the_target(panel):
+    """The categories of compartment are not the categories of cellcycle_phase, and a stale list
+    would let someone optimise for a label absent from the column being scored."""
+    panel.target.setCurrentText("compartment")
+    comp = panel.focus.count()
+    panel.target.setCurrentText("cellcycle_phase")
+    assert panel.focus.count() != comp
+
+
+def test_absence_is_never_offered_as_a_category_to_optimise_for(panel):
+    from starplast.search import ABSENCE_LABELS
+    panel.target.setCurrentText("compartment")
+    from PyQt6 import QtCore as _Qt
+    got = {panel.focus.item(i).data(_Qt.Qt.ItemDataRole.UserRole)
+           for i in range(panel.focus.count())} - {None}
+    assert not {g for g in got if str(g).lower() in ABSENCE_LABELS}
+
+
+def test_the_search_is_given_the_chosen_objective(panel, sync, monkeypatch):
+    import starplast.search as S
+    seen = {}
+
+    def fake(nodes, **kw):
+        seen.update(kw)
+        return pd.DataFrame({"mean_f1": [0.5]}), pd.DataFrame()
+
+    monkeypatch.setattr(S, "search", fake)
+    panel.objective.setCurrentIndex(
+        [panel.objective.itemData(i) for i in range(panel.objective.count())].index("best_precision"))
+    panel.run_search()
+    assert seen["objective"]["objective"] == "best_precision"
+
+
+# --------------------------------------------------------------------------- tooltip shape
+def test_a_tooltip_is_a_block_not_one_long_line(panel):
+    """Qt lays a plain tooltip out on one line, so a two-sentence explanation becomes a strip wider
+    than the window."""
+    tip = panel.mcs.toolTip()
+    assert tip.startswith("<div>") and "<br>" in tip
+    longest = max((len(x) for x in tip.replace("<br>", "\n").split("\n")), default=0)
+    assert longest < 90, f"a line of {longest} characters will run off the screen"
+
+
+def test_a_bounded_control_says_why_its_bounds_are_where_they_are(panel):
+    """An unexplained limit reads as arbitrary, or worse as a limit of the method."""
+    from starplast.analysis_panel import LIMITS
+    for attr in LIMITS:
+        w = getattr(panel, attr, None)
+        if w is None:
+            continue
+        tip = w.toolTip()
+        assert "Range" in tip, f"{attr} does not state its range"
+        # The reason is present, checked on a distinctive fragment rather than the first few words,
+        # which are often ordinary ones like "Below" or "Same".
+        # Unescaped and unwrapped before comparing: the tooltip is rich text, so an apostrophe is
+        # &#x27; and the line breaks fall wherever the wrap put them.
+        import html as _html
+        flat = " ".join(_html.unescape(tip.replace("<br>", " ")).split())
+        frag = " ".join(LIMITS[attr].split()[:6])
+        assert frag[:38] in flat, f"{attr} does not say why: {flat[:120]}"
+
+
+def test_the_range_in_the_tooltip_is_read_from_the_widget(panel):
+    """Written by hand it would drift from the range actually set."""
+    from starplast.analysis_panel import range_note
+    panel.mcs.setRange(7, 99)
+    assert "7" in range_note(panel.mcs) and "99" in range_note(panel.mcs)
+    panel.mcs.setRange(3, 2000)
+
+
+def test_hovering_the_name_works_not_only_the_field(panel):
+    """The label is the word people point at; the spin box is the thing they click."""
+    from PyQt6 import QtWidgets
+    checked = 0
+    for form in panel.findChildren(QtWidgets.QFormLayout):
+        for attr in ("nn", "md", "mcs", "val_folds", "search_sample"):
+            w = getattr(panel, attr, None)
+            if w is None:
+                continue
+            label = form.labelForField(w)
+            if label is not None:
+                assert label.toolTip() == w.toolTip(), f"{attr}'s label has a different tooltip"
+                checked += 1
+    assert checked >= 3, "no form labels were found to check"
+
+
+# --------------------------------------------------------------------------- the walk grid
+def test_the_walk_grid_is_reachable_from_the_interface(panel):
+    """It was hardcoded in tuning.walk_umap, so 'walk hyperparameters' swept a set nobody could see
+    or change -- while the spin boxes above it, which look like they control it, only ever affected
+    'build this map'."""
+    g = panel.walk_grid()
+    assert set(g) == {"n_neighbors_values", "min_dist_values", "min_cluster_sizes"}
+    panel.nn_grid.setText("7, 9")
+    assert panel.walk_grid()["n_neighbors_values"] == (7, 9)
+    panel.nn_grid.setText("5, 15, 25, 50, 100")
+
+
+def test_a_grid_accepts_a_list_or_a_range(panel):
+    assert panel.parse_grid("5, 15, 25", int) == (5, 15, 25)
+    assert panel.parse_grid("5:50:15", int) == (5, 20, 35, 50)
+    assert panel.parse_grid("0.0 0.25", float) == (0.0, 0.25)
+
+
+def test_an_unparsable_grid_falls_back_rather_than_raising(panel):
+    """A walk is expensive to start; losing one to a stray comma is worse than sweeping defaults."""
+    assert panel.parse_grid("oops", int, (1, 2)) == (1, 2)
+    assert panel.parse_grid("", int, (1, 2)) == (1, 2)
+    assert panel.parse_grid("5:50:0", int, (1, 2)) == (1, 2), "a zero step would never terminate"
+
+
+def test_the_two_tabs_cannot_disagree_about_the_grid(panel):
+    """The Map tab shows it and the Search tab sweeps it, so they are kept in step both ways."""
+    panel.nn_grid.setText("11, 22")
+    assert panel.nn_grid2.text() == "11, 22"
+    panel.md_grid2.setText("0.3")
+    assert panel.md_grid.text() == "0.3"
+    panel.nn_grid.setText("5, 15, 25, 50, 100")
+    panel.md_grid.setText("0.0, 0.1, 0.25, 0.5")
+
+
+def test_the_walk_is_given_the_grid_from_the_interface(panel, sync, monkeypatch):
+    import starplast.tuning as T
+    seen = {}
+
+    def fake(n, spec, **kw):
+        seen.update(kw)
+        return pd.DataFrame({"n_neighbors": [15]})
+
+    monkeypatch.setattr(T, "walk_umap", fake)
+    panel.nn_grid.setText("3, 4")
+    panel.run_umap_walk()
+    assert seen["n_neighbors_values"] == (3, 4)
+    panel.nn_grid.setText("5, 15, 25, 50, 100")
+
+
+# --------------------------------------------------------------------------- clicking a walk row
+def test_clicking_a_walk_row_builds_that_configuration(panel, monkeypatch):
+    """A table of scores is not a map. The point of a walk is to look at the ones that scored well,
+    and until now there was no way to get from a row to the embedding it describes."""
+    panel._fill(panel.walk_table,
+                pd.DataFrame({"n_neighbors": [7, 33], "min_dist": [0.3, 0.1], "trust": [0.9, 0.8]}))
+    built = {}
+    monkeypatch.setattr(panel, "run_embed", lambda: built.setdefault(
+        "spec", (panel.nn.value(), panel.md.value())))
+    panel.show_walk_row(1, 0)
+    assert built["spec"] == (33, 0.1)
+
+
+def test_clicking_a_row_that_names_no_configuration_says_so(panel, monkeypatch):
+    said = []
+    panel.status.connect(said.append)
+    panel._fill(panel.walk_table, pd.DataFrame({"n_neighbors": ["n/a"], "min_dist": ["n/a"]}))
+    monkeypatch.setattr(panel, "run_embed", lambda: pytest.fail("must not build from a bad row"))
+    panel.show_walk_row(0, 0)
+    assert any("cannot rebuild" in m or "does not name" in m for m in said)
+
+
+def test_mirroring_the_grid_does_not_re_enter(panel):
+    """A plain two-way binding re-enters -- setText emits textChanged, which sets the first again --
+    and the pair can still be firing at each other while Qt is deleting them."""
+    panel.nn_grid.setText("3, 4, 5")
+    assert panel.nn_grid2.text() == "3, 4, 5"
+    panel.nn_grid2.setText("6, 7")
+    assert panel.nn_grid.text() == "6, 7"
+    panel.nn_grid.setText("5, 15, 25, 50, 100")
+
+
+# --------------------------------------------------------------------------- choosing the labels
+def test_any_objective_can_be_combined_with_any_set_of_labels(panel):
+    """"Precision for dense granules" and "recall for dense granules and rhoptries" are different
+    questions, so the objective and the label set are independent choices."""
+    from PyQt6 import QtCore as _Qt
+    panel.target.setCurrentText("compartment")
+    panel.focus.clearSelection()
+    assert panel.objective_settings()["category"] is None, "none selected must mean all of them"
+    for i in range(min(2, panel.focus.count())):
+        panel.focus.item(i).setSelected(True)
+    got = panel.objective_settings()["category"]
+    assert isinstance(got, list) and len(got) == 2
+    assert all(g == panel.focus.item(i).data(_Qt.Qt.ItemDataRole.UserRole)
+               for i, g in enumerate(got))
+    panel.focus.clearSelection()
+
+
+def test_scoring_several_labels_aggregates_by_the_objective():
+    """mean objectives average over the chosen labels; best objectives take the best among them."""
+    import numpy as np
+    from starplast import objectives as O
+    t = pd.Series(["a"] * 60 + ["b"] * 60 + ["c"] * 60)
+    lab = np.array([0] * 60 + [1] * 30 + [2] * 30 + [3] * 60)   # "b" split, "a" and "c" clean
+    both = O.score(lab, t, objective="mean_recall", category=["a", "b"], min_cluster=1, min_label=5)
+    best = O.score(lab, t, objective="best_f1", category=["a", "b"], min_cluster=1, min_label=5)
+    only_a = O.score(lab, t, objective="mean_recall", category="a", min_cluster=1, min_label=5)
+    assert both["score"] < only_a["score"], "the split label should drag the mean down"
+    assert best["score"] >= both["score"], "best takes the better of the two"
+    assert both["categories"] == ["a", "b"]
+
+
+def test_asking_for_labels_none_of_which_cluster_says_which(panel):
+    import numpy as np
+    from starplast import objectives as O
+    t = pd.Series(["a"] * 60 + ["b"] * 60)
+    r = O.score(np.zeros(120, int), t, objective="best_f1", category=["nope", "also-nope"],
+                min_cluster=1, min_label=5)
+    assert r["score"] == 0.0
+    assert "nope" in r["detail"] and "also-nope" in r["detail"]

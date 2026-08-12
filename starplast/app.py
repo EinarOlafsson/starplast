@@ -981,12 +981,17 @@ class Window(QtWidgets.QMainWindow):
             parts.append(f"system {used:.0f}/{info['MemTotal']:.0f} GB")
         except Exception:
             pass
-        try:
-            import torch                                   # noqa: PLC0415 - optional
-            if torch.cuda.is_available():
-                parts.append(f"GPU {torch.cuda.memory_reserved() / 2**30:.1f} GB reserved")
-        except Exception:
-            pass
+        # Only if torch is ALREADY loaded, and never imported here. Importing it initialises CUDA,
+        # and initialising CUDA inside a running OpenGL application segfaults -- which this did, on a
+        # three-second timer, taking the next grabFramebuffer down with it. A status line must not be
+        # able to crash the program it reports on.
+        torch = sys.modules.get("torch")
+        if torch is not None:
+            try:
+                if torch.cuda.is_initialized():
+                    parts.append(f"GPU {torch.cuda.memory_reserved() / 2**30:.1f} GB reserved")
+            except Exception:
+                pass
         parts.append(f"{os.cpu_count()} CPUs")
         return "  ·  ".join(parts)
 
@@ -1009,13 +1014,16 @@ class Window(QtWidgets.QMainWindow):
             freed.append("level-of-detail cache")
         n = gc.collect()
         freed.append(f"{n} unreachable objects")
-        try:
-            import torch                                   # noqa: PLC0415 - optional
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
-                freed.append("GPU cache")
-        except Exception:
-            pass
+        # Same rule: only if it is already loaded and CUDA already up. Freeing a cache that does not
+        # exist is not worth initialising CUDA for.
+        torch = sys.modules.get("torch")
+        if torch is not None:
+            try:
+                if torch.cuda.is_initialized():
+                    torch.cuda.empty_cache()
+                    freed.append("GPU cache")
+            except Exception:
+                pass
         self.refresh_resources()
         msg = "freed: " + ", ".join(freed) + f"  ·  now {self.resource_summary()}"
         self.status.showMessage(msg)
@@ -1537,7 +1545,20 @@ class Window(QtWidgets.QMainWindow):
         path = path or self._ask_path("Export image", "PNG image (*.png)", "starplast.png")
         if not path:
             return None
-        img = self.view.grabFramebuffer()
+        # Guarded, because grabbing a framebuffer needs a real GL context and there is not always
+        # one: under the offscreen platform pyqtgraph itself warns that QOpenGLWidget is
+        # unsupported, and grabbing there is undefined -- it segfaulted rather than failing. An
+        # export that cannot happen must say so, not take the application down.
+        img = None
+        try:
+            if self.view.isValid():
+                img = self.view.grabFramebuffer()
+        except Exception as exc:
+            self.status.showMessage(f"could not capture the view: {type(exc).__name__}: {exc}")
+            return None
+        if img is None or img.isNull():
+            self.status.showMessage("no OpenGL context to capture — export needs a real display")
+            return None
         ok = img.save(path)
         self.status.showMessage(f"wrote {path}" if ok else f"could not write {path}")
         return path if ok else None

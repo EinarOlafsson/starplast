@@ -232,8 +232,18 @@ def test_a_rebuilt_embedding_invalidates_the_cached_tier(win):
 
 # --------------------------------------------------------------------------- exports
 def test_export_image_writes_a_png(win, tmp_path):
+    """Skipped where there is no real GL context.
+
+    Under the offscreen platform pyqtgraph warns that QOpenGLWidget is unsupported, and grabbing a
+    framebuffer there is undefined -- it segfaulted the interpreter rather than failing. The export
+    now refuses instead of crashing, and this checks whichever of the two applies.
+    """
     p = tmp_path / "shot.png"
-    assert win.export_image(str(p)) == str(p)
+    got = win.export_image(str(p))
+    if got is None:
+        assert "OpenGL context" in win.status.currentMessage()
+        pytest.skip("no usable GL context on this platform")
+    assert got == str(p)
     assert p.exists() and p.stat().st_size > 0
 
 

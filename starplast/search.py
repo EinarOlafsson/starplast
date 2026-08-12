@@ -178,8 +178,17 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
            n_neighbors_values=(15, 50), min_dist_values=(0.0, 0.25),
            min_cluster_sizes=(25, 60), sample_size: int | None = None,
            seed: int = DEFAULT_SEED, store=None, save_above: float | None = None,
-           log=print) -> tuple:
-    """Walk combinations of datasets and hyperparameters, scoring recovery of a held-out target."""
+           objective: dict | None = None, log=print) -> tuple:
+    """Walk combinations of datasets and hyperparameters, scoring recovery of a held-out target.
+
+    `objective` selects what "good structure" means, as the keyword arguments `objectives.score`
+    takes -- which of precision, recall or both, averaged or best-case, and over every category or
+    one. Omitted, the per-label F1 summary is used, which is what this always did.
+
+    Whichever is chosen, the per-label table is computed regardless and returned alongside, because
+    no single number survives contact with a real result: the winning configuration is chosen by the
+    objective, and then read per label to see whether it earned it.
+    """
     log = _flushing(log)
     truth_col = TARGETS.get(target, target)
     if truth_col not in nodes.columns:
@@ -236,10 +245,24 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
                     # sample. One unusable grid point should cost that point, not the whole walk.
                     continue
                 lab = cluster(Y, algorithm="hdbscan", min_cluster_size=mcs)
-                summary, per = score_recovery(lab, nodes[truth_col].iloc[idx])
+                truth = nodes[truth_col].iloc[idx]
+                summary, per = score_recovery(lab, truth)
                 runs += 1
                 if not summary:
                     continue
+                if objective:
+                    # Scored under the chosen objective, and the choice is recorded on the row. A
+                    # score whose objective is not beside it cannot be compared with another.
+                    from .objectives import agreement, score as score_objective
+                    obj = score_objective(lab, truth, **objective)
+                    summary = dict(summary)
+                    summary["objective_score"] = obj["score"]
+                    summary["objective"] = obj["objective"]
+                    summary["objective_detail"] = obj["detail"]
+                    summary["weighting"] = obj["weighting"]
+                    # Chance-corrected agreement travels with it, because every objective here has a
+                    # degenerate maximiser and an ARI near zero beside a high score is how you see one.
+                    summary.update(agreement(lab, truth))
                 row = {"target": truth_col, "blocks": "+".join(spec0.blocks),
                        "na_policy": pol, "scaling": sc, "n_neighbors": nn, "min_dist": md,
                        "min_cluster_size": mcs, "seed": seed, "n_genes": int(len(X)),
