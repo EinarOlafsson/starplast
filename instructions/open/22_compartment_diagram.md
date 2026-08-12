@@ -10,9 +10,43 @@ beneath the class list, with each organelle filled in **the same colour that com
 
 Source file: `starplast/data/icons/Apicomplexa_cells.svg`.
 
-**It is not in the repository yet.** It was placed on the work machine at
-`/media/carruthers/mnt3/claude/repo/starplast/starplast/data/icons/Apicomplexa_cells.svg` and needs
-committing before any of this can be built or tested. First step is `git add` it.
+Committed 2026-08-12, 206 KB.
+
+## What the file turns out to be, which decides the approach
+
+It is a UniProt-style subcellular-location diagram: 56 distinct organelles, each a `<g>` with a
+**UniProt SL identifier** (`id="SL0233"`) and a `<text class="subcell_description">`. So the artwork
+already carries a standard controlled vocabulary, and the job is a mapping from hyperLOPIT
+compartment names onto SL codes -- not renaming anything in the drawing.
+
+Confirmed present, which covers most of what this proteome measures:
+
+    SL0233  rhoptry            -> rhoptries 1, rhoptries 2
+    SL0163  microneme          -> micronemes
+    SL0018  apicoplast         -> apicoplast
+    SL0362  inner membrane cx  -> IMC
+    SL0173  mitochondrion      -> mitochondrion - soluble
+    SL0171  mito membrane      -> mitochondrion - membranes
+    SL0132  Golgi              -> Golgi
+    SL0095  ER                 -> ER, ER 2
+    SL0191  nucleus            -> nucleus - chromatin, nucleus - non-chromatin
+    SL0188  nucleolus          -> nucleolus
+    SL0091  cytosol            -> cytosol
+    SL0039  cell membrane      -> PM - integral, PM - peripheral 1, PM - peripheral 2
+    SL0090  cytoskeleton       -> tubulin cytoskeleton
+
+Dense granules are in the drawing, which matters: that is the compartment the annotation workflow is
+aimed at. Ribosomes and vacuoles are present too.
+
+**Not in the drawing:** conoid, and the proteasome. `19S proteasome`, `20S proteasome` and
+`apical 1` / `apical 2` therefore have no organelle to colour and need the same treatment as
+cytosol -- named beside the diagram rather than silently absent.
+
+Several hyperLOPIT classes map to ONE organelle (both rhoptry classes, both nucleus classes, the
+three PM classes). Those cannot each take their own colour on the same shape. Either colour the
+shape for whichever is selected, or split the shape where the artwork allows it -- decide before
+building, because "rhoptries 1 and rhoptries 2 are different colours in the map and one colour in
+the diagram" is exactly the kind of quiet disagreement this project avoids elsewhere.
 
 ## Behaviour
 
