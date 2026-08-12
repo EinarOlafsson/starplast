@@ -61,8 +61,24 @@ TRANSFORM = {
 
 # --------------------------------------------------------------------------- fetching
 def _get(url: str, timeout=300) -> bytes:
-    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout) as r:
-        return r.read()
+    """Fetch one URL, and record what came back.
+
+    Logged at both ends rather than only on failure: "which URL did this table actually come from"
+    is the first question asked of any number derived from a download, and the answer has to survive
+    the session that made it.
+    """
+    from .logging_util import get_logger
+    log = get_logger(__name__)
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout) as r:
+            data = r.read()
+    except Exception as exc:
+        # WARNING, not DEBUG. A fetch that fails and is handled quietly is how this project shipped
+        # a version-pinned URL that returned 404 for months while reporting "no model available".
+        log.warning("fetch failed: %s -- %s: %s", url, type(exc).__name__, exc)
+        raise
+    log.info("fetched %s (%.1f kB)", url, len(data) / 1024)
+    return data
 
 
 def geo_supplementary(gse: str, out_dir: str, log=print) -> list:

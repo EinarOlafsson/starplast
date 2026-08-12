@@ -10,11 +10,16 @@ with it, and the user is left knowing only that something did not work.
 """
 from __future__ import annotations
 
+import time
 import traceback
 from dataclasses import dataclass, field
 from typing import Any, Callable, Optional
 
 from PyQt6 import QtCore
+
+from .logging_util import get_logger
+
+_log = get_logger(__name__)
 
 PENDING, RUNNING, DONE, FAILED, CANCELLED = "pending", "running", "done", "failed", "cancelled"
 
@@ -82,9 +87,12 @@ class _Task(QtCore.QRunnable):
 
     def run(self):
         if self.job.cancelled:
+            _log.info("job %d %r: cancelled before it started", self.job.id, self.job.name)
             self.sig.finished.emit(self.job.id, False)
             return
+        t0 = time.monotonic()
         self.job.state = RUNNING
+        _log.info("job %d %r: started", self.job.id, self.job.name)
         # Written here, on the worker, rather than left to the queued handler. The signal is
         # delivered on the GUI thread whenever it gets there, so a job that had already reported
         # "configuration 12 of 288" would have its note overwritten with "started" the moment the
@@ -97,18 +105,27 @@ class _Task(QtCore.QRunnable):
             self.job.result = self.fn(self.job) if _takes_arg(self.fn) else self.fn()
             ok = not self.job.cancelled
             self.job.state = DONE if ok else CANCELLED
+            _log.info("job %d %r: %s in %.1fs", self.job.id, self.job.name,
+                      "done" if ok else "cancelled", time.monotonic() - t0)
         except Stopped as exc:
             # A cooperative stop unwinds by raising, so it arrives here looking like a failure. It is
             # not one: a job the user stopped must not be reported in red with a traceback.
             self.job.state = CANCELLED
             self.job.note = str(exc)
             ok = False
+            _log.info("job %d %r: stopped after %.1fs -- %s",
+                      self.job.id, self.job.name, time.monotonic() - t0, exc)
         except Exception as exc:                      # a worker thread must never raise into Qt
             self.job.state = FAILED
             self.job.error = f"{type(exc).__name__}: {exc}"
             self.job.traceback = traceback.format_exc()
             self.job.exception = exc
             ok = False
+            # ERROR with the traceback: a failed job keeps its traceback in the panel for this
+            # session, and in the log for the ones after it.
+            _log.error("job %d %r: failed after %.1fs -- %s",
+                       self.job.id, self.job.name, time.monotonic() - t0, self.job.error,
+                       exc_info=True)
         self.sig.finished.emit(self.job.id, ok)
 
 

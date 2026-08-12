@@ -294,6 +294,10 @@ def normalise(Y, scale: float = 50.0) -> np.ndarray:
 
 def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
     """Build the matrix and run UMAP. Returns (coords, feature_names, kept_rows)."""
+    from .logging_util import get_logger
+    # The full recipe, at INFO. A map with no record of what produced it cannot be compared with
+    # another or reported in a methods section, and the recipe is small next to the run.
+    get_logger(__name__).info("embedding: %s", spec.to_dict())
     X, names, rows = build_matrix(nodes, spec, log=log)
     try:
         import umap

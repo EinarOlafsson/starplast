@@ -13,3 +13,15 @@ os.environ.setdefault("PYQTGRAPH_QT_LIB", "PyQt6")
 os.environ.setdefault("PYTEST_QT_API", "PyQt6")
 # The GL widget needs a platform plugin; offscreen keeps the suite headless.
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+
+# Preferences persist through QSettings, and a test run must not write into the settings file of
+# whoever is running it -- nor read one, since a developer with logging enabled would otherwise have
+# every Window in the suite writing to their real log.
+import tempfile  # noqa: E402
+
+from PyQt6 import QtCore  # noqa: E402
+
+QtCore.QSettings.setDefaultFormat(QtCore.QSettings.Format.IniFormat)
+QtCore.QSettings.setPath(QtCore.QSettings.Format.IniFormat, QtCore.QSettings.Scope.UserScope,
+                         tempfile.mkdtemp(prefix="starplast-test-settings-"))

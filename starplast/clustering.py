@@ -97,6 +97,10 @@ def cluster(X: np.ndarray, algorithm="hdbscan", **kw) -> np.ndarray:
     HDBSCAN by default: it allows clusters of differing density and calls the rest noise, which suits
     a proteome where most genes belong to no tight group. Calling that noise is the honest answer.
     """
+    from .logging_util import get_logger
+    # The parameters, at DEBUG. A clustering is half of every claim this application makes, and
+    # "which min_cluster_size produced that figure" is asked long after the window has closed.
+    get_logger(__name__).debug("clustering %d points: %s %s", len(X), algorithm, kw)
     if algorithm == "dbscan":
         from sklearn.cluster import DBSCAN
         return DBSCAN(eps=kw.get("eps", 0.5), min_samples=kw.get("min_samples", 10)).fit_predict(X)

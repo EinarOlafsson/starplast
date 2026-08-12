@@ -21,6 +21,8 @@ import os
 import urllib.error
 import urllib.request
 
+from .logging_util import get_logger
+
 CACHE = os.path.join(os.path.expanduser("~"), ".cache", "starplast", "structures")
 
 # Local mirrors, in preference order. These are machine-specific by nature; absence is not an error.
@@ -37,6 +39,8 @@ LOCAL_DIRS = [
 #
 # Pinning v6 would only reset the same clock. The version is resolved per accession from the API,
 # which names the current file, and the probe list is the fallback for when the API is unreachable.
+_log = get_logger(__name__)
+
 AFDB_API = "https://alphafold.ebi.ac.uk/api/prediction/{acc}"
 AFDB_URL = "https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_v{v}.cif"
 AFDB_VERSIONS = (6, 5, 4)          # newest first; only used if the API cannot be reached
@@ -77,7 +81,8 @@ def _afdb_url(uniprot: str, timeout: int = 30) -> str | None:
                                      headers={"User-Agent": "starplast (research)"})
         with urllib.request.urlopen(req, timeout=timeout) as r:
             entries = json.loads(r.read().decode("utf-8", "replace"))
-    except (urllib.error.URLError, OSError, TimeoutError, ValueError):
+    except (urllib.error.URLError, OSError, TimeoutError, ValueError) as exc:
+        _log.warning("AlphaFold API unreachable for %s: %s: %s", uniprot, type(exc).__name__, exc)
         return None
     if isinstance(entries, list) and entries and isinstance(entries[0], dict):
         return entries[0].get("cifUrl") or None
@@ -121,14 +126,21 @@ def fetch_alphafold(uniprot: str, timeout: int = 30) -> str | None:
             req = urllib.request.Request(url, headers={"User-Agent": "starplast (research)"})
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 data = r.read()
-        except (urllib.error.URLError, OSError, TimeoutError):
+        except (urllib.error.URLError, OSError, TimeoutError) as exc:
             # offline, or this release is retired -- try the next candidate before giving up
+            _log.debug("AlphaFold %s: %s: %s", url, type(exc).__name__, exc)
             continue
         if not data:
             continue
         with open(dest, "wb") as fh:
             fh.write(data)
+        _log.info("AlphaFold %s: %s (%.1f kB)", uniprot, url, len(data) / 1024)
         return dest
+    # Every candidate failed. Logged as a WARNING with the URLs tried, because this is precisely the
+    # failure that ran for months: a 404 from a pinned version is indistinguishable, to the caller,
+    # from the ordinary case of a protein AlphaFold has no model for.
+    _log.warning("AlphaFold %s: no model retrieved from any of %d URL(s): %s",
+                 uniprot, len(urls), ", ".join(urls))
     return None
 
 

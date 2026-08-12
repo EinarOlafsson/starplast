@@ -12,14 +12,21 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~1,388 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect ~1,423 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
 ## The one thing to do first
 
-**Task 19** — logging, opt-in and per level. Then 18 (navigate/select modes) and 16 (the automated
-walk, which task 15 unblocked). Task 17 is unblocked too, now that 20 has landed, but read what 20
-built before starting it: an annotation may only be saved with the validation numbers attached.
+**Task 18** — navigate/select modes. Then 16 (the automated walk, which task 15 unblocked), then 17
+(the annotation store), which is unblocked now that 20 has landed but may only save an annotation
+with the validation numbers attached.
+
+**Task 19 is done** (2026-08-12, v0.7.0): `logging_util.get_logger(__name__)` anywhere, levels
+DEBUG–ERROR, an opt-in rotating file, and a console level that is separate from the file's and is
+never silent — a warning nobody enabled a log to see is a silent failure with extra steps. Console
+lines carry a `[LEVEL]` prefix, which is what the pane colours and filters by. **Log the outcome of
+anything that can fail quietly**, with the URL or the recipe attached; that is the whole point of
+it.
 
 **Task 20 is done** (2026-08-12, v0.5.0), and two of its findings outlive it:
 
@@ -101,7 +108,7 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
   directly, never a pragma. Genuinely unreachable branches get deleted.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.6.0).
+- Bump the version for feature work (currently 0.7.0).
 
 ## Where things are
 

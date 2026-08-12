@@ -7,6 +7,16 @@ behaves normally and running from a launcher is no longer silent.
 
 Capture is deliberately a tee rather than a redirect. Swallowing stderr would hide tracebacks from
 anyone debugging from a terminal, which is where they are actually read.
+
+Lines that came through `logging_util` carry their level as a `[LEVEL]` prefix, and the pane reads
+it: it colours by level and filters by minimum level, so a warning is findable in a walk that
+printed four thousand progress lines. Ordinary prints are left levelless rather than being called
+INFO -- most output here is `print`, and folding it into a level would make filtering by that level
+useless.
+
+Lines are appended as they arrive rather than by re-rendering the whole pane. Re-rendering was
+quadratic in the number of lines, on the one screen whose entire purpose is watching something long
+run: 5,000 lines meant 5,000 full rebuilds of a 5,000-line document.
 """
 from __future__ import annotations
 
@@ -15,7 +25,14 @@ from datetime import datetime
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
+from .logging_util import LEVELS, parse_level
+
 MAX_LINES = 5000        # a runaway loop must not exhaust memory through the log widget
+
+#: One colour per level, chosen to read on both the dark and the light themes rather than to match
+#: either. Levelless output -- ordinary prints -- takes the pane's own text colour, so the default
+#: case looks exactly as it did.
+LEVEL_COLOUR = {"DEBUG": "#7f8c9b", "INFO": "#5aa9e6", "WARNING": "#d79a2b", "ERROR": "#e05561"}
 
 
 class Tee(QtCore.QObject):
@@ -86,6 +103,16 @@ class ConsolePanel(QtWidgets.QWidget):
         self.errors_only = QtWidgets.QCheckBox("errors")
         self.errors_only.setToolTip("Show only what was written to stderr.")
         self.errors_only.toggled.connect(self._apply_filter)
+        self.level = QtWidgets.QComboBox()
+        self.level.addItem("all levels", "")
+        for name in LEVELS:
+            self.level.addItem(f"{name} and above", name)
+        self.level.setToolTip(
+            "Hide anything logged below this level. A walk prints thousands of progress lines and "
+            "one warning; without this the warning is somewhere in the middle of them. Ordinary "
+            "printed output carries no level and is always shown, because most of what this "
+            "application writes is a print and folding it into INFO would make INFO useless.")
+        self.level.currentIndexChanged.connect(self._apply_filter)
         copy = QtWidgets.QPushButton("copy")
         copy.setToolTip("Copy the visible lines to the clipboard.")
         copy.clicked.connect(self.copy_all)
@@ -93,20 +120,22 @@ class ConsolePanel(QtWidgets.QWidget):
         clear.setToolTip("Discard everything logged so far. The log is capped anyway, so this is "
                          "for making the next run's output easy to find rather than for memory.")
         clear.clicked.connect(self.clear)
-        for w in (self.filter, self.errors_only, copy, clear):
+        for w in (self.filter, self.level, self.errors_only, copy, clear):
             bar.addWidget(w)
         bar.setStretch(0, 1)
         L.addLayout(bar)
 
-        self.view = QtWidgets.QPlainTextEdit()
+        # QTextEdit rather than QPlainTextEdit: a level has to be able to colour its own line, and
+        # the plain widget has one colour for the whole document.
+        self.view = QtWidgets.QTextEdit()
         self.view.setReadOnly(True)
-        self.view.setMaximumBlockCount(MAX_LINES)
+        self.view.document().setMaximumBlockCount(MAX_LINES)
         self.view.setFont(QtGui.QFontDatabase.systemFont(
             QtGui.QFontDatabase.SystemFont.FixedFont))
-        self.view.setLineWrapMode(QtWidgets.QPlainTextEdit.LineWrapMode.NoWrap)
+        self.view.setLineWrapMode(QtWidgets.QTextEdit.LineWrapMode.NoWrap)
         L.addWidget(self.view, 1)
 
-        self._lines: list[tuple[str, str, bool]] = []       # time, text, is_error
+        self._lines: list[tuple[str, str, bool, str]] = []   # time, text, is_error, level ("" = none)
         self._partial = {False: "", True: ""}
 
     # -------------------------------------------------------------- capture
@@ -139,27 +168,54 @@ class ConsolePanel(QtWidgets.QWidget):
         buf = self._partial[is_error] + chunk
         *lines, self._partial[is_error] = buf.split("\n")
         stamp = datetime.now().strftime("%H:%M:%S")
+        at_end = self._at_end()
         for line in lines:
-            self._lines.append((stamp, line, is_error))
+            level = parse_level(line) or ""
+            self._lines.append((stamp, line, is_error, level))
+            # Appended rather than re-rendered. Rebuilding the whole document per line is quadratic,
+            # and this pane exists to be watched during the runs that print the most.
+            if self._matches(stamp, line, is_error, level):
+                self._write(stamp, line, level)
         if len(self._lines) > MAX_LINES:
             del self._lines[:-MAX_LINES]
-        if lines:
-            self._apply_filter()
+        if lines and at_end:
+            self._scroll_to_end()
 
-    def _matches(self, t: str, line: str, err: bool) -> bool:
+    def _matches(self, t: str, line: str, err: bool, level: str = "") -> bool:
         if self.errors_only.isChecked() and not err:
+            return False
+        want = self.level.currentData() if hasattr(self, "level") else ""
+        # Levelless output is always shown: it is not "below DEBUG", it is output that was never
+        # assigned a level, and hiding it would empty the pane for everything this program prints.
+        if want and level and LEVELS.index(level) < LEVELS.index(want):
             return False
         f = self.filter.text().strip().lower()
         return not f or f in line.lower()
 
+    def _write(self, stamp: str, line: str, level: str = ""):
+        """Put one line in the view, in its level's colour."""
+        colour = LEVEL_COLOUR.get(level)
+        self.view.setTextColor(QtGui.QColor(colour) if colour
+                               else self.view.palette().text().color())
+        self.view.append(f"{stamp}  {line}")
+
+    def _at_end(self) -> bool:
+        bar = self.view.verticalScrollBar()
+        return bar.value() >= bar.maximum() - 4
+
+    def _scroll_to_end(self):
+        # Only follow the tail if the user was already at the tail. Yanking the view to the bottom
+        # while someone is reading further up is the classic log-pane annoyance.
+        bar = self.view.verticalScrollBar()
+        bar.setValue(bar.maximum())
+
     def _apply_filter(self):
-        keep = [(t, s, e) for t, s, e in self._lines if self._matches(t, s, e)]
-        at_end = self.view.verticalScrollBar().value() >= self.view.verticalScrollBar().maximum() - 4
-        self.view.setPlainText("\n".join(f"{t}  {s}" for t, s, _ in keep))
-        if at_end:
-            # Only follow the tail if the user was already at the tail. Yanking the view to the
-            # bottom while someone is reading further up is the classic log-pane annoyance.
-            self.view.verticalScrollBar().setValue(self.view.verticalScrollBar().maximum())
+        """Re-render everything kept. Called when a filter changes, not when a line arrives."""
+        self.view.clear()
+        for t, s, e, lv in self._lines:
+            if self._matches(t, s, e, lv):
+                self._write(t, s, lv)
+        self._scroll_to_end()
 
     def text(self) -> str:
         """The currently visible log text."""

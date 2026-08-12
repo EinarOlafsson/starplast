@@ -672,3 +672,55 @@ def test_main_builds_and_shows_the_window(monkeypatch, app):
 
     A.main()
     assert seen == {"shown": True, "exec": 0, "exit": 0}
+
+
+# --------------------------------------------------------------------------- logging preferences
+def test_logging_is_off_until_it_is_asked_for(win, tmp_path):
+    """Writing files to someone's disk uninvited is how a tool loses trust. The console still gets
+    warnings, because a warning nobody enabled a log to see is a silent failure with extra steps."""
+    from starplast import logging_util
+    win.apply_log_settings(enabled=False, directory=str(tmp_path))
+    assert logging_util.log_file() == ""
+    assert os.listdir(tmp_path) == []
+    assert logging_util.state()["console_level"] in logging_util.LEVELS
+
+
+def test_enabling_the_log_writes_a_file_and_says_where(win, tmp_path):
+    from starplast import logging_util
+    path = win.apply_log_settings(enabled=True, file_level="DEBUG", directory=str(tmp_path))
+    assert path and os.path.exists(path)
+    assert path in win.statusBar().currentMessage()
+    logging_util.get_logger("test").info("a line")
+    assert "a line" in open(path).read()
+    win.apply_log_settings(enabled=False, directory=str(tmp_path))
+
+
+def test_the_logging_choice_persists(win, tmp_path):
+    """A preference that has to be set again every launch is a preference nobody sets."""
+    win.apply_log_settings(enabled=True, console_level="DEBUG", directory=str(tmp_path))
+    assert win.log_settings()["enabled"] is True
+    assert win.log_settings()["console_level"] == "DEBUG"
+    win.apply_log_settings(enabled=False, console_level="WARNING")
+    assert win.log_settings()["enabled"] is False
+
+
+def test_the_preferences_dialog_carries_the_logging_controls(win):
+    win.build_preferences()
+    for attr in ("log_box", "log_file_level", "log_console_level", "log_path"):
+        assert hasattr(win, attr), attr
+        tip = getattr(win, attr).toolTip()
+        assert tip and len(tip.split()) >= 15, f"{attr} does not explain itself: {tip!r}"
+
+
+def test_the_preference_controls_take_effect_when_used(win, tmp_path, monkeypatch):
+    """A checkbox that stores a setting without applying it is the worst of both."""
+    from starplast import logging_util
+    monkeypatch.setattr(logging_util, "log_dir", lambda: str(tmp_path))
+    win.build_preferences()
+    win.log_console_level.setCurrentText("DEBUG")
+    assert logging_util.state()["console_level"] == "DEBUG"
+    win.log_box.setChecked(True)
+    assert logging_util.log_file(), "ticking the box did not start a log"
+    assert win.log_path.text() == logging_util.log_file()
+    win.log_box.setChecked(False)
+    assert logging_util.log_file() == "" and "no file" in win.log_path.text()

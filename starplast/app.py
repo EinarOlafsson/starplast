@@ -35,6 +35,7 @@ from . import paths  # noqa: E402
 from .chat import ChatPanel  # noqa: E402
 from .console import ConsolePanel  # noqa: E402
 from .jobs import FAILED, JobRunner  # noqa: E402
+from . import logging_util  # noqa: E402
 # The same absence labels the held-out search excludes. Shared rather than restated, so "unassigned"
 # cannot come to mean one thing in the scoring and another in the browser.
 from .search import ABSENCE_LABELS as ABSENCE  # noqa: E402
@@ -360,6 +361,7 @@ class Window(QtWidgets.QMainWindow):
         self.depth_cue = True
         self.show_ground = True
         self.cmap_name = None
+        self.apply_log_settings()
         self.nodes, self.xyz, self.edges, self.models = load()
         self.n = len(self.nodes)
         self.sel = None
@@ -427,6 +429,46 @@ class Window(QtWidgets.QMainWindow):
         self.view.customContextMenuRequested.connect(self._context_menu)
         self.apply_theme(self.theme)
         self.redraw()
+
+    # ------------------------------------------------------------------ logging
+    def settings(self):
+        """Where preferences persist. One place, so a new setting cannot invent its own file."""
+        return QtCore.QSettings("starplast", "starplast")
+
+    def log_settings(self) -> dict:
+        """The stored logging preferences, with the defaults that apply on a fresh install.
+
+        Off, and WARNING to the console. Off because writing files to someone's disk uninvited is
+        how a tool loses trust; WARNING rather than silent because a warning nobody enabled a log to
+        see is a silent failure with extra steps.
+        """
+        s = self.settings()
+        return {"enabled": s.value("logging/enabled", False, type=bool),
+                "file_level": str(s.value("logging/file_level", "DEBUG")),
+                "console_level": str(s.value("logging/console_level", "WARNING")),
+                "directory": str(s.value("logging/directory", logging_util.log_dir()))}
+
+    def apply_log_settings(self, **changes) -> str:
+        """Apply the stored settings, with any changes, and persist what was applied.
+
+        Persisted only after `configure` has accepted it, so a directory that could not be written
+        does not come back on the next launch as though it had worked.
+        """
+        cfg = {**self.log_settings(), **changes}
+        path = logging_util.configure(**cfg)
+        self.log = logging_util.get_logger(__name__)
+        if changes:
+            # Written only when something was actually chosen. Persisting on every startup would
+            # mean the application rewrites the user's settings file merely for having been opened.
+            s = self.settings()
+            for k, v in cfg.items():
+                s.setValue(f"logging/{k}", v)
+            where = f"writing to {path}" if path else "not writing a file"
+            self.statusBar().showMessage(
+                f"logging: {where}; console shows {cfg['console_level']} and above")
+            if hasattr(self, "log_path"):
+                self.log_path.setText(path or "no file is being written")
+        return path
 
     # ------------------------------------------------------------------ appearance
     def _cmap_for(self, values):
@@ -873,6 +915,42 @@ class Window(QtWidgets.QMainWindow):
             "rotation from the points rearranging themselves.")
         self.ground_box.toggled.connect(lambda v: (setattr(self, "show_ground", v), self.redraw()))
 
+        cfg = self.log_settings()
+        self.log_box = QtWidgets.QCheckBox("keep a log file")
+        self.log_box.setChecked(cfg["enabled"])
+        self.log_box.setToolTip(
+            "Write what happens to a rotating file under the cache directory: every job with how "
+            "long it took, every fetch with its URL and outcome, every embedding with its recipe. "
+            "Off by default because a tool that writes to your disk without being asked is one "
+            "people stop trusting -- and on, it is what turns 'the search finished' into a record "
+            "of which of its 288 configurations actually ran.")
+        self.log_box.toggled.connect(lambda on: self.apply_log_settings(enabled=on))
+
+        self.log_file_level = QtWidgets.QComboBox()
+        self.log_file_level.addItems(logging_util.LEVELS)
+        self.log_file_level.setCurrentText(cfg["file_level"])
+        self.log_file_level.setToolTip(
+            "How much detail the FILE keeps. DEBUG is the useful setting here: the file is read "
+            "after something went wrong, and the line that explains it is usually the one nobody "
+            "would have chosen to keep.")
+        self.log_file_level.currentTextChanged.connect(
+            lambda v: self.apply_log_settings(file_level=v))
+
+        self.log_console_level = QtWidgets.QComboBox()
+        self.log_console_level.addItems(logging_util.LEVELS)
+        self.log_console_level.setCurrentText(cfg["console_level"])
+        self.log_console_level.setToolTip(
+            "How much reaches the console pane. Set independently of the file, because DEBUG is "
+            "exactly what you want kept during a half-hour walk and exactly what you do not want "
+            "scrolling past while you watch it.")
+        self.log_console_level.currentTextChanged.connect(
+            lambda v: self.apply_log_settings(console_level=v))
+
+        self.log_path = QtWidgets.QLabel(logging_util.log_file() or "no file is being written")
+        self.log_path.setToolTip("Where the log is being written. Rotating, so a long session "
+                                 "cannot fill a disk.")
+        self.log_path.setWordWrap(True)
+
         form.addRow("theme", self.theme_box)
         form.addRow("colour map", self.cmap_box)
         form.addRow("points", self.point_box)
@@ -880,6 +958,10 @@ class Window(QtWidgets.QMainWindow):
         form.addRow("spin speed", self.spin_speed)
         form.addRow("depth", self.depth_box)
         form.addRow("reference", self.ground_box)
+        form.addRow("logging", self.log_box)
+        form.addRow("keep at level", self.log_file_level)
+        form.addRow("show at level", self.log_console_level)
+        form.addRow("log file", self.log_path)
         close = QtWidgets.QPushButton("close")
         close.clicked.connect(d.accept)
         form.addRow(close)
