@@ -213,3 +213,113 @@ def test_a_row_with_no_models_returns_an_empty_list(tmp_path):
 
 def test_a_row_missing_the_attributes_entirely_does_not_raise(tmp_path):
     assert ST.crosslink_model_paths(object(), str(tmp_path)) == []
+
+
+# --------------------------------------------------------------------------- version resolution
+def test_the_current_release_is_asked_for_rather_than_pinned(tmp_path, monkeypatch):
+    """The bug this exists for: model_v4 was hardcoded, AlphaFold now serves only v6, and every
+    fetch 404'd into a handler that reports "no model available" -- true of many proteins, so the
+    failure was completely invisible."""
+    monkeypatch.setattr(ST, "CACHE", str(tmp_path))
+    asked = []
+
+    class Resp:
+        def __init__(self, body):
+            self.body = body
+
+        def read(self):
+            return self.body
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    def urlopen(req, *a, **k):
+        url = req.full_url if hasattr(req, "full_url") else str(req)
+        asked.append(url)
+        if "/api/prediction/" in url:
+            return Resp(b'[{"cifUrl": "https://alphafold.ebi.ac.uk/files/AF-Q1-F1-model_v6.cif"}]')
+        if url.endswith("model_v6.cif"):
+            return Resp(b"CIF")
+        raise ST.urllib.error.URLError("410 gone")
+
+    monkeypatch.setattr(ST.urllib.request, "urlopen", urlopen)
+    p = ST.fetch_alphafold("Q1")
+    assert p and p.endswith("AF-Q1-F1-model_v6.cif"), p
+    assert any("/api/prediction/" in u for u in asked), "the release was assumed, not resolved"
+    assert not any(u.endswith("model_v4.cif") for u in asked), "still reaching for the retired v4"
+
+
+def test_a_probe_finds_the_live_release_when_the_api_is_unreachable(tmp_path, monkeypatch):
+    """The API is a convenience, not a dependency: if it is down the newest release still wins."""
+    monkeypatch.setattr(ST, "CACHE", str(tmp_path))
+    tried = []
+
+    class Resp:
+        def read(self):
+            return b"CIF"
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    def urlopen(req, *a, **k):
+        url = req.full_url if hasattr(req, "full_url") else str(req)
+        tried.append(url)
+        if "/api/prediction/" in url:
+            raise ST.urllib.error.URLError("api down")
+        if url.endswith("model_v6.cif"):
+            return Resp()
+        raise ST.urllib.error.URLError("410 gone")
+
+    monkeypatch.setattr(ST.urllib.request, "urlopen", urlopen)
+    assert ST.fetch_alphafold("Q2").endswith("model_v6.cif")
+    assert tried[1].endswith("model_v6.cif"), "the probe did not try the newest release first"
+
+
+def test_a_malformed_api_reply_falls_back_instead_of_crashing(tmp_path, monkeypatch):
+    monkeypatch.setattr(ST, "CACHE", str(tmp_path))
+
+    class Resp:
+        def read(self):
+            return b"not json at all"
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    monkeypatch.setattr(ST.urllib.request, "urlopen", lambda *a, **k: Resp())
+    assert ST._afdb_url("Q3") is None
+
+
+def test_an_api_reply_without_a_cif_url_is_not_treated_as_one(tmp_path, monkeypatch):
+    class Resp:
+        def read(self):
+            return b'[{"pdbUrl": "x"}]'
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    monkeypatch.setattr(ST.urllib.request, "urlopen", lambda *a, **k: Resp())
+    assert ST._afdb_url("Q4") is None
+
+    class Empty(Resp):
+        def read(self):
+            return b"{}"
+
+    monkeypatch.setattr(ST.urllib.request, "urlopen", lambda *a, **k: Empty())
+    assert ST._afdb_url("Q5") is None
+
+
+def test_a_cache_that_does_not_exist_yet_is_not_an_error(tmp_path, monkeypatch):
+    monkeypatch.setattr(ST, "CACHE", str(tmp_path / "not-created"))
+    assert ST._cached("Q6") is None
