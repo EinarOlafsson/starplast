@@ -1,0 +1,124 @@
+================================================================================
+RUN THE STRUCTURE SEARCH AGAINST THE TARGETS THAT WERE ACTUALLY ASKED FOR
+================================================================================
+
+STATE
+    search.py works and has been run exactly once, against `lopit_unified`:
+    164 combinations, best mean F1 0.362, apical secretory best at 0.59.
+    Results in data/structure_search.parquet.
+
+    The user's stated goal was broader: "find structures where location maps
+    well so we can infer location, or cell cycle stage maps well to the
+    structure so we can infer when hypothetical genes are potentially active".
+    Stage and cell cycle have never been searched.
+
+WHY IT MATTERS
+    This is the point of the project -- "a structural space nobody has
+    exhaustively explored". The machinery is built and idle.
+
+WHAT TO DO
+    Targets worth searching, with the label source:
+      - stage: toxo_stage_atlas/data/stage_proteomic_assignment.csv, consensus
+        calls for 3,153 genes
+      - the 23 curated canonical markers in markers_stage_toxoplasma.csv, as a
+        positive control -- too few for enrichment statistics, ideal as a check
+        that a real signal is recovered
+      - attention_depth, as a NEGATIVE control: if a structure "recovers" how
+        much a gene has been studied, the features encode study effort and the
+        map is measuring the literature, not the biology
+      - the new columns from expression.py open targets that did not exist
+        before: in vivo chronic behaviour, stress response, MORC dependence
+
+    Widen the grid too. The one run used 2 n_neighbors x 1 min_dist x 2
+    min_cluster_size on a 3,000-gene sample. It took 706 s. A full-proteome run
+    across a wider grid is hours, which is fine unattended.
+
+HOW TO KNOW IT WORKED
+    A ranked table per target, and for any structure that recovers a label
+    well, `search.predictions()` turns it into named predictions for the
+    unlabelled genes in each pure cluster.
+
+TRAPS
+    Check `excluded_for()` output for every new target before trusting a
+    result. For lopit_unified it removed six columns; a target with more
+    derivatives will need more removed, and the whole inference rests on that.
+
+    The negative control matters as much as the positive one. If
+    attention_depth is recoverable, say so loudly.
+
+
+================================================================================
+DONE -- 2026-08-12. THE NEGATIVE CONTROL FAILED, AND THAT IS THE RESULT.
+================================================================================
+
+Four targets, 328 runs each, 41 dataset combinations x 2 n_neighbors x 2
+min_dist x 2 min_cluster_size, 3,000-gene seeded subsample, seed 42. About 20
+minutes per target.
+
+    stage_enriched_derived   0.709   POSITIVE control -- must be high
+    attention_depth          0.654   NEGATIVE control -- must be LOW
+    cellcycle_phase          0.489   measured
+    compartment              0.484   measured
+
+THE NEGATIVE CONTROL OUTSCORED BOTH MEASURED TARGETS.
+
+    Read literally that says the map recovers how much a gene has been STUDIED
+    better than it recovers where the protein is or when it is expressed --
+    which is what this file said would mean the features encode study effort.
+
+    The per-label breakdown says something more precise and more useful. Almost
+    all of attention_depth's 0.654 comes from ONE class: the never-named genes,
+    at F1 0.77 over 1,439 of them. Its real tiers score badly -- incidental
+    0.35, focal 0.21, substantive 0.14. The map is not ranking attention. It is
+    separating genes that have been MEASURED from genes that have not.
+
+    And that is a property of missingness, not of the literature: a gene absent
+    from most assays is absent from most of the feature matrix.
+
+WHICH MEANS COMPARTMENT'S HEADLINE WAS THE SAME ARTEFACT
+
+    compartment's single best-recovered label was `unassigned` at F1 0.39. Its
+    real compartments sit at 0.21-0.35: cytosol 0.35, dense granules 0.28,
+    nucleus-chromatin 0.26. Excluding the pseudo-label, the same run scores
+    0.207 rather than 0.484.
+
+    hyperLOPIT assignment tracks abundance, so `unassigned` is largely "too
+    scarce to call" -- the same measured/unmeasured axis again.
+
+CELL CYCLE IS THE ONE TARGET WITH A REAL SIGNAL
+
+    All of its labels are genuine phases; there is no absence class. C 0.54,
+    S 0.53, M 0.37, G1b 0.25, from expression_summary + fitness_screens +
+    published_screens at nn=15, mcs=60.
+
+    So the honest ranking of biology recovered from structure is:
+        cell-cycle phase   0.489   (real labels throughout)
+        localisation       0.207   (once absence is excluded)
+
+    Which reverses the assumption the project started from. Location was the
+    target that had data; cell cycle turns out to be the one the map actually
+    organises.
+
+FIXED, NOT JUST NOTED
+    score_recovery now excludes labels meaning "not measured" -- unassigned,
+    unknown, empty, nan -- from scoring, with the exclusion overridable because
+    "does the map separate measured from unmeasured" is a legitimate question,
+    just not a biological one. Every number above is reproducible; the ones
+    quoted as headlines were computed before this change and are marked.
+
+WHAT THIS DOES NOT MEAN
+    Not that the map is worthless. It means held-out recovery of a label with
+    an absence class measures coverage, and any comparison against such a
+    target has to exclude it. The three surviving numbers -- 0.709 positive
+    control, 0.489 cell cycle, 0.207 localisation -- are internally consistent
+    and behave exactly as they should.
+
+STILL TO DO
+    * `search.predictions()` has not been run on the cell-cycle result. That is
+      the step that turns a recovered structure into named predictions for the
+      unlabelled genes in each pure cluster, and it is the whole point of
+      finding a structure that recovers something.
+    * Re-run all four targets now that absence labels are excluded, so the
+      headline table is computed under one rule rather than two.
+    * The grid is still 2x2x2 on a 3,000-gene subsample. A full-proteome run
+      over a wider grid is hours, which is fine unattended.

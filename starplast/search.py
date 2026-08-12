@@ -105,7 +105,20 @@ def _spec_without(spec: EmbeddingSpec, nodes: pd.DataFrame, banned: set) -> Embe
     return EmbeddingSpec(**{**asdict(spec), "blocks": tuple(keep_blocks), "categorical": keep_cat})
 
 
-def score_recovery(labels: np.ndarray, truth: pd.Series, min_label=15) -> tuple:
+# Label values that mean "not measured" rather than naming a class. A structure that separates these
+# has recovered which genes were MEASURED, not what they are -- and measurement tracks study effort, so
+# the score is about the literature rather than the biology.
+#
+# This is not a hypothetical. Scored with them included, `compartment` reaches mean F1 0.484 and its
+# single best-recovered label is `unassigned` at 0.39, while the real compartments sit at 0.21-0.35;
+# excluding it, the same run scores 0.207. The negative control makes the point unarguable:
+# `attention_depth` scores 0.654, of which essentially all comes from recovering the never-named class
+# at F1 0.77, its real tiers scoring 0.14-0.35.
+ABSENCE_LABELS = frozenset({"unassigned", "unknown", "", "nan", "none", "unlabelled", "unlabeled"})
+
+
+def score_recovery(labels: np.ndarray, truth: pd.Series, min_label=15,
+                   exclude_labels=ABSENCE_LABELS) -> tuple:
     """How well does the clustering recover `truth`? Per-label precision, recall and F1.
 
     For each label the best single cluster is taken -- the question is whether the structure isolates
@@ -117,6 +130,8 @@ def score_recovery(labels: np.ndarray, truth: pd.Series, min_label=15) -> tuple:
     lab, tru = labels[ok], truth[ok].astype(str).to_numpy()
     rows = []
     for t in pd.unique(tru):
+        if str(t).strip().lower() in exclude_labels:
+            continue
         n_t = int((tru == t).sum())
         if n_t < min_label:
             continue

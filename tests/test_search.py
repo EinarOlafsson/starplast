@@ -497,3 +497,41 @@ def test_without_umap_the_search_reports_and_returns_empty(monkeypatch):
                     min_cluster_sizes=(25,), log=msgs.append)
     assert R.empty and P.empty
     assert any("umap-learn not installed" in m for m in msgs)
+
+
+# --------------------------------------------------------------------------- absence is not a class
+def test_a_label_meaning_not_measured_is_not_scored():
+    """Recovering `unassigned` is recovering which genes were MEASURED, and measurement tracks study
+    effort -- so the score would be about the literature rather than the biology. Included, compartment
+    scored 0.484 with `unassigned` as its best label; excluded, the same run scores 0.207."""
+    labels = np.array([0] * 60 + [1] * 60)
+    truth = pd.Series(["unassigned"] * 60 + ["rhoptry"] * 60)
+    per, table = S.score_recovery(labels, truth)
+    assert "unassigned" not in set(table.label)
+    assert set(table.label) == {"rhoptry"}
+
+
+@pytest.mark.parametrize("absent", ["unassigned", "unknown", "", "nan", "None"])
+def test_every_spelling_of_absence_is_excluded(absent):
+    """These arrive from different layers -- a pandas NaN stringified, a compartment call that was
+    never made, an empty attention tier -- and they all mean the same thing."""
+    labels = np.array([0] * 60 + [1] * 60)
+    truth = pd.Series([absent] * 60 + ["rhoptry"] * 60)
+    _, table = S.score_recovery(labels, truth)
+    assert set(table.label) == {"rhoptry"}
+
+
+def test_the_exclusion_can_be_overridden_for_a_target_where_absence_is_the_question():
+    """Kept configurable rather than hardcoded: asking "does the map separate measured from
+    unmeasured" is a legitimate question, it is just not a biological one."""
+    labels = np.array([0] * 60 + [1] * 60)
+    truth = pd.Series(["unassigned"] * 60 + ["rhoptry"] * 60)
+    _, table = S.score_recovery(labels, truth, exclude_labels=frozenset())
+    assert set(table.label) == {"unassigned", "rhoptry"}
+
+
+def test_a_target_that_is_entirely_absence_scores_nothing():
+    labels = np.array([0] * 60 + [1] * 60)
+    truth = pd.Series(["unassigned"] * 120)
+    per, table = S.score_recovery(labels, truth)
+    assert per == {} and table.empty
