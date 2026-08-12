@@ -139,6 +139,12 @@ class EmbeddingStore:
         z = np.load(npz, allow_pickle=True)
         m = json.load(open(meta)) if os.path.exists(meta) else {}
         spec = EmbeddingSpec.from_dict(m.get("spec", {})) if m.get("spec") else None
+        # The gene ids are saved into the npz and were not returned, so a reopened embedding came back
+        # as coordinates with no way to say which gene each row is. That makes it useless for anything
+        # gene-specific -- including turning a recovered structure into named predictions, which is the
+        # reason for saving embeddings at all.
+        if "gene_id" in z.files:
+            m["gene_ids"] = [str(g) for g in z["gene_id"]]
         return z["xyz"], spec, m
 
     def list(self) -> pd.DataFrame:

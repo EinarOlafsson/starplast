@@ -246,3 +246,22 @@ def test_a_walk_where_every_setting_is_skipped_reports_rather_than_crashing():
                        sample_size=120, log=lambda *_: None)
     assert out.empty
     assert "trustworthiness" in out.columns
+
+
+def test_a_reopened_embedding_knows_which_gene_each_row_is(tmp_path):
+    """They were saved into the npz and not returned, so a reopened embedding came back as coordinates
+    with no way to say which gene each row is -- useless for anything gene-specific, including turning a
+    recovered structure into named predictions, which is the reason for saving embeddings at all."""
+    store = TU.EmbeddingStore(str(tmp_path))
+    genes = [f"TGME49_{200000+i}" for i in range(10)]
+    store.save("run", np.zeros((10, 3)), EmbeddingSpec(), gene_ids=genes, features=["a"])
+    _, _, meta = store.load("run")
+    assert meta["gene_ids"] == genes
+
+
+def test_an_embedding_saved_without_gene_ids_still_loads(tmp_path):
+    store = TU.EmbeddingStore(str(tmp_path))
+    store.save("run", np.zeros((5, 3)), EmbeddingSpec())
+    Y, _, meta = store.load("run")
+    assert len(Y) == 5
+    assert "gene_ids" not in meta
