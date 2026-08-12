@@ -724,3 +724,391 @@ def test_the_preference_controls_take_effect_when_used(win, tmp_path, monkeypatc
     assert win.log_path.text() == logging_util.log_file()
     win.log_box.setChecked(False)
     assert logging_util.log_file() == "" and "no file" in win.log_path.text()
+
+
+# --------------------------------------------------------------------------- navigate and select
+def test_the_left_button_has_two_modes_and_says_which(win):
+    """A silent mode change is a trap: the same drag rotates in one and gates in the other."""
+    from starplast.app import INTERACTION_MODES
+    for name in INTERACTION_MODES:
+        win.set_interaction_mode(name)
+        assert win.view.mode == name
+        assert name in win.statusBar().currentMessage()
+    win.set_interaction_mode("something else")
+    assert win.view.mode == "navigate", "an unknown mode must fall back, not disable the mouse"
+
+
+def test_a_constrained_orbit_moves_one_angle_and_leaves_the_other(win):
+    """An unconstrained orbit never returns to the same view twice, which is exactly wrong for
+    comparing two maps."""
+    from PyQt6 import QtCore, QtGui
+
+    def drag(dx, dy):
+        start = QtCore.QPointF(300.0, 300.0)
+        win.view.mousePos = start
+        pos = QtCore.QPointF(300.0 + dx, 300.0 + dy)
+        ev = QtGui.QMouseEvent(QtCore.QEvent.Type.MouseMove, pos, pos,
+                               QtCore.Qt.MouseButton.LeftButton, QtCore.Qt.MouseButton.LeftButton,
+                               QtCore.Qt.KeyboardModifier.NoModifier)
+        win.view.mouseMoveEvent(ev)
+
+    win.set_interaction_mode("navigate")
+    win.set_navigate_axis("z")
+    before = dict(win.view.opts)
+    drag(40, 40)
+    assert win.view.opts["azimuth"] != before["azimuth"]
+    assert win.view.opts["elevation"] == before["elevation"], "z rotation changed the elevation"
+
+    win.set_navigate_axis("x")
+    drag(40, 40)
+    assert win.view.opts["azimuth"] == 0.0, "the x axis must pin the azimuth, or it is not an axis"
+    win.set_navigate_axis("y")
+    drag(0, 20)
+    assert win.view.opts["azimuth"] == 90.0
+    win.set_navigate_axis("free")
+
+
+def test_free_orbit_is_still_the_default_behaviour(win):
+    from PyQt6 import QtCore, QtGui
+    win.set_navigate_axis("free")
+    win.set_interaction_mode("navigate")
+    before = dict(win.view.opts)
+    pos = QtCore.QPointF(320.0, 320.0)
+    win.view.mousePos = QtCore.QPointF(300.0, 300.0)
+    win.view.mouseMoveEvent(QtGui.QMouseEvent(
+        QtCore.QEvent.Type.MouseMove, pos, pos, QtCore.Qt.MouseButton.LeftButton,
+        QtCore.Qt.MouseButton.LeftButton, QtCore.Qt.KeyboardModifier.NoModifier))
+    assert (win.view.opts["azimuth"] != before["azimuth"]
+            or win.view.opts["elevation"] != before["elevation"])
+
+
+def _on_screen(win):
+    sx, sy = win.view.project()
+    ok = np.flatnonzero(np.isfinite(sx) & np.isfinite(sy))
+    assert len(ok), "no gene projected onto the widget"
+    return sx, sy, ok
+
+
+def test_a_lasso_takes_the_genes_inside_it_and_nothing_else(win):
+    """The gate is a display claim -- it says "these genes are the ones you drew around" -- so it is
+    checked against the projection rather than trusted."""
+    win.set_interaction_mode("select")
+    win.set_gate_shape("lasso (2D)")
+    sx, sy, ok = _on_screen(win)
+    cx, cy = float(sx[ok[0]]), float(sy[ok[0]])
+    box = [(cx - 30, cy - 30), (cx + 30, cy - 30), (cx + 30, cy + 30), (cx - 30, cy + 30)]
+    win.view.begin_gate(*box[0])
+    for x, y in box[1:]:
+        win.view.extend_gate(x, y)
+    idx = win.view.finish_gate()
+    assert len(idx), "a gate over a gene caught nothing"
+    inside = (np.abs(sx[idx] - cx) <= 30 + 1) & (np.abs(sy[idx] - cy) <= 30 + 1)
+    assert inside.all(), "a gene outside the lasso was gated"
+    expected = np.flatnonzero((np.abs(sx - cx) <= 29) & (np.abs(sy - cy) <= 29))
+    assert set(expected) <= set(idx), "a gene inside the lasso was missed"
+    win.clear_gate()
+    win.set_interaction_mode("navigate")
+
+
+def test_a_lasso_of_two_points_is_not_a_polygon_and_gates_nothing(win):
+    win.set_interaction_mode("select")
+    win.set_gate_shape("lasso (2D)")
+    sx, sy, ok = _on_screen(win)
+    win.view.begin_gate(float(sx[ok[0]]), float(sy[ok[0]]))
+    win.view.extend_gate(float(sx[ok[0]]) + 20, float(sy[ok[0]]))
+    assert len(win.view.finish_gate()) == 0
+    win.set_interaction_mode("navigate")
+
+
+def test_a_brush_gates_a_ball_in_world_space_not_a_disc_on_screen(win):
+    """The whole reason the 3D gate exists: deep in the cloud a lasso also catches the far side,
+    which looks like a selection of one structure and is a selection of two."""
+    win.set_interaction_mode("select")
+    win.set_gate_shape("brush (3D)")
+    sx, sy, ok = _on_screen(win)
+    i = int(ok[0])
+    cx, cy = float(sx[i]), float(sy[i])
+    win.view.begin_gate(cx, cy)
+    win.view.extend_gate(cx + 40, cy)
+    idx = win.view.finish_gate()
+    assert len(idx), "the brush caught nothing"
+    anchor = win.xyz[i]
+    d = np.linalg.norm(win.xyz[idx] - anchor, axis=1)
+    assert d.max() <= np.linalg.norm(win.xyz - anchor, axis=1).max(), "gated beyond the cloud"
+    # Every gated gene is nearer the anchor IN WORLD SPACE than the farthest one gated, which a
+    # screen-space disc would not guarantee: the far side of the cloud projects into the same disc.
+    outside = np.setdiff1d(np.arange(win.n), idx)
+    assert np.linalg.norm(win.xyz[outside] - anchor, axis=1).min() >= d.max() - 1e-6
+    win.clear_gate()
+    win.set_interaction_mode("navigate")
+
+
+def test_a_brush_that_is_barely_dragged_gates_nothing(win):
+    """A click in select mode is not a one-gene gate; it is a click, and gating one gene by accident
+    would be indistinguishable from a gate that failed."""
+    win.set_interaction_mode("select")
+    win.set_gate_shape("brush (3D)")
+    sx, sy, ok = _on_screen(win)
+    win.view.begin_gate(float(sx[ok[0]]), float(sy[ok[0]]))
+    win.view.extend_gate(float(sx[ok[0]]) + 1, float(sy[ok[0]]))
+    assert len(win.view.finish_gate()) == 0
+    win.set_interaction_mode("navigate")
+
+
+def test_finishing_without_starting_gates_nothing(win):
+    assert len(win.view.finish_gate()) == 0
+
+
+def test_a_gate_never_takes_a_gene_that_has_no_position(win):
+    """The genes a walk configuration does not cover are not on the map; a gate over where they
+    would have been must not collect them."""
+    placed = np.zeros(win.n, bool)
+    placed[:200] = True
+    win.view.pickable = placed
+    win.set_interaction_mode("select")
+    win.set_gate_shape("lasso (2D)")
+    sx, sy, _ = _on_screen(win)
+    for x, y in [(-1e4, -1e4), (1e4, -1e4), (1e4, 1e4), (-1e4, 1e4)]:   # everything
+        (win.view.begin_gate if x < 0 and y < 0 else win.view.extend_gate)(x, y)
+    idx = win.view.finish_gate()
+    assert placed[idx].all(), "a gene with no position was gated"
+    win.view.pickable = None
+    win.clear_gate()
+    win.set_interaction_mode("navigate")
+
+
+def test_a_gated_set_recedes_the_rest_of_the_map_without_recolouring_it(win):
+    """A gate is a selection, not a claim about the data. Recolouring the gated genes would put a
+    selection into the one channel that means measurement, inference or absence."""
+    win.set_colour_mode("compartment")
+    before = np.asarray(win.scatter.color).copy()
+    win.on_gated(np.arange(50))
+    after = np.asarray(win.scatter.color)
+    assert np.allclose(after[:50, :3], before[:50, :3]), "the gated genes were recoloured"
+    assert after[500, 3] < before[500, 3], "the rest of the map did not recede"
+    assert np.asarray(win.scatter.size)[:50].max() > np.asarray(win.scatter.size)[500]
+    win.clear_gate()
+
+
+def test_a_gate_reports_what_is_in_it_and_leads_with_the_unlabelled(win):
+    """The question a gate is drawn to answer is "what is this clump", and the genes with no label
+    are the candidates it exists to produce."""
+    win.on_gated(np.arange(300))
+    html = win.detail.toHtml()
+    assert "300" in html and win.category in html
+    assert "candidates" in html
+    win.clear_gate()
+    assert "Click a gene" in win.detail.toHtml()
+
+
+def test_an_empty_gate_says_it_is_empty_rather_than_looking_broken(win):
+    win.on_gated(np.array([], dtype=int))
+    assert "empty, not broken" in win.statusBar().currentMessage()
+    win.clear_gate()
+
+
+def test_a_gated_set_can_be_exported(win, tmp_path):
+    """A gated set is the natural input to annotation, and it has to be able to leave the window."""
+    import pandas as pd
+    win.on_gated(np.arange(25))
+    path = win.export_gated(str(tmp_path / "gated.csv"), columns=["compartment"])
+    got = pd.read_csv(path)
+    assert len(got) == 25 and {"gene_id", "compartment", "x", "y", "z"} <= set(got.columns)
+    assert list(got.gene_id) == list(win.nodes.gene_id.iloc[:25])
+    win.clear_gate()
+
+
+def test_exporting_without_a_gate_says_what_to_do(win, tmp_path):
+    win.gated = None
+    assert win.export_gated(str(tmp_path / "none.csv")) is None
+    assert "no gated selection" in win.statusBar().currentMessage()
+
+
+def test_the_gate_is_reachable_from_the_menus(win):
+    win.on_gated(np.arange(10))
+    labels = [a.text() for a in win.build_context_menu().actions()]
+    assert any("gated genes" in a for a in labels)
+    assert any("Clear the gate" in a for a in labels)
+    win.clear_gate()
+    assert not any("Clear the gate" in a.text() for a in win.build_context_menu().actions())
+
+
+def test_the_gate_being_drawn_is_painted_over_the_view(win):
+    """A gate you cannot see while dragging it is a gate drawn by guesswork. Painted onto an image
+    rather than rendered from the widget, which would bring the widget's background with it and
+    make "drew a lasso" indistinguishable from "filled the rectangle"."""
+    from PyQt6 import QtGui
+    ov = win.view.overlay
+
+    def painted():
+        img = QtGui.QImage(80, 80, QtGui.QImage.Format.Format_ARGB32_Premultiplied)
+        img.fill(0)
+        p = QtGui.QPainter(img)
+        ov.draw(p)
+        p.end()
+        return sum(QtGui.QColor.fromRgba(img.pixel(x, y)).alpha() > 0
+                   for x in range(0, 80, 2) for y in range(0, 80, 2))
+
+    ov.clear()
+    assert painted() == 0, "something was drawn with no gate in progress"
+    ov.show_lasso([(10, 10), (70, 10), (70, 70), (10, 70)])
+    assert painted() > 0, "the lasso was not drawn"
+    ov.show_brush(40, 40, 25)
+    assert painted() > 0, "the brush was not drawn"
+    ov.clear()
+    assert painted() == 0, "clearing left the last gate on screen"
+
+
+def test_the_overlay_follows_the_size_of_the_view(win):
+    """Left at its original size it would clip the gate the moment the window is resized.
+
+    The handler is driven directly: these windows are never shown, and Qt defers a resize event to
+    the moment a widget becomes visible -- so `resize()` alone proves nothing here."""
+    from PyQt6 import QtCore, QtGui
+    win.view.resize(640, 480)
+    win.view.resizeEvent(QtGui.QResizeEvent(QtCore.QSize(640, 480), QtCore.QSize(399, 950)))
+    assert win.view.overlay.size() == win.view.size()
+
+
+def test_the_mouse_drives_the_gate_end_to_end(win):
+    """The handlers, not the helpers: connected to the wrong events, every gate test above would
+    still pass while dragging on the map did nothing at all."""
+    from PyQt6 import QtCore, QtGui
+
+    def ev(kind, x, y):
+        pos = QtCore.QPointF(x, y)
+        return QtGui.QMouseEvent(kind, pos, pos, QtCore.Qt.MouseButton.LeftButton,
+                                 QtCore.Qt.MouseButton.LeftButton,
+                                 QtCore.Qt.KeyboardModifier.NoModifier)
+
+    sx, sy, ok = _on_screen(win)
+    cx, cy = float(sx[ok[0]]), float(sy[ok[0]])
+    got = []
+    win.view.gated.connect(got.append)
+    win.set_interaction_mode("select")
+    win.set_gate_shape("lasso (2D)")
+    win.view.mousePressEvent(ev(QtCore.QEvent.Type.MouseButtonPress, cx - 30, cy - 30))
+    for x, y in ((cx + 30, cy - 30), (cx + 30, cy + 30), (cx - 30, cy + 30)):
+        win.view.mouseMoveEvent(ev(QtCore.QEvent.Type.MouseMove, x, y))
+    win.view.mouseReleaseEvent(ev(QtCore.QEvent.Type.MouseButtonRelease, cx - 30, cy + 30))
+    assert got and len(got[0]), "dragging in select mode gated nothing"
+    win.clear_gate()
+    win.set_interaction_mode("navigate")
+
+
+def test_a_click_in_navigate_mode_still_selects_one_gene(win):
+    """Select mode must not be the only way to use the map; the ordinary click has to survive it."""
+    from PyQt6 import QtCore, QtGui
+    win.set_interaction_mode("navigate")
+    sx, sy, ok = _on_screen(win)
+    i = int(ok[0])
+    pos = QtCore.QPointF(float(sx[i]), float(sy[i]))
+    got = []
+    win.view.picked.connect(got.append)
+    win.view.mouseReleaseEvent(QtGui.QMouseEvent(
+        QtCore.QEvent.Type.MouseButtonRelease, pos, pos, QtCore.Qt.MouseButton.LeftButton,
+        QtCore.Qt.MouseButton.LeftButton, QtCore.Qt.KeyboardModifier.NoModifier))
+    assert got
+
+
+def test_gating_survives_a_projection_that_cannot_be_computed(win, monkeypatch, capsys):
+    """A mouse handler is the wrong place to raise: this printed a traceback per click once already,
+    through the picking path."""
+    win.set_interaction_mode("select")
+    win.set_gate_shape("lasso (2D)")
+    win.view.begin_gate(10.0, 10.0)
+    for pt in ((90.0, 10.0), (90.0, 90.0)):
+        win.view.extend_gate(*pt)
+    monkeypatch.setattr(win.view, "project", lambda: (_ for _ in ()).throw(RuntimeError("no GL")))
+    assert len(win.view.finish_gate()) == 0
+    assert "gating unavailable" in capsys.readouterr().out
+    monkeypatch.undo()
+    assert win.view.nearest(10.0, 10.0) is not None
+    monkeypatch.setattr(win.view, "project", lambda: (_ for _ in ()).throw(RuntimeError("no GL")))
+    assert win.view.nearest(10.0, 10.0) is None
+    win.set_interaction_mode("navigate")
+
+
+def test_the_brush_falls_back_when_too_little_is_on_screen(win):
+    """The pixels-to-world scale is measured from the genes near the press. With almost nothing
+    there it has to guess from the data radius rather than divide by an empty set."""
+    scale = win.view._world_per_pixel(0, -5000.0, -5000.0, *win.view.project())
+    assert scale > 0 and np.isfinite(scale)
+
+
+def test_extending_a_gate_that_was_never_started_does_nothing(win):
+    win.view._gate = None
+    win.view.extend_gate(10.0, 10.0)
+    assert win.view._gate is None
+
+
+def test_the_overlay_paints_only_when_a_gate_is_in_progress(win):
+    """The paint handler itself, driven directly: an overlay that painted on every frame would put
+    the last gate back on screen after it had been cleared."""
+    from PyQt6 import QtCore, QtGui
+    ov = win.view.overlay
+    ov.clear()
+    ov.paintEvent(QtGui.QPaintEvent(QtCore.QRect(0, 0, 10, 10)))     # returns before painting
+    ov.resize(60, 60)
+    ov.show_brush(30, 30, 10)
+    ov.paintEvent(QtGui.QPaintEvent(QtCore.QRect(0, 0, 60, 60)))
+    ov.clear()
+
+
+def test_the_brush_anchor_ignores_genes_with_no_position(win):
+    """`nearest` is shared with picking, so the mask has to hold for both or a brush would anchor on
+    a gene that is not in the displayed embedding."""
+    placed = np.zeros(win.n, bool)
+    placed[:5] = True
+    win.view.pickable = placed
+    sx, sy = win.view.project()
+    ok = np.flatnonzero(np.isfinite(sx))
+    i = win.view.nearest(float(sx[ok[0]]), float(sy[ok[0]]))
+    assert i is None or placed[i]
+    win.view.pickable = np.zeros(win.n, bool)          # nothing has a position at all
+    assert win.view.nearest(10.0, 10.0) is None
+    win.view.pickable = None
+
+
+def test_nothing_is_returned_when_the_nearest_gene_is_too_far(win):
+    sx, sy = win.view.project()
+    assert win.view.nearest(-9999.0, -9999.0, within=5.0) is None
+
+
+def test_a_gated_export_can_be_cancelled_at_either_dialog(win, monkeypatch, tmp_path):
+    """Two dialogs stand between the menu item and the file, and cancelling either must write
+    nothing rather than a file with default columns."""
+    from PyQt6 import QtWidgets
+    win.on_gated(np.arange(5))
+    monkeypatch.setattr(win, "_ask_path", lambda *a, **k: "")
+    assert win.export_gated() is None
+    monkeypatch.setattr(win, "_ask_path", lambda *a, **k: str(tmp_path / "x.csv"))
+    monkeypatch.setattr(QtWidgets.QDialog, "exec", lambda self: 0)
+    assert win.export_gated() is None
+    assert not (tmp_path / "x.csv").exists()
+    win.clear_gate()
+
+
+def test_pressing_in_navigate_mode_reaches_the_camera(win):
+    """Select mode intercepts the press; navigate mode must still hand it to the view, or the map
+    stops rotating the moment gating exists."""
+    from PyQt6 import QtCore, QtGui
+    win.set_interaction_mode("navigate")
+    pos = QtCore.QPointF(120.0, 140.0)
+    win.view.mousePressEvent(QtGui.QMouseEvent(
+        QtCore.QEvent.Type.MouseButtonPress, pos, pos, QtCore.Qt.MouseButton.LeftButton,
+        QtCore.Qt.MouseButton.LeftButton, QtCore.Qt.KeyboardModifier.NoModifier))
+    assert win.view.mousePos == pos, "the press never reached the camera"
+    assert win.view._gate is None, "navigate mode started a gate"
+
+
+def test_the_gated_export_uses_the_columns_that_were_ticked(win, monkeypatch, tmp_path):
+    import pandas as pd
+    from PyQt6 import QtWidgets
+    win.on_gated(np.arange(8))
+    monkeypatch.setattr(QtWidgets.QDialog, "exec", lambda self: 1)
+    monkeypatch.setattr(win, "_ticked", staticmethod(lambda d: ["compartment", "n_publications"]))
+    path = win.export_gated(str(tmp_path / "ticked.csv"))
+    got = pd.read_csv(path)
+    assert {"gene_id", "compartment", "n_publications", "x", "y", "z"} == set(got.columns)
+    win.clear_gate()

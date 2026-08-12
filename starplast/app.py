@@ -200,10 +200,111 @@ def load():
     return nodes, xyz, edges, models
 
 
+#: What the left mouse button does. Two modes rather than a held modifier, because each is done in
+#: long stretches -- navigate for a while, then select for a while -- and a key held down for a
+#: minute is a worse control than a mode set once.
+INTERACTION_MODES = ("navigate", "select")
+#: Rotation constraints. A free orbit never returns to the same view twice, which is exactly wrong
+#: for comparing two maps; constrained to an axis, the view is one number you can come back to.
+NAVIGATE_AXES = ("free", "x", "y", "z")
+#: The two gate shapes. They answer different questions -- see `Map3D.finish_gate`.
+GATE_SHAPES = ("lasso (2D)", "brush (3D)")
+
+
+class _GateOverlay(QtWidgets.QWidget):
+    """The gate being drawn, painted over the GL view.
+
+    A transparent child widget rather than painting inside `paintGL`: mixing QPainter into a
+    QOpenGLWidget's GL painting is driver-dependent, and this project already has one class of bug
+    that appears only on someone else's machine. The overlay takes no mouse events, so the view
+    underneath behaves exactly as it did.
+    """
+
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TransparentForMouseEvents)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_NoSystemBackground)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.points: list = []          # widget-space points of a lasso
+        self.circle = None              # (x, y, radius in pixels) of a brush
+
+    def paintEvent(self, ev):
+        """Draw whichever gate is in progress. Nothing at all when none is."""
+        if not self.points and self.circle is None:
+            return
+        p = QtGui.QPainter(self)
+        self.draw(p)
+        p.end()
+
+    def draw(self, p: QtGui.QPainter):
+        """The drawing itself, onto any painter.
+
+        Separated from `paintEvent` so it can be checked without a window: rendering a widget into
+        an image brings the widget background with it, and a test that cannot tell "drew a lasso"
+        from "filled the rectangle" is not checking the lasso.
+        """
+        p.setRenderHint(QtGui.QPainter.RenderHint.Antialiasing, True)
+        pen = QtGui.QPen(QtGui.QColor(255, 255, 255, 220))
+        pen.setWidthF(1.6)
+        p.setPen(pen)
+        p.setBrush(QtGui.QBrush(QtGui.QColor(255, 255, 255, 28)))
+        if self.circle is not None:
+            x, y, r = self.circle
+            p.drawEllipse(QtCore.QPointF(x, y), r, r)
+        elif len(self.points) > 1:
+            p.drawPolygon(QtGui.QPolygonF([QtCore.QPointF(*xy) for xy in self.points]))
+
+    def show_lasso(self, points):
+        """Show a lasso through these widget-space points."""
+        self.points, self.circle = list(points), None
+        self.update()
+
+    def show_brush(self, x, y, r):
+        """Show a brush of radius `r` pixels centred at (x, y)."""
+        self.points, self.circle = [], (float(x), float(y), float(r))
+        self.update()
+
+    def clear(self):
+        """Remove whatever was being drawn."""
+        self.points, self.circle = [], None
+        self.update()
+
+
+def inside_polygon(x, y, poly) -> np.ndarray:
+    """Which of the points (x, y) fall inside a polygon. Ray casting, vectorised over the points.
+
+    Written out rather than taken from matplotlib: it runs over 8,140 points as the mouse moves, and
+    the dependency is not otherwise needed at run time. Points with NaN coordinates -- genes behind
+    the camera -- are outside by construction, which is the answer that matches what is on screen.
+    """
+    x, y = np.asarray(x, dtype=float), np.asarray(y, dtype=float)
+    inside = np.zeros(x.shape, dtype=bool)
+    poly = [(float(a), float(b)) for a, b in poly]
+    if len(poly) < 3:
+        return inside
+    ok = np.isfinite(x) & np.isfinite(y)
+    xs = np.where(ok, x, 0.0)
+    ys = np.where(ok, y, 0.0)
+    n = len(poly)
+    for i in range(n):
+        x1, y1 = poly[i]
+        x2, y2 = poly[(i + 1) % n]
+        # Points whose rightward ray crosses this edge. The `y2 != y1` guard is the horizontal-edge
+        # case, which would otherwise divide by zero and count a whole row of points as crossings.
+        straddles = (y1 > ys) != (y2 > ys)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            xint = (x2 - x1) * (ys - y1) / np.where(y2 != y1, y2 - y1, np.nan) + x1
+        inside ^= straddles & np.isfinite(xint) & (xs < xint)
+    return inside & ok
+
+
 class Map3D(gl.GLViewWidget):
-    """GLViewWidget plus click-picking, which pyqtgraph does not provide."""
+    """GLViewWidget plus click-picking and gated selection, neither of which pyqtgraph provides."""
 
     picked = QtCore.pyqtSignal(int)
+    #: The genes inside a gate the user drew, as an index array. An empty gate is a real answer --
+    #: it selected nothing -- and is emitted rather than swallowed.
+    gated = QtCore.pyqtSignal(object)
 
     def __init__(self, xyz):
         super().__init__()
@@ -213,7 +314,18 @@ class Map3D(gl.GLViewWidget):
         # embedding covers only some of the genes, so a hidden gene cannot be selected by clicking
         # where it would have been.
         self.pickable = None
+        self.mode = "navigate"
+        self.axis = "free"
+        self.gate_shape = GATE_SHAPES[0]
+        self._gate = None               # points of the lasso, or (anchor index, radius) of a brush
+        self.overlay = _GateOverlay(self)
+        self.overlay.setGeometry(self.rect())
         self.fit_view()
+
+    def resizeEvent(self, ev):
+        """Keep the gate overlay the size of the view it is drawn on."""
+        super().resizeEvent(ev)
+        self.overlay.setGeometry(self.rect())
 
     def fit_view(self, margin=1.35):
         """Frame the data rather than assuming a fixed distance.
@@ -322,7 +434,141 @@ class Map3D(gl.GLViewWidget):
         sx[w <= 0] = np.nan
         return sx, sy
 
+    # ------------------------------------------------------------------ gating
+    def begin_gate(self, x: float, y: float):
+        """Start a gate at a widget-space point. The shape decides what that means.
+
+        Split from the mouse handler so the whole gating path can be driven -- and tested -- without
+        a window manager. Every display claim in this project has to be checkable headlessly, and a
+        gate that returns the wrong genes is a display claim.
+        """
+        if self.gate_shape.startswith("brush"):
+            i = self.nearest(x, y)
+            self._gate = ("brush", i, x, y, 0.0)
+            if i is not None:
+                self.overlay.show_brush(x, y, 0.0)
+        else:
+            self._gate = ("lasso", [(x, y)])
+            self.overlay.show_lasso([(x, y)])
+
+    def extend_gate(self, x: float, y: float):
+        """Continue the gate to a new point."""
+        if not self._gate:
+            return
+        if self._gate[0] == "brush":
+            _, i, cx, cy, _ = self._gate
+            r = float(np.hypot(x - cx, y - cy))
+            self._gate = ("brush", i, cx, cy, r)
+            self.overlay.show_brush(cx, cy, r)
+        else:
+            pts = self._gate[1]
+            # Sub-pixel moves are dropped: a freehand lasso otherwise accumulates thousands of
+            # points, and the polygon test is linear in them.
+            if not pts or np.hypot(x - pts[-1][0], y - pts[-1][1]) >= 2.0:
+                pts.append((x, y))
+                self.overlay.show_lasso(pts)
+
+    def finish_gate(self):
+        """Close the gate, emit the genes inside it, and return them.
+
+        **2D lasso**: a polygon in screen space, so it takes everything behind it as well. That is
+        what "grab that visual cluster" means -- the cluster you can see is a screen-space object.
+
+        **3D brush**: a ball in world space around the gene under the press, with the drag setting
+        its radius. Deep in the cloud a lasso also catches the far side, which looks like a
+        selection of one structure and is a selection of two; a world-space ball cannot.
+        """
+        gate, self._gate = self._gate, None
+        self.overlay.clear()
+        if not gate:
+            return np.array([], dtype=int)
+        try:
+            sx, sy = self.project()
+        except Exception as exc:            # a mouse handler is the wrong place to raise
+            print(f"starplast: gating unavailable ({type(exc).__name__}: {exc})")
+            self.gated.emit(np.array([], dtype=int))
+            return np.array([], dtype=int)
+        if gate[0] == "brush":
+            _, i, cx, cy, r_px = gate
+            hit = np.zeros(len(self.xyz), dtype=bool)
+            if i is not None and r_px > 2:
+                # Pixels to world units, measured on this view rather than assumed: the conversion
+                # depends on the camera distance, and a fixed factor would make the brush grow and
+                # shrink as you zoom while the circle on screen did not.
+                scale = self._world_per_pixel(i, cx, cy, sx, sy)
+                d = np.linalg.norm(self.xyz - self.xyz[i], axis=1)
+                hit = d <= r_px * scale
+        else:
+            hit = inside_polygon(sx, sy, gate[1])
+        if self.pickable is not None and len(self.pickable) == len(hit):
+            hit &= self.pickable
+        idx = np.flatnonzero(hit)
+        self.gated.emit(idx)
+        return idx
+
+    def _world_per_pixel(self, i: int, cx: float, cy: float, sx, sy) -> float:
+        """World units per screen pixel near gene `i`, measured from the projection itself.
+
+        Taken from the spread of the genes actually near that point on screen rather than from the
+        camera parameters, so it holds whatever projection convention pyqtgraph is using this
+        release -- the same reason `_projection_matrix` inspects rather than assumes.
+        """
+        near = np.flatnonzero(np.isfinite(sx) & (np.hypot(sx - cx, sy - cy) < 120))
+        if len(near) < 8:
+            return float(self.data_radius() / max(self.width(), 1)) * 2.0
+        d_px = np.hypot(sx[near] - cx, sy[near] - cy)
+        d_world = np.linalg.norm(self.xyz[near] - self.xyz[i], axis=1)
+        ok = d_px > 1e-6
+        return float(np.median(d_world[ok] / d_px[ok])) if ok.any() else 1.0
+
+    def nearest(self, x: float, y: float, within: float = 1e9):
+        """The gene nearest a widget point, or None. Shared by picking and by the brush anchor."""
+        try:
+            sx, sy = self.project()
+        except Exception as exc:
+            print(f"starplast: picking unavailable ({type(exc).__name__}: {exc})")
+            return None
+        d = np.hypot(sx - x, sy - y)
+        if self.pickable is not None and len(self.pickable) == len(d):
+            d = np.where(self.pickable, d, np.nan)
+        if np.all(np.isnan(d)):
+            return None
+        i = int(np.nanargmin(d))
+        return i if d[i] < within else None
+
+    # ------------------------------------------------------------------ mouse
+    def mousePressEvent(self, ev):
+        if self.mode == "select" and ev.button() == QtCore.Qt.MouseButton.LeftButton:
+            p = ev.position()
+            self.begin_gate(p.x(), p.y())
+            return
+        super().mousePressEvent(ev)
+
+    def mouseMoveEvent(self, ev):
+        if self.mode == "select" and self._gate:
+            p = ev.position()
+            self.extend_gate(p.x(), p.y())
+            return
+        if self.axis == "free" or ev.buttons() != QtCore.Qt.MouseButton.LeftButton:
+            super().mouseMoveEvent(ev)
+            return
+        # Constrained orbit. The camera is spherical, so each axis is one of its two angles held
+        # still: about z is azimuth alone, about x or y is elevation with azimuth pinned to that
+        # axis. Two maps compared from "x" are compared from the same place.
+        pos = ev.position()
+        last = getattr(self, "mousePos", pos)
+        self.mousePos = pos
+        diff = pos - last
+        if self.axis == "z":
+            self.orbit(-diff.x(), 0)
+        else:
+            self.setCameraPosition(azimuth=0.0 if self.axis == "x" else 90.0)
+            self.orbit(0, diff.y())
+
     def mouseReleaseEvent(self, ev):
+        if self.mode == "select" and ev.button() == QtCore.Qt.MouseButton.LeftButton:
+            self.finish_gate()
+            return
         super().mouseReleaseEvent(ev)
         if ev.button() != QtCore.Qt.MouseButton.LeftButton:
             return
@@ -397,10 +643,15 @@ class Window(QtWidgets.QMainWindow):
         # Which genes the displayed embedding has coordinates for. None means "the built cache",
         # which covers all of them; a mask arrives with any map built over a subsample.
         self.placed = None
+        # A gated set of genes: the natural input to annotation, and the only way to select a group
+        # without clicking 8,140 times. None means no gate has been drawn; an EMPTY array means one
+        # was and it caught nothing, which is a different thing and is reported as such.
+        self.gated = None
         self._spin_home = None                # where spin started, so it can be put back
 
         self.view = Map3D(self.xyz)
         self.view.picked.connect(self.on_pick)
+        self.view.gated.connect(self.on_gated)
         self.scatter = gl.GLScatterPlotItem(pos=self.xyz, size=5.0, pxMode=True)
         # GLScatterPlotItem blends additively by default, which sums the colours of overlapping points.
         # With 8,140 genes in dense UMAP clusters every mode rendered as one white blob and the colour
@@ -641,6 +892,7 @@ class Window(QtWidgets.QMainWindow):
         a.setShortcut("Ctrl+E")
         a.triggered.connect(self.export_image)
         f.addAction("Export visible genes (CSV)…").triggered.connect(self.export_visible)
+        f.addAction("Export gated selection (CSV)…").triggered.connect(self.export_gated)
         f.addAction("Export relationships (CSV)…").triggered.connect(self.export_relationships)
         f.addAction("Export graph (GraphML)…").triggered.connect(self.export_graphml)
         f.addSeparator()
@@ -683,6 +935,46 @@ class Window(QtWidgets.QMainWindow):
             act.setData(val)
             self.size_group.addAction(act)
             act.triggered.connect(lambda _c, s=val: self.set_point_size(s))
+
+        mouse = v.addMenu("Left mouse button")
+        mouse.setToolTipsVisible(True)
+        self.mode_group = QtGui.QActionGroup(self)
+        for name in INTERACTION_MODES:
+            act = mouse.addAction(name.capitalize())
+            act.setCheckable(True)
+            act.setChecked(name == self.view.mode)
+            act.setToolTip({"navigate": "Drag to rotate the map; click a gene to select it.",
+                            "select": "Drag to draw a gate and take the genes inside it. Clicking "
+                                      "one gene at a time is not a way to select a cluster."}[name])
+            self.mode_group.addAction(act)
+            act.triggered.connect(lambda _c, n=name: self.set_interaction_mode(n))
+        mouse.addSeparator()
+        self.axis_group = QtGui.QActionGroup(self)
+        for name in NAVIGATE_AXES:
+            act = mouse.addAction(f"Rotate: {name}")
+            act.setCheckable(True)
+            act.setChecked(name == self.view.axis)
+            act.setToolTip(
+                "Free orbit never returns to the same view twice, which is exactly wrong for "
+                "comparing two maps. Constrained to an axis, the view is one number you can come "
+                "back to." if name == "free" else
+                f"Rotate about {name} only, so the view is reproducible.")
+            self.axis_group.addAction(act)
+            act.triggered.connect(lambda _c, n=name: self.set_navigate_axis(n))
+        mouse.addSeparator()
+        self.gate_group = QtGui.QActionGroup(self)
+        for name in GATE_SHAPES:
+            act = mouse.addAction(f"Gate: {name}")
+            act.setCheckable(True)
+            act.setChecked(name == self.view.gate_shape)
+            act.setToolTip(
+                "A polygon in screen space, so it takes everything behind it too -- which is what "
+                "'grab that visual cluster' means." if name.startswith("lasso") else
+                "A ball in world space around the gene you press on, sized by the drag. Deep in "
+                "the cloud a lasso also catches the far side: that looks like one structure and is "
+                "two.")
+            self.gate_group.addAction(act)
+            act.triggered.connect(lambda _c, n=name: self.set_gate_shape(n))
 
         v.addSeparator()
         self.spin_act = v.addAction("Spin")
@@ -766,6 +1058,17 @@ class Window(QtWidgets.QMainWindow):
         m = QtWidgets.QMenu(self)
         m.addAction(self.spin_act)
         m.addSeparator()
+        mouse = m.addMenu("Left mouse button")
+        for act in self.mode_group.actions():
+            mouse.addAction(act)
+        mouse.addSeparator()
+        for act in self.gate_group.actions():
+            mouse.addAction(act)
+        if self.gated is not None and len(self.gated):
+            m.addAction(f"Export the {len(self.gated):,} gated genes (CSV)…").triggered.connect(
+                self.export_gated)
+            m.addAction("Clear the gate").triggered.connect(self.clear_gate)
+        m.addSeparator()
         lvl = m.addMenu("Level of detail")
         for act in self.level_group.actions():
             lvl.addAction(act)
@@ -831,6 +1134,95 @@ class Window(QtWidgets.QMainWindow):
         b.accepted.connect(d.accept)
         lay.addWidget(b)
         return d
+
+    # ------------------------------------------------------------------ interaction modes
+    def set_interaction_mode(self, name: str):
+        """Switch what the left mouse button does, and say so -- a silent mode change is a trap."""
+        self.view.mode = name if name in INTERACTION_MODES else "navigate"
+        self.status.showMessage(
+            "select: drag to gate a set of genes; the gate's composition appears on the right"
+            if self.view.mode == "select" else
+            "navigate: drag to rotate, click a gene to select it")
+
+    def set_navigate_axis(self, name: str):
+        """Constrain the orbit to one axis, or free it."""
+        self.view.axis = name if name in NAVIGATE_AXES else "free"
+        self.status.showMessage(
+            "free orbit -- it will not return to this view exactly" if self.view.axis == "free"
+            else f"rotating about {self.view.axis} only, so this view can be returned to")
+
+    def set_gate_shape(self, name: str):
+        """Choose the 2D lasso or the 3D brush."""
+        self.view.gate_shape = name if name in GATE_SHAPES else GATE_SHAPES[0]
+
+    def on_gated(self, idx):
+        """Take a gated set of genes: mark them, report what is in it, and offer it for export."""
+        idx = np.asarray(idx, dtype=int)
+        self.gated = idx
+        self.redraw()
+        if not len(idx):
+            self.status.showMessage("the gate caught no genes -- it is empty, not broken")
+            return
+        self.detail.setHtml(self.describe_gate(idx))
+        self.status.showMessage(
+            f"{len(idx):,} genes gated  ·  File ▸ Export gated selection, or right-click the map")
+
+    def clear_gate(self):
+        """Drop the gated set and go back to showing the whole map."""
+        self.gated = None
+        self.detail.setHtml("<p style='color:#888'>Click a gene.</p>")
+        self.redraw()
+        self.status.showMessage("gate cleared")
+
+    def describe_gate(self, idx) -> str:
+        """What is in a gated set: its composition by the current category, and what carries none.
+
+        Composition rather than a list, because the question a gate is drawn to answer is "what is
+        this clump". The unlabelled count leads, because those genes are the candidates a gate
+        exists to produce and most of this proteome is among them.
+        """
+        idx = np.asarray(idx, dtype=int)
+        vals = as_text(self.nodes[self.category]).to_numpy()[idx]
+        absent = {str(x).lower() for x in ABSENCE}
+        counts = pd.Series(vals).value_counts()
+        named = [(v, n) for v, n in counts.items() if str(v).lower() not in absent]
+        unlabelled = int(sum(n for v, n in counts.items() if str(v).lower() in absent))
+        rows = "".join(
+            f"<tr><td>{v}</td><td align='right'>{n}</td>"
+            f"<td align='right' style='color:#888'>{n / len(idx):.0%}</td></tr>"
+            for v, n in named[:15])
+        return (f"<h3>{len(idx):,} genes gated</h3>"
+                f"<p style='color:#888'>Composition by <b>{self.category}</b>. "
+                f"<b>{unlabelled:,}</b> carry no value for it — those are the candidates a gate is "
+                f"drawn to find, and the map is a hypothesis about them, not evidence.</p>"
+                f"<table width='100%'>{rows}</table>")
+
+    def export_gated(self, path: str = "", columns=None):
+        """Write the gated genes to CSV, with their coordinates.
+
+        A separate action from "export visible" rather than a mode of it: the two answer different
+        questions -- everything passing the filter, versus the set someone drew a gate around -- and
+        one export that silently meant whichever had happened last would be worse than either.
+        """
+        if self.gated is None or not len(self.gated):
+            self.status.showMessage("no gated selection -- set the left button to Select and drag "
+                                    "a gate over some genes")
+            return None
+        path = path or self._ask_path("Export gated genes", "CSV (*.csv)", "starplast_gated.csv")
+        if not path:
+            return None
+        if columns is None:
+            d = self.choose_export_columns()
+            if not d.exec():
+                return None
+            columns = self._ticked(d)
+        cols = ["gene_id"] + [c for c in columns if c != "gene_id" and c in self.nodes.columns]
+        out = self.nodes.iloc[self.gated][cols].copy()
+        out["x"], out["y"], out["z"] = (self.xyz[self.gated, 0], self.xyz[self.gated, 1],
+                                        self.xyz[self.gated, 2])
+        out.to_csv(path, index=False)
+        self.status.showMessage(f"wrote {len(out):,} gated genes and {len(cols)} columns to {path}")
+        return path
 
     def use_clusters(self, labels):
         """Take a clustering from the analysis panel and colour the map by it.
@@ -1441,6 +1833,13 @@ class Window(QtWidgets.QMainWindow):
         c[:, 3] = np.where(vis, alpha, 0.06)
         if self.sel is not None:
             c[self.sel] = (1.0, 1.0, 1.0, 1.0)
+        if getattr(self, "gated", None) is not None and len(self.gated):
+            # A gate is a SELECTION, not a claim about the data, so it must not recolour anything --
+            # measurement, inference, absence and annotation are what colour means here. The gated
+            # genes keep their own colour and everything else recedes.
+            m = np.zeros(self.n, dtype=bool)
+            m[self.gated] = True
+            c[~m, 3] *= 0.12
         if getattr(self, "placed", None) is not None:
             # Fully transparent, not dimmed. A gene the displayed embedding has no coordinates for is
             # absent from it, and a faint point is still a point -- at 0.06 alpha, several thousand of
@@ -1478,6 +1877,8 @@ class Window(QtWidgets.QMainWindow):
         # only in apply_point_style -- otherwise picking a style changed nothing the moment anything
         # else triggered a redraw.
         sizes = np.where(vis, base, max(base * 0.4, 1.5)).astype(np.float32)
+        if getattr(self, "gated", None) is not None and len(self.gated):
+            sizes[self.gated] = max(base * 1.7, 7.0)
         if self.sel is not None:
             sizes[self.sel] = max(base * 3.0, 12.0)
         if lvl == 0:

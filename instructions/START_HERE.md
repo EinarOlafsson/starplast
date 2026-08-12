@@ -12,14 +12,19 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~1,423 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect ~1,452 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
 ## The one thing to do first
 
-**Task 18** — navigate/select modes. Then 16 (the automated walk, which task 15 unblocked), then 17
-(the annotation store), which is unblocked now that 20 has landed but may only save an annotation
-with the validation numbers attached.
+**Task 16** — the automated walk, which task 15 unblocked; drive `tuning.walk_umap_iter` rather than
+re-running the walk. Then 17 (the annotation store), which may only save an annotation with the
+validation numbers attached, and whose input is now `Window.gated` from task 18.
+
+**Task 18 is done** (2026-08-12, v0.8.0): the left button has a Navigate mode (free orbit or
+constrained to one axis, so a view can be returned to) and a Select mode (2D lasso in screen space,
+3D brush in world space). A gate fills `Window.gated`; the evidence panel shows the set's composition
+and `File ▸ Export gated selection` writes it out.
 
 **Task 19 is done** (2026-08-12, v0.7.0): `logging_util.get_logger(__name__)` anywhere, levels
 DEBUG–ERROR, an opt-in rotating file, and a console level that is separate from the file's and is
@@ -108,7 +113,7 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
   directly, never a pragma. Genuinely unreachable branches get deleted.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.7.0).
+- Bump the version for feature work (currently 0.8.0).
 
 ## Where things are
 

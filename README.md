@@ -84,8 +84,9 @@ Settings live in the menu bar; the panel keeps only what is used continuously.
 
 | | |
 |---|---|
-| left-drag / scroll | rotate / zoom |
+| left-drag / scroll | rotate / zoom (Navigate mode), or draw a gate (Select mode) |
 | left-click a gene | select it; fills the evidence panel |
+| **View ▸ Left mouse button** | Navigate or Select; rotation free or about one axis; gate as a 2D lasso or a 3D brush |
 | right-click the map | spin, level of detail, point size, export, reset view |
 | search box | gene ID or product text, then flies to it |
 | filter by | any categorical column — compartment, cell-cycle phase, attention depth, and others |
@@ -103,6 +104,14 @@ about** — a walk or search row is rebuilt exactly, on the same genes, with the
 counted; a clustering row is applied to the map on screen; an Inference or Validation row colours the
 map by the clustering it was scored against. **Right-click a table to save it as CSV** (the whole
 result, not the screenful shown) or to copy the selected rows.
+
+In **Select** mode a drag gates a set of genes: a 2D lasso takes everything behind it, which is what
+"grab that visual cluster" means, while a 3D brush takes a ball in world space around the gene you
+press on, which is what you want when the cloud is deep and a lasso would also catch the far side.
+The gated set's composition appears in the evidence panel — led by how many of its genes carry no
+label, since those are the candidates a gate is drawn to find — and *File ▸ Export gated selection*
+writes it out. Constraining rotation to one axis makes a view reproducible; a free orbit never
+returns to the same one twice.
 
 A hyperparameter walk fills the **gallery** along the bottom as it runs: one thumbnail per
 configuration, appearing the moment it is computed, either as a grid to compare or as a single view

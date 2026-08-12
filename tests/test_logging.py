@@ -261,3 +261,21 @@ def test_the_tee_can_be_closed_without_closing_the_stream_it_wraps(qapp):
     assert not buf.closed
     t.write("still working\n")
     assert "still working" in buf.getvalue()
+
+
+def test_settings_are_isolated_from_the_user_running_the_suite(qapp):
+    """This failed once, silently and expensively: a test's temporary directory was written into
+    the real settings file, and the application then started with a log directory that no longer
+    existed and a console level nobody had chosen.
+
+    On Unix NativeFormat IS the ini format, so a QSettings built from (organisation, application)
+    resolves as NativeFormat whatever setDefaultFormat says -- setting the path for IniFormat alone
+    left every test writing to ~/.config."""
+    from PyQt6 import QtCore
+    s = QtCore.QSettings("starplast", "starplast")
+    assert "starplast-test-settings" in s.fileName(), s.fileName()
+    s.setValue("logging/console_level", "DEBUG")
+    s.sync()
+    assert os.path.exists(s.fileName())
+    real = os.path.expanduser("~/.config/starplast/starplast.conf")
+    assert not os.path.exists(real) or "test-settings" not in open(real).read()
