@@ -16,6 +16,7 @@ proteins, which in this proteome are disproportionately the secreted effectors p
 """
 from __future__ import annotations
 
+import json
 import os
 import urllib.error
 import urllib.request
@@ -29,12 +30,24 @@ LOCAL_DIRS = [
     "/mnt/wd4tb/af3_home/af3_structures",
 ]
 
-AFDB_URL = "https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_v4.cif"
+# The file endpoint serves only the CURRENT release, so a pinned version 404s the moment AlphaFold
+# reissues. This was pinned to v4 and every fetch had been failing silently: v3, v4 and v5 all 404
+# today, only v6 answers. Because a 404 is caught below and reported as "no model for this
+# accession" -- which is a real and common state -- nothing ever said so.
+#
+# Pinning v6 would only reset the same clock. The version is resolved per accession from the API,
+# which names the current file, and the probe list is the fallback for when the API is unreachable.
+AFDB_API = "https://alphafold.ebi.ac.uk/api/prediction/{acc}"
+AFDB_URL = "https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_v{v}.cif"
+AFDB_VERSIONS = (6, 5, 4)          # newest first; only used if the API cannot be reached
 
 
 def local_structure(gene_id: str, uniprot: str | None = None) -> str | None:
     """A model already on this machine, or None."""
-    names = [f"AF-{uniprot}-F1.pdb", f"AF-{uniprot}-F1-model_v4.cif"] if uniprot else []
+    # Any release, not just v4: a mirror populated at some earlier date holds whatever was current
+    # then, and refusing to read a v5 file that is sitting right there would be perverse.
+    names = ([f"AF-{uniprot}-F1.pdb"]
+             + [f"AF-{uniprot}-F1-model_v{v}.cif" for v in AFDB_VERSIONS]) if uniprot else []
     names += [f"{gene_id}.pdb", f"{gene_id}.cif"]
     for d in LOCAL_DIRS:
         if not os.path.isdir(d):
@@ -52,27 +65,71 @@ def local_structure(gene_id: str, uniprot: str | None = None) -> str | None:
     return None
 
 
-def fetch_alphafold(uniprot: str, timeout: int = 30) -> str | None:
-    """Download one AlphaFold DB model into the cache; return its path, or None if unavailable."""
-    if not uniprot:
-        return None
-    os.makedirs(CACHE, exist_ok=True)
-    dest = os.path.join(CACHE, f"AF-{uniprot}-F1-model_v4.cif")
-    if os.path.exists(dest) and os.path.getsize(dest) > 0:
-        return dest
+def _afdb_url(uniprot: str, timeout: int = 30) -> str | None:
+    """Ask AlphaFold which file it currently serves for this accession.
+
+    One request, and it removes the version from this module's assumptions entirely. Returning None
+    means the API could not be reached; it does not mean there is no model, so the caller falls back
+    to probing rather than concluding the protein has no structure.
+    """
     try:
-        req = urllib.request.Request(AFDB_URL.format(acc=uniprot),
+        req = urllib.request.Request(AFDB_API.format(acc=uniprot),
                                      headers={"User-Agent": "starplast (research)"})
         with urllib.request.urlopen(req, timeout=timeout) as r:
-            data = r.read()
+            entries = json.loads(r.read().decode("utf-8", "replace"))
+    except (urllib.error.URLError, OSError, TimeoutError, ValueError):
+        return None
+    if isinstance(entries, list) and entries and isinstance(entries[0], dict):
+        return entries[0].get("cifUrl") or None
+    return None
+
+
+def _cached(uniprot: str) -> str | None:
+    """A previously downloaded model for this accession, whatever release it came from."""
+    if not os.path.isdir(CACHE):
+        return None
+    for v in AFDB_VERSIONS:
+        p = os.path.join(CACHE, f"AF-{uniprot}-F1-model_v{v}.cif")
+        if os.path.exists(p) and os.path.getsize(p) > 0:
+            return p
+    return None
+
+
+def fetch_alphafold(uniprot: str, timeout: int = 30) -> str | None:
+    """Download one AlphaFold DB model into the cache; return its path, or None if unavailable.
+
+    The version is resolved rather than assumed, because the file endpoint serves only the current
+    release. A pinned version turns every fetch into a 404, and a 404 here is indistinguishable from
+    the ordinary case of a protein AlphaFold has no model for -- so the failure is completely silent.
+    """
+    if not uniprot:
+        return None
+    hit = _cached(uniprot)
+    if hit:
+        return hit
+    os.makedirs(CACHE, exist_ok=True)
+    urls = []
+    resolved = _afdb_url(uniprot, timeout=timeout)
+    if resolved:
+        urls.append(resolved)
+    # Newest first, so the probe finds the live release before the retired ones.
+    urls += [AFDB_URL.format(acc=uniprot, v=v) for v in AFDB_VERSIONS]
+    for url in urls:
+        name = os.path.basename(url.split("?")[0]) or f"AF-{uniprot}-F1-model.cif"
+        dest = os.path.join(CACHE, name)
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "starplast (research)"})
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                data = r.read()
+        except (urllib.error.URLError, OSError, TimeoutError):
+            # offline, or this release is retired -- try the next candidate before giving up
+            continue
         if not data:
-            return None
+            continue
         with open(dest, "wb") as fh:
             fh.write(data)
         return dest
-    except (urllib.error.URLError, OSError, TimeoutError):
-        # offline, or AlphaFold has no model for this accession -- both are ordinary
-        return None
+    return None
 
 
 def find_structure(gene_id: str, uniprot: str | None = None, allow_network: bool = True):

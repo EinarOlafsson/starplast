@@ -90,8 +90,13 @@ def test_a_download_is_written_to_the_cache_and_reused(tmp_path, monkeypatch):
     monkeypatch.setattr(ST.urllib.request, "urlopen", lambda *a, **k: Resp())
     p = ST.fetch_alphafold("Q9XYZ1")
     assert p and os.path.exists(p)
+    after_first = calls["n"]
     assert ST.fetch_alphafold("Q9XYZ1") == p
-    assert calls["n"] == 1, "a cached model must not be downloaded again"
+    # Asserted as "no FURTHER requests", not as a fixed total. A cache miss now costs one extra
+    # request because the release version is resolved rather than pinned -- it was pinned to v4,
+    # which 404s today, so every fetch had been failing silently. What the test is really for is
+    # unchanged: a cache hit touches the network zero times.
+    assert calls["n"] == after_first, "a cached model must not be downloaded again"
 
 
 def test_being_offline_is_reported_as_absence_not_as_a_crash(tmp_path, monkeypatch):
