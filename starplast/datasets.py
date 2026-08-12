@@ -54,6 +54,27 @@ TOXODB = ("https://toxodb.org/toxo/service/record-types/transcript/searches/Gene
           "/reports/attributesTabular")
 
 REGISTRY = [
+    # ------------------------------------------------------------------ transcription
+    Dataset("xue_singlecell", "Single-parasite transcriptional atlas (cell cycle)", "transcription",
+            "scRNAseq",
+            "Measured cell-cycle phase per gene, and pseudotime cluster",
+            ("cellcycle_phase", "cellcycle_pseudotime"),
+            "873 genes phased, 7,499 clustered", pmid="32065584",
+            citation="Xue Y et al. eLife 2020;9:e54129",
+            url="https://cdn.elifesciences.org/articles/54129/elife-54129-supp3-v2.csv",
+            path="datasets/transcription/scRNAseq/32065584/cellcycle_phase_RH.csv",
+            note="Tab-separated despite the .csv extension. RH files use TGGT1_ accessions and the "
+                 "Pru files in the same supplement use TGME49_; the prefix is the only thing that "
+                 "distinguishes them. The only MEASURED discrete cell-cycle label in the project."),
+    Dataset("stage_enriched", "Life-cycle stage enrichment (DERIVED)", "transcription", "derived",
+            "Which stage a gene's own expression is highest in",
+            ("stage_enriched_derived", "stage_margin_derived"),
+            "1,911 of 8,140 genes called",
+            note="DERIVED, not measured: computed here from expr_tachy / expr_cyst / expr_sporulated "
+                 "by z-scoring each and taking the argmax where it leads by 0.5 z. It is a "
+                 "restatement of those columns, so holding it out against an embedding built on them "
+                 "is circular by construction. Left unlabelled where no stage leads clearly."),
+
     # ------------------------------------------------------------------ reference
     Dataset("toxodb_identity", "ToxoDB gene identity", "reference", "identity",
             "Symbols, previous IDs, product descriptions", ("gene_id", "product"),

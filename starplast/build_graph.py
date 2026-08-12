@@ -24,7 +24,7 @@ from collections import Counter, defaultdict
 import numpy as np
 import pandas as pd
 
-from . import (corpus, expression, identity, interaction_studies, interactions, literature,
+from . import (cellcycle, corpus, expression, identity, interaction_studies, interactions, literature,
                localisation, screens)
 
 from . import paths
@@ -86,6 +86,13 @@ def load_nodes() -> pd.DataFrame:
     # written, and the 2019 in vivo screen uses pre-2012 ones for every single gene.
     ix = identity.build_index(n.gene_id, os.path.join(OUT, "toxodb_identity.tsv"),
                               log=lambda *a: None)
+    # Strain accessions belong here too, not only in the literature path. Published supplements cite
+    # TGGT1_ more often than TGME49_, so without this every dataset keyed on a type I accession joins
+    # zero rows -- silently, since a join that matches nothing looks exactly like a dataset with no
+    # coverage. The cell-cycle table is 964 rows of TGGT1_ and contributed nothing until this was added.
+    identity.add_strain_accessions(
+        ix, {"GT1": os.path.join(OUT, "toxodb_strain_gt1.tsv"),
+             "VEG": os.path.join(OUT, "toxodb_strain_veg.tsv")}, log=lambda *a: None)
 
     global _SYMBOL_INDEX
     _SYMBOL_INDEX = ix.lookup
@@ -100,6 +107,8 @@ def load_nodes() -> pd.DataFrame:
         if tbl is not None and not tbl.empty:
             for c in tbl.columns:
                 n[c] = n.gene_id.map(tbl[c])
+
+    n = cellcycle.add_all(BASE, n, resolve=resolve, log=log)
 
     n["has_domain"] = n.get("has_domain", pd.Series(False, index=n.index)) \
         .astype("boolean").fillna(False).astype(int)
