@@ -6,10 +6,12 @@
     level / kind : post_translation / IPMS
     provides     : (edges or build inputs only)
     coverage     : 29 studies with data, 140 files
+    url          : https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/supplementaryFiles
     local path   : datasets/post_translation/IPMS/
 
 Quirks that cost time once:
-    Downloaded and indexed; NOT yet parsed into edges.
+    Downloaded and indexed; NOT yet parsed into edges. Refetch as for bioid_corpus: substitute
+    each recorded PMCID into the URL above.
 
 Fetches the source, reads it, resolves its accessions to current ToxoDB ME49, and reports the
 coverage that resolution achieves. The shipped columns are assembled by

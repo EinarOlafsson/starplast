@@ -7,6 +7,7 @@ Donor labels for orthoLOPIT transfer
     provides     : (edges or build inputs only)
     coverage     : 1,107 usable
     citation     : Guerin et al. 2023
+    url          : https://ars.els-cdn.com/content/image/1-s2.0-S1931312823001051-mmc4.xlsx
     local path   : datasets/lopit_cryptosporidium_parvum_MEASURED_Guerin2023.csv
 
 Quirks that cost time once:

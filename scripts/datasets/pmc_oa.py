@@ -6,10 +6,13 @@ Sectioned JATS XML
     level / kind : reference / literature
     provides     : n_fulltext
     coverage     : 6,667 articles
+    url          : https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML
     local path   : /mnt/wd4tb/skill_corpora/toxoplasma-scientist/
 
 Quirks that cost time once:
-    A biased subset: only what publishers deposited open access.
+    A biased subset: only what publishers deposited open access. ASSEMBLED HERE: for each PMID
+    in the pubmed corpus that has a PMCID, fetch the JATS from the URL above. Machine-local by
+    size, which is why the built cache is what ships.
 
 Fetches the source, reads it, resolves its accessions to current ToxoDB ME49, and reports the
 coverage that resolution achieves. The shipped columns are assembled by

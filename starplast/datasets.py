@@ -93,17 +93,35 @@ REGISTRY = [
             note="Retrieved 2026-08-11 via the REST API; strain tables for GT1 and VEG alongside."),
     Dataset("orthomcl", "OrthoMCL orthogroups", "reference", "orthology",
             "Orthogroup assignment and cross-species bridge", ("orthogroup",),
-            "16,793 groups", accession="OrthoMCL",
-            path="datasets/MASTER_parasite_wide_by_orthogroup.csv"),
+            "16,793 groups", accession="OrthoMCL release 6.21",
+            url="https://orthomcl.org/common/downloads/release-6.21/groups_OrthoMCL-6.21.txt.gz",
+            path="datasets/MASTER_parasite_wide_by_orthogroup.csv",
+            note="The RELEASE is load-bearing, not decoration: all 16,793 groups reproduce exactly "
+                 "from 6.21, while 6.20 differs in 180 cells and Current_Release (v7) renumbers "
+                 "every group into an OG7_ namespace that matches nothing here. The shipped CSV is "
+                 "derived from this file -- filter to tgon/pfal/cpar/tbrt, then pivot wide. Note the "
+                 "T. brucei taxon code is tbrt, though the CSV column is tbru."),
     Dataset("interpro", "InterPro domains", "reference", "domains",
             "Domain identity and count", ("n_interpro", "interpro_id", "interpro_desc", "pfam_id"),
-            "8,140", path="datasets/interpro_tgon.csv",
+            "8,140",
+            url=TOXODB + ("?organism=%5B%22Toxoplasma%20gondii%20ME49%22%5D&reportConfig=%7B%22"
+                          "attributes%22%3A%5B%22gene_source_id%22%2C%22interpro_id%22%2C%22"
+                          "interpro_description%22%2C%22pfam_id%22%2C%22pfam_description%22%5D%2C%22"
+                          "includeHeader%22%3Atrue%2C%22attachmentType%22%3A%22plain%22%7D"),
+            path="datasets/interpro_tgon.csv",
             note="Domain annotation partly records study effort, not conserved architecture."),
     Dataset("alphafold", "AlphaFold DB", "reference", "structure",
             "Per-gene mean pLDDT; coordinates fetched on demand", ("mean_plddt",),
-            "6,480 (79.6%)", accession="AlphaFold DB",
-            citation="Jumper et al. 2021, AlphaFold Protein Structure Database",
-            note="Missing for the largest proteins, which here are disproportionately secreted effectors."),
+            "6,480 (79.6%)", accession="UP000001529 (taxid 508771), AlphaFold DB",
+            citation="Varadi et al. 2024 NAR (database); Jumper et al. 2021 Nature (method)",
+            url="https://alphafold.ebi.ac.uk/api/prediction/{acc}",
+            note="Missing for the largest proteins, which here are disproportionately secreted "
+                 "effectors. NO ANONYMOUS BULK DOWNLOAD: the per-proteome tar exists at "
+                 "gs://public-datasets-deepmind-alphafold-v4/proteomes/proteome-tax_id-508771-0_v4"
+                 ".tar but plain HTTPS returns 403, so it needs `gcloud storage cp` and a Google "
+                 "account. The per-accession API above is the credential-free route and is what "
+                 "structures.py uses. The database paper is Varadi et al., not Jumper et al. -- "
+                 "Jumper is the method, and there is no paper by Jumper titled after the database."),
 
     # ------------------------------------------------------------------ localisation
     Dataset("lopit_tgon", "T. gondii hyperLOPIT", "post_translation", "LOPIT",
@@ -112,15 +130,24 @@ REGISTRY = [
             "3,827 (47.0%)", pmid="33053376",
             citation="A Comprehensive Subcellular Atlas of the Toxoplasma Proteome via hyperLOPIT "
                      "(Barylyuk et al. 2020)",
+            url="https://ars.els-cdn.com/content/image/1-s2.0-S193131282030514X-mmc5.xls",
             path="datasets/lopit_toxoplasma_gondii_ME49.csv",
             note="MAP and MCMC disagree for 980 of 3,827 (26%). Assignment tracks abundance, so the "
                  "unassigned half is biased toward low-abundance proteins."),
     Dataset("lopit_pfal", "P. falciparum LOPIT", "post_translation", "LOPIT",
-            "Donor labels for orthoLOPIT transfer", (), "1,646 usable",
-            path="datasets/lopit_plasmodium_falciparum_3D7.csv"),
+            "Donor labels for orthoLOPIT transfer", (), "1,646 usable", pmid="42218142",
+            citation="Chisholm SA et al., The spatial proteome of the Plasmodium falciparum "
+                     "schizont. Nat Commun 2026;17:6192 -- CONFIRM against the file on disk",
+            url="https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2F"
+                "s41467-026-73664-2/MediaObjects/41467_2026_73664_MOESM3_ESM.xlsx",
+            path="datasets/lopit_plasmodium_falciparum_3D7.csv",
+            note="The URL downloads and is the right kind of data, but this file predates the "
+                 "registry entry, so that this paper is the source of THIS csv is inference, not "
+                 "verification. Confirm against the file before citing."),
     Dataset("lopit_cpar", "C. parvum hyperLOPIT", "post_translation", "LOPIT",
             "Donor labels for orthoLOPIT transfer", (), "1,107 usable",
             citation="Guerin et al. 2023",
+            url="https://ars.els-cdn.com/content/image/1-s2.0-S1931312823001051-mmc4.xlsx",
             path="datasets/lopit_cryptosporidium_parvum_MEASURED_Guerin2023.csv",
             note="MASTER_parasite_wide_by_orthogroup.csv has an empty cpar_lopit_native column; this "
                  "data is joined from source instead."),
@@ -141,6 +168,7 @@ REGISTRY = [
             pmid="27594426",
             citation="A Genome-wide CRISPR Screen in Toxoplasma Identifies Essential Apicomplexan Genes "
                      "(Sidik et al. 2016)",
+            url="https://ars.els-cdn.com/content/image/1-s2.0-S0092867416310704-mmc3.xlsx",
             note="Competitive growth, NOT essentiality. Predicted from protein features at R2 = 0.453, "
                  "while the other screens are predicted at -0.105 to +0.102."),
     Dataset("crispr_invivo_composite", "In vivo CRISPR composite scores", "DNA", "CRISPR_screen",
@@ -148,15 +176,35 @@ REGISTRY = [
             ("fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver", "fit_invivo_spleen"),
             "7,395 (90.8%)", pmid="31481656",
             accession="ToxoDB tgonGt1CrisprFunc*",
-            note="Corresponds to the in vivo CRISPR platform paper; confirm before citing."),
+            url=TOXODB + ("?organism=%5B%22Toxoplasma%20gondii%20GT1%22%5D&reportConfig=%7B%22"
+                          "attributes%22%3A%5B%22primary_key%22%2C%22tgonGt1CrisprMeanPhenotype%22"
+                          "%2C%22tgonGt1CrisprFuncPE%22%2C%22tgonGt1CrisprFuncLung%22%2C%22"
+                          "tgonGt1CrisprFuncLiver%22%2C%22tgonGt1CrisprFuncSpleen%22%5D%2C%22"
+                          "includeHeader%22%3Atrue%2C%22attachmentType%22%3A%22plain%22%7D"),
+            note="Corresponds to the in vivo CRISPR platform paper; confirm before citing. The URL "
+                 "pulls the tgonGt1CrisprFunc* tracks straight from ToxoDB, keyed on GT1."),
     Dataset("crispr_macrophage", "Macrophage CRISPR screens", "DNA", "CRISPR_screen",
             "Naive BMDM and IFN-gamma survival", ("fit_naive_bmdm", "fit_ifng"), "7,402 (90.9%)",
-            pmid="25867017",
-            citation="Forward genetics screens using macrophages to identify Toxoplasma gondii genes "
-                     "important for resistance to IFN-gamma (2015) -- CONFIRM this is the source",
-            note="Sign convention is INVERTED relative to the other screens."),
+            pmid="33067458",
+            citation="Wang Y et al., Genome-wide screens identify Toxoplasma gondii determinants of "
+                     "parasite fitness in IFN-gamma-activated murine macrophages. Nat Commun "
+                     "2020;11:5258",
+            url=SPRINGER.format(doi="s41467-020-18991-8", f="41467_2020_18991_MOESM5_ESM.xlsx"),
+            note="Sign convention is INVERTED relative to the other screens. THE PREVIOUS CITATION "
+                 "WAS WRONG and its own 'CONFIRM this is the source' warning was justified: PMID "
+                 "25867017 is a 2015 JoVE video protocol using CHEMICAL mutagenesis, verified "
+                 "against PubMed -- not a CRISPR screen, and it predates the first one. The entry "
+                 "had copied that protocol's title verbatim. A video protocol cannot be the source "
+                 "of 7,402 per-gene fitness scores; Wang 2020 is genome-wide in IFN-gamma-activated "
+                 "macrophages, which is exactly what these two columns are."),
     Dataset("crispr_young2019", "Young 2019 in vivo screen", "DNA", "CRISPR_screen",
-            "In vivo fitness", ("fit_invivo_young2019",), "115"),
+            "In vivo fitness", ("fit_invivo_young2019",), "115", pmid="31481656",
+            citation="Young J et al., A CRISPR platform for targeted in vivo screens identifies "
+                     "Toxoplasma gondii virulence factors in mice. Nat Commun 2019;10:3963",
+            url=SPRINGER.format(doi="s41467-019-11855-w", f="41467_2019_11855_MOESM6_ESM.xlsx"),
+            note="Same paper as invivo_platform, a different supplementary table (MOESM6 vs MOESM5). "
+                 "TARGETED, not genome-wide: the libraries are 200, 800 and 3200 gRNAs, which is why "
+                 "this covers 115 genes rather than the proteome."),
     Dataset("gra17_synthlethal", "GRA17 synthetic-lethal screen", "DNA", "CRISPR_screen",
             "RH and RH-delta-gra17 phenotype by passage; MAGeCK p-values",
             ("crispr_gra17ko_phenotype", "crispr_gra17_synthlethal_delta", "crispr_gra17_candidate"),
@@ -200,7 +248,11 @@ REGISTRY = [
                  "proteome; do not report as proteome-wide."),
     Dataset("phosphosites", "Phosphosite counts", "post_translation", "phosphoproteomics",
             "Count of phosphosites per protein, no positions", ("n_phosphosites",), "1,175 (14.4%)",
-            note="Missing for 85.6% of genes; effectively an indicator of having been in a "
+            citation="Treeck M et al. 2011 -- CONFIRM against the file on disk",
+            url="https://ars.els-cdn.com/content/image/1-s2.0-S1931312811002885-mmc2.xls",
+            note="The URL downloads a real phosphoproteomics table, but that it is the source of "
+                 "THIS column is inference rather than verification; confirm before citing. "
+                 "Missing for 85.6% of genes; effectively an indicator of having been in a "
                  "phosphoproteomics experiment."),
 
     # ------------------------------------------------------------------ interactions
@@ -209,34 +261,60 @@ REGISTRY = [
             ("n_xlink_partners", "best_model_agreement"), "2,842 pairs / 1,630 genes", pmid="40874616",
             citation="Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and "
                      "machine learning (2025)",
+            url=EPMC.format(pmcid="PMC12505969"),
             path="starpath_crosslinks.json, starpath_dump/cifs/",
             note="RH88 accessions do NOT map to ME49 by suffix; use the alias column. 60% of predicted "
                  "complexes place no crosslink within reach; only 162 pairs are trustworthy."),
     Dataset("ipms_baits", "IP-MS of tagged baits", "post_translation", "IPMS",
             "Replicated pulldown vs untagged control", ("n_ipms_partners",), "64 pairs / 48 genes",
-            accession="PXD043808, PXD065585"),
+            accession="PXD043808, PXD065585",
+            url="https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD043808/files",
+            note="The PRIDE API lists the files for one accession; swap the accession in the path "
+                 "for PXD065585. It returns JSON metadata, not the data -- follow the download "
+                 "links it gives."),
     Dataset("foldseek_struct", "Foldseek structural similarity", "post_translation", "structure",
             "TM-align over Toxoplasma AlphaFold models, TM >= 0.7", ("n_struct_similar",),
             "11,684 pairs / 2,338 genes",
-            note="Needs no orthology, so it reaches lineage-specific effectors homology edges cannot."),
+            derived_from=("mean_plddt",),
+            note="COMPUTED HERE, so there is nothing to download: Foldseek all-vs-all over the "
+                 "Toxoplasma AlphaFold models (see the alphafold entry for how to obtain those), "
+                 "keeping pairs at TM >= 0.7. Needs no orthology, so it reaches lineage-specific effectors homology edges cannot."),
     Dataset("bioid_corpus", "Proximity-labelling corpus", "post_translation", "BioID",
             "42 BioID/TurboID/APEX studies with a tagged Toxoplasma protein", (),
-            "28 studies with data, 127 files", path="datasets/post_translation/BioID/",
-            note="Downloaded and indexed; NOT yet parsed into edges."),
+            "28 studies with data, 127 files",
+            url=EPMC.format(pmcid="{pmcid}"),
+            path="datasets/post_translation/BioID/",
+            note="Downloaded and indexed; NOT yet parsed into edges. HOW TO REFETCH: this is a "
+                 "harvest of many papers, so there is no single URL -- but nothing is lost. Every "
+                 "one of the 97 studies has its PMCID and every file its filename recorded in "
+                 "interaction_studies.parquet and interaction_study_members.parquet, so the whole "
+                 "corpus reconstructs by substituting each PMCID into the URL above."),
     Dataset("pulldown_corpus", "Pulldown corpus", "post_translation", "IPMS",
             "55 IP-MS / co-IP studies with a tagged Toxoplasma protein", (),
-            "29 studies with data, 140 files", path="datasets/post_translation/IPMS/",
-            note="Downloaded and indexed; NOT yet parsed into edges."),
+            "29 studies with data, 140 files",
+            url=EPMC.format(pmcid="{pmcid}"),
+            path="datasets/post_translation/IPMS/",
+            note="Downloaded and indexed; NOT yet parsed into edges. Refetch as for bioid_corpus: "
+                 "substitute each recorded PMCID into the URL above."),
 
     # ------------------------------------------------------------------ literature
     Dataset("pubmed", "PubMed abstracts", "reference", "literature",
             "Titles and abstracts for co-mention and attention",
             ("n_publications", "attention_depth"), "33,924 records",
-            path=".claude/skills/toxoplasma-scientist/corpus/pubmed_toxoplasma.jsonl"),
+            url="https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+                "?db=pubmed&term=Toxoplasma&retmax=100000",
+            path=".claude/skills/toxoplasma-scientist/corpus/pubmed_toxoplasma.jsonl",
+            note="ASSEMBLED HERE from an E-utilities query rather than downloaded as a file: the "
+                 "esearch above returns the PMID set, and efetch retrieves each record. The count "
+                 "grows over time, so a rebuild will not reproduce 33,924 exactly -- record the "
+                 "date. This corpus was built 2026."),
     Dataset("pmc_oa", "PubMed Central open-access full texts", "reference", "literature",
             "Sectioned JATS XML", ("n_fulltext",), "6,667 articles",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML",
             path="/mnt/wd4tb/skill_corpora/toxoplasma-scientist/",
-            note="A biased subset: only what publishers deposited open access."),
+            note="A biased subset: only what publishers deposited open access. ASSEMBLED HERE: for "
+                 "each PMID in the pubmed corpus that has a PMCID, fetch the JATS from the URL "
+                 "above. Machine-local by size, which is why the built cache is what ships."),
 ]
 
 _BY_KEY = {d.key: d for d in REGISTRY}

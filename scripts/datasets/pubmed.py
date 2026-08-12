@@ -6,7 +6,13 @@ Titles and abstracts for co-mention and attention
     level / kind : reference / literature
     provides     : n_publications, attention_depth
     coverage     : 33,924 records
+    url          : https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Toxoplasma&retmax=100000
     local path   : .claude/skills/toxoplasma-scientist/corpus/pubmed_toxoplasma.jsonl
+
+Quirks that cost time once:
+    ASSEMBLED HERE from an E-utilities query rather than downloaded as a file: the esearch above
+    returns the PMID set, and efetch retrieves each record. The count grows over time, so a
+    rebuild will not reproduce 33,924 exactly -- record the date. This corpus was built 2026.
 
 Fetches the source, reads it, resolves its accessions to current ToxoDB ME49, and reports the
 coverage that resolution achieves. The shipped columns are assembled by

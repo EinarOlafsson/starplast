@@ -6,10 +6,13 @@ Count of phosphosites per protein, no positions
     level / kind : post_translation / phosphoproteomics
     provides     : n_phosphosites
     coverage     : 1,175 (14.4%)
+    citation     : Treeck M et al. 2011 -- CONFIRM against the file on disk
+    url          : https://ars.els-cdn.com/content/image/1-s2.0-S1931312811002885-mmc2.xls
 
 Quirks that cost time once:
-    Missing for 85.6% of genes; effectively an indicator of having been in a phosphoproteomics
-    experiment.
+    The URL downloads a real phosphoproteomics table, but that it is the source of THIS column
+    is inference rather than verification; confirm before citing. Missing for 85.6% of genes;
+    effectively an indicator of having been in a phosphoproteomics experiment.
 
 Fetches the source, reads it, resolves its accessions to current ToxoDB ME49, and reports the
 coverage that resolution achieves. The shipped columns are assembled by

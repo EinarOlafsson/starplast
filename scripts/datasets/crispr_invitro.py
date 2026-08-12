@@ -8,6 +8,7 @@ Competitive growth in fibroblasts
     coverage     : 7,325 (90.0%)
     citation     : A Genome-wide CRISPR Screen in Toxoplasma Identifies Essential Apicomplexan Genes (Sidik et al. 2016)
     PMID         : 27594426
+    url          : https://ars.els-cdn.com/content/image/1-s2.0-S0092867416310704-mmc3.xlsx
 
 Quirks that cost time once:
     Competitive growth, NOT essentiality. Predicted from protein features at R2 = 0.453, while

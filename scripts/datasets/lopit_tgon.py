@@ -8,6 +8,7 @@ Subcellular compartment, MAP and MCMC, with posteriors
     coverage     : 3,827 (47.0%)
     citation     : A Comprehensive Subcellular Atlas of the Toxoplasma Proteome via hyperLOPIT (Barylyuk et al. 2020)
     PMID         : 33053376
+    url          : https://ars.els-cdn.com/content/image/1-s2.0-S193131282030514X-mmc5.xls
     local path   : datasets/lopit_toxoplasma_gondii_ME49.csv
 
 Quirks that cost time once:

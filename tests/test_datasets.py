@@ -363,6 +363,27 @@ def test_a_derivation_is_marked_by_derived_from_not_by_its_kind():
             assert src in known, f"{d.key} says it derives from {src!r}, which no dataset provides"
 
 
+def test_every_dataset_says_how_to_obtain_it():
+    """A dataset with neither a URL nor a declared derivation is unreproducible and unexplained.
+
+    Nineteen entries had no URL, because the registry was written by describing files already on
+    disk rather than by recording where they came from. Every one either has a download URL now, or
+    is computed by this project and says so through derived_from.
+    """
+    for d in D.REGISTRY:
+        assert d.url or d.derived_from, (
+            f"{d.key} has no URL and declares no derivation, so nothing says how to get it; give it "
+            f"a download URL, or set derived_from if this project computes it")
+
+
+def test_a_url_template_says_what_to_substitute():
+    """Some sources are per-accession endpoints rather than one file. A template is fine; a template
+    nobody can tell is a template is not."""
+    for d in D.REGISTRY:
+        if d.url and "{" in d.url:
+            assert d.note, f"{d.key} has a templated URL but no note explaining what to substitute"
+
+
 def test_every_entry_states_what_kind_of_data_it_is():
     for d in D.REGISTRY:
         assert d.kind and d.kind.strip(), f"{d.key} has no kind"

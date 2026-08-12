@@ -8,6 +8,7 @@ Measured physical proximity; residue-level crosslinks and Chai-1 complexes
     coverage     : 2,842 pairs / 1,630 genes
     citation     : Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and machine learning (2025)
     PMID         : 40874616
+    url          : https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12505969/supplementaryFiles
     local path   : starpath_crosslinks.json, starpath_dump/cifs/
 
 Quirks that cost time once:
