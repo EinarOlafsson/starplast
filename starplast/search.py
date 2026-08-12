@@ -264,7 +264,14 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
                 if store is not None and summary["best_f1"] >= keep_at:
                     name = (f"{truth_col}_{'+'.join(spec0.blocks)}_{pol}_{sc}"
                             f"_nn{nn}_md{md}_mcs{mcs}")
-                    store.save(name, Y, spec0, gene_ids=nodes.gene_id.iloc[idx], features=names,
+                    # The stored spec has to carry the hyperparameters this run ACTUALLY used. spec0
+                    # holds the block, policy and scaling, but n_neighbors and min_dist are loop
+                    # variables -- saved unchanged, every stored recipe claimed the EmbeddingSpec
+                    # defaults (25 and 0.25) whatever the run did. The name encoded the truth and the
+                    # machine-readable field did not, which is the worse half to get wrong: reopening
+                    # a saved embedding by its recipe would have rebuilt a different map.
+                    used = EmbeddingSpec(**{**asdict(spec0), "n_neighbors": nn, "min_dist": md})
+                    store.save(name, Y, used, gene_ids=nodes.gene_id.iloc[idx], features=names,
                                extra={"target": truth_col, "excluded": sorted(banned),
                                       "clustering": {"algorithm": "hdbscan",
                                                      "min_cluster_size": mcs},

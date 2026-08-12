@@ -535,3 +535,24 @@ def test_a_target_that_is_entirely_absence_scores_nothing():
     truth = pd.Series(["unassigned"] * 120)
     per, table = S.score_recovery(labels, truth)
     assert per == {} and table.empty
+
+
+def test_a_stored_embedding_records_the_hyperparameters_it_actually_used():
+    """spec0 carries the block, policy and scaling, but n_neighbors and min_dist are loop variables.
+    Saved unchanged, every stored recipe claimed the EmbeddingSpec defaults whatever the run did -- so
+    the name encoded the truth and the machine-readable field did not, and reopening a saved embedding
+    by its recipe would have rebuilt a different map."""
+    from starplast.tuning import EmbeddingStore
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        store = EmbeddingStore(tmp)
+        S.search(_searchable(), target="compartment", block_sets=[("fitness_screens",)],
+                 n_neighbors_values=(50,), min_dist_values=(0.25,),
+                 min_cluster_sizes=(25,), store=store, save_above=0.0, log=lambda *_: None)
+        listed = store.list()
+        assert len(listed) >= 1
+        assert set(listed.n_neighbors) == {50}, "the stored recipe must say nn=50, not the default"
+        assert set(listed.min_dist) == {0.25}
+
+        _, spec, _ = store.load(listed.name.iloc[0])
+        assert spec.n_neighbors == 50 and spec.min_dist == 0.25
