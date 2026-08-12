@@ -12,7 +12,7 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~1,353 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect ~1,388 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
 ## The one thing to do first
@@ -94,11 +94,14 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
 - Tooltips say WHY a control exists and what choosing badly costs, not what it is called. Bounded
   controls explain their bounds. A test fails if any control has none.
 - Every public module, class, function and method has a docstring. A test fails otherwise.
+- **Results tables go through `AnalysisPanel.results_table`**, which gives them a row action (click a
+  row, see the map it is about) and a right-click menu (save as CSV, copy rows). A table wired by
+  hand is a table that silently lacks both.
 - Coverage is 100% on the modules that have it, and the way to cover a Qt-thread body is to call it
   directly, never a pragma. Genuinely unreachable branches get deleted.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.5.0).
+- Bump the version for feature work (currently 0.6.0).
 
 ## Where things are
 

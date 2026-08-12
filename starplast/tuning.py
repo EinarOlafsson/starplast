@@ -36,6 +36,10 @@ import pandas as pd
 from .embedding import EmbeddingSpec, build_matrix, normalise
 
 DEFAULT_SEED = 42
+#: The min_cluster_size the walk's own cluster check uses. Named because the interface rebuilds a
+#: walk configuration and clusters it again to show what the row's `n_clusters_hdbscan` counted --
+#: with a different value there, the map on screen would not be the map the number describes.
+WALK_MIN_CLUSTER_SIZE = 15
 
 
 # --------------------------------------------------------------------------- UMAP walk
@@ -139,7 +143,7 @@ def walk_umap_iter(nodes: pd.DataFrame, spec: EmbeddingSpec,
                    "sample_size": len(Xs), **_quality(Xs, Y, nn)}
             if cluster_check:
                 from .clustering import cluster, NOISE
-                lab = cluster(Y, algorithm="hdbscan", min_cluster_size=15)
+                lab = cluster(Y, algorithm="hdbscan", min_cluster_size=WALK_MIN_CLUSTER_SIZE)
                 row["n_clusters_hdbscan"] = int(len(set(lab[lab != NOISE])))
                 row["noise_frac"] = float((lab == NOISE).mean())
             i += 1

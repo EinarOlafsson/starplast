@@ -278,6 +278,10 @@ class AnalysisPanel(QtWidgets.QWidget):
         # else. None is allowed: the panel is constructed without one in tests.
         self.runner = runner
         self._jobs = {}
+        # What each results table is showing, what clicking one of its rows means, and what to call
+        # the file if it is saved. Keyed by the widget so a table cannot be registered twice or
+        # forgotten -- see `results_table`.
+        self._frames, self._row_action, self._table_what = {}, {}, {}
         if runner is not None:
             runner.finished.connect(self._on_job_finished)
         # Connected to its own signal rather than called from the walk directly: `on_step` runs on
@@ -469,14 +473,12 @@ class AnalysisPanel(QtWidgets.QWidget):
         row.addWidget(b1); row.addWidget(b2)
         v.addLayout(row)
 
-        self.walk_table = QtWidgets.QTableWidget()
-        self.walk_table.setAlternatingRowColors(True)
-        self.walk_table.setSelectionBehavior(
-            QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
+        self.walk_table = self.results_table(
+            QtWidgets.QTableWidget(), self.show_walk_row, "umap_walk")
         self.walk_table.setToolTip(
-            "Click a row to build that configuration and show it in the 3D view. A table of scores "
-            "is not a map, and the point of a walk is to look at the ones that scored well.")
-        self.walk_table.cellClicked.connect(self.show_walk_row)
+            "Click a row to build that configuration and show it in the 3D view, clustered the way "
+            "the walk clustered it. A table of scores is not a map, and the point of a walk is to "
+            "look at the ones that scored well. Right-click to save the whole table as CSV.")
         v.addWidget(self.walk_table, 1)
         hint = QtWidgets.QLabel("<i>Click a row to build and show that map.</i>")
         hint.setWordWrap(True)
@@ -510,8 +512,12 @@ class AnalysisPanel(QtWidgets.QWidget):
         b2.clicked.connect(self.run_cluster)
         row.addWidget(b1); row.addWidget(b2)
         v.addLayout(row)
-        self.cluster_table = QtWidgets.QTableWidget()
-        self.cluster_table.setAlternatingRowColors(True)
+        self.cluster_table = self.results_table(
+            QtWidgets.QTableWidget(), self.show_cluster_row, "clustering_walk")
+        self.cluster_table.setToolTip(
+            "Click a row to cluster the current map with those settings and colour it by the "
+            "result. A silhouette for a clustering nobody can see is a number about nothing. "
+            "Right-click to save the whole table as CSV.")
         v.addWidget(self.cluster_table, 1)
         return w
 
@@ -530,8 +536,8 @@ class AnalysisPanel(QtWidgets.QWidget):
         v.addWidget(b)
         self.findings = QtWidgets.QTextBrowser()
         v.addWidget(self.findings, 1)
-        self.battery_table = QtWidgets.QTableWidget()
-        self.battery_table.setAlternatingRowColors(True)
+        self.battery_table = self.results_table(
+            QtWidgets.QTableWidget(), None, "held_out_battery")
         self.battery_table.setToolTip(
             "One row per held-out feature. The score is over the whole feature at once, which is "
             "why the per-category table below it matters: the same Cramer's V describes 27 "
@@ -541,8 +547,8 @@ class AnalysisPanel(QtWidgets.QWidget):
         v.addWidget(QtWidgets.QLabel(
             "<i>Per category: the best single cluster for each value, which is what a feature-level "
             "score hides.</i>"))
-        self.category_table = QtWidgets.QTableWidget()
-        self.category_table.setAlternatingRowColors(True)
+        self.category_table = self.results_table(
+            QtWidgets.QTableWidget(), self.show_inference_row, "per_category")
         self.category_table.setToolTip(
             "For each category of each held-out feature, the cluster that matches it best: "
             "precision over that cluster, recall over that category, and F1. Read both — a cluster "
@@ -672,8 +678,13 @@ class AnalysisPanel(QtWidgets.QWidget):
         b.setProperty("primary", True)
         b.clicked.connect(self.run_search)
         v.addWidget(b)
-        self.search_table = QtWidgets.QTableWidget()
-        self.search_table.setAlternatingRowColors(True)
+        self.search_table = self.results_table(
+            QtWidgets.QTableWidget(), self.show_search_row, "recovery_search")
+        self.search_table.setToolTip(
+            "Click a row to rebuild that exact configuration -- same blocks, same policy, same "
+            "seed, same subsample, same excluded columns -- and show it with its clustering. A "
+            "recovery score with no way to look at the structure it scored is a 'trust me'. "
+            "Right-click to save the whole table as CSV.")
         v.addWidget(self.search_table, 1)
         return w
 
@@ -796,21 +807,18 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.val_note.hide()
         v.addWidget(self.val_note)
 
-        self.val_table = QtWidgets.QTableWidget()
-        self.val_table.setAlternatingRowColors(True)
-        self.val_table.setSelectionBehavior(
-            QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
+        self.val_table = self.results_table(
+            QtWidgets.QTableWidget(), self.show_candidates, "validation")
         self.val_table.setToolTip(
             "One row per category, because a method that recovers hidden dense granules but not "
             "hidden rhoptries is not one accuracy. `refit` says whether each number came from a "
             "fresh map per fold or from one fixed map. Click a row for that category's candidates.")
-        self.val_table.cellClicked.connect(self.show_candidates)
         v.addWidget(self.val_table, 1)
 
         v.addWidget(QtWidgets.QLabel(
             "<i>Click a category above for the genes its cluster would have you annotate.</i>"))
-        self.cand_table = QtWidgets.QTableWidget()
-        self.cand_table.setAlternatingRowColors(True)
+        self.cand_table = self.results_table(
+            QtWidgets.QTableWidget(), None, "candidates")
         self.cand_table.setToolTip(
             "The unlabelled members of that category's cluster: the list this whole tab exists to "
             "put a number on. Every row carries how much of its cluster already carries the "
@@ -1040,6 +1048,141 @@ class AnalysisPanel(QtWidgets.QWidget):
             return
         on_done(job.result)
 
+    def results_table(self, table: QtWidgets.QTableWidget, on_row=None, what: str = "these results"):
+        """Give a results table the two things every results table needs.
+
+        Clicking a row shows the map that row is about -- rebuilt from the row's own configuration
+        where the row names one, and the current map with its clustering where the row is about a
+        category of it. A table of scores is not a result; the map it describes is, and a score
+        nobody can look at is the thing this application exists not to produce.
+
+        Right-clicking saves it. A table that can only be read on screen has to be re-derived
+        anywhere else it is needed, and the run that produced it is minutes long.
+
+        Wired here rather than per tab so a new table cannot arrive without either.
+        """
+        table.setAlternatingRowColors(True)
+        table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
+        table.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        table.customContextMenuRequested.connect(
+            lambda pos, t=table: self._table_menu(t, pos))
+        self._row_action[table] = on_row
+        self._table_what[table] = what
+        if on_row is not None:
+            table.cellClicked.connect(lambda row, _col, t=table: self._row_clicked(t, row))
+        return table
+
+    def _row_clicked(self, table, row: int):
+        action = self._row_action.get(table)
+        if action is not None:
+            action(row)
+
+    def _table_menu(self, table, pos):
+        """Show the right-click menu for a results table. `build_table_menu` makes it."""
+        menu = self.build_table_menu(table)
+        menu.exec(table.viewport().mapToGlobal(pos))
+        return menu
+
+    def build_table_menu(self, table) -> QtWidgets.QMenu:
+        """Construct a results table's menu without showing it.
+
+        Split from `_table_menu` for the reason the window's menus are: `exec` enters a modal loop
+        and does not return until a human closes the menu, so a test that called it would hang
+        rather than fail.
+        """
+        m = QtWidgets.QMenu(self)
+        df = self._frames.get(table)
+        act = m.addAction("Save this table as CSV…")
+        act.setEnabled(df is not None and len(df) > 0)
+        act.triggered.connect(lambda: self.save_table(table))
+        copy = m.addAction("Copy selected rows")
+        copy.setEnabled(bool(table.selectedItems()))
+        copy.triggered.connect(lambda: self.copy_rows(table))
+        if self._row_action.get(table) is not None:
+            m.addSeparator()
+            show = m.addAction("Show this row's map")
+            row = table.currentRow()
+            show.setEnabled(row >= 0)
+            show.triggered.connect(lambda: self._row_clicked(table, table.currentRow()))
+        return m
+
+    def save_table(self, table, path: str = "") -> str:
+        """Write a results table to CSV, whole rather than as displayed.
+
+        The full frame, not the 200 rows the widget shows: the truncation is there to keep the
+        window responsive, and a file that silently stopped at row 200 would be a different result
+        from the one that was computed. How many rows were written is reported for that reason.
+        """
+        df = self._frames.get(table)
+        if df is None or not len(df):
+            self.status.emit("nothing to save -- run something first")
+            return ""
+        if not path:
+            path, _ = QtWidgets.QFileDialog.getSaveFileName(
+                self, "Save table as CSV", f"{self._table_what.get(table, 'results')}.csv",
+                "CSV (*.csv)")
+        if not path:
+            return ""
+        df.to_csv(path, index=False)
+        shown = min(len(df), 200)
+        self.status.emit(f"wrote {len(df):,} rows to {path}"
+                         + (f" (the table shows the first {shown})" if len(df) > shown else ""))
+        return path
+
+    def copy_rows(self, table) -> str:
+        """Put the selected rows on the clipboard, tab-separated, with their headers."""
+        rows = sorted({i.row() for i in table.selectedItems()})
+        if not rows:
+            self.status.emit("select a row first")
+            return ""
+        headers = [table.horizontalHeaderItem(c).text() for c in range(table.columnCount())]
+        lines = ["\t".join(headers)]
+        for r in rows:
+            lines.append("\t".join((table.item(r, c).text() if table.item(r, c) else "")
+                                   for c in range(table.columnCount())))
+        text = "\n".join(lines)
+        cb = QtWidgets.QApplication.clipboard()
+        if cb is not None:
+            cb.setText(text)
+        self.status.emit(f"copied {len(rows)} row(s)")
+        return text
+
+    def row_values(self, table, row: int) -> dict:
+        """One row as {column: text}, which is how a row is turned back into a configuration."""
+        out = {}
+        for c in range(table.columnCount()):
+            head = table.horizontalHeaderItem(c)
+            item = table.item(row, c)
+            if head is not None and item is not None:
+                out[head.text()] = item.text()
+        return out
+
+    def _publish_clusters(self, labels, genes=None):
+        """Send a clustering to the map, over the whole node table.
+
+        A clustering of a subsample covers only the genes that map covers, and the window colours
+        8,140 points by it. Expanded here with -1 -- unclustered, which is drawn grey -- rather than
+        left short, because a labels array of the wrong length made the window fall back to
+        colouring everything grey, which reads as "this clustering found nothing".
+        """
+        labels = np.asarray(labels)
+        rows = self.rows if genes is None else genes
+        if rows is not None and np.size(rows) == len(self.nodes) and len(labels) != len(self.nodes):
+            rows = np.asarray(rows).astype(bool)
+            if int(rows.sum()) != len(labels):
+                # Neither the map's length nor the table's, which means the clustering and the map
+                # on screen are not of the same genes. Emitted unchanged so the window's own length
+                # check draws it grey rather than putting cluster i's colour on gene j -- and said
+                # out loud, because grey everywhere otherwise reads as "this found nothing".
+                self.status.emit(f"the clustering covers {len(labels):,} genes and the map covers "
+                                 f"{int(rows.sum()):,} -- cluster this map again")
+                self.clusters_ready.emit(labels)
+                return
+            full = np.full(len(self.nodes), -1, dtype=int)
+            full[rows] = labels
+            labels = full
+        self.clusters_ready.emit(labels)
+
     def _fill(self, table: QtWidgets.QTableWidget, df: pd.DataFrame, limit=200):
         """Fill a table, sortable by any column.
 
@@ -1048,6 +1191,9 @@ class AnalysisPanel(QtWidgets.QWidget):
         numbers rather than as their formatted text, so a score column sorts 0.9 above 0.10 instead
         of lexically.
         """
+        # The whole frame is remembered before the display is truncated, so saving writes the
+        # result rather than the first screenful of it.
+        self._frames[table] = df
         df = df.head(limit)
         table.setSortingEnabled(False)
         table.clear()
@@ -1073,6 +1219,9 @@ class AnalysisPanel(QtWidgets.QWidget):
     def _start_table(self, table: QtWidgets.QTableWidget, columns):
         """Empty a table and give it headers, ready for rows to arrive one at a time."""
         table.setSortingEnabled(False)          # re-enabled by _fill when the run finishes
+        # The last run's frame goes with it: saving a table that has been emptied on screen should
+        # not write the previous walk's rows.
+        self._frames.pop(table, None)
         table.clear()
         table.setRowCount(0)
         table.setColumnCount(len(columns))
@@ -1090,6 +1239,11 @@ class AnalysisPanel(QtWidgets.QWidget):
             self._start_table(table, list(row))
         headers = [table.horizontalHeaderItem(c).text() for c in range(table.columnCount())]
         i = table.rowCount()
+        # Streamed rows are collected as they arrive, so a walk that is still running -- or one that
+        # was stopped half way -- can be saved for what it found.
+        prev = self._frames.get(table)
+        one = pd.DataFrame([row])
+        self._frames[table] = one if prev is None else pd.concat([prev, one], ignore_index=True)
         table.insertRow(i)
         for j, name in enumerate(headers):
             if name in row:
@@ -1136,20 +1290,19 @@ class AnalysisPanel(QtWidgets.QWidget):
                   name=WALK_JOB)
 
     def show_walk_row(self, row: int, _col: int = 0):
-        """Build and display the configuration on one row of the walk table.
+        """Build and display the configuration on one row of the walk table, and cluster it.
 
         The walk scores configurations and returns numbers; this is what turns a number back into
         something you can look at. It rebuilds rather than caching all of them, because a walk of
         288 embeddings over 8,140 genes is gigabytes and one rebuild is seconds -- and it goes
         through the same path as "build this map", so the result behaves identically.
+
+        The clustering comes with it when the row reports one, at the same `min_cluster_size` the
+        walk used: the row says "11 clusters", and a map shown without them leaves the reader to
+        take that number on trust.
         """
-        headers = [self.walk_table.horizontalHeaderItem(c).text()
-                   for c in range(self.walk_table.columnCount())]
-        values = {}
-        for c, name in enumerate(headers):
-            item = self.walk_table.item(row, c)
-            if item is not None:
-                values[name] = item.text()
+        from .tuning import WALK_MIN_CLUSTER_SIZE
+        values = self.row_values(self.walk_table, row)
         try:
             if "n_neighbors" in values:
                 self.nn.setValue(int(float(values["n_neighbors"])))
@@ -1158,19 +1311,143 @@ class AnalysisPanel(QtWidgets.QWidget):
         except ValueError:
             self.status.emit("that row does not name a configuration this can rebuild")
             return
-        self.status.emit(f"building n_neighbors={self.nn.value()}, min_dist={self.md.value():g}")
-        self.run_embed()
+        cluster_it = "n_clusters_hdbscan" in values
+        self.status.emit(f"building n_neighbors={self.nn.value()}, min_dist={self.md.value():g}"
+                         + (", with the clustering the walk scored" if cluster_it else ""))
+        self.run_embed(then_cluster=WALK_MIN_CLUSTER_SIZE if cluster_it else None)
 
-    def run_embed(self):
-        """Build one embedding from the current spec and show it in the 3D view."""
+    def show_cluster_row(self, row: int):
+        """Re-cluster the current map with the settings on one row of the clustering walk.
+
+        The walk scores clusterings of the map that is already on screen, so there is nothing to
+        rebuild -- the row is a set of parameters, and this applies them and colours the map by the
+        result. Without it the tab reported silhouettes for clusterings nobody could see.
+        """
+        from .clustering import cluster
+        if self.coords is None:
+            self.status.emit("build a map first")
+            return
+        v = self.row_values(self.cluster_table, row)
+        algo = v.get("algorithm", self.algo.currentText())
+        try:
+            mcs = int(float(v.get("min_cluster_size", self.mcs.value())))
+            eps = float(v.get("eps", self.eps.value()))
+            ms = v.get("min_samples", "")
+            ms = mcs if ms in ("", "None", "nan") else int(float(ms))
+        except ValueError:
+            self.status.emit("that row does not name a clustering this can rebuild")
+            return
+        # Put the controls where the row says, so the settings on screen describe the map on screen.
+        self.algo.setCurrentText(algo)
+        self.mcs.setValue(mcs)
+        self.eps.setValue(eps)
+        Y = self.coords
+        self.status.emit(f"clustering: {algo}, min_cluster_size={mcs}"
+                         + (f", eps={eps:g}" if algo == "dbscan" else ""))
+        self._run(lambda p: cluster(Y, algorithm=algo, min_cluster_size=mcs, min_samples=ms,
+                                    eps=eps),
+                  self._clustered, name=f"cluster ({algo})")
+
+    def show_search_row(self, row: int):
+        """Rebuild the exact configuration on one row of the search table, and show it clustered.
+
+        This is the table where a row is a whole recipe -- blocks, missing-value policy, scaling,
+        both UMAP hyperparameters, the clustering size, the seed and the subsample -- and until now
+        it was the one table whose rows could not be looked at. A recovery score with no way to see
+        the structure it scored is exactly the "trust me" this project refuses elsewhere.
+
+        Rebuilt on the SAME subsample, from the seed and sample size the row records, and with the
+        same columns excluded. Rebuilding at full size, or over a different draw, would put a
+        different map on screen from the one the row's numbers describe.
+        """
+        from .search import rebuild
+        v = self.row_values(self.search_table, row)
+        if not v.get("blocks"):
+            self.status.emit("that row does not name a configuration this can rebuild")
+            return
+        nodes, blocks = self.nodes, v["blocks"]
+        self.status.emit(f"rebuilding {blocks} nn={v.get('n_neighbors', '?')} "
+                         f"md={v.get('min_dist', '?')} mcs={v.get('min_cluster_size', '?')} "
+                         f"-- the same map, on the same genes, with its clustering")
+
+        def job(p):
+            coords, genes, labels, features = rebuild(nodes, v, log=p)
+            return coords, features, genes, labels
+
+        self._run(job, self._search_row_built, name=f"rebuild search row ({blocks})",
+                  on_error=self._row_rebuild_failed)
+
+    def _row_rebuild_failed(self, error) -> bool:
+        """A row that cannot be rebuilt says why, rather than failing in red."""
+        if not isinstance(error, ValueError):
+            return False
+        self.status.emit(f"cannot rebuild that row: {error}")
+        return True
+
+    def _search_row_built(self, result):
+        from .clustering import NOISE
+        coords, features, genes, labels = result
+        self.coords, self.features, self.rows, self.labels = coords, features, genes, labels
+        self.embedding_ready.emit(coords, genes)
+        self._publish_clusters(labels, genes)
+        k = len(set(labels[labels != NOISE]))
+        self.status.emit(f"showing that configuration: {len(coords):,} genes, {k} clusters, "
+                         f"{100 * (labels == NOISE).mean():.0f}% unclustered")
+
+    def show_inference_row(self, row: int):
+        """Colour the map by the clustering a battery row is about, and say which cluster it names.
+
+        An Inference row is not a configuration -- it is a feature of the map already on screen --
+        so the map does not change. What clicking it does is put the clustering the row was scored
+        against back on the map, because reading "cluster 3 is 90% apicoplast" while looking at a
+        map coloured by compartment is a needless act of translation.
+        """
+        if self.labels is None:
+            self.status.emit("cluster a map first -- these rows describe a clustering")
+            return
+        v = self.row_values(self.category_table, row)
+        self._publish_clusters(self.labels)
+        cl, cat = v.get("cluster", "?"), v.get("category", v.get("feature", "that value"))
+        lift = v.get("lift")
+        self.status.emit(
+            f"cluster {cl} is the best match for {cat}"
+            + (f" at {float(lift):.1f}x its prevalence" if lift not in (None, "", "nan") else "")
+            + " -- the map is coloured by that clustering")
+
+    def run_embed(self, then_cluster=None):
+        """Build one embedding from the current spec and show it in the 3D view.
+
+        `then_cluster` clusters it in the same job at that `min_cluster_size`, which is how a walk
+        row arrives with the clustering its score counted. One job rather than two, because the two
+        belong together: a map that appears for a moment without the clusters the row promised
+        reads as the clustering having failed.
+        """
+        from .clustering import cluster
         from .embedding import embed
         spec, n = self.spec(), self.nodes
-        self._run(lambda p: embed(n, spec, log=p), self._embedded, name="build map")
+
+        def job(p):
+            coords, features, rows = embed(n, spec, log=p)
+            labels = None
+            if then_cluster:
+                p(f"clustering at min_cluster_size={then_cluster}")
+                labels = cluster(coords, algorithm="hdbscan", min_cluster_size=int(then_cluster))
+            return coords, features, rows, labels
+
+        self._run(job, self._embedded, name="build map")
 
     def _embedded(self, result):
-        self.coords, self.features, self.rows = result
+        from .clustering import NOISE
+        self.coords, self.features, self.rows, labels = result
         self.embedding_ready.emit(self.coords, self.rows)
-        self.status.emit(f"map built: {len(self.coords):,} genes, {len(self.features)} features")
+        note = ""
+        if labels is not None:
+            self.labels = labels
+            self._publish_clusters(labels)
+            k = len(set(labels[labels != NOISE]))
+            note = f", {k} clusters"
+        self.status.emit(f"map built: {len(self.coords):,} genes, "
+                         f"{len(self.features)} features{note}")
 
     def save_embedding(self):
         """Store the current embedding with its full recipe, so it can be rebuilt exactly."""
@@ -1207,7 +1484,9 @@ class AnalysisPanel(QtWidgets.QWidget):
         from .clustering import NOISE
         self.labels = labels
         k = len(set(labels[labels != NOISE]))
-        self.clusters_ready.emit(labels)
+        # Expanded to the node table before it leaves: a clustering of a map built over a subsample
+        # covers only that subsample, and the window colours all 8,140 points by it.
+        self._publish_clusters(labels)
         self.status.emit(f"{k} clusters, {100 * (labels == NOISE).mean():.0f}% unassigned "
                          f"-- colour the map by 'clusters' to see them")
 

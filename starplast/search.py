@@ -265,7 +265,13 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
                     summary.update(agreement(lab, truth))
                 row = {"target": truth_col, "blocks": "+".join(spec0.blocks),
                        "na_policy": pol, "scaling": sc, "n_neighbors": nn, "min_dist": md,
-                       "min_cluster_size": mcs, "seed": seed, "n_genes": int(len(X)),
+                       "min_cluster_size": mcs, "seed": seed,
+                       # The subsample this run drew, recorded so the run can be rebuilt exactly.
+                       # `n_genes` is what survived the missing-value policy afterwards and is not
+                       # the same number, so reconstructing the draw from it silently produced a
+                       # different set of genes -- and therefore a different map from the row.
+                       "sample_size": int(sample_size or len(nodes)),
+                       "n_genes": int(len(X)),
                        "n_features": X.shape[1],
                        "n_clusters": int(len(set(lab[lab != NOISE]))),
                        "noise_frac": float((lab == NOISE).mean()),
@@ -317,6 +323,60 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
         log(f"  best: mean F1 {b.mean_f1:.3f} (best label {b.best_label} at F1 {b.best_f1:.3f}) "
             f"from {b.blocks} nn={b.n_neighbors} md={b.min_dist} mcs={b.min_cluster_size}")
     return R, P
+
+
+def rebuild(nodes: pd.DataFrame, row, log=print) -> tuple:
+    """Rebuild one row of a search result: the same map, on the same genes, with its clustering.
+
+    The inverse of what `search` records, and it lives here so it cannot drift from the loop that
+    wrote the row. Every step is taken the way the search took it, because a rebuild that differs in
+    any of them puts a different map on screen from the one the row's numbers describe:
+
+    * the feature matrix is built over the WHOLE table and then subset, not built over the
+      subsample -- rank scaling over 3,000 genes is not rank scaling over 8,140 restricted to them;
+    * the subsample is redrawn from the recorded seed and `sample_size`, then sorted;
+    * the columns the run excluded are excluded again, from the row rather than recomputed, since
+      the exclusion is what makes the score mean anything;
+    * the clustering uses the row's own `min_cluster_size`.
+
+    Returns `(coords, genes, labels, features)`, where `genes` is a boolean mask over the node table
+    saying which genes have a position -- the rest are not in this map and must not be drawn in it.
+    """
+    get = (lambda k, d=None: row.get(k, d))
+    blocks = tuple(b for b in str(get("blocks", "")).split("+") if b)
+    if not blocks:
+        raise ValueError("that row names no feature blocks")
+    seed = int(float(get("seed", DEFAULT_SEED)))
+    spec = EmbeddingSpec(blocks=blocks, na_policy=str(get("na_policy", "median")),
+                         scaling=str(get("scaling", "rank")),
+                         n_neighbors=int(float(get("n_neighbors", 15))),
+                         min_dist=float(get("min_dist", 0.1)), random_state=seed)
+    banned = {c for c in str(get("excluded", "")).split(";") if c}
+    spec = _spec_without(spec, nodes, banned)
+    if not spec.blocks:
+        raise ValueError("every block in that row feeds a column the run excluded")
+    X, names, keep = build_matrix(nodes, spec, log=lambda *a: None)
+    idx = np.arange(len(nodes))[keep]
+    size = int(float(get("sample_size", 0) or 0))
+    if size and size < len(nodes):
+        sub = np.random.default_rng(seed).choice(len(nodes), size, replace=False)
+        sub.sort()
+        sel = np.isin(idx, sub)
+        X, idx = X[sel], idx[sel]
+    log(f"rebuilding {'+'.join(spec.blocks)} over {len(X):,} genes, seed {seed}")
+    import umap
+    from .embedding import normalise
+    Y = np.asarray(umap.UMAP(n_components=3, n_neighbors=spec.n_neighbors,
+                             min_dist=spec.min_dist, metric="euclidean",
+                             random_state=seed).fit_transform(X))
+    mcs = int(float(get("min_cluster_size", 25)))
+    log(f"clustering at min_cluster_size={mcs}")
+    # Clustered on the raw coordinates, displayed normalised: normalising is a uniform scaling, so
+    # it cannot change the clustering, and doing it in this order keeps that guarantee obvious.
+    labels = cluster(Y, algorithm="hdbscan", min_cluster_size=mcs)
+    genes = np.zeros(len(nodes), dtype=bool)
+    genes[idx] = True
+    return normalise(Y), genes, labels, names
 
 
 def predictions(nodes: pd.DataFrame, labels: np.ndarray, truth: pd.Series, gene_index,

@@ -556,3 +556,72 @@ def test_a_stored_embedding_records_the_hyperparameters_it_actually_used():
 
         _, spec, _ = store.load(listed.name.iloc[0])
         assert spec.n_neighbors == 50 and spec.min_dist == 0.25
+
+
+# --------------------------------------------------------------------------- rebuilding one row
+def _one_run(**kw):
+    d = _searchable()
+    R, _ = S.search(d, target="compartment", block_sets=[("fitness_screens",)],
+                    n_neighbors_values=(15,), min_dist_values=(0.0,), min_cluster_sizes=(25,),
+                    log=lambda *_: None, **kw)
+    return d, R
+
+
+def test_a_row_carries_the_subsample_it_was_drawn_from():
+    """`n_genes` is what survived the missing-value policy afterwards, which is a different number.
+    Reconstructing the draw from it produced a different set of genes, and therefore a different map
+    from the one the row describes."""
+    d, R = _one_run(sample_size=300)
+    if R.empty:
+        pytest.skip("no scorable clustering on this fixture")
+    assert R.iloc[0].sample_size == 300
+
+
+def test_rebuilding_a_row_reproduces_the_run_it_records():
+    """The whole point of clicking a row. If the rebuild differs in the subsample, the scaling basis
+    or the excluded columns, the map on screen is not the map the row's numbers are about -- and
+    nothing about the row would say so."""
+    d, R = _one_run()
+    if R.empty:
+        pytest.skip("no scorable clustering on this fixture")
+    row = R.iloc[0]
+    coords, genes, labels, features = S.rebuild(d, row, log=lambda *_: None)
+    assert int(genes.sum()) == int(row.n_genes) == len(coords)
+    assert len(set(labels[labels != NOISE])) == int(row.n_clusters)
+    assert float((labels == NOISE).mean()) == pytest.approx(float(row.noise_frac), abs=0.02)
+
+
+def test_rebuilding_a_subsampled_row_uses_the_same_genes():
+    d, R = _one_run(sample_size=300)
+    if R.empty:
+        pytest.skip("no scorable clustering on this fixture")
+    coords, genes, labels, _ = S.rebuild(d, R.iloc[0], log=lambda *_: None)
+    assert int(genes.sum()) == int(R.iloc[0].n_genes)
+    expected = np.random.default_rng(int(R.iloc[0].seed)).choice(len(d), 300, replace=False)
+    assert set(np.flatnonzero(genes)) == set(expected)
+
+
+def test_rebuilding_excludes_what_the_run_excluded():
+    """The exclusion is what makes the score mean anything; a rebuild that let the target back in
+    would show a map that separates it by construction."""
+    d = _searchable()
+    row = {"blocks": "fitness_screens", "na_policy": "median", "scaling": "rank",
+           "n_neighbors": 15, "min_dist": 0.0, "min_cluster_size": 25, "seed": 42,
+           "sample_size": 0, "excluded": ";".join(f"fit_f{i}" for i in range(6))}
+    with pytest.raises(ValueError, match="excluded"):
+        S.rebuild(d, row, log=lambda *_: None)
+
+
+def test_a_row_naming_no_blocks_cannot_be_rebuilt():
+    with pytest.raises(ValueError, match="no feature blocks"):
+        S.rebuild(_searchable(), {"blocks": ""}, log=lambda *_: None)
+
+
+def test_a_rebuilt_map_arrives_at_the_same_scale_as_any_other():
+    """It replaces the map in the view, and a map at a different extent would need the camera
+    re-framed for it."""
+    d, R = _one_run()
+    if R.empty:
+        pytest.skip("no scorable clustering on this fixture")
+    coords, _, _, _ = S.rebuild(d, R.iloc[0], log=lambda *_: None)
+    assert np.isclose(np.abs(coords).max(), 50.0, atol=1e-3)

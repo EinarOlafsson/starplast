@@ -98,6 +98,12 @@ Settings live in the menu bar; the panel keeps only what is used continuously.
 Edges draw only for the selected gene unless *Edges ▸ Draw all active edges* is on, which draws the
 strongest 20,000 per type.
 
+Every results table in the analysis panel behaves the same way: **click a row to see the map it is
+about** — a walk or search row is rebuilt exactly, on the same genes, with the clustering its score
+counted; a clustering row is applied to the map on screen; an Inference or Validation row colours the
+map by the clustering it was scored against. **Right-click a table to save it as CSV** (the whole
+result, not the screenful shown) or to copy the selected rows.
+
 A hyperparameter walk fills the **gallery** along the bottom as it runs: one thumbnail per
 configuration, appearing the moment it is computed, either as a grid to compare or as a single view
 stepped through with a slider. Clicking one opens that embedding in the main view, where it behaves

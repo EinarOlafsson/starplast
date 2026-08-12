@@ -722,17 +722,32 @@ def test_clicking_a_walk_row_builds_that_configuration(panel, monkeypatch):
     panel._fill(panel.walk_table,
                 pd.DataFrame({"n_neighbors": [7, 33], "min_dist": [0.3, 0.1], "trust": [0.9, 0.8]}))
     built = {}
-    monkeypatch.setattr(panel, "run_embed", lambda: built.setdefault(
-        "spec", (panel.nn.value(), panel.md.value())))
+    monkeypatch.setattr(panel, "run_embed", lambda then_cluster=None: built.setdefault(
+        "spec", (panel.nn.value(), panel.md.value(), then_cluster)))
     panel.show_walk_row(1, 0)
-    assert built["spec"] == (33, 0.1)
+    # No cluster count on these rows, so nothing to cluster: the walk was run without the check.
+    assert built["spec"] == (33, 0.1, None)
+
+
+def test_a_walk_row_that_counted_clusters_brings_them_with_it(panel, monkeypatch):
+    """The row says "11 clusters". A map shown without them leaves the reader taking that number on
+    trust, which is the one thing this application is built not to ask for."""
+    from starplast.tuning import WALK_MIN_CLUSTER_SIZE
+    panel._fill(panel.walk_table, pd.DataFrame({"n_neighbors": [7], "min_dist": [0.3],
+                                                "n_clusters_hdbscan": [11]}))
+    built = {}
+    monkeypatch.setattr(panel, "run_embed",
+                        lambda then_cluster=None: built.setdefault("mcs", then_cluster))
+    panel.show_walk_row(0, 0)
+    assert built["mcs"] == WALK_MIN_CLUSTER_SIZE, "clustered at a different size from the walk's own"
 
 
 def test_clicking_a_row_that_names_no_configuration_says_so(panel, monkeypatch):
     said = []
     panel.status.connect(said.append)
     panel._fill(panel.walk_table, pd.DataFrame({"n_neighbors": ["n/a"], "min_dist": ["n/a"]}))
-    monkeypatch.setattr(panel, "run_embed", lambda: pytest.fail("must not build from a bad row"))
+    monkeypatch.setattr(panel, "run_embed",
+                        lambda then_cluster=None: pytest.fail("must not build from a bad row"))
     panel.show_walk_row(0, 0)
     assert any("cannot rebuild" in m or "does not name" in m for m in said)
 
@@ -1220,3 +1235,333 @@ def test_the_validation_job_runs_against_the_real_module_not_only_a_stand_in(pan
     assert len(d), "no category was scored against the real implementation"
     assert set(["category", "precision", "recall", "f1", "refit"]) <= set(d.columns)
     assert any("would be right" in m for m in sync), "the verdict never reached the status line"
+
+
+# --------------------------------------------------------------------------- every results table
+RESULTS_TABLES = ["walk_table", "cluster_table", "battery_table", "category_table",
+                  "search_table", "val_table", "cand_table"]
+
+
+def test_every_results_table_can_be_saved_and_says_how_much_it_wrote(panel, sync, tmp_path):
+    """A table that can only be read on screen has to be re-derived anywhere else it is needed, and
+    the run that produced it is minutes long."""
+    import pandas as pd
+    for name in RESULTS_TABLES:
+        table = getattr(panel, name)
+        panel._fill(table, pd.DataFrame({"a": [1.0, 2.0], "b": ["x", "y"]}))
+        path = panel.save_table(table, str(tmp_path / f"{name}.csv"))
+        assert path, name
+        assert len(pd.read_csv(path)) == 2, name
+    assert any("wrote 2 rows" in m for m in sync)
+
+
+def test_saving_writes_the_whole_result_not_the_screenful_that_is_shown(panel, sync, tmp_path):
+    """The 200-row truncation exists to keep the window responsive. A file that silently stopped
+    there would be a different result from the one that was computed."""
+    import pandas as pd
+    panel._fill(panel.search_table, pd.DataFrame({"score": range(500)}))
+    assert panel.search_table.rowCount() == 200
+    path = panel.save_table(panel.search_table, str(tmp_path / "all.csv"))
+    assert len(pd.read_csv(path)) == 500
+    assert any("shows the first 200" in m for m in sync)
+
+
+def test_a_streamed_walk_can_be_saved_for_what_it_found_so_far(panel, sync, tmp_path):
+    """A walk stopped half way has still done the work it did, and the rows arrive one at a time."""
+    panel._start_table(panel.walk_table, [])
+    for md in (0.1, 0.25, 0.5):
+        panel._append(panel.walk_table, {"n_neighbors": 15, "min_dist": md, "trustworthiness": 0.9})
+    import pandas as pd
+    path = panel.save_table(panel.walk_table, str(tmp_path / "partial.csv"))
+    got = pd.read_csv(path)
+    assert list(got.min_dist) == [0.1, 0.25, 0.5]
+
+
+def test_a_new_run_does_not_leave_the_last_one_saveable(panel, sync, tmp_path):
+    """Saving a table that has been emptied on screen must not write the previous walk's rows."""
+    import pandas as pd
+    panel._fill(panel.walk_table, pd.DataFrame({"a": [1, 2, 3]}))
+    panel._start_table(panel.walk_table, [])
+    assert panel.save_table(panel.walk_table, str(tmp_path / "empty.csv")) == ""
+    assert any("nothing to save" in m for m in sync)
+
+
+def test_saving_an_empty_table_says_so_rather_than_writing_a_header(panel, sync, tmp_path):
+    assert panel.save_table(panel.cand_table, str(tmp_path / "none.csv")) == ""
+    assert any("nothing to save" in m for m in sync)
+
+
+def test_cancelling_the_save_dialog_writes_nothing(panel, monkeypatch, tmp_path):
+    import pandas as pd
+    from PyQt6 import QtWidgets
+    panel._fill(panel.walk_table, pd.DataFrame({"a": [1]}))
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getSaveFileName",
+                        staticmethod(lambda *a, **k: ("", "")))
+    assert panel.save_table(panel.walk_table) == ""
+
+
+def test_the_save_dialog_offers_a_name_that_says_what_the_table_is(panel, monkeypatch, tmp_path):
+    """"results.csv" seven times in a downloads folder is not a set of results."""
+    import pandas as pd
+    from PyQt6 import QtWidgets
+    seen = {}
+
+    def fake(parent, caption, name, filt):
+        seen["name"] = name
+        return str(tmp_path / "x.csv"), filt
+
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getSaveFileName", staticmethod(fake))
+    panel._fill(panel.search_table, pd.DataFrame({"a": [1]}))
+    panel.save_table(panel.search_table)
+    assert "recovery_search" in seen["name"]
+
+
+def test_every_results_table_offers_the_same_right_click_menu(panel):
+    import pandas as pd
+    for name in RESULTS_TABLES:
+        table = getattr(panel, name)
+        panel._fill(table, pd.DataFrame({"a": [1.0]}))
+        actions = [a.text() for a in panel.build_table_menu(table).actions() if a.text()]
+        assert any("CSV" in a for a in actions), name
+        assert any("Copy" in a for a in actions), name
+
+
+def test_the_menu_offers_the_map_only_where_a_row_names_one(panel):
+    import pandas as pd
+    panel._fill(panel.search_table, pd.DataFrame({"a": [1.0]}))
+    panel._fill(panel.battery_table, pd.DataFrame({"a": [1.0]}))
+    assert any("map" in a.text() for a in panel.build_table_menu(panel.search_table).actions())
+    assert not any("map" in a.text() for a in panel.build_table_menu(panel.battery_table).actions())
+
+
+def test_saving_is_offered_but_disabled_when_there_is_nothing_to_save(panel):
+    """Absent, it looks like the feature does not exist; enabled, it writes an empty file."""
+    act = [a for a in panel.build_table_menu(panel.walk_table).actions() if "CSV" in a.text()][0]
+    assert not act.isEnabled()
+
+
+def test_selected_rows_can_be_copied_with_their_headers(panel, sync):
+    import pandas as pd
+    panel._fill(panel.walk_table, pd.DataFrame({"n_neighbors": [5, 15], "trust": [0.9, 0.8]}))
+    panel.walk_table.selectRow(1)
+    text = panel.copy_rows(panel.walk_table)
+    assert text.splitlines()[0].split("\t") == ["n_neighbors", "trust"]
+    assert "15" in text.splitlines()[1]
+    assert any("copied 1 row" in m for m in sync)
+
+
+def test_copying_nothing_says_to_select_a_row(panel, sync):
+    import pandas as pd
+    panel._fill(panel.walk_table, pd.DataFrame({"a": [1]}))
+    panel.walk_table.clearSelection()
+    assert panel.copy_rows(panel.walk_table) == ""
+    assert any("select a row" in m for m in sync)
+
+
+# --------------------------------------------------------------------------- rows to maps
+def test_clicking_a_clustering_row_applies_it_to_the_map(panel, sync, monkeypatch):
+    """A silhouette for a clustering nobody can see is a number about nothing."""
+    import numpy as np
+    import starplast.clustering as C
+    panel.coords = np.random.default_rng(0).normal(size=(120, 3))
+    panel.rows = None
+    seen = {}
+    monkeypatch.setattr(C, "cluster", lambda Y, **kw: (seen.update(kw), np.zeros(len(Y), int))[1])
+    panel._fill(panel.cluster_table, pd.DataFrame({"algorithm": ["hdbscan"],
+                                                   "min_cluster_size": [40], "min_samples": [None],
+                                                   "silhouette": [0.4]}))
+    got = []
+    panel.clusters_ready.connect(got.append)
+    panel.show_cluster_row(0)
+    assert seen["min_cluster_size"] == 40
+    assert panel.mcs.value() == 40, "the controls must describe the map on screen"
+    assert len(got) == 1
+
+
+def test_clicking_a_clustering_row_before_there_is_a_map_says_so(panel, sync):
+    panel.coords = None
+    panel._fill(panel.cluster_table, pd.DataFrame({"algorithm": ["hdbscan"],
+                                                   "min_cluster_size": [40]}))
+    panel.show_cluster_row(0)
+    assert any("build a map first" in m for m in sync)
+
+
+def test_a_clustering_row_that_names_no_settings_says_so(panel, sync):
+    import numpy as np
+    panel.coords = np.zeros((30, 3))
+    panel._fill(panel.cluster_table, pd.DataFrame({"algorithm": ["hdbscan"],
+                                                   "min_cluster_size": ["n/a"]}))
+    panel.show_cluster_row(0)
+    assert any("does not name a clustering" in m for m in sync)
+
+
+def test_clicking_a_search_row_rebuilds_that_exact_configuration(panel, sync, monkeypatch):
+    """The one table where a row is a whole recipe, and the one that could not be looked at."""
+    import numpy as np
+    import starplast.search as S
+    seen = {}
+
+    def fake_rebuild(nodes, row, log=print):
+        seen.update(row)
+        genes = np.zeros(len(nodes), bool)
+        genes[:50] = True
+        return np.zeros((50, 3)), genes, np.array([0] * 25 + [1] * 25), ["f"]
+
+    monkeypatch.setattr(S, "rebuild", fake_rebuild)
+    panel._fill(panel.search_table, pd.DataFrame({
+        "blocks": ["expression_summary+fitness_screens"], "na_policy": ["median"],
+        "scaling": ["rank"], "n_neighbors": [15], "min_dist": [0.1], "min_cluster_size": [25],
+        "seed": [42], "sample_size": [3000], "excluded": ["compartment;lopit_map"],
+        "mean_f1": [0.3]}))
+    coords, clusters = [], []
+    panel.embedding_ready.connect(lambda c, r: coords.append((c, r)))
+    panel.clusters_ready.connect(clusters.append)
+    panel.show_search_row(0)
+    assert seen["blocks"] == "expression_summary+fitness_screens"
+    assert seen["sample_size"] == "3000" and seen["excluded"] == "compartment;lopit_map"
+    assert len(coords) == 1 and len(clusters) == 1
+    assert len(clusters[0]) == len(panel.nodes), "a subsample's clustering must cover the map"
+    assert any("2 clusters" in m for m in sync)
+
+
+def test_a_search_row_that_cannot_be_rebuilt_explains_rather_than_failing(panel, sync, monkeypatch):
+    import starplast.search as S
+
+    def boom(nodes, row, log=print):
+        raise ValueError("every block in that row feeds a column the run excluded")
+
+    monkeypatch.setattr(S, "rebuild", boom)
+    panel._fill(panel.search_table, pd.DataFrame({"blocks": ["localisation"], "n_neighbors": [15],
+                                                  "min_dist": [0.1]}))
+    panel.show_search_row(0)
+    assert any("cannot rebuild that row" in m for m in sync)
+    assert panel._row_rebuild_failed(KeyError("x")) is False
+
+
+def test_a_search_row_with_no_blocks_says_so(panel, sync):
+    panel._fill(panel.search_table, pd.DataFrame({"mean_f1": [0.3]}))
+    panel.show_search_row(0)
+    assert any("does not name a configuration" in m for m in sync)
+
+
+def test_clicking_an_inference_row_colours_the_map_by_the_clustering_it_scored(panel, sync):
+    """Reading "cluster 3 is 90% apicoplast" while looking at a map coloured by compartment is a
+    needless act of translation."""
+    import numpy as np
+    panel.labels = np.arange(len(panel.nodes)) % 4
+    panel.rows = np.ones(len(panel.nodes), bool)
+    panel._fill(panel.category_table, pd.DataFrame({"feature": ["compartment"],
+                                                    "category": ["apicoplast"], "cluster": [3],
+                                                    "lift": [5.4], "f1": [0.4]}))
+    got = []
+    panel.clusters_ready.connect(got.append)
+    panel.show_inference_row(0)
+    assert len(got) == 1
+    assert any("cluster 3" in m and "apicoplast" in m and "5.4x" in m for m in sync)
+
+
+def test_an_inference_row_before_any_clustering_says_what_to_do(panel, sync):
+    panel.labels = None
+    panel._fill(panel.category_table, pd.DataFrame({"feature": ["f"], "category": ["x"],
+                                                    "cluster": [0]}))
+    panel.show_inference_row(0)
+    assert any("cluster a map first" in m for m in sync)
+
+
+def test_a_clustering_of_a_subsample_is_published_over_the_whole_table(panel):
+    """The window colours 8,140 points by it. Left short, it fell back to grey everywhere, which
+    reads as "this clustering found nothing"."""
+    import numpy as np
+    keep = np.zeros(len(panel.nodes), bool)
+    keep[:300] = True
+    panel.rows = keep
+    got = []
+    panel.clusters_ready.connect(got.append)
+    panel._publish_clusters(np.zeros(300, int))
+    assert len(got[0]) == len(panel.nodes)
+    assert (got[0][:300] == 0).all() and (got[0][300:] == -1).all()
+
+
+def test_a_full_length_clustering_is_published_unchanged(panel):
+    import numpy as np
+    panel.rows = np.ones(len(panel.nodes), bool)
+    got = []
+    panel.clusters_ready.connect(got.append)
+    labels = np.arange(len(panel.nodes)) % 3
+    panel._publish_clusters(labels)
+    assert np.array_equal(got[0], labels)
+
+
+def test_clicking_a_row_where_nothing_is_wired_does_nothing(panel):
+    import pandas as pd
+    panel._fill(panel.battery_table, pd.DataFrame({"a": [1]}))
+    panel._row_clicked(panel.battery_table, 0)
+
+
+def test_the_context_menu_can_be_opened_on_a_table(panel, monkeypatch):
+    """`_table_menu` execs, which blocks; this checks the wiring reaches it and nothing else."""
+    import pandas as pd
+    from PyQt6 import QtCore, QtWidgets
+    panel._fill(panel.walk_table, pd.DataFrame({"a": [1.0]}))
+    monkeypatch.setattr(QtWidgets.QMenu, "exec", lambda self, *a: None)
+    m = panel._table_menu(panel.walk_table, QtCore.QPoint(2, 2))
+    assert [a.text() for a in m.actions() if a.text()]
+
+
+def test_clicking_a_cell_is_what_triggers_the_row_action(panel, monkeypatch):
+    """The wiring, not the handler: connected to the wrong signal, every one of these tables would
+    look inert while every handler test passed."""
+    import pandas as pd
+    seen = []
+    panel._row_action[panel.walk_table] = seen.append
+    panel._fill(panel.walk_table, pd.DataFrame({"a": [1.0, 2.0]}))
+    panel.walk_table.cellClicked.emit(1, 0)
+    assert seen == [1]
+
+
+def test_building_a_map_can_cluster_it_in_the_same_job(panel, sync, monkeypatch):
+    """One job rather than two: a map that appears for a moment without the clusters the walk row
+    promised reads as the clustering having failed."""
+    import numpy as np
+    import starplast.clustering as C
+    import starplast.embedding as E
+    rows = np.zeros(len(panel.nodes), bool)
+    rows[:60] = True
+    coords = np.zeros((60, 3))
+    monkeypatch.setattr(E, "embed", lambda n, spec, log=None: (coords, ["f"], rows))
+    monkeypatch.setattr(C, "cluster", lambda Y, **kw: np.array([0] * 30 + [1] * 30))
+    got = []
+    panel.clusters_ready.connect(got.append)
+    panel.run_embed(then_cluster=15)
+    assert len(got) == 1 and panel.labels is not None
+    assert any("2 clusters" in m for m in sync)
+
+
+def test_building_a_map_without_clustering_leaves_the_clustering_alone(panel, sync, monkeypatch):
+    """A new map invalidates the old labels, but silently publishing a stale clustering over it
+    would colour the new map by the old one."""
+    import numpy as np
+    import starplast.embedding as E
+    rows = np.zeros(len(panel.nodes), bool)
+    rows[:60] = True
+    monkeypatch.setattr(E, "embed",
+                        lambda n, spec, log=None: (np.zeros((60, 3)), ["f"], rows))
+    got = []
+    panel.clusters_ready.connect(got.append)
+    panel.run_embed()
+    assert got == []
+    assert any("map built" in m and "clusters" not in m for m in sync)
+
+
+def test_a_clustering_that_matches_neither_the_map_nor_the_table_says_so(panel, sync):
+    """Grey everywhere reads as "this clustering found nothing", which is a finding. A clustering
+    of the wrong genes is a mistake, and the two must not look the same."""
+    import numpy as np
+    keep = np.zeros(len(panel.nodes), bool)
+    keep[:300] = True
+    panel.rows = keep
+    got = []
+    panel.clusters_ready.connect(got.append)
+    panel._publish_clusters(np.zeros(77, int))
+    assert len(got[0]) == 77, "a mismatched clustering must not be stretched onto the wrong genes"
+    assert any("cluster this map again" in m for m in sync)
