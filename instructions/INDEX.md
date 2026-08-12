@@ -26,13 +26,14 @@ One file per task. This index is the status table; the files carry the reasoning
 
 | # | Task | % | Blocked by |
 |---|---|---|---|
-| 21 | Wire the scoring objectives into the interface | 80 | — |
+| 21 | Wire the scoring objectives into the interface | 100 | — |
 | 20 | Finish the Validation tab (`refit`, candidates, orthogonal evidence) | 70 | — |
 | 15 | The UMAP gallery — grid, scroll, incremental | 0 | — |
 | 19 | Logging — opt-in, per-level console control | 0 | — |
 | 18 | Navigate / Select modes, 2D and 3D gating | 0 | — |
 | 16 | Automated walk — UMAP, clustering, per-category scoring | 0 | 15, 21 |
 | 17 | Annotation store | 25 | **20** |
+| 22 | Cell diagram under the compartment list, coloured to match | 0 | the SVG being committed |
 
 ## The one ordering constraint that is not negotiable
 
