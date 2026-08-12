@@ -74,6 +74,12 @@ def _docx_text(path: str) -> str:
             xml = z.read("word/document.xml").decode("utf8", "replace")
     except (zipfile.BadZipFile, KeyError, OSError):
         return ""
+    # A cell's closing paragraph ends the CELL, not the line. Replacing </w:p> with a newline
+    # unconditionally fires inside every table cell before the cell boundary is applied, so a
+    # gene/description row came out split across two lines -- the same corruption this function exists
+    # to prevent, in the other direction. Accession extraction was unaffected, because that scans the
+    # whole text, but anything reading the table as rows saw nonsense.
+    xml = re.sub(r"</w:p>\s*</w:tc>", "\t", xml)
     xml = xml.replace("</w:tc>", "\t").replace("</w:tr>", "\n").replace("</w:p>", "\n")
     return re.sub(r"<[^>]+>", "", xml)
 

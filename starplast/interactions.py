@@ -26,7 +26,6 @@ from __future__ import annotations
 
 import json
 import os
-import re
 
 import numpy as np
 import pandas as pd
@@ -71,11 +70,6 @@ def load_toxonet(path: str, node_ids, log=print):
 
 
 # --------------------------------------------------------------------------- the binding models
-def _num(pattern, text, cast=float):
-    m = re.search(pattern, str(text))
-    return cast(m.group(1)) if m else np.nan
-
-
 def crosslink_models(base: str, node_ids, log=print) -> pd.DataFrame:
     """One row per crosslinked gene pair: the residues, the model files, and how well they agree.
 
