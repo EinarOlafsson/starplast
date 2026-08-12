@@ -7,8 +7,9 @@ the order the work is actually done, top to bottom, because the order matters sc
     1  data      which blocks feed the map, and how missing values and scales are handled
     2  map       UMAP hyperparameters, with a seeded walk to pick them
     3  clusters  DBSCAN / HDBSCAN, with a walk to pick those too
-    4  meaning   what the clusters correspond to, held-out features only
+    4  inference what the clusters correspond to, held-out features only
     5  search    walk dataset combinations looking for structure that recovers a held-out label
+    6  validation hide labels you already have and see whether the clustering puts them back
 
 Long jobs run on a worker thread. The signal is relayed through a bound method rather than connected
 directly, because a directly-connected `finished` handler runs on the worker thread and touching widgets
@@ -95,8 +96,9 @@ class AnalysisPanel(QtWidgets.QWidget):
         tabs.addTab(self._data_tab(), "1 · Data")
         tabs.addTab(self._map_tab(), "2 · Map")
         tabs.addTab(self._cluster_tab(), "3 · Clusters")
-        tabs.addTab(self._meaning_tab(), "4 · Meaning")
+        tabs.addTab(self._meaning_tab(), "4 · Inference")
         tabs.addTab(self._search_tab(), "5 · Search")
+        tabs.addTab(self._validation_tab(), "6 · Validation")
         lay = QtWidgets.QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         lay.addWidget(tabs)
@@ -298,6 +300,75 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.search_table.setAlternatingRowColors(True)
         v.addWidget(self.search_table, 1)
         return w
+
+    # ------------------------------------------------------------------ 6 validation
+    def _validation_tab(self):
+        """Test an annotation by hiding labels we already have and seeing whether they come back."""
+        w = QtWidgets.QWidget()
+        v = QtWidgets.QVBoxLayout(w)
+        note = QtWidgets.QLabel(
+            "A cluster that looks pure gives you a candidate list and <b>no error rate</b>. This "
+            "hides a fraction of the genes that already carry a category, picks the cluster holding "
+            "most of the rest \u2014 as you would by eye \u2014 and scores against the hidden ones, "
+            "which had no say in that choice. Reported per category, because a method that recovers "
+            "hidden dense granules but not hidden rhoptries is not one accuracy.")
+        note.setWordWrap(True)
+        v.addWidget(note)
+
+        form = QtWidgets.QFormLayout()
+        self.val_target = QtWidgets.QComboBox()
+        self.val_target.addItems([c for c in ("compartment", "compartment_best", "cellcycle_phase",
+                                              "stage_enriched_derived")
+                                  if c in self.nodes.columns])
+        self.val_target.setToolTip(
+            "The label to hide. It must NOT be among the features the map was built from: a cluster "
+            "matching something the embedding already saw is circular, and this refuses to score it.")
+        self.val_folds = QtWidgets.QSpinBox(); self.val_folds.setRange(2, 20)
+        self.val_folds.setValue(5)
+        self.val_hold = QtWidgets.QDoubleSpinBox(); self.val_hold.setRange(0.05, 0.5)
+        self.val_hold.setSingleStep(0.05); self.val_hold.setValue(0.2)
+        self.val_hold.setToolTip("Fraction of each category's labelled genes hidden per fold.")
+        form.addRow("hold out", self.val_target)
+        form.addRow("folds", self.val_folds)
+        form.addRow("fraction hidden", self.val_hold)
+        v.addLayout(form)
+
+        b = QtWidgets.QPushButton("test the annotation")
+        b.setProperty("primary", True)
+        b.clicked.connect(self.run_validation)
+        v.addWidget(b)
+
+        self.val_table = QtWidgets.QTableWidget()
+        self.val_table.setAlternatingRowColors(True)
+        v.addWidget(self.val_table, 1)
+        return w
+
+    def run_validation(self):
+        from .validate import validate_all
+        if self.labels is None:
+            self.status.emit("cluster a map first -- validation scores a clustering, not a map")
+            return
+        target = self.val_target.currentText()
+        used = list(columns_for(self.nodes, self.spec()).keys())
+        truth, labels = self.nodes[target], self.labels
+        folds, frac = self.val_folds.value(), self.val_hold.value()
+
+        def job(p):
+            p(f"hiding {frac:.0%} of each category in {target}, {folds} folds")
+            return validate_all(labels, truth, folds=folds, hold_frac=frac, used_columns=used)
+
+        self._run(job, lambda d: (self._fill(self.val_table, d),
+                                  self.status.emit(self._validation_verdict(d))),
+                  name=f"validate annotation ({target})")
+
+    @staticmethod
+    def _validation_verdict(d) -> str:
+        """One line leading with the number a candidate list is meaningless without."""
+        if d is None or not len(d):
+            return "no category had enough labelled genes to hide any"
+        best = d.iloc[0]
+        return (f"best: {best.category} at precision {best.precision:.2f} -- annotate from that "
+                f"cluster and roughly {best.precision:.0%} would be right")
 
     # ------------------------------------------------------------------ jobs
     def _run(self, fn, on_done, name: str = "analysis"):

@@ -201,12 +201,17 @@ def test_the_completion_handler_runs_on_the_gui_thread(panel, app):
 
 # --------------------------------------------------------------------------- the tabs exist
 def test_every_stage_of_the_workflow_has_a_tab(panel):
-    """data -> map -> clusters -> meaning -> search, in the order the work is actually done."""
+    """data -> map -> clusters -> inference -> search -> validation, in the order the work is done.
+
+    "Meaning" was renamed to "Inference": it reports which held-out features distinguish the
+    clusters, which is an inference and exactly as strong as the held-out testing behind it, and the
+    name should not claim more. Validation is the new stage that puts a number on an annotation.
+    """
     tabs = panel.findChild(type(panel).__mro__[0] if False else __import__("PyQt6.QtWidgets",
                            fromlist=["QTabWidget"]).QTabWidget)
     titles = [tabs.tabText(i).lower() for i in range(tabs.count())]
-    assert len(titles) >= 5
-    for expected in ("data", "map", "cluster", "meaning", "search"):
+    assert len(titles) >= 6
+    for expected in ("data", "map", "cluster", "inference", "search", "validation"):
         assert any(expected in t for t in titles), f"no tab for {expected}: {titles}"
 
 
