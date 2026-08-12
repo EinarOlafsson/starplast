@@ -229,11 +229,11 @@ oversights, and each says why it stopped where it did. The largest are:
               run search.predictions() on the cell-cycle result, which is the
               step that turns a recovered structure into named predictions.
     done/08   publish the raw datasets to HuggingFace so the eleven entries with
-              no download URL can be fetched; pin checksums.
+              no download URL can be fetched. Checksums are pinned as of
+              2026-08-12.
     done/11   screenshots for the README.
-    done/05   a GEO correspondence for GSE206344, which cannot be declared
-              without establishing which of its two workbooks the shipped
-              column came from.
+    (GSE206344 is verified as of 2026-08-12: six of six shipped columns
+     reproduce their GEO source, three of them at rho = 1.0000.)
 
 Standing instruction from 2026-08-11: the coverage bar is 100% for every
 module, not 90%. Met on 2026-08-12, with no pragma exemptions -- where a line

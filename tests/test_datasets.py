@@ -214,3 +214,102 @@ def test_a_geo_series_with_no_supplementary_files_returns_none(monkeypatch, tmp_
     monkeypatch.setattr("starplast.sources.geo_supplementary", lambda *a, **k: [])
     key = [x.key for x in D.REGISTRY if x.accession and x.accession.startswith("GSE")][0]
     assert D.ensure(key, log=lambda *_: None) is None
+
+
+# --------------------------------------------------------------------------- checksums
+def test_a_first_fetch_pins_what_arrived(monkeypatch, tmp_path):
+    """A publisher reissuing a supplement under the same URL is the failure this exists for: the file
+    changes, the build re-runs, every number moves a little, and nothing says why."""
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    monkeypatch.setattr(D, "local_path", lambda k: None)
+    monkeypatch.setattr("starplast.sources._get", lambda *a, **k: b"gene_id,value\nTGME49_1,1\n")
+    key = [d.key for d in D.REGISTRY if D.fetchable(d.key)[1] == "direct"][0]
+    out = D.ensure(key, log=lambda *_: None)
+    assert out
+    pinned = D.recorded_checksums()
+    assert key in pinned
+    assert pinned[key]["sha256"] == D.digest(out)
+    assert pinned[key]["bytes"] == os.path.getsize(out)
+
+
+def test_a_matching_file_verifies_silently(monkeypatch, tmp_path):
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    f = tmp_path / "thing.csv"
+    f.write_text("a,b\n1,2\n")
+    D.record_checksum("k", str(f))
+    msgs = []
+    assert D.verify_checksum("k", str(f), log=msgs.append)
+    assert msgs == []
+
+
+def test_a_changed_file_is_reported_rather_than_absorbed(monkeypatch, tmp_path):
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    f = tmp_path / "thing.csv"
+    f.write_text("a,b\n1,2\n")
+    D.record_checksum("k", str(f))
+    f.write_text("a,b\n1,999\n")            # the publisher reissued it
+    msgs = []
+    assert not D.verify_checksum("k", str(f), log=msgs.append)
+    joined = " ".join(msgs)
+    assert "CHECKSUM MISMATCH" in joined
+    assert "re-fetch" in joined, "the message has to say what to do, not only what is wrong"
+
+
+def test_an_unpinned_file_is_not_a_failure_and_gets_pinned(monkeypatch, tmp_path):
+    """Most of this tree arrived before checksums existed, so the honest answer for it is 'no claim' --
+    and the digest is recorded so the NEXT fetch has something to check against."""
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    f = tmp_path / "thing.csv"
+    f.write_text("a,b\n1,2\n")
+    assert D.recorded_checksums() == {}
+    assert D.verify_checksum("k", str(f), log=lambda *_: None)
+    assert "k" in D.recorded_checksums()
+
+
+def test_a_rejected_download_is_never_pinned(monkeypatch, tmp_path):
+    """Otherwise the first bad download becomes the truth every good one is measured against."""
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    monkeypatch.setattr(D, "local_path", lambda k: None)
+    monkeypatch.setattr("starplast.sources._get", lambda *a, **k: b"<!DOCTYPE html><html>nope")
+    key = [d.key for d in D.REGISTRY if D.fetchable(d.key)[1] == "direct"][0]
+    assert D.ensure(key, log=lambda *_: None) is None
+    assert key not in D.recorded_checksums()
+
+
+def test_a_corrupt_checksum_file_does_not_stop_the_build(monkeypatch, tmp_path):
+    """It is a cache of claims, not the data. Losing it costs the check, not the fetch."""
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    (tmp_path / D.CHECKSUMS).write_text("{not json")
+    assert D.recorded_checksums() == {}
+
+
+def test_the_digest_streams_rather_than_loading_the_file(tmp_path):
+    """Some of these are gigabytes; reading one into memory to hash it is how a build gets killed."""
+    f = tmp_path / "big.bin"
+    f.write_bytes(b"x" * (3 << 20))
+    import hashlib
+    assert D.digest(str(f)) == hashlib.sha256(b"x" * (3 << 20)).hexdigest()
+
+
+def test_an_already_downloaded_file_is_re_verified_rather_than_trusted(monkeypatch, tmp_path):
+    """The check has to run on the cached copy, not only at the moment of download -- otherwise a file
+    that changed on disk after being fetched is never noticed."""
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    monkeypatch.setattr(D, "local_path", lambda k: None)
+    monkeypatch.setattr("starplast.sources._get", lambda *a, **k: b"gene_id,value\nTGME49_1,1\n")
+    key = [d.key for d in D.REGISTRY if D.fetchable(d.key)[1] == "direct"][0]
+    out = D.ensure(key, log=lambda *_: None)
+
+    with open(out, "w") as fh:                      # something edited it after the fact
+        fh.write("gene_id,value\nTGME49_1,999\n")
+    msgs = []
+    again = D.ensure(key, log=msgs.append)
+    assert again == out, "the path is still returned; the caller decides what to do"
+    assert any("CHECKSUM MISMATCH" in m for m in msgs)

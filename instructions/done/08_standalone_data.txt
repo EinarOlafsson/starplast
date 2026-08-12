@@ -120,5 +120,15 @@ NOT DONE
     ensure() names them and returns None rather than pretending. hf_publish.py
     is ready for it.
 
-    Checksums are not pinned yet, so a silently changed remote would be caught
-    only by a changed result.
+CHECKSUMS ADDED -- 2026-08-12
+    Every download records a SHA-256, its size and its filename into
+    checksums.json beside the dataset tree, and every later fetch checks the
+    cached copy against it. A mismatch is reported with what to do about it
+    rather than absorbed.
+
+    Recorded only AFTER the content is accepted as a file rather than as an HTML
+    error page: pinned before that, the first bad download becomes the truth
+    every good one after it is measured against. An unpinned file is not a
+    failure -- most of this tree predates checksums -- so it is pinned silently
+    and checked from then on. The digest streams, because some deposits are
+    gigabytes.

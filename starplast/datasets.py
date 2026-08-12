@@ -26,6 +26,9 @@ lists exactly those so they cannot reach a manuscript unchecked.
 """
 from __future__ import annotations
 
+import json
+import os
+
 from dataclasses import dataclass, field, asdict
 
 
@@ -332,7 +335,6 @@ def ensure(key: str, log=print) -> str | None:
     of these datasets exist only inside a paper's supplementary section and one exists only as raw
     instrument files; pretending otherwise would produce a path to something that is not the dataset.
     """
-    import os
     from . import paths, sources
 
     p = local_path(key)
@@ -365,13 +367,89 @@ def ensure(key: str, log=print) -> str | None:
             return None
         with open(out, "wb") as fh:
             fh.write(data)
+        # Pinned only now, after the content has been accepted as a file rather than as an HTML error
+        # page -- otherwise the first bad download becomes the truth every good one is measured against.
+        record_checksum(key, out)
         log(f"{key}: fetched {len(data)/1e6:.1f} MB -> {out}")
+    else:
+        verify_checksum(key, out, log=log)
     return out
 
 
 def missing() -> list:
     """Registry entries whose data is not on this machine. The honest first-run report."""
     return [d.key for d in REGISTRY if d.path and not local_path(d.key)]
+
+
+# --------------------------------------------------------------------------- checksums
+# Recorded on first fetch and checked on every one after. A publisher reissuing a supplement under the
+# same URL is the failure this exists for: the file changes, the build re-runs, every number moves a
+# little, and nothing anywhere says why.
+#
+# The checksum is recorded AFTER the content has been accepted as a file rather than as an HTML error
+# page, because otherwise the first bad download becomes the pinned truth and every good one after it
+# is reported as the corruption.
+CHECKSUMS = "checksums.json"
+
+
+def _checksum_path(paths_mod) -> str:
+    return os.path.join(paths_mod.dataset_root(create=True), CHECKSUMS)
+
+
+def digest(path: str) -> str:
+    """SHA-256 of a file, streamed -- some of these are gigabytes."""
+    import hashlib
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def recorded_checksums() -> dict:
+    from . import paths
+    p = _checksum_path(paths)
+    if not os.path.exists(p):
+        return {}
+    try:
+        with open(p) as fh:
+            return json.load(fh)
+    except (ValueError, OSError):
+        return {}
+
+
+def record_checksum(key: str, path: str) -> str:
+    """Pin what was fetched. Returns the digest."""
+    from . import paths
+    d = digest(path)
+    store = recorded_checksums()
+    store[key] = {"sha256": d, "bytes": os.path.getsize(path),
+                  "file": os.path.basename(path)}
+    with open(_checksum_path(paths), "w") as fh:
+        json.dump(store, fh, indent=1, sort_keys=True)
+    return d
+
+
+def verify_checksum(key: str, path: str, log=print) -> bool:
+    """True when the file matches what was pinned, or when nothing was pinned yet.
+
+    An unpinned file is not a failure -- most of this tree arrived before checksums existed -- so the
+    honest answer for it is "no claim", and the digest is recorded so the NEXT fetch has something to
+    check against.
+    """
+    store = recorded_checksums()
+    if key not in store:
+        record_checksum(key, path)
+        return True
+    want = store[key]["sha256"]
+    got = digest(path)
+    if got == want:
+        return True
+    log(f"{key}: CHECKSUM MISMATCH -- the file on disk is not the one that was pinned.\n"
+        f"  pinned {want[:16]}...  now {got[:16]}...\n"
+        f"  A publisher reissuing a supplement under the same URL looks exactly like this. Delete "
+        f"{path} to re-fetch, or re-pin deliberately with record_checksum().")
+    return False
 
 
 # --------------------------------------------------------------------------- documentation
