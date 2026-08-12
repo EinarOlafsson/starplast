@@ -79,10 +79,13 @@ def build_release(out_dir: str, members: pd.DataFrame, studies: pd.DataFrame,
     """Write the derived release: membership table, study manifest, licenses, and a dataset card."""
     os.makedirs(out_dir, exist_ok=True)
     members.to_parquet(os.path.join(out_dir, "study_gene_membership.parquet"), index=False)
-    studies.merge(licenses, on="pmid", how="left").to_parquet(
-        os.path.join(out_dir, "studies.parquet"), index=False)
+    # An empty licence table has no columns at all, so merging on "pmid" raises KeyError. Nothing
+    # confirmed means nothing redistributable, which is the correct release rather than a crash.
+    merged = (studies.merge(licenses, on="pmid", how="left") if "pmid" in licenses.columns
+              else studies.assign(license="", source="no licence table", redistributable=False))
+    merged.to_parquet(os.path.join(out_dir, "studies.parquet"), index=False)
 
-    n_ok = int(licenses.redistributable.sum()) if len(licenses) else 0
+    n_ok = int(licenses.redistributable.sum()) if "redistributable" in licenses.columns else 0
     card = f"""---
 license: cc-by-4.0
 task_categories: [tabular-classification]

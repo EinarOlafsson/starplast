@@ -1,0 +1,312 @@
+#!/usr/bin/env python3
+"""Publishing a derived release, and fetching the identity tables.
+
+The licensing logic here decides what gets redistributed to strangers, so the property that matters is
+that it fails CLOSED: a study whose license cannot be positively confirmed permissive is withheld, and
+"no local full text" is treated as unconfirmed rather than as permission. Getting that backwards would
+mirror other people's copyrighted files under a CC-BY banner.
+
+Nothing here touches the network or HuggingFace.
+"""
+from __future__ import annotations
+
+import os
+import sys
+
+import pandas as pd
+import pytest
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from starplast import fetch_names as FN  # noqa: E402
+from starplast import hf_publish as HF  # noqa: E402
+
+
+# --------------------------------------------------------------------------- licences
+def _cat(pmids_pmcids):
+    return pd.DataFrame(pmids_pmcids, columns=["pmid", "pmcid"])
+
+
+def _jats(d, pmcid, body):
+    (d / f"{pmcid}.xml").write_text(body, encoding="utf8")
+
+
+def test_a_cc_by_href_is_redistributable(tmp_path):
+    _jats(tmp_path, "PMC1", '<license xlink:href="https://creativecommons.org/licenses/by/4.0/">x</license>')
+    out = HF.licenses_from_fulltexts(_cat([[1, "PMC1"]]), str(tmp_path))
+    assert bool(out.loc[0, "redistributable"])
+    assert out.loc[0, "source"] == "href"
+
+
+def test_a_noncommercial_licence_is_withheld(tmp_path):
+    _jats(tmp_path, "PMC1", '<license xlink:href="https://creativecommons.org/licenses/by-nc/4.0/">x</license>')
+    out = HF.licenses_from_fulltexts(_cat([[1, "PMC1"]]), str(tmp_path))
+    assert not bool(out.loc[0, "redistributable"])
+
+
+def test_a_no_derivatives_licence_is_withheld(tmp_path):
+    _jats(tmp_path, "PMC1", '<license xlink:href="https://creativecommons.org/licenses/by-nd/4.0/">x</license>')
+    out = HF.licenses_from_fulltexts(_cat([[1, "PMC1"]]), str(tmp_path))
+    assert not bool(out.loc[0, "redistributable"])
+
+
+def test_public_domain_is_redistributable(tmp_path):
+    _jats(tmp_path, "PMC1", '<license xlink:href="https://creativecommons.org/publicdomain/zero/1.0/">x</license>')
+    out = HF.licenses_from_fulltexts(_cat([[1, "PMC1"]]), str(tmp_path))
+    assert bool(out.loc[0, "redistributable"])
+
+
+def test_a_licence_stated_only_in_prose_is_accepted_and_marked_as_prose(tmp_path):
+    """PERMISSIVE lists `^by \\(text\\)$` explicitly, so a CC-BY stated in a paragraph rather than an
+    href does grant redistribution. That is a deliberate choice, and the `source` column records which
+    evidence it rested on so a prose-derived permission can be re-audited without re-parsing.
+
+    Worth a human look before the release is made public: a prose match is weaker evidence than a
+    machine-readable href, and this is the one place in the project where being wrong redistributes
+    somebody else's copyrighted work."""
+    _jats(tmp_path, "PMC1", "<license><p>This is a Creative Commons Attribution article.</p></license>")
+    out = HF.licenses_from_fulltexts(_cat([[1, "PMC1"]]), str(tmp_path))
+    assert out.loc[0, "source"] == "text"
+    assert out.loc[0, "license"] == "by (text)"
+    assert bool(out.loc[0, "redistributable"])
+
+
+def test_noncommercial_in_prose_is_detected(tmp_path):
+    _jats(tmp_path, "PMC1", "<license><p>Noncommercial use only.</p></license>")
+    out = HF.licenses_from_fulltexts(_cat([[1, "PMC1"]]), str(tmp_path))
+    assert out.loc[0, "license"] == "nc (text)"
+    assert not bool(out.loc[0, "redistributable"])
+
+
+def test_an_unrecognised_prose_licence_is_recorded_as_other(tmp_path):
+    _jats(tmp_path, "PMC1", "<license><p>All rights reserved by the publisher.</p></license>")
+    out = HF.licenses_from_fulltexts(_cat([[1, "PMC1"]]), str(tmp_path))
+    assert out.loc[0, "license"] == "other (text)"
+    assert not bool(out.loc[0, "redistributable"])
+
+
+def test_no_local_full_text_means_unconfirmed_not_permitted(tmp_path):
+    """Failing closed is the whole point: absence of evidence must not become permission."""
+    out = HF.licenses_from_fulltexts(_cat([[1, "PMC_missing"]]), str(tmp_path))
+    assert out.loc[0, "source"] == "no local full text"
+    assert not bool(out.loc[0, "redistributable"])
+
+
+def test_a_study_with_no_pmcid_is_unconfirmed(tmp_path):
+    out = HF.licenses_from_fulltexts(_cat([[1, None]]), str(tmp_path))
+    assert not bool(out.loc[0, "redistributable"])
+
+
+def test_a_full_text_with_no_licence_block_is_unconfirmed(tmp_path):
+    _jats(tmp_path, "PMC1", "<article><body>no licence here</body></article>")
+    out = HF.licenses_from_fulltexts(_cat([[1, "PMC1"]]), str(tmp_path))
+    assert out.loc[0, "license"] == ""
+    assert not bool(out.loc[0, "redistributable"])
+
+
+# --------------------------------------------------------------------------- the plan
+def _release_inputs():
+    members = pd.DataFrame({"pmid": [1, 1, 2], "gene_id": ["g1", "g2", "g1"]})
+    studies = pd.DataFrame({"pmid": [1, 2], "title": ["a", "b"]})
+    licenses = pd.DataFrame({"pmid": [1, 2], "pmcid": ["PMC1", "PMC2"],
+                             "license": ["by", "nc"], "source": ["href", "href"],
+                             "redistributable": [True, False]})
+    return members, studies, licenses
+
+
+def test_the_plan_counts_what_would_be_withheld_and_why():
+    """Called before building, so the decision is visible before anything is written."""
+    p = HF.plan(*_release_inputs())
+    assert p["studies_total"] == 2
+    assert p["studies_redistributable"] == 1
+    assert p["studies_withheld"] == 1
+    assert "not positively confirmed" in p["withheld_reason"]
+    assert p["derived_rows"] == 3 and p["derived_genes"] == 2
+
+
+def test_the_plan_handles_an_empty_membership_table():
+    members, studies, licenses = _release_inputs()
+    p = HF.plan(members.iloc[0:0], studies, licenses)
+    assert p["derived_rows"] == 0 and p["derived_genes"] == 0
+
+
+def test_a_study_missing_from_the_licence_table_is_withheld():
+    members, studies, licenses = _release_inputs()
+    p = HF.plan(members, studies, licenses.iloc[0:0])
+    assert p["studies_redistributable"] == 0
+
+
+# --------------------------------------------------------------------------- the release
+def test_a_release_writes_the_tables_and_a_card(tmp_path):
+    members, studies, licenses = _release_inputs()
+    out = HF.build_release(str(tmp_path), members, studies, licenses, log=lambda *_: None)
+    assert os.path.exists(os.path.join(out, "study_gene_membership.parquet"))
+    assert os.path.exists(os.path.join(out, "studies.parquet"))
+    card = open(os.path.join(out, "README.md")).read()
+    assert "membership, not interaction" in card
+
+
+def test_the_card_states_the_membership_caveat_prominently(tmp_path):
+    """Someone downloading this will otherwise treat every row as an interaction, which would
+    manufacture tens of thousands of false edges."""
+    members, studies, licenses = _release_inputs()
+    HF.build_release(str(tmp_path), members, studies, licenses, log=lambda *_: None)
+    card = open(os.path.join(tmp_path, "README.md")).read()
+    assert "complete quantification table" in card
+    assert "7,866" in card
+
+
+def test_the_card_reports_how_many_licences_were_confirmed(tmp_path):
+    members, studies, licenses = _release_inputs()
+    HF.build_release(str(tmp_path), members, studies, licenses, log=lambda *_: None)
+    card = open(os.path.join(tmp_path, "README.md")).read()
+    assert "1 carry a confirmed CC-BY" in card or "Of the source articles, 1" in card
+
+
+def test_an_empty_licence_table_withholds_everything_instead_of_crashing(tmp_path):
+    """It has no columns at all, so merging on "pmid" raised KeyError. Nothing confirmed means nothing
+    redistributable -- which is the correct release, not a failure."""
+    members, studies, _ = _release_inputs()
+    HF.build_release(str(tmp_path), members, studies, pd.DataFrame(), log=lambda *_: None)
+    assert os.path.exists(os.path.join(tmp_path, "README.md"))
+    out = pd.read_parquet(os.path.join(tmp_path, "studies.parquet"))
+    assert not out.redistributable.any()
+
+
+def test_only_derived_facts_are_written_never_the_source_files(tmp_path):
+    """The withheld studies' raw supplements must not be mirrored."""
+    members, studies, licenses = _release_inputs()
+    HF.build_release(str(tmp_path), members, studies, licenses, log=lambda *_: None)
+    assert sorted(os.listdir(tmp_path)) == ["README.md", "studies.parquet",
+                                            "study_gene_membership.parquet"]
+
+
+# --------------------------------------------------------------------------- upload
+def test_upload_without_the_library_reports_rather_than_raising(monkeypatch):
+    import builtins
+    real = builtins.__import__
+
+    def no_hub(name, *a, **k):
+        if name == "huggingface_hub":
+            raise ImportError("not installed")
+        return real(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", no_hub)
+    msgs = []
+    assert HF.upload("me/ds", "/tmp", log=msgs.append) is None
+    assert any("huggingface_hub is not installed" in m for m in msgs)
+
+
+def test_upload_creates_a_private_repo_by_default(monkeypatch, tmp_path):
+    """A dataset made public by accident cannot be made private again in any meaningful sense."""
+    seen = {}
+
+    class FakeApi:
+        def create_repo(self, repo_id, repo_type=None, private=None, exist_ok=None):
+            seen.update(repo_id=repo_id, private=private, repo_type=repo_type)
+
+        def upload_folder(self, folder_path=None, repo_id=None, repo_type=None):
+            seen["uploaded"] = folder_path
+
+    import types
+    mod = types.ModuleType("huggingface_hub")
+    mod.HfApi = FakeApi
+    monkeypatch.setitem(sys.modules, "huggingface_hub", mod)
+    assert HF.upload("me/ds", str(tmp_path), log=lambda *_: None) == "me/ds"
+    assert seen["private"] is True
+    assert seen["repo_type"] == "dataset"
+    assert seen["uploaded"] == str(tmp_path)
+
+
+# --------------------------------------------------------------------------- identity tables
+def test_toxodb_display_names_are_renamed_to_stable_columns(tmp_path):
+    """ToxoDB ships human display names as the header; downstream code keys on stable ones."""
+    p = tmp_path / "out.tsv"
+    n = FN.write("Gene ID\tGene Name or Symbol\tPrevious ID(s)\n"
+                 "TGME49_200010\tGRA16\tTGME49_008830\n", str(p))
+    header = open(p).read().splitlines()[0]
+    assert header.split("\t") == ["gene_id", "gene_name", "previous_ids"]
+    assert n == 1
+
+
+def test_an_unmapped_column_keeps_its_own_name(tmp_path):
+    p = tmp_path / "out.tsv"
+    FN.write("Gene ID\tSomething Else\nTGME49_200010\tx\n", str(p))
+    assert open(p).read().splitlines()[0].split("\t") == ["gene_id", "Something Else"]
+
+
+def test_an_empty_response_writes_an_empty_file_rather_than_crashing(tmp_path):
+    p = tmp_path / "out.tsv"
+    assert FN.write("", str(p)) == -1
+    assert os.path.exists(p)
+
+
+def test_the_request_body_asks_for_the_attributes_it_needs(monkeypatch):
+    """gene_previous_ids is the one that matters: without it, papers citing pre-2012 accessions resolve
+    to nothing."""
+    seen = {}
+
+    class Resp:
+        def read(self):
+            return b"Gene ID\n"
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    def fake_urlopen(req, timeout=None):
+        seen["body"] = req.data.decode()
+        return Resp()
+
+    monkeypatch.setattr(FN.urllib.request, "urlopen", fake_urlopen)
+    FN.fetch("Toxoplasma gondii ME49", ["primary_key", "gene_previous_ids"])
+    assert "gene_previous_ids" in seen["body"]
+    assert "Toxoplasma gondii ME49" in seen["body"]
+
+
+def test_main_writes_all_three_identity_tables(monkeypatch, tmp_path):
+    monkeypatch.setattr(FN, "OUT", str(tmp_path))
+    monkeypatch.setattr(FN, "fetch", lambda org, attrs: "Gene ID\tGene Name or Symbol\nTGME49_1\tX\n")
+    FN.main()
+    assert sorted(os.listdir(tmp_path)) == ["toxodb_identity.tsv", "toxodb_strain_gt1.tsv",
+                                            "toxodb_strain_veg.tsv"]
+
+
+# --------------------------------------------------------------------------- module entry point
+def test_the_package_entry_point_calls_main(monkeypatch):
+    """`python -m starplast` is a documented way to launch it."""
+    called = {}
+    import starplast.app as app
+    monkeypatch.setattr(app, "main", lambda: called.setdefault("ran", True))
+    import runpy
+    runpy.run_module("starplast", run_name="__main__")
+    assert called.get("ran")
+
+
+def test_fetch_names_runs_as_a_module(monkeypatch, tmp_path):
+    """`python -m starplast.fetch_names` is the documented one-off that produces the identity tables.
+
+    Patched through the environment rather than the imported object: runpy executes a fresh copy of the
+    module, so OUT is recomputed from paths.data_dir() and an attribute patch on the already-imported
+    module would silently write to the real cache instead."""
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_CACHE, str(tmp_path))
+
+    class Resp:
+        def read(self):
+            return b"Gene ID\tGene Name or Symbol\nTGME49_1\tX\n"
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    import urllib.request
+    monkeypatch.setattr(urllib.request, "urlopen", lambda *a, **k: Resp())
+    import runpy
+    runpy.run_module("starplast.fetch_names", run_name="__main__")
+    assert os.path.exists(os.path.join(tmp_path, "toxodb_identity.tsv"))
+    assert open(os.path.join(tmp_path, "toxodb_identity.tsv")).read().startswith("gene_id")
