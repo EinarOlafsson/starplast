@@ -30,8 +30,10 @@ from . import theme as TH  # noqa: E402
 import pyqtgraph as pg  # noqa: E402
 import pyqtgraph.opengl as gl  # noqa: E402
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA = os.path.join(HERE, "data")
+from . import paths
+# Resolved rather than assumed. The cache used to be located as "the directory above the package",
+# which is true in a source checkout and false in an installed wheel.
+DATA = paths.data_dir()
 
 EDGE_TYPES = [
     ("comention", "co-mention (33,924 abstracts)"),
@@ -1008,6 +1010,13 @@ class Window(QtWidgets.QMainWindow):
 
 
 def main():
+    # Check before building a window. A missing cache otherwise surfaces as a pandas error from inside
+    # a constructor, which tells the user nothing about what to do next.
+    ok, msg = paths.check()
+    if not ok:
+        print(f"starplast: {msg}", file=sys.stderr)
+        print(paths.describe(), file=sys.stderr)
+        sys.exit(1)
     pg.setConfigOptions(antialias=True)
     app = QtWidgets.QApplication(sys.argv)
     app.setApplicationName("starplast")

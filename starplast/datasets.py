@@ -244,3 +244,92 @@ def as_table() -> "object":
     """The registry as a DataFrame, for the methods table and the application's provenance view."""
     import pandas as pd
     return pd.DataFrame([asdict(d) for d in REGISTRY])
+
+
+# --------------------------------------------------------------------------- locating and fetching
+def local_path(key: str) -> str | None:
+    """Where this dataset's file is on THIS machine, or None if it is not here.
+
+    The registry's `path` is recorded relative to the dataset root, which differs between a clone, the
+    historical layout and a download cache -- so it is resolved through paths.find rather than opened
+    directly. Opening it directly is what made the build work on exactly one machine.
+    """
+    from . import paths
+    d = get(key)
+    if not d.path:
+        return None
+    rel = d.path[len("datasets/"):] if d.path.startswith("datasets/") else d.path
+    if d.path.startswith("starplast/data/"):        # part of the committed cache, not a raw input
+        p = paths.cache_file(d.path[len("starplast/data/"):])
+        return p if __import__("os").path.exists(p) else None
+    return paths.find(rel)
+
+
+# A URL that names a file can be fetched. A URL that names a landing page cannot -- GEO's acc.cgi and
+# ProteomeXchange's GetDataset return HTML describing the data, and saving that HTML as though it were
+# the dataset is the kind of failure that stays invisible until something tries to parse it.
+_PAGE_HOSTS = ("ncbi.nlm.nih.gov/geo/query", "proteomecentral", "toxodb.org/toxo/service")
+_FILE_SUFFIXES = (".xlsx", ".xls", ".csv", ".tsv", ".txt", ".zip", ".gz", ".docx", ".pdf")
+
+
+def fetchable(key: str) -> tuple:
+    """(can_fetch, how). Says which of the three situations a dataset is in, rather than guessing."""
+    d = get(key)
+    if not d.url:
+        return False, "no download URL recorded"
+    if d.accession and d.accession.startswith("GSE"):
+        return True, "geo"                       # the FTP supplementary listing, not the landing page
+    if any(h in d.url for h in _PAGE_HOSTS):
+        return False, "URL is a landing page, not a file"
+    if d.url.lower().endswith(_FILE_SUFFIXES) or "MediaObjects" in d.url or "type=supplementary" in d.url:
+        return True, "direct"
+    return False, "URL is not recognisably a file"
+
+
+def ensure(key: str, log=print) -> str | None:
+    """Return a local path for this dataset, downloading it if it is absent and can be fetched.
+
+    Returns None rather than raising when the data genuinely cannot be obtained automatically. Several
+    of these datasets exist only inside a paper's supplementary section and one exists only as raw
+    instrument files; pretending otherwise would produce a path to something that is not the dataset.
+    """
+    import os
+    from . import paths, sources
+
+    p = local_path(key)
+    if p:
+        return p
+
+    d = get(key)
+    ok, how = fetchable(key)
+    if not ok:
+        log(f"{key}: cannot fetch automatically -- {how}")
+        return None
+
+    dest = os.path.join(paths.dataset_root(create=True), "_downloads", key)
+    os.makedirs(dest, exist_ok=True)
+    if how == "geo":
+        got = sources.geo_supplementary(d.accession, dest, log=log)
+        return got[0] if got else None
+
+    name = d.url.rsplit("/", 1)[-1].split("?")[0] or f"{key}.dat"
+    out = os.path.join(dest, name)
+    if not os.path.exists(out):
+        try:
+            data = sources._get(d.url)
+        except Exception as e:                    # noqa: BLE001 -- any transport failure is the same answer
+            log(f"{key}: download failed ({e})")
+            return None
+        # An HTML error page is a successful HTTP response, so size alone does not prove a file arrived.
+        if data[:15].lstrip().lower().startswith(b"<!doctype html") or data[:6].lower() == b"<html>":
+            log(f"{key}: server returned a web page, not a file")
+            return None
+        with open(out, "wb") as fh:
+            fh.write(data)
+        log(f"{key}: fetched {len(data)/1e6:.1f} MB -> {out}")
+    return out
+
+
+def missing() -> list:
+    """Registry entries whose data is not on this machine. The honest first-run report."""
+    return [d.key for d in REGISTRY if d.path and not local_path(d.key)]

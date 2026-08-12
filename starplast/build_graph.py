@@ -27,10 +27,13 @@ import pandas as pd
 from . import (corpus, expression, identity, interaction_studies, interactions, literature,
                localisation, screens)
 
-HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE = os.path.dirname(HERE)                      # toxoplasma_projects
-DS = os.path.join(BASE, "datasets")
-OUT = os.path.join(HERE, "data")
+from . import paths
+
+# Every one of these used to be computed from this file's location, which encoded one machine's layout:
+# the dataset root was literally "the repository's parent directory". See paths.py.
+BASE = os.path.dirname(paths.dataset_root())
+DS = paths.dataset_root()
+OUT = paths.data_dir()
 os.makedirs(OUT, exist_ok=True)
 
 FIT = ["fit_invitro_hff", "fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver",

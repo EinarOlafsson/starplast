@@ -35,4 +35,4 @@ Homepage = "https://github.com/EinarOlafsson/starplast"
 packages = ["starplast"]
 
 [tool.setuptools.package-data]
-starplast = ["../data/*.npz", "../data/*.parquet"]
+starplast = ["data/*.npz", "data/*.parquet", "data/*.tsv", "data/**/*.parquet", "data/**/*.md"]

@@ -14,7 +14,9 @@ import json
 import os
 import urllib.request
 
-OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+from . import paths
+
+OUT = paths.data_dir()
 URL = ("https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon"
        "/reports/attributesTabular")
 

@@ -20,7 +20,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+from starplast import paths
+
+DATA = paths.data_dir()
 pytestmark = pytest.mark.skipif(
     not os.path.exists(os.path.join(DATA, "graph.npz")),
     reason="no built cache; run python -m starplast.build_graph")
