@@ -134,3 +134,26 @@ SCREENSHOTS ADDED -- 2026-08-12
     Rendered and looked at before committing, per the standing rule -- the
     compartment tier shows its centroids over faded genes, and the selection
     halo reads on both grounds.
+
+
+CI STATUS -- 2026-08-12
+    The workflow was failing on every push and I had not checked it. pdoc imports
+    every module, the GUI ones import PyQt6 at module scope, and a bare ubuntu
+    runner has no GL stack -- so the import died with
+    `libEGL.so.1: cannot open shared object file` before any Qt platform plugin
+    was chosen. QT_QPA_PLATFORM=offscreen does not help: the shared library has
+    to exist to be loaded at all. Invisible locally, where a desktop supplies
+    them, which is exactly why the slow pdoc test passes here and CI did not.
+
+    Fixed by installing the system libraries first. The build is green and the
+    reference uploads as a run artifact.
+
+    PAGES IS NOT ENABLED on the repository, so the deploy step cannot succeed.
+    It is marked continue-on-error, so the workflow stays green and the
+    reference is downloadable from the run rather than the whole thing going red
+    for a setting. The repository is private and Pages on a private repository
+    needs a paid plan, so enabling it is a decision with a cost attached --
+    left to the author rather than made here. Nothing else is blocked by it.
+
+    Lesson worth keeping: a workflow that cannot be run locally has to be
+    checked after it runs. `gh run list` is the check.
