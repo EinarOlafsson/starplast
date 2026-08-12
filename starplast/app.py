@@ -451,7 +451,11 @@ class Window(QtWidgets.QMainWindow):
             return
         d = QtWidgets.QDockWidget("analysis")
         d.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
-        panel = AnalysisPanel(self.nodes, store=EmbeddingStore(os.path.join(DATA, "embeddings")))
+        # Shares the window's runner, so an analysis appears in the Jobs panel and can be stopped
+        # there like anything else. With its own private thread it was invisible and unstoppable,
+        # and it also blocked every other tab for the several minutes a search takes.
+        panel = AnalysisPanel(self.nodes, store=EmbeddingStore(os.path.join(DATA, "embeddings")),
+                              runner=self.jobs)
         panel.status.connect(lambda m: self.statusBar().showMessage(m))
         panel.embedding_ready.connect(self.use_embedding)
         d.setWidget(panel)
@@ -739,13 +743,50 @@ class Window(QtWidgets.QMainWindow):
         self.console_dock = QtWidgets.QDockWidget("console", self)
         self.console_dock.setWidget(self.console)
 
+        jobs_w = QtWidgets.QWidget()
+        jl = QtWidgets.QVBoxLayout(jobs_w)
+        jl.setContentsMargins(6, 6, 6, 6)
+        bar = QtWidgets.QHBoxLayout()
+        self.stop_btn = QtWidgets.QPushButton("stop selected")
+        self.stop_btn.setToolTip(
+            "Ask the selected job to stop. Cooperative: it ends at the next point it reports "
+            "progress, which for a hyperparameter walk is once per configuration -- seconds, not "
+            "the rest of the run.")
+        self.stop_btn.clicked.connect(self.stop_selected_job)
+        self.stop_all_btn = QtWidgets.QPushButton("stop all")
+        self.stop_all_btn.setToolTip("Ask every running job to stop.")
+        self.stop_all_btn.clicked.connect(self.stop_all_jobs)
+        self.free_btn = QtWidgets.QPushButton("free memory")
+        self.free_btn.setToolTip(
+            "Drop cached intermediates, collect garbage, and release the GPU cache if torch is "
+            "loaded. Running jobs are untouched -- this reclaims what finished work left behind.")
+        self.free_btn.clicked.connect(self.free_memory)
+        for b in (self.stop_btn, self.stop_all_btn, self.free_btn):
+            bar.addWidget(b)
+        bar.addStretch(1)
+        self.resources = QtWidgets.QLabel("")
+        self.resources.setToolTip("Resident memory of this process, system memory, and GPU memory "
+                                  "where a GPU is visible.")
+        bar.addWidget(self.resources)
+        jl.addLayout(bar)
+
         self.jobs_view = QtWidgets.QTreeWidget()
         self.jobs_view.setHeaderLabels(["job", "state", "detail"])
         self.jobs_view.setToolTip("Everything started this session, including what has finished. A "
                                   "failed job keeps its error here rather than vanishing with it.")
         self.jobs_view.setRootIsDecorated(False)
+        self.jobs_view.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.jobs_view.customContextMenuRequested.connect(self._job_menu)
+        jl.addWidget(self.jobs_view, 1)
+
         self.jobs_dock = QtWidgets.QDockWidget("jobs", self)
-        self.jobs_dock.setWidget(self.jobs_view)
+        self.jobs_dock.setWidget(jobs_w)
+        # A resource read costs a couple of file reads, so it is polled slowly and only while the
+        # panel is visible -- a meter that samples every second is itself a background job.
+        self._res_timer = QtCore.QTimer(self)
+        self._res_timer.timeout.connect(self.refresh_resources)
+        self._res_timer.start(3000)
+        self.refresh_resources()
 
         self.chat = ChatPanel(context_provider=self.describe_state)
         self.chat_dock = QtWidgets.QDockWidget("assistant", self)
@@ -804,9 +845,131 @@ class Window(QtWidgets.QMainWindow):
         for j in sorted(self.jobs.jobs.values(), key=lambda x: -x.id):
             detail = j.error or j.note or ""
             it = QtWidgets.QTreeWidgetItem([j.name, j.state, detail])
+            it.setData(0, QtCore.Qt.ItemDataRole.UserRole, j.id)
             if j.state == FAILED:
                 it.setToolTip(2, j.traceback or j.error)
             self.jobs_view.addTopLevelItem(it)
+        running = len(self.jobs.active())
+        self.stop_btn.setEnabled(bool(running))
+        self.stop_all_btn.setEnabled(bool(running))
+
+    def selected_job(self):
+        items = self.jobs_view.selectedItems()
+        if not items:
+            return None
+        jid = items[0].data(0, QtCore.Qt.ItemDataRole.UserRole)
+        return self.jobs.jobs.get(jid)
+
+    def stop_selected_job(self):
+        job = self.selected_job()
+        if job is None:
+            self.status.showMessage("select a job in the list first")
+            return
+        if not job.active:
+            self.status.showMessage(f"{job.name} has already finished ({job.state})")
+            return
+        job.cancel()
+        self.status.showMessage(f"asked {job.name} to stop")
+        self._refresh_jobs()
+
+    def stop_all_jobs(self):
+        n = len(self.jobs.active())
+        if not n:
+            self.status.showMessage("nothing is running")
+            return
+        self.jobs.cancel_all()
+        self.status.showMessage(f"asked {n} job(s) to stop")
+        self._refresh_jobs()
+
+    def _job_menu(self, pos):
+        """Right-click a job: stop it, or copy its error."""
+        m = self.build_job_menu()
+        m.exec(self.jobs_view.mapToGlobal(pos))
+        return m
+
+    def build_job_menu(self):
+        m = QtWidgets.QMenu(self)
+        job = self.selected_job()
+        stop = m.addAction("Stop this job")
+        stop.setEnabled(bool(job and job.active))
+        stop.triggered.connect(self.stop_selected_job)
+        m.addAction("Stop all running jobs").triggered.connect(self.stop_all_jobs)
+        m.addSeparator()
+        err = m.addAction("Copy error / traceback")
+        err.setEnabled(bool(job and job.traceback))
+        err.triggered.connect(self.copy_job_error)
+        return m
+
+    def copy_job_error(self):
+        job = self.selected_job()
+        cb = QtWidgets.QApplication.clipboard()
+        if job is not None and cb is not None:
+            cb.setText(job.traceback or job.error or "")
+            self.status.showMessage(f"copied the traceback from {job.name}")
+
+    # ------------------------------------------------------------------ resources
+    def resource_summary(self) -> str:
+        """Process memory, system memory and GPU memory, as one line.
+
+        Read from /proc and from torch where they exist, with no hard dependency on either: this is
+        a status line, and a status line that raises on a machine without a GPU is worse than one
+        that says nothing about GPUs.
+        """
+        parts = []
+        try:
+            with open("/proc/self/statm") as fh:
+                rss_pages = int(fh.read().split()[1])
+            parts.append(f"this process {rss_pages * os.sysconf('SC_PAGE_SIZE') / 2**30:.1f} GB")
+        except Exception:
+            pass
+        try:
+            info = {}
+            with open("/proc/meminfo") as fh:
+                for line in fh:
+                    k, _, v = line.partition(":")
+                    info[k] = float(v.strip().split()[0]) / 2**20      # kB -> GiB
+            used = info["MemTotal"] - info["MemAvailable"]
+            parts.append(f"system {used:.0f}/{info['MemTotal']:.0f} GB")
+        except Exception:
+            pass
+        try:
+            import torch                                   # noqa: PLC0415 - optional
+            if torch.cuda.is_available():
+                parts.append(f"GPU {torch.cuda.memory_reserved() / 2**30:.1f} GB reserved")
+        except Exception:
+            pass
+        parts.append(f"{os.cpu_count()} CPUs")
+        return "  ·  ".join(parts)
+
+    def refresh_resources(self):
+        self.resources.setText(self.resource_summary())
+
+    def free_memory(self) -> str:
+        """Release what finished work left behind, and say what was actually released.
+
+        Deliberately does NOT touch running jobs. "Clear RAM" that silently killed a search would be
+        a data-loss button wearing a housekeeping label.
+        """
+        import gc
+        freed = []
+        # The lazily-built level-of-detail cache is the largest thing this application holds that it
+        # can rebuild for free.
+        if self._galaxies is not None:
+            self._galaxies = None
+            freed.append("level-of-detail cache")
+        n = gc.collect()
+        freed.append(f"{n} unreachable objects")
+        try:
+            import torch                                   # noqa: PLC0415 - optional
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+                freed.append("GPU cache")
+        except Exception:
+            pass
+        self.refresh_resources()
+        msg = "freed: " + ", ".join(freed) + f"  ·  now {self.resource_summary()}"
+        self.status.showMessage(msg)
+        return msg
 
     def run_job(self, fn, name: str):
         """Submit background work. The one entry point, so everything slow is visible in one place."""

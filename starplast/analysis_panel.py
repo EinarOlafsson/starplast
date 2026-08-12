@@ -41,13 +41,41 @@ class Worker(QtCore.QObject):
             self.done.emit(None, e)
 
 
+from .jobs import Stopped as Cancelled  # noqa: E402  -- shared so the runner can recognise it
+
+
+class _Progress:
+    """The `log` callable handed to a long analysis: reports progress, and honours a stop.
+
+    These functions all report by calling `log` once per configuration, which makes it the one place
+    that is guaranteed to be reached repeatedly without threading a cancellation flag through
+    search.py, tuning.py and embedding.py. Raising from here unwinds the worker at the next line it
+    prints, so a 328-configuration search stops in seconds rather than in half an hour.
+
+    Cooperative by construction, which is the point: a search killed mid-write would leave a
+    half-written embedding in the store.
+    """
+
+    def __init__(self, panel, job):
+        self.panel, self.job = panel, job
+
+    def __call__(self, message):
+        if self.job.cancelled:
+            raise Cancelled(f"{self.job.name} stopped after {self.job.note or 'some work'}")
+        text = str(message)
+        self.job.note = text
+        # Queued to the GUI thread by Qt, because this is called from the worker.
+        self.panel.status.emit(text)
+        print(text, flush=True)          # and into the console pane, which is where a walk is read
+
+
 class AnalysisPanel(QtWidgets.QWidget):
     """Data selection, tuning, clustering and the hypothesis battery."""
 
     embedding_ready = QtCore.pyqtSignal(object, object)          # coords, gene mask
     status = QtCore.pyqtSignal(str)
 
-    def __init__(self, nodes: pd.DataFrame, store=None, parent=None):
+    def __init__(self, nodes: pd.DataFrame, store=None, parent=None, runner=None):
         super().__init__(parent)
         self.nodes = nodes
         self.store = store
@@ -56,6 +84,12 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.rows = None
         self._thread = None
         self._worker = None
+        # The window's JobRunner, so this panel's work is visible and stoppable alongside everything
+        # else. None is allowed: the panel is constructed without one in tests.
+        self.runner = runner
+        self._jobs = {}
+        if runner is not None:
+            runner.finished.connect(self._on_job_finished)
 
         tabs = QtWidgets.QTabWidget()
         tabs.addTab(self._data_tab(), "1 · Data")
@@ -266,16 +300,27 @@ class AnalysisPanel(QtWidgets.QWidget):
         return w
 
     # ------------------------------------------------------------------ jobs
-    def _run(self, fn, on_done):
-        """Run `fn` off the GUI thread.
+    def _run(self, fn, on_done, name: str = "analysis"):
+        """Run `fn` off the GUI thread, through the window's job runner when there is one.
 
-        `done` is relayed through this bound method rather than connected straight to `on_done`, so the
-        handler runs on the GUI thread. A directly-connected handler executes on the worker and touching
-        widgets from there crashes on a slow machine.
+        Routed through JobRunner rather than through a private QThread. The private one was the cause
+        of three separate complaints at once: its work never appeared in the Jobs panel, there was no
+        way to stop it, and -- worst -- it refused to start while anything else was running. A search
+        takes minutes, so for those minutes every button on every other tab silently did nothing but
+        write "a job is already running" into the status bar, which reads exactly like four broken
+        tabs.
+
+        `on_done` is invoked on the GUI thread. A handler connected straight to a worker signal runs
+        on the worker, and touching widgets from there crashes on a slow machine.
         """
+        if self.runner is not None:
+            job = self.runner.submit(lambda j: fn(_Progress(self, j)), name)
+            self._jobs[job.id] = on_done
+            return job
+        # No runner (the panel used standalone, or in a test): fall back to a private thread.
         if self._thread is not None:
             self.status.emit("a job is already running")
-            return
+            return None
         self._thread = QtCore.QThread(self)
         self._worker = Worker(fn)
         self._worker.moveToThread(self._thread)
@@ -292,6 +337,23 @@ class AnalysisPanel(QtWidgets.QWidget):
 
         self._worker.done.connect(relay)
         self._thread.start()
+        return None
+
+    def _on_job_finished(self, jid: int, ok: bool):
+        """Deliver a finished job's result to its handler, on the GUI thread."""
+        on_done = self._jobs.pop(jid, None)
+        if on_done is None:
+            return
+        job = self.runner.jobs.get(jid)
+        if job is None:
+            return
+        if job.state == "cancelled":
+            self.status.emit(f"{job.name}: stopped")
+            return
+        if not ok:
+            self.status.emit(f"{job.name} failed: {job.error}")
+            return
+        on_done(job.result)
 
     def _fill(self, table: QtWidgets.QTableWidget, df: pd.DataFrame, limit=200):
         df = df.head(limit)
@@ -308,12 +370,13 @@ class AnalysisPanel(QtWidgets.QWidget):
         from .tuning import walk_umap
         spec, n, size, seed = self.spec(), self.nodes, self.sample.value(), self.seed.value()
         self._run(lambda p: walk_umap(n, spec, sample_size=size, seed=seed, log=p),
-                  lambda d: (self._fill(self.walk_table, d), self.status.emit("walk complete")))
+                  lambda d: (self._fill(self.walk_table, d), self.status.emit("walk complete")),
+                  name="UMAP hyperparameter walk")
 
     def run_embed(self):
         from .embedding import embed
         spec, n = self.spec(), self.nodes
-        self._run(lambda p: embed(n, spec, log=p), self._embedded)
+        self._run(lambda p: embed(n, spec, log=p), self._embedded, name="build map")
 
     def _embedded(self, result):
         self.coords, self.features, self.rows = result
@@ -336,7 +399,8 @@ class AnalysisPanel(QtWidgets.QWidget):
         Y, algo = self.coords, self.algo.currentText()
         fn = walk_hdbscan if algo == "hdbscan" else walk_dbscan
         self._run(lambda p: fn(Y, log=p),
-                  lambda d: (self._fill(self.cluster_table, d), self.status.emit("walk complete")))
+                  lambda d: (self._fill(self.cluster_table, d), self.status.emit("walk complete")),
+                  name=f"{algo} hyperparameter walk")
 
     def run_cluster(self):
         from .clustering import NOISE, cluster
@@ -345,7 +409,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         Y, algo, mcs, eps = self.coords, self.algo.currentText(), self.mcs.value(), self.eps.value()
         self._run(lambda p: cluster(Y, algorithm=algo, min_cluster_size=mcs,
                                     min_samples=mcs, eps=eps),
-                  self._clustered)
+                  self._clustered, name=f"cluster ({algo})")
 
     def _clustered(self, labels):
         from .clustering import NOISE
@@ -366,7 +430,7 @@ class AnalysisPanel(QtWidgets.QWidget):
             S, D = battery(sub, lab, used_features=used, log=p)
             return S, D, describe(S, D)
 
-        self._run(job, self._battery_done)
+        self._run(job, self._battery_done, name="held-out battery")
 
     def _battery_done(self, result):
         S, D, lines = result
@@ -400,4 +464,5 @@ class AnalysisPanel(QtWidgets.QWidget):
             return R
 
         self._run(job, lambda R: (self._fill(self.search_table, R),
-                                  self.status.emit(f"search complete: {len(R)} runs scored")))
+                                  self.status.emit(f"search complete: {len(R)} runs scored")),
+                  name=f"recovery search ({target})")

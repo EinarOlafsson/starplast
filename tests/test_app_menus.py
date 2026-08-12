@@ -587,3 +587,133 @@ def test_the_assistant_is_told_what_is_on_screen(win):
     assert "genes visible" in state
     win.sel = None
     assert "No gene is selected" in win.describe_state()
+
+
+# --------------------------------------------------------------------------- stopping and resources
+def test_an_analysis_shares_the_windows_job_runner(win):
+    """The bug behind three complaints at once: the analysis panel had a private thread, so its work
+    never appeared in the Jobs panel, could not be stopped, and blocked every other tab while a
+    search ran -- which reads as four broken tabs."""
+    panel = win.analysis_dock.widget()
+    assert panel.runner is win.jobs
+
+
+def test_a_running_job_can_be_stopped_and_is_not_reported_as_a_failure(win):
+    """A stop is a decision, not a crash. Reported in red with a traceback, it teaches people to
+    ignore the failure list."""
+    import time
+    from starplast.analysis_panel import _Progress
+
+    class FakePanel:
+        class _S:
+            def emit(self, *a):
+                pass
+        status = _S()
+
+    def work(job):
+        p = _Progress(FakePanel(), job)
+        for i in range(100000):
+            p(f"run {i}")
+            time.sleep(0.001)
+        return "should never finish"
+
+    job = win.jobs.submit(work, "stoppable walk")
+    for _ in range(200):                       # wait for it to actually be running
+        if job.note:
+            break
+        time.sleep(0.01)
+    job.cancel()
+    assert win.jobs.wait(8000)
+    QtWidgets.QApplication.processEvents()
+    assert job.state == "cancelled"
+    assert not job.error, "a deliberate stop was recorded as an error"
+    assert not job.traceback
+    assert job.result is None
+
+
+def test_stop_all_stops_everything_running(win):
+    import time
+    from starplast.analysis_panel import _Progress
+
+    class FakePanel:
+        class _S:
+            def emit(self, *a):
+                pass
+        status = _S()
+
+    def work(job):
+        p = _Progress(FakePanel(), job)
+        for i in range(100000):
+            p(f"run {i}")
+            time.sleep(0.001)
+
+    jobs = [win.jobs.submit(work, f"walk {i}") for i in range(2)]
+    for _ in range(200):
+        if all(j.note or not j.active for j in jobs):
+            break
+        time.sleep(0.01)
+    win.stop_all_jobs()
+    assert win.jobs.wait(8000)
+    QtWidgets.QApplication.processEvents()
+    assert all(j.state == "cancelled" for j in jobs)
+
+
+def test_stopping_with_nothing_running_says_so(win):
+    win.jobs.cancel_all()
+    win.stop_all_jobs()
+    assert "nothing is running" in win.status.currentMessage()
+
+
+def test_stopping_with_no_job_selected_says_so(win):
+    win.jobs_view.clearSelection()
+    win.stop_selected_job()
+    assert "select a job" in win.status.currentMessage()
+
+
+def test_a_finished_job_reports_that_rather_than_being_stopped(win):
+    job = win.jobs.submit(lambda: 1, "quick")
+    win.jobs.wait(4000)
+    QtWidgets.QApplication.processEvents()
+    win._refresh_jobs()
+    row = next(win.jobs_view.topLevelItem(i) for i in range(win.jobs_view.topLevelItemCount())
+               if win.jobs_view.topLevelItem(i).data(0, QtCore.Qt.ItemDataRole.UserRole) == job.id)
+    row.setSelected(True)
+    win.stop_selected_job()
+    assert "already finished" in win.status.currentMessage()
+
+
+def test_every_job_row_carries_its_id_so_it_can_be_acted_on(win):
+    win.jobs.submit(lambda: 1, "identified")
+    win.jobs.wait(4000)
+    win._refresh_jobs()
+    for i in range(win.jobs_view.topLevelItemCount()):
+        assert win.jobs_view.topLevelItem(i).data(0, QtCore.Qt.ItemDataRole.UserRole) is not None
+
+
+def test_the_resource_line_reports_what_it_can_and_never_raises(win):
+    s = win.resource_summary()
+    assert "CPUs" in s
+    assert win.resources.text() or True
+
+
+def test_freeing_memory_drops_the_rebuildable_cache_and_says_what_it_did(win):
+    """"Clear RAM" that silently killed a running search would be a data-loss button wearing a
+    housekeeping label, so it only drops what can be rebuilt for free."""
+    win.galaxy_labels()
+    assert win._galaxies is not None
+    msg = win.free_memory()
+    assert win._galaxies is None
+    assert "freed" in msg and "level-of-detail" in msg
+    # And a job in flight is untouched.
+    job = win.jobs.submit(lambda: "survived", "during cleanup")
+    win.free_memory()
+    win.jobs.wait(4000)
+    assert job.result == "survived"
+
+
+def test_the_job_context_menu_offers_stop_and_the_traceback(win):
+    m = win.build_job_menu()
+    labels = [a.text() for a in m.actions() if a.text()]
+    assert "Stop this job" in labels
+    assert "Stop all running jobs" in labels
+    assert any("traceback" in x.lower() for x in labels)

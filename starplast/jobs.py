@@ -19,6 +19,15 @@ from PyQt6 import QtCore
 PENDING, RUNNING, DONE, FAILED, CANCELLED = "pending", "running", "done", "failed", "cancelled"
 
 
+class Stopped(Exception):
+    """Raised inside a job to unwind it after a cancellation.
+
+    Lives here rather than beside the analysis panel so the runner can tell a deliberate stop from a
+    crash without importing the GUI. A stopped job reported as "failed", with a traceback, teaches
+    people to distrust the failure list.
+    """
+
+
 @dataclass
 class Job:
     id: int
@@ -72,6 +81,12 @@ class _Task(QtCore.QRunnable):
             self.job.result = self.fn(self.job) if _takes_arg(self.fn) else self.fn()
             ok = not self.job.cancelled
             self.job.state = DONE if ok else CANCELLED
+        except Stopped as exc:
+            # A cooperative stop unwinds by raising, so it arrives here looking like a failure. It is
+            # not one: a job the user stopped must not be reported in red with a traceback.
+            self.job.state = CANCELLED
+            self.job.note = str(exc)
+            ok = False
         except Exception as exc:                      # a worker thread must never raise into Qt
             self.job.state = FAILED
             self.job.error = f"{type(exc).__name__}: {exc}"

@@ -231,10 +231,18 @@ def sync(panel, monkeypatch):
     What matters is that the wiring passes the right arguments and puts the result in the right table,
     not that Qt's thread pool works -- and _run's threading contract is tested directly above.
     """
-    def run_now(fn, on_done):
+    def run_now(fn, on_done, name="analysis"):
+        # `name` is accepted because every job carries one now, so it can be identified in the Jobs
+        # panel and stopped there. Recorded rather than dropped: a job named "analysis" for all five
+        # tabs would make the panel useless, so the names are worth asserting on.
+        started.append(name)
         on_done(fn(lambda *_: None))
 
+    started = []
     monkeypatch.setattr(panel, "_run", run_now)
+    # Recorded on the panel rather than on the returned list, which is a plain list and takes no
+    # attributes.
+    panel.started_job_names = started
     said = []
     panel.status.connect(said.append)
     return said
