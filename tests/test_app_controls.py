@@ -313,3 +313,20 @@ def test_depth_cueing_and_the_horizon_can_each_be_turned_off(win):
     win.depth_cue = True
     win.show_ground = True
     win.redraw()
+
+
+# --------------------------------------------------------------------------- tooltips
+def test_every_main_window_control_explains_itself(win):
+    """The useful tooltip says WHY, not what. "Grey always means unknown, never a category and never
+    zero" is worth reading; "colour mode" is not."""
+    for attr in ("search", "level", "colour_by", "spin_btn", "attn", "all_edges", "comp_list"):
+        tip = getattr(win, attr).toolTip()
+        assert tip, f"{attr} has no tooltip"
+        assert len(tip.split()) >= 15, f"{attr}'s tooltip only restates its label: {tip!r}"
+
+
+def test_every_edge_checkbox_says_what_the_relation_means(win):
+    """Twelve edge types, several of which are inferences rather than measurements, and the checkbox
+    label alone cannot carry that distinction."""
+    for k, cb in win.edge_cb.items():
+        assert cb.toolTip(), f"edge type {k} has no tooltip"

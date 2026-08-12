@@ -74,3 +74,48 @@ TRAPS
     Do not let the dataset table become a list of file paths. The reference is
     the PUBLICATION -- that is what a reader needs to judge the data. The path
     is an implementation detail and belongs in the registry, not the README.
+
+
+================================================================================
+DONE -- 2026-08-12
+================================================================================
+
+README: 298 lines to 125, holding the three things the instruction fixed --
+what the program does, how to run it, and which datasets are inside with their
+references and data types.
+
+    The dataset table is GENERATED from starplast.datasets.REGISTRY. A test
+    asserts the committed README matches what the registry currently produces,
+    so adding a 27th dataset without updating the README fails the suite. A
+    hand-written table drifts the moment a dataset is added, and a README that
+    misstates which data is inside is worse than one that omits it.
+
+    The reference column names the PUBLICATION, never the file path -- a path is
+    an implementation detail that changes with the layout, a PMID is not. Where
+    a citation is not confirmed the cell says so rather than being blank,
+    because a blank hides it and unresolved() exists precisely so those cannot
+    reach a manuscript unchecked.
+
+    A test also fails if a heading about circularity, interpretation or
+    structural holes reappears, which is how the scope crept the first time.
+
+API REFERENCE: pdoc over all 24 modules, published to Pages by an Actions job on
+every push to main. Not committed -- a checked-in copy drifts from the
+docstrings it came from.
+
+    Two tests guard it. Every module must have a docstring of at least forty
+    words, since a one-line summary is a signature restated and leaves a hole in
+    the published page. And pdoc is actually run, which imports every module --
+    catching anything that cannot be imported headlessly, or a docstring whose
+    markup breaks the renderer. Both otherwise surface only in CI.
+
+TOOLTIPS: on every main-window control, not only in Preferences. Search, level
+of detail, colour mode, spin, the attention correction, draw-all-edges and the
+compartment list. Tested for substance rather than presence -- a tooltip under
+fifteen words is failing, because "colour mode" restates the label while "grey
+always means unknown, never a category and never zero" is worth reading.
+
+NOT DONE
+    Screenshots. The instruction to take them came before task 02 changed the
+    UI, and they would want retaking after the visual work; they are also the
+    one thing here that cannot be verified by a test.

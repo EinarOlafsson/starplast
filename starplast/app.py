@@ -474,11 +474,18 @@ class Window(QtWidgets.QMainWindow):
         L.setContentsMargins(8, 8, 8, 8)
 
         self.search = QtWidgets.QLineEdit(placeholderText="gene id or product…")
+        self.search.setToolTip(
+            "An exact accession first, then a partial one, then the product description. Most of this "
+            "proteome has no symbol -- 6,500 genes are 'hypothetical protein' -- so product text is "
+            "often the only handle you have on a gene.")
         self.search.returnPressed.connect(self.do_search)
         L.addWidget(self.search)
 
         L.addWidget(QtWidgets.QLabel("<b>level of detail</b>"))
         self.level = QtWidgets.QComboBox()
+        self.level.setToolTip(
+            "What a point stands for. The two coarser tiers draw centroids over the faded genes, so "
+            "you keep the whole map in view rather than swapping between three unrelated pictures.")
         self.level.addItems(["compartment (galaxy)", "orthogroup / module (system)",
                              "gene (planet)"])
         self.level.setCurrentIndex(2)
@@ -487,6 +494,10 @@ class Window(QtWidgets.QMainWindow):
 
         L.addWidget(QtWidgets.QLabel("<b>colour by</b>"))
         self.colour_by = QtWidgets.QComboBox()
+        self.colour_by.setToolTip(
+            "Each mode is a different claim. 'compartment' is the measured hyperLOPIT call only; "
+            "'incl. transferred' fills in ortholog inferences from other species, which is more "
+            "coverage and weaker evidence. Grey always means unknown, never a category and never zero.")
         self.colour_by.addItems(["compartment", "compartment (incl. transferred)",
                                  "in vitro fitness", "publications",
                                  "depth of attention",
@@ -510,6 +521,9 @@ class Window(QtWidgets.QMainWindow):
         # once and then in the way, whereas spin and reset are used constantly.
         row = QtWidgets.QHBoxLayout()
         self.spin_btn = QtWidgets.QPushButton("▶  spin")
+        self.spin_btn.setToolTip(
+            "Rotate continuously. Depth in a 3D scatter reads only when it moves -- a still frame of "
+            "8,140 points is a flat disc however good the shading is.")
         self.spin_btn.setCheckable(True)
         self.spin_btn.setToolTip("Rotate the map slowly and continuously. A 3D scatter reads as a "
                                  "shape only when it moves.")
@@ -529,11 +543,19 @@ class Window(QtWidgets.QMainWindow):
         L.addWidget(self.attn)
 
         self.all_edges = QtWidgets.QCheckBox("draw all active edges (capped)")
+        self.all_edges.setToolTip(
+            "Off, edges are drawn only for the selected gene, which is the only view you can actually "
+            "trace. On, the strongest 20,000 per type are drawn and alpha falls with the count, so a "
+            "dense layer reads as brightness rather than hiding the map beneath a solid sheet.")
         self.all_edges.stateChanged.connect(self.redraw)
         L.addWidget(self.all_edges)
 
         L.addWidget(QtWidgets.QLabel("<b>compartments</b>"))
         self.comp_list = QtWidgets.QListWidget()
+        self.comp_list.setToolTip(
+            "Select to show only those compartments; select none to show everything. Double-click "
+            "flies to a compartment's centroid. The count is genes with a MEASURED call, so it is "
+            "smaller than the compartment really is.")
         self.comp_list.setSelectionMode(
             QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         for c in self.comps:

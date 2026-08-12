@@ -218,10 +218,11 @@ NUMBERS AS BUILT (verified 2026-08-11, commit a4bf648)
 OPEN — IN THE ORDER TO DO THEM
 ================================================================================
 
-    open/07_test_every_aspect.txt               90% overall; build_graph and
-                                                the analysis panel remain
-    open/03_readme_and_api_reference.txt        README done; API page and the
-                                                main-window tooltips remain
+    open/07_test_every_aspect.txt               90% overall. build_graph (30%),
+                                                the analysis panel's job
+                                                handlers (78%) and app.py's
+                                                remaining branches (89%) are
+                                                what is left of the 100% bar.
 
 Why this order: 08 first because every other task's reproducibility rests on
 data that currently resolves in one directory on one machine. 09 next because
@@ -258,6 +259,7 @@ DONE
     done/08_standalone_data.txt        1-of-16 -> 23-of-26 paths resolve
     done/09_cell_cycle_dataset.txt     a MEASURED cell-cycle phase, 873 genes
     done/10_search_more_targets.txt    THE NEGATIVE CONTROL FAILED -- read it
+    done/11_readme_and_api_reference.txt README narrowed, API page, tooltips
 
 
 ================================================================================
