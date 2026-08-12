@@ -42,7 +42,12 @@ from .sources import normalise
 
 warnings.filterwarnings("ignore")
 
-ACC = re.compile(r"TG[A-Z0-9]{2,6}_?\d{5,6}", re.I)
+# Separators other than the underscore are allowed because typesetting mangles them: the same
+# accession appears as TGME49_208830, TGME49-208830, TGME49.208830 and TGME49208830 depending on the
+# journal's line-breaking. `_norm_acc` already normalised "-" and "." back to "_", but the pattern
+# never let those forms through to be normalised, so they resolved to nothing. A space is deliberately
+# NOT accepted: in running prose it would join two adjacent tokens into a false accession.
+ACC = re.compile(r"TG[A-Z0-9]{2,6}[-._]?\d{5,6}", re.I)
 
 
 def _norm_acc(s: str) -> str | None:
