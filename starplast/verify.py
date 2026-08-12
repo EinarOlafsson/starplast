@@ -44,6 +44,24 @@ CORRESPONDENCE = {
             "expr_cyst": ("Tissue_cysts_A [FPKM]", "Tissue_cysts_B [FPKM]"),
         },
     },
+    "GSE206344": {
+        # Two workbooks ship for this series and only one is the source. `LFCs` holds seven sheets of
+        # pairwise contrasts; `Normalised_data` holds the per-sample matrix on sheet "1", whose column
+        # names -- Unsporulated R1, Sporulating R1 -- are exactly what the shipped rna206344_* columns
+        # are named after. Declaring the wrong one would have produced a number that looks like
+        # verification and is not, which is why this correspondence went unrecorded until the sheet
+        # names settled it.
+        "file": "transcription/RNAseq/GSE206344/GSE206344_Normalised_data_ToxoDB_Release68.xlsx",
+        "sheet": "1",
+        "id_column": "ToxoDB ID Release 68",
+        "pairs": {
+            "expr_sporulated": ("Unsporulated R1", "Unsporulated R2", "Sporulating R1",
+                                "Sporulating R2", "Sporulated R1", "Sporulated R2"),
+            "rna206344_Unsporulated_R1": ("Unsporulated R1",),
+            "rna206344_Sporulating_R1": ("Sporulating R1",),
+            "rna206344_Sporulated_R2": ("Sporulated R2",),
+        },
+    },
 }
 
 AGREEMENT = 0.90        # Spearman rho above which the two sources are treated as the same ordering
@@ -66,7 +84,7 @@ def compare_series(series: str, nodes: pd.DataFrame, resolve=None, log=print) ->
         log(f"{series}: primary matrix not found; cannot verify")
         return pd.DataFrame()
 
-    geo = pd.read_excel(p)
+    geo = pd.read_excel(p, sheet_name=spec.get("sheet", 0))
     ids = geo[spec["id_column"]].astype(str).str.strip()
     if resolve is not None:
         ids = ids.map(lambda a: resolve(a) or a)

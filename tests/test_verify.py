@@ -155,3 +155,47 @@ def test_the_real_shipped_columns_reproduce_their_geo_source():
     assert not t.empty
     assert t.agrees.all(), t.to_string()
     assert (t.spearman > 0.99).all()
+
+
+# --------------------------------------------------------------------------- multi-sheet workbooks
+def test_the_declared_sheet_is_the_one_compared(tmp_path, monkeypatch):
+    """GSE206344 ships two workbooks and the source one has eight sheets. Comparing the wrong sheet --
+    or the first by default -- produces a number that looks like verification and is not."""
+    from starplast import paths
+    d = tmp_path / "transcription" / "RNAseq" / "GSE206344"
+    d.mkdir(parents=True)
+    f = d / "GSE206344_Normalised_data_ToxoDB_Release68.xlsx"
+    ids = [f"TGME49_{200000+i}" for i in range(40)]
+    raw = np.arange(1.0, 41.0)
+    with pd.ExcelWriter(f) as w:
+        # sheet 0 is a contents page, exactly as the real workbook has
+        pd.DataFrame({"Unnamed: 0": ["Contents"], "Unnamed: 1": ["see sheet 1"]}).to_excel(
+            w, sheet_name="Contents", index=False)
+        pd.DataFrame({"ToxoDB ID Release 68": ids,
+                      "Unsporulated R1": raw, "Unsporulated R2": raw,
+                      "Sporulating R1": raw, "Sporulating R2": raw,
+                      "Sporulated R1": raw, "Sporulated R2": raw}).to_excel(
+            w, sheet_name="1", index=False)
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    nodes = pd.DataFrame({"gene_id": ids, "expr_sporulated": np.log2(raw + 1)})
+    t = V.compare_series("GSE206344", nodes, log=lambda *_: None)
+    assert not t.empty, "the declared sheet must be found rather than the contents page"
+    assert t.loc[0, "spearman"] == pytest.approx(1.0)
+
+
+def test_a_series_without_a_declared_sheet_reads_the_first(tmp_path, monkeypatch):
+    """GSE108740 is a single-sheet workbook, so the default must keep working."""
+    assert "sheet" not in V.CORRESPONDENCE["GSE108740"]
+
+
+def test_every_declared_correspondence_names_a_real_shipped_column():
+    """A pair naming a column the node table does not have is silently skipped, so it would look
+    verified while checking nothing."""
+    from starplast import paths
+    nodes = pd.read_parquet(paths.cache_file("nodes.parquet"))
+    unknown = {}
+    for series, spec in V.CORRESPONDENCE.items():
+        missing = [c for c in spec["pairs"] if c not in nodes.columns]
+        if missing:
+            unknown[series] = missing
+    assert not unknown, f"correspondences naming absent columns: {unknown}"
