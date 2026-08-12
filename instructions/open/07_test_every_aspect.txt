@@ -86,10 +86,13 @@ WHAT TO DO
      request returns empty rather than raising. Do not test that urllib works.
 
 HOW TO KNOW IT WORKED
-    Coverage reported per module, every module over 90%, and every line NOT
-    covered has a written reason. No `# pragma: no cover` used to reach the
-    number -- a defensive branch is tested by making the defect happen, not by
-    excusing the line.
+    100% COVERAGE, EVERY MODULE. Set by instruction on 2026-08-11; the earlier
+    bar in this file was 90% and was raised.
+
+    No `# pragma: no cover` used to reach the number -- a defensive branch is
+    tested by making the defect actually happen, not by excusing the line. If a
+    line genuinely cannot be reached, that is evidence the line should not
+    exist; delete it rather than exempting it. The same rule spacr runs under.
 
     The real check: reintroduce any one of the five historical silent bugs
     listed above, and the suite goes red. Try it for at least two of them.
@@ -107,3 +110,17 @@ TRAPS
     Do not let the end-to-end test depend on the network. It runs on the
     committed cache. If it needs a file that is not committed, that is a
     finding about the cache, not a reason to fetch.
+
+    The raw datasets tree is not committed and not in the repo (see task 08),
+    so a genuine raw->cache rebuild cannot run on a clean checkout. Decided:
+    the always-on end-to-end test asserts invariants across the committed
+    cache; the true rebuild is a separate opt-in test that SKIPS when the
+    dataset root is absent and RUNS when task 08's resolver finds it. A skip
+    must be loud enough to notice, or it becomes a test that never runs and
+    everyone believes it does.
+
+    100% is a much larger job than 90% and the last few percent are the GUI and
+    the fetchers. Do them properly rather than by calling a function and
+    asserting it returned something: every real bug in this project was a wrong
+    value, not an exception, and a test that only raises coverage catches none
+    of them.

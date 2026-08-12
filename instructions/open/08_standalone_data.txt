@@ -1,0 +1,72 @@
+================================================================================
+STANDALONE: THE APPLICATION MUST NEVER NEED DATA THAT IS NOT THERE
+================================================================================
+
+STATE (measured 2026-08-11, do not take on trust -- re-measure)
+    The registry's paths are relative to the repo's PARENT directory, not the
+    repo. From inside the working copy, 1 of 16 registry paths resolves. The
+    raw tree lives at /mnt/firecuda2/Claude/toxoplasma_projects/datasets and is
+    NOT committed and NOT inside the repo.
+
+    So `build_graph.py` works from exactly one directory on one machine and
+    nowhere else, and nothing says so. That is a reproducibility problem for a
+    PLOS ONE submission specifically: a reader who clones the repo and follows
+    the instructions gets 15 missing files and no explanation.
+
+    What IS committed: data/ -- 17 files, 17 MB, the built cache. The
+    application itself already needs nothing else. The gap is the REBUILD path,
+    not the run path.
+
+USER INSTRUCTION (2026-08-11)
+    "if possible set it up so starplast is standalone and doesnt need external
+    data, or that the external data it needs is downloaded automatically by the
+    application if it can't find it upon installation"
+
+    Both halves, in that order of preference:
+      1. standalone for RUNNING       -- already true via the committed cache;
+                                         make it verifiably true and keep it so
+      2. automatic for REBUILDING     -- fetch what is missing, on demand,
+                                         without the user finding files by hand
+
+WHAT TO DO
+    - starplast/paths.py: one resolver every module goes through. No module
+      opens a relative path directly ever again -- that is what produced a
+      layout only one machine satisfies.
+
+      Resolution order, each step reported so the user can see which one fired:
+        1. $STARPLAST_DATA                    explicit override wins
+        2. <repo>/datasets                    the layout a clone implies
+        3. <repo>/../datasets                 the layout that exists today
+        4. platform user cache dir            where downloads land
+        5. download from the registry URL     into (4), then use it
+
+    - datasets.ensure(key) -> local path. Downloads if absent, verifies size,
+      records a checksum on first fetch so a silently changed remote is caught.
+      Registry entries already carry `url` where one exists.
+
+    - For entries with NO url (curated tables, files only in a paper's
+      supplement): publish the raw tree as a HuggingFace dataset and give those
+      entries that URL. hf_publish.py already exists. Until that is done, the
+      resolver must say exactly which files it cannot fetch and why, rather
+      than failing on open().
+
+    - A first-run check on import: verify the committed cache is present and
+      complete, and if it is not, say what to do in one sentence.
+
+    - The packaging specs must bundle data/ -- an installer that ships an app
+      which then cannot find its own cache is the same bug wearing a different
+      hat.
+
+HOW TO KNOW IT WORKED
+    Clone into a brand new directory, `pip install -e .`, run `starplast`, and
+    it opens the map with no manual step and no network.
+
+    Then delete the raw datasets tree entirely and run build_graph: it fetches
+    what it can, names precisely what it cannot, and does not traceback.
+
+TRAPS
+    Do not make the run path depend on the network to prove the download path
+    works. Running offline is the stronger property and must not regress.
+
+    A checksum recorded on first fetch pins whatever was fetched, including a
+    corrupt download. Verify size and parseability before recording one.

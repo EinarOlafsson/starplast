@@ -217,15 +217,24 @@ NUMBERS AS BUILT (verified 2026-08-11, commit a4bf648)
 OPEN — IN THE ORDER TO DO THEM
 ================================================================================
 
-    open/07_test_every_aspect.txt               every silent bug this project
-                                                had was caught late or by luck
-    open/03_readme_and_api_reference.txt        documents 01 and 02, so after
-    open/04_search_more_targets.txt             the machinery exists, unused
-    open/05_rebuild_expression_from_geo.txt     NEEDS A DECISION
-    open/06_studies_with_no_supplementary.txt   lowest value, most effort
+    open/08_standalone_data.txt                 nothing else is reproducible
+                                                until the data resolves
+    open/09_cell_cycle_dataset.txt              half the project's purpose has
+                                                no target without it
+    open/07_test_every_aspect.txt               100%, every module
+    open/04_search_more_targets.txt             needs 09 to be worth running
+    open/05_rebuild_expression_from_geo.txt     DECIDED: build GEO as a CHECK
+    open/06_studies_with_no_supplementary.txt   DECIDED: check for a databank,
+                                                then drop what is empty
+    open/03_readme_and_api_reference.txt        last: it documents the rest
 
-Why tests before docs: task 07 changes no interface, so it cannot invalidate
-the documentation task that follows it.
+Why this order: 08 first because every other task's reproducibility rests on
+data that currently resolves in one directory on one machine. 09 next because
+task 04 cannot score cell-cycle stage without it, and 04 is the project's
+stated point. 03 last because it documents all of the above.
+
+Standing instruction from 2026-08-11: the coverage bar is 100% for every
+module, not 90%.
 
 The README's scope was narrowed by instruction on 2026-08-11: it holds what
 the program does, how to run it, and a TABLE of the included datasets with

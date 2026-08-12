@@ -36,3 +36,34 @@ HOW TO KNOW IT WORKED
 TRAPS
     Do not resume the framing that these are 40 documents waiting to be parsed.
     They are 40 studies whose supplementary data is not accessible from here.
+
+
+================================================================================
+DECIDED 2026-08-11 -- drop them, but only after checking for a databank
+================================================================================
+
+User instruction: "if there is no supplementary data and there is no data the
+papers point towards saved in a databank that is clearly labeled, then drop
+them."
+
+So this is NOT simply closed as not-worth-doing. There is a check to run first,
+and it is cheap:
+
+    for each of the 40 studies with no supplementary file
+        look in the paper for a databank accession -- GEO, PRIDE, ArrayExpress,
+        SRA, Dryad, Zenodo, figshare
+        CLEARLY LABELLED is the test: an accession stated as holding this
+        paper's data. A bare mention of a database is not a deposit.
+        if found  -> fetch it; it is a real dataset that was simply not
+                     attached to the article
+        if absent -> drop the study, and record it as dropped WITH THE REASON
+
+Recording the drop matters as much as the drop. A future session asking "why
+are these 40 papers not in the corpus" must find the answer here rather than
+re-deriving it, and "we checked, there is genuinely nothing" is a finding.
+
+Note what this changes: the earlier conclusion in this file was that the 40 are
+not worth the effort. That was an effort judgement. The instruction replaces it
+with an evidence judgement -- check first, then drop what is genuinely empty.
+Some of the 40 may turn out to have deposited data that was never attached to
+the article, which is common and would make them worth having.

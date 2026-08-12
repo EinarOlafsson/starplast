@@ -1,0 +1,77 @@
+================================================================================
+A CELL-CYCLE DATASET, SO THE SECOND HALF OF THE CRUX CAN BE SCORED AT ALL
+================================================================================
+
+STATE
+    The stated point of the whole project is to walk dataset combinations and
+    find embeddings where **location or cell-cycle stage** maps well onto the
+    structure -- so that a hypothetical gene landing in that structure inherits
+    a testable prediction.
+
+    Location can be scored: hyperLOPIT gives 3,827 measured compartment labels
+    to hold out.
+
+    Cell-cycle stage CANNOT currently be scored. Searching the node table for
+    anything cyclical returns only continuous expression columns --
+    expr_tachy, rna108740_Tachyzoites_T2/T4_FPKM, and eleven oocyst iTRAQ
+    ratio columns. There is no discrete phase label anywhere in 165 columns.
+
+    So half the project's stated purpose has no target. That is not a
+    limitation of the method; it is a missing dataset.
+
+USER INSTRUCTION (2026-08-11)
+    Two parts, both wanted:
+
+    (a) "derive tachyzoite/bradyzoite/oocyst enrichment classes and label them
+        clearly as derived, not measured"
+
+    (b) "check the literature if there is a study with expression and cell
+        cycle for toxoplasma transcript or proteins, if there is add it"
+
+WHAT TO DO
+
+  (a) DERIVED STAGE CLASSES
+      From the expression columns already present, assign each gene the stage
+      it is enriched in. Requirements:
+        - the column is named to advertise its status (`stage_enriched_derived`
+          or similar). A reader must not be able to mistake it for a
+          measurement.
+        - the registry records it as derived, with the columns it came from,
+          so the circularity guard sees it. It is a DERIVATION of expression:
+          any embedding built on those same expression columns must report it
+          as derived, not as a held-out discovery. This is exactly the failure
+          the guard exists for -- `compartment` producing `lopit_map` at
+          V = 0.96 -- and it will happen again here if the provenance is not
+          declared.
+        - genes with no clear enrichment get no class, not a default class.
+
+  (b) A REAL CELL-CYCLE STUDY
+      Search for a Toxoplasma cell-cycle transcriptome or proteome with PHASE
+      ASSIGNMENTS, not just a time course -- the point is a discrete label.
+      Behnke et al. is the obvious first candidate to check; there may be
+      newer single-cell or proteomic work. Verify what it actually provides
+      before adding it: a time course without assigned phases does not solve
+      this, it just moves the derivation.
+
+      Route every identifier through identity.py. A cell-cycle paper is old
+      enough that pre-2012 accessions are likely.
+
+      Register it under datasets/transcription/ or /translation/ per the level
+      taxonomy, with PMID and accession.
+
+HOW TO KNOW IT WORKED
+    search.py can hold out a cell-cycle phase label it was never given, and
+    report precision and recall for it separately -- the same way it already
+    can for compartment.
+
+    And the honest result is reported whatever it is. Localisation reached
+    mean F1 0.362 held out, against V = 0.96 when leaked. If cell-cycle phase
+    turns out not to be recoverable from any dataset combination, that is a
+    finding worth stating plainly, not a reason to loosen the guard.
+
+TRAPS
+    A measured phase label and a derived enrichment class are not the same
+    thing and must never be merged into one column. The derived one is a
+    restatement of the expression data; the measured one is independent
+    evidence. Holding out the derived class against an expression-based
+    embedding is circular BY CONSTRUCTION.

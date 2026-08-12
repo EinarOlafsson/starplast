@@ -37,3 +37,38 @@ HOW TO KNOW IT WORKED
 TRAPS
     Do not "harmonise" by logging the upstream columns again. They are already
     logged. Range decides, not filename -- see 00_INDEX.
+
+
+================================================================================
+DECIDED 2026-08-11 -- "do whatever is most robust"
+================================================================================
+
+The question was put as GEO-primary OR supplement-derived. Answered as: neither
+alone is the robust option, because each fails in a way the other detects.
+
+    supplement-derived   what ships today. Static files, exactly what the
+                         authors published, but not re-derivable by a reader
+                         and not checkable against anything.
+    GEO-primary          re-downloadable and automatable end to end, but a
+                         reprocessed series can change under you silently, and
+                         GEO's matrix is not always the one the paper used.
+
+So: BUILD THE GEO PATH, AND USE IT AS A CHECK RATHER THAN A REPLACEMENT.
+
+    - fetch the GEO processed matrix for every series that has one
+    - join to the shipped columns on canonical accession, via identity.py
+    - report per column: n genes in common, Spearman rho, and any gene whose
+      rank differs by more than a stated margin
+    - where they AGREE, prefer GEO as the shipped source: it is re-derivable
+      by a reader, which is the property the paper needs
+    - where they DISAGREE, do not quietly pick one. Investigate, record the
+      reason in the registry, and keep the supplement value with a note
+
+    Pin both with checksums so a changed remote is caught rather than absorbed.
+
+This is more work than either single option and is the only version that can
+detect its own failure, which is what "most robust" has to mean for a project
+whose every historical bug was silent.
+
+The comparison itself is a result worth reporting in the paper: it is direct
+evidence about whether published supplements match their own deposits.
