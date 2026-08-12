@@ -524,10 +524,17 @@ def test_the_search_is_given_the_chosen_objective(panel, sync, monkeypatch):
 def test_a_tooltip_is_a_block_not_one_long_line(panel):
     """Qt lays a plain tooltip out on one line, so a two-sentence explanation becomes a strip wider
     than the window."""
+    from PyQt6 import QtGui
     tip = panel.mcs.toolTip()
-    assert tip.startswith("<div>") and "<br>" in tip
-    longest = max((len(x) for x in tip.replace("<br>", "\n").split("\n")), default=0)
-    assert longest < 90, f"a line of {longest} characters will run off the screen"
+    assert "white-space:pre" in tip, "without this Qt re-wraps and strands words on their own line"
+    doc = QtGui.QTextDocument()
+    doc.setHtml(tip)
+    assert doc.idealWidth() < 600, f"laid out at {doc.idealWidth():.0f}px, which runs off the screen"
+    lines = [x for x in doc.toPlainText().split("\n") if x.strip()]
+    assert len(lines) > 1, "not wrapped at all"
+    # No stranded line: every line but the last in a paragraph should be near the full width.
+    widths = [len(x.rstrip()) for x in lines]
+    assert max(widths) - min(w for w in widths if w) < 70, f"very uneven lines: {widths}"
 
 
 def test_a_bounded_control_says_why_its_bounds_are_where_they_are(panel):

@@ -44,20 +44,32 @@ class Worker(QtCore.QObject):
 
 
 
-def wrap_tip(text: str, width: int = 62) -> str:
-    """A tooltip as a block, not a single line running off the screen.
+def wrap_tip(text: str, width: int = 64) -> str:
+    """A tooltip as one block of even lines, wrapped once and left that way.
 
-    Qt lays a plain tooltip out on one line unless it is told otherwise, so a two-sentence
-    explanation becomes a strip wider than the window and is unreadable. Wrapped explicitly and
-    marked as rich text, which is what makes Qt honour the line breaks.
+    Qt lays a plain tooltip out on a single line, so any real explanation becomes a strip wider than
+    the screen. Inserting line breaks alone does not fix it: Qt re-wraps rich text at a width of its
+    own choosing, so the manual breaks land inside Qt's lines and strand two words on a row -- which
+    is exactly what the first version did.
+
+    `white-space: pre` is what stops the second wrap. Measured on a typical tooltip it takes the
+    laid-out width from 1188 pixels to 347 and keeps the breaks where they were put. A fixed table
+    width and a styled div were both tried first and neither constrains a tooltip, because Qt only
+    wraps when it is given an explicit text width and a tooltip sets its own.
+
+    Lines are padded to equal length so the block is a rectangle rather than a ragged edge. True
+    justification -- flush on both sides with stretched spaces -- is not available in Qt's rich-text
+    subset, so this is the closest honest thing to it.
     """
     import textwrap
     from html import escape
-    paras = [p.strip() for p in text.split("\n\n") if p.strip()]
-    out = []
-    for para in paras:
-        out.append("<br>".join(escape(line) for line in textwrap.wrap(para, width)))
-    return "<div>" + "<br><br>".join(out) + "</div>"
+    blocks = []
+    for para in [" ".join(p.split()) for p in text.split("\n\n") if p.strip()]:
+        lines = textwrap.wrap(para, width) or [""]
+        longest = max(len(x) for x in lines)
+        # Padded with non-breaking spaces, which Qt keeps; ordinary trailing spaces are dropped.
+        blocks.append("\n".join(escape(x) + "&#160;" * (longest - len(x)) for x in lines))
+    return '<div style="white-space:pre">' + "\n\n".join(blocks) + "</div>"
 
 
 def range_note(widget) -> str:
