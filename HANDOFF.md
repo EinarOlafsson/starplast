@@ -170,6 +170,25 @@ with any localisation claim. Cell cycle at 0.489 is the only target that clears 
 so comfortably — which reverses the assumption the project started from. Location was the target that
 had data; cell cycle is the one the map organises.
 
+**Then all four were re-run on the full proteome, and the subsample turns out to have been flattering.**
+Every number falls, the two measured targets furthest — 0.709→0.675, 0.489→**0.398**, 0.339→**0.322**,
+0.228→**0.193**. The ranking survives, in the expected order, which is worth something. The margin does
+not: cell cycle clears the negative control by 0.076 at full scale rather than 0.150.
+
+**Read `n_labels_recovered`, not `mean_f1`.** At full scale the positive control scores 0.675 — the
+highest of the four — from a two-cluster solution in which all three stage labels best-match the *same*
+cluster, with per-label recalls of 1.000, 1.000, 1.000. Precision is then just prevalence: oocyst is 72%
+of the labelled set, scores F1 0.838 alone, and carries the mean. Mean F1 over labels is inflated by a
+trivial partition whenever one class dominates; `n_labels_recovered` is not. On that column:
+
+    stage_enriched_derived   1 of 3    POSITIVE control — the majority class, nothing else
+    cellcycle_phase          0 of 5    measured
+    attention_depth          0 of 3    NEGATIVE control
+    compartment              1 of 24   measured
+
+So **no claim of the form "the map recovers X" is supported at full scale.** The subsample's cell-cycle
+result does not survive 8,140 genes. See `results/full_proteome_2026_08_12/`, which ships the run script.
+
 **Recovery is not prediction.** `search.predictions()` was run on the winning cell-cycle structure and
 produced nothing: its purest cluster is 52% one phase against an 80% bar, and no cluster in the top ten
 configurations exceeds that. F1 0.489 is carried by recall; there is not enough precision to place an
@@ -181,8 +200,27 @@ proteins is useless for inference.
 **Every run stores its full recipe, seed and scores.** A hit nobody can rebuild is not a result.
 
 **4. Level of detail is data-driven, not invented tiers.**
-galaxy = hyperLOPIT compartment (26) → solar system = orthogroup / co-expression module → planet = gene →
-surface = that gene's evidence (papers, domains, screens, phenotypes).
+galaxy = coarse spatial structure of the embedding → solar system = orthogroup / co-expression module →
+planet = gene → surface = that gene's evidence (papers, domains, screens, phenotypes).
+
+The galaxy tier **was** hyperLOPIT compartment, and that was a mistake worth recording because it looked
+like a rendering fault. Drawing one centroid per compartment produced a knot of dots in the middle of the
+screen — correctly. A compartment's genes are scattered across the whole map, so their mean lands near the
+middle of it: measured on the shipped embedding, the median compartment centroid sits **0.17** of the map
+radius from the centre while the median compartment's own members spread **0.37** of the radius. The
+centroids were an honest average of a quantity with no spatial meaning, drawn as though it had one.
+
+This is the same fact the held-out search reports from the other direction — `compartment` is the
+worst-recovered target in the map, below the study-effort control — which is why it could not have been
+fixed by adjusting the drawing. A tier keyed to compartment could only ever have shown a central blob.
+
+The tier is now computed from the embedding itself (`lod.py`): connected components over an occupancy
+grid, no clustering library, deterministic, numbered largest-first so a landmark keeps its name. On the
+shipped map that is 5 structures covering 8,123 of 8,140 genes, with centroids 0.40–0.97 of the radius
+from the centre and spreads of 0.04–0.15 — each one now closer to its own members than to the middle,
+which is the property the compartment version failed. The smallest is 76 genes and 96% `PM - peripheral 1`;
+independently, that is the single best-recovered compartment label in the full-proteome search (F1 0.500).
+Two methods finding the same structure is the reason to believe it is there.
 
 ## Data sources — all already on this disk
 
