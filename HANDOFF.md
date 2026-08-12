@@ -20,9 +20,10 @@ Terminal entry point: `starplast`
 cd /mnt/firecuda2/Claude/toxoplasma_projects/starplast
 pip install -e .            # installs the console_scripts entry point
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
-python -m starplast.build_graph   # one-off: builds data/graph.npz (~4 min)
+python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min)
 starplast                   # launch
-pytest tests/ -q            # 67 tests, headless, no network, ~1 s
+pytest tests/ -q            # 891 tests, headless, no network, ~30 s
+pytest tests/ -q -m slow    # the real build and the pdoc pass, ~2 min
 ```
 
 If the GL widget fails on a headless machine, that is expected — this needs a display. The test suite is
@@ -119,7 +120,8 @@ are dense-granule proteins, which are disordered, so this is expected rather tha
 > suffix rule that works for GT1 and VEG (decision 2b) is wrong here and would silently mis-assign.
 
 **3e. Standalone means every measurement ships; coordinates are the one exception.** (Added v1.3.) The
-cache is 11 MB and carries 85 columns for all 8,140 genes. An earlier `keep` allowlist silently shipped
+cache is 17 MB and carries 169 columns for all 8,140 genes, and lives INSIDE the package
+(`starplast/data/`) so a wheel carries it and `paths.py` resolves it with no configuration. An earlier `keep` allowlist silently shipped
 3 of 18 RNA columns and 7 of 8 fitness screens; the build now ships every column that survives, with an
 explicit drop list. Structures resolve on demand (`structures.py`) because 6,538 AlphaFold models plus
 12,265 crosslink CIFs are gigabytes and git is the wrong place for them.
@@ -181,7 +183,7 @@ surface = that gene's evidence (papers, domains, screens, phenotypes).
 | `../datasets/stagetranscriptome_GSE108740_FPKM.xlsx` | tachyzoite, day 3/5/7, **in vivo tissue cyst** |
 | `../.claude/skills/toxoplasma-scientist/corpus/pubmed_toxoplasma.jsonl` | **33,924 abstracts** with MeSH |
 | `/mnt/wd4tb/skill_corpora/toxoplasma-scientist/*.xml` | open-access full texts, **6,667 at last build** (machine-local) |
-| `data/toxodb_identity.tsv`, `data/toxodb_strain_{gt1,veg}.tsv` | symbols, previous IDs, GT1/VEG accessions (committed; `fetch_names.py`) |
+| `starplast/data/toxodb_identity.tsv`, `starplast/data/toxodb_strain_{gt1,veg}.tsv` | symbols, previous IDs, GT1/VEG accessions (committed; `fetch_names.py`) |
 | `../toxonet/data/interim/edges_v3.parquet` | **xlms / ip_ms / struct edges, already keyed by TGME49_** |
 | `../starpath_{interactions.csv,crosslinks.json}` | crosslink pairs, residue positions, RH88->ME49 aliases |
 | `../starpath_crosslink_mining/crosslink_satisfaction.csv` | do the Chai-1 models explain the crosslinks |

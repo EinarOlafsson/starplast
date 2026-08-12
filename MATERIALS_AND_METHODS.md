@@ -12,8 +12,10 @@ Figures were read from the built cache at commit `29b0bd9`.
 
 starplast is a desktop application written in Python 3.10 using PyQt6 (6.7.1) and pyqtgraph (0.13.7) for
 OpenGL rendering, with pandas, NumPy, scikit-learn and umap-learn for data processing. It is distributed
-with a precomputed cache (11 MB) containing all 95 per-gene columns for 8,140 genes and all 12 relation
-types, so the application requires neither a network connection nor any source dataset at runtime. Source
+with a precomputed cache (17 MB) containing all 169 per-gene columns for 8,140 genes and all 12 relation
+types (296,412 edges), so the application requires neither a network connection nor any source dataset at
+runtime. The cache is installed inside the package, so it is present in a wheel and resolves without
+configuration. Source
 code, the cache, and a notebook that reproduces every download are available at
 **[repository URL]** under **[license]**.
 
