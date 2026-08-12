@@ -149,6 +149,43 @@ POINT_STYLES = {
 }
 DEFAULT_POINT_STYLE = "standard"
 
+# How strongly distance from the camera fades a point. 0 disables it. A 3D scatter drawn without depth
+# cueing reads as a flat disc of colour: near and far points are equally bright, so the eye has nothing
+# to build a shape from. This is the cheapest thing that makes the map three-dimensional.
+DEPTH_FADE = 0.55        # fraction of alpha the farthest point keeps
+DEPTH_SHRINK = 0.45      # fraction of size the farthest point keeps
+EDGE_DEPTH_FADE = 0.18   # edges fade harder than points: they are the clutter, and the near
+                         # neighbourhood is what the fade is meant to make readable
+
+
+def is_light(theme_or_palette) -> bool:
+    """Whether a theme's ground is light. Decides which direction contrast has to go."""
+    p = theme_or_palette if isinstance(theme_or_palette, dict) else palette_for(theme_or_palette)
+    r, g, b = rgbf(p["page"])[:3]
+    return (0.2126 * r + 0.7152 * g + 0.0722 * b) > 0.5
+
+
+def depth_t(xyz, camera_pos, rng=None):
+    """Distance from the camera, normalised to 0 (nearest) .. 1 (farthest).
+
+    `rng` is the (min, max) distance to normalise against. Pass the WHOLE cloud's range when cueing a
+    subset -- edges touching a point must fade by the same amount as that point, and a subset
+    normalised against its own extent does not agree with the full set at the same location.
+    """
+    import numpy as np
+    d = np.linalg.norm(np.asarray(xyz, dtype=float) - np.asarray(camera_pos, dtype=float), axis=1)
+    lo, hi = (float(d.min()), float(d.max())) if rng is None else rng
+    if hi - lo <= 1e-9:                       # camera equidistant from everything: no cue, no divide by zero
+        return np.zeros_like(d)
+    return np.clip((d - lo) / (hi - lo), 0.0, 1.0)
+
+
+def depth_cue(xyz, camera_pos, alpha, size, fade=DEPTH_FADE, shrink=DEPTH_SHRINK, rng=None):
+    """Scale alpha and size by distance from the camera. Returns (alpha_array, size_array)."""
+    t = depth_t(xyz, camera_pos, rng)
+    return (alpha * (1.0 - t * (1.0 - fade)),
+            size * (1.0 - t * (1.0 - shrink)))
+
 
 def categorical_colours(n: int, theme: str = "dark", cmap: str | None = None) -> list:
     """`n` distinct colours for unordered classes, legible on this theme's ground.

@@ -1,0 +1,90 @@
+================================================================================
+VERIFY THE projectionMatrix FIX ON THE USER'S PYQTGRAPH
+================================================================================
+
+STATE
+    Clicking a gene raised, repeatedly:
+
+        TypeError: GLViewMixin.projectionMatrix() missing 2 required
+        positional arguments: 'region' and 'viewport'
+
+    pyqtgraph has changed this signature twice: no arguments, then
+    (region=None), now (region, viewport). The development machine has 0.13.7
+    which takes (region=None); the user's is newer.
+
+    Map3D._mvp() in app.py now tries all three forms in order, and
+    mouseReleaseEvent catches and reports instead of raising -- a mouse handler
+    is the wrong place to raise, which is why one bad click printed a traceback
+    on every subsequent click.
+
+    THE FIX IS UNTESTED against the signature that actually failed. It cannot
+    be tested here; 0.13.7 never takes that path.
+
+WHY IT MATTERS
+    Picking is how every other feature is reached: the evidence panel, the
+    crosslink models, selection-scoped edges, the LOD system tier. If this is
+    still broken, the rest of the application is decoration.
+
+WHAT TO DO
+    Ask for `python -c "import pyqtgraph; print(pyqtgraph.__version__)"` and a
+    click. If it works, add tests/test_gl_compat.py pinning all three
+    signatures with a stub so it cannot regress. If it does not, get the new
+    traceback -- the fallback chain is in Map3D._mvp.
+
+HOW TO KNOW IT WORKED
+    Clicking a gene fills the evidence panel and prints nothing to the console.
+    `w.view.project()` returns 8,140 finite screen positions.
+
+TRAPS
+    The user's traceback showed the path
+    repo/starplast/starplast/starplast/app.py -- one level deeper than the
+    layout should be. Rule out a stale or doubly-nested checkout before
+    debugging the code.
+
+
+================================================================================
+DONE -- 2026-08-11
+================================================================================
+
+WHAT WAS ACTUALLY DONE
+    Replaced the try/except chain in Map3D with signature inspection.
+    `_projection_matrix()` resolves the convention ONCE via
+    inspect.signature(), caches it on `self._proj_kind`, and calls the right
+    form thereafter.
+
+    Why not the exception chain that was there: an exception chain cannot
+    distinguish "you called me wrongly" from "something inside me raised
+    TypeError". It would retry a call that failed for an unrelated reason and
+    then report the wrong cause -- so a genuine bug inside pyqtgraph would
+    surface as a signature-compatibility message and be chased in the wrong
+    place.
+
+    Three conventions handled:
+        older     projectionMatrix()
+        0.13.x    projectionMatrix(region=None)
+        current   projectionMatrix(region, viewport)   -- both required
+
+    The viewport is passed in DEVICE pixels: (0, 0, w*dpr, h*dpr). On a HiDPI
+    display, passing logical pixels puts the picking ray in the wrong place --
+    which would look like "picking is slightly off", the hardest kind of bug
+    to attribute.
+
+VERIFIED
+    Live on the development machine: "convention detected: region",
+    "projected: 8140 of 8140 genes".
+
+    tests/test_gl_compat.py -- 6 tests, all passing, against stubs rather than
+    against whatever pyqtgraph happens to be installed, because 0.13.7 here
+    never takes the failing path. Covers each of the three signatures, the
+    device-pixel-ratio arithmetic, once-only resolution (project() runs on
+    every click and every spin frame -- re-inspecting per frame is waste), an
+    uninspectable C callable degrading instead of crashing, and the 4x4
+    construction.
+
+STILL FOR THE USER TO CONFIRM
+    Clicking a gene on YOUR newer pyqtgraph. It cannot be reproduced here.
+
+    Also worth ruling out: your traceback showed the path
+    repo/starplast/starplast/starplast/app.py -- one nesting level deeper than
+    this working copy. If that is a second checkout, the fix must land there
+    too, and a stale copy earlier on sys.path would shadow this one.

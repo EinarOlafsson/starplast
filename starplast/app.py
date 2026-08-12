@@ -11,6 +11,7 @@ Level of detail follows the data, not invented tiers:
 """
 from __future__ import annotations
 
+import inspect
 import json
 import os
 import sys
@@ -70,6 +71,10 @@ GREY = (0.45, 0.45, 0.48)   # fallback; the live value comes from TH.unknown_col
 # An orthogroup needs this many visible members before it earns a marker at system level. Below it the
 # view fills with thousands of singleton markers, which is the gene level with extra steps.
 MIN_ORTHOGROUP_FOR_SYSTEM = 4
+# Roughly how many edges can be drawn at full alpha before they stop being separable lines and become a
+# filled region. Beyond it, alpha is scaled down rather than edges being dropped -- density stays
+# visible as brightness instead of being silently truncated.
+EDGE_INK_TARGET = 1500
 
 # Depth of attention is categorical (see literature.DEPTH_OF): named in a title / in an abstract / only in
 # a body or caption. Distinct hues rather than a ramp, because the tiers are not a measured quantity.
@@ -104,6 +109,7 @@ class Map3D(gl.GLViewWidget):
     def __init__(self, xyz):
         super().__init__()
         self.xyz = xyz
+        self._proj_kind = None      # resolved once, see _projection_matrix
         self.fit_view()
 
     def fit_view(self, margin=1.35):
@@ -119,23 +125,74 @@ class Map3D(gl.GLViewWidget):
         else:
             self.setCameraPosition(distance=170)
 
-    def _mvp(self):
-        """Model-view-projection, across pyqtgraph versions.
+    def animate_distance(self, target: float, ms: int = 420):
+        """Ease the camera to a new distance instead of cutting to it.
 
-        `projectionMatrix()` took no arguments, then `(region=None)`, and in current releases requires
-        `(region, viewport)`. Calling the old way on a new pyqtgraph raises TypeError inside the mouse
-        handler, which is why clicking a gene printed a traceback and selected nothing.
+        A cut between levels of detail loses the viewer's place: the whole picture changes at once and
+        nothing carries over, so the eye has to re-find the region it was looking at. Easing keeps the
+        correspondence between what was on screen and what is now on screen.
         """
-        try:
-            proj = self.projectionMatrix()
-        except TypeError:
-            dpr = self.devicePixelRatioF() if hasattr(self, "devicePixelRatioF") else 1.0
-            viewport = (0, 0, int(self.width() * dpr), int(self.height() * dpr))
+        start = float(self.opts.get("distance", target))
+        if abs(target - start) < 1e-6:
+            return
+        if getattr(self, "_cam_timer", None) is not None:
+            self._cam_timer.stop()                # a second change mid-flight retargets, never queues
+        steps = max(int(ms / 16), 1)
+        self._cam_step = 0
+
+        def tick():
+            self._cam_step += 1
+            f = min(self._cam_step / steps, 1.0)
+            f = f * f * (3.0 - 2.0 * f)           # smoothstep: no jerk at either end
+            self.setCameraPosition(distance=start + (target - start) * f)
+            if f >= 1.0:
+                self._cam_timer.stop()
+
+        self._cam_timer = QtCore.QTimer(self)
+        self._cam_timer.timeout.connect(tick)
+        self._cam_timer.start(16)
+
+    def data_radius(self) -> float:
+        if not len(self.xyz):
+            return 100.0
+        return float(np.linalg.norm(self.xyz - self.xyz.mean(0), axis=1).max())
+
+    def _projection_matrix(self):
+        """`projectionMatrix()` across pyqtgraph versions.
+
+        The signature has changed twice: no arguments, then `(region=None)`, and in current releases
+        `(region, viewport)` with both required. Calling the old way on a new pyqtgraph raises TypeError
+        inside the mouse handler, which is why clicking a gene printed a traceback and selected nothing.
+
+        The convention is decided by INSPECTING the signature, not by catching TypeError. A try/except
+        chain cannot tell "you called me wrongly" from "something inside me raised TypeError", so it
+        would silently retry a call that failed for an unrelated reason and report the wrong cause.
+        """
+        fn = self.projectionMatrix
+        if self._proj_kind is None:
             try:
-                proj = self.projectionMatrix(None, viewport)
-            except TypeError:
-                proj = self.projectionMatrix(region=None, viewport=viewport)
-        m = proj * self.viewMatrix()
+                params = [p for name, p in inspect.signature(fn).parameters.items()
+                          if p.kind in (p.POSITIONAL_OR_KEYWORD, p.KEYWORD_ONLY)]
+                required = [p for p in params if p.default is inspect.Parameter.empty]
+                names = {p.name for p in params}
+                if "viewport" in names and any(p.name == "viewport" for p in required):
+                    self._proj_kind = "region_viewport"
+                elif "region" in names:
+                    self._proj_kind = "region"
+                else:
+                    self._proj_kind = "none"
+            except (TypeError, ValueError):          # C extension without introspection
+                self._proj_kind = "none"
+
+        if self._proj_kind == "region_viewport":
+            dpr = self.devicePixelRatioF() if hasattr(self, "devicePixelRatioF") else 1.0
+            return fn(None, (0, 0, int(self.width() * dpr), int(self.height() * dpr)))
+        if self._proj_kind == "region":
+            return fn(None)
+        return fn()
+
+    def _mvp(self):
+        m = self._projection_matrix() * self.viewMatrix()
         return np.array([[r.x(), r.y(), r.z(), r.w()]
                          for r in (m.row(i) for i in range(4))], dtype=float)
 
@@ -177,6 +234,8 @@ class Window(QtWidgets.QMainWindow):
         self.point_style = TH.DEFAULT_POINT_STYLE
         self.point_mode = 'occlude'
         self._spin_speed = 0.35
+        self.depth_cue = True
+        self.show_ground = True
         self.cmap_name = None
         self.nodes, self.xyz, self.edges, self.models = load()
         self.n = len(self.nodes)
@@ -201,6 +260,9 @@ class Window(QtWidgets.QMainWindow):
         self.scatter.setGLOptions("translucent")
         self.view.addItem(self.scatter)
         self.centroid_item = None
+        self.halo_item = None
+        self.grid_item = None
+        self._depth_ctx = None
         self.edge_items = []
 
         self.setCentralWidget(self.view)
@@ -328,11 +390,28 @@ class Window(QtWidgets.QMainWindow):
         self.spin_speed.setSuffix("  °/frame")
         self.spin_speed.valueChanged.connect(lambda v: setattr(self, "_spin_speed", v))
 
+        self.depth_box = QtWidgets.QCheckBox("fade and shrink with distance")
+        self.depth_box.setChecked(self.depth_cue)
+        self.depth_box.setToolTip(
+            "Without it, near and far points are equally bright and the map reads as a flat disc "
+            "however far it is rotated. Turn it off to compare two points' colours exactly, since the "
+            "fade changes apparent colour with position.")
+        self.depth_box.toggled.connect(lambda v: (setattr(self, "depth_cue", v), self.redraw()))
+
+        self.ground_box = QtWidgets.QCheckBox("horizon grid")
+        self.ground_box.setChecked(self.show_ground)
+        self.ground_box.setToolTip(
+            "A reference plane under the cloud. Spinning a bare point cloud, the eye cannot separate "
+            "rotation from the points rearranging themselves.")
+        self.ground_box.toggled.connect(lambda v: (setattr(self, "show_ground", v), self.redraw()))
+
         form.addRow("theme", self.theme_box)
         form.addRow("colour map", self.cmap_box)
         form.addRow("points", self.point_box)
         form.addRow("rendering", self.mode_box)
         form.addRow("spin speed", self.spin_speed)
+        form.addRow("depth", self.depth_box)
+        form.addRow("reference", self.ground_box)
         close = QtWidgets.QPushButton("close")
         close.clicked.connect(d.accept)
         form.addRow(close)
@@ -392,7 +471,7 @@ class Window(QtWidgets.QMainWindow):
         self.level.addItems(["compartment (galaxy)", "orthogroup / module (system)",
                              "gene (planet)"])
         self.level.setCurrentIndex(2)
-        self.level.currentIndexChanged.connect(self.redraw)
+        self.level.currentIndexChanged.connect(self.on_level_changed)
         L.addWidget(self.level)
 
         L.addWidget(QtWidgets.QLabel("<b>colour by</b>"))
@@ -590,7 +669,25 @@ class Window(QtWidgets.QMainWindow):
             if self.sel is not None and og[self.sel] not in ("", "nan", "None"):
                 sizes[og == og[self.sel]] = max(base * 2.0, 9.0)
 
-        self.scatter.setData(pos=self.xyz, color=self.colours(vis), size=sizes)
+        colours = self.colours(vis)
+        self._depth_ctx = None
+        if self.depth_cue:
+            # Fade and shrink with distance so the cloud has a front and a back. Without it the map is
+            # a flat disc of colour however much it is rotated.
+            cam = self.view.cameraPosition()
+            cam = (cam.x(), cam.y(), cam.z())
+            d = np.linalg.norm(self.xyz - np.asarray(cam, np.float32), axis=1)
+            # One range shared by points and edges. Normalising each set against its own extent makes
+            # an edge and the point it touches fade by different amounts, which reads as flicker.
+            self._depth_ctx = (cam, (float(d.min()), float(d.max())))
+            a, sizes = TH.depth_cue(self.xyz, cam, colours[:, 3], sizes, rng=self._depth_ctx[1])
+            colours = colours.copy()
+            colours[:, 3] = a
+            sizes = sizes.astype(np.float32)
+
+        self.scatter.setData(pos=self.xyz, color=colours, size=sizes)
+        self._draw_ground()
+        self._draw_selection_halo()
         self.draw_edges(vis)
 
         act = [k for k, _ in EDGE_TYPES if self.edge_cb[k].isChecked()]
@@ -598,6 +695,73 @@ class Window(QtWidgets.QMainWindow):
         self.status.showMessage(
             f"{int(vis.sum()):,} / {self.n:,} genes shown  ·  edges: "
             f"{', '.join(act) if act else 'none'}{note}")
+
+    def on_level_changed(self):
+        """Move the camera to suit the tier, easing rather than cutting.
+
+        Pulling back for the galaxy tier and moving in for the gene tier makes the hierarchy legible as
+        a change of scale, which is what the three tiers actually are.
+        """
+        r = self.view.data_radius()
+        self.view.animate_distance(max(r * (2.0, 1.6, 1.25)[self.level.currentIndex()], 10.0))
+        self.redraw()
+
+    def _draw_ground(self):
+        """A faint grid under the cloud, so rotation has something to rotate against.
+
+        A point cloud alone in black has no reference: spinning it, the eye cannot tell rotation from
+        the points rearranging themselves, and depth cueing alone does not fix that because it gives
+        near/far but not orientation. A horizon does.
+        """
+        if self.grid_item is not None:
+            self.view.removeItem(self.grid_item)
+            self.grid_item = None
+        if not self.show_ground:
+            return
+        r = self.view.data_radius()
+        centre = self.xyz.mean(0) if len(self.xyz) else np.zeros(3)
+        g = gl.GLGridItem()
+        g.setSize(x=r * 2.4, y=r * 2.4)
+        g.setSpacing(x=r / 4.0, y=r / 4.0)
+        # Sit it just below the lowest point rather than at the origin: the embedding is not centred on
+        # zero and a grid cutting through the cloud reads as an artefact of the data.
+        low = float(self.xyz[:, 2].min()) if len(self.xyz) else 0.0
+        g.translate(float(centre[0]), float(centre[1]), low - r * 0.08)
+        p = TH.palette_for(self.theme)
+        rgb = TH.rgbf(p["border"])[:3]
+        g.setColor((int(rgb[0] * 255), int(rgb[1] * 255), int(rgb[2] * 255),
+                    70 if TH.is_light(p) else 40))
+        g.setGLOptions("translucent")
+        self.view.addItem(g)
+        self.grid_item = g
+
+    def _draw_selection_halo(self):
+        """A soft ring behind the selected gene.
+
+        A size bump alone is invisible in a dense region -- the neighbours are the same colour and the
+        selected point simply becomes a slightly bigger dot in a crowd. A translucent halo in the
+        accent colour separates it from its neighbourhood at any density.
+        """
+        if self.halo_item is not None:
+            self.view.removeItem(self.halo_item)
+            self.halo_item = None
+        if self.sel is None:
+            return
+        p = TH.palette_for(self.theme)
+        base = float(TH.POINT_STYLES.get(self.point_style, {}).get("size", 5.0))
+        rings = [(base * 6.0, 0.16), (base * 3.6, 0.30), (base * 2.2, 0.55)]
+        if TH.is_light(p):
+            # A translucent ring on a near-white ground has almost no contrast, so the same halo that
+            # is unmistakable on dark is nearly invisible on light. Contrast has to go the other way:
+            # more opacity, and the darker accent rather than the brighter one.
+            rings = [(sz, min(a * 1.8, 0.92)) for sz, a in rings]
+        pos = np.repeat(self.xyz[self.sel][None, :], len(rings), axis=0).astype(np.float32)
+        key = "accent_lo" if TH.is_light(p) and "accent_lo" in p else "accent"
+        col = np.array([(*TH.rgbf(p[key])[:3], a) for _, a in rings], dtype=np.float32)
+        self.halo_item = gl.GLScatterPlotItem(
+            pos=pos, color=col, size=np.array([s for s, _ in rings], np.float32), pxMode=True)
+        self.halo_item.setGLOptions("translucent")
+        self.view.addItem(self.halo_item)
 
     def draw_edges(self, vis):
         active = [k for k, _ in EDGE_TYPES if self.edge_cb[k].isChecked() and k in self.edges]
@@ -645,9 +809,22 @@ class Window(QtWidgets.QMainWindow):
                 t = np.clip((ww - lo) / max(hi - lo, 1e-9), 0.0, 1.0)
             else:
                 t = np.ones(idx.size)
-            alpha = (col[3] * (0.12 + 0.88 * t)).astype(np.float32)
+            # Ink budget. Alpha per edge is not enough on its own: 20,000 translucent lines over the
+            # same region sum to an opaque sheet, and the map underneath disappears entirely. (Rendered
+            # with cofitness on, the whole cloud was one flat pink shape.) Total ink is what has to be
+            # bounded, so alpha falls as the count rises -- sqrt, because coverage grows roughly with
+            # line count over a fixed area. A small selected neighbourhood is untouched.
+            ink = float(np.clip(np.sqrt(EDGE_INK_TARGET / max(idx.size, 1)), 0.12, 1.0))
+            alpha = (col[3] * ink * (0.12 + 0.88 * t)).astype(np.float32)
             cols[0::2, 3] = alpha
             cols[1::2, 3] = alpha
+            if self._depth_ctx is not None:
+                # Fade by camera distance as well as by weight. In a dense layer every edge crosses
+                # every other one; without the distance term the near neighbourhood -- the only part
+                # anyone can actually trace -- is buried under edges from the far side of the cloud.
+                cam, rng = self._depth_ctx
+                t = TH.depth_t(seg, cam, rng)
+                cols[:, 3] *= (1.0 - t * (1.0 - TH.EDGE_DEPTH_FADE)).astype(np.float32)
             it = gl.GLLinePlotItem(pos=seg, color=cols, width=1.0, mode="lines", antialias=True)
             self.view.addItem(it)
             self.edge_items.append(it)

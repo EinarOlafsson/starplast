@@ -1,0 +1,115 @@
+================================================================================
+MAKE THE MAP LOOK GOOD
+================================================================================
+
+STATE
+    Asked for directly: "visual effects could be much better, make the umap
+    look beautiful".
+
+    Fixed already, and not to be redone: additive blending that turned every
+    colour mode into a white blob; edge alpha that ignored edge weight; a
+    colour-map control that only affected the continuous ramp; a point-style
+    control that redraw() overwrote on the next repaint; a camera fixed at
+    distance 170 that left the map a small island whenever the embedding's
+    extent changed.
+
+    Not done: any actual visual design. Points are flat discs, the selection is
+    a size bump, dense edge sets still hairball, and moving between LOD tiers
+    is a jump cut.
+
+WHY IT MATTERS
+    This is the surface the user is in every session, and a 3D scatter that
+    does not read as a shape is a 2D scatter with extra steps.
+
+WHAT TO DO
+    In rough order of return:
+      - depth cueing: fade and shrink with distance from the camera so the
+        cloud has front and back
+      - selection: a soft halo (a second, larger, translucent point) instead of
+        size 15
+      - edges: fade by camera distance as well as weight, so the near
+        neighbourhood is readable inside a dense layer
+      - LOD transitions: animate the camera between tiers rather than cutting
+      - a subtle ground plane or bounding hint so rotation has a reference
+
+HOW TO KNOW IT WORKED
+    Render all four themes at all three LOD levels and LOOK at them -- see the
+    rendering entry in 00_INDEX. Screenshots go in the README (task 03).
+
+TRAPS
+    pyqtgraph's GL layer has no bloom, no post-processing and no custom shaders
+    without dropping to raw OpenGL. Real glow means a different rendering path.
+    Do the achievable version first and let the user judge whether it is enough
+    -- do not quietly start rewriting the renderer.
+
+    Every visual change must be checked in the light themes too. A hex written
+    at a call site is a hex that stays dark on the light theme; take colours
+    from theme.palette_for().
+
+
+================================================================================
+DONE -- 2026-08-11
+================================================================================
+
+ALL FIVE ITEMS, plus one found only by rendering it.
+
+DEPTH CUEING          theme.depth_t / depth_cue. Alpha and size fall with
+                      camera distance; farthest point keeps 55% alpha and 45%
+                      size. Toggleable in Preferences, because the fade changes
+                      apparent colour with position and comparing two points'
+                      colours exactly needs it off.
+
+SELECTION HALO        three concentric translucent rings in the accent colour,
+                      replacing size 15. A size bump alone is invisible in a
+                      dense region: the neighbours are the same colour and the
+                      selected point is just a slightly bigger dot in a crowd.
+
+EDGE DISTANCE FADE    edges fade by camera distance as well as by weight, and
+                      harder than points (18% vs 55% at the far plane) since
+                      they are the clutter. Measured: far edges render 2.7x
+                      fainter than near ones.
+
+                      Both are cued against the WHOLE cloud's distance range,
+                      not each set's own extent. A subset normalised against
+                      itself fades by a different amount than the point it
+                      touches at the same screen position, which reads as
+                      flicker while orbiting. A test reproduces the wrong way
+                      to keep the guard honest.
+
+LOD TRANSITIONS       Map3D.animate_distance() eases over ~420 ms with a
+                      smoothstep; the tiers now target 2.0 / 1.6 / 1.25 x the
+                      data radius, so the hierarchy reads as a change of scale.
+                      A second change mid-flight retargets rather than queuing.
+
+GROUND REFERENCE      a faint grid one radius-tenth below the lowest point, not
+                      at the origin -- the embedding is not centred on zero and
+                      a grid through the cloud reads as an artefact of the data.
+
+THE ONE FOUND BY LOOKING
+    With all edges shown, cofitness rendered as a solid opaque pink sheet with
+    the entire map invisible underneath. Per-edge alpha was already implemented
+    and was not enough: 20,000 translucent lines over one region sum to opaque
+    however faint each one is.
+
+    The 20,000 cap bounds DRAWING COST. Nothing bounded INK. Alpha now scales
+    as sqrt(1500 / n), floored at 0.12 -- coverage grows roughly with line
+    count over a fixed area. Density stays visible as brightness instead of
+    being silently truncated, and a small selected neighbourhood is untouched.
+
+    This is the third time a rendering bug has passed every array-level test in
+    this project. The arrays were right both times before, too.
+
+LIGHT THEMES NEEDED THE OPPOSITE TREATMENT
+    The halo that is unmistakable on dark was nearly invisible on light: a
+    translucent bright ring on a near-white ground has almost no contrast. On
+    light grounds the halo now uses accent_lo at 1.8x opacity and the grid 70
+    rather than 40. theme.is_light() decides, by luminance of the page colour
+    rather than by theme name, so a new theme gets it right without being
+    listed.
+
+VERIFIED
+    Rendered and inspected in dark and light, with and without edges: front/
+    back separation visible, halo legible on both grounds, individual edges
+    separable, cluster structure visible through them, horizon present.
+
+    tests/test_visual.py -- 18 tests. 77 -> 95 total, all passing.

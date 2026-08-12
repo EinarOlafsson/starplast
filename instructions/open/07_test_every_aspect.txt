@@ -1,0 +1,109 @@
+================================================================================
+TEST EVERY ASPECT OF THE LIBRARY, END TO END, WITH THE REAL DATA
+================================================================================
+
+STATE
+    77 tests. They are good tests -- several caught real bugs before the bugs
+    reached the app -- but they are not COMPLETE, and the gaps are not random.
+    They cluster exactly where testing is awkward: the fetchers, the build,
+    the app's interactive paths, and the long analysis walks.
+
+    Measure it first. `pytest --cov=starplast --cov-report=term-missing` and
+    write the per-module numbers into this file before starting, so the work
+    is against a number rather than a feeling.
+
+WHY IT MATTERS (the user's reasoning, and it is right)
+    This program IS data. Nearly every function is a transformation from one
+    table to another table, which is the easiest thing in software to test:
+    feed it input, assert on output. There is no network in the hot path, no
+    clock, no concurrency, no user state. A library shaped like this has no
+    excuse for untested branches.
+
+    And the failure mode here is silent. Every bug this project has hit --
+    StringTie ids losing half a dataset, a two-row header collapsing 3,000
+    proteins into one column, FPKM logged twice, additive blending, the
+    circularity leak -- produced NO error. The code ran, the output looked
+    plausible, the numbers were wrong. Tests are the only thing that catches
+    that class, because looking at it does not.
+
+WHAT TO DO
+
+  1. RUN THE REAL DATA THROUGH THE WHOLE PIPELINE, AS ONE TEST
+     The strongest test this project can have is the pipeline end to end on
+     the committed cache, asserting the invariants that must hold at every
+     stage:
+
+        identity  -> every id resolves or is recorded as unresolved; no id
+                     silently becomes NaN
+        corpus    -> section counts stable; no caption counted twice
+        literature-> mentions.parquet gene set is a subset of nodes
+        screens/
+        expression-> every joined dataset contributes >0 rows (the StringTie
+                     bug WAS a dataset contributing 0 and nobody noticing)
+                  -> column count per dataset matches the header parse (the
+                     merged-header bug WAS 3,000 proteins in one column)
+        embedding -> no all-NaN column; no constant column; variance shares
+                     sum to 1
+        clustering-> labels align with the matrix row order
+        search    -> held-out labels really are held out (assert the excluded
+                     set is absent from the input columns, measured not named)
+        graph     -> node/edge ids reference existing genes; no self-edges;
+                     symmetric where the edge type is undirected
+
+     Mark it slow if it takes minutes; do not skip it by default.
+
+  2. PROPERTY TESTS WHERE THE INVARIANT IS SHARPER THAN AN EXAMPLE
+        normalise()      log-then-centre is idempotent under re-centring;
+                         'ratio' and 'lfc' come back untouched
+        rank_normalise() output range within [-0.5, 0.5]; ordering preserved;
+                         NaN stays NaN
+        infer_quant()    the two known traps pinned as regression cases:
+                         real FPKM at 16,520 -> 'fpkm' (must be logged),
+                         already-logged FPKM at 9.13 -> 'log_intensity'
+                         (must NOT be logged again)
+        depth_cue()      alpha and size monotone decreasing in distance;
+                         degenerate case (all points equidistant) does not
+                         divide by zero
+        identity.find()  an accession span is never re-matched as a symbol
+
+  3. THE BRANCHES THAT ONLY RUN WHEN SOMETHING IS WRONG
+     Every `except`, every "unknown quantification", every "no RESULT files",
+     every empty-input early return. These are the least-run and most-trusted
+     lines in the repo. Test them with real inputs that trigger them, not with
+     mocks that assert the mock was called.
+
+  4. THE APP, HEADLESS
+     QT_QPA_PLATFORM=offscreen already works -- test_gl_compat.py does it. So
+     every control is testable: toggle each edge type, each theme, each colour
+     mode, each point style, each LOD tier, pick a gene, clear the selection,
+     open and accept Preferences. Assert on the resulting arrays AND on the
+     item list, since the additive-blending bug passed every array assertion.
+
+  5. NETWORK CODE WITHOUT NETWORK
+     geo_supplementary() and pride_files() are the only network functions.
+     Test the parsing against saved real responses (a captured GEO FTP listing
+     and a captured PRIDE JSON, committed as fixtures), and test that a failed
+     request returns empty rather than raising. Do not test that urllib works.
+
+HOW TO KNOW IT WORKED
+    Coverage reported per module, every module over 90%, and every line NOT
+    covered has a written reason. No `# pragma: no cover` used to reach the
+    number -- a defensive branch is tested by making the defect happen, not by
+    excusing the line.
+
+    The real check: reintroduce any one of the five historical silent bugs
+    listed above, and the suite goes red. Try it for at least two of them.
+
+TRAPS
+    Coverage percentage is not the goal and will mislead if it becomes one. A
+    test that calls a function and asserts it returned something raises
+    coverage and catches nothing. Every one of this project's real bugs was a
+    WRONG VALUE, not an exception -- so assert on values.
+
+    pytest-qt imports PySide6 at plugin load and pyqtgraph then binds to it
+    while the app hard-imports PyQt6. PYQTGRAPH_QT_LIB=PyQt6 must stay pinned
+    in tests/conftest.py.
+
+    Do not let the end-to-end test depend on the network. It runs on the
+    committed cache. If it needs a file that is not committed, that is a
+    finding about the cache, not a reason to fetch.
