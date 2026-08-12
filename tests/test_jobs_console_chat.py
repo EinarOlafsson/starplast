@@ -124,6 +124,57 @@ def test_cancel_all_marks_everything_active(qapp):
     assert all(j.cancelled for j in r.jobs.values())
 
 
+def test_the_task_body_runs_a_job_to_completion(qapp):
+    """_Task.run() driven directly rather than through the pool.
+
+    The pool runs it on a Qt-managed thread, which Python's trace hook does not follow, so the same
+    code exercised through submit() is invisible to coverage. Calling it here traces it and tests the
+    identical body -- the state transitions, the result, and the finished signal.
+    """
+    job = J.Job(id=1, name="direct")
+    sig = J._Signals()
+    seen = []
+    sig.finished.connect(lambda jid, ok: seen.append((jid, ok)))
+    J._Task(job, lambda: "value", sig).run()
+    assert job.state == J.DONE and job.result == "value"
+    assert seen == [(1, True)]
+
+
+def test_the_task_body_records_a_failure_with_its_traceback(qapp):
+    def boom():
+        raise KeyError("missing")
+    job = J.Job(id=2, name="direct-fail")
+    sig = J._Signals()
+    seen = []
+    sig.finished.connect(lambda jid, ok: seen.append((jid, ok)))
+    J._Task(job, boom, sig).run()
+    assert job.state == J.FAILED
+    assert "KeyError" in job.error and "boom" in job.traceback
+    assert seen == [(2, False)]
+
+
+def test_a_task_cancelled_before_it_starts_never_runs_its_callable(qapp):
+    ran = []
+    job = J.Job(id=3, name="pre-cancelled")
+    job.cancel()
+    sig = J._Signals()
+    seen = []
+    sig.finished.connect(lambda jid, ok: seen.append((jid, ok)))
+    J._Task(job, lambda: ran.append(True), sig).run()
+    assert ran == [], "a cancelled job still ran its callable"
+    assert seen == [(3, False)]
+
+
+def test_a_job_cancelled_mid_flight_is_marked_cancelled_not_done(qapp):
+    """Cooperative: the callable checks the flag and returns, and the result is not a success."""
+    def work(job):
+        job.cancel()
+        return "abandoned"
+    job = J.Job(id=4, name="mid-flight")
+    J._Task(job, work, J._Signals()).run()
+    assert job.state == J.CANCELLED
+
+
 def test_active_lists_only_unfinished_jobs(qapp):
     r = J.JobRunner()
     r.submit(lambda: None, "done-soon")
@@ -223,6 +274,56 @@ def test_clear_empties_the_pane_and_the_backing_log(qapp):
     assert p.text() == ""
     p.filter.setText("")
     assert p.text() == ""
+
+
+def test_flushing_a_closed_stream_does_not_raise(qapp):
+    """A closed original stream must not break the application's printing."""
+    import io
+    buf = io.StringIO()
+    t = Tee(buf)
+    buf.close()
+    t.flush()                    # must not raise
+    t.write("after close")       # nor this
+
+
+def test_a_stream_that_raises_on_flush_is_survived(qapp):
+    """A closed StringIO happens to tolerate flush(), so it does not reach the guard.
+
+    The case the guard exists for is a stream that genuinely raises -- a pipe whose reader has gone,
+    which is the normal way stdout dies when a launcher closes. Printing must not start raising
+    because of it.
+    """
+    class Hostile:
+        def write(self, _s):
+            raise OSError("broken pipe")
+
+        def flush(self):
+            raise OSError("broken pipe")
+
+    t = Tee(Hostile())
+    seen = []
+    t.text.connect(lambda s, e: seen.append(s))
+    t.flush()                    # must not raise
+    assert t.write("still emitted") == len("still emitted")
+    assert seen == ["still emitted"], "output stopped reaching the pane when the stream broke"
+
+
+def test_copy_puts_the_visible_lines_on_the_clipboard(qapp):
+    p = ConsolePanel()
+    p.append("copy me\n")
+    p.copy_all()
+    cb = QtWidgets.QApplication.clipboard()
+    assert "copy me" in cb.text()
+
+
+def test_closing_the_console_restores_the_streams(qapp):
+    """A crash must not leave a dead tee holding stdout for the rest of the session."""
+    p = ConsolePanel()
+    real = sys.stdout
+    p.install()
+    assert sys.stdout is not real
+    p.close()
+    assert sys.stdout is real
 
 
 def test_the_log_is_capped(qapp):

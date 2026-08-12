@@ -88,8 +88,9 @@ def galaxies(xyz: np.ndarray, grid: int = GRID, min_cell: int = MIN_CELL,
 
     raw = comp[flat]                      # -1 for genes in cells too sparse to be occupied
     out = np.full(n, -1, dtype=np.int64)
-    if cur == 0:
-        return out
+    # No `cur == 0` guard: the early return above means at least one cell is occupied, so the loop
+    # labelled at least one component. A branch that cannot be reached cannot be tested, and one
+    # written defensively anyway would only read as though this case happens.
     sizes = np.bincount(raw[raw >= 0], minlength=cur)
     # Rank by size so 0 is the largest, and drop components too small to be landmarks.
     order = [c for c in np.argsort(-sizes) if sizes[c] >= min_members]

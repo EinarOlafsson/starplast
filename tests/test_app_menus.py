@@ -365,6 +365,7 @@ def test_a_cancelled_save_dialog_writes_nothing(win, monkeypatch):
                         staticmethod(lambda *a, **k: ("", "")))
     assert win.export_image() is None
     assert win.export_visible() is None
+    assert win.export_relationships() is None
     assert win.export_graphml() is None
 
 
@@ -452,6 +453,131 @@ def test_the_right_click_menu_carries_the_map_actions(win):
     assert "Reset view / clear filters" in labels
     assert any("Spin" in x for x in labels)
     menu.deleteLater()
+
+
+def test_right_clicking_the_map_shows_the_menu(win, monkeypatch):
+    """The shown path, which build_context_menu exists to keep out of the tests: exec() blocks."""
+    shown = []
+    monkeypatch.setattr(A.QtWidgets.QMenu, "exec", lambda self, *a: shown.append(self))
+    menu = win._context_menu(QtCore.QPoint(3, 4))
+    assert shown == [menu]
+
+
+def test_the_explanations_are_shown_when_asked_for(win, monkeypatch):
+    """Item 12 again: the wording is only worth having if the menu entry actually shows it."""
+    shown = []
+    monkeypatch.setattr(A.QtWidgets.QMessageBox, "information",
+                        staticmethod(lambda parent, title, text: shown.append((title, text))))
+    win.explain_edges()
+    win.explain_map()
+    assert "never" in shown[0][0].lower() or "separate" in shown[0][0].lower()
+    assert "borrow the credibility" in shown[0][1]
+    assert "negative control" in shown[1][1].lower()
+
+
+def test_restoring_a_camera_with_nothing_recorded_does_nothing(win):
+    """_on_busy(False) can arrive with no stored angle if spinning was never started for a job."""
+    before = win._camera_state()
+    win._restore_camera(None)
+    assert win._camera_state() == before
+
+
+def test_the_column_filter_hides_columns_without_unticking_them(win):
+    """Filtering must not silently discard ticks the user can no longer see."""
+    d = win.choose_export_columns(preselect=["gene_id", "product"])
+    filt = d.findChild(QtWidgets.QLineEdit)
+    filt.setText("product")
+    lst = d.column_list
+    visible = [lst.item(i).text() for i in range(lst.count()) if not lst.item(i).isHidden()]
+    assert visible and all("product" in v for v in visible)
+    # gene_id is hidden by the filter but must still be ticked underneath.
+    assert set(win._ticked(d)) == {"gene_id", "product"}
+    filt.setText("")
+    assert all(not lst.item(i).isHidden() for i in range(lst.count()))
+
+
+def test_an_edge_type_with_nothing_visible_is_skipped_not_written_empty(win, tmp_path):
+    """Two layers on, one with no surviving edge for the selected gene: the empty one contributes no
+    rows rather than a block of nulls."""
+    import numpy as np
+    import pandas as pd
+    present = [k for k, _ in A.EDGE_TYPES if k in win.edges and len(win.edges[k]["a"])]
+    if len(present) < 2:
+        pytest.skip("this build has fewer than two populated edge types")
+    # A gene in the first layer and in none of the others, so the others yield nothing at all.
+    a, b = present[0], present[1]
+    in_a = set(win.edges[a]["a"].tolist()) | set(win.edges[a]["b"].tolist())
+    in_b = set(win.edges[b]["a"].tolist()) | set(win.edges[b]["b"].tolist())
+    only_a = sorted(in_a - in_b)
+    if not only_a:
+        pytest.skip("no gene appears in one layer and not the other")
+    win.reset()
+    for k in win.edge_act:
+        win.set_edge(k, k in (a, b))
+    win.all_edges_act.setChecked(False)
+    win.sel = int(only_a[0])
+    p = tmp_path / "sparse.csv"
+    win.export_relationships(str(p), columns=[])
+    d = pd.read_csv(p)
+    assert set(d.edge_type) == {a}, "the layer with no surviving edge still wrote rows"
+    assert not d.empty
+    win.sel = None
+    for k in win.edge_act:
+        win.set_edge(k, False)
+
+
+class _AcceptedDialog:
+    """A dialog whose exec() reports OK, carrying a fixed set of ticks."""
+
+    def __init__(self, columns):
+        self._columns = list(columns)
+
+        class _Item:
+            def __init__(self, text):
+                self._t = text
+
+            def text(self):
+                return self._t
+
+            def checkState(self):
+                return QtCore.Qt.CheckState.Checked
+
+        class _List:
+            def __init__(self, cols):
+                self._items = [_Item(c) for c in cols]
+
+            def count(self):
+                return len(self._items)
+
+            def item(self, i):
+                return self._items[i]
+
+        self.column_list = _List(self._columns)
+
+    def exec(self):
+        return 1
+
+
+def test_an_accepted_column_picker_is_what_gets_written(win, tmp_path, monkeypatch):
+    """The path a user actually takes: open the picker, tick, press OK."""
+    import pandas as pd
+    monkeypatch.setattr(A.Window, "choose_export_columns",
+                        lambda self, preselect=None: _AcceptedDialog(["gene_id", "compartment"]))
+    p = tmp_path / "picked.csv"
+    win.export_visible(str(p))
+    d = pd.read_csv(p)
+    assert set(d.columns) == {"gene_id", "compartment", "x", "y", "z"}
+
+    key = next(k for k, _ in A.EDGE_TYPES if k in win.edges and len(win.edges[k]["a"]))
+    for k in win.edge_act:
+        win.set_edge(k, k == key)
+    win.all_edges_act.setChecked(True)
+    p2 = tmp_path / "picked_edges.csv"
+    win.export_relationships(str(p2))
+    e = pd.read_csv(p2)
+    assert {"compartment_a", "compartment_b"} <= set(e.columns)
+    win.all_edges_act.setChecked(False)
+    win.set_edge(key, False)
 
 
 def test_the_assistant_is_told_what_is_on_screen(win):

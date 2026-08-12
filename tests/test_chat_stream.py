@@ -5,6 +5,7 @@ process actually behaves -- what arrives before it exits, what a non-zero exit m
 timeout leaves a process behind. A mocked Popen would test the mock.
 """
 import os
+import subprocess
 import sys
 
 import pytest
@@ -98,6 +99,153 @@ def test_a_directory_as_the_cli_is_reported_not_raised(qapp, tmp_path):
     prov = C.Provider("x", "x", str(tmp_path), "hint", "login")
     out = "".join(C.stream(prov, "q", "s"))
     assert "could not start" in out or "not on PATH" in out
+
+
+def test_register_receives_the_process_as_soon_as_it_exists(qapp):
+    """So a caller can kill it. Without this, stop can only set a flag checked between chunks."""
+    got = []
+    prov = _python_provider("print('x')")
+    list(C.stream(prov, "q", "s", register=got.append))
+    assert got and hasattr(got[0], "poll")
+    assert got[0].poll() is not None, "the process was left running"
+
+
+def test_the_worker_body_runs_without_a_thread(qapp):
+    """_Worker.run() driven directly.
+
+    Through start() it runs on a Qt-managed thread, which Python's trace hook does not follow, so the
+    same body exercised by every other test here is invisible to coverage. This is the identical code.
+    """
+    prov = _python_provider("print('direct body')")
+    w = C._Worker(prov, "q", "s")
+    got, done = [], []
+    w.chunk.connect(got.append)
+    w.done.connect(lambda: done.append(True))
+    w.run()
+    assert done == [True]
+    assert "direct body" in "".join(got)
+
+
+def test_the_worker_body_stops_delivering_once_stopped(qapp):
+    prov = _python_provider("for i in range(200): print(i)")
+    w = C._Worker(prov, "q", "s")
+    got = []
+    w.chunk.connect(got.append)
+    w.stop()
+    w.run()
+    assert len(got) <= 1
+
+
+def test_registering_after_a_stop_kills_the_process_immediately(qapp):
+    """The race that matters: someone closes the window between start() and the process existing.
+
+    Left unhandled, _proc is still None when stop() looks, the kill is skipped, and the thread reads
+    a process nobody is waiting for -- then Qt aborts when the panel is destroyed under it.
+    """
+    prov = _python_provider("import time; time.sleep(30)")
+    w = C._Worker(prov, "q", "s")
+    w.stop()                                  # stop arrives first
+    proc = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(30)"])
+    try:
+        w._register(proc)                     # ...then the process appears
+        proc.wait(timeout=10)
+        assert proc.poll() is not None, "a process registered after a stop was left running"
+    finally:
+        if proc.poll() is None:
+            proc.kill()
+
+
+def test_killing_an_already_dead_process_is_harmless(qapp):
+    proc = subprocess.Popen([sys.executable, "-c", "pass"])
+    proc.wait(timeout=10)
+    C._Worker._kill(proc)                     # already exited
+    C._Worker._kill(None)                     # never started
+
+
+def test_a_process_that_refuses_to_die_does_not_raise(qapp):
+    """kill() can raise if the process is already reaped by something else."""
+    class Stubborn:
+        def poll(self):
+            return None
+
+        def kill(self):
+            raise OSError("no such process")
+
+    C._Worker._kill(Stubborn())               # must not raise
+
+
+def test_a_reader_that_blows_up_still_ends_the_stream(qapp, monkeypatch):
+    """The reader thread's guard. A pipe closing under a kill raises mid-read, and if that killed the
+    thread without queueing its sentinel the generator would wait on a line that never comes."""
+    real_popen = C.subprocess.Popen
+
+    class Exploding:
+        def readline(self):
+            raise OSError("pipe torn down")
+
+        def close(self):
+            pass
+
+    def popen(*a, **k):
+        proc = real_popen(*a, **k)
+        proc.stdout = Exploding()
+        return proc
+
+    monkeypatch.setattr(C.subprocess, "Popen", popen)
+    prov = _python_provider("print('never read')")
+    out = "".join(C.stream(prov, "q", "s", timeout=10))
+    assert "timed out" not in out, "a broken reader was left to hit the deadline instead of ending"
+
+
+def test_a_process_that_will_not_exit_after_its_output_is_killed(qapp):
+    """Covers the wait() timeout inside the normal path: stdout closes but the process lingers.
+
+    Without the kill here the child outlives the answer, which over a session is a pile of stranded
+    processes rather than one visible failure.
+    """
+    # os.close(1), not sys.stdout.close(): closing Python's wrapper leaves the underlying descriptor
+    # open until the process exits, so the parent never sees EOF and falls through to the outer
+    # deadline instead -- which is a different branch and leaves this one untested.
+    prov = _python_provider(
+        "import os, sys, time; print('done talking'); sys.stdout.flush(); os.close(1); "
+        "time.sleep(30)")
+    out = "".join(C.stream(prov, "q", "s", timeout=3))
+    assert "done talking" in out
+    assert "timed out" not in out, "it hit the read deadline rather than the wait after EOF"
+
+
+def test_closing_a_stream_that_refuses_to_close_is_survived(qapp, monkeypatch):
+    """The final guard. Tearing down the pipes must not raise after a perfectly good answer."""
+    real_popen = C.subprocess.Popen
+
+    class Unclosable:
+        def __init__(self, inner):
+            self._inner = inner
+
+        def __getattr__(self, name):
+            return getattr(self._inner, name)
+
+        def close(self):
+            raise OSError("cannot close")
+
+    def popen(*a, **k):
+        proc = real_popen(*a, **k)
+        proc.stdout = Unclosable(proc.stdout)
+        proc.stderr = Unclosable(proc.stderr)
+        return proc
+
+    monkeypatch.setattr(C.subprocess, "Popen", popen)
+    prov = _python_provider("print('answered anyway')")
+    assert "answered anyway" in "".join(C.stream(prov, "q", "s"))
+
+
+def test_the_accent_falls_back_when_the_palette_cannot_be_read(qapp, panels, monkeypatch):
+    """A panel with no window, or a theme module that moved, must still colour the two speakers apart."""
+    panel = C.ChatPanel()
+    panels.append(panel)
+    monkeypatch.setattr(panel, "window", lambda: (_ for _ in ()).throw(RuntimeError("no window")))
+    assert panel._accent("you") == "#7aa2f7"
+    assert panel._accent("assistant") == "#9ece6a"
 
 
 def test_the_worker_emits_chunks_and_finishes(qapp):
