@@ -442,7 +442,17 @@ def embed(nodes: pd.DataFrame) -> np.ndarray:
              "n_interpro", "n_phosphosites", "has_domain", "lineage_specific"] + FIT
     feats = [f for f in feats if f in nodes.columns]
     X = nodes[feats].to_numpy(dtype=float)
-    med = np.nanmedian(X, axis=0)
+    with np.errstate(all="ignore"):
+        med = np.nanmedian(X, axis=0)
+    # A column measured for NO gene has a median of NaN, so median-filling leaves it NaN and UMAP dies
+    # with "Input contains NaN" -- which names neither the column nor the dataset that failed to load.
+    # An all-missing feature contributes nothing either way; centring it at zero says so and lets the
+    # build finish, with the column named so the real problem is visible.
+    dead = [f for f, m in zip(feats, med) if not np.isfinite(m)]
+    if dead:
+        log(f"embedding: {len(dead)} feature(s) measured for no gene, centred at zero: "
+            f"{', '.join(dead)}")
+    med = np.where(np.isfinite(med), med, 0.0)
     X = np.where(np.isnan(X), med, X)
     X = (X - X.mean(0)) / (X.std(0) + 1e-9)
     comp = pd.get_dummies(nodes.compartment.astype(str)).to_numpy(dtype=float)
