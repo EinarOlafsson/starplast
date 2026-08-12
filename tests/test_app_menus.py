@@ -771,3 +771,50 @@ def test_help_offers_both_explanations(win):
     labels = [x.text() for x in helps[0].menu().actions()]
     assert any("does and does not show" in x for x in labels)
     assert any("gamed" in x for x in labels)
+
+
+# --------------------------------------------------------------------------- colouring by cluster
+def test_a_clustering_can_be_seen_on_the_map(win):
+    """The Clusters tab computed labels, printed how many there were, and threw them away. There was
+    no cluster colour mode at all, so the one thing this application is for -- looking at structure
+    beside a held-out variable -- could not be done."""
+    import numpy as np
+    assert "clusters" in A.COLOUR_MODES
+    lab = np.random.default_rng(0).integers(-1, 5, size=win.n)
+    win.use_clusters(lab)
+    assert win.colour_mode == "clusters", "clustering must show the clusters, not stay on compartment"
+    cols = win.colours(np.ones(win.n, bool))
+    assert len(set(map(tuple, cols[:, :3].round(4)))) >= 5, "clusters are not drawn apart"
+
+
+def test_unclustered_genes_are_grey_like_everything_else_unknown(win):
+    """HDBSCAN calling a gene unclustered is a finding about that gene, not a gap in the drawing."""
+    import numpy as np
+    lab = np.random.default_rng(1).integers(-1, 4, size=win.n)
+    win.use_clusters(lab)
+    cols = win.colours(np.ones(win.n, bool))
+    grey = tuple(round(float(x), 4) for x in A.TH.unknown_colour(win.theme)[:3])
+    assert tuple(round(float(x), 4) for x in cols[lab < 0][0][:3]) == grey
+    assert len(set(map(tuple, cols[lab < 0][:, :3]))) == 1, "noise must be one colour"
+
+
+def test_colouring_by_clusters_before_any_exist_is_not_a_crash(win):
+    """Selecting the mode from the menu with nothing clustered yet must be grey, not an exception."""
+    import numpy as np
+    win.cluster_labels = None
+    win.set_colour_mode("clusters")
+    cols = win.colours(np.ones(win.n, bool))
+    assert len(set(map(tuple, cols[:, :3]))) == 1
+    win.set_colour_mode("compartment")
+
+
+def test_a_stale_clustering_is_not_drawn_against_the_wrong_genes(win):
+    """A clustering of a subsample has fewer labels than the map has genes, and lining them up by
+    position would colour genes by somebody else's cluster."""
+    import numpy as np
+    win.cluster_labels = np.zeros(7, int)
+    win.set_colour_mode("clusters")
+    cols = win.colours(np.ones(win.n, bool))
+    assert len(set(map(tuple, cols[:, :3]))) == 1, "a mismatched clustering must not be drawn"
+    win.cluster_labels = None
+    win.set_colour_mode("compartment")

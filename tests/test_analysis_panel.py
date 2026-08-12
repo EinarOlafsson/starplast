@@ -701,3 +701,25 @@ def test_asking_for_labels_none_of_which_cluster_says_which(panel):
                 min_cluster=1, min_label=5)
     assert r["score"] == 0.0
     assert "nope" in r["detail"] and "also-nope" in r["detail"]
+
+
+def test_every_results_table_can_be_sorted_by_clicking_a_column(panel):
+    """A walk produces hundreds of rows and the useful ones are at whichever end you sort to."""
+    panel._fill(panel.walk_table, pd.DataFrame({"a": [3.0, 1.0, 2.0]}))
+    assert panel.walk_table.isSortingEnabled()
+
+
+def test_a_score_column_sorts_numerically_not_as_text(panel):
+    """Stored as text, 0.9 sorts below 0.10, which puts the worst configurations at the top."""
+    from PyQt6 import QtCore as _Qt
+    panel._fill(panel.walk_table, pd.DataFrame({"score": [0.9, 0.10, 0.5]}))
+    panel.walk_table.sortItems(0, _Qt.Qt.SortOrder.DescendingOrder)
+    top = panel.walk_table.item(0, 0)
+    assert float(top.data(_Qt.Qt.ItemDataRole.DisplayRole)) == 0.9
+
+
+def test_filling_a_table_twice_while_sorted_does_not_interleave(panel):
+    """With sorting left on during insertion Qt re-sorts after every row."""
+    panel._fill(panel.walk_table, pd.DataFrame({"a": [1.0, 2.0, 3.0]}))
+    panel._fill(panel.walk_table, pd.DataFrame({"a": [9.0]}))
+    assert panel.walk_table.rowCount() == 1

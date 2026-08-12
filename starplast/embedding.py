@@ -143,6 +143,16 @@ def _scale(X: np.ndarray, how: str) -> np.ndarray:
     return (X - mean) / np.where(sd > 1e-9, sd, 1.0)
 
 
+def as_text(s):
+    """A plain string Series with missing values as "", whatever pandas version is installed.
+
+    `.astype(str)` keeps NA under pandas 3 and produces the literal "nan" under pandas 2, so one-hot
+    encoding a column with missing values gives a different set of dummy columns on each. Missing
+    becomes "", which is already an absence label everywhere else in this project.
+    """
+    return s.astype("object").where(s.notna(), "").astype(str)
+
+
 def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
     """Return (X, feature_names, kept_gene_index) for one spec.
 
@@ -225,11 +235,18 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
         col = CATEGORICAL_BLOCKS.get(cat, cat)
         if col not in nodes.columns:
             continue
-        D = pd.get_dummies(nodes[col].astype(str)).to_numpy(dtype=float)
+        dummies = pd.get_dummies(as_text(nodes[col]))
+        # np.array, not to_numpy() alone. Under pandas 3 the array backing a one-hot frame comes
+        # back READ-ONLY, so scaling it in place raises "output array is read-only" -- the third
+        # place this project has hit that, after embedding.embed and build_graph.embed. It is
+        # version-dependent, which is why it only appears on the newer pandas.
+        D = np.array(dummies.to_numpy(dtype=float), dtype=float, copy=True)
         v = D.var(axis=0).sum()
         D *= (spec.categorical_weight / np.sqrt(v)) if v > 1e-12 else 1.0
         X = np.hstack([X, D])
-        names += [f"{col}::{c}" for c in pd.get_dummies(nodes[col].astype(str)).columns]
+        # Taken from the frame already built rather than rebuilt, which computed the same one-hot
+        # encoding twice and could disagree with itself if the column had NA.
+        names += [f"{col}::{c}" for c in dummies.columns]
 
     if spec.na_policy == "drop_genes":
         # Evaluated against the pre-imputation values. Testing X would always pass, because every block

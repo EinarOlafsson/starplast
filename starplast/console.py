@@ -52,6 +52,15 @@ class Tee(QtCore.QObject):
             except Exception:
                 pass
 
+    def close(self):
+        """Do NOT close the wrapped stream -- this is a tee, not an owner.
+
+        Python's logging shutdown calls close() on whatever it finds at sys.stderr. Without this the
+        interpreter reported "'Tee' object has no attribute 'close'" at exit, and closing the real
+        stream instead would take stderr down for everything still running.
+        """
+        self.flush()
+
     def isatty(self):
         # Progress bars and colour codes key off this. The widget is not a terminal, and claiming
         # otherwise fills the pane with escape sequences.

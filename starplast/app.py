@@ -66,7 +66,7 @@ FIT = ["fit_invitro_hff", "fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver"
 
 EDGE_CAP = 20000        # per type, on drawing only. Stated in the tooltip rather than applied silently.
 
-COLOUR_MODES = ["compartment", "compartment (incl. transferred)", "in vitro fitness",
+COLOUR_MODES = ["compartment", "compartment (incl. transferred)", "clusters", "in vitro fitness",
                 "publications", "depth of attention", "structure confidence (pLDDT)",
                 "cyst / tachyzoite expression"]
 
@@ -380,6 +380,10 @@ class Window(QtWidgets.QMainWindow):
         self.attn_on = True                   # a correctness default, not a preference
         self.all_edges_on = False
         self._galaxies = None                 # computed lazily; the grid pass is not free
+        # A clustering from the analysis panel, so the map can be coloured by it. Looking at
+        # structure beside a held-out variable is what this application is for, and until this
+        # existed the Clusters tab computed labels and discarded them.
+        self.cluster_labels = None
         self._spin_home = None                # where spin started, so it can be put back
 
         self.view = Map3D(self.xyz)
@@ -472,6 +476,7 @@ class Window(QtWidgets.QMainWindow):
                               runner=self.jobs)
         panel.status.connect(lambda m: self.statusBar().showMessage(m))
         panel.embedding_ready.connect(self.use_embedding)
+        panel.clusters_ready.connect(self.use_clusters)
         d.setWidget(panel)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, d)
         self.tabifyDockWidget(self.right_dock, d)
@@ -691,6 +696,18 @@ class Window(QtWidgets.QMainWindow):
         b.accepted.connect(d.accept)
         lay.addWidget(b)
         return d
+
+    def use_clusters(self, labels):
+        """Take a clustering from the analysis panel and colour the map by it.
+
+        Switches the colouring automatically, because a user who has just pressed "cluster this map"
+        wants to see the clusters -- and leaving it on compartment made the button look inert.
+        """
+        self.cluster_labels = np.asarray(labels)
+        self.set_colour_mode("clusters")
+        n = len(set(self.cluster_labels[self.cluster_labels >= 0]))
+        self.status.showMessage(f"colouring by {n} clusters; grey is unclustered, which is a real "
+                                f"answer and not a missing one")
 
     def open_preferences(self):
         """Appearance settings, gathered in one place rather than crowding the map panel."""
@@ -1199,6 +1216,18 @@ class Window(QtWidgets.QMainWindow):
             for comp, col in self.colour_of.items():
                 c[(vals == comp).to_numpy(), :3] = col
             c[(vals == "unassigned").to_numpy(), :3] = TH.unknown_colour(self.theme)[:3]
+        elif mode == "clusters":
+            # Noise stays grey, with everything else that is unknown. HDBSCAN calling a gene
+            # unclustered is a finding about that gene, not a gap in the drawing.
+            if self.cluster_labels is None or len(self.cluster_labels) != self.n:
+                c[:, :3] = TH.unknown_colour(self.theme)[:3]
+            else:
+                lab = self.cluster_labels
+                ids = sorted(set(lab[lab >= 0]))
+                palette = TH.categorical_colours(max(len(ids), 1), self.theme, self.cmap_name)
+                for col, k in zip(palette, ids):
+                    c[lab == k, :3] = col
+                c[lab < 0, :3] = TH.unknown_colour(self.theme)[:3]
         elif mode == "depth of attention":
             # Categorical, not a scale: these tiers are read off document structure (title / abstract /
             # body-only), so shading them along a gradient would imply a quantity that does not exist.

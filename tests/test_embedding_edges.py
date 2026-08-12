@@ -324,3 +324,56 @@ def test_a_block_whose_columns_are_all_too_sparse_is_skipped_under_drop_columns(
                                log=lambda *_: None)
     assert not any(n.startswith("fit_") for n in names)
     assert any(n.startswith("expr_") for n in names)
+
+
+def test_a_read_only_one_hot_array_is_copied_before_scaling():
+    """The third home of "output array is read-only", and the one that hit a user.
+
+    pandas 3 hands back a READ-ONLY array from a one-hot frame, so scaling it in place raises. It is
+    version-dependent, so this builds the read-only array explicitly rather than relying on whichever
+    pandas is installed -- otherwise the test passes on pandas 2 while the application fails on 3.
+    """
+    import numpy as np
+    import pandas as pd
+    from starplast.embedding import EmbeddingSpec, build_matrix
+
+    real = pd.get_dummies
+
+    def read_only_dummies(*a, **kw):
+        out = real(*a, **kw)
+        arr = out.to_numpy()
+        arr.flags.writeable = False
+        return pd.DataFrame(arr, columns=out.columns, index=out.index)
+
+    nodes = pd.DataFrame({
+        "gene_id": [f"g{i}" for i in range(40)],
+        "compartment": ["a", "b"] * 20,
+        "expr_tachy": np.linspace(0, 1, 40),
+        "expr_cyst": np.linspace(1, 0, 40),
+    })
+    spec = EmbeddingSpec(blocks=("expression_summary",), categorical=("compartment",))
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(pd, "get_dummies", read_only_dummies)
+        X, names, rows = build_matrix(nodes, spec, log=lambda *a: None)
+    assert X.shape[0] == 40
+    assert any("compartment::" in n for n in names)
+
+
+def test_one_hot_column_names_come_from_the_frame_that_was_encoded():
+    """They were built by encoding the column a second time, which is the same work done twice and
+    two chances to disagree if the column has missing values."""
+    import numpy as np
+    import pandas as pd
+    from starplast.embedding import EmbeddingSpec, build_matrix
+
+    nodes = pd.DataFrame({
+        "gene_id": [f"g{i}" for i in range(30)],
+        "compartment": ["a", "b", None] * 10,
+        "expr_tachy": np.linspace(0, 1, 30),
+        "expr_cyst": np.linspace(1, 0, 30),
+    })
+    X, names, rows = build_matrix(
+        nodes, EmbeddingSpec(blocks=("expression_summary",), categorical=("compartment",)),
+        log=lambda *a: None)
+    onehot = [n for n in names if n.startswith("compartment::")]
+    assert len(onehot) == X.shape[1] - 2, "the names do not match the columns that were added"

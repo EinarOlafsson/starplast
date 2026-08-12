@@ -243,6 +243,10 @@ class AnalysisPanel(QtWidgets.QWidget):
     """Data selection, tuning, clustering and the hypothesis battery."""
 
     embedding_ready = QtCore.pyqtSignal(object, object)          # coords, gene mask
+    #: A clustering, so the map can colour by it. Without this the Clusters tab computed labels,
+    #: printed how many there were, and threw them away -- which made the one thing this application
+    #: is for, looking at structure coloured by a held-out variable, impossible to actually do.
+    clusters_ready = QtCore.pyqtSignal(object)                   # labels, -1 for noise
     status = QtCore.pyqtSignal(str)
 
     def __init__(self, nodes: pd.DataFrame, store=None, parent=None, runner=None):
@@ -839,15 +843,31 @@ class AnalysisPanel(QtWidgets.QWidget):
         on_done(job.result)
 
     def _fill(self, table: QtWidgets.QTableWidget, df: pd.DataFrame, limit=200):
+        """Fill a table, sortable by any column.
+
+        Sorting is disabled while the rows go in and re-enabled afterwards: with it left on, Qt
+        re-sorts after every insertion and the rows end up interleaved. Numbers are stored as
+        numbers rather than as their formatted text, so a score column sorts 0.9 above 0.10 instead
+        of lexically.
+        """
         df = df.head(limit)
+        table.setSortingEnabled(False)
         table.clear()
         table.setRowCount(len(df)); table.setColumnCount(len(df.columns))
         table.setHorizontalHeaderLabels([str(c) for c in df.columns])
         for i, (_, r) in enumerate(df.iterrows()):
             for j, v in enumerate(r):
                 s = f"{v:.3f}" if isinstance(v, float) and np.isfinite(v) else str(v)
-                table.setItem(i, j, QtWidgets.QTableWidgetItem(s))
+                item = QtWidgets.QTableWidgetItem()
+                if isinstance(v, (int, float, np.integer, np.floating)) and np.isfinite(v):
+                    # Stored as a number so the column sorts numerically; the text is what shows.
+                    item.setData(QtCore.Qt.ItemDataRole.DisplayRole, float(v))
+                    item.setText(s)
+                else:
+                    item.setText(s)
+                table.setItem(i, j, item)
         table.resizeColumnsToContents()
+        table.setSortingEnabled(True)
 
     def run_umap_walk(self):
         """Score a grid of UMAP hyperparameters and fill the table with the ranking."""
@@ -930,7 +950,9 @@ class AnalysisPanel(QtWidgets.QWidget):
         from .clustering import NOISE
         self.labels = labels
         k = len(set(labels[labels != NOISE]))
-        self.status.emit(f"{k} clusters, {100 * (labels == NOISE).mean():.0f}% unassigned")
+        self.clusters_ready.emit(labels)
+        self.status.emit(f"{k} clusters, {100 * (labels == NOISE).mean():.0f}% unassigned "
+                         f"-- colour the map by 'clusters' to see them")
 
     def run_battery(self):
         """Test what the clusters correspond to, using only features the map never saw."""
