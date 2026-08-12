@@ -717,3 +717,47 @@ def test_the_job_context_menu_offers_stop_and_the_traceback(win):
     assert "Stop this job" in labels
     assert "Stop all running jobs" in labels
     assert any("traceback" in x.lower() for x in labels)
+
+
+# --------------------------------------------------------------------------- explanations
+def test_no_control_anywhere_is_left_without_an_explanation(win):
+    """An audit, not a spot check. 85 controls had no tooltip when this was first run, almost all of
+    them in the analysis panel, which is the part where choosing wrongly costs the most."""
+    missing = []
+    # Ok/Cancel inside a QDialogButtonBox are excluded: they are universally understood, and Qt
+    # supplies them rather than this application.
+    standard = {b for box in win.findChildren(QtWidgets.QDialogButtonBox) for b in box.buttons()}
+    for cls in (QtWidgets.QComboBox, QtWidgets.QSpinBox, QtWidgets.QDoubleSpinBox,
+                QtWidgets.QCheckBox, QtWidgets.QPushButton):
+        for wid in win.findChildren(cls):
+            if wid in standard:
+                continue
+            if not wid.toolTip().strip():
+                label = wid.text() if hasattr(wid, "text") else wid.objectName()
+                missing.append(f"{cls.__name__}: {label!r}")
+    assert not missing, f"controls with no tooltip: {missing}"
+
+
+def test_the_scoring_explainer_is_reachable_and_carries_the_table(win):
+    """The precision/recall table belongs in the application, not only in a commit message."""
+    d = win.explain_scoring()
+    text = d.findChild(QtWidgets.QPlainTextEdit).toPlainText()
+    assert "precision = |c and l| / |c|" in text
+    assert "all singletons" in text and "one big cluster" in text
+    assert "1.000, 1.000 and\n1.000" in text or "1.000, 1.000" in text
+    d.deleteLater()
+
+
+def test_the_explainer_is_the_one_in_the_code_not_a_copy(win):
+    """Two copies of an explanation drift, and the one on screen is the one people believe."""
+    from starplast.objectives import EXPLANATION
+    d = win.explain_scoring()
+    assert d.findChild(QtWidgets.QPlainTextEdit).toPlainText() == EXPLANATION
+    d.deleteLater()
+
+
+def test_help_offers_both_explanations(win):
+    helps = [a for a in win.menuBar().actions() if a.menu() and "Help" in a.menu().title()]
+    labels = [x.text() for x in helps[0].menu().actions()]
+    assert any("does and does not show" in x for x in labels)
+    assert any("gamed" in x for x in labels)

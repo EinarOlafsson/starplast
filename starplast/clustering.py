@@ -92,6 +92,11 @@ def walk_hdbscan(X: np.ndarray, min_cluster_sizes=(10, 20, 50, 100),
 
 
 def cluster(X: np.ndarray, algorithm="hdbscan", **kw) -> np.ndarray:
+    """Cluster an embedding, returning a label per point with -1 for noise.
+
+    HDBSCAN by default: it allows clusters of differing density and calls the rest noise, which suits
+    a proteome where most genes belong to no tight group. Calling that noise is the honest answer.
+    """
     if algorithm == "dbscan":
         from sklearn.cluster import DBSCAN
         return DBSCAN(eps=kw.get("eps", 0.5), min_samples=kw.get("min_samples", 10)).fit_predict(X)

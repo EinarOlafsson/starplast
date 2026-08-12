@@ -177,6 +177,11 @@ DEPTH_COLOUR = {"focal": (0.98, 0.86, 0.30),          # the paper is about this 
 
 
 def load():
+    """Load the built cache: node table, coordinates, edge layers and stored models.
+
+    Raises with the command that builds the cache if it is absent, rather than letting pandas raise
+    a file-not-found from inside a constructor, which tells the user nothing about what to do.
+    """
     npz, pq = os.path.join(DATA, "graph.npz"), os.path.join(DATA, "nodes.parquet")
     if not (os.path.exists(npz) and os.path.exists(pq)):
         raise SystemExit("No cached graph. Run:  python -m starplast.build_graph")
@@ -246,6 +251,7 @@ class Map3D(gl.GLViewWidget):
         self._cam_timer.start(16)
 
     def data_radius(self) -> float:
+        """Radius of the point cloud about its centre, for framing and grid sizing."""
         if not len(self.xyz):
             return 100.0
         return float(np.linalg.norm(self.xyz - self.xyz.mean(0), axis=1).max())
@@ -330,6 +336,13 @@ class Map3D(gl.GLViewWidget):
 
 
 class Window(QtWidgets.QMainWindow):
+    """The application window: a 3D map, the panels around it, and everything they can do.
+
+    Holds the view state that the menus mutate -- level of detail, colouring, point size, which edge
+    layers are active, the filter category -- and redraws from it. State lives here as plain
+    attributes rather than being read back out of widgets, so a headless caller can drive the whole
+    interface without a window manager, which is how the tests exercise it.
+    """
     def __init__(self):
         super().__init__()
         self.theme = 'dark'
@@ -430,6 +443,7 @@ class Window(QtWidgets.QMainWindow):
         self.redraw()
 
     def apply_point_style(self):
+        """Re-apply the point style and redraw."""
         st = TH.POINT_STYLES[self.point_style]
         self.scatter.setGLOptions(TH.gl_options(self.point_mode))
         self.scatter.setData(pos=self.xyz, color=self.colours(self.visible_mask()),
@@ -593,6 +607,8 @@ class Window(QtWidgets.QMainWindow):
 
         h = mb.addMenu("&Help")
         h.addAction("What this map does and does not show").triggered.connect(self.explain_map)
+        h.addAction("Precision, recall, and how each can be gamed").triggered.connect(
+            self.explain_scoring)
 
     def _context_menu(self, pos):
         """Right-click on the map. Shows the menu; `build_context_menu` makes it."""
@@ -627,26 +643,54 @@ class Window(QtWidgets.QMainWindow):
 
     # ------------------------------------------------------------------ menu state
     def set_level(self, i: int):
+        """Switch level of detail, easing the camera to suit the new tier."""
         self.level_idx = int(i)
         self.on_level_changed()
 
     def set_colour_mode(self, name: str):
+        """Change what colour encodes. Each mode is a different claim about the data."""
         self.colour_mode = name
         self.redraw()
 
     def set_point_size(self, size):
+        """Set an absolute point size, or None to follow the point style."""
         self.point_size = size
         self.redraw()
 
     def set_edge(self, key: str, on: bool):
+        """Turn one edge layer on or off. Layers are never merged."""
         self.edge_on[key] = bool(on)
         self.redraw()
 
     def explain_edges(self):
+        """Explain, in words, why the twelve relation types are kept separate."""
         QtWidgets.QMessageBox.information(self, "Why edge types are kept separate", EDGE_EXPLANATION)
 
     def explain_map(self):
+        """Explain what the map is and what held-out testing says it does not support."""
         QtWidgets.QMessageBox.information(self, "What this map shows", MAP_EXPLANATION)
+
+    def explain_scoring(self):
+        """The precision/recall explainer, read from objectives.py so it cannot drift from the code.
+
+        Shown in a monospace, selectable box: it contains a table, and a table reflowed into a
+        proportional font is unreadable.
+        """
+        from .objectives import EXPLANATION
+        d = QtWidgets.QDialog(self)
+        d.setWindowTitle("Precision, recall, and how each can be gamed")
+        lay = QtWidgets.QVBoxLayout(d)
+        view = QtWidgets.QPlainTextEdit(EXPLANATION)
+        view.setReadOnly(True)
+        view.setLineWrapMode(QtWidgets.QPlainTextEdit.LineWrapMode.NoWrap)
+        view.setFont(QtGui.QFontDatabase.systemFont(QtGui.QFontDatabase.SystemFont.FixedFont))
+        view.setMinimumSize(760, 520)
+        lay.addWidget(view)
+        b = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.StandardButton.Close)
+        b.rejected.connect(d.reject)
+        b.accepted.connect(d.accept)
+        lay.addWidget(b)
+        return d
 
     def open_preferences(self):
         """Appearance settings, gathered in one place rather than crowding the map panel."""
@@ -854,6 +898,7 @@ class Window(QtWidgets.QMainWindow):
         self.stop_all_btn.setEnabled(bool(running))
 
     def selected_job(self):
+        """The job selected in the Jobs panel, or None."""
         items = self.jobs_view.selectedItems()
         if not items:
             return None
@@ -861,6 +906,7 @@ class Window(QtWidgets.QMainWindow):
         return self.jobs.jobs.get(jid)
 
     def stop_selected_job(self):
+        """Ask the selected job to stop, reporting why if it cannot."""
         job = self.selected_job()
         if job is None:
             self.status.showMessage("select a job in the list first")
@@ -873,6 +919,7 @@ class Window(QtWidgets.QMainWindow):
         self._refresh_jobs()
 
     def stop_all_jobs(self):
+        """Ask every running job to stop."""
         n = len(self.jobs.active())
         if not n:
             self.status.showMessage("nothing is running")
@@ -888,6 +935,7 @@ class Window(QtWidgets.QMainWindow):
         return m
 
     def build_job_menu(self):
+        """The Jobs right-click menu. Built rather than shown, because exec() blocks."""
         m = QtWidgets.QMenu(self)
         job = self.selected_job()
         stop = m.addAction("Stop this job")
@@ -901,6 +949,7 @@ class Window(QtWidgets.QMainWindow):
         return m
 
     def copy_job_error(self):
+        """Copy a failed job's traceback to the clipboard."""
         job = self.selected_job()
         cb = QtWidgets.QApplication.clipboard()
         if job is not None and cb is not None:
@@ -942,6 +991,7 @@ class Window(QtWidgets.QMainWindow):
         return "  ·  ".join(parts)
 
     def refresh_resources(self):
+        """Update the memory and CPU line in the Jobs panel."""
         self.resources.setText(self.resource_summary())
 
     def free_memory(self) -> str:
@@ -1061,6 +1111,9 @@ class Window(QtWidgets.QMainWindow):
         self._fill_category_list()
 
         b = QtWidgets.QPushButton("reset view / clear filters")
+        b.setToolTip("Clear the selection and every class filter, and frame the whole map again. "
+                     "The way back when a filter has left you looking at forty genes and it is no "
+                     "longer obvious which one.")
         b.clicked.connect(self.reset)
         L.addWidget(b)
         d.setWidget(w)
@@ -1118,12 +1171,14 @@ class Window(QtWidgets.QMainWindow):
 
     # ------------------------------------------------------------------ drawing
     def visible_mask(self):
+        """Boolean mask of the genes passing the current class filter."""
         sel = [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.comp_list.selectedItems()]
         if not sel:
             return np.ones(self.n, bool)
         return as_text(self.nodes[self.category]).isin(sel).to_numpy()
 
     def colours(self, vis):
+        """An RGBA colour per gene under the current colour mode. Grey always means unknown."""
         mode = self.colour_mode
         c = np.zeros((self.n, 4), dtype=np.float32)
         if mode.startswith("compartment"):
@@ -1180,6 +1235,7 @@ class Window(QtWidgets.QMainWindow):
         return self._galaxies
 
     def redraw(self):
+        """Redraw everything from the current state: points, tiers, ground, halo and edges."""
         vis = self.visible_mask()
         lvl = self.level_idx
 
@@ -1362,6 +1418,7 @@ class Window(QtWidgets.QMainWindow):
         self.view.addItem(self.halo_item)
 
     def draw_edges(self, vis):
+        """Draw the active edge layers, capped and alpha-budgeted so they do not hide the map."""
         active = [k for k, _ in EDGE_TYPES if self.edge_on.get(k) and k in self.edges]
         if not active:
             return
@@ -1429,11 +1486,13 @@ class Window(QtWidgets.QMainWindow):
 
     # ------------------------------------------------------------------ interaction
     def on_pick(self, i):
+        """Select a gene and show its evidence."""
         self.sel = int(i)
         self.show_detail(self.sel)
         self.redraw()
 
     def do_search(self):
+        """Find a gene by accession or product text and fly to it."""
         q = self.search.text().strip().lower()
         if not q:
             return
@@ -1453,6 +1512,7 @@ class Window(QtWidgets.QMainWindow):
         self.status.showMessage(f"{hit.size} match(es); showing {self.nodes.gene_id.iloc[hit[0]]}")
 
     def fly_to_compartment(self, item):
+        """Move the camera to a class's centroid and drop to the gene tier."""
         c = item.data(QtCore.Qt.ItemDataRole.UserRole)
         m = (as_text(self.nodes[self.category]) == c).to_numpy()
         if m.sum():
@@ -1460,6 +1520,7 @@ class Window(QtWidgets.QMainWindow):
             self.set_level(2)
 
     def reset(self):
+        """Clear the selection and every filter, and frame the whole map again."""
         self.sel = None
         self.comp_list.clearSelection()
         self.view.fit_view()
@@ -1513,6 +1574,8 @@ class Window(QtWidgets.QMainWindow):
         L.addWidget(QtWidgets.QLabel(
             "The gene id and coordinates are always written. Tick anything else to carry along."))
         filt = QtWidgets.QLineEdit(placeholderText="filter columns…")
+        filt.setToolTip("Narrow the list by name. Ticks are kept underneath, so filtering never "
+                        "silently drops a column you had already chosen.")
         L.addWidget(filt)
         lst = QtWidgets.QListWidget()
         lst.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.NoSelection)
@@ -1535,6 +1598,9 @@ class Window(QtWidgets.QMainWindow):
         for label, state in (("all", QtCore.Qt.CheckState.Checked),
                              ("none", QtCore.Qt.CheckState.Unchecked)):
             btn = QtWidgets.QPushButton(label)
+            btn.setToolTip(f"Tick or untick every column the filter is currently showing. Acts on "
+                           f"the visible ones only, so '{label}' after filtering does not disturb "
+                           f"choices you cannot see.")
             # Only what the filter is showing, so "none" after filtering clears that group rather
             # than silently discarding ticks the user cannot currently see.
             btn.clicked.connect(lambda _c, s=state: [lst.item(i).setCheckState(s)
@@ -1700,6 +1766,7 @@ class Window(QtWidgets.QMainWindow):
 
     # ------------------------------------------------------------------ detail
     def show_detail(self, i):
+        """Fill the evidence panel for one gene, distinguishing absence from zero throughout."""
         r = self.nodes.iloc[i]
         gid = str(r.gene_id)
 
@@ -1838,6 +1905,7 @@ class Window(QtWidgets.QMainWindow):
 
 
 def main():
+    """Entry point for the `starplast` command: build the window and run the event loop."""
     # Check before building a window. A missing cache otherwise surfaces as a pandas error from inside
     # a constructor, which tells the user nothing about what to do next.
     ok, msg = paths.check()

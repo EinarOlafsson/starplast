@@ -36,10 +36,94 @@ class Worker(QtCore.QObject):
 
     @QtCore.pyqtSlot()
     def run(self):
+        """Run the callable and emit its result, or its exception, never raising into Qt."""
         try:
             self.done.emit(self.fn(self.progress.emit), None)
         except Exception as e:                                   # pragma: no cover - GUI path
             self.done.emit(None, e)
+
+
+#: Why each control exists, not what it is called. Applied after the tabs are built so every widget
+#: is covered in one auditable place rather than scattered through five builders -- and so a new
+#: control without an explanation is a visible omission rather than a silent one.
+TOOLTIPS = {
+    # 1 Data
+    "cat_cb": "One-hot the measured hyperLOPIT compartment INTO the map. Leave it OFF when you "
+              "intend to hold localisation out and test whether the map recovers it: a map built on "
+              "a label separates that label by construction, and the result means nothing.",
+    "max_missing": "Drop a column missing in more than this fraction of genes. Most of this "
+                   "proteome is unmeasured, so a permissive setting fills the map with columns that "
+                   "are mostly absence indicators rather than measurements.",
+    # 2 Map
+    "nn": "UMAP n_neighbors: how much of the neighbourhood each point is placed by. Small values "
+          "preserve local detail and fragment the map; large values preserve global shape and merge "
+          "genuinely distinct groups. This is the single most consequential hyperparameter here.",
+    "md": "UMAP min_dist: how tightly points may pack. Low values make dense, visually separated "
+          "clumps that look like clusters whether or not they are; higher values spread points and "
+          "make the density gradient honest. Low min_dist flatters every clustering that follows.",
+    "seed": "Random seed. Recorded with every stored embedding, because a structure nobody can "
+            "rebuild is not a result -- and UMAP moves noticeably between seeds at these sizes.",
+    "sample": "How many genes the hyperparameter walk uses per configuration. Smaller is faster and "
+              "FLATTERING: measured on this data, a 3,000-gene subsample scored compartment at "
+              "0.228 where the full proteome scored 0.193. Confirm any winner at full size.",
+    "emb_name": "Name this embedding so it can be reloaded and compared. Stored with its full "
+                "recipe -- blocks, scaling, seed and hyperparameters -- so a map can be rebuilt "
+                "exactly rather than approximately.",
+    # 3 Clusters
+    "algo": "HDBSCAN finds clusters of varying density and labels the rest noise, which suits a "
+            "proteome where most genes belong to no tight group. DBSCAN needs one density for "
+            "everything, so it either splits the sparse regions or merges the dense ones.",
+    "mcs": "The smallest group that counts as a cluster. This is the guard against the degenerate "
+           "answer: any purity objective is won outright by shattering the map into singletons, "
+           "because a cluster of one is perfectly pure. Raise it if clusters look suspiciously tidy.",
+    "eps": "DBSCAN neighbourhood radius, in embedding units. Ignored by HDBSCAN, which infers the "
+           "equivalent per cluster instead of taking one value for the whole map.",
+    # 5 Search
+    "target": "The label to hold out and try to recover. It is excluded from the features along "
+              "with anything that substantially restates it, so the map cannot see the answer it is "
+              "being scored on -- which is the whole point of the exercise.",
+    "search_sample": "Genes per configuration in the search. Same caveat as the walk sample: "
+                     "smaller subsamples produce tighter, purer clusters and therefore better "
+                     "scores than the full proteome will reproduce.",
+    "max_blocks": "How many feature blocks may be combined in one configuration. The number of "
+                  "combinations grows fast, so this bounds a walk that would otherwise run for "
+                  "hours -- the count of configurations is reported when the search starts.",
+    # 6 Validation
+    "val_target": "The label to hide and try to recover. It must NOT be among the features the map "
+                  "was built from: a cluster matching something the embedding already saw is "
+                  "circular, and this refuses to score it rather than returning a flattering number.",
+    "val_folds": "How many times to repeat the hide-and-recover test with a different random "
+                 "selection. More folds give a steadier estimate; the spread across folds is what "
+                 "tells you whether a single good result was luck.",
+    "val_hold": "Fraction of each category's labelled genes hidden per fold. These are the genes "
+                "the score is computed on, and they take no part in choosing which cluster to "
+                "annotate from -- otherwise the test would be marking its own homework.",
+}
+
+#: Buttons, keyed by the method they call.
+BUTTON_TOOLTIPS = {
+    "show_variance": "Report how much of the feature matrix each block actually contributes. The "
+                     "check that catches a block being named as an input while carrying almost "
+                     "nothing -- hyperLOPIT came to 1.1%.",
+    "run_umap_walk": "Score a grid of UMAP hyperparameters and rank them. Produces a table, not "
+                     "maps: seeing the embeddings themselves is the gallery, which is not built yet.",
+    "run_embed": "Build ONE embedding from the current settings and show it in the 3D view, "
+                 "replacing what is there.",
+    "save_embedding": "Store this embedding with its full recipe, so it can be reloaded and "
+                      "compared rather than rebuilt from memory of what the settings were.",
+    "run_cluster_walk": "Score a grid of clustering hyperparameters against the current map.",
+    "run_cluster": "Cluster the current map with these settings. Needs a map built first: this "
+                   "clusters an embedding, it does not make one.",
+    "run_battery": "Test what the clusters correspond to, using ONLY features the map was not built "
+                   "from. A feature that fed the map separates the clusters by construction, so it "
+                   "is evidence of nothing.",
+    "run_search": "Walk dataset combinations and hyperparameters, scoring each by how well the "
+                  "structure recovers the held-out label. This is the long one -- hundreds of "
+                  "configurations, minutes to hours. It appears in Jobs and can be stopped there.",
+    "run_validation": "Put an error rate on an annotation. Hides some genes that already carry a "
+                      "category, picks the cluster holding most of the rest, and scores against the "
+                      "hidden ones. A candidate list without this number is a list of guesses.",
+}
 
 
 from .jobs import Stopped as Cancelled  # noqa: E402  -- shared so the runner can recognise it
@@ -102,6 +186,54 @@ class AnalysisPanel(QtWidgets.QWidget):
         lay = QtWidgets.QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         lay.addWidget(tabs)
+        self._apply_tooltips()
+
+    def _apply_tooltips(self):
+        """Give every control an explanation, from the tables at the top of this module.
+
+        Applied in one place rather than at each widget's construction so that the set of
+        explanations is auditable: a control with no entry is a visible omission, and a test asserts
+        there are none. The convention throughout is that a tooltip says WHY the control exists and
+        what choosing wrongly costs -- "n_neighbors" is a label, not an explanation.
+        """
+        for attr, tip in TOOLTIPS.items():
+            w = getattr(self, attr, None)
+            if w is not None and not w.toolTip():
+                w.setToolTip(tip)
+        # Buttons are keyed by the handler they call, since they are built inline and not stored.
+        for btn in self.findChildren(QtWidgets.QPushButton):
+            tip = BUTTON_TOOLTIPS.get(self._handler_name(btn))
+            if tip and not btn.toolTip():
+                btn.setToolTip(tip)
+        # The feature blocks explain themselves from the registry rather than from a hand-written
+        # list that would drift as blocks are added.
+        for name, cb in getattr(self, "block_cb", {}).items():
+            if not cb.toolTip():
+                cols = columns_for(self.nodes, EmbeddingSpec(blocks=(name,))).get(name, [])
+                cb.setToolTip(
+                    f"Feed the {name} block into the map: {len(cols)} columns"
+                    + (f", including {', '.join(cols[:4])}" if cols else "")
+                    + ". Anything fed in here cannot afterwards be used as evidence about the "
+                      "clusters, because a feature the map was built on separates them by "
+                      "construction.")
+
+    @staticmethod
+    def _handler_name(btn) -> str:
+        """The name of the method a button is connected to, for keying its tooltip."""
+        # Qt exposes no public way to read back a connection, so the button's own text is the key.
+        # It is stable and unique across this panel, and a mismatch shows up as a missing tooltip,
+        # which the audit test catches.
+        return {
+            "show what each block contributes": "show_variance",
+            "walk hyperparameters": "run_umap_walk",
+            "build this map": "run_embed",
+            "save": "save_embedding",
+            "walk clustering": "run_cluster_walk",
+            "cluster this map": "run_cluster",
+            "run the battery": "run_battery",
+            "run the search": "run_search",
+            "test the annotation": "run_validation",
+        }.get(btn.text().strip(), "")
 
     # ------------------------------------------------------------------ 1 data
     def _data_tab(self):
@@ -155,6 +287,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         return w
 
     def spec(self) -> EmbeddingSpec:
+        """The EmbeddingSpec described by the current controls."""
         return EmbeddingSpec(
             blocks=tuple(b for b, cb in self.block_cb.items() if cb.isChecked()),
             categorical=("compartment",) if self.cat_cb.isChecked() else (),
@@ -165,6 +298,7 @@ class AnalysisPanel(QtWidgets.QWidget):
             random_state=self.seed.value())
 
     def show_variance(self):
+        """Report how much of the feature matrix each block actually carries."""
         try:
             v = variance_share(self.nodes, self.spec())
         except ValueError as e:
@@ -344,6 +478,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         return w
 
     def run_validation(self):
+        """Put an error rate on an annotation by hiding labels that are already known."""
         from .validate import validate_all
         if self.labels is None:
             self.status.emit("cluster a map first -- validation scores a clustering, not a map")
@@ -438,6 +573,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         table.resizeColumnsToContents()
 
     def run_umap_walk(self):
+        """Score a grid of UMAP hyperparameters and fill the table with the ranking."""
         from .tuning import walk_umap
         spec, n, size, seed = self.spec(), self.nodes, self.sample.value(), self.seed.value()
         self._run(lambda p: walk_umap(n, spec, sample_size=size, seed=seed, log=p),
@@ -445,6 +581,7 @@ class AnalysisPanel(QtWidgets.QWidget):
                   name="UMAP hyperparameter walk")
 
     def run_embed(self):
+        """Build one embedding from the current spec and show it in the 3D view."""
         from .embedding import embed
         spec, n = self.spec(), self.nodes
         self._run(lambda p: embed(n, spec, log=p), self._embedded, name="build map")
@@ -455,6 +592,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.status.emit(f"map built: {len(self.coords):,} genes, {len(self.features)} features")
 
     def save_embedding(self):
+        """Store the current embedding with its full recipe, so it can be rebuilt exactly."""
         if self.coords is None or self.store is None:
             self.status.emit("build a map first")
             return
@@ -464,6 +602,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.status.emit(f"saved embedding {name!r} with its full recipe")
 
     def run_cluster_walk(self):
+        """Score a grid of clustering hyperparameters against the current map."""
         from .clustering import walk_dbscan, walk_hdbscan
         if self.coords is None:
             self.status.emit("build a map first"); return
@@ -474,6 +613,7 @@ class AnalysisPanel(QtWidgets.QWidget):
                   name=f"{algo} hyperparameter walk")
 
     def run_cluster(self):
+        """Cluster the current map with the chosen algorithm and settings."""
         from .clustering import NOISE, cluster
         if self.coords is None:
             self.status.emit("build a map first"); return
@@ -489,6 +629,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.status.emit(f"{k} clusters, {100 * (labels == NOISE).mean():.0f}% unassigned")
 
     def run_battery(self):
+        """Test what the clusters correspond to, using only features the map never saw."""
         from .clustering import battery, describe
         if self.labels is None:
             self.status.emit("cluster the map first"); return
@@ -521,6 +662,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.status.emit(f"battery: {len(held)} held-out features tested")
 
     def run_search(self):
+        """Walk dataset combinations, scoring each by how well it recovers the held-out label."""
         from .search import search
         import itertools
         n, target = self.nodes, self.target.currentText()

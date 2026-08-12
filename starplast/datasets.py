@@ -34,6 +34,13 @@ from dataclasses import dataclass, field, asdict
 
 @dataclass(frozen=True)
 class Dataset:
+    """One dataset the map is built from, and everything known about where it came from.
+
+    The unit of provenance for the whole project: the README table, the methods document and the
+    per-dataset scripts are all generated from these, so a source is described once and cannot drift
+    between three prose documents. `citation` is None where the originating publication has not been
+    confirmed -- a real gap, listed by `unresolved()`, rather than a guess that could reach a paper.
+    """
     key: str
     name: str
     level: str
@@ -322,6 +329,7 @@ _BY_COLUMN = {c: d for d in REGISTRY for c in d.columns}
 
 
 def registry(level: str | None = None, kind: str | None = None) -> list:
+    """Every dataset, optionally filtered by level or kind."""
     out = REGISTRY
     if level:
         out = [d for d in out if d.level == level]
@@ -331,6 +339,7 @@ def registry(level: str | None = None, kind: str | None = None) -> list:
 
 
 def get(key: str) -> Dataset:
+    """The dataset with this key. Raises KeyError naming the key if there is none."""
     return _BY_KEY[key]
 
 
@@ -508,6 +517,7 @@ def digest(path: str) -> str:
 
 
 def recorded_checksums() -> dict:
+    """The SHA-256 recorded for each downloaded file, so a reissued supplement is caught."""
     from . import paths
     p = _checksum_path(paths)
     if not os.path.exists(p):

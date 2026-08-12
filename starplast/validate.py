@@ -66,6 +66,7 @@ class Validation:
         return float(np.mean([f.f1 for f in self.folds])) if self.folds else float("nan")
 
     def summary(self) -> str:
+        """One line: the numbers, and whether the embedding was refit per fold."""
         if not self.folds:
             return f"{self.category}: not enough labelled genes to hide any"
         how = "re-embedded per fold" if self.refit else "one fixed embedding, labels hidden only from scoring"

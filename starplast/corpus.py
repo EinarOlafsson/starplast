@@ -32,12 +32,14 @@ from xml.etree import ElementTree as ET
 
 @dataclass(frozen=True)
 class Section:
+    """One titled section of a full text, with its body."""
     kind: str
     text: str
 
 
 @dataclass(frozen=True)
 class Document:
+    """One article: its identifiers, its sections, and the text they contain."""
     doc_id: str            # "pmid:12345678" or "pmc:PMC10000077"
     source: str            # "abstract" | "fulltext"
     pmid: str | None       # lets the two sources be linked and de-duplicated
@@ -150,4 +152,5 @@ def iter_fulltexts(directory: str, limit: int | None = None):
 
 
 def count_fulltexts(directory: str) -> int:
+    """How many open-access full texts are present locally. A biased subset, by construction."""
     return len(glob.glob(os.path.join(directory, "*.xml")))

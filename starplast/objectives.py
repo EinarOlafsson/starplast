@@ -41,6 +41,60 @@ from .search import ABSENCE_LABELS
 
 NOISE = -1
 
+#: The explainer, shown in the application under Help. Kept here beside the implementation so the
+#: words and the code cannot drift apart, and so the API reference carries it too.
+EXPLANATION = """\
+PRECISION and RECALL answer different questions, and which one you want depends on what you are
+looking for.
+
+For one cluster c and one label l:
+
+    precision = |c and l| / |c|     of THIS CLUSTER's members, what fraction share the label
+    recall    = |c and l| / |l|     of THIS LABEL's genes, what fraction are in the cluster
+    F1        = harmonic mean       both at once; high only when neither is low
+
+So:
+
+    "most clusters are one label"                 precision, averaged over CLUSTERS
+    "most labels are in one cluster"              recall, averaged over LABELS
+    "one or more clusters is mostly one label"    the single best precision
+    "one or more labels has mostly its own"       the single best F1 -- "its own cluster"
+                                                  claims both directions at once
+
+EVERY ONE OF THESE HAS A DEGENERATE SOLUTION THAT WINS IT OUTRIGHT. Measured on a synthetic case
+with three labels of sixty genes:
+
+                        perfect     one big cluster     all singletons
+    mean precision         1.00                0.33               1.00
+    mean recall            1.00                1.00               0.02
+    mean F1                1.00                0.50               0.03
+    best precision         1.00                0.33               1.00
+    V-measure              1.00                0.00               0.35
+    ARI / AMI              1.00                0.00               0.00
+
+Any precision objective is won by shattering the map into singletons, because a cluster of one is
+perfectly pure. Any recall objective is won by one giant cluster, because everything is then in its
+best cluster. Neither is hypothetical: on the full proteome the positive control scored 0.675 -- the
+highest of four targets -- from a two-cluster solution whose per-label recalls were 1.000, 1.000 and
+1.000. A hyperparameter walk is an optimiser, and an optimiser finds exactly what you reward.
+
+Three things follow, and they are enforced rather than advised:
+
+  - a minimum cluster size, which is what stops the singleton exploit;
+  - coverage and cluster count reported beside every score, because the attention control's winning
+    configuration was 52% noise;
+  - chance-corrected agreement (ARI, AMI) available alongside, since it is the one family immune to
+    BOTH degenerate cases. A high objective next to an ARI near zero means the objective was gamed.
+
+WEIGHTING IS ALSO A CHOICE. Averaging over labels can weight every label equally (macro) or every
+gene equally (size). On this proteome nucleus-chromatin has 769 genes and dense granules 167, so
+size weighting means a search for dense granules is dominated by the nucleus. Macro is the default
+for that reason.
+
+FINALLY, precision_at_recall is usually the objective an annotation actually wants: the purest
+cluster that still holds enough of the label to be worth annotating from. Best precision alone
+selects three co-located genes at precision 1.00 and gives you nothing to work with."""
+
 #: name -> one-line description, for a UI to offer and for a result to record.
 OBJECTIVES = {
     "mean_precision": "most clusters are one label (purity, averaged over clusters)",

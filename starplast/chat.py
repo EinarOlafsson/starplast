@@ -57,9 +57,11 @@ class Provider:
         self.install_hint, self.login_command = hint, login
 
     def available(self) -> bool:
+        """Whether this provider's CLI is on PATH."""
         return shutil.which(self.cli) is not None
 
     def argv(self, prompt: str, system: str) -> list[str]:
+        """The command line that asks this CLI one question non-interactively."""
         if self.name == "claude":
             return [self.cli, "-p", prompt, "--append-system-prompt", system]
         if self.name == "codex":
@@ -78,6 +80,7 @@ PROVIDERS = [
 
 
 def available_providers() -> list[Provider]:
+    """Providers whose CLI is actually on PATH, in preference order."""
     return [p for p in PROVIDERS if p.available()]
 
 
@@ -162,6 +165,7 @@ def stream(provider: Provider, prompt: str, system: str, timeout: int = 180,
 
 
 class _Worker(QtCore.QThread):
+    """Streams one reply on a background thread, and can be stopped mid-stream."""
     chunk = QtCore.pyqtSignal(str)
     done = QtCore.pyqtSignal()
 
@@ -253,6 +257,10 @@ class ChatPanel(QtWidgets.QWidget):
             "key to store and nothing here is metered separately.")
         bar.addWidget(self.provider_box, 1)
         self.send_btn = QtWidgets.QPushButton("send")
+        self.send_btn.setToolTip(
+            "Send the question, along with a briefing on what is currently on screen. Enter sends, "
+            "shift+enter starts a new line. The assistant is told not to infer a gene's function "
+            "from its neighbours, because this map does not support that.")
         self.send_btn.clicked.connect(self.send)
         bar.addWidget(self.send_btn)
         L.addLayout(bar)
@@ -268,6 +276,7 @@ class ChatPanel(QtWidgets.QWidget):
         L.addWidget(self.input)
 
     def refresh_providers(self):
+        """Repopulate the provider list from what is actually installed."""
         self.provider_box.clear()
         got = available_providers()
         for p in got:
@@ -277,10 +286,12 @@ class ChatPanel(QtWidgets.QWidget):
             self.provider_box.setEnabled(False)
 
     def current_provider(self) -> Optional[Provider]:
+        """The selected provider, or None when nothing is installed."""
         name = self.provider_box.currentData()
         return next((p for p in PROVIDERS if p.name == name), None)
 
     def system_prompt(self) -> str:
+        """The standing caveats plus a briefing on what is currently on screen."""
         ctx = ""
         try:
             ctx = self.context_provider() or ""
@@ -310,6 +321,7 @@ class ChatPanel(QtWidgets.QWidget):
             return "#7aa2f7" if who == "you" else "#9ece6a"
 
     def send(self):
+        """Send the question in the input box, streaming the reply."""
         prompt = self.input.toPlainText().strip()
         if not prompt or self._worker is not None:
             return
@@ -343,6 +355,7 @@ class ChatPanel(QtWidgets.QWidget):
         self.send_btn.clicked.connect(self.send)
 
     def stop(self):
+        """Stop a reply in progress, killing the child process so it actually stops."""
         if self._worker is not None:
             self._worker.stop()
 

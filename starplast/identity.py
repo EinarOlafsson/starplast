@@ -117,6 +117,7 @@ class GeneIndex:
         del self.lookup[key]
 
     def stats(self) -> dict:
+        """Counts of how many accessions resolved, and how many were ambiguous."""
         by_kind = defaultdict(int)
         for _, kind in self.lookup.values():
             by_kind[kind] += 1

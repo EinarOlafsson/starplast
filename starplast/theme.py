@@ -57,10 +57,12 @@ DARK_THEMES = ("dark", "slate")
 
 
 def palette_for(theme: str = "dark") -> dict:
+    """The colour palette for a named theme."""
     return _PALETTES.get(theme, DARK)
 
 
 def is_dark(theme: str) -> bool:
+    """Whether a palette is a dark one, which decides contrast choices elsewhere."""
     return theme in DARK_THEMES
 
 
@@ -110,6 +112,7 @@ def resolve_cmap(name: str):
 
 
 def cmaps_of(kind: str) -> list:
+    """The colour maps appropriate to one kind of data: sequential, diverging or categorical."""
     return [n for n, (k, _) in CMAPS.items() if k == kind]
 
 

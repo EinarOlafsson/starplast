@@ -27,6 +27,7 @@ RENAME = {"Gene ID": "gene_id", "Gene Name or Symbol": "gene_name",
 
 
 def fetch(organism: str, attributes: list) -> str:
+    """Retrieve a tabular attribute report from ToxoDB for one organism."""
     body = {"searchConfig": {"parameters": {"organism": json.dumps([organism])}},
             "reportConfig": {"attributes": attributes, "includeHeader": True,
                              "attachmentType": "plain"}}
@@ -37,6 +38,7 @@ def fetch(organism: str, attributes: list) -> str:
 
 
 def write(txt: str, path: str) -> int:
+    """Write a fetched table to disk, creating the directory if needed."""
     lines = txt.splitlines()
     if lines:
         lines[0] = "\t".join(RENAME.get(c.strip(), c.strip()) for c in lines[0].split("\t"))
@@ -47,6 +49,7 @@ def write(txt: str, path: str) -> int:
 
 
 def main():
+    """Fetch the ToxoDB identity and strain accession tables the build joins through."""
     os.makedirs(OUT, exist_ok=True)
     write(fetch("Toxoplasma gondii ME49",
                 ["primary_key", "gene_name", "gene_previous_ids", "gene_product"]),

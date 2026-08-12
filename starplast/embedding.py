@@ -84,10 +84,12 @@ class EmbeddingSpec:
     random_state: int = 42
 
     def to_dict(self):
+        """The recipe as a plain dict, for storing beside an embedding."""
         return asdict(self)
 
     @classmethod
     def from_dict(cls, d):
+        """Rebuild a spec from a stored recipe."""
         d = dict(d)
         for k in ("blocks", "categorical", "extra_columns"):
             if k in d and d[k] is not None:

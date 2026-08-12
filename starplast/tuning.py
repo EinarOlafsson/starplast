@@ -122,6 +122,7 @@ class EmbeddingStore:
 
     def save(self, name: str, coords: np.ndarray, spec: EmbeddingSpec,
              gene_ids=None, features=None, extra: dict | None = None) -> str:
+        """Store coordinates with the full recipe that produced them."""
         npz, meta = self._paths(name)
         arrays = {"xyz": np.asarray(coords, dtype=np.float32)}
         if gene_ids is not None:
@@ -133,6 +134,7 @@ class EmbeddingStore:
         return npz
 
     def load(self, name: str):
+        """Reload a stored embedding, its gene ids and its recipe."""
         npz, meta = self._paths(name)
         if not os.path.exists(npz):
             raise FileNotFoundError(name)
@@ -148,6 +150,7 @@ class EmbeddingStore:
         return z["xyz"], spec, m
 
     def list(self) -> pd.DataFrame:
+        """Every stored embedding, newest first."""
         rows = []
         for f in sorted(os.listdir(self.root)):
             if not f.endswith(".json"):

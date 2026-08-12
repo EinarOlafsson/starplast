@@ -83,6 +83,7 @@ def data_dir() -> str:
 
 
 def cache_file(name: str) -> str:
+    """Absolute path to one file in the built cache, resolved through the search chain."""
     return os.path.join(data_dir(), name)
 
 

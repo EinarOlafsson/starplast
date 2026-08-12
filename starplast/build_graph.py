@@ -41,11 +41,18 @@ FIT = ["fit_invitro_hff", "fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver"
 
 
 def log(m):
+    """Print a build step with a timestamp, so a long rebuild shows where it is."""
     print(f"[build_graph] {m}", flush=True)
 
 
 # --------------------------------------------------------------------------- nodes
 def load_nodes() -> pd.DataFrame:
+    """Assemble the node table: every gene and every measured column, joined and identifier-resolved.
+
+    The authoritative assembly for the shipped data. Published supplements cite whatever accession
+    was current when they were written, so everything joins through the identity layer -- without it
+    a table keyed on TGGT1_ matches nothing and looks like a dataset with no coverage.
+    """
     n = pd.read_parquet(os.path.join(BASE, "toxonet", "data", "interim", "nodes.parquet"))
     n = n.drop_duplicates("gene_id").reset_index(drop=True)
     log(f"{len(n)} genes from the node table")
@@ -216,6 +223,11 @@ def _resolve_symbol(sym):
 
 
 def build_edges(nodes: pd.DataFrame):
+    """Build every edge layer, kept separate and never merged into one score.
+
+    Merging would let a co-mention borrow the credibility of a measured crosslink, and no weighting
+    recovers the difference afterwards -- see the Edges menu in the application.
+    """
     idx = {g: i for i, g in enumerate(nodes.gene_id)}
     edges = dict(literature_layer(nodes))
 
@@ -477,6 +489,7 @@ def embed(nodes: pd.DataFrame) -> np.ndarray:
 
 
 def main():
+    """Rebuild the whole cache from the raw datasets. Minutes, and needs the raw tree."""
     nodes = load_nodes()
     edges = build_edges(nodes)
     xyz = embed(nodes)

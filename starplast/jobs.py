@@ -30,6 +30,11 @@ class Stopped(Exception):
 
 @dataclass
 class Job:
+    """One unit of background work, and its state after it has finished.
+
+    Kept after completion rather than discarded: a failed job that vanishes takes its traceback with
+    it, leaving the user knowing only that something did not work.
+    """
     id: int
     name: str
     state: str = PENDING
@@ -60,11 +65,13 @@ class Job:
 
 
 class _Signals(QtCore.QObject):
+    """Signals emitted from the worker thread, delivered to the GUI thread by Qt."""
     progress = QtCore.pyqtSignal(int, int, str)     # job id, percent (-1 unknown), note
     finished = QtCore.pyqtSignal(int, bool)         # job id, ok
 
 
 class _Task(QtCore.QRunnable):
+    """Runs one job on the thread pool, and never lets an exception escape into Qt."""
     def __init__(self, job: Job, fn: Callable, sig: _Signals):
         super().__init__()
         self.job, self.fn, self.sig = job, fn, sig
@@ -137,6 +144,7 @@ class JobRunner(QtCore.QObject):
         self._sig.finished.connect(self._on_finished)
 
     def submit(self, fn: Callable, name: str) -> Job:
+        """Start a job on the pool and return it, so a caller can watch or cancel it."""
         self._next += 1
         job = Job(id=self._next, name=name)
         self.jobs[job.id] = job
@@ -166,9 +174,11 @@ class JobRunner(QtCore.QObject):
         return self._busy
 
     def active(self) -> list[Job]:
+        """Jobs that have not finished."""
         return [j for j in self.jobs.values() if j.active]
 
     def cancel_all(self) -> None:
+        """Ask every unfinished job to stop."""
         for j in self.jobs.values():
             if j.active:
                 j.cancel()

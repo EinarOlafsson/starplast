@@ -34,6 +34,7 @@ class Tee(QtCore.QObject):
         self.is_error = is_error
 
     def write(self, chunk):
+        """Write to the original stream and emit the text for the pane."""
         if self.stream is not None:
             try:
                 self.stream.write(chunk)
@@ -44,6 +45,7 @@ class Tee(QtCore.QObject):
         return len(chunk) if chunk else 0
 
     def flush(self):
+        """Flush the original stream, tolerating one that has been closed."""
         if self.stream is not None:
             try:
                 self.stream.flush()
@@ -53,6 +55,7 @@ class Tee(QtCore.QObject):
     def isatty(self):
         # Progress bars and colour codes key off this. The widget is not a terminal, and claiming
         # otherwise fills the pane with escape sequences.
+        """False: the pane is not a terminal, and claiming otherwise fills it with escapes."""
         return False
 
 
@@ -78,6 +81,8 @@ class ConsolePanel(QtWidgets.QWidget):
         copy.setToolTip("Copy the visible lines to the clipboard.")
         copy.clicked.connect(self.copy_all)
         clear = QtWidgets.QPushButton("clear")
+        clear.setToolTip("Discard everything logged so far. The log is capped anyway, so this is "
+                         "for making the next run's output easy to find rather than for memory.")
         clear.clicked.connect(self.clear)
         for w in (self.filter, self.errors_only, copy, clear):
             bar.addWidget(w)
@@ -148,14 +153,17 @@ class ConsolePanel(QtWidgets.QWidget):
             self.view.verticalScrollBar().setValue(self.view.verticalScrollBar().maximum())
 
     def text(self) -> str:
+        """The currently visible log text."""
         return self.view.toPlainText()
 
     def copy_all(self):
+        """Copy the visible lines to the clipboard."""
         cb = QtWidgets.QApplication.clipboard()
         if cb is not None:
             cb.setText(self.text())
 
     def clear(self):
+        """Discard the log, both the pane and the buffer behind it."""
         self._lines.clear()
         self._partial = {False: "", True: ""}
         self.view.clear()
