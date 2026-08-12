@@ -60,6 +60,20 @@ drifts from the docstrings it came from.
 
 ## What you see
 
+| dark | light |
+|---|---|
+| ![the map, dark theme](docs/screenshots/map_dark.png) | ![the map, light theme](docs/screenshots/map_light.png) |
+
+A gene is selected in both: the halo marks it, and its edges fan out to the genes it is related to.
+Grey is *unknown*, never a category and never zero — 5,574 genes are named in no paper at all.
+
+The level of detail follows the data rather than invented tiers. Compartment centroids, orthogroup
+centroids, then genes:
+
+| compartment | orthogroup | gene |
+|---|---|---|
+| ![compartment tier](docs/screenshots/lod_0_compartment.png) | ![orthogroup tier](docs/screenshots/lod_1_orthogroup.png) | ![gene tier](docs/screenshots/lod_2_gene.png) |
+
 | | |
 |---|---|
 | left-drag / scroll | rotate / zoom |

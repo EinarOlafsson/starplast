@@ -100,3 +100,21 @@ def test_the_readme_does_not_re_argue_the_method(readme):
     banned = ("circular", "interpretation", "attention correction", "structural hole")
     offending = [h for h in headings if any(b in h.lower() for b in banned)]
     assert not offending, f"headings that re-argue method: {offending}"
+
+
+def test_every_screenshot_the_readme_shows_actually_exists(readme):
+    """A broken image is worse than no image: it says the repository is unmaintained."""
+    import re as _re
+    root = os.path.dirname(README)
+    missing = [p for p in _re.findall(r"!\[[^\]]*\]\(([^)]+)\)", readme)
+               if not os.path.exists(os.path.join(root, p))]
+    assert not missing, f"README references images that are not in the repository: {missing}"
+
+
+def test_the_screenshots_are_committed_rather_than_generated_on_demand():
+    """Unlike the API page, these cannot be rebuilt by CI -- rendering needs a GPU context and the
+    committed cache -- so they are part of the repository."""
+    root = os.path.dirname(README)
+    shots = os.path.join(root, "docs", "screenshots")
+    assert os.path.isdir(shots)
+    assert len([f for f in os.listdir(shots) if f.endswith(".png")]) >= 5
