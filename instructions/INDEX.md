@@ -1,5 +1,7 @@
 # Instructions: what is done and what is left
 
+**New here? Read [START_HERE.md](START_HERE.md) first.**
+
 One file per task. This index is the status table; the files carry the reasoning and the
 "done when" condition.
 
@@ -26,14 +28,17 @@ One file per task. This index is the status table; the files carry the reasoning
 
 | # | Task | % | Blocked by |
 |---|---|---|---|
-| 21 | Wire the scoring objectives into the interface | 100 | — |
-| 20 | Finish the Validation tab (`refit`, candidates, orthogonal evidence) | 70 | — |
+| 21 | Wire the scoring objectives into the interface | 100 (done) | — |
+| 20 | Validation tab: `refit`, candidates, orthogonal evidence, per-category scores in Inference | 70 | — |
 | 15 | The UMAP gallery — grid, scroll, incremental | 0 | — |
 | 19 | Logging — opt-in, per-level console control | 0 | — |
 | 18 | Navigate / Select modes, 2D and 3D gating | 0 | — |
 | 16 | Automated walk — UMAP, clustering, per-category scoring | 0 | 15, 21 |
 | 17 | Annotation store | 25 | **20** |
-| 22 | Cell diagram under the compartment list, coloured to match | 0 | the SVG being committed |
+| 22 | Cell diagram under the compartment list, colored to match | 0 | a decision on shared organelles |
+| 23 | Left panel becomes "color by": clusterings, runs, binned numerics | 0 | — |
+| 24 | Forty black-and-white logo drafts | 0 | — |
+| 25 | American spelling — attempted, reverted, read the file first | 0 | — |
 
 ## The one ordering constraint that is not negotiable
 

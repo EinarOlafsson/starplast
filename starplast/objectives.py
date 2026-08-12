@@ -99,12 +99,16 @@ selects three co-located genes at precision 1.00 and gives you nothing to work w
 OBJECTIVES = {
     "mean_precision": "most clusters are one label (purity, averaged over clusters)",
     "mean_recall": "most labels are in one cluster (completeness, averaged over labels)",
-    "mean_f1": "labels and clusters correspond, on average",
+    # Recommended because it is the only one of the four common phrasings that resists BOTH
+    # degenerate solutions on its own: singletons win any precision objective, one giant cluster
+    # wins any recall objective, and needing both at once is what rules each of them out.
+    "mean_f1": "labels and clusters correspond, on average  (recommended)",
     "best_precision": "at least one cluster is mostly one label",
     "best_f1": "at least one label has mostly its own cluster",
     "n_recovered": "how many labels clear a threshold (immune to class prevalence)",
     "v_measure": "the whole clustering agrees with the whole labelling",
-    "precision_at_recall": "the purest cluster that still holds enough of a label to annotate from",
+    "precision_at_recall": "the purest cluster that still holds enough of a label to annotate from "
+                           "(recommended for annotation)",
 }
 
 #: How many shuffles the permutation null uses by default. Twenty is enough to separate a real

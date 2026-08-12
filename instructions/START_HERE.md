@@ -1,0 +1,89 @@
+# Start here
+
+Read this, then `INDEX.md` for the status table, then the numbered file for whatever you pick up.
+`../HANDOFF.md` carries the project's standing decisions and is the source of truth for why anything
+is the way it is.
+
+## First five minutes
+
+```bash
+cd /mnt/firecuda2/Claude/repo/starplast     # this machine
+git pull && pip install -e .
+QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
+```
+
+Expect ~1,240 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+not from you.
+
+## The one thing to do first
+
+**Task 15.** `tuning.walk_umap` returns its table when the whole walk finishes. Rows can therefore
+only appear all at once, and there is no way to watch a walk. Changing it to emit per configuration
+-- a generator, or a callback -- is what makes rows stream, and it is what tasks 15 and 16 are both
+blocked on. Nothing else in the list is worth starting before it.
+
+The half that works with the current contract is already built: once the table is populated, clicking
+a row rebuilds that configuration and shows it.
+
+## Two environments, and the second one is the one that matters
+
+    /home/olafsson/anaconda3/envs/spacr       pandas 2.3.3   <- tests run here
+    /home/olafsson/anaconda3/envs/starplast   pandas 3.0.5   <- the user runs here
+
+**Three bugs have now shipped that were invisible on pandas 2 and total on pandas 3.** After any
+change touching dataframes, run it under the second interpreter too:
+
+```bash
+/home/olafsson/anaconda3/envs/starplast/bin/python -c "..."
+```
+
+The pattern each time: an array arrives read-only from a library and is then written in place
+(`embedding.embed`, `build_graph.embed`, `embedding.build_matrix`), or `.astype(str)` keeps NA where
+it used to produce "nan". `app.as_text` and `embedding.as_text` exist for the second.
+
+The user also runs a second checkout on another machine
+(`carruthers@carruthers:/media/carruthers/mnt3/claude/repo/starplast`). **Unpushed work is invisible
+there**, so push before asking them to test anything.
+
+## What this application is for
+
+Letting a user look at many structures, colored by many held-out variables and by clusters, and
+judge whether a cluster means anything. Everything else serves that. When a change makes it harder
+to see a structure or easier to believe a cluster, it is wrong however well it works.
+
+## The standing constraints
+
+- **Measurement, inference, absence and annotation never read as one another.** Grey means unknown;
+  never zero, never a category.
+- **No candidate without the number that says how much to believe it.** On the full proteome, one row
+  out of 7,710 (configuration x compartment) reaches F1 0.5 -- `PM - peripheral 1`, at exactly 0.500.
+  A cluster that looks pure is a lead, not a result.
+- **Every objective has a degenerate maximizer.** Singletons win any purity score; one giant cluster
+  wins any recall score. `objectives.py` enforces the floors and `EXPLANATION` has the measured
+  table. It is shown in the app under Help.
+- **Task 17 must not ship before task 20.** Annotation without validation is a mechanism for
+  manufacturing unvalidated claims.
+
+## Conventions worth knowing before you write anything
+
+- **American spelling in user-facing text.** Identifiers are still British in places
+  (`colour_of`, `colour_mode`, `localisation.py`) -- see task 23; do not rename them piecemeal.
+- Tooltips say WHY a control exists and what choosing badly costs, not what it is called. Bounded
+  controls explain their bounds. A test fails if any control has none.
+- Every public module, class, function and method has a docstring. A test fails otherwise.
+- Coverage is 100% on the modules that have it, and the way to cover a Qt-thread body is to call it
+  directly, never a pragma. Genuinely unreachable branches get deleted.
+- Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
+  `git commit -F` -- backticks in `-m` have twice executed shell commands here.
+- Bump the version for feature work (currently 0.3.0).
+
+## Where things are
+
+    starplast/app.py             the window, menus, drawing, exports
+    starplast/analysis_panel.py  the six analysis tabs
+    starplast/objectives.py      what "good structure" means, and the guards
+    starplast/validate.py        putting an error rate on an annotation
+    starplast/jobs.py            background work, stopping, state
+    starplast/lod.py             the three levels of detail
+    instructions/INDEX.md        status table
+    results/                     every published number, with the script that made it

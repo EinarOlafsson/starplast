@@ -43,10 +43,21 @@ aimed at. Ribosomes and vacuoles are present too.
 cytosol -- named beside the diagram rather than silently absent.
 
 Several hyperLOPIT classes map to ONE organelle (both rhoptry classes, both nucleus classes, the
-three PM classes). Those cannot each take their own colour on the same shape. Either colour the
-shape for whichever is selected, or split the shape where the artwork allows it -- decide before
-building, because "rhoptries 1 and rhoptries 2 are different colours in the map and one colour in
-the diagram" is exactly the kind of quiet disagreement this project avoids elsewhere.
+three PM classes). Those cannot each take their own colour on the same shape.
+
+**DECIDED 2026-08-12: colour the shape for whichever class is selected.** So clicking `rhoptries 2`
+fills the single rhoptry shape with the colour `rhoptries 2` has in the map, and clicking
+`rhoptries 1` refills the same shape in its colour. The artwork is not split.
+
+What follows from that, and must be built rather than assumed:
+
+- With nothing selected, a shared shape has no single right colour. Draw it neutral -- not the
+  colour of whichever class happens to sort first, which would be a claim nobody made.
+- The shape must say which class it is currently showing, or a user returning to the window cannot
+  tell whether the rhoptry is coloured for 1 or for 2. A label, or the selection visible in the list
+  beside it.
+- Clicking the shape selects a class, but a shared shape maps to several. Cycle through them on
+  repeated clicks, and say which one is now selected.
 
 ## Behaviour
 
