@@ -24,17 +24,33 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: System libraries for PyQt6
+        # pdoc imports every module, and the GUI ones import PyQt6 at module scope. A bare runner has
+        # no GL stack, so the import fails with `libEGL.so.1: cannot open shared object file` before
+        # any Qt platform plugin is chosen -- QT_QPA_PLATFORM=offscreen does not help, because the
+        # shared library has to exist to be loaded at all. This is invisible locally, where a desktop
+        # supplies them.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libegl1 libgl1 libglib2.0-0 libdbus-1-3 \
+            libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-image0 \
+            libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-shape0 libxcb-xinerama0
+
       - name: Install
         run: |
           python -m pip install --upgrade pip
-          # The GUI modules import PyQt6 at module scope, and pdoc imports every module to read it.
-          pip install -e . pdoc PyQt6 pyqtgraph
+          pip install -e . pdoc
       - name: Build the API reference
         env:
           # pdoc imports each module; the Qt ones need a platform that exists on a headless runner.
           QT_QPA_PLATFORM: offscreen
           PYQTGRAPH_QT_LIB: PyQt6
         run: python -m pdoc --output-directory docs/api --no-search --docformat markdown starplast
+      - uses: actions/upload-artifact@v4
+        with:
+          name: api-reference
+          path: docs/api
       - uses: actions/upload-pages-artifact@v3
         with:
           path: docs/api
@@ -42,6 +58,10 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # Pages has to be enabled on the repository before this can succeed; until then the build still
+    # runs and the reference is downloadable from the run's artifacts, rather than the whole workflow
+    # going red for a setting.
+    continue-on-error: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
