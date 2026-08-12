@@ -448,3 +448,127 @@ def test_a_feature_that_cannot_be_scored_at_all_is_absent_from_the_battery():
 
 def test_describe_over_an_empty_battery_returns_nothing():
     assert CL.describe(pd.DataFrame(), pd.DataFrame()) == []
+
+
+# --------------------------------------------------------------------------- per category
+def test_the_per_category_table_takes_each_category_s_best_cluster():
+    """One number per feature hides the thing worth knowing: V = 0.2 describes 27 compartments
+    weakly smeared across every cluster and one compartment falling out cleanly, and those are
+    entirely different findings."""
+    detail = pd.DataFrame([
+        {"feature": "compartment", "category": "apicoplast", "cluster": 0, "n_in_cluster": 5,
+         "precision": 0.2, "recall": 0.2, "evidence": "held_out", "q": 0.5},
+        {"feature": "compartment", "category": "apicoplast", "cluster": 1, "n_in_cluster": 40,
+         "precision": 0.9, "recall": 0.8, "evidence": "held_out", "q": 1e-9},
+        {"feature": "compartment", "category": "nucleus", "cluster": 0, "n_in_cluster": 10,
+         "precision": 0.1, "recall": 0.1, "evidence": "held_out", "q": 0.4},
+    ])
+    out = CL.per_category(detail, min_in_cluster=1)
+    assert list(out.category) == ["apicoplast", "nucleus"], "not ranked by how well each is matched"
+    best = out.iloc[0]
+    assert best.cluster == 1 and best.f1 == pytest.approx(2 * 0.9 * 0.8 / 1.7)
+
+
+def test_a_category_matched_by_nothing_scores_zero_rather_than_dividing_by_zero():
+    detail = pd.DataFrame([{"feature": "f", "category": "x", "cluster": 0, "n_in_cluster": 0,
+                            "precision": 0.0, "recall": 0.0, "evidence": "held_out", "q": 1.0}])
+    assert CL.per_category(detail, min_in_cluster=0).f1.iloc[0] == 0.0
+
+
+def test_only_held_out_features_are_offered_as_evidence():
+    """A feature the map was built from separates the clusters by construction, and its per-category
+    scores would be the most flattering rows in the table."""
+    detail = pd.DataFrame([
+        {"feature": "used", "category": "x", "cluster": 0, "n_in_cluster": 9, "precision": 1.0,
+         "recall": 1.0, "evidence": "used", "q": 0.0},
+        {"feature": "free", "category": "y", "cluster": 1, "n_in_cluster": 9, "precision": 0.5,
+         "recall": 0.5, "evidence": "held_out", "q": 0.01},
+    ])
+    assert list(CL.per_category(detail, min_in_cluster=1).feature) == ["free"]
+
+
+def test_a_battery_with_no_categorical_features_gives_an_empty_table_with_columns():
+    """An empty frame with no columns at all breaks the caller that fills a table from it."""
+    for d in (pd.DataFrame(), None,
+              pd.DataFrame([{"feature": "n", "cluster": 0, "median": 1.0, "evidence": "held_out"}])):
+        out = CL.per_category(d)
+        assert list(out.columns)[:3] == ["feature", "category", "cluster"]
+        assert out.empty
+
+
+def test_the_per_category_table_comes_from_a_real_battery():
+    """The columns are produced by categorical_feature, so a rename there must not silently empty
+    this table."""
+    nodes = pd.DataFrame({"gene_id": [f"g{i}" for i in range(180)],
+                          "cat": (["in"] * 60 + ["out"] * 120)})
+    S, D = CL.battery(nodes, _labels(), log=lambda *_: None)
+    out = CL.per_category(D)
+    assert set(out.category) == {"in", "out"}
+    assert (out.precision.between(0, 1)).all() and (out.recall.between(0, 1)).all()
+
+
+def test_categories_with_no_precision_at_all_give_an_empty_table_not_a_row_of_nan():
+    """Fisher's test declines on a degenerate table, and a row of nan reads as a measured zero."""
+    detail = pd.DataFrame([{"feature": "f", "category": "x", "cluster": 0, "n_in_cluster": 3,
+                            "precision": np.nan, "recall": np.nan, "evidence": "held_out",
+                            "q": np.nan}])
+    out = CL.per_category(detail, min_in_cluster=1)
+    assert out.empty and list(out.columns)[:2] == ["feature", "category"]
+
+
+def test_a_battery_without_q_values_still_produces_the_table():
+    """`q` is added only when the battery had p-values to correct, so the column can be absent --
+    and a table that vanishes because one column is missing loses the whole result."""
+    detail = pd.DataFrame([{"feature": "f", "category": "x", "cluster": 1, "n_in_cluster": 9,
+                            "precision": 0.9, "recall": 0.5, "evidence": "held_out"}])
+    out = CL.per_category(detail, min_in_cluster=1)
+    assert len(out) == 1 and np.isnan(out.q.iloc[0])
+    assert out.f1.iloc[0] == pytest.approx(2 * 0.9 * 0.5 / 1.4)
+
+
+def test_a_category_that_is_most_of_the_data_is_not_reported_as_a_discovery():
+    """One cluster holding nearly everything "recovers" a dominant class at F1 0.95 while telling
+    you nothing. Lift is what says so: 1.0 means the cluster is no more that category than the map
+    is, and the table is ranked by it."""
+    detail = pd.DataFrame([
+        {"feature": "f", "category": "common", "cluster": 0, "n_in_cluster": 90, "precision": 0.9,
+         "recall": 1.0, "evidence": "held_out", "q": 1e-12},
+        {"feature": "f", "category": "rare", "cluster": 1, "n_in_cluster": 8, "precision": 0.8,
+         "recall": 0.8, "evidence": "held_out", "q": 1e-6},
+        {"feature": "f", "category": "rare", "cluster": 0, "n_in_cluster": 2, "precision": 0.02,
+         "recall": 0.2, "evidence": "held_out", "q": 0.9},
+    ])
+    out = CL.per_category(detail)
+    assert list(out.category) == ["rare", "common"], "the majority class outranked a real one"
+    common = out[out.category == "common"].iloc[0]
+    assert common.prevalence == pytest.approx(0.9) and common.lift == pytest.approx(1.0)
+    rare = out[out.category == "rare"].iloc[0]
+    assert rare.lift > 5
+
+
+def test_a_feature_with_no_genes_at_all_has_no_prevalence_rather_than_zero():
+    detail = pd.DataFrame([{"feature": "f", "category": "x", "cluster": 0, "n_in_cluster": 0,
+                            "precision": 0.5, "recall": 0.5, "evidence": "held_out", "q": 0.1}])
+    out = CL.per_category(detail, min_in_cluster=0)
+    assert np.isnan(out.prevalence.iloc[0]) and np.isnan(out.lift.iloc[0])
+
+
+def test_a_cluster_holding_one_gene_of_a_category_is_not_a_finding():
+    """Rendered and looked at: ranked by lift, the top of this table was a cluster holding ONE
+    apicoplast protein at 5x enrichment -- true, meaningless, and indistinguishable at a glance from
+    a real result. It is the singleton exploit in its per-category form."""
+    detail = pd.DataFrame([
+        {"feature": "f", "category": "rare", "cluster": 0, "n_in_cluster": 1, "precision": 0.17,
+         "recall": 0.07, "evidence": "held_out", "q": 0.2},
+        {"feature": "f", "category": "common", "cluster": 0, "n_in_cluster": 60, "precision": 0.6,
+         "recall": 0.9, "evidence": "held_out", "q": 1e-9},
+    ])
+    assert list(CL.per_category(detail).category) == ["common"]
+    assert list(CL.per_category(detail, min_in_cluster=1).category) == ["rare", "common"]
+
+
+def test_everything_below_the_floor_gives_an_empty_table_with_its_columns():
+    detail = pd.DataFrame([{"feature": "f", "category": "x", "cluster": 0, "n_in_cluster": 2,
+                            "precision": 1.0, "recall": 1.0, "evidence": "held_out", "q": 0.1}])
+    out = CL.per_category(detail, min_in_cluster=5)
+    assert out.empty and "lift" in out.columns

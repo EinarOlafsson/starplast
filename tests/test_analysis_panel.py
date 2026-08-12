@@ -236,12 +236,22 @@ def sync(panel, monkeypatch):
     What matters is that the wiring passes the right arguments and puts the result in the right table,
     not that Qt's thread pool works -- and _run's threading contract is tested directly above.
     """
-    def run_now(fn, on_done, name="analysis"):
+    def run_now(fn, on_done, name="analysis", on_error=None):
         # `name` is accepted because every job carries one now, so it can be identified in the Jobs
         # panel and stopped there. Recorded rather than dropped: a job named "analysis" for all five
         # tabs would make the panel useless, so the names are worth asserting on.
+        #
+        # `on_error` is routed the same way the runner routes it, because some failures are not
+        # failures: validation refusing a circular target is the guard working, and a fixture that
+        # let the exception escape would never exercise the branch that says so.
         started.append(name)
-        on_done(fn(lambda *_: None))
+        try:
+            result = fn(lambda *_: None)
+        except Exception as exc:
+            if not (on_error is not None and on_error(exc)):
+                raise
+            return
+        on_done(result)
 
     started = []
     monkeypatch.setattr(panel, "_run", run_now)
@@ -798,3 +808,415 @@ def test_filling_a_table_twice_while_sorted_does_not_interleave(panel):
     panel._fill(panel.walk_table, pd.DataFrame({"a": [1.0, 2.0, 3.0]}))
     panel._fill(panel.walk_table, pd.DataFrame({"a": [9.0]}))
     assert panel.walk_table.rowCount() == 1
+
+
+# --------------------------------------------------------------------------- 6 validation
+def _clustered(panel, n=None):
+    """Give the panel a clustering of the real table: three clusters over every gene."""
+    import numpy as np
+    n = n if n is not None else len(panel.nodes)
+    panel.labels = np.arange(n) % 3
+    panel.rows = np.ones(len(panel.nodes), bool)
+    return panel.labels
+
+
+def test_validating_before_clustering_says_so(panel, sync):
+    panel.labels = None
+    panel.run_validation()
+    assert any("cluster a map first" in m for m in sync)
+
+
+def test_the_columns_the_guard_checks_are_column_names_not_block_names(panel):
+    """The tab passed `columns_for(...).keys()` -- the BLOCK names -- as "the columns the embedding
+    used", so the circularity guard compared a compartment against "expression_summary" and never
+    fired once in the tab that exists to prevent exactly that."""
+    panel.cat_cb.setChecked(True)
+    used = panel.used_columns()
+    assert "compartment" in used
+    assert not ({"expression_summary", "fitness_screens", "protein_features"} & set(used))
+    assert any(c.startswith("fit_") for c in used), "no real column from a selected block"
+
+
+def test_validating_a_label_the_map_was_built_from_is_refused_and_explained(panel, sync):
+    """The refusal is the guard working. Shown as a red failed job with a traceback it reads as the
+    tab being broken, and the next move would be to look for the bug rather than to rebuild the map
+    without that column."""
+    _clustered(panel)
+    # With a previous run's scores and candidates on screen, which is the case that matters:
+    # rendered, the note said "Not scored" above a full table of precisions, and a table under an
+    # explanation reads as the explanation's result.
+    panel._fill(panel.val_table, pd.DataFrame({"category": ["dense granules"], "precision": [0.9]}))
+    panel._fill(panel.cand_table, pd.DataFrame({"gene_id": ["TGME49_1"]}))
+    panel.cat_cb.setChecked(True)                  # compartment now feeds the embedding
+    panel.val_target.setCurrentText("compartment")
+    panel.run_validation()
+    # isHidden rather than isVisibleTo: a tab that is not the current one is not visible, and the
+    # question here is whether the panel showed the note, not which tab is on top.
+    assert not panel.val_note.isHidden()
+    assert "circular" in panel.val_note.text()
+    assert any("circular" in m for m in sync)
+    assert panel.val_table.rowCount() == 0, "a refused run must not leave a score on screen"
+    assert panel.cand_table.rowCount() == 0, "nor a candidate list"
+    assert panel._validation_scores is None
+
+
+def test_a_held_out_label_is_scored_and_the_refusal_note_goes_away(panel, sync, monkeypatch):
+    import starplast.validate as V
+    _clustered(panel)
+    panel.cat_cb.setChecked(False)
+    panel.val_note.setText("stale"); panel.val_note.show()
+    monkeypatch.setattr(V, "validate_all",
+                        lambda *a, **k: pd.DataFrame({"category": ["nucleus - chromatin"],
+                                                      "n_labelled": [769], "n_folds": [5],
+                                                      "precision": [0.4], "recall": [0.3],
+                                                      "f1": [0.34], "refit": [False],
+                                                      "note": [""]}))
+    panel.run_validation()
+    assert panel.val_note.isHidden()
+    assert panel.val_table.rowCount() == 1
+    assert any("roughly 40%" in m for m in sync)
+
+
+def test_the_target_is_aligned_to_the_genes_the_clustering_covers(panel, sync, monkeypatch):
+    """`labels` comes from an embedding that may have dropped genes, and scoring a clustering of one
+    set against the labels of another compares gene i's cluster with gene j's compartment."""
+    import numpy as np
+    import starplast.validate as V
+    keep = np.zeros(len(panel.nodes), bool)
+    keep[:500] = True
+    panel.rows = keep
+    panel.labels = np.arange(500) % 3
+    panel.cat_cb.setChecked(False)
+    seen = {}
+
+    def fake(labels, truth, **kw):
+        seen.update(n_labels=len(labels), n_truth=len(truth), target=kw.get("target_column"))
+        return pd.DataFrame()
+
+    monkeypatch.setattr(V, "validate_all", fake)
+    panel.val_target.setCurrentText("compartment")
+    panel.run_validation()
+    assert seen["n_labels"] == seen["n_truth"] == 500
+    assert seen["target"] == "compartment"
+
+
+def test_a_clustering_that_cannot_be_aligned_says_so_rather_than_scoring(panel, sync):
+    import numpy as np
+    panel.rows = None
+    panel.labels = np.zeros(17, int)
+    panel.cat_cb.setChecked(False)
+    panel.run_validation()
+    assert any("rebuild the map" in m for m in sync)
+
+
+def test_asking_to_re_embed_passes_a_way_to_do_it(panel, sync, monkeypatch):
+    """`refit` without a rebuild callable is an error in validate.py, deliberately -- so the tab has
+    to supply one rather than tick a box that changes only the printed sentence."""
+    import starplast.validate as V
+    _clustered(panel)
+    panel.cat_cb.setChecked(False)
+    seen = {}
+    monkeypatch.setattr(V, "validate_all",
+                        lambda labels, truth, **kw: (seen.update(kw), pd.DataFrame())[1])
+    panel.val_refit.setChecked(True)
+    panel.run_validation()
+    assert seen["refit"] is True and callable(seen["rebuild"])
+    panel.val_refit.setChecked(False)
+    panel.run_validation()
+    assert seen["refit"] is False and seen["rebuild"] is None
+
+
+def test_a_re_fit_fold_rebuilds_the_map_with_a_different_seed(panel, monkeypatch):
+    """Same seed every fold would re-run the identical embedding and call the repetition a spread."""
+    import numpy as np
+    import starplast.embedding as E
+    import starplast.clustering as C
+    seeds = []
+    monkeypatch.setattr(E, "embed", lambda nodes, spec, log=None: (
+        seeds.append(spec.random_state), (np.zeros((len(nodes), 3)), [], np.ones(len(nodes), bool)))[1])
+    monkeypatch.setattr(C, "cluster", lambda Y, **kw: np.zeros(len(Y), int))
+    panel.seed.setValue(7)
+    panel._refit_labels(0)
+    panel._refit_labels(1)
+    assert seeds == [8, 9]
+
+
+def test_a_candidate_list_never_arrives_without_its_numbers(panel, sync):
+    """The same list looks identical whether it is 90% right or 6% right, and on this proteome it
+    has been 6%."""
+    import numpy as np
+    truth = panel.nodes["compartment"]
+    from starplast import app as A
+    v = A.as_text(truth).to_numpy()
+    target = "nucleus - chromatin"
+    # Cluster 0 holds that compartment AND some unlabelled genes -- which is the whole point: the
+    # unlabelled members of a mostly-one-category cluster are the candidates.
+    unlabelled = np.flatnonzero(v == "unassigned")[:200]
+    labels = np.where(v == target, 0, 1)
+    labels[unlabelled] = 0
+    panel.labels, panel.rows = labels, np.ones(len(panel.nodes), bool)
+    panel._validation_target = "compartment"
+    panel._validation_scores = pd.DataFrame({"category": [target], "n_labelled": [int((v == target).sum())],
+                                             "n_folds": [5], "precision": [0.4], "recall": [0.3],
+                                             "f1": [0.34], "refit": [False], "note": [""]})
+    panel._fill(panel.val_table, panel._validation_scores)
+    panel.show_candidates(0)
+    headers = [panel.cand_table.horizontalHeaderItem(c).text()
+               for c in range(panel.cand_table.columnCount())]
+    for needed in ("cluster_frac_category", "cluster_frac_contradicting", "shares_orthogroup"):
+        assert needed in headers, headers
+    assert any("would be right" in m for m in sync)
+
+
+def test_clicking_a_category_no_cluster_holds_says_so(panel, sync):
+    import numpy as np
+    panel.labels = np.full(len(panel.nodes), -1)
+    panel.rows = np.ones(len(panel.nodes), bool)
+    panel._validation_target = "compartment"
+    panel._validation_scores = pd.DataFrame({"category": ["apicoplast"], "precision": [0.1]})
+    panel._fill(panel.val_table, panel._validation_scores)
+    panel.show_candidates(0)
+    assert any("no cluster holds" in m for m in sync)
+
+
+def test_clicking_before_any_validation_does_nothing(panel):
+    panel._validation_scores = None
+    panel.show_candidates(0)
+    assert panel.cand_table.rowCount() == 0
+
+
+# --------------------------------------------------------------------------- 4 inference
+def test_the_inference_tab_reports_each_category_not_only_each_feature(panel, sync, monkeypatch):
+    """Cramer's V = 0.2 describes 27 compartments weakly smeared across every cluster and one
+    compartment falling out cleanly. Only the per-category table separates those."""
+    import numpy as np
+    S = pd.DataFrame([{"feature": "compartment", "evidence": "held_out", "score_type": "cramers_v",
+                       "score": 0.2, "assoc_with_input": 0.0, "n": 100, "q": 0.001}])
+    D = pd.DataFrame([
+        {"feature": "compartment", "category": "apicoplast", "cluster": 1, "n_in_cluster": 40,
+         "precision": 0.9, "recall": 0.8, "evidence": "held_out", "q": 1e-9},
+        {"feature": "compartment", "category": "nucleus", "cluster": 0, "n_in_cluster": 5,
+         "precision": 0.1, "recall": 0.1, "evidence": "held_out", "q": 0.4},
+        {"feature": "compartment", "category": "one-off", "cluster": 0, "n_in_cluster": 1,
+         "precision": 0.5, "recall": 0.5, "evidence": "held_out", "q": 0.9},
+    ])
+    panel._battery_done((S, D, ["a finding"]))
+    assert panel.category_table.rowCount() == 2, "a cluster holding one gene is not a category score"
+    headers = [panel.category_table.horizontalHeaderItem(c).text()
+               for c in range(panel.category_table.columnCount())]
+    assert {"category", "precision", "prevalence", "lift", "recall", "f1"} <= set(headers)
+    assert any("reach F1 0.5" in m for m in sync)
+
+
+# --------------------------------------------------------------------------- results from the runner
+@pytest.fixture
+def runner_panel(app, nodes, tmp_path):
+    """A panel wired to the window's job runner, which is how it runs in the application."""
+    from starplast.analysis_panel import AnalysisPanel
+    from starplast.jobs import JobRunner
+    from starplast.tuning import EmbeddingStore
+    r = JobRunner()
+    p = AnalysisPanel(nodes, store=EmbeddingStore(str(tmp_path)), runner=r)
+    yield p, r
+    p.deleteLater()
+
+
+def _finished(panel, runner, job, ok, on_done=None, on_error=None):
+    runner.jobs[job.id] = job
+    panel._jobs[job.id] = (on_done or (lambda r: None), on_error)
+    panel._on_job_finished(job.id, ok)
+
+
+def test_a_result_reaches_the_handler_that_asked_for_it(runner_panel):
+    from starplast.jobs import DONE, Job
+    panel, runner = runner_panel
+    got = []
+    _finished(panel, runner, Job(id=1, name="j", state=DONE, result=42), True, on_done=got.append)
+    assert got == [42]
+
+
+def test_a_refusal_reaches_the_handler_as_the_exception_not_as_its_text(runner_panel):
+    """Telling a deliberate refusal from a crash by parsing a formatted message is guesswork, and
+    the two need completely different words on screen."""
+    from starplast.jobs import FAILED, Job
+    panel, runner = runner_panel
+    said, seen = [], []
+    panel.status.connect(said.append)
+    _finished(panel, runner, Job(id=2, name="validate", state=FAILED,
+                                 error="ValueError: circular", exception=ValueError("circular")),
+              False, on_error=lambda e: (seen.append(e), True)[1])
+    assert isinstance(seen[0], ValueError)
+    assert not any("failed" in m for m in said), "a handled refusal must not also be reported as a crash"
+
+
+def test_a_failure_the_handler_declines_is_still_reported(runner_panel):
+    """A handler that only recognises its own refusals must not swallow a real crash."""
+    from starplast.jobs import FAILED, Job
+    panel, runner = runner_panel
+    said = []
+    panel.status.connect(said.append)
+    _finished(panel, runner, Job(id=3, name="battery", state=FAILED, error="KeyError: 'x'"),
+              False, on_error=lambda e: False)
+    assert any("battery failed" in m for m in said)
+
+
+def test_a_failure_with_no_handler_at_all_is_reported(runner_panel):
+    from starplast.jobs import FAILED, Job
+    panel, runner = runner_panel
+    said = []
+    panel.status.connect(said.append)
+    _finished(panel, runner, Job(id=4, name="search", state=FAILED, error="boom"), False)
+    assert any("search failed" in m for m in said)
+
+
+def test_a_stopped_job_says_stopped_rather_than_failed(runner_panel):
+    """A job the user stopped, reported in red with a traceback, teaches people to distrust the
+    failure list."""
+    from starplast.jobs import CANCELLED, Job
+    panel, runner = runner_panel
+    said = []
+    panel.status.connect(said.append)
+    _finished(panel, runner, Job(id=5, name="walk", state=CANCELLED), False)
+    assert any("stopped" in m for m in said) and not any("failed" in m for m in said)
+
+
+def test_a_job_nobody_is_waiting_for_is_ignored(runner_panel):
+    panel, runner = runner_panel
+    panel._on_job_finished(999, True)             # never submitted here
+    from starplast.jobs import DONE, Job
+    panel._jobs[6] = (lambda r: None, None)
+    panel._on_job_finished(6, True)               # handler, but the runner has no such job
+
+
+def test_the_panel_runs_through_the_runner_when_it_has_one(runner_panel, app):
+    """Its work then appears in the Jobs panel and can be stopped there, and it does not block the
+    other tabs the way a private thread did."""
+    from PyQt6 import QtCore
+    panel, runner = runner_panel
+    got = []
+    job = panel._run(lambda p: 7, got.append, name="through the runner")
+    assert job is not None and job.name == "through the runner"
+    for _ in range(200):
+        app.processEvents()
+        QtCore.QThread.msleep(5)
+        if got:
+            break
+    assert got == [7]
+
+
+def test_progress_from_a_job_reaches_the_status_line_and_the_job_note(runner_panel, app):
+    """The note is what the Jobs panel shows for a job in flight, and for a walk it is the only
+    sign that anything is happening."""
+    from PyQt6 import QtCore
+    panel, runner = runner_panel
+    said = []
+    panel.status.connect(said.append)
+    job = panel._run(lambda p: (p("half way"), "done")[1], lambda r: None, name="reports")
+    # Waited on the status line rather than on the job: the report is emitted from the worker and
+    # queued, so it can still be in flight when the job itself is already finished.
+    for _ in range(200):
+        app.processEvents()
+        QtCore.QThread.msleep(5)
+        if said:
+            break
+    assert any("half way" in m for m in said)
+    assert job.note == "half way"
+
+
+def test_a_stopped_job_unwinds_at_its_next_progress_report(runner_panel, app):
+    """Cooperative by construction: raising from the reporting callable is what stops a
+    328-configuration search in seconds rather than in half an hour, and it must arrive as a stop
+    rather than as a crash."""
+    from PyQt6 import QtCore
+    from starplast.jobs import CANCELLED
+    panel, runner = runner_panel
+
+    def work(p):
+        p("started")
+        for i in range(1000):
+            p(f"step {i}")                        # the cancellation lands here
+        return "never"
+
+    job = panel._run(work, lambda r: None, name="stoppable")
+    for _ in range(200):
+        app.processEvents()
+        QtCore.QThread.msleep(5)
+        if job.note:
+            break
+    job.cancel()
+    for _ in range(400):
+        app.processEvents()
+        QtCore.QThread.msleep(5)
+        if not job.active:
+            break
+    assert job.state == CANCELLED
+    assert "stopped after" in job.note
+
+
+def test_a_control_named_in_the_tooltip_tables_but_absent_is_skipped(panel):
+    """The tables are keyed by attribute name, and a control removed from a tab must not take the
+    whole panel down the next time tooltips are applied."""
+    import starplast.analysis_panel as AP
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setitem(AP.TOOLTIPS, "no_such_control", "explains a control that is not there")
+        panel._apply_tooltips()
+
+
+def test_a_crash_in_validation_is_still_a_crash(panel):
+    """The refusal handler recognises the guard's ValueError. Anything else is a real failure and
+    must keep its red job and its traceback rather than being dressed up as an explanation."""
+    assert panel._validation_refused(KeyError("compartment")) is False
+    assert panel.val_note.isHidden()
+
+
+def test_the_reporting_callable_records_the_note_and_says_it_out_loud(panel, capsys):
+    """Driven directly. It runs on a Qt-managed thread in the application, where coverage cannot
+    follow it and where a test that only submits a job proves nothing about this body.
+
+    The note is what the Jobs panel shows for a job in flight; the print is what reaches the console
+    pane, which is where a walk is actually read."""
+    from starplast.analysis_panel import _Progress
+    from starplast.jobs import Job
+    said = []
+    panel.status.connect(said.append)
+    job = Job(id=1, name="walk")
+    _Progress(panel, job)("configuration 12 of 288")
+    assert job.note == "configuration 12 of 288"
+    assert said == ["configuration 12 of 288"]
+    assert "configuration 12" in capsys.readouterr().out
+
+
+def test_the_reporting_callable_is_where_a_stop_takes_effect(panel):
+    """These functions report once per configuration, which makes this the one place guaranteed to
+    be reached repeatedly without threading a cancellation flag through search, tuning and
+    embedding. Raising here is what stops a 328-configuration search in seconds."""
+    from starplast.analysis_panel import Cancelled, _Progress
+    from starplast.jobs import Job
+    job = Job(id=2, name="recovery search")
+    job.note = "configuration 12 of 288"
+    job.cancel()
+    with pytest.raises(Cancelled, match="configuration 12 of 288"):
+        _Progress(panel, job)("configuration 13 of 288")
+
+
+def test_the_validation_job_runs_against_the_real_module_not_only_a_stand_in(panel, sync):
+    """Every other test here monkeypatches `validate_all`, so the arguments the panel actually
+    passes were never checked against the function that receives them -- and one of them, `log`,
+    was forwarded into `masked_recovery`, which has no such parameter. The whole tab raised
+    TypeError the first time it was run for real.
+
+    A clustering over the real table, two folds, one target: slow enough to be worth doing once and
+    fast enough to keep."""
+    import numpy as np
+    from starplast import app as A
+    v = A.as_text(panel.nodes["compartment"]).to_numpy()
+    panel.labels = np.where(v == "nucleus - chromatin", 0, 1)
+    panel.rows = np.ones(len(panel.nodes), bool)
+    panel.cat_cb.setChecked(False)
+    panel.val_target.setCurrentText("compartment")
+    panel.val_folds.setValue(2)
+    panel.run_validation()
+    d = panel._validation_scores
+    assert len(d), "no category was scored against the real implementation"
+    assert set(["category", "precision", "recall", "f1", "refit"]) <= set(d.columns)
+    assert any("would be right" in m for m in sync), "the verdict never reached the status line"

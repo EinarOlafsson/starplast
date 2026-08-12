@@ -183,6 +183,11 @@ TOOLTIPS = {
     "val_hold": "Fraction of each category's labelled genes hidden per fold. These are the genes "
                 "the score is computed on, and they take no part in choosing which cluster to "
                 "annotate from -- otherwise the test would be marking its own homework.",
+    "val_refit": "Build a fresh map and clustering for every fold, with a different seed. The label "
+                 "never feeds the embedding either way, so what this buys is that the answer stops "
+                 "being a fact about one particular layout -- UMAP moves noticeably between seeds "
+                 "at this size. It costs a full embedding per fold per category, so it is off by "
+                 "default, and every row records which way it was obtained.",
 }
 
 #: Buttons, keyed by the method they call.
@@ -527,7 +532,23 @@ class AnalysisPanel(QtWidgets.QWidget):
         v.addWidget(self.findings, 1)
         self.battery_table = QtWidgets.QTableWidget()
         self.battery_table.setAlternatingRowColors(True)
+        self.battery_table.setToolTip(
+            "One row per held-out feature. The score is over the whole feature at once, which is "
+            "why the per-category table below it matters: the same Cramer's V describes 27 "
+            "compartments weakly smeared everywhere and one compartment falling out cleanly.")
         v.addWidget(self.battery_table, 1)
+
+        v.addWidget(QtWidgets.QLabel(
+            "<i>Per category: the best single cluster for each value, which is what a feature-level "
+            "score hides.</i>"))
+        self.category_table = QtWidgets.QTableWidget()
+        self.category_table.setAlternatingRowColors(True)
+        self.category_table.setToolTip(
+            "For each category of each held-out feature, the cluster that matches it best: "
+            "precision over that cluster, recall over that category, and F1. Read both — a cluster "
+            "that is 100% apicoplast holding 5% of apicoplast proteins is useless for inference, "
+            "and one number cannot tell you which of the two you have.")
+        v.addWidget(self.category_table, 1)
         return w
 
     # ------------------------------------------------------------------ 5 search
@@ -758,9 +779,11 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.val_hold = QtWidgets.QDoubleSpinBox(); self.val_hold.setRange(0.05, 0.5)
         self.val_hold.setSingleStep(0.05); self.val_hold.setValue(0.2)
         self.val_hold.setToolTip("Fraction of each category's labelled genes hidden per fold.")
+        self.val_refit = QtWidgets.QCheckBox("re-embed and re-cluster for every fold")
         form.addRow("hold out", self.val_target)
         form.addRow("folds", self.val_folds)
         form.addRow("fraction hidden", self.val_hold)
+        form.addRow("stricter", self.val_refit)
         v.addLayout(form)
 
         b = QtWidgets.QPushButton("test the annotation")
@@ -768,29 +791,178 @@ class AnalysisPanel(QtWidgets.QWidget):
         b.clicked.connect(self.run_validation)
         v.addWidget(b)
 
+        self.val_note = QtWidgets.QLabel("")
+        self.val_note.setWordWrap(True)
+        self.val_note.hide()
+        v.addWidget(self.val_note)
+
         self.val_table = QtWidgets.QTableWidget()
         self.val_table.setAlternatingRowColors(True)
+        self.val_table.setSelectionBehavior(
+            QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
+        self.val_table.setToolTip(
+            "One row per category, because a method that recovers hidden dense granules but not "
+            "hidden rhoptries is not one accuracy. `refit` says whether each number came from a "
+            "fresh map per fold or from one fixed map. Click a row for that category's candidates.")
+        self.val_table.cellClicked.connect(self.show_candidates)
         v.addWidget(self.val_table, 1)
+
+        v.addWidget(QtWidgets.QLabel(
+            "<i>Click a category above for the genes its cluster would have you annotate.</i>"))
+        self.cand_table = QtWidgets.QTableWidget()
+        self.cand_table.setAlternatingRowColors(True)
+        self.cand_table.setToolTip(
+            "The unlabelled members of that category's cluster: the list this whole tab exists to "
+            "put a number on. Every row carries how much of its cluster already carries the "
+            "category and how much carries something else, and how many genes already labelled it "
+            "share an orthogroup, a Pfam or an InterPro domain with the candidate — agreement "
+            "from evidence the map never saw. Zero support is the common answer.")
+        v.addWidget(self.cand_table, 1)
         return w
+
+    def used_columns(self) -> list:
+        """The node-table columns the current embedding is built from, categoricals included.
+
+        The real column names, not the block names. The block names were what the validation tab
+        passed as "the columns the embedding used", which made the circularity guard compare a
+        compartment against "expression_summary" -- so it never fired, and the tab would have
+        scored a target the map was built on.
+        """
+        cols = [c for group in columns_for(self.nodes, self.spec()).values() for c in group]
+        if self.cat_cb.isChecked():
+            cols.append("compartment")
+        return cols
+
+    def _aligned_truth(self, target: str):
+        """The label column restricted to the genes the clustering actually covers.
+
+        `labels` comes from an embedding that may have dropped genes -- `drop_genes` keeps 3 of
+        8,140 on this table -- and scoring a clustering of one set of genes against the labels of
+        another compares gene i's cluster with gene j's compartment. The battery already aligned
+        through `self.rows`; validation did not.
+        """
+        truth = self.nodes[target]
+        if self.rows is not None and len(self.labels) != len(truth):
+            truth = truth[self.rows]
+        return truth
 
     def run_validation(self):
         """Put an error rate on an annotation by hiding labels that are already known."""
-        from .validate import validate_all
+        from .validate import circularity_error, validate_all
         if self.labels is None:
             self.status.emit("cluster a map first -- validation scores a clustering, not a map")
             return
         target = self.val_target.currentText()
-        used = list(columns_for(self.nodes, self.spec()).keys())
-        truth, labels = self.nodes[target], self.labels
+        used = self.used_columns()
+        # Checked here as well as inside the job. `validate_all` refuses too -- that is the guard
+        # that matters -- but going through the worker to find out means waiting for a job to fail
+        # in order to be told the question cannot be asked, and a failed job is exactly the wrong
+        # shape for that answer.
+        problem = circularity_error(self.nodes[target], used, target)
+        if problem:
+            self._validation_refused(ValueError(problem))
+            return
+        truth, labels = self._aligned_truth(target), self.labels
         folds, frac = self.val_folds.value(), self.val_hold.value()
+        refit = self.val_refit.isChecked()
+        rebuild = self._refit_labels if refit else None
+        if len(labels) != len(truth):
+            self.status.emit(f"the clustering covers {len(labels):,} genes and {target} has "
+                             f"{len(truth):,} -- rebuild the map, then cluster it again")
+            return
 
         def job(p):
-            p(f"hiding {frac:.0%} of each category in {target}, {folds} folds")
-            return validate_all(labels, truth, folds=folds, hold_frac=frac, used_columns=used)
+            p(f"hiding {frac:.0%} of each category in {target}, {folds} folds"
+              + (" , re-embedding each one" if refit else ""))
+            return validate_all(labels, truth, folds=folds, hold_frac=frac, used_columns=used,
+                                target_column=target, refit=refit, rebuild=rebuild, log=p)
 
-        self._run(job, lambda d: (self._fill(self.val_table, d),
-                                  self.status.emit(self._validation_verdict(d))),
-                  name=f"validate annotation ({target})")
+        self._validation_target = target
+        self._run(job, self._validation_done, name=f"validate annotation ({target})",
+                  on_error=self._validation_refused)
+
+    def _refit_labels(self, fold: int):
+        """One fold's clustering, from a map built again with a different seed.
+
+        What re-fitting buys is not that the label is hidden from the embedding -- it never fed it,
+        and the tab refuses when it did. It is that the estimate stops being conditional on one map:
+        UMAP moves noticeably between seeds at this size, and a precision measured on a single
+        layout is a fact about that layout. It costs a full embedding per fold, which is why it is
+        off by default and says so.
+        """
+        from dataclasses import asdict
+        from .clustering import cluster
+        from .embedding import EmbeddingSpec, embed
+        spec = EmbeddingSpec(**{**asdict(self.spec()),
+                                "random_state": int(self.seed.value()) + 1 + int(fold)})
+        coords, _, _ = embed(self.nodes, spec, log=lambda *a: None)
+        return cluster(coords, algorithm=self.algo.currentText(),
+                       min_cluster_size=self.mcs.value(), min_samples=self.mcs.value(),
+                       eps=self.eps.value())
+
+    def _validation_done(self, d):
+        """Show the per-category scores, and clear whatever candidates the last run left."""
+        self.val_note.hide()
+        self._validation_scores = d
+        self._fill(self.val_table, d)
+        self.cand_table.clear()
+        self.cand_table.setRowCount(0)
+        self.cand_table.setColumnCount(0)
+        self.status.emit(self._validation_verdict(d))
+
+    def _validation_refused(self, error) -> bool:
+        """A refusal is an explanation, not a failure. Returns whether it was handled here.
+
+        `validate` raises when the label fed the embedding, which is the guard working. Reported as
+        a red failed job with a traceback, it would read as the tab being broken -- and the next
+        move would be to look for the bug rather than to rebuild the map without that column.
+        """
+        if not isinstance(error, ValueError):
+            return False
+        # Rendered and looked at: the note said "Not scored" while the previous run's table sat
+        # underneath it, and a table of precisions under an explanation reads as the explanation's
+        # result. A refusal must leave no number on screen that could be taken for this one's.
+        self._validation_scores = None
+        for table in (self.val_table, self.cand_table):
+            table.clear()
+            table.setRowCount(0)
+            table.setColumnCount(0)
+        self.val_note.setText(f"<b>Not scored.</b> {error}")
+        self.val_note.show()
+        self.status.emit(str(error))
+        return True
+
+    def show_candidates(self, row: int, _col: int = 0):
+        """The genes one category's cluster would have you annotate, with the numbers attached.
+
+        Never a bare list. Each candidate carries the composition of the cluster it comes from and
+        whatever independent agreement exists, because the same list looks identical whether it is
+        90% right or 6% right -- and on this proteome it has been 6%.
+        """
+        from .validate import best_cluster, candidates, orthogonal_support
+        d = getattr(self, "_validation_scores", None)
+        target = getattr(self, "_validation_target", None)
+        if d is None or not len(d) or row >= len(d) or self.labels is None:
+            return
+        item = self.val_table.item(row, 0)
+        category = item.text() if item is not None else str(d.iloc[row].category)
+        truth = self._aligned_truth(target)
+        cl = best_cluster(self.labels, truth, category)
+        if cl is None:
+            self.status.emit(f"no cluster holds any gene labelled {category!r}")
+            return
+        genes = self.nodes.gene_id[self.rows] if self.rows is not None else self.nodes.gene_id
+        cand = candidates(self.labels, truth, category, cl, genes)
+        if len(cand):
+            support = orthogonal_support(self.nodes, cand.gene_id, truth, category,
+                                         used_columns=self.used_columns(),
+                                         log=lambda m: self.status.emit(m))
+            cand = cand.merge(support, on="gene_id", how="left")
+        self._fill(self.cand_table, cand)
+        score = d.iloc[row]
+        self.status.emit(
+            f"{len(cand):,} candidates for {category} from cluster {cl} -- validated precision "
+            f"{score.precision:.2f}, so roughly {score.precision:.0%} of them would be right")
 
     @staticmethod
     def _validation_verdict(d) -> str:
@@ -802,7 +974,7 @@ class AnalysisPanel(QtWidgets.QWidget):
                 f"cluster and roughly {best.precision:.0%} would be right")
 
     # ------------------------------------------------------------------ jobs
-    def _run(self, fn, on_done, name: str = "analysis"):
+    def _run(self, fn, on_done, name: str = "analysis", on_error=None):
         """Run `fn` off the GUI thread, through the window's job runner when there is one.
 
         Routed through JobRunner rather than through a private QThread. The private one was the cause
@@ -814,10 +986,14 @@ class AnalysisPanel(QtWidgets.QWidget):
 
         `on_done` is invoked on the GUI thread. A handler connected straight to a worker signal runs
         on the worker, and touching widgets from there crashes on a slow machine.
+
+        `on_error` is given the exception and returns whether it handled it. Some failures are not
+        failures: validation raising because the target fed the embedding is the guard doing its
+        job, and reporting it in red with a traceback teaches people to distrust the guard.
         """
         if self.runner is not None:
             job = self.runner.submit(lambda j: fn(_Progress(self, j)), name)
-            self._jobs[job.id] = on_done
+            self._jobs[job.id] = (on_done, on_error)
             return job
         # No runner (the panel used standalone, or in a test): fall back to a private thread.
         if self._thread is not None:
@@ -833,7 +1009,8 @@ class AnalysisPanel(QtWidgets.QWidget):
             self._thread.quit(); self._thread.wait()
             self._thread = None; self._worker = None
             if error is not None:
-                self.status.emit(f"failed: {error}")
+                if not (on_error is not None and on_error(error)):
+                    self.status.emit(f"failed: {error}")
             else:
                 on_done(result)
 
@@ -843,9 +1020,10 @@ class AnalysisPanel(QtWidgets.QWidget):
 
     def _on_job_finished(self, jid: int, ok: bool):
         """Deliver a finished job's result to its handler, on the GUI thread."""
-        on_done = self._jobs.pop(jid, None)
-        if on_done is None:
+        handlers = self._jobs.pop(jid, None)
+        if handlers is None:
             return
+        on_done, on_error = handlers
         job = self.runner.jobs.get(jid)
         if job is None:
             return
@@ -853,6 +1031,11 @@ class AnalysisPanel(QtWidgets.QWidget):
             self.status.emit(f"{job.name}: stopped")
             return
         if not ok:
+            # The exception itself where the runner kept it, so a handler can tell a deliberate
+            # refusal from a crash by type rather than by reading the formatted message.
+            exc = job.exception if job.exception is not None else RuntimeError(job.error)
+            if on_error is not None and on_error(exc):
+                return
             self.status.emit(f"{job.name} failed: {job.error}")
             return
         on_done(job.result)
@@ -1045,6 +1228,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self._run(job, self._battery_done, name="held-out battery")
 
     def _battery_done(self, result):
+        from .clustering import per_category
         S, D, lines = result
         held = S[S.evidence == "held_out"] if not S.empty else S
         # `+` binds tighter than `or`, so the header made the whole expression truthy and the
@@ -1059,7 +1243,14 @@ class AnalysisPanel(QtWidgets.QWidget):
         cols = [c for c in ("feature", "evidence", "score_type", "score", "assoc_with_input", "n", "q")
                 if c in held.columns]
         self._fill(self.battery_table, held[cols])
-        self.status.emit(f"battery: {len(held)} held-out features tested")
+        per = per_category(D)
+        self._fill(self.category_table, per)
+        recovered = int((per.f1 >= 0.5).sum()) if len(per) else 0
+        enriched = int((per.lift >= 2).sum()) if len(per) else 0
+        self.status.emit(
+            f"battery: {len(held)} held-out features tested; of {len(per)} categories big enough to "
+            f"score, {enriched} sit in a cluster at twice their own prevalence and {recovered} "
+            f"reach F1 0.5")
 
     def run_search(self):
         """Walk dataset combinations, scoring each by how well it recovers the held-out label."""

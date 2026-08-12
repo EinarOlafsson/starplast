@@ -14,12 +14,22 @@ Two things this is careful about.
 
 The embedding must not have seen the label. If `compartment` fed the map, a cluster matching
 compartment is circular and this measures nothing -- so the caller passes the columns the embedding
-used and `masked_recovery` refuses when the target is among them.
+used and the run is refused when the target column is among them. The check is on the COLUMN: it
+used to be on the category value, comparing "dense granules" against a list of column names, which
+is never true -- and the application passed block names, so the guard never fired at all.
 
-The hidden genes are hidden from the SCORING, not from the embedding. Re-embedding per fold would
-be the stricter test and costs an hour per fold on this proteome; it is offered as `refit` for when
-that is affordable, and its absence is recorded in the result rather than glossed over, because a
-number that did not re-fit is a weaker claim than one that did.
+The hidden genes are hidden from the SCORING, not from the embedding. Re-embedding per fold is the
+stricter test and costs a full embedding per fold; `refit` does it, and requires a `rebuild`
+callable to do it with. Asking for it without one is an error rather than a flag, because `refit`
+used to change only the sentence the result prints -- so a run that re-fit nothing described itself
+as "re-embedded per fold". Whether it re-fit is recorded on every row either way, since the
+difference is invisible in the numbers.
+
+A candidate list is the output all of this exists to qualify, so `candidates` attaches the
+composition of the cluster it came from, and `orthogonal_support` counts how many genes already
+carrying the category share an orthogroup or a domain with each candidate -- agreement from
+evidence the map never saw. A column that fed the embedding is refused there too: its agreement
+would be the map agreeing with itself.
 """
 from __future__ import annotations
 
@@ -74,16 +84,32 @@ class Validation:
                 f"F1 {self.f1:.2f} over {len(self.folds)} folds ({how})")
 
 
-def _labelled(truth: pd.Series):
-    """Indices of genes carrying a real label, absence excluded."""
-    v = truth.astype("object").where(truth.notna(), "").astype(str)
-    return np.flatnonzero(~np.isin(np.char.lower(v.to_numpy().astype(str)),
-                                   list(ABSENCE_LABELS)))
+def circularity_error(truth: pd.Series, used_columns, target_column: str | None = None) -> str:
+    """Why this label cannot be scored against this embedding, or "" if it can.
+
+    Returned as a sentence rather than raised from three call sites, because the interface has to
+    SHOW this: a tab that pops an exception dialog teaches people that validation is broken, when
+    what happened is that validation correctly refused to produce a meaningless number.
+
+    The test is on the label COLUMN, not on the category value. It used to be the value -- `category
+    in used_columns` -- which compares "dense granules" against a list of column names and is
+    therefore never true. In the application it was worse than never true: the panel passed the
+    embedding's BLOCK names, so the guard was comparing a compartment against "expression_summary"
+    and the tab would happily score a target the map was built from.
+    """
+    col = target_column or getattr(truth, "name", None)
+    used = set(used_columns)
+    if col is not None and col in used:
+        return (f"{col!r} is one of the columns this embedding was built from, so a cluster matching "
+                f"it is circular by construction and the number would mean nothing. Rebuild the map "
+                f"without it -- on the Data tab -- and validate that.")
+    return ""
 
 
 def masked_recovery(labels: np.ndarray, truth: pd.Series, category: str, *,
                     folds: int = 5, hold_frac: float = 0.2, seed: int = 0,
-                    used_columns=(), refit: bool = False) -> Validation:
+                    used_columns=(), target_column: str | None = None,
+                    refit: bool = False, rebuild=None) -> Validation:
     """Hide some of a category's genes and see whether the clustering puts them back.
 
     `labels` is a clustering of a FIXED embedding. `truth` is the held-out label column. For each
@@ -93,11 +119,21 @@ def masked_recovery(labels: np.ndarray, truth: pd.Series, category: str, *,
 
     Precision is over the cluster's members that were not visibly of this category, which is the set
     a user would actually annotate from. Recall is over the hidden genes.
+
+    `refit` requires `rebuild`, a callable taking the fold number and returning that fold's labels
+    -- a fresh embedding and clustering, so the estimate is not conditional on one particular map.
+    Asking for it without supplying one is an error rather than a flag: `refit=True` used to change
+    only the sentence the result prints, so a run that had re-fit nothing reported itself as
+    "re-embedded per fold". A number that overstates how it was obtained is worse than a weaker
+    number that describes itself accurately.
     """
-    if category in set(used_columns):
-        raise ValueError(
-            f"{category!r} was among the columns the embedding was built from, so a cluster matching "
-            f"it is circular by construction and this measures nothing")
+    problem = circularity_error(truth, used_columns, target_column)
+    if problem:
+        raise ValueError(problem)
+    if refit and rebuild is None:
+        raise ValueError("refit=True needs `rebuild`, a callable returning each fold's labels from "
+                         "a fresh embedding; without one nothing would be re-embedded and the "
+                         "result would claim otherwise")
 
     labels = np.asarray(labels)
     v = truth.astype("object").where(truth.notna(), "").astype(str).to_numpy()
@@ -117,14 +153,22 @@ def masked_recovery(labels: np.ndarray, truth: pd.Series, category: str, *,
         visible = is_cat & ~hidden_mask
         if not visible.any():
             continue
+        # A fresh map per fold when one was asked for. The label never fed the embedding either way,
+        # so what re-fitting buys is that the answer is not conditional on one map and one
+        # clustering -- and on this proteome that is the difference between an estimate and an
+        # anecdote about a particular seed.
+        fold_labels = np.asarray(rebuild(k)) if refit else labels
+        if len(fold_labels) != len(labels):
+            raise ValueError(f"fold {k}: rebuild returned {len(fold_labels)} labels for "
+                             f"{len(labels)} genes")
         # The cluster a user would pick: the one holding most of the visible members. Noise (-1) is
         # never a candidate -- "it is in the noise" is not an annotation.
-        real = labels >= 0
-        counts = {c: int(((labels == c) & visible).sum()) for c in np.unique(labels[real])}
+        real = fold_labels >= 0
+        counts = {c: int(((fold_labels == c) & visible).sum()) for c in np.unique(fold_labels[real])}
         if not counts or max(counts.values()) == 0:
             continue
         best = max(counts, key=counts.get)
-        in_cluster = (labels == best)
+        in_cluster = (fold_labels == best)
 
         # Precision over exactly the set a user would annotate from: cluster members that do not
         # visibly carry the category. Some of those are the hidden ones, and those are the hits.
@@ -140,28 +184,121 @@ def masked_recovery(labels: np.ndarray, truth: pd.Series, category: str, *,
     return out
 
 
-def validate_all(labels: np.ndarray, truth: pd.Series, *, min_size: int = 15,
+def validate_all(labels: np.ndarray, truth: pd.Series, *, min_size: int = 15, log=print,
                  **kw) -> pd.DataFrame:
     """Run `masked_recovery` for every category with enough genes, and rank them.
 
     Per-category rather than one global number, deliberately. A method that recovers hidden dense
     granules but not hidden rhoptries is not "60% accurate"; it works for one compartment and not the
     other, and only the per-category table says so.
+
+    `log` is called once per category, which is what makes the run reportable and, in the
+    application, stoppable: the cancellation is raised from the reporting callable, so a run with
+    `refit` on -- a full embedding per fold per category -- can be stopped between categories
+    instead of at the end.
     """
+    # Checked once, here, as well as per category. A table where every category was too small to
+    # score would otherwise come back empty and clean from a target the embedding was built on,
+    # which reads as "nothing to report" rather than as "this question cannot be asked of this map".
+    problem = circularity_error(truth, kw.get("used_columns", ()), kw.get("target_column"))
+    if problem:
+        raise ValueError(problem)
     v = truth.astype("object").where(truth.notna(), "").astype(str)
     counts = v.value_counts()
+    cols = ["category", "n_labelled", "n_folds", "precision", "recall", "f1", "refit", "note"]
     rows = []
-    for cat, n in counts.items():
-        if str(cat).lower() in ABSENCE_LABELS or n < min_size:
-            continue
+    scorable = [(c, n) for c, n in counts.items()
+                if str(c).lower() not in ABSENCE_LABELS and n >= min_size]
+    log(f"validating {len(scorable)} categories of {getattr(truth, 'name', 'the target')!r} "
+        f"({int(counts.sum()):,} genes, {len(counts) - len(scorable)} categories too small or absent)")
+    for i, (cat, n) in enumerate(scorable, start=1):
+        log(f"  {i}/{len(scorable)} {cat} ({int(n):,} labelled)")
         r = masked_recovery(labels, truth, str(cat), **kw)
         rows.append({"category": cat, "n_labelled": int(n), "n_folds": len(r.folds),
                      "precision": r.precision, "recall": r.recall, "f1": r.f1,
-                     "note": r.note})
+                     # Carried on every row: a score that did not re-embed per fold is a weaker
+                     # claim than one that did, and the difference is invisible in the numbers.
+                     "refit": bool(r.refit), "note": r.note})
     if not rows:
-        return pd.DataFrame(columns=["category", "n_labelled", "n_folds",
-                                     "precision", "recall", "f1", "note"])
-    return pd.DataFrame(rows).sort_values("f1", ascending=False).reset_index(drop=True)
+        return pd.DataFrame(columns=cols)
+    return pd.DataFrame(rows, columns=cols).sort_values("f1", ascending=False).reset_index(drop=True)
+
+
+def best_cluster(labels: np.ndarray, truth: pd.Series, category: str) -> int | None:
+    """The cluster holding most of a category's labelled genes, or None if none does.
+
+    The same choice `masked_recovery` makes inside each fold, and the same one a user makes by eye,
+    so the cluster a candidate list comes from is the cluster the error rate was measured on. Noise
+    is never chosen: "it is in the noise" is not an annotation.
+    """
+    labels = np.asarray(labels)
+    v = truth.astype("object").where(truth.notna(), "").astype(str).to_numpy()
+    is_cat = v == category
+    counts = {int(c): int(((labels == c) & is_cat).sum()) for c in np.unique(labels[labels >= 0])}
+    if not counts or max(counts.values()) == 0:
+        return None
+    return max(counts, key=counts.get)
+
+
+#: Grouping columns whose agreement is evidence the map did not use: shared orthogroup, shared Pfam,
+#: shared InterPro. Multi-valued columns are `;`-separated in this table.
+SUPPORT_COLUMNS = ("orthogroup", "pfam_id", "interpro_id")
+
+
+def orthogonal_support(nodes: pd.DataFrame, candidate_ids, truth: pd.Series, category: str, *,
+                       columns=SUPPORT_COLUMNS, used_columns=(), log=print) -> pd.DataFrame:
+    """For each candidate, how many genes already labelled `category` it shares a group with.
+
+    A candidate's whole claim is that it sits near genes of one category in a map. That is one piece
+    of evidence, and the honest question about it is whether anything the map never saw agrees.
+    Sharing an orthogroup or a domain with the labelled members is such a thing: not proof -- paralogs
+    of a dense-granule protein need not be dense-granule proteins -- but independent, and countable.
+
+    A column that fed the embedding is refused rather than counted, and the refusal is logged. Its
+    agreement would be the map agreeing with itself, which is the failure this whole tab exists to
+    put a number on.
+
+    Zero support is the common answer and is reported as zero, never as a blank: most of this
+    proteome has no orthogroup neighbour with a measured label, and a candidate with no independent
+    support is exactly the one to be careful about.
+    """
+    ids = np.asarray(candidate_ids, dtype=object)
+    out = pd.DataFrame({"gene_id": ids})
+    v = truth.astype("object").where(truth.notna(), "").astype(str).to_numpy()
+    labelled = np.flatnonzero(v == category)
+    gene_id = nodes["gene_id"].to_numpy()
+    pos = {g: i for i, g in enumerate(gene_id)}
+    used = set(used_columns)
+    for col in columns:
+        if col not in nodes.columns:
+            continue
+        if col in used:
+            log(f"orthogonal support: {col!r} fed the embedding, so its agreement is not "
+                f"independent evidence and it is not counted")
+            continue
+        tokens = _tokens(nodes[col])
+        # token -> the labelled genes carrying it, so a labelled gene sharing two domains with a
+        # candidate is counted once rather than twice.
+        holders = {}
+        for i in labelled:
+            for t in tokens[i]:
+                holders.setdefault(t, set()).add(int(i))
+        support = []
+        for g in ids:
+            i = pos.get(g)
+            hits = set()
+            if i is not None:
+                for t in tokens[i]:
+                    hits |= holders.get(t, set())
+            support.append(len(hits))
+        out[f"shares_{col}"] = support
+    return out
+
+
+def _tokens(values: pd.Series) -> list:
+    """Each row's group memberships. `;`-separated where a gene has several domains."""
+    v = values.astype("object").where(values.notna(), "").astype(str).to_numpy()
+    return [[t for t in str(x).split(";") if t and t.lower() not in ABSENCE_LABELS] for x in v]
 
 
 def candidates(labels: np.ndarray, truth: pd.Series, category: str, cluster: int,
@@ -180,6 +317,16 @@ def candidates(labels: np.ndarray, truth: pd.Series, category: str, cluster: int
     n_cat = int((inc & (v == category)).sum())
     n_other = int((inc & ~absent & (v != category)).sum())
     picked = inc & absent
+    # How common the category is across the whole map, which is the number the cluster's own
+    # fraction has to be read against. A cluster that is 10% dense granules sounds like something
+    # until you notice that 9% of the map is, and then it is a cluster like any other.
+    #
+    # Over the same denominator as `cluster_frac_category` -- every gene, not only the labelled ones
+    # -- because the two are meant to be divided by each other. Computed over labelled genes alone
+    # it read 1.3x higher than the cluster fraction it is compared against, on this table, purely
+    # from the 68% of the proteome that carries no label.
+    prevalence = (int((v == category).sum()) / len(v)) if len(v) else 0.0
+    frac = (n_cat / n_in) if n_in else 0.0
     return pd.DataFrame({
         "gene_id": gene_ids[picked],
         "proposed": category,
@@ -188,6 +335,8 @@ def candidates(labels: np.ndarray, truth: pd.Series, category: str, cluster: int
         # How much of the cluster already carries the category, and how much carries something else.
         # A cluster that is 90% the category with 2% contradictions is a different proposition from
         # one that is 30% the category with 40% contradictions, and the numbers must travel with it.
-        "cluster_frac_category": (n_cat / n_in) if n_in else 0.0,
+        "cluster_frac_category": frac,
         "cluster_frac_contradicting": (n_other / n_in) if n_in else 0.0,
+        "overall_frac_category": prevalence,
+        "enrichment": (frac / prevalence) if prevalence else float("nan"),
     })

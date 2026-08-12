@@ -340,6 +340,60 @@ def battery(nodes: pd.DataFrame, labels: np.ndarray, used_features=(), features=
     return S, D
 
 
+def per_category(detail: pd.DataFrame, evidence: str = "held_out",
+                 min_in_cluster: int = 5) -> pd.DataFrame:
+    """The best cluster for each CATEGORY of each held-out feature: precision, recall, F1.
+
+    The battery reports one number per feature -- Cramer's V over the whole contingency table -- and
+    a single number over 27 compartments hides the thing worth knowing. V = 0.2 is the same value
+    whether every compartment is weakly smeared across every cluster or one falls out cleanly and
+    the rest are noise, and those are entirely different findings. Only the per-category table
+    separates them, and it uses the same "best single cluster per label" convention as
+    `search.score_recovery`, so the two cannot disagree about what recovery means.
+
+    F1 is computed here rather than read off the battery, whose rows are per (cluster, category)
+    pair: the row that matters for a category is its best one.
+
+    `min_in_cluster` is the singleton guard in its per-category form, and it is not optional.
+    Ranked by lift without it, the top of this table was a cluster holding ONE gene of a rare
+    category at 5x enrichment -- true, meaningless, and indistinguishable at a glance from a real
+    result. The same floor `objectives.score` applies for the same reason.
+    """
+    cols = ["feature", "category", "cluster", "n_in_cluster", "precision", "prevalence", "lift",
+            "recall", "f1", "q"]
+    if detail is None or detail.empty or "category" not in detail.columns:
+        return pd.DataFrame(columns=cols)
+    d = detail[detail.evidence == evidence] if "evidence" in detail.columns else detail
+    d = d[d.precision.notna() & d.recall.notna()]
+    if d.empty:
+        return pd.DataFrame(columns=cols)
+    # Prevalence and lift are computed over every row, including the ones too small to be reported:
+    # they describe how common the category is, which does not depend on which rows are shown.
+    keep = d.n_in_cluster >= min_in_cluster
+    denom = (d.precision + d.recall).to_numpy(dtype=float)
+    f1 = np.divide(2 * d.precision.to_numpy(dtype=float) * d.recall.to_numpy(dtype=float),
+                   denom, out=np.zeros(len(d)), where=denom > 0)
+    # How common the category is across everything this feature scored, and how much more of it the
+    # cluster holds than the map does. Without this the table's top row is whatever class dominates:
+    # a cluster holding 90% of the genes "recovers" a 90%-prevalent label at F1 0.95 while telling
+    # you nothing, which is the trivial partition this project has already been caught by once.
+    # Lift 1.0 means the cluster is no more that category than the proteome is.
+    total = d.groupby("feature").n_in_cluster.transform("sum").to_numpy(dtype=float)
+    n_cat = d.groupby(["feature", "category"]).n_in_cluster.transform("sum").to_numpy(dtype=float)
+    prevalence = np.divide(n_cat, total, out=np.full(len(d), np.nan), where=total > 0)
+    lift = np.divide(d.precision.to_numpy(dtype=float), prevalence,
+                     out=np.full(len(d), np.nan), where=prevalence > 0)
+    d = d.assign(f1=f1, prevalence=prevalence, lift=lift)[keep.to_numpy()]
+    if d.empty:
+        return pd.DataFrame(columns=cols)
+    best = (d.sort_values("f1", ascending=False)
+             .groupby(["feature", "category"], as_index=False, sort=False).head(1))
+    for c in cols:
+        if c not in best.columns:
+            best[c] = np.nan
+    return best[cols].sort_values(["lift", "f1"], ascending=False).reset_index(drop=True)
+
+
 def describe(summary: pd.DataFrame, detail: pd.DataFrame, top=6, min_score=0.15,
              q_max=0.05) -> list:
     """Turn the battery into the sentences a reader wants, held-out features only."""

@@ -43,6 +43,10 @@ class Job:
     result: Any = None
     error: str = ""
     traceback: str = ""
+    #: The exception itself, not only its text. A caller that wants to tell a deliberate refusal
+    #: from a crash -- validation refusing a circular target, say -- needs the type, and rebuilding
+    #: it from a formatted string is guesswork.
+    exception: Optional[BaseException] = None
     _cancel: bool = field(default=False, repr=False)
 
     @property
@@ -81,6 +85,11 @@ class _Task(QtCore.QRunnable):
             self.sig.finished.emit(self.job.id, False)
             return
         self.job.state = RUNNING
+        # Written here, on the worker, rather than left to the queued handler. The signal is
+        # delivered on the GUI thread whenever it gets there, so a job that had already reported
+        # "configuration 12 of 288" would have its note overwritten with "started" the moment the
+        # initial emission arrived -- a progress line that goes backwards.
+        self.job.note = "started"
         self.sig.progress.emit(self.job.id, -1, "started")
         try:
             # The callable is handed the job so it can report progress and honour cancellation. Passed
@@ -98,6 +107,7 @@ class _Task(QtCore.QRunnable):
             self.job.state = FAILED
             self.job.error = f"{type(exc).__name__}: {exc}"
             self.job.traceback = traceback.format_exc()
+            self.job.exception = exc
             ok = False
         self.sig.finished.emit(self.job.id, ok)
 
@@ -154,9 +164,14 @@ class JobRunner(QtCore.QObject):
         return job
 
     def _on_progress(self, jid: int, pct: int, note: str):
-        j = self.jobs.get(jid)
-        if j is not None:
-            j.progress, j.note = pct, note
+        """Forward a worker's progress. Nothing is copied back onto the job here.
+
+        The job's own `note` and `progress` are written where they are produced -- by the callable,
+        which is handed the job for exactly that -- because this handler runs whenever Qt delivers
+        the queued signal, which can be after the job has reported something newer. Assigning the
+        note here made a progress line travel backwards: a job that had reached "configuration 12 of
+        288" reverted to "started" the moment the initial emission was delivered.
+        """
         self.progress.emit(jid, pct, note)
 
     def _on_finished(self, jid: int, ok: bool):

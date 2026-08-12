@@ -151,6 +151,10 @@ def test_the_task_body_records_a_failure_with_its_traceback(qapp):
     assert job.state == J.FAILED
     assert "KeyError" in job.error and "boom" in job.traceback
     assert seen == [(2, False)]
+    # The exception itself, not only its text. A caller that has to tell a deliberate refusal from a
+    # crash -- validation refusing a circular target -- needs the type, and reconstructing it from a
+    # formatted message is guesswork.
+    assert isinstance(job.exception, KeyError)
 
 
 def test_a_task_cancelled_before_it_starts_never_runs_its_callable(qapp):
@@ -173,6 +177,38 @@ def test_a_job_cancelled_mid_flight_is_marked_cancelled_not_done(qapp):
     job = J.Job(id=4, name="mid-flight")
     J._Task(job, work, J._Signals()).run()
     assert job.state == J.CANCELLED
+
+
+def test_a_cooperative_stop_arrives_as_cancelled_rather_than_as_a_crash(qapp):
+    """A stop unwinds by raising, so it reaches the task looking like a failure. Reported in red
+    with a traceback, it would teach people to distrust the failure list.
+
+    Driven directly rather than through the pool: a body that runs on a Qt-managed thread is
+    invisible to coverage, and the point of this test is that this branch is exercised."""
+    def work(job):
+        raise J.Stopped("walk stopped after configuration 12")
+
+    job = J.Job(id=7, name="stoppable")
+    sig = J._Signals()
+    seen = []
+    sig.finished.connect(lambda jid, ok: seen.append((jid, ok)))
+    J._Task(job, work, sig).run()
+    assert job.state == J.CANCELLED
+    assert "configuration 12" in job.note
+    assert not job.error and not job.traceback, "a stop is not a failure"
+    assert seen == [(7, False)]
+
+
+def test_a_progress_report_does_not_overwrite_a_newer_one(qapp):
+    """The initial "started" is emitted from the worker and applied whenever Qt delivers it, so
+    copying it onto the job in the handler made the note travel backwards -- a walk that had reached
+    configuration 12 reverted to "started"."""
+    r = J.JobRunner()
+    job = J.Job(id=8, name="reports")
+    r.jobs[8] = job
+    job.note = "configuration 12 of 288"
+    r._on_progress(8, -1, "started")
+    assert job.note == "configuration 12 of 288"
 
 
 def test_active_lists_only_unfinished_jobs(qapp):

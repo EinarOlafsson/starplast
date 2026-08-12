@@ -12,14 +12,24 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~1,290 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect ~1,353 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
 ## The one thing to do first
 
-**Task 20** — the validation tab, at 70%. It is the one ordering constraint in `INDEX.md`: task 17
-must not ship before it, because a candidate list without an error rate is the thing this project
-exists not to produce.
+**Task 19** — logging, opt-in and per level. Then 18 (navigate/select modes) and 16 (the automated
+walk, which task 15 unblocked). Task 17 is unblocked too, now that 20 has landed, but read what 20
+built before starting it: an annotation may only be saved with the validation numbers attached.
+
+**Task 20 is done** (2026-08-12, v0.5.0), and two of its findings outlive it:
+
+- The circularity guard never fired. It compared a category VALUE against a list of column names,
+  and the panel passed BLOCK names, so the tab that exists to refuse circular questions would have
+  scored a target the map was built on. It now tests the label COLUMN, before the job is submitted
+  as well as inside it. `AnalysisPanel.used_columns()` is what to pass anywhere else this matters.
+- Every score on screen now carries what it has to be read against: `prevalence` and `lift` in the
+  per-category table, `overall_frac_category` and `enrichment` on every candidate. On the real table
+  the best cluster is 10.2% nucleus-chromatin against a map that is 9.4% — enrichment 1.09.
 
 **Task 15 is done** (2026-08-12, v0.4.0), so the contract it was blocking is now this:
 `tuning.walk_umap_iter` yields one `WalkStep` per configuration as it is computed — the scores, the
@@ -73,8 +83,9 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
 - **Every objective has a degenerate maximizer.** Singletons win any purity score; one giant cluster
   wins any recall score. `objectives.py` enforces the floors and `EXPLANATION` has the measured
   table. It is shown in the app under Help.
-- **Task 17 must not ship before task 20.** Annotation without validation is a mechanism for
-  manufacturing unvalidated claims.
+- **Task 17 must not ship before task 20**, which it now does not have to: 20 landed. What survives
+  is the requirement — a saved annotation carries the validated precision and recall for its
+  category, the cluster's composition, and the enrichment over prevalence.
 
 ## Conventions worth knowing before you write anything
 
@@ -87,7 +98,7 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
   directly, never a pragma. Genuinely unreachable branches get deleted.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.4.0).
+- Bump the version for feature work (currently 0.5.0).
 
 ## Where things are
 
