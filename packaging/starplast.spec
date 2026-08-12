@@ -26,7 +26,19 @@ for pkg in ("starplast", "pyqtgraph", "pyqtgraph.opengl", "OpenGL", "OpenGL.plat
     except Exception:
         hiddenimports.append(pkg)
 
-datas = [(str(ROOT / "data"), "data")]          # the committed cache: this is what makes it standalone
+# The committed cache, which is what makes the installed application standalone. It lives INSIDE the
+# package (starplast/data), and it is bundled to the same relative place so paths.data_dir() finds it
+# by its normal first candidate rather than by a special case for frozen builds.
+#
+# This pointed at ROOT/data until 2026-08-12. After the cache moved into the package that directory
+# stopped existing, so PyInstaller would have bundled nothing and produced an installer whose
+# application cannot find its own data -- the failure with no error message that the whole resolver
+# exists to prevent.
+CACHE = ROOT / "starplast" / "data"
+if not CACHE.is_dir():
+    raise SystemExit(f"cache not found at {CACHE}; build it with python -m starplast.build_graph "
+                     "before packaging, or the installer will ship an application with no data")
+datas = [(str(CACHE), "starplast/data")]
 for pkg in ("pyqtgraph", "umap", "pynndescent"):
     try:
         datas += collect_data_files(pkg)

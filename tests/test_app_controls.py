@@ -412,17 +412,25 @@ def test_a_second_camera_move_retargets_rather_than_queueing(win, app):
     win.view._cam_timer.stop()
 
 
-def test_the_camera_animation_finishes_and_stops_itself(win, app):
-    from PyQt6 import QtCore
-    target = float(win.view.opts["distance"]) * 1.5
+def test_the_camera_animation_finishes_and_stops_itself(win):
+    """Driven by firing the timer rather than by waiting on the clock. Waiting made this flaky under
+    load -- a 60 ms animation and a 900 ms budget still lost the race when the machine was busy -- and
+    a test that fails when something else is running teaches people to ignore it."""
+    start = float(win.view.opts["distance"])
+    target = start * 1.5
     win.view.animate_distance(target, ms=60)
-    for _ in range(300):
-        app.processEvents()
-        QtCore.QThread.msleep(3)
+    assert win.view._cam_timer.isActive()
+
+    seen = [start]
+    for _ in range(200):
+        win.view._cam_timer.timeout.emit()
+        seen.append(float(win.view.opts["distance"]))
         if not win.view._cam_timer.isActive():
             break
-    assert not win.view._cam_timer.isActive()
-    assert float(win.view.opts["distance"]) == pytest.approx(target, rel=0.02)
+    assert not win.view._cam_timer.isActive(), "the animation must stop itself"
+    assert seen[-1] == pytest.approx(target, rel=1e-6)
+    assert all(a <= b + 1e-9 for a, b in zip(seen, seen[1:])), "it must ease toward the target, not past it"
+    assert len(seen) > 3, "a smoothstep over one frame is a cut"
 
 
 # --------------------------------------------------------------------------- theme round trip
