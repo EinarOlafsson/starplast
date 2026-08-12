@@ -237,8 +237,17 @@ class AnalysisPanel(QtWidgets.QWidget):
         v.addWidget(note)
         form = QtWidgets.QFormLayout()
         self.target = QtWidgets.QComboBox()
-        self.target.addItems([c for c in ("lopit_unified", "compartment", "compartment_best",
-                                          "attention_depth") if c in self.nodes.columns])
+        # Read from search.TARGETS rather than listed here, so a target added to the registry is
+        # reachable from the interface. Hardcoded, `cellcycle_phase` existed in the module and could
+        # not be chosen -- half the project's stated purpose, present in the data and absent from the
+        # menu. Filtered by what this table actually has, so an entry can never name a missing column.
+        from .search import TARGETS
+        self.target.addItems([c for c in TARGETS.values() if c in self.nodes.columns])
+        self.target.setToolTip(
+            "The label held out of every embedding and then scored. Measured labels "
+            "(compartment, cellcycle_phase) are evidence; stage_enriched_derived is computed from "
+            "expression and is a positive control, and attention_depth is a negative control -- if a "
+            "structure recovers how much a gene has been STUDIED, the map is measuring the literature.")
         self.search_sample = QtWidgets.QSpinBox()
         self.search_sample.setRange(500, 20000); self.search_sample.setSingleStep(500)
         self.search_sample.setValue(3000)
