@@ -347,6 +347,15 @@ class Window(QtWidgets.QMainWindow):
 
     def open_preferences(self):
         """Appearance settings, gathered in one place rather than crowding the map panel."""
+        self.build_preferences().exec()
+
+    def build_preferences(self):
+        """Construct the dialog without showing it.
+
+        Split from `open_preferences` so the controls can be built and inspected without entering a
+        modal event loop: exec() blocks until a human closes the window, so a test that called it hung
+        forever rather than failing.
+        """
         d = QtWidgets.QDialog(self)
         d.setWindowTitle("Preferences")
         form = QtWidgets.QFormLayout(d)
@@ -417,7 +426,7 @@ class Window(QtWidgets.QMainWindow):
         close = QtWidgets.QPushButton("close")
         close.clicked.connect(d.accept)
         form.addRow(close)
-        d.exec()
+        return d
 
     def toggle_spin(self, on: bool):
         """Rotate the camera continuously. Depth in a 3D scatter only reads when it moves."""

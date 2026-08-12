@@ -70,3 +70,55 @@ TRAPS
 
     A checksum recorded on first fetch pins whatever was fetched, including a
     corrupt download. Verify size and parseability before recording one.
+
+
+================================================================================
+DONE -- 2026-08-12
+================================================================================
+
+paths.py resolves both roots in one place. Nothing opens a relative path any
+more, which is what produced a layout only one machine satisfied.
+
+MEASURED BEFORE AND AFTER
+    registry paths resolving from the repo     1 of 16   ->   23 of 26
+    (the three that remain are genuinely absent from this machine and are
+     named rather than counted)
+
+THE CACHE MOVED INSIDE THE PACKAGE
+    <repo>/data -> starplast/data. As built before, an installed wheel unpacked
+    a generic top-level `data/` into site-packages -- collidable with any other
+    package doing the same -- and the package-data glob matched two extensions
+    without recursing, so it silently omitted all three toxodb_*.tsv identity
+    tables and the hf_release subdirectory. The registry already recorded the
+    identity table as starplast/data/, so the layout it described and the layout
+    on disk had drifted apart.
+
+VERIFIED THE WAY THE CLAIM IS STATED
+    Built a wheel, installed it into a clean environment, ran it from /tmp with
+    no repository, no configuration and no network: 8,140 genes, 12 edge types.
+    Running was already standalone; the REBUILD path was not, and that is what
+    the resolver fixes.
+
+DECISIONS WORTH KEEPING
+    An explicit override is honoured absolutely, even when it points at nothing.
+    It used to fall through to the next candidate, so a mistyped
+    $STARPLAST_CACHE silently gave a different cache than the one asked for --
+    precisely the failure this module exists to prevent. Wrong and loud beats
+    wrong and quiet. A test caught that; the first version had the bug.
+
+    find() searches EVERY root rather than stopping at the first that exists,
+    because half the files moved to datasets/<level>/<type>/<PMID>/ and half did
+    not, and stopping early silently lost the CRISPR screens once already.
+
+    datasets.ensure() refuses what it cannot honestly get: a landing page is not
+    a file, and an HTML error page served with status 200 is the normal case
+    rather than the odd one, so size never proves a file arrived.
+
+NOT DONE
+    The HuggingFace mirror for entries with no download URL. Eleven datasets
+    exist only inside a paper's supplement or only as raw instrument files;
+    ensure() names them and returns None rather than pretending. hf_publish.py
+    is ready for it.
+
+    Checksums are not pinned yet, so a silently changed remote would be caught
+    only by a changed result.
