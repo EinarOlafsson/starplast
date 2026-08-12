@@ -67,7 +67,18 @@ def _find(root: str, filename: str):
 
 
 def _read(path, **kw):
-    return pd.read_excel(path, **kw) if os.path.exists(path) else None
+    """Read a sheet, or None if the file or that sheet is not there.
+
+    A workbook that exists but lacks the expected sheet used to raise ValueError out of here and take
+    the whole build down. Publishers reissue supplements with sheets renamed or replicates dropped, and
+    one missing worksheet should cost that one screen, not every screen after it.
+    """
+    if not os.path.exists(path):
+        return None
+    try:
+        return pd.read_excel(path, **kw)
+    except ValueError:
+        return None
 
 
 def crispr_screens(base: str, log=print, resolve=None) -> pd.DataFrame:

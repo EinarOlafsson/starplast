@@ -180,7 +180,7 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
         block_sets = [tuple(c) for r in (1, 2, 3) for c in itertools.combinations(base, r)]
         log(f"  {len(block_sets)} dataset combinations from {len(base)} blocks")
 
-    rows, per_label, runs = [], [], 0
+    rows, per_label, runs, last_reported = [], [], 0, 0
     total = (len(block_sets) * len(na_policies) * len(scalings)
              * len(n_neighbors_values) * len(min_dist_values) * len(min_cluster_sizes))
     log(f"  {total} runs")
@@ -207,7 +207,7 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
             continue
         try:
             import umap
-        except ImportError:                                    # pragma: no cover
+        except ImportError:
             log("umap-learn not installed"); return pd.DataFrame(), pd.DataFrame()
 
         for nn, md in itertools.product(n_neighbors_values, min_dist_values):
@@ -216,6 +216,10 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
             Y = np.array(umap.UMAP(n_components=3, n_neighbors=nn, min_dist=md,
                                      metric="euclidean", random_state=seed).fit_transform(X), copy=True)
             for mcs in min_cluster_sizes:
+                if mcs >= len(Y):
+                    # HDBSCAN raises rather than returning all-noise when min_cluster_size exceeds the
+                    # sample. One unusable grid point should cost that point, not the whole walk.
+                    continue
                 lab = cluster(Y, algorithm="hdbscan", min_cluster_size=mcs)
                 summary, per = score_recovery(lab, nodes[truth_col].iloc[idx])
                 runs += 1
@@ -226,7 +230,13 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
                        "min_cluster_size": mcs, "seed": seed, "n_genes": int(len(X)),
                        "n_features": X.shape[1],
                        "n_clusters": int(len(set(lab[lab != NOISE]))),
-                       "noise_frac": float((lab == NOISE).mean()), **summary}
+                       "noise_frac": float((lab == NOISE).mean()),
+                       # Recorded on every row so a saved table can be audited on its own. Reading a
+                       # results CSV months later, "was the target held out" is the first question,
+                       # and it should not require re-running the search to answer.
+                       "n_excluded": len(banned),
+                       "excluded": ";".join(sorted(banned)),
+                       **summary}
                 rows.append(row)
                 per = per.assign(**{k: row[k] for k in
                                     ("blocks", "na_policy", "scaling", "n_neighbors",
@@ -244,7 +254,12 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
                                       "clustering": {"algorithm": "hdbscan",
                                                      "min_cluster_size": mcs},
                                       "scores": summary})
-        if runs and runs % 40 == 0:
+        # Report on crossing each multiple of 40 rather than on exact equality. The check sits at the
+        # end of a dataset combination, so `runs` jumps by however many hyperparameter points that
+        # combination had: equality only ever fired when that stride happened to divide 40, and with a
+        # different grid shape a long walk printed nothing at all and looked like a hang.
+        if runs - last_reported >= 40:
+            last_reported = runs
             log(f"    {runs}/{total} runs, {time.time() - t0:.0f}s")
 
     R = pd.DataFrame(rows).sort_values("mean_f1", ascending=False) if rows else pd.DataFrame()
