@@ -36,3 +36,8 @@ packages = ["starplast"]
 
 [tool.setuptools.package-data]
 starplast = ["data/*.npz", "data/*.parquet", "data/*.tsv", "data/**/*.parquet", "data/**/*.md"]
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: runs a real build or a full documentation pass; minutes rather than seconds",
+]

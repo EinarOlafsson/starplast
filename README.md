@@ -45,6 +45,19 @@ crosslink complexes are gigabytes, so they are fetched when you click a gene and
 `~/.cache/starplast`. Everything needed to *decide* something is already on disk; only the picture is
 downloaded.
 
+## API reference
+
+Every module's docstring carries the reasoning behind it, not just its signature, so the generated
+reference is genuinely the documentation. Build it locally with:
+
+```bash
+pip install pdoc
+python -m pdoc --output-directory docs/api --no-search --docformat markdown starplast
+```
+
+It is rebuilt and published on every push to `main`; it is never committed, because a checked-in copy
+drifts from the docstrings it came from.
+
 ## What you see
 
 | | |
