@@ -78,10 +78,18 @@ Stage-resolved transcriptomes were taken from GEO accessions GSE108740 (tachyzoi
 tissue cyst; 12 columns; 7,739 genes) and GSE206344 (oocyst sporulation series; 6 columns; 7,974 genes).
 All 18 raw FPKM columns are distributed; summary variables are log2(mean FPKM + 1).
 
-Eight CRISPR fitness screens were incorporated: an in vitro screen in human foreskin fibroblasts
-**[cite]**, four in vivo composite scores (peritoneum, lung, liver, spleen) obtained from ToxoDB
-**[confirm correspondence with PMID 31481656]**, naive bone-marrow-derived macrophage and IFN-γ screens
-**[cite]**, and a further in vivo screen covering 115 genes **[cite]**. Four additional published screens
+Eight CRISPR fitness screens were incorporated: a genome-wide in vitro screen in human foreskin
+fibroblasts (Sidik et al. 2016; PMID 27594426), four in vivo composite scores (peritoneum, lung, liver,
+spleen) obtained from ToxoDB, naive bone-marrow-derived macrophage and IFN-γ screens (PMID 25867017),
+and a further in vivo screen covering 115 genes.
+
+Two of those eight carry no confirmed citation and are marked as such in the registry rather than
+attributed by inference. The ToxoDB in vivo composite scores are recorded against PMID 31481656, which
+is also the source of the targeted in vivo platform below; whether the composite scores derive from that
+same study or were computed by ToxoDB from another has not been established, and the two must not be
+cited as one without checking. The 115-gene in vivo screen has no recorded publication at all.
+`starplast.datasets.unresolved()` returns exactly these entries, so an unverified attribution cannot
+reach a manuscript unnoticed. Four additional published screens
 were incorporated from publisher supplementary material: a genome-wide screen for genes synthetically
 lethal with GRA17 (7,553 genes; PMID 37498952), two targeted screens across *T. gondii* strains and mouse
 subspecies (236 and 232 genes; PMID 40240328), a targeted in vivo platform (168 genes; PMID 31481656), and
@@ -97,7 +105,10 @@ targeted library are represented as missing rather than as null effect.
 Protein abundance is represented by the median log2 iBAQ across replicates from two immunoprecipitation
 experiments (PRIDE PXD043808 and PXD065585), covering 748 genes (9.2%). **This is enrichment, not a deep
 proteome**, and should not be described as proteome-wide. Phosphosite counts, without positions, were
-available for 1,175 genes (14.4%) **[cite]**. Per-gene AlphaFold model confidence (mean pLDDT) was
+available for 1,175 genes (14.4%); this column is inherited from the upstream node table and its
+originating publication is not recorded, so it is listed by `datasets.unresolved()` and must be
+confirmed before citing. (A separate phosphosite dataset with positions and ratios, PXD017032, is
+incorporated below and is distinct from this count.) Per-gene AlphaFold model confidence (mean pLDDT) was
 available for 6,480 genes (79.6%); coordinates are not distributed but are retrieved on demand from the
 AlphaFold Database and cached locally.
 
@@ -239,4 +250,7 @@ articles); the build log records the count actually used.
 
 All input datasets, their accessions and their download locations are enumerated in
 `starplast/datasets.py`. The notebook `notebooks/download_datasets.ipynb` reproduces every download from
-that registry. **[Add repository DOI / Zenodo archive.]**
+that registry.
+
+**[Add repository DOI / Zenodo archive.]** This is the one placeholder that cannot be filled from the
+project: minting a DOI requires an account and an archived release, and is the author's to do.
