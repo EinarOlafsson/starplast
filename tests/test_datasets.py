@@ -335,6 +335,40 @@ def test_the_toxodb_route_writes_the_identity_table(monkeypatch, tmp_path):
     assert "toxodb_identity" in D.recorded_checksums()
 
 
+def test_kind_names_an_assay_never_a_provenance_word():
+    """`kind` answers "what kind of measurement is this", not "how did we get it".
+
+    stage_enriched was registered with kind "derived", which is the one entry in the registry whose
+    type could not be read off its type field -- it is bulk RNA-seq underneath. Provenance has its
+    own machine-readable home in derived_from, so mixing the two axes only loses the assay.
+    """
+    provenance_words = {"derived", "computed", "inferred", "transferred", "predicted", "internal"}
+    for d in D.REGISTRY:
+        assert d.kind.lower() not in provenance_words, (
+            f"{d.key} has kind {d.kind!r}, which describes how it was produced rather than what it "
+            f"is; put the assay in kind and mark the derivation with derived_from")
+
+
+def test_a_derivation_is_marked_by_derived_from_not_by_its_kind():
+    """The circularity guard reads derived_from, so a derivation that only says so in prose is one
+    the guard cannot see."""
+    derived = [d for d in D.REGISTRY if d.derived_from]
+    assert derived, "no registry entry declares a derivation"
+    for d in derived:
+        assert d.kind.lower() not in ("derived",)
+        # Whatever it was computed from has to be a real column of some other dataset, or the
+        # declared provenance points at nothing.
+        known = {c for other in D.REGISTRY for c in other.columns}
+        for src in d.derived_from:
+            assert src in known, f"{d.key} says it derives from {src!r}, which no dataset provides"
+
+
+def test_every_entry_states_what_kind_of_data_it_is():
+    for d in D.REGISTRY:
+        assert d.kind and d.kind.strip(), f"{d.key} has no kind"
+        assert d.level and d.level.strip(), f"{d.key} has no level"
+
+
 def test_a_failed_toxodb_request_reports_rather_than_raising(monkeypatch, tmp_path):
     from starplast import paths
     monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))

@@ -70,7 +70,12 @@ REGISTRY = [
             note="Tab-separated despite the .csv extension. RH files use TGGT1_ accessions and the "
                  "Pru files in the same supplement use TGME49_; the prefix is the only thing that "
                  "distinguishes them. The only MEASURED discrete cell-cycle label in the project."),
-    Dataset("stage_enriched", "Life-cycle stage enrichment (DERIVED)", "transcription", "derived",
+    # kind names the ASSAY, not the provenance. This was "derived", which answers how the column was
+    # produced rather than what kind of measurement is underneath it -- and left the one entry in the
+    # registry whose type you could not read off its type field. It is bulk RNA-seq: the argmax of
+    # three expression columns that come from GSE108740 and GSE206344. That it is a derivation is
+    # said by the name, by the note, and machine-readably by derived_from being non-empty.
+    Dataset("stage_enriched", "Life-cycle stage enrichment (DERIVED)", "transcription", "RNAseq",
             "Which stage a gene's own expression is highest in",
             ("stage_enriched_derived", "stage_margin_derived"),
             "1,911 of 8,140 genes called",

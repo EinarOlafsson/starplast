@@ -3,7 +3,7 @@
 
 Which stage a gene's own expression is highest in
 
-    level / kind : transcription / derived
+    level / kind : transcription / RNAseq
     provides     : stage_enriched_derived, stage_margin_derived
     coverage     : 1,911 of 8,140 genes called
     derived from : expr_tachy, expr_cyst, expr_sporulated

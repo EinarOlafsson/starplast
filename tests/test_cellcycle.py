@@ -220,12 +220,21 @@ def test_add_all_attaches_both_kinds_of_column(phase_file, tmp_path):
 
 
 def test_the_registry_records_the_derived_column_as_derived():
-    """The name is the cheap part; this is what a reader checks."""
+    """The name is the cheap part; this is what a reader checks.
+
+    Asserted on `derived_from` rather than on `kind`. This test used to require kind == "derived",
+    which conflates two axes: kind answers what sort of measurement is underneath, and here that is
+    bulk RNA-seq -- the argmax of three expression columns. Pinning the derivation to kind left the
+    one entry in the registry whose data type could not be read off its type field. The circularity
+    guard reads derived_from, so that is also the field that has to be right for anything to work.
+    """
     from starplast import datasets
     d = datasets.get("stage_enriched")
     assert "DERIVED" in d.note
     assert "circular" in d.note.lower()
-    assert d.kind == "derived"
+    assert "DERIVED" in d.name
+    assert d.derived_from == ("expr_tachy", "expr_cyst", "expr_sporulated")
+    assert d.kind == "RNAseq", "kind should name the assay underneath, not how it was produced"
 
 
 def test_the_registry_records_the_measured_study_with_its_citation():
