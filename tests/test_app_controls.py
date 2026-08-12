@@ -489,18 +489,24 @@ def test_the_browser_still_opens_when_the_analysis_panel_cannot_be_imported(monk
 
 
 def test_an_embedding_built_by_the_panel_replaces_the_map(win):
-    """Genes the new embedding excluded sit at the origin rather than keeping stale coordinates from a
-    different map."""
-    before = win.xyz.copy()
+    """Genes the new embedding excluded keep no stale coordinates from a different map, and are no
+    longer left at the origin either -- which is where they used to go, and for a walk configuration
+    that is 7,340 of 8,140 genes in a lump in the middle of the map: drawn, pickable and counted,
+    while having no position in the embedding at all. They are recorded as unplaced and hidden."""
+    before, placed_before = win.xyz.copy(), win.placed
     rows = np.zeros(win.n, dtype=bool)
     rows[:100] = True
     coords = np.random.default_rng(0).normal(size=(100, 3)).astype(np.float32)
     win.use_embedding(coords, rows)
     assert np.allclose(win.xyz[:100], coords)
-    assert np.allclose(win.xyz[100:], 0.0)
+    assert not np.allclose(win.xyz[100:], before[100:]), "stale coordinates from the last map"
+    assert np.allclose(win.xyz[100:], coords.mean(0), atol=1e-4), "not parked out of the way"
+    assert win.visible_mask().sum() == 100
     assert win.view.xyz is win.xyz, "the picker must see the same coordinates as the scatter"
     win.xyz = before
     win.view.xyz = before
+    win.placed = placed_before
+    win.view.pickable = placed_before
     win.redraw()
 
 

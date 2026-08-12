@@ -199,6 +199,23 @@ proteins is useless for inference.
 
 **Every run stores its full recipe, seed and scores.** A hit nobody can rebuild is not a result.
 
+**3g. A walk emits its configurations; a gene with no position in a map is not drawn in it.**
+(Added v0.4.0, 2026-08-12.) `tuning.walk_umap_iter` yields one `WalkStep` per configuration as it is
+computed — scores, coordinates, and a boolean mask over the node table — and `walk_umap` is that
+collected and ranked. The table and the gallery therefore fill one row and one thumbnail at a time,
+which is the difference between watching a 288-configuration sweep and waiting half an hour for it.
+The subsample is taken in table order for the same reason the mask exists: drawn by `rng.choice` it
+came back in random order, so row *i* of the embedding was an arbitrary gene and every attempt to say
+which gene a point was named a different one.
+
+The display half is a decision, not a detail. A walk map covers a subsample, so most of the proteome
+has **no position in it**, and those genes were being left at the origin — 7,340 of 8,140 in a lump in
+the middle of the map, drawn at low alpha, pickable, counted in the status bar and included in the
+class filter. That is absence rendered as a measurement, in the application whose first rule is that
+it must not be. `Window.placed` now records what the displayed embedding covers; unplaced genes are
+drawn at alpha 0, excluded from `visible_mask` and unpickable. Hiding alone is not enough — an
+invisible point is still the nearest point to a click where it sits.
+
 **4. Level of detail is data-driven, not invented tiers.**
 galaxy = coarse spatial structure of the embedding → solar system = orthogroup / co-expression module →
 planet = gene → surface = that gene's evidence (papers, domains, screens, phenotypes).

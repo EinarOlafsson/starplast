@@ -3,9 +3,11 @@
 
 Three jobs that belong together because they are what a user does before trusting a map:
 
-* **`walk_umap`** — search `n_neighbors` x `min_dist` on a seeded random subsample, so a sweep costs
-  seconds rather than the minutes a full 8,140-gene UMAP takes. The subsample is drawn with a fixed seed
-  so two sweeps are comparable; the seed is recorded in every row.
+* **`walk_umap_iter`** — search `n_neighbors` x `min_dist` on a seeded random subsample, so a sweep costs
+  seconds rather than the minutes a full 8,140-gene UMAP takes, and **yield each configuration as it is
+  computed** rather than a table at the end. `walk_umap` is that collected and ranked, for callers who
+  want the answer rather than the process. The subsample is drawn with a fixed seed so two sweeps are
+  comparable; the seed is recorded in every row.
 * **`EmbeddingStore`** — save a coordinate set together with the full `EmbeddingSpec` that produced it.
   An embedding without its recipe cannot be compared with another or reported in a methods section.
 * **`import_table`** — read a user's CSV and align it to gene ids, with regex repair when the identifier
@@ -26,12 +28,12 @@ from __future__ import annotations
 import json
 import os
 import re
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 
 import numpy as np
 import pandas as pd
 
-from .embedding import EmbeddingSpec, build_matrix
+from .embedding import EmbeddingSpec, build_matrix, normalise
 
 DEFAULT_SEED = 42
 
@@ -62,42 +64,121 @@ def _quality(X: np.ndarray, Y: np.ndarray, n_neighbors: int) -> dict:
     return out
 
 
-def walk_umap(nodes: pd.DataFrame, spec: EmbeddingSpec,
-              n_neighbors_values=(5, 15, 25, 50, 100),
-              min_dist_values=(0.0, 0.1, 0.25, 0.5),
-              sample_size: int = 2000, seed: int = DEFAULT_SEED,
-              cluster_check: bool = True, log=print) -> pd.DataFrame:
-    """Sweep UMAP hyperparameters on a seeded subsample of the genes."""
+@dataclass
+class WalkStep:
+    """One configuration of a walk, complete: its scores and the map that produced them.
+
+    The walk used to hand back a table when the whole sweep had finished, so a 288-configuration
+    sweep -- half an hour -- showed nothing at all until it ended, and the embeddings themselves were
+    computed, scored and thrown away. A step carries the coordinates as well as the numbers, which is
+    what lets configuration 12 be looked at while 13 is still computing.
+
+    `genes` is a boolean mask over the node table rather than a count, because a walk embeds a
+    subsample: without it there is no way to say which gene each coordinate belongs to, and a map
+    whose points cannot be named is a picture rather than a map.
+    """
+    index: int                   # 1-based, so it reads as "7 of 20" without arithmetic
+    total: int                   # configurations this walk expects to run, at most
+    row: dict                    # the scores, exactly as they go into the table
+    coords: np.ndarray           # (n_sampled, n_components), at the same scale as any other map
+    genes: np.ndarray            # boolean mask over the node table: which genes have a position
+    spec: EmbeddingSpec          # the full recipe, carrying THIS configuration's hyperparameters
+    name: str = ""               # key it was stored under, or "" if the walk was given no store
+
+    @property
+    def label(self) -> str:
+        """The configuration in one line, for a thumbnail caption or a status message."""
+        return f"n_neighbors={self.spec.n_neighbors}  min_dist={self.spec.min_dist:g}"
+
+
+def walk_umap_iter(nodes: pd.DataFrame, spec: EmbeddingSpec,
+                   n_neighbors_values=(5, 15, 25, 50, 100),
+                   min_dist_values=(0.0, 0.1, 0.25, 0.5),
+                   sample_size: int = 2000, seed: int = DEFAULT_SEED,
+                   cluster_check: bool = True, store=None, log=print):
+    """Sweep UMAP hyperparameters, yielding each configuration as it finishes.
+
+    This is the walk; `walk_umap` is this collected into a table. Emitting per configuration is what
+    makes a sweep watchable -- rows and thumbnails appear one at a time rather than all at once at
+    the end -- and it costs nothing, because the embedding was being built anyway.
+
+    Given a `store`, every configuration is saved with its full recipe as it is computed, so a walk
+    that is stopped half way still leaves behind everything it had finished.
+    """
     X, names, rows = build_matrix(nodes, spec, log=lambda *a: None)
-    take = _subsample(X.shape[0], sample_size, seed)
+    # Sorted, so the coordinates line up with the node table. `rng.choice` returns its picks in
+    # random order, which made row i of the embedding an arbitrary gene: any attempt to say which
+    # gene a point is -- a mask, a gene_id list, clicking a point -- silently named the wrong one.
+    # Sorting picks the same genes, in the order the table has them. search.py already does this.
+    take = np.sort(_subsample(X.shape[0], sample_size, seed))
     Xs = X[take]
+    # Node-table positions of the sampled genes, so a coordinate can be traced back to a gene.
+    where = np.arange(len(nodes))[rows][take]
+    genes = np.zeros(len(nodes), dtype=bool)
+    genes[where] = True
+    gene_ids = (nodes.gene_id.to_numpy()[where] if "gene_id" in nodes.columns else None)
+    total = len(n_neighbors_values) * len(min_dist_values)
     log(f"walk_umap: {len(Xs):,} of {X.shape[0]:,} genes (seed {seed}), "
-        f"{len(n_neighbors_values) * len(min_dist_values)} settings, {X.shape[1]} features")
+        f"{total} settings, {X.shape[1]} features")
 
     try:
         import umap
-    except ImportError:                                        # pragma: no cover
+    except ImportError:
         log("umap-learn not installed")
-        return pd.DataFrame()
+        return
 
-    out = []
+    i = 0
     for nn in n_neighbors_values:
         if nn >= len(Xs):
             continue
         for md in min_dist_values:
-            Y = umap.UMAP(n_components=spec.n_components, n_neighbors=nn, min_dist=md,
-                          metric=spec.metric, random_state=spec.random_state).fit_transform(Xs)
+            Y = np.asarray(umap.UMAP(n_components=spec.n_components, n_neighbors=nn, min_dist=md,
+                                     metric=spec.metric,
+                                     random_state=spec.random_state).fit_transform(Xs))
             row = {"n_neighbors": nn, "min_dist": md, "seed": seed,
-                   "sample_size": len(Xs), **_quality(Xs, np.asarray(Y), nn)}
+                   "sample_size": len(Xs), **_quality(Xs, Y, nn)}
             if cluster_check:
                 from .clustering import cluster, NOISE
-                lab = cluster(np.asarray(Y), algorithm="hdbscan", min_cluster_size=15)
+                lab = cluster(Y, algorithm="hdbscan", min_cluster_size=15)
                 row["n_clusters_hdbscan"] = int(len(set(lab[lab != NOISE])))
                 row["noise_frac"] = float((lab == NOISE).mean())
-            out.append(row)
+            i += 1
+            # Scored on the raw output and displayed from the normalised one. Normalising is a
+            # uniform move-and-scale, so it cannot change trustworthiness or the clustering, but
+            # computing the numbers first keeps that guarantee obvious rather than argued.
+            used = EmbeddingSpec(**{**asdict(spec), "n_neighbors": int(nn), "min_dist": float(md)})
+            name = ""
+            if store is not None:
+                name = f"walk_nn{nn}_md{md:g}_seed{seed}"
+                store.save(name, Y, used, gene_ids=gene_ids, features=names,
+                           extra={"walk": True, "scores": row})
             log(f"  n_neighbors={nn:4d} min_dist={md:<5} "
                 f"trust={row['trustworthiness']:.3f} "
                 f"clusters={row.get('n_clusters_hdbscan', '-')}")
+            yield WalkStep(index=i, total=total, row=row, coords=normalise(Y), genes=genes,
+                           spec=used, name=name)
+
+
+def walk_umap(nodes: pd.DataFrame, spec: EmbeddingSpec,
+              n_neighbors_values=(5, 15, 25, 50, 100),
+              min_dist_values=(0.0, 0.1, 0.25, 0.5),
+              sample_size: int = 2000, seed: int = DEFAULT_SEED,
+              cluster_check: bool = True, store=None, on_step=None,
+              log=print) -> pd.DataFrame:
+    """Sweep UMAP hyperparameters on a seeded subsample of the genes, and rank the settings.
+
+    `on_step` is called with each `WalkStep` the moment it is computed, which is how the interface
+    fills its table and its gallery a configuration at a time. The ranked table is still returned,
+    because ranking needs the whole sweep and a caller that only wants the answer should not have to
+    accumulate it.
+    """
+    out = []
+    for step in walk_umap_iter(nodes, spec, n_neighbors_values=n_neighbors_values,
+                               min_dist_values=min_dist_values, sample_size=sample_size,
+                               seed=seed, cluster_check=cluster_check, store=store, log=log):
+        if on_step is not None:
+            on_step(step)
+        out.append(step.row)
     if not out:
         # Same shape as a populated result. Built from [], the frame has no columns at all and sorting
         # raises KeyError -- so a grid where every setting was skipped crashed instead of reporting

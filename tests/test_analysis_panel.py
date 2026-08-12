@@ -262,6 +262,81 @@ def test_the_umap_walk_fills_its_table(panel, sync, monkeypatch):
     assert any("walk complete" in m for m in sync)
 
 
+def test_a_walk_row_appears_the_moment_that_configuration_finishes(panel, sync, monkeypatch):
+    """The whole reason the walk emits per configuration. Filling the table at the end means a
+    288-configuration sweep -- half an hour -- shows an empty table for the entire run."""
+    import starplast.tuning as T
+    from starplast.embedding import EmbeddingSpec
+
+    def fake(n, spec, on_step=None, **k):
+        for i, md in enumerate((0.1, 0.25), start=1):
+            on_step(T.WalkStep(index=i, total=2,
+                               row={"n_neighbors": 15, "min_dist": md, "trustworthiness": 0.9},
+                               coords=np.zeros((4, 3)), genes=np.ones(len(n), bool),
+                               spec=EmbeddingSpec(n_neighbors=15, min_dist=md)))
+            # Asserted INSIDE the walk: after it returns, an incremental fill and a fill-at-the-end
+            # are indistinguishable.
+            assert panel.walk_table.rowCount() == i, "the row did not arrive with the step"
+        return pd.DataFrame({"n_neighbors": [15, 15], "min_dist": [0.25, 0.1],
+                             "trustworthiness": [0.95, 0.9]})
+
+    monkeypatch.setattr(T, "walk_umap", fake)
+    panel.run_umap_walk()
+    assert panel.walk_table.rowCount() == 2
+    assert any("walk 2 of 2" in m for m in sync)
+    # The ranking replaces the running order once there is a whole sweep to rank.
+    assert panel.walk_table.item(0, 1).text().startswith("0.25")
+
+
+def test_a_new_walk_empties_the_table_before_it_starts(panel, sync, monkeypatch):
+    """Rows from two walks in one table are a comparison between configurations that were never
+    compared -- and the second walk's grid may not even have the same columns."""
+    import starplast.tuning as T
+    seen = []
+    panel.walk_started.connect(lambda: seen.append(panel.walk_table.rowCount()))
+    monkeypatch.setattr(T, "walk_umap",
+                        lambda n, spec, **k: pd.DataFrame({"n_neighbors": [15], "trust": [0.9]}))
+    panel.run_umap_walk()
+    panel.run_umap_walk()
+    assert seen == [0, 0], "the table still held the last walk when the next one started"
+
+
+def test_a_second_walk_is_refused_while_one_is_still_running(panel, sync, monkeypatch):
+    """Two walks fill one table and one gallery, and the mixture reads as a single sweep -- which
+    invites a comparison between configurations that were never compared. The runner allows
+    concurrent jobs on purpose, so the constraint belongs on the one job whose output accumulates
+    somewhere shared."""
+    import starplast.tuning as T
+    from starplast.analysis_panel import WALK_JOB
+    from starplast.jobs import Job, RUNNING
+
+    class Runner:
+        jobs = {1: Job(id=1, name=WALK_JOB, state=RUNNING)}
+
+    ran = []
+    monkeypatch.setattr(T, "walk_umap", lambda *a, **k: ran.append(1) or pd.DataFrame({"a": [1]}))
+    panel.runner = Runner()
+    panel.run_umap_walk()
+    assert ran == [] and any("already running" in m for m in sync)
+    Runner.jobs[1].state = "done"
+    panel.run_umap_walk()
+    assert ran == [1], "a finished walk must not block the next one"
+
+
+def test_the_walk_saves_every_configuration_through_the_store(panel, sync, monkeypatch):
+    """A stopped walk should leave behind what it finished. Without the store it leaves nothing."""
+    import starplast.tuning as T
+    seen = {}
+
+    def fake(n, spec, store=None, **k):
+        seen["store"] = store
+        return pd.DataFrame({"a": [1]})
+
+    monkeypatch.setattr(T, "walk_umap", fake)
+    panel.run_umap_walk()
+    assert seen["store"] is panel.store
+
+
 def test_the_walk_is_given_the_sample_size_and_seed_from_the_panel(panel, sync, monkeypatch):
     """A walk that silently used different settings than the ones on screen would be unreproducible."""
     import starplast.tuning as T

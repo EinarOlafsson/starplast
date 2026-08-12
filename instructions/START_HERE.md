@@ -12,18 +12,30 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~1,240 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect ~1,290 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
 ## The one thing to do first
 
-**Task 15.** `tuning.walk_umap` returns its table when the whole walk finishes. Rows can therefore
-only appear all at once, and there is no way to watch a walk. Changing it to emit per configuration
--- a generator, or a callback -- is what makes rows stream, and it is what tasks 15 and 16 are both
-blocked on. Nothing else in the list is worth starting before it.
+**Task 20** — the validation tab, at 70%. It is the one ordering constraint in `INDEX.md`: task 17
+must not ship before it, because a candidate list without an error rate is the thing this project
+exists not to produce.
 
-The half that works with the current contract is already built: once the table is populated, clicking
-a row rebuilds that configuration and shows it.
+**Task 15 is done** (2026-08-12, v0.4.0), so the contract it was blocking is now this:
+`tuning.walk_umap_iter` yields one `WalkStep` per configuration as it is computed — the scores, the
+coordinates, and a boolean mask over the node table saying which genes those coordinates are for.
+`walk_umap` is that collected and ranked, with an `on_step` callback, so existing callers are
+unchanged. The walk table and the gallery dock each fill one row and one thumbnail at a time.
+**Task 16 is unblocked, and should drive that iterator rather than re-running the walk.**
+
+Two consequences anything touching the map needs to know:
+
+- `Window.placed` is the mask of genes the displayed embedding has coordinates for. A walk map covers
+  a subsample, so most genes have no position in it: they are hidden, unpickable, and excluded from
+  `visible_mask`, which is what points, centroids, edges and the gene count all read. They used to be
+  left at the origin, drawn and clickable.
+- `embedding.normalise` puts every map at the same extent, and is what to use for anything that
+  produces coordinates — otherwise the camera has to be re-framed for each one.
 
 ## Two environments, and the second one is the one that matters
 
@@ -75,7 +87,7 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
   directly, never a pragma. Genuinely unreachable branches get deleted.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.3.0).
+- Bump the version for feature work (currently 0.4.0).
 
 ## Where things are
 

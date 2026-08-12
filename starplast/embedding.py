@@ -268,6 +268,30 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
     return X, names, rows
 
 
+def normalise(Y, scale: float = 50.0) -> np.ndarray:
+    """Centre an embedding and scale it to a fixed extent.
+
+    Every map arrives at the same size, which is what lets one replace another in the view without
+    the camera having to be re-framed, and what makes two thumbnails comparable. The scaling is
+    uniform across axes rather than per-axis, so it moves and resizes the cloud without distorting
+    it: neighbourhoods, distance ranks and any clustering computed on the result are unchanged.
+
+    Centred in double precision and cast to float32 only at the end. Done the other way round -- the
+    cast first, as this did -- a cloud whose spread is small next to its offset from the origin loses
+    that spread to cancellation: 900 ± 0.001 in float32 has about three digits left to subtract with,
+    and the map comes back quantised into bands. It is the cast that has to be last, not the
+    subtraction. The GL widget still receives float32, which is what it wants.
+
+    Building a new array rather than scaling in place also sidesteps the read-only input: UMAP
+    returns one in recent versions, and in-place centring fails there with "output array is
+    read-only" -- the fourth place this project has hit that.
+    """
+    Y = np.asarray(Y, dtype=np.float64)
+    Y = Y - Y.mean(0)
+    Y = Y / (np.abs(Y).max() + 1e-9)
+    return (Y * scale).astype(np.float32)
+
+
 def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
     """Build the matrix and run UMAP. Returns (coords, feature_names, kept_rows)."""
     X, names, rows = build_matrix(nodes, spec, log=log)
@@ -281,12 +305,7 @@ def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
         from sklearn.decomposition import PCA
         Y = PCA(n_components=spec.n_components,
                 random_state=spec.random_state).fit_transform(np.nan_to_num(X))
-    # umap returns a read-only array in recent versions; the in-place centring below
-    # then fails with "output array is read-only". Copy rather than view.
-    Y = np.array(Y, dtype=np.float32, copy=True)
-    Y -= Y.mean(0)
-    Y /= (np.abs(Y).max() + 1e-9)
-    return Y * 50.0, names, rows
+    return normalise(Y), names, rows
 
 
 # --------------------------------------------------------------------------- diagnostics

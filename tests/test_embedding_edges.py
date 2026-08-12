@@ -377,3 +377,37 @@ def test_one_hot_column_names_come_from_the_frame_that_was_encoded():
         log=lambda *a: None)
     onehot = [n for n in names if n.startswith("compartment::")]
     assert len(onehot) == X.shape[1] - 2, "the names do not match the columns that were added"
+
+
+# --------------------------------------------------------------------------- normalising a map
+def test_a_map_arrives_at_a_known_size_wherever_it_came_from():
+    """Every embedding is put at the same extent, which is what lets one replace another in the view
+    without the camera having to be re-framed, and what makes two thumbnails comparable."""
+    from starplast.embedding import normalise
+    Y = np.random.default_rng(0).normal(size=(50, 3)) * 0.001 + 900.0
+    out = normalise(Y)
+    assert np.allclose(out.mean(0), 0.0, atol=1e-3)
+    assert np.isclose(np.abs(out).max(), 50.0, atol=1e-3)
+
+
+def test_normalising_moves_and_resizes_a_map_without_distorting_it():
+    """It is applied AFTER trustworthiness and the clustering are computed, and the guarantee that it
+    could not have changed them is that it scales both axes by one factor. Per-axis scaling would
+    stretch a genuinely elongated map into a round one -- the difference between two configurations
+    that a walk exists to show."""
+    from scipy.spatial.distance import pdist
+    from starplast.embedding import normalise
+    Y = np.random.default_rng(1).normal(size=(40, 3)) * np.array([10.0, 1.0, 0.5])
+    d0, d1 = pdist(Y), pdist(normalise(Y))
+    assert np.allclose(d1 / d0, (d1 / d0)[0])
+
+
+def test_a_read_only_embedding_is_copied_rather_than_scaled_in_place():
+    """umap returns a read-only array in recent versions and the centring then fails with "output
+    array is read-only" -- the fourth place this project has hit that, and it appears only on the
+    newer library."""
+    from starplast.embedding import normalise
+    Y = np.random.default_rng(2).normal(size=(20, 3))
+    Y.flags.writeable = False
+    out = normalise(Y)
+    assert out.shape == (20, 3) and not Y.flags.writeable

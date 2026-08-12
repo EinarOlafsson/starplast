@@ -221,13 +221,24 @@ def test_the_galaxy_tier_says_what_the_blobs_are(win):
 
 
 def test_a_rebuilt_embedding_invalidates_the_cached_tier(win):
-    """Left cached, the coarse tier would go on describing the map it replaced."""
+    """Left cached, the coarse tier would go on describing the map it replaced.
+
+    The map is put back afterwards. It was not, and once a rebuilt embedding began HIDING the genes
+    it does not cover, every export test after this one in the file was quietly exporting a
+    100-gene map -- which is also what those tests were doing before the change, without the
+    hiding to make it visible."""
     win.galaxy_labels()
     assert win._galaxies is not None
+    before, placed_before = win.xyz.copy(), win.placed
     rows = np.zeros(win.n, bool)
     rows[:100] = True
     win.use_embedding(np.random.default_rng(0).normal(size=(100, 3)), rows)
     assert win._galaxies is None
+    win.xyz = before
+    win.view.xyz = before
+    win.placed = placed_before
+    win.view.pickable = placed_before
+    win.redraw()
 
 
 # --------------------------------------------------------------------------- exports

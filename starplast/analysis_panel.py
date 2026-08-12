@@ -190,8 +190,9 @@ BUTTON_TOOLTIPS = {
     "show_variance": "Report how much of the feature matrix each block actually contributes. The "
                      "check that catches a block being named as an input while carrying almost "
                      "nothing -- hyperLOPIT came to 1.1%.",
-    "run_umap_walk": "Score a grid of UMAP hyperparameters and rank them. Produces a table, not "
-                     "maps: seeing the embeddings themselves is the gallery, which is not built yet.",
+    "run_umap_walk": "Score a grid of UMAP hyperparameters and rank them. Each configuration appears "
+                     "in this table and as a thumbnail in the gallery the moment it is computed, so "
+                     "a long sweep can be read while it runs; click either to open that map.",
     "run_embed": "Build ONE embedding from the current settings and show it in the 3D view, "
                  "replacing what is there.",
     "save_embedding": "Store this embedding with its full recipe, so it can be reloaded and "
@@ -212,6 +213,10 @@ BUTTON_TOOLTIPS = {
 
 
 from .jobs import Stopped as Cancelled  # noqa: E402  -- shared so the runner can recognise it
+
+#: The walk's job name. Named once because it is also how a second walk is recognised and
+#: refused: two sweeps filling one table and one gallery would read as a single sweep.
+WALK_JOB = "UMAP hyperparameter walk"
 
 
 class _Progress:
@@ -247,6 +252,12 @@ class AnalysisPanel(QtWidgets.QWidget):
     #: printed how many there were, and threw them away -- which made the one thing this application
     #: is for, looking at structure coloured by a held-out variable, impossible to actually do.
     clusters_ready = QtCore.pyqtSignal(object)                   # labels, -1 for noise
+    #: One finished configuration of a walk, as `tuning.WalkStep`, emitted from the worker thread the
+    #: moment it is computed. Qt queues it to the GUI thread, which is what lets a row and a thumbnail
+    #: appear while the walk is still running rather than all at once when it ends.
+    walk_step = QtCore.pyqtSignal(object)
+    #: A walk is starting: whatever the last one left on screen belongs to a different sweep.
+    walk_started = QtCore.pyqtSignal()
     status = QtCore.pyqtSignal(str)
 
     def __init__(self, nodes: pd.DataFrame, store=None, parent=None, runner=None):
@@ -264,6 +275,10 @@ class AnalysisPanel(QtWidgets.QWidget):
         self._jobs = {}
         if runner is not None:
             runner.finished.connect(self._on_job_finished)
+        # Connected to its own signal rather than called from the walk directly: `on_step` runs on
+        # the worker thread, and filling a table from there is the crash this panel already documents
+        # once. Going through the signal makes Qt queue it onto the GUI thread.
+        self.walk_step.connect(self._walk_step_arrived)
 
         tabs = QtWidgets.QTabWidget()
         tabs.addTab(self._data_tab(), "1 · Data")
@@ -857,26 +872,85 @@ class AnalysisPanel(QtWidgets.QWidget):
         table.setHorizontalHeaderLabels([str(c) for c in df.columns])
         for i, (_, r) in enumerate(df.iterrows()):
             for j, v in enumerate(r):
-                s = f"{v:.3f}" if isinstance(v, float) and np.isfinite(v) else str(v)
-                item = QtWidgets.QTableWidgetItem()
-                if isinstance(v, (int, float, np.integer, np.floating)) and np.isfinite(v):
-                    # Stored as a number so the column sorts numerically; the text is what shows.
-                    item.setData(QtCore.Qt.ItemDataRole.DisplayRole, float(v))
-                    item.setText(s)
-                else:
-                    item.setText(s)
-                table.setItem(i, j, item)
+                table.setItem(i, j, self._cell(v))
         table.resizeColumnsToContents()
         table.setSortingEnabled(True)
 
+    @staticmethod
+    def _cell(v) -> QtWidgets.QTableWidgetItem:
+        """One table cell: a number stored as a number, so the column sorts 0.9 above 0.10."""
+        item = QtWidgets.QTableWidgetItem()
+        if isinstance(v, (int, float, np.integer, np.floating)) and np.isfinite(v):
+            item.setData(QtCore.Qt.ItemDataRole.DisplayRole, float(v))
+            item.setText(f"{v:.3f}" if isinstance(v, (float, np.floating)) else str(v))
+        else:
+            item.setText(str(v))
+        return item
+
+    def _start_table(self, table: QtWidgets.QTableWidget, columns):
+        """Empty a table and give it headers, ready for rows to arrive one at a time."""
+        table.setSortingEnabled(False)          # re-enabled by _fill when the run finishes
+        table.clear()
+        table.setRowCount(0)
+        table.setColumnCount(len(columns))
+        table.setHorizontalHeaderLabels([str(c) for c in columns])
+
+    def _append(self, table: QtWidgets.QTableWidget, row: dict):
+        """Add one result to the bottom of a table, in the order it was computed.
+
+        Sorting stays off while a run streams: with it on, Qt re-sorts after every insertion and a
+        row the user is reading moves under the pointer. The ranked table replaces this one when the
+        run finishes, which is the point at which a ranking means anything -- ranking a walk that is
+        one configuration in says only that one configuration has run.
+        """
+        if table.columnCount() == 0:
+            self._start_table(table, list(row))
+        headers = [table.horizontalHeaderItem(c).text() for c in range(table.columnCount())]
+        i = table.rowCount()
+        table.insertRow(i)
+        for j, name in enumerate(headers):
+            if name in row:
+                table.setItem(i, j, self._cell(row[name]))
+        table.resizeColumnsToContents()
+
+    def _walk_step_arrived(self, step):
+        """One configuration finished: put its scores in the table and say where the walk is.
+
+        Runs on the GUI thread -- see the connection in `__init__`. The gallery is fed from the same
+        signal by the window, so the row and the thumbnail appear together.
+        """
+        self._append(self.walk_table, step.row)
+        self.status.emit(f"walk {step.index} of {step.total}: {step.label}")
+
     def run_umap_walk(self):
-        """Score a grid of UMAP hyperparameters and fill the table with the ranking."""
+        """Sweep a grid of UMAP hyperparameters, reporting each configuration as it finishes.
+
+        The walk emits per configuration and the table fills a row at a time, so a sweep of 288
+        settings -- half an hour -- can be read while it runs instead of showing nothing until it
+        ends. The ranking still arrives at the end, because ranking needs the whole sweep.
+
+        Each embedding is written through the store as it is computed, so a walk that is stopped
+        half way still leaves behind every configuration it finished, with the recipe to rebuild it.
+        """
         from .tuning import walk_umap
+        # One walk at a time. Two running together interleave their configurations into one table and
+        # one gallery, which reads as a single sweep and invites a comparison between settings that
+        # were never compared. The runner allows concurrent jobs deliberately -- that is what stops a
+        # search blocking every other tab -- so the constraint belongs here, on the one job whose
+        # output accumulates in a shared place.
+        if any(j.active and j.name == WALK_JOB for j in getattr(self.runner, "jobs", {}).values()):
+            self.status.emit("a walk is already running -- stop it in Jobs first")
+            return
         spec, n, size, seed = self.spec(), self.nodes, self.sample.value(), self.seed.value()
         grid = {k: v for k, v in self.walk_grid().items() if k != 'min_cluster_sizes'}
-        self._run(lambda p: walk_umap(n, spec, sample_size=size, seed=seed, log=p, **grid),
+        # Cleared before the signal, not after: the gallery and anything else listening should see a
+        # panel that has already forgotten the last walk, rather than one still holding its rows.
+        self._start_table(self.walk_table, [])
+        self.walk_started.emit()
+        self._run(lambda p: walk_umap(n, spec, sample_size=size, seed=seed, log=p,
+                                      store=self.store, on_step=self.walk_step.emit, **grid),
                   lambda d: (self._fill(self.walk_table, d), self.status.emit("walk complete")),
-                  name="UMAP hyperparameter walk")
+                  name=WALK_JOB)
 
     def show_walk_row(self, row: int, _col: int = 0):
         """Build and display the configuration on one row of the walk table.

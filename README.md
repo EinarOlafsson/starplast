@@ -93,10 +93,16 @@ Settings live in the menu bar; the panel keeps only what is used continuously.
 | **View** | level of detail, colour by, point size, spin, theme, preferences |
 | **Edges** | the twelve relation types, "draw all active edges", attention correction, and why they are never combined |
 | **File** | export the image, the visible genes as CSV, or the active graph as GraphML |
-| **Tools** | console, running jobs, and an assistant that is told what is on screen |
+| **Tools** | console, running jobs, the walk gallery, and an assistant that is told what is on screen |
 
 Edges draw only for the selected gene unless *Edges ▸ Draw all active edges* is on, which draws the
 strongest 20,000 per type.
+
+A hyperparameter walk fills the **gallery** along the bottom as it runs: one thumbnail per
+configuration, appearing the moment it is computed, either as a grid to compare or as a single view
+stepped through with a slider. Clicking one opens that embedding in the main view, where it behaves
+like any other map. Genes outside the walk's subsample have no position in it, so they are hidden
+rather than drawn at the origin.
 
 ## Datasets included
 

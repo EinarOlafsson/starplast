@@ -208,6 +208,10 @@ class Map3D(gl.GLViewWidget):
         super().__init__()
         self.xyz = xyz
         self._proj_kind = None      # resolved once, see _projection_matrix
+        # Which points may be picked. None means all of them; a mask is set when the displayed
+        # embedding covers only some of the genes, so a hidden gene cannot be selected by clicking
+        # where it would have been.
+        self.pickable = None
         self.fit_view()
 
     def fit_view(self, margin=1.35):
@@ -328,6 +332,10 @@ class Map3D(gl.GLViewWidget):
             print(f"starplast: picking unavailable ({type(exc).__name__}: {exc})")
             return
         d = np.hypot(sx - p.x(), sy - p.y())
+        if self.pickable is not None and len(self.pickable) == len(d):
+            # NaN rather than a large number: nanargmin ignores it, and there is no distance at
+            # which an unplaced gene should win.
+            d = np.where(self.pickable, d, np.nan)
         if np.all(np.isnan(d)):
             return
         i = int(np.nanargmin(d))
@@ -384,6 +392,9 @@ class Window(QtWidgets.QMainWindow):
         # structure beside a held-out variable is what this application is for, and until this
         # existed the Clusters tab computed labels and discarded them.
         self.cluster_labels = None
+        # Which genes the displayed embedding has coordinates for. None means "the built cache",
+        # which covers all of them; a mask arrives with any map built over a subsample.
+        self.placed = None
         self._spin_home = None                # where spin started, so it can be put back
 
         self.view = Map3D(self.xyz)
@@ -440,6 +451,11 @@ class Window(QtWidgets.QMainWindow):
         self.colour_of = dict(zip(self.comps,
                                   TH.categorical_colours(len(self.comps), name, self.cmap_name)))
         self.colour_of["unassigned"] = TH.unknown_colour(name)[:3]
+        if hasattr(self, "gallery"):
+            # Thumbnails already painted keep the ground they were painted on; the large view is
+            # re-rendered on the spot so at least the one being looked at follows the theme.
+            self.gallery.background = TH.rgbf(TH.palette_for(name)["bg"])[:3]
+            self.gallery.show_index(self.gallery.slider.value())
         if hasattr(self, "theme_box") and self.theme_box.currentText() != name:
             self.theme_box.blockSignals(True)
             self.theme_box.setCurrentText(name)
@@ -482,19 +498,95 @@ class Window(QtWidgets.QMainWindow):
         self.tabifyDockWidget(self.right_dock, d)
         self.right_dock.raise_()
         self.analysis_dock = d
+        self.panel = panel
+        self._gallery()
+
+    def _gallery(self):
+        """The walk gallery, along the bottom where a wall of thumbnails has room to be a wall.
+
+        Fed from the analysis panel's per-configuration signal, so a thumbnail appears as each map is
+        computed rather than when the walk ends. Clicking one shows it in the central view, which is
+        why this is a dock beside the map rather than a window over it: the gallery picks, the map
+        displays, and what is displayed is the application's own 3D view with everything it can do.
+        """
+        from .gallery import GalleryPanel
+        bg = TH.rgbf(TH.palette_for(self.theme)["bg"])[:3]
+        self.gallery = GalleryPanel(colour_fn=self.colours_for_genes, background=bg)
+        self.gallery.chosen.connect(self.show_walk_map)
+        self.gallery_dock = QtWidgets.QDockWidget("gallery", self)
+        self.gallery_dock.setWidget(self.gallery)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.BottomDockWidgetArea, self.gallery_dock)
+        self.gallery_dock.hide()
+        self.panel.walk_started.connect(self._walk_started)
+        self.panel.walk_step.connect(self.gallery.add)
+
+    def _walk_started(self):
+        """Clear the gallery and show it, so the first thumbnail lands somewhere visible."""
+        self.gallery.clear()
+        self.gallery_dock.show()
+        self.gallery_dock.raise_()
+
+    def colours_for_genes(self, mask):
+        """The current colouring, restricted to a subset of genes -- what the gallery paints with.
+
+        Taken from `colours` rather than reimplemented so a thumbnail is coloured by exactly what the
+        map is coloured by, including the rule that grey means unknown. The visibility filter is
+        deliberately not applied: a thumbnail showing only the filtered classes would look like a
+        different embedding rather than the same one seen through a filter.
+        """
+        c = self.colours(np.ones(self.n, bool))
+        m = np.asarray(mask)
+        return c[m.astype(bool)] if m.dtype == bool else c[m.astype(int)]
 
     def use_embedding(self, coords, rows):
-        """Swap the displayed map for one the analysis panel just built."""
-        full = np.zeros((self.n, 3), dtype=np.float32)
-        full[rows] = coords
+        """Swap the displayed map for one the analysis panel just built.
+
+        `rows` says which genes this embedding has coordinates for, and the rest are recorded as
+        unplaced rather than drawn. A walk embeds a seeded subsample, so most of the proteome has no
+        position in one of its maps -- and every unplaced gene used to be left at the origin, where
+        6,000 of them formed a dense lump in the middle of the map that could be clicked, filtered
+        and counted like real structure. That is absence rendered as a value, which is the one thing
+        this application exists not to do.
+        """
+        rows = np.asarray(rows)
+        placed = (rows.astype(bool) if rows.dtype == bool
+                  else np.isin(np.arange(self.n), rows.astype(int)))
+        coords = np.asarray(coords, dtype=np.float32)
+        # Unplaced genes sit at the centre of the cloud rather than at the origin, so that framing,
+        # the horizon grid and the depth cue are computed off the real extent. They are never drawn.
+        full = np.repeat(coords.mean(0)[None, :], self.n, axis=0).astype(np.float32)
+        full[placed] = coords
         self.xyz = full
         self.view.xyz = full
+        self.placed = placed
+        # Picking works off the same mask: an invisible point at the centre of the map is still the
+        # nearest point to a click there, so hiding without this selects a gene that is not shown.
+        self.view.pickable = placed
+        if self.sel is not None and not placed[self.sel]:
+            self.sel = None
         # The galaxy tier is derived from the coordinates, so a new embedding invalidates it. Left
         # cached, the coarse tier would go on describing the map that was replaced.
         self._galaxies = None
         self.scatter.setData(pos=self.xyz)
+        self.view.fit_view()
         self.redraw()
-        self.statusBar().showMessage(f"showing a rebuilt map over {int(np.sum(rows)):,} genes")
+        n = int(placed.sum())
+        self.statusBar().showMessage(
+            f"showing a rebuilt map over {n:,} genes"
+            + (f"; the other {self.n - n:,} are not in this embedding and are hidden"
+               if n < self.n else ""))
+
+    def show_walk_map(self, step):
+        """Show one configuration from the gallery in the central view.
+
+        The expanded map is not a picture of a map: it goes through the same path as "build this
+        map", so genes are clickable, every colour mode applies and edges draw as usual.
+        """
+        self.use_embedding(step.coords, step.genes)
+        self.statusBar().showMessage(
+            f"walk configuration {step.index} of {step.total}: {step.label}"
+            f"  ·  {int(np.sum(step.genes)):,} genes of {self.n:,}; the rest are not in this "
+            f"embedding")
 
     # ------------------------------------------------------------------ menus
     def _menus(self):
@@ -606,7 +698,8 @@ class Window(QtWidgets.QMainWindow):
         # ---- Tools
         t = mb.addMenu("&Tools")
         for dock in (self.console_dock, self.jobs_dock, self.chat_dock,
-                     getattr(self, "analysis_dock", None), self.right_dock):
+                     getattr(self, "analysis_dock", None), getattr(self, "gallery_dock", None),
+                     self.right_dock):
             if dock is not None:
                 t.addAction(dock.toggleViewAction())
 
@@ -1196,11 +1289,18 @@ class Window(QtWidgets.QMainWindow):
 
     # ------------------------------------------------------------------ drawing
     def visible_mask(self):
-        """Boolean mask of the genes passing the current class filter."""
+        """Boolean mask of the genes passing the current class filter AND having a position.
+
+        The two are combined here rather than at each drawing site because everything downstream --
+        points, centroids, edges, the gene count in the status bar -- reads this one mask. A gene the
+        displayed embedding does not cover has no position to draw, and drawing it anyway would put
+        absence on the map as though it were a measurement.
+        """
         sel = [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.comp_list.selectedItems()]
-        if not sel:
-            return np.ones(self.n, bool)
-        return as_text(self.nodes[self.category]).isin(sel).to_numpy()
+        vis = (np.ones(self.n, bool) if not sel
+               else as_text(self.nodes[self.category]).isin(sel).to_numpy())
+        placed = getattr(self, "placed", None)
+        return vis if placed is None else (vis & placed)
 
     def colours(self, vis):
         """An RGBA colour per gene under the current colour mode. Grey always means unknown."""
@@ -1259,6 +1359,11 @@ class Window(QtWidgets.QMainWindow):
         c[:, 3] = np.where(vis, alpha, 0.06)
         if self.sel is not None:
             c[self.sel] = (1.0, 1.0, 1.0, 1.0)
+        if getattr(self, "placed", None) is not None:
+            # Fully transparent, not dimmed. A gene the displayed embedding has no coordinates for is
+            # absent from it, and a faint point is still a point -- at 0.06 alpha, several thousand of
+            # them overlapping read as a real feature of the map.
+            c[~self.placed, 3] = 0.0
         return c
 
     def galaxy_labels(self):
