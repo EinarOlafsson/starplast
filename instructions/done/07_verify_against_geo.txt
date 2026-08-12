@@ -72,3 +72,53 @@ whose every historical bug was silent.
 
 The comparison itself is a result worth reporting in the paper: it is direct
 evidence about whether published supplements match their own deposits.
+
+
+================================================================================
+DONE -- 2026-08-11. THEY AGREE, AND NOW THAT IS CHECKED RATHER THAN ASSUMED.
+================================================================================
+
+verify.py compares each shipped column against the GEO matrix it derives from,
+on RANKS. The two forms of this series differ by a log transform -- shipped
+columns top out at 3.3, the deposit at 16,520 -- so comparing values would
+report a difference that is only a transform, and the check has to work without
+knowing which transform was applied.
+
+RESULT, over 7,880 genes in common:
+
+    expr_tachy   Spearman rho = 1.0000   against Tachyzoites_T2 + T4 [FPKM]
+    expr_cyst    Spearman rho = 0.9970   against Tissue_cysts_A + B [FPKM]
+
+So the supplement-derived columns this project ships order the genes the same
+way the primary deposit does, and a reader can re-derive them. That is the
+property the manuscript needs, and it was previously assumed rather than known.
+
+WHY THIS RATHER THAN SWAPPING TO GEO
+    Each source fails in a way the other detects. A supplement is exactly what
+    the authors published but is not re-derivable and not checkable against
+    anything; a GEO matrix is re-downloadable but can be reprocessed under you
+    and is not always the matrix the paper used. Building the GEO path as a
+    CHECK keeps both properties. Swapping to GEO outright would have replaced a
+    verified number with an unverified one and called it an improvement.
+
+    rho = 0.997 rather than 1.000 for expr_cyst is worth a note: a small number
+    of genes order differently between the two forms. Not chased further, since
+    it is far above the 0.90 agreement threshold, but it is recorded here
+    rather than rounded away.
+
+THE COMPARISON IS ITSELF A RESULT
+    It is direct evidence about whether published supplements match their own
+    deposits. Seven for seven on PRIDE the answer was that the deposit holds
+    only instrument output; here, for GEO, the answer is that the processed
+    matrix and the published table agree essentially exactly.
+
+NOT DONE
+    Only GSE108740 has a declared correspondence. GSE206344 (expr_sporulated)
+    ships two workbooks -- normalised values and log fold-changes -- and which
+    one the shipped column came from is not recorded anywhere, so the pair
+    cannot be declared without guessing. CORRESPONDENCE is the place to add it
+    once that is established. Guessing it would produce a number that looks
+    like verification and is not.
+
+    Checksums are not yet pinned; a changed remote would currently be detected
+    only as a changed rho.

@@ -67,3 +67,68 @@ not worth the effort. That was an effort judgement. The instruction replaces it
 with an evidence judgement -- check first, then drop what is genuinely empty.
 Some of the 40 may turn out to have deposited data that was never attached to
 the article, which is common and would make them worth having.
+
+
+================================================================================
+DONE -- 2026-08-11. CHECKED, THEN DROPPED.
+================================================================================
+
+The instruction was check-then-drop, not drop. The check was run properly and
+it changed what could be concluded, so the evidence is recorded here in full.
+
+METHOD
+    A first pass read each paper's open-access full text and searched for the
+    accession patterns twelve archives issue. It found nothing -- but it could
+    only READ 7 of the 40, because the other 33 have no open-access full text.
+    "No deposit found" there meant "not checked", which is not the same claim,
+    and dropping on it would have been dropping on absence of evidence.
+
+    Second pass, which does not need the full text:
+      * Europe PMC `resultType=core` -> dbCrossReferenceList, the CURATED links
+        from a paper to records in PRIDE/EMBL/GEO. Someone asserted these; they
+        are not inferred from prose. This is "clearly labelled" made
+        operational.
+      * the annotations API, which text-mines accessions from ABSTRACTS as well
+        as full text.
+
+RESULT
+    curated database cross-reference        5 of 40   (4 PRIDE, 1 EMBL)
+    any text-mined identifier               8 of 40
+    Europe PMC believes supplementary exists 7 of 40
+
+    The text-mined identifiers are mostly not deposits. Addgene and RRID are
+    reagent identifiers; 10.15252/... and 10.21769/... are cited papers and a
+    protocol; NM_001122603 and Q08168 are RefSeq and UniProt records that
+    already existed; PF04096 is a Pfam domain. All are references to other
+    people's records, not this paper's data.
+
+    The four PRIDE deposits, all resolved and inspected:
+
+        PXD063409  11 files   SEARCH 8, RAW 2, OTHER 1     no RESULT at all
+        PXD065533  39 files   RAW 36, RESULT 1             one .mzid
+        PXD009604  98 files   PEAK 64, RESULT 16, RAW 2    .mzid.gz
+        PXD004083  60 files   PEAK 24, RAW 12, RESULT 12   .mzid.gz, a
+                                                           methylation scan
+
+    Every RESULT file is mzIdentML: peptide-spectrum IDENTIFICATIONS, not
+    per-protein quantification. That is the same finding the index already
+    records for PXD019729, PXD065585 and PXD043808, now confirmed across four
+    more deposits. Seven for seven.
+
+DECISION
+    All 40 dropped, per the instruction: no supplementary data, and no clearly
+    labelled databank holding data these papers point to.
+
+    The four PRIDE accessions are named above rather than merely counted, so
+    that a future session asking "was anything deposited" finds the answer and
+    the reason instead of re-deriving it. mzIdentML would yield a protein
+    identification list -- that is, membership -- and membership is not
+    interaction. The parsed studies already produce 68,085 memberships over
+    7,912 genes; four more identification lists move no conclusion.
+
+WHAT WOULD CHANGE THIS
+    A search engine run over the RAW deposits, producing quantification rather
+    than identification. That is a different project, and it is the same
+    conclusion the sources module reached for GEO versus PRIDE: GEO deposits
+    processed matrices and can be automated end to end, PRIDE deposits
+    instrument output and cannot.

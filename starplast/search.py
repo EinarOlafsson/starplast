@@ -40,7 +40,7 @@ import numpy as np
 import pandas as pd
 
 from .clustering import NOISE, _association_with_inputs, cluster
-from .embedding import EmbeddingSpec, build_matrix, columns_for
+from .embedding import BLOCKS, EmbeddingSpec, build_matrix, columns_for
 
 DEFAULT_SEED = 42
 
@@ -50,6 +50,19 @@ TARGETS = {
     "compartment_best": "compartment_best",  # + orthoLOPIT transfer
     "lopit_unified": "lopit_unified",       # 12 cross-species categories
     "attention_depth": "attention_depth",
+
+    # Cell cycle. `cellcycle_phase` is the second MEASURED target this project has (873 genes from
+    # single-parasite sequencing) and the only one that is not about location -- which is the point:
+    # a structure that recovers compartment and a structure that recovers cell-cycle phase are
+    # different claims, and until this column existed only the first could be made.
+    "cellcycle_phase": "cellcycle_phase",
+    "cellcycle_pseudotime": "cellcycle_pseudotime",
+
+    # DERIVED. Kept as a target on purpose, as a control rather than a discovery: it is computed from
+    # expression columns, so any embedding containing expression should recover it easily, and if one
+    # does NOT, that says the embedding lost information it was handed. Reading a good score here as a
+    # finding would be the circularity mistake this project has already made once.
+    "stage_enriched_derived": "stage_enriched_derived",
 }
 
 
@@ -62,6 +75,22 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8) -> set:
     """
     assoc = _association_with_inputs(nodes, {target})
     out = {target} | {c for c, v in assoc.items() if v >= threshold}
+
+    # Anything the target was DECLARED to be computed from, plus the rest of that column's block.
+    # Measured association is pairwise and cannot see a label that is a joint function of several
+    # columns: stage_enriched_derived scores 0.56-0.66 against each of its three sources, under any
+    # workable threshold, while being a deterministic function of all three together. The block is
+    # taken as a whole because the sources do not stand alone either -- the strongest association to
+    # that derived label, 0.72, is a tissue-cyst FPKM column that is not one of its declared sources
+    # but measures the same biology.
+    from . import datasets
+    declared = set(datasets.derived_sources(target))
+    if declared:
+        for block in BLOCKS:
+            cols = set(columns_for(nodes, EmbeddingSpec(blocks=(block,))).get(block, []))
+            if cols & declared:
+                out |= cols
+        out |= declared
     return out
 
 

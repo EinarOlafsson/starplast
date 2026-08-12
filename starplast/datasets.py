@@ -43,6 +43,7 @@ class Dataset:
     citation: str | None = None  # None = confirm before citing
     url: str | None = None       # direct download, where one exists
     path: str | None = None      # where it lands under toxoplasma_projects/
+    derived_from: tuple = ()     # node columns this was COMPUTED from, if it is a derivation
     note: str = ""
 
 
@@ -70,6 +71,7 @@ REGISTRY = [
             "Which stage a gene's own expression is highest in",
             ("stage_enriched_derived", "stage_margin_derived"),
             "1,911 of 8,140 genes called",
+            derived_from=("expr_tachy", "expr_cyst", "expr_sporulated"),
             note="DERIVED, not measured: computed here from expr_tachy / expr_cyst / expr_sporulated "
                  "by z-scoring each and taking the argmax where it leads by 0.5 z. It is a "
                  "restatement of those columns, so holding it out against an embedding built on them "
@@ -249,6 +251,22 @@ def get(key: str) -> Dataset:
 def provenance(column: str) -> Dataset | None:
     """Which dataset produced a given node-table column."""
     return _BY_COLUMN.get(column)
+
+
+def derived_sources(column: str) -> tuple:
+    """The node columns a derived column was computed from, as DECLARED by whoever derived it.
+
+    Declaration is needed in addition to measurement, not instead of it. Measured association is
+    pairwise, and a label computed as the argmax of three columns is a JOINT function of them: each
+    source individually explains only about 0.6 of it, under any sensible exclusion threshold, so a
+    pairwise measure cannot see the derivation however good the statistic is. Measurement catches the
+    undeclared leak -- a renamed copy -- and declaration catches the joint one. Neither alone is enough,
+    and this project has already been burnt by trusting one of them.
+    """
+    for d in REGISTRY:
+        if column in d.columns and d.derived_from:
+            return tuple(d.derived_from)
+    return ()
 
 
 def unresolved() -> list:

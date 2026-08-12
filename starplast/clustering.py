@@ -220,6 +220,26 @@ def _derived_from(nodes: pd.DataFrame, used: set, threshold=0.95, max_categories
     return {c for c, v in a.items() if v >= threshold}
 
 
+def _correlation_ratio(cat: pd.Series, num: pd.Series, max_categories=30):
+    """eta: how much of a continuous column's variance is explained by a categorical one, in [0, 1].
+
+    The categorical-versus-continuous counterpart of Cramer's V, and on the same scale, so one
+    threshold applies to both. Returns None where the comparison is not meaningful -- too many
+    categories, or a constant column, whose variance ratio is 0/0 rather than 0.
+    """
+    g = num.groupby(cat.astype(str))
+    k = g.ngroups
+    if k < 2 or k > max_categories:
+        return None
+    total_var = float(np.var(num.to_numpy(), ddof=0))
+    if not np.isfinite(total_var) or total_var <= 0:
+        return None
+    grand = float(num.mean())
+    between = float(sum(len(v) * (float(v.mean()) - grand) ** 2 for _, v in g))
+    eta_sq = between / (total_var * len(num))
+    return float(np.sqrt(max(0.0, min(1.0, eta_sq))))
+
+
 def _assoc_impl(nodes: pd.DataFrame, used: set, max_categories=30) -> dict:
     out = {}
     for u in used:
@@ -244,7 +264,16 @@ def _assoc_impl(nodes: pd.DataFrame, used: set, max_categories=30) -> dict:
                 elif not u_cat and not c_cat:
                     v = abs(float(np.corrcoef(su[ok].astype(float), sc[ok].astype(float))[0, 1]))
                 else:
-                    continue
+                    # One categorical, one continuous. This branch used to `continue`, which made the
+                    # guard structurally blind to every numeric column: a categorical label computed
+                    # FROM continuous columns -- exactly what stage_enriched_derived is -- scored no
+                    # association with any of its own sources, because the comparison was never made.
+                    # The correlation ratio is the right measure here and is on the same 0-1 scale as
+                    # Cramer's V, so the single reported number stays comparable across column kinds.
+                    cat, num = (su, sc) if u_cat else (sc, su)
+                    v = _correlation_ratio(cat[ok], num[ok].astype(float), max_categories)
+                    if v is None:
+                        continue
                 if np.isfinite(v):
                     out[c] = max(out.get(c, 0.0), float(v))
             except Exception:
