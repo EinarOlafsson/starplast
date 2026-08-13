@@ -390,3 +390,65 @@ def test_the_cell_is_outlines_with_nothing_filled_behind_them(qapp):
     ink = sum(QtGui.QColor.fromRgba(mask.pixel(x, y)).alpha() > 200
               for x in range(mask.width()) for y in range(mask.height()))
     assert ink > 200, "the hit-test mask is only an outline"
+
+
+# --------------------------------------------------------------------------- reading the markup
+def test_a_group_the_drawing_does_not_have_is_absent_rather_than_a_guess():
+    """`group_span` is the one function every other part of this module asks "where is this
+    organelle" -- the masks, the isolation, the coloring. Returning a plausible span for a group
+    that is not there would put one organelle's ink under another's name."""
+    assert CD.group_span('<svg><g id="SL0018"><path/></g></svg>', "SL9999") is None
+
+
+def test_an_unclosed_group_is_absent_rather_than_running_to_the_end_of_the_file():
+    """Malformed markup: the opening tag is found and nothing closes it. Returning everything after
+    it would hand the rest of the drawing back as this organelle."""
+    assert CD.group_span('<svg><g id="SL0018"><path/>', "SL0018") is None
+    assert CD.group_span('<svg><g id="SL0018"><g><path/></g>', "SL0018") is None
+
+
+def test_recoloring_a_group_that_is_not_in_the_drawing_changes_nothing():
+    """A palette can name a compartment the artwork has no organelle for -- 13 of the 27 do. Each
+    one has to be a no-op on the markup rather than an exception in the paint handler."""
+    svg = '<svg><g id="SL0018"><path fill="#123456"/></g></svg>'
+    assert CD.recolor(svg, {"SL9999": (1.0, 0.0, 0.0)}) == svg
+    assert "#ff0000" in CD.recolor(svg, {"SL0018": (1.0, 0.0, 0.0)})
+
+
+def test_isolating_a_group_that_is_not_there_is_empty_rather_than_a_broken_drawing(qapp, tmp_path):
+    """The isolated markup is fed to a renderer; a header with no shape in it renders as a blank
+    image, which would become a mask covering nothing that still claims to be an organelle."""
+    path = tmp_path / "one.svg"
+    path.write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10">'
+                    '<g id="SL0018"><rect width="4" height="4" fill="#000"/></g></svg>')
+    d = CD.CellDiagram(path=str(path))
+    assert d._isolated("SL9999") == ""
+    assert d._isolated("SL0018").startswith("<svg")
+
+
+def test_an_organelle_that_cannot_be_isolated_gets_no_mask(qapp, tmp_path, monkeypatch):
+    """A mask that cannot be built is left out, so `organelle_at` reports nothing there. The
+    alternative -- an empty mask kept under its name -- is a click target that matches no pixel and
+    a compartment that looks drawn but cannot be selected."""
+    path = tmp_path / "two.svg"
+    path.write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10">'
+                    '<g id="SL0018"><rect width="4" height="4" fill="#000"/></g></svg>')
+    d = CD.CellDiagram(path=str(path))
+    d.resize(40, 40)
+    assert "SL0018" in d.masks()
+    d._masks, d._masks_for = {}, None
+    monkeypatch.setattr(d, "_isolated", lambda sl: "")
+    assert d.masks() == {}
+
+
+def test_an_organelle_whose_markup_will_not_render_gets_no_mask(qapp, tmp_path, monkeypatch):
+    """The other way the same thing fails: markup that is produced but that Qt refuses. Silently
+    keeping an unrenderable organelle would give it a mask of nothing."""
+    path = tmp_path / "three.svg"
+    path.write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10">'
+                    '<g id="SL0018"><rect width="4" height="4" fill="#000"/></g></svg>')
+    d = CD.CellDiagram(path=str(path))
+    d.resize(40, 40)
+    d._masks, d._masks_for = {}, None
+    monkeypatch.setattr(d, "_isolated", lambda sl: "<svg>not really svg")
+    assert d.masks() == {}

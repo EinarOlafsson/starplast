@@ -37,6 +37,7 @@ One file per task. This index is the status table; the files carry the reasoning
 | 26 | Save and load results, per tab and all at once |
 | 27 | Import data, with the preprocessing offered |
 | 25b | The identifier rename — job 2 of the spelling task |
+| 28 | Every module at 100% coverage |
 
 ## Open
 

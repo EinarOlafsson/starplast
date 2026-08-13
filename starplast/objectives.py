@@ -305,11 +305,19 @@ def adjusted(labels: np.ndarray, truth: pd.Series, *, n_permutations: int = 20,
     `adjusted = (score - null) / (1 - null)`, so 0 is "no better than shuffled labels" and 1 is
     perfect, whatever the objective and however many classes there are. Negative means the structure
     is worse than chance, which is a real result and should not be clipped away.
+
+    `n_labels` counts the classes the score was computed over -- the number the null is there to
+    make sense of. It was every distinct string in the column, which counts `unassigned` as a
+    compartment and a class too small to score as a class, and so said "24 classes" for a score
+    computed over eleven.
     """
     r = score(labels, truth, **kw)
     r["null"] = null_score(labels, truth, n_permutations=n_permutations, seed=seed, **kw)
     denom = 1.0 - r["null"]
     r["adjusted"] = (r["score"] - r["null"]) / denom if abs(denom) > 1e-9 else float("nan")
-    r["n_labels"] = int(pd.Series(
-        truth.astype("object").where(truth.notna(), "").astype(str)).nunique())
+    absent = {str(x).lower() for x in kw.get("exclude_labels", ABSENCE_LABELS)}
+    floor = int(kw.get("min_label", 15))
+    sizes = truth.astype("object").where(truth.notna(), "").astype(str).value_counts()
+    r["n_labels"] = int(sum(1 for t, n in sizes.items()
+                            if str(t).lower() not in absent and n >= floor))
     return r

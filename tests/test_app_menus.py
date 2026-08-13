@@ -829,3 +829,175 @@ def test_a_stale_clustering_is_not_drawn_against_the_wrong_genes(win):
     assert len(set(map(tuple, cols[:, :3]))) == 1, "a mismatched clustering must not be drawn"
     win.cluster_labels = None
     win.set_color_mode("compartment")
+
+
+# --------------------------------------------------------------------------- acting on a job
+def test_a_running_job_is_asked_to_stop(win):
+    """The other half of the stop button: not "already finished", not "select a job", but a job that
+    is actually running being told to stop."""
+    import threading
+    go = threading.Event()
+    job = win.jobs.submit(lambda: go.wait(10), "long one")
+    try:
+        win._refresh_jobs()
+        row = next(win.jobs_view.topLevelItem(i) for i in range(win.jobs_view.topLevelItemCount())
+                   if win.jobs_view.topLevelItem(i).data(0, QtCore.Qt.ItemDataRole.UserRole)
+                   == job.id)
+        win.jobs_view.clearSelection()
+        row.setSelected(True)
+        win.stop_selected_job()
+        assert "asked long one to stop" in win.status.currentMessage()
+        assert job.cancelled
+    finally:
+        go.set()
+        win.jobs.wait(4000)
+
+
+def test_right_clicking_the_job_list_opens_the_menu(win, monkeypatch):
+    """`exec` blocks on a real menu, so it is stubbed -- what is checked is that the handler builds a
+    menu at the point clicked rather than raising when nothing is selected."""
+    monkeypatch.setattr(QtWidgets.QMenu, "exec", lambda self, *a: None)
+    win.jobs_view.clearSelection()
+    m = win._job_menu(QtCore.QPoint(4, 4))
+    assert [a.text() for a in m.actions() if a.text()][:1] == ["Stop this job"]
+
+
+def test_copying_the_error_of_a_failed_job_puts_the_traceback_on_the_clipboard(win, monkeypatch):
+    """A traceback that can only be read off a status bar is a traceback nobody will paste into a
+    bug report."""
+    held = {}
+
+    class FakeClipboard:
+        def setText(self, text):
+            held["text"] = text
+
+    def boom():
+        raise ValueError("this one failed")
+
+    job = win.jobs.submit(boom, "failing")
+    win.jobs.wait(4000)
+    win._refresh_jobs()
+    row = next(win.jobs_view.topLevelItem(i) for i in range(win.jobs_view.topLevelItemCount())
+               if win.jobs_view.topLevelItem(i).data(0, QtCore.Qt.ItemDataRole.UserRole) == job.id)
+    win.jobs_view.clearSelection()
+    row.setSelected(True)
+    monkeypatch.setattr(QtWidgets.QApplication, "clipboard", staticmethod(lambda: FakeClipboard()))
+    win.copy_job_error()
+    assert "this one failed" in held["text"]
+    assert "copied the traceback" in win.status.currentMessage()
+
+
+def test_copying_an_error_with_no_clipboard_does_not_raise(win, monkeypatch):
+    """There is no clipboard on some headless platforms, and a status line must not be able to take
+    the application down."""
+    monkeypatch.setattr(QtWidgets.QApplication, "clipboard", staticmethod(lambda: None))
+    win.copy_job_error()
+
+
+# --------------------------------------------------------------------------- the resource line
+def test_the_resource_line_survives_a_machine_with_no_proc(win, monkeypatch):
+    """Read from /proc where it exists, with no hard dependency on it. A status line that raises on a
+    machine that reports memory differently is worse than one that says nothing about memory."""
+    import builtins
+    real = builtins.open
+
+    def no_proc(path, *a, **k):
+        if str(path).startswith("/proc"):
+            raise OSError("no /proc here")
+        return real(path, *a, **k)
+
+    monkeypatch.setattr(builtins, "open", no_proc)
+    s = win.resource_summary()
+    assert "CPUs" in s and "this process" not in s and "system" not in s
+
+
+class _FakeCuda:
+    def __init__(self, up=True, reserved=2 * 2**30, raises=False):
+        self._up, self._reserved, self._raises = up, reserved, raises
+        self.emptied = False
+
+    def is_initialized(self):
+        if self._raises:
+            raise RuntimeError("CUDA is in a bad way")
+        return self._up
+
+    def memory_reserved(self):
+        return self._reserved
+
+    def empty_cache(self):
+        self.emptied = True
+
+
+class _FakeTorch:
+    def __init__(self, **kw):
+        self.cuda = _FakeCuda(**kw)
+
+
+def test_the_gpu_is_reported_only_when_torch_is_already_loaded(win, monkeypatch):
+    """Never imported here. Importing torch initialises CUDA, and initialising CUDA inside a running
+    OpenGL application segfaulted this program on a three-second timer."""
+    import sys
+    monkeypatch.setitem(sys.modules, "torch", _FakeTorch())
+    assert "GPU 2.0 GB reserved" in win.resource_summary()
+
+
+def test_a_torch_that_will_not_answer_costs_the_gpu_line_and_nothing_else(win, monkeypatch):
+    import sys
+    monkeypatch.setitem(sys.modules, "torch", _FakeTorch(raises=True))
+    s = win.resource_summary()
+    assert "CPUs" in s and "GPU" not in s
+
+
+def test_freeing_memory_empties_the_gpu_cache_when_there_is_one(win, monkeypatch):
+    import sys
+    fake = _FakeTorch()
+    monkeypatch.setitem(sys.modules, "torch", fake)
+    msg = win.free_memory()
+    assert fake.cuda.emptied and "GPU cache" in msg
+
+
+def test_freeing_memory_survives_a_gpu_that_will_not_answer(win, monkeypatch):
+    """The same rule as the status line: housekeeping must not be able to crash the session."""
+    import sys
+    monkeypatch.setitem(sys.modules, "torch", _FakeTorch(raises=True))
+    assert "freed" in win.free_memory()
+
+
+# --------------------------------------------------------------------------- exporting the view
+def test_an_export_that_cannot_grab_the_view_says_so_rather_than_crashing(win, monkeypatch,
+                                                                         tmp_path):
+    """Grabbing a framebuffer without a real GL context is undefined -- it segfaulted rather than
+    failing -- so the failure is caught and reported."""
+    monkeypatch.setattr(win.view, "isValid", lambda: True)
+
+    def boom():
+        raise RuntimeError("no context")
+
+    monkeypatch.setattr(win.view, "grabFramebuffer", boom)
+    assert win.export_image(str(tmp_path / "x.png")) is None
+    assert "could not capture the view" in win.status.currentMessage()
+
+
+def test_an_export_with_a_real_frame_writes_it(win, monkeypatch, tmp_path):
+    """The success path, on a platform that may have no GL: the frame is supplied, so what is tested
+    is that a captured image reaches the disk under the name asked for."""
+    from PyQt6 import QtGui
+    img = QtGui.QImage(8, 8, QtGui.QImage.Format.Format_ARGB32)
+    img.fill(QtGui.QColor("red"))
+    monkeypatch.setattr(win.view, "isValid", lambda: True)
+    monkeypatch.setattr(win.view, "grabFramebuffer", lambda: img)
+    p = tmp_path / "frame.png"
+    assert win.export_image(str(p)) == str(p)
+    assert p.exists() and p.stat().st_size > 0
+    assert f"wrote {p}" in win.status.currentMessage()
+
+
+def test_an_export_that_cannot_be_written_says_which_file(win, monkeypatch, tmp_path):
+    from PyQt6 import QtGui
+    img = QtGui.QImage(8, 8, QtGui.QImage.Format.Format_ARGB32)
+    img.fill(QtGui.QColor("red"))
+    monkeypatch.setattr(win.view, "isValid", lambda: True)
+    monkeypatch.setattr(win.view, "grabFramebuffer", lambda: img)
+    bad = tmp_path / "no_such_directory" / "frame.png"
+    assert win.export_image(str(bad)) is None
+    assert "could not write" in win.status.currentMessage()

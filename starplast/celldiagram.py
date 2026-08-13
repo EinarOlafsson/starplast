@@ -281,12 +281,6 @@ def recolor(svg: str, fills: dict, neutral=NEUTRAL) -> str:
     `fill` on the individual paths -- a fill on the group alone is overridden by every path in it and
     the diagram would come back gray while every test on the returned string passed.
     """
-    def paint(match, color: str) -> str:
-        body = match.group(0)
-        body = re.sub(r'fill\s*:\s*[^;"\']+', f"fill:{color}", body)
-        body = re.sub(r'fill="(?!none)[^"]*"', f'fill="{color}"', body)
-        return body
-
     out = svg
     # Only the organelles a compartment names -- in practice the one that is selected. Painting every
     # group, including the cell body and the space around it, filled the whole drawing with grey.
@@ -326,24 +320,6 @@ def outline_only(svg: str, stroke: str = "#ffffff", width: float = 1.4) -> str:
         return tag
 
     return re.sub(r"<(path|rect|circle|ellipse|polygon|polyline|line)\b[^>]*>", hollow, svg)
-
-
-def _greyscale(img: QtGui.QImage) -> QtGui.QImage:
-    """A grey copy of an image, through Qt's own conversion.
-
-    Qt's conversion rather than arithmetic over the raw buffer: `QImage.bits()` handed to
-    `numpy.frombuffer` produced a COPY on this build, so the in-place version desaturated an image
-    nobody drew and the diagram came out in full color with no error anywhere. This one is checked
-    by a test that renders the widget and measures the saturation of what it drew.
-    """
-    alpha = img.convertToFormat(QtGui.QImage.Format.Format_Alpha8)
-    grey = (img.convertToFormat(QtGui.QImage.Format.Format_Grayscale8)
-               .convertToFormat(QtGui.QImage.Format.Format_ARGB32_Premultiplied))
-    # The greyscale conversion drops the alpha, so it is put back: everything the drawing does not
-    # cover stays transparent and the panel's own background shows through, rather than the diagram
-    # sitting on a card of whatever color the conversion produced.
-    grey.setAlphaChannel(alpha)
-    return grey
 
 
 def _tinted(mask: QtGui.QImage, color) -> QtGui.QImage:

@@ -162,3 +162,77 @@ def test_agreement_and_v_measure_are_undefined_rather_than_zero_on_nothing():
     assert np.isnan(O.v_measure(np.zeros(10, int), empty))
     a = O.agreement(np.zeros(10, int), empty)
     assert np.isnan(a["adjusted_rand"]) and np.isnan(a["adjusted_mutual_info"])
+
+
+# --------------------------------------------------------------------------- the permutation null
+def test_the_null_is_what_this_objective_gives_for_nothing_on_this_data():
+    """Three balanced classes: shuffled labels recover about a third of each, so mean F1 lands near
+    0.33 rather than at 0. Quoting a raw 0.33 as a result is the mistake this exists to prevent."""
+    null = O.null_score(PERFECT, TRUTH, objective="mean_f1", min_cluster=1, n_permutations=10)
+    assert 0.2 < null < 0.45, null
+
+
+def test_the_null_rises_with_fewer_classes_which_is_the_whole_point():
+    """A score is not comparable across targets without it. Two classes are easier to hit by chance
+    than twenty-four, so the same 0.30 means different things -- and a search that ranks
+    configurations across targets is otherwise comparing against different nulls in silence."""
+    two = pd.Series(["a"] * 90 + ["b"] * 90)
+    many = pd.Series([f"c{i % 24}" for i in range(180)])
+    labels = np.repeat(np.arange(6), 30)
+    n2 = O.null_score(labels, two, objective="mean_f1", min_cluster=1, n_permutations=10)
+    n24 = O.null_score(labels, many, objective="mean_f1", min_cluster=1, n_permutations=10)
+    assert n2 > n24
+
+
+def test_the_null_is_reproducible_from_its_seed():
+    """A number nobody can rebuild is not a result -- including this one."""
+    kw = dict(objective="mean_f1", min_cluster=1, n_permutations=5, seed=7)
+    assert O.null_score(PERFECT, TRUTH, **kw) == O.null_score(PERFECT, TRUTH, **kw)
+
+
+def test_at_least_one_permutation_is_run_however_few_are_asked_for():
+    """Zero permutations would make the null 0.0 -- an absent correction wearing the same name as a
+    measured one, which is worse than not having the option."""
+    assert O.null_score(PERFECT, TRUTH, objective="mean_f1", min_cluster=1, n_permutations=0) > 0.0
+
+
+def test_adjusted_puts_chance_at_zero_and_perfect_at_one():
+    r = O.adjusted(PERFECT, TRUTH, objective="mean_f1", min_cluster=1, n_permutations=10)
+    assert r["adjusted"] == pytest.approx(1.0)
+    assert r["n_labels"] == 3 and 0.0 < r["null"] < r["score"]
+
+
+def test_structure_worse_than_shuffling_is_reported_negative_not_clipped():
+    """Worse than chance is a real result about the map, and clipping it to zero would hide the one
+    case where the answer is "this configuration is actively misleading"."""
+    r = O.adjusted(np.tile([0, 1, 2], 60), TRUTH, objective="mean_f1", min_cluster=1,
+                   n_permutations=10)
+    assert r["adjusted"] < 0.0
+
+
+def test_a_null_of_one_leaves_the_correction_undefined_rather_than_infinite():
+    """`(score - null) / (1 - null)` divides by zero when chance already scores perfectly -- one
+    class, where every shuffle is the same shuffle. NaN says "no correction is defined here"; a
+    number would claim one."""
+    one_class = pd.Series(["a"] * 180)
+    r = O.adjusted(ONE_BIG, one_class, objective="mean_f1", min_cluster=1, n_permutations=3)
+    assert r["null"] == pytest.approx(1.0) and np.isnan(r["adjusted"])
+
+
+def test_unlabelled_genes_are_not_counted_as_a_class():
+    """`n_labels` is what the null is there to make sense of, so it has to be the number of classes
+    the score was computed over. Counting the unlabelled as a class says "3 classes" for a score
+    computed over 2 -- and unassigned is the largest group in the real column."""
+    truth = pd.Series(["a"] * 60 + ["b"] * 60 + [None] * 60)
+    r = O.adjusted(PERFECT, truth, objective="mean_f1", min_cluster=1, n_permutations=5)
+    assert r["n_labels"] == 2, "unlabelled is not a compartment"
+    assert 0.0 < r["null"] < 1.0
+
+
+def test_a_class_too_small_to_score_is_not_counted_either():
+    """`pairs` skips a label below `min_label`, so counting it would describe the score as spread
+    over more classes than it could possibly have used."""
+    truth = pd.Series(["a"] * 88 + ["b"] * 88 + ["rare"] * 4)
+    r = O.adjusted(PERFECT, truth, objective="mean_f1", min_cluster=1, min_label=15,
+                   n_permutations=5)
+    assert r["n_labels"] == 2

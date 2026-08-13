@@ -320,3 +320,36 @@ def test_the_fetcher_identifies_itself(monkeypatch):
     monkeypatch.setattr(S.urllib.request, "urlopen", fake_urlopen)
     assert S._get("https://example.org/x") == b"ok"
     assert any("starplast" in str(v) for v in seen["ua"].values())
+
+
+def test_a_failed_fetch_is_logged_loudly_and_re_raised(monkeypatch):
+    """WARNING rather than DEBUG, and re-raised rather than swallowed. This project shipped a
+    version-pinned URL that returned 404 for months while the interface said "no model available" --
+    a download that fails quietly is indistinguishable from a source that has nothing to give.
+
+    The record is read off a handler on the module's own logger rather than through caplog: this
+    project's loggers do not propagate to the root, so caplog sees them only when nothing else has
+    configured logging yet, which makes it pass alone and fail in the suite.
+    """
+    import logging
+
+    seen = []
+
+    class Collect(logging.Handler):
+        def emit(self, record):
+            seen.append(record)
+
+    def boom(req, timeout=None):
+        raise OSError("connection reset")
+
+    monkeypatch.setattr(S.urllib.request, "urlopen", boom)
+    log = logging.getLogger("starplast.sources")
+    handler = Collect(level=logging.WARNING)
+    log.addHandler(handler)
+    try:
+        with pytest.raises(OSError, match="connection reset"):
+            S._get("https://example.org/gone")
+    finally:
+        log.removeHandler(handler)
+    assert any(r.levelno >= logging.WARNING and "example.org/gone" in r.getMessage()
+               for r in seen), "the URL that failed has to be in the record"

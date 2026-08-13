@@ -1833,3 +1833,114 @@ def test_every_results_table_offers_saving_and_loading(panel):
         actions = [a.text() for a in panel.build_table_menu(table).actions() if a.text()]
         assert any("reloadable" in a for a in actions), name
         assert any("Load results" in a for a in actions), name
+
+
+# --------------------------------------------------------------------------- the file dialogs
+def _rows():
+    import pandas as pd
+    return pd.DataFrame({"blocks": ["fitness_screens"], "na_policy": ["median"],
+                         "scaling": ["rank"], "n_neighbors": [15], "min_dist": [0.1],
+                         "min_cluster_size": [25], "seed": [42], "sample_size": [0],
+                         "excluded": [""], "mean_f1": [0.3]})
+
+
+def test_saving_with_no_path_asks_where_and_writes_there(panel, sync, tmp_path, monkeypatch):
+    """The menu entry passes no path, so the dialog is the only thing that supplies one."""
+    from PyQt6 import QtWidgets
+    target = tmp_path / "asked.csv"
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getSaveFileName",
+                        staticmethod(lambda *a, **k: (str(target), "")))
+    panel._fill(panel.search_table, _rows())
+    assert panel.save_results(panel.search_table) == str(target)
+    assert target.exists() and target.read_text().startswith("# starplast-table:")
+
+
+def test_cancelling_the_save_dialog_writes_nothing(panel, sync, tmp_path, monkeypatch):
+    """Cancel means cancel. A file written to a default name the user never chose is a file they
+    will not find, and a second table quietly overwriting the first."""
+    from PyQt6 import QtWidgets
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getSaveFileName",
+                        staticmethod(lambda *a, **k: ("", "")))
+    panel._fill(panel.search_table, _rows())
+    assert panel.save_results(panel.search_table) == ""
+    assert not list(tmp_path.iterdir())
+
+
+def test_loading_with_no_path_asks_which_file(panel, tmp_path, monkeypatch):
+    from PyQt6 import QtWidgets
+    path = tmp_path / "s.csv"
+    panel._fill(panel.search_table, _rows())
+    panel.save_results(panel.search_table, str(path))
+    panel._start_table(panel.search_table, [])
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getOpenFileName",
+                        staticmethod(lambda *a, **k: (str(path), "")))
+    assert panel.load_results(panel.search_table) is True
+    assert panel.search_table.rowCount() == 1
+
+
+def test_cancelling_the_load_dialog_leaves_the_table_alone(panel, monkeypatch):
+    """Not an empty table: whatever was computed before the dialog opened is still the result."""
+    from PyQt6 import QtWidgets
+    panel._fill(panel.search_table, _rows())
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getOpenFileName",
+                        staticmethod(lambda *a, **k: ("", "")))
+    assert panel.load_results(panel.search_table) is False
+    assert panel.search_table.rowCount() == 1
+
+
+def test_saving_everything_with_no_path_asks_where(panel, tmp_path, monkeypatch):
+    from PyQt6 import QtWidgets
+    target = tmp_path / "all.starplast"
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getSaveFileName",
+                        staticmethod(lambda *a, **k: (str(target), "")))
+    panel._fill(panel.search_table, _rows())
+    assert panel.save_all_results() == str(target)
+    assert target.exists()
+
+
+def test_cancelling_the_bundle_save_writes_nothing(panel, tmp_path, monkeypatch):
+    from PyQt6 import QtWidgets
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getSaveFileName",
+                        staticmethod(lambda *a, **k: ("", "")))
+    panel._fill(panel.search_table, _rows())
+    assert panel.save_all_results() == ""
+    assert not list(tmp_path.iterdir())
+
+
+def test_loading_a_bundle_with_no_path_asks_which_file(panel, tmp_path, monkeypatch):
+    from PyQt6 import QtWidgets
+    path = tmp_path / "all.starplast"
+    panel._fill(panel.search_table, _rows())
+    panel.save_all_results(str(path))
+    panel._start_table(panel.search_table, [])
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getOpenFileName",
+                        staticmethod(lambda *a, **k: (str(path), "")))
+    assert panel.load_all_results() == 1
+
+
+def test_cancelling_the_bundle_load_loads_nothing(panel, monkeypatch):
+    from PyQt6 import QtWidgets
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getOpenFileName",
+                        staticmethod(lambda *a, **k: ("", "")))
+    assert panel.load_all_results() == 0
+
+
+def test_cancelling_the_csv_dialog_writes_nothing(panel, tmp_path, monkeypatch):
+    """The right-click "save as CSV" entry passes no path either, and cancel has to mean cancel
+    there too -- a file under a default name is a file the user will not find again."""
+    from PyQt6 import QtWidgets
+    panel._fill(panel.search_table, _rows())
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getSaveFileName",
+                        staticmethod(lambda *a, **k: ("", "")))
+    assert panel.save_table(panel.search_table) == ""
+    assert not list(tmp_path.iterdir())
+
+
+def test_saving_a_csv_with_no_path_asks_where(panel, tmp_path, monkeypatch):
+    from PyQt6 import QtWidgets
+    target = tmp_path / "asked.csv"
+    panel._fill(panel.search_table, _rows())
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getSaveFileName",
+                        staticmethod(lambda *a, **k: (str(target), "")))
+    assert panel.save_table(panel.search_table) == str(target)
+    assert "blocks" in target.read_text().splitlines()[0]

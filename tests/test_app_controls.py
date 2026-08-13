@@ -1535,3 +1535,68 @@ def test_the_import_is_reachable_from_the_file_menu(win):
     assert any("Import data" in a for a in labels)
     assert any("Save all analysis results" in a for a in labels)
     assert any("Load analysis results" in a for a in labels)
+
+
+def test_importing_with_no_path_asks_for_a_file(win, tmp_path, monkeypatch):
+    """The menu entry passes no path, so the file dialog is the only thing that supplies one, and
+    the whole import hangs off what it returns."""
+    from PyQt6 import QtWidgets
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getOpenFileName",
+                        staticmethod(lambda *a, **k: (_user_table(tmp_path, win, "asked.csv"), "")))
+    monkeypatch.setattr(QtWidgets.QDialog, "exec", lambda self: 1)
+    record = win.import_data()
+    assert record and record["genes"] == 30
+    assert any(c.startswith("imported_") for c in win.nodes.columns)
+
+
+def test_cancelling_the_import_file_dialog_imports_nothing(win, monkeypatch):
+    from PyQt6 import QtWidgets
+    before = len(win.nodes.columns)
+    monkeypatch.setattr(QtWidgets.QFileDialog, "getOpenFileName",
+                        staticmethod(lambda *a, **k: ("", "")))
+    assert win.import_data() is None
+    assert len(win.nodes.columns) == before
+
+
+def test_a_clustering_arrives_even_when_its_recipe_cannot_be_read(win, monkeypatch):
+    """The panel is optional and its state can be mid-change. A run kept without its recipe is worse
+    than one kept with it and far better than losing the clustering."""
+    import numpy as np
+    before = len(win.runs.runs)
+    monkeypatch.setattr(win.panel, "spec", lambda: (_ for _ in ()).throw(RuntimeError("mid-edit")))
+    win.use_clusters(np.zeros(win.n, dtype=int))
+    assert len(win.runs.runs) == before + 1
+    assert win.runs.runs[-1].recipe == {}
+
+
+def test_renaming_does_nothing_unless_a_run_is_the_current_coloring(win):
+    """The box is only meaningful for a kept run; with a compartment showing there is nothing that
+    name would belong to, and renaming the compartment column is not what the box means."""
+    import numpy as np
+    win.keep_run(np.zeros(win.n, dtype=int), name="before")
+    win.on_category_changed("compartment")
+    win.run_name.setText("after")
+    win._rename_current_run()
+    assert [r.name for r in win.runs.runs][-1] == "before"
+
+    from starplast.app import RUN_PREFIX
+    win.on_category_changed(RUN_PREFIX + "before")
+    win.run_name.setText("after")
+    win._rename_current_run()
+    assert [r.name for r in win.runs.runs][-1] == "after"
+
+
+def test_the_diagram_is_skipped_entirely_when_there_is_no_artwork(win, monkeypatch):
+    """The artwork is optional; every refresh runs through here, so its absence has to be a return
+    rather than an attribute error on every category change."""
+    monkeypatch.setattr(win, "diagram", None)
+    win._refresh_diagram()
+
+
+def test_coloring_by_a_column_that_is_no_longer_there_is_absence_not_a_crash(win):
+    """A saved coloring can name a column a later cache does not have. Absence is "" -- drawn gray,
+    never as a category -- which is what every other missing value in this application is."""
+    win.category = "a_column_that_went_away"
+    values = win.category_values()
+    assert len(values) == win.n and set(values) == {""}
+    win.on_category_changed("compartment")
