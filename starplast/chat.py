@@ -37,10 +37,11 @@ fitness screens, six protein features, and the measured hyperLOPIT compartment o
 weight. Position is similarity in those features, nothing more. No literature column is an input to
 the shipped layout.
 
-That compartment is an INPUT is the single most important thing to remember about this map: genes of
-one compartment sit together partly by construction, so proximity on the shipped layout is never
-evidence about localization. The held-out searches build their own maps without it -- those are the
-ones the numbers below come from.
+Two things follow, and they pull in opposite directions. Compartment being an input means the shipped
+layout can never be evidence about localization -- the held-out searches build their own maps without
+it, and those are where the numbers below come from. But measured on the shipped matrix the 27
+one-hot columns carry 1.1% of its variance against 98.9% for the sixteen numeric features, so
+compartment is an input in name far more than in effect: it is listed as one and does almost nothing.
 
 What held-out testing says about it, which you must respect:
   - On the full proteome no target is reliably recovered. Cell cycle recovers 0 of 5 phases and

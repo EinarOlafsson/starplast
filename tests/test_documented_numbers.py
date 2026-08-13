@@ -131,3 +131,24 @@ def test_the_explainers_name_the_features_the_shipped_map_was_actually_built_fro
         assert "hyperLOPIT compartment" in text, f"{name} does not say compartment is an input"
         assert "no literature column is an input" in text.lower(), \
             f"{name} still implies literature is an input"
+        assert "1.1%" in text, f"{name} does not say how much of the matrix compartment carries"
+
+
+def test_the_compartment_share_of_the_shipped_matrix_is_what_the_explainers_say():
+    """Named as an input and doing almost nothing are both true, and quoting one without the other
+    misleads in a different direction each time. Measured here rather than remembered."""
+    from starplast import build_graph, paths
+    cache = paths.cache_file("nodes.parquet")
+    if not os.path.exists(cache):
+        pytest.skip("no built cache on this machine")
+    nodes = pd.read_parquet(cache)
+    feats = [f for f in ["expr_tachy", "expr_cyst", "expr_max", "mean_plddt", "paralog_number",
+                         "n_interpro", "n_phosphosites", "has_domain", "lineage_specific"]
+             + list(build_graph.FIT) if f in nodes.columns]
+    X = nodes[feats].to_numpy(dtype=float)
+    med = np.nanmedian(X, axis=0)
+    X = np.where(np.isnan(X), np.where(np.isfinite(med), med, 0.0), X)
+    X = (X - X.mean(0)) / (X.std(0) + 1e-9)
+    comp = pd.get_dummies(nodes.compartment.astype(str)).to_numpy(dtype=float) * 0.5
+    share = comp.var(0).sum() / (X.var(0).sum() + comp.var(0).sum())
+    assert 0.005 < share < 0.02, f"compartment now carries {share:.1%}, not the 1.1% quoted"
