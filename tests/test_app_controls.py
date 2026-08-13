@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault("PYQTGRAPH_QT_LIB", "PyQt6")
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PyQt6 import QtCore  # noqa: E402
+from PyQt6 import QtCore, QtWidgets  # noqa: E402
 from starplast import theme as TH  # noqa: E402
 from starplast.app import COLOUR_MODES  # noqa: E402
 
@@ -1390,3 +1390,148 @@ def test_changing_theme_recolours_the_diagram_with_the_map(win):
     assert np.allclose(after[sl], win.colour_of[name], atol=1e-6)
     win.apply_theme("dark")
     win.comp_list.clearSelection()
+
+
+# --------------------------------------------------------------------------- importing
+def _user_table(tmp_path, win, name="mine.csv", n=30):
+    import pandas as pd
+    ids = list(win.nodes.gene_id.iloc[:n])
+    d = pd.DataFrame({"gene": ids,
+                      "day3": np.linspace(1, 4000, n),
+                      "day5": np.linspace(2, 8000, n)})
+    path = tmp_path / name
+    d.to_csv(path, index=False)
+    return str(path)
+
+
+def test_the_import_dialog_offers_every_preprocessing_choice(win, tmp_path):
+    """All of it exists in the code already, applied to published data. The point is that a person
+    importing their own table gets the same choices, explicitly."""
+    from starplast.embedding import NA_POLICIES, SCALINGS
+    from starplast.importer import DUPLICATES, QUANTIFICATIONS
+    d = win.build_import_dialog(_user_table(tmp_path, win))
+    assert d is not None
+    offered = lambda box: [box.itemText(i) for i in range(box.count())]
+    assert set(offered(d.quantification)) == set(QUANTIFICATIONS)
+    assert set(offered(d.scaling)) == set(SCALINGS)
+    assert set(offered(d.na_policy)) == set(NA_POLICIES)
+    assert set(offered(d.duplicates)) == set(DUPLICATES)
+    for control in (d.quantification, d.scaling, d.na_policy, d.duplicates, d.flip,
+                    d.gene_column, d.prefix, d.preview):
+        assert len(control.toolTip().split()) >= 15, control
+
+
+def test_the_dialog_shows_the_ranges_and_says_what_it_thinks_they_are(win, tmp_path):
+    """THE RANGE DECIDES, NOT THE FILENAME. The preview is the evidence for the choice above it."""
+    d = win.build_import_dialog(_user_table(tmp_path, win))
+    assert d.preview.rowCount() == 2, "both numeric columns should be described"
+    heads = [d.preview.horizontalHeaderItem(c).text() for c in range(d.preview.columnCount())]
+    assert {"column", "min", "median", "max", "missing"} <= set(heads)
+    assert "has NOT been logged" in d.note.text() and d.quantification.currentText() == "fpkm"
+
+
+def test_importing_adds_columns_to_the_session_and_records_how(win, tmp_path):
+    d = win.build_import_dialog(_user_table(tmp_path, win))
+    d.scaling.setCurrentText("rank")
+    d.quantification.setCurrentText("fpkm")
+    before = len(win.nodes.columns)
+    record = win.apply_import(d)
+    assert record["quantification"] == "fpkm" and record["scaling"] == "rank"
+    assert record["genes"] == 30 and record["columns"] == ["imported_day3", "imported_day5"]
+    assert len(win.nodes.columns) == before + 2
+    assert win.imports and win.imports[-1] is record
+    assert "imported 2 column(s)" in win.statusBar().currentMessage()
+
+
+def test_imported_columns_can_build_a_map(win, tmp_path):
+    """A block the map cannot be built from is a column that arrived and did nothing."""
+    from starplast.embedding import columns_for
+    d = win.build_import_dialog(_user_table(tmp_path, win))
+    win.apply_import(d)
+    panel = win.panel
+    assert panel.imported_cb.isEnabled() and panel.imported_cb.isChecked()
+    assert "2 columns" in panel.imported_cb.text()
+    spec = panel.spec()
+    assert set(spec.extra_columns) == {"imported_day3", "imported_day5"}
+    assert columns_for(panel.nodes, spec).get("imported"), "the block reaches the feature matrix"
+    panel.imported_cb.setChecked(False)
+    assert panel.spec().extra_columns == ()
+
+
+def test_an_imported_column_can_be_coloured_by_like_any_other(win, tmp_path):
+    from starplast.app import BIN_PREFIX
+    win.apply_import(win.build_import_dialog(_user_table(tmp_path, win)))
+    assert BIN_PREFIX + "imported_day3" in win.colour_sources()
+    win.on_category_changed(BIN_PREFIX + "imported_day3")
+    assert len({v for v in win.category_values().unique() if v}) > 1
+    win.on_category_changed("compartment")
+
+
+def test_a_table_that_resolves_to_nothing_is_refused_with_the_reason(win, tmp_path, monkeypatch):
+    import pandas as pd
+    from PyQt6 import QtWidgets
+    path = tmp_path / "junk.csv"
+    pd.DataFrame({"id": ["not-a-gene"] * 4, "score": [1.0, 2, 3, 4]}).to_csv(path, index=False)
+    d = win.build_import_dialog(str(path))
+    said = []
+    monkeypatch.setattr(QtWidgets.QMessageBox, "warning",
+                        staticmethod(lambda *a, **k: said.append(a[-1])))
+    assert win.apply_import(d) is None
+    assert said and "no row resolved" in said[0]
+    assert "import refused" in win.statusBar().currentMessage()
+
+
+def test_a_file_that_cannot_be_read_says_so_rather_than_opening_an_empty_dialog(win, tmp_path,
+                                                                               monkeypatch):
+    from PyQt6 import QtWidgets
+    path = tmp_path / "broken.parquet"
+    path.write_bytes(b"not parquet")
+    monkeypatch.setattr(QtWidgets.QMessageBox, "warning", staticmethod(lambda *a, **k: None))
+    assert win.build_import_dialog(str(path)) is None
+
+
+def test_a_workbook_lets_you_choose_the_sheet(win, tmp_path):
+    """Published supplements routinely put the table on sheet 3 behind a legend, and a guess made on
+    the legend is nonsense about the data."""
+    import pandas as pd
+    path = tmp_path / "supp.xlsx"
+    ids = list(win.nodes.gene_id.iloc[:12])
+    with pd.ExcelWriter(path) as w:
+        pd.DataFrame({"note": ["supplementary table 4"]}).to_excel(w, sheet_name="legend",
+                                                                   index=False)
+        pd.DataFrame({"gene": ids, "score": np.linspace(0, 5000, 12)}).to_excel(
+            w, sheet_name="data", index=False)
+    d = win.build_import_dialog(str(path))
+    assert [d.sheet.itemText(i) for i in range(d.sheet.count())] == ["legend", "data"]
+    d.sheet.setCurrentText("data")
+    assert "gene" in [d.gene_column.itemText(i) for i in range(d.gene_column.count())]
+    d.gene_column.setCurrentText("gene")
+    record = win.apply_import(d)
+    assert record["genes"] == 12
+
+
+def test_asking_for_a_sheet_that_will_not_read_says_so(win, tmp_path):
+    """A workbook, because a delimited file has no sheets and ignores the request entirely."""
+    import pandas as pd
+    path = tmp_path / "one_sheet.xlsx"
+    pd.DataFrame({"gene": list(win.nodes.gene_id.iloc[:5]), "x": range(5)}).to_excel(path,
+                                                                                     index=False)
+    d = win.build_import_dialog(str(path))
+    win._reload_import_sheet(d, "no such sheet")
+    assert "could not be read" in win.statusBar().currentMessage()
+
+
+def test_cancelling_the_dialog_imports_nothing(win, tmp_path, monkeypatch):
+    from PyQt6 import QtWidgets
+    before = len(win.nodes.columns)
+    monkeypatch.setattr(QtWidgets.QDialog, "exec", lambda self: 0)
+    assert win.import_data(_user_table(tmp_path, win, "cancel.csv")) is None
+    assert len(win.nodes.columns) == before
+
+
+def test_the_import_is_reachable_from_the_file_menu(win):
+    labels = [a.text() for m in win.menuBar().findChildren(QtWidgets.QMenu)
+              for a in m.actions() if a.text()]
+    assert any("Import data" in a for a in labels)
+    assert any("Save all analysis results" in a for a in labels)
+    assert any("Load analysis results" in a for a in labels)

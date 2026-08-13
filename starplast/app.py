@@ -685,6 +685,9 @@ class Window(QtWidgets.QMainWindow):
         # without clicking 8,140 times. None means no gate has been drawn; an EMPTY array means one
         # was and it caught nothing, which is a different thing and is reported as such.
         self.gated = None
+        #: Every import this session, with the choices that produced it. An imported column whose
+        #: provenance is a memory of which dropdowns were set cannot be defended three weeks later.
+        self.imports = []
         # Which genes carry a saved annotation. Its own mask and its own colour, because an
         # annotation is a fourth thing beside measurement, inference and absence, and reading as any
         # of the three is the failure this application is built to prevent.
@@ -722,6 +725,203 @@ class Window(QtWidgets.QMainWindow):
         self.view.customContextMenuRequested.connect(self._context_menu)
         self.apply_theme(self.theme)
         self.redraw()
+
+    # ------------------------------------------------------------------ importing
+    def import_data(self, path: str = ""):
+        """Read a user's table, offer the preprocessing, and add the columns to this session."""
+        from .importer import READABLE
+        if not path:
+            path, _ = QtWidgets.QFileDialog.getOpenFileName(
+                self, "Import data", "",
+                "Tables (" + " ".join(f"*{e}" for e in READABLE) + ");;All files (*)")
+        if not path:
+            return None
+        d = self.build_import_dialog(path)
+        if d is None or not d.exec():
+            return None
+        return self.apply_import(d)
+
+    def build_import_dialog(self, path: str):
+        """The import dialog, built but not shown.
+
+        Split from `import_data` for the reason every dialog here is: `exec` blocks until a human
+        closes it, so a test that called it would hang rather than fail.
+        """
+        from .importer import (DUPLICATES, QUANTIFICATIONS, describe_columns, numeric_columns,
+                               read_any, sheets_in, suggest_quantification)
+        from .embedding import NA_POLICIES, SCALINGS
+        from .tuning import suggest_gene_column
+        try:
+            sheets = sheets_in(path)
+            table = read_any(path, sheet=sheets[0] if sheets else 0)
+        except Exception as exc:
+            QtWidgets.QMessageBox.warning(self, "Import", f"{path} could not be read:\n{exc}")
+            return None
+
+        d = QtWidgets.QDialog(self)
+        d.setWindowTitle(f"Import {os.path.basename(path)}")
+        d.table, d.path = table, path
+        lay = QtWidgets.QVBoxLayout(d)
+        form = QtWidgets.QFormLayout()
+
+        d.sheet = QtWidgets.QComboBox()
+        d.sheet.addItems([str(s) for s in sheets] or ["(single table)"])
+        d.sheet.setEnabled(bool(sheets))
+        d.sheet.setToolTip("Which sheet holds the data. Published supplements routinely put the "
+                           "table on sheet 3, behind a legend and a blank sheet.")
+
+        d.gene_column = QtWidgets.QComboBox()
+        d.gene_column.addItems([str(c) for c in table.columns])
+        guess = suggest_gene_column(table)[0]
+        if guess is not None:
+            d.gene_column.setCurrentText(str(guess))
+        d.gene_column.setToolTip(
+            "The column holding gene identifiers. Malformed ones are repaired rather than refused: "
+            "`TgME49.208830` and `gene|TGME49_208830|v2` are both real formats from published "
+            "supplements and both match nothing unrepaired. Previous and strain accessions are "
+            "resolved forward -- one 2019 screen uses pre-2012 ids for every gene and contributed "
+            "nothing at all until that was done.")
+
+        quant, why = suggest_quantification(table, numeric_columns(table, str(guess or "")))
+        d.quantification = QtWidgets.QComboBox()
+        d.quantification.addItems(QUANTIFICATIONS)
+        d.quantification.setCurrentText(quant)
+        d.quantification.setToolTip(
+            "What the numbers ARE, which decides whether a log is taken and whether each column is "
+            "centred. THE RANGE DECIDES, NOT THE FILENAME: the same GEO series ships an FPKM file "
+            "reaching 16,520 and derived columns still called FPKM that stop at 9.7 because they "
+            "were logged upstream. Log it twice and real variation compresses to nothing; skip it "
+            "and one gene dominates every distance. The table below is the evidence.")
+
+        d.scaling = QtWidgets.QComboBox()
+        d.scaling.addItems(SCALINGS)
+        d.scaling.setCurrentText("rank")
+        d.scaling.setToolTip(
+            "rank is the safe default: published screens carry inverted sign conventions, ~64x "
+            "differences in spread and heavy tails that z-scoring does not tame.")
+
+        d.na_policy = QtWidgets.QComboBox()
+        d.na_policy.addItems(NA_POLICIES)
+        d.na_policy.setCurrentText("median")
+        d.na_policy.setToolTip(
+            "What to do about missing values. `indicator` is left to the embedding, which adds "
+            "missingness as its own weighted block -- doing it here as well would count absence "
+            "twice.")
+
+        d.duplicates = QtWidgets.QComboBox()
+        d.duplicates.addItems(DUPLICATES)
+        d.duplicates.setToolTip(
+            "How to combine several rows for one gene. A hit table often lists one row per guide or "
+            "per peptide, and which of them is the claim is your call rather than this program's.")
+
+        d.flip = QtWidgets.QCheckBox("flip the sign")
+        d.flip.setToolTip(
+            "Some screens are inverted relative to others -- naive-BMDM and IFN-gamma against the "
+            "in vitro screen, for instance. Flip if yours disagrees, and rank-normalize before "
+            "pooling it with another, because that is where the 64x spread bites.")
+
+        d.prefix = QtWidgets.QLineEdit("imported_")
+        d.prefix.setToolTip(
+            "Every imported column keeps this prefix, so it cannot be mistaken for a measurement "
+            "that shipped with the cache. Nothing is written to the cache either way.")
+
+        form.addRow("sheet", d.sheet)
+        form.addRow("identifiers", d.gene_column)
+        form.addRow("these numbers are", d.quantification)
+        form.addRow("scaling", d.scaling)
+        form.addRow("missing values", d.na_policy)
+        form.addRow("duplicate genes", d.duplicates)
+        form.addRow("direction", d.flip)
+        form.addRow("column prefix", d.prefix)
+        lay.addLayout(form)
+
+        note = QtWidgets.QLabel(f"<b>{quant}</b> — {why}")
+        note.setWordWrap(True)
+        lay.addWidget(note)
+        d.note = note
+
+        d.preview = QtWidgets.QTableWidget()
+        d.preview.setAlternatingRowColors(True)
+        d.preview.setToolTip("Each column's range, before anything is done to it. `max` is what "
+                             "gives the quantification away: a column reaching 16,520 has not been "
+                             "logged, one stopping at 9.7 has.")
+        described = describe_columns(table, numeric_columns(table, str(guess or "")))
+        d.preview.setRowCount(min(len(described), 50))
+        d.preview.setColumnCount(len(described.columns))
+        d.preview.setHorizontalHeaderLabels([str(c) for c in described.columns])
+        for i, (_, r) in enumerate(described.head(50).iterrows()):
+            for j, v in enumerate(r):
+                item = QtWidgets.QTableWidgetItem(f"{v:.4g}" if isinstance(v, float) else str(v))
+                d.preview.setItem(i, j, item)
+        d.preview.resizeColumnsToContents()
+        lay.addWidget(d.preview, 1)
+
+        # Re-read the sheet, and re-judge the numbers, when the sheet changes: the legend sheet and
+        # the data sheet are different tables and a guess made on one is nonsense about the other.
+        d.sheet.currentTextChanged.connect(lambda s: self._reload_import_sheet(d, s))
+
+        buttons = QtWidgets.QDialogButtonBox(
+            QtWidgets.QDialogButtonBox.StandardButton.Ok
+            | QtWidgets.QDialogButtonBox.StandardButton.Cancel)
+        buttons.accepted.connect(d.accept)
+        buttons.rejected.connect(d.reject)
+        lay.addWidget(buttons)
+        d.resize(760, 560)
+        return d
+
+    def _reload_import_sheet(self, dialog, sheet: str):
+        """Read another sheet of the same workbook into an open import dialog."""
+        from .importer import read_any, suggest_quantification
+        try:
+            dialog.table = read_any(dialog.path, sheet=sheet)
+        except Exception as exc:
+            self.status.showMessage(f"sheet {sheet!r} could not be read: {exc}")
+            return
+        dialog.gene_column.clear()
+        dialog.gene_column.addItems([str(c) for c in dialog.table.columns])
+        quant, why = suggest_quantification(dialog.table)
+        dialog.quantification.setCurrentText(quant)
+        dialog.note.setText(f"<b>{quant}</b> — {why}")
+
+    def apply_import(self, dialog):
+        """Run the import the dialog describes and put its columns into this session."""
+        from .importer import merge_into, preprocess
+        from .identity import GeneIndex
+        try:
+            resolve = GeneIndex.load().resolve
+        except Exception:
+            # No identity tables: the import still works on current accessions, and says it will not
+            # reach the older ones rather than pretending it did.
+            resolve = None
+            self.status.showMessage("identity tables unavailable -- previous and strain accessions "
+                                    "will not be resolved")
+        try:
+            imported, record = preprocess(
+                dialog.table, gene_column=dialog.gene_column.currentText(),
+                quantification=dialog.quantification.currentText(),
+                scaling=dialog.scaling.currentText(),
+                na_policy=dialog.na_policy.currentText(),
+                duplicates=dialog.duplicates.currentText(),
+                flip=dialog.flip.isChecked(),
+                prefix=dialog.prefix.text().strip() or "imported_",
+                resolve=resolve, log=print)
+        except ValueError as exc:
+            QtWidgets.QMessageBox.warning(self, "Import", str(exc))
+            self.status.showMessage(f"import refused: {exc}")
+            return None
+        self.nodes = merge_into(self.nodes, imported)
+        self.imports.append(record)
+        self.numerics = numeric_columns(self.nodes)
+        self.categories = category_columns(self.nodes)
+        self._refresh_sources()
+        if getattr(self, "panel", None) is not None:
+            self.panel.nodes = self.nodes
+            self.panel.add_imported(list(imported.columns))
+        self.status.showMessage(
+            f"imported {len(imported.columns)} column(s) for {record['genes']:,} genes "
+            f"({record['quantification']}, {record['scaling']}) -- tick 'imported' on the Data tab "
+            f"to build a map from them")
+        return record
 
     # ------------------------------------------------------------------ logging
     def settings(self):
@@ -948,6 +1148,13 @@ class Window(QtWidgets.QMainWindow):
         a.triggered.connect(self.export_image)
         f.addAction("Export visible genes (CSV)…").triggered.connect(self.export_visible)
         f.addAction("Export gated selection (CSV)…").triggered.connect(self.export_gated)
+        a = f.addAction("Import data…")
+        a.setShortcut("Ctrl+I")
+        a.setToolTip("Read your own table -- CSV, TSV, Excel or parquet -- resolve its identifiers "
+                     "through the identity layer, and choose how it is normalized. Every choice is "
+                     "recorded with the imported columns, and nothing is written into the shipped "
+                     "cache.")
+        a.triggered.connect(self.import_data)
         f.addSeparator()
         # Results are the expensive thing this program produces -- a search is minutes to hours --
         # and until now they lived only until the window closed.

@@ -35,14 +35,11 @@ One file per task. This index is the status table; the files carry the reasoning
 | 24 | Forty black-and-white logo drafts |
 | 21 | Scoring objectives in the interface |
 | 26 | Save and load results, per tab and all at once |
+| 27 | Import data, with the preprocessing offered |
 
 ## Open
 
-| # | Task | % | Blocked by |
-|---|---|---|---|
-| 27 | Import data, with the preprocessing offered rather than assumed | 0 | — |
-
-Both requested 2026-08-12, after everything below had landed.
+**Nothing.** Every task written down here has landed (2026-08-12, v0.16.0).
 
 Two things are known and deliberately not on this list, so that "open" stays a list of work someone
 asked for rather than a list of everything imaginable:

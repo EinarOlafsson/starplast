@@ -388,6 +388,16 @@ class AnalysisPanel(QtWidgets.QWidget):
             cb.setChecked(b in ("expression_summary", "fitness_screens", "protein_features"))
             self.block_cb[b] = cb
             bl.addWidget(cb)
+        # Imported columns get their own block, added when something is imported: a block that is
+        # always there and always empty is a control that does nothing.
+        self.imported_cb = QtWidgets.QCheckBox("imported  (0 columns)")
+        self.imported_cb.setToolTip(
+            "Columns from a table you imported yourself, with the preprocessing you chose recorded "
+            "beside them. Ticked, they feed the map like any other block -- and like any other "
+            "block, anything fed in here cannot afterwards be evidence about the clusters.")
+        self.imported_cb.setEnabled(False)
+        self.imported_columns = []
+        bl.addWidget(self.imported_cb)
         self.cat_cb = QtWidgets.QCheckBox("compartment (hyperLOPIT, one-hot)")
         self.cat_cb.setChecked(True)
         bl.addWidget(self.cat_cb)
@@ -424,9 +434,21 @@ class AnalysisPanel(QtWidgets.QWidget):
         v.addStretch(1)
         return w
 
+    def add_imported(self, columns):
+        """Take newly imported columns, so the Data tab can offer them as a block."""
+        for c in columns:
+            if c not in self.imported_columns:
+                self.imported_columns.append(c)
+        self.imported_cb.setText(f"imported  ({len(self.imported_columns)} columns)")
+        self.imported_cb.setEnabled(bool(self.imported_columns))
+        self.imported_cb.setChecked(bool(self.imported_columns))
+        return self.imported_columns
+
     def spec(self) -> EmbeddingSpec:
         """The EmbeddingSpec described by the current controls."""
         return EmbeddingSpec(
+            extra_columns=(tuple(self.imported_columns)
+                           if self.imported_cb.isChecked() else ()),
             blocks=tuple(b for b, cb in self.block_cb.items() if cb.isChecked()),
             categorical=("compartment",) if self.cat_cb.isChecked() else (),
             na_policy=self.na_policy.currentText(),
