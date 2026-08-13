@@ -1600,3 +1600,56 @@ def test_coloring_by_a_column_that_is_no_longer_there_is_absence_not_a_crash(win
     values = win.category_values()
     assert len(values) == win.n and set(values) == {""}
     win.on_category_changed("compartment")
+
+
+def test_the_caption_under_the_cell_never_moves_the_cell(win):
+    """The note is one line for a shared shape and several for the list of compartments the drawing
+    has no organelle for, and a caption that grows takes its height from the widget above it. The
+    parasite then jumps as compartments are clicked, which reads as the drawing being redrawn
+    differently rather than as a caption reflowing."""
+    from PyQt6 import QtWidgets
+    win.on_category_changed("compartment")
+    for _ in range(4):
+        QtWidgets.QApplication.processEvents()
+    seen = set()
+    for note in ("", "one short line",
+                 "apical 1, apical 2, tubulin cytoskeleton, 19S proteasome, 20S proteasome, 40S "
+                 "ribosome, 60S ribosome, ER 2, endomembrane vesicles: these have no organelle in "
+                 "the drawing and are shown in the list only, so a gene in one of them is not "
+                 "missing, it is simply not drawable here."):
+        win.diagram_note.setText(note)
+        for _ in range(4):
+            QtWidgets.QApplication.processEvents()
+        g = win.diagram.geometry()
+        seen.add((g.y(), g.height()))
+    assert len(seen) == 1, f"the drawing moved as the caption changed: {seen}"
+
+
+def test_a_caption_too_long_for_its_box_scrolls(win):
+    from PyQt6 import QtWidgets
+    from starplast.app import DIAGRAM_NOTE_HEIGHT
+    win.on_category_changed("compartment")
+    win.diagram_note.setText("word " * 200)
+    for _ in range(4):
+        QtWidgets.QApplication.processEvents()
+    assert win.diagram_note_area.height() == DIAGRAM_NOTE_HEIGHT
+    # The content is taller than the box at the width it gets, and the box is allowed to scroll.
+    # Asserted this way rather than off the live scrollbar because the window in this fixture is
+    # never shown, so Qt has laid nothing out and every scrollbar reads zero.
+    assert win.diagram_note.heightForWidth(240) > DIAGRAM_NOTE_HEIGHT, "nothing to scroll"
+    assert win.diagram_note_area.widgetResizable(), "the caption would be clipped, not scrolled"
+    assert (win.diagram_note_area.verticalScrollBarPolicy()
+            != QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+    assert (win.diagram_note_area.horizontalScrollBarPolicy()
+            == QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff), "wrapped text must not scroll sideways"
+    win.diagram_note.setText("")
+
+
+def test_hiding_the_caption_hides_its_box_too(win):
+    """Hiding the label inside a fixed-height area leaves the area's height behind, which is the
+    gap this was meant to remove."""
+    win.on_category_changed("compartment")
+    assert win.diagram_note_area.isVisibleTo(win)
+    win.on_category_changed("cellcycle_phase")
+    assert not win.diagram_note_area.isVisibleTo(win)
+    win.on_category_changed("compartment")

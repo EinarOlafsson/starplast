@@ -107,6 +107,10 @@ MAP_EXPLANATION = (
 # is an identifier rather than a class -- orthogroup has 7,331 values, and a list that long is not a
 # filter, it is a scrolling exercise.
 MAX_CATEGORY_VALUES = 60
+#: How tall the caption under the cell diagram is, whatever it says. Three lines at the default
+#: font: enough for "the X color is on a shape shared with Y -- click it to step through them", and
+#: fixed so that a longer note scrolls instead of moving the drawing.
+DIAGRAM_NOTE_HEIGHT = 54
 # Columns that are categorical by dtype but meaningless as a filter: provenance flags and internals.
 CATEGORY_DENYLIST = {"gene_id", "product", "symbol", "orthogroup"}
 
@@ -2080,10 +2084,22 @@ class Window(QtWidgets.QMainWindow):
         self.diagram_note = QtWidgets.QLabel("")
         self.diagram_note.setWordWrap(True)
         self.diagram_note.setStyleSheet("color: #888")
+        # In a scroll area of FIXED height, because the note's own height changes with its text --
+        # one line for a shared shape, three for the list of compartments the drawing has no
+        # organelle for -- and a note that grows takes its height from the widget above it. The
+        # parasite then jumps up and down as compartments are clicked, which reads as the drawing
+        # being redrawn differently rather than as a caption reflowing. Scrolls when it overflows.
+        self.diagram_note_area = QtWidgets.QScrollArea()
+        self.diagram_note_area.setWidget(self.diagram_note)
+        self.diagram_note_area.setWidgetResizable(True)
+        self.diagram_note_area.setFixedHeight(DIAGRAM_NOTE_HEIGHT)
+        self.diagram_note_area.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.diagram_note_area.setHorizontalScrollBarPolicy(
+            QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         if self.diagram is not None:
             self.diagram.compartment_clicked.connect(self.select_compartment)
             L.addWidget(self.diagram, 1)
-            L.addWidget(self.diagram_note)
+            L.addWidget(self.diagram_note_area)
 
         rename = QtWidgets.QHBoxLayout()
         self.run_name = QtWidgets.QLineEdit()
@@ -2201,7 +2217,9 @@ class Window(QtWidgets.QMainWindow):
         from .celldiagram import UNMAPPED_NOTE, missing_from_drawing
         show = self.category in ("compartment", "compartment_best")
         self.diagram.setVisible(show)
-        self.diagram_note.setVisible(show)
+        # The AREA, not the label: hiding the label inside a fixed-height area leaves the area's
+        # height behind, which is the gap this was supposed to remove.
+        self.diagram_note_area.setVisible(show)
         if not show:
             return
         sel = [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.comp_list.selectedItems()]
