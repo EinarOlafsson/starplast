@@ -18,3 +18,8 @@ docs/api/
 # committed cache is not a cache, it is a working directory. .gitkeep keeps the directory itself.
 starplast/data/embeddings/*
 !starplast/data/embeddings/.gitkeep
+
+# Analysis-run embeddings: the CSVs are the record, the npz files are rebuildable from the
+# recipe each one carries, and a results directory is not a place to ship 67 MB of them.
+results/*/embeddings/
+results/*/run.log
