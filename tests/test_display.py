@@ -179,10 +179,10 @@ def test_the_display_tab_exists_with_both_controls(win):
     d.close()
 
 
-def test_turning_the_background_on_puts_it_behind_the_panel(win):
+def test_turning_the_background_on_puts_it_behind_the_window(win):
     assert win.set_ambient("blobs") == "blobs"
     assert win._ambient_widget is not None
-    assert win._ambient_widget.parent() is win.left_panel
+    assert win._ambient_widget.parent() is win
     win.set_ambient_option("density", 2.0)
     assert win._ambient["density"] == 2.0
     assert win.set_ambient("none") == "none"
@@ -303,14 +303,14 @@ def test_the_settings_are_remembered_across_a_restart(qapp, tmp_path, monkeypatc
         s.sync()
 
 
-def test_the_background_follows_the_panel_when_it_is_resized(win):
-    """It is a child of the panel, not laid out by it: without this it stays the size it was born."""
+def test_the_background_follows_the_window_when_it_is_resized(win):
+    """It is a child of the window, not laid out by it: without this it stays the size it was born,
+    and the blobs stop where the window used to end."""
     from PyQt6 import QtCore, QtGui
     win.set_ambient("blobs")
-    win.left_panel.resize(300, 500)
-    win.eventFilter(win.left_panel, QtGui.QResizeEvent(QtCore.QSize(300, 500),
-                                                       QtCore.QSize(200, 400)))
-    assert win._ambient_widget.size() == win.left_panel.size()
+    win.resize(900, 640)
+    win.eventFilter(win, QtGui.QResizeEvent(QtCore.QSize(900, 640), QtCore.QSize(1200, 800)))
+    assert win._ambient_widget.size() == win.size()
     win.set_ambient("none")
 
 
@@ -518,3 +518,161 @@ def test_a_widget_destroyed_mid_walk_is_skipped(qapp):
     layout.addRow("fine", ok)
     assert TH.wrap_tooltips(parent) == 1, "the walk stopped at the dead widget"
     assert "white-space:pre" in ok.toolTip()
+
+
+# --------------------------------------------------------------------------- finishes and sources
+def test_every_finish_changes_the_surface_rather_than_the_data(qapp):
+    """A finish is how a point answers the light. Four of them have to look different, and none may
+    move a point or touch its alpha -- the map's shape and its filter are not a rendering choice."""
+    rng = np.random.default_rng(0)
+    xyz = rng.normal(size=(400, 3)) * 15
+    flat = np.column_stack([np.full(400, 0.5)] * 3 + [rng.random(400)])
+    lit = L.lights(0.0, 2)
+    seen = {}
+    for name in L.FINISHES:
+        out = L.shade(xyz, flat, lit, finish=name)
+        assert np.array_equal(out[:, 3], flat[:, 3]), f"{name} touched alpha"
+        seen[name] = round(float(out[:, :3].mean()), 4)
+    assert len(set(seen.values())) == len(seen), f"two finishes render identically: {seen}"
+
+
+def test_matt_has_no_highlight_and_glossy_has_a_tight_one(qapp):
+    rng = np.random.default_rng(1)
+    xyz = rng.normal(size=(600, 3)) * 15
+    flat = np.full((600, 4), 0.5)
+    lit = L.lights(0.0, 1)
+    matt = L.shade(xyz, flat, lit, finish="matt")[:, :3]
+    glossy = L.shade(xyz, flat, lit, finish="glossy")[:, :3]
+    assert glossy.max() > matt.max(), "glossy did not add a highlight"
+    # Tight means CONCENTRATED: fewer points near the top of the range, not a brighter map overall.
+    bright = lambda a: float((a.max(axis=1) > 0.9 * a.max()).mean())
+    assert bright(glossy) < bright(matt), "the highlight is spread over the whole cloud"
+
+
+def test_metallic_takes_its_highlight_from_the_point_not_the_light(qapp):
+    """The difference between a copper bead and a white-glinting plastic one."""
+    xyz = np.array([[0.0, 0.0, 10.0], [0.0, 0.0, -10.0]])
+    red = np.array([[1.0, 0.0, 0.0, 1.0], [1.0, 0.0, 0.0, 1.0]])
+    lit = [{"pos": np.array([0.0, 0.0, 60.0]), "color": np.array([1.0, 1.0, 1.0])}]
+    metal = L.shade(xyz, red, lit, finish="metallic")
+    plastic = L.shade(xyz, red, lit, finish="glossy")
+    # A white light on a red point: the plastic highlight whitens the green channel, the metal's
+    # stays red. This only works because specular is ADDED rather than multiplied into the colour --
+    # multiplied, a pure red point has no green to raise and every finish looks identical on it.
+    assert plastic[0, 1] > metal[0, 1] + 0.05, (plastic[0], metal[0])
+    assert metal[0, 0] > metal[0, 1], "the metal highlight lost the point's own colour"
+
+
+@pytest.mark.parametrize("source", L.SOURCES)
+def test_every_source_produces_at_least_one_light(qapp, source):
+    xyz = np.random.default_rng(2).normal(size=(50, 3))
+    lit = L.light_at(xyz, source, 1.0, 3, 0.3, 30.0, pointer=(0.2, 0.4, 1.0), selected=3,
+                     neighbours=[1, 2])
+    assert lit and all("pos" in x and "color" in x for x in lit)
+
+
+def test_a_source_with_nothing_to_follow_lights_from_the_front(qapp):
+    """No pointer in the view yet, nothing selected. Guessing would put the light behind the map."""
+    xyz = np.random.default_rng(3).normal(size=(20, 3))
+    for source in ("mouse", "selected gene", "selected gene and its edges"):
+        lit = L.light_at(xyz, source, 0.0, 3, 0.3, 20.0)
+        assert len(lit) == 1 and lit[0]["pos"][2] > 0
+
+
+def test_lighting_a_gene_lights_the_gene(qapp):
+    xyz = np.random.default_rng(4).normal(size=(30, 3)) * 5
+    lit = L.at_points(xyz, [7], 20.0)
+    assert np.allclose(lit[0]["pos"], xyz[7])
+
+
+def test_the_pointer_is_read_in_the_view_s_own_frame(win):
+    """The map rotates. A light fixed in world space swings away from the pointer the moment
+    anything moves, which reads as the light being broken."""
+    from PyQt6 import QtCore, QtGui
+    win.view.resize(200, 100)
+    ev = QtGui.QMouseEvent(QtCore.QEvent.Type.MouseMove, QtCore.QPointF(150, 25),
+                           QtCore.QPointF(150, 25), QtCore.Qt.MouseButton.NoButton,
+                           QtCore.Qt.MouseButton.NoButton, QtCore.Qt.KeyboardModifier.NoModifier)
+    win.view.mouseMoveEvent(ev)
+    x, y, z = win.view.pointer
+    assert x > 0 and y > 0 and z > 0, "top right of the widget should be up and to the right"
+
+
+def test_the_edges_that_light_a_neighbour_are_the_ones_being_drawn(win):
+    """A light on a relationship the reader cannot see answers a question they did not ask."""
+    with_edges = win.edge_neighbours(10)
+    was = dict(win.edge_on)
+    try:
+        for k in win.edge_on:
+            win.edge_on[k] = False
+        assert win.edge_neighbours(10) == [], "a switched-off edge type still lit a neighbour"
+    finally:
+        win.edge_on.update(was)
+    assert win.edge_neighbours(10) == with_edges
+
+
+def test_the_grid_is_lit_by_the_same_lights_as_the_points(win):
+    """A lit cloud over an unlit grid reads as two pictures: the horizon is what the eye uses to
+    judge where the light is coming from."""
+    win.show_ground = True
+    win.redraw()
+    assert win.grid_item is not None
+    before = win.grid_item.color().getRgb()
+    win.set_lighting("lit")
+    win._lighting["source"] = "top left"
+    win._light_tick()
+    after = win.grid_item.color().getRgb()
+    assert after[:3] != before[:3], "the grid ignored the light"
+    assert after[3] == before[3], "the grid's alpha is a theme decision, not a lighting one"
+    win.set_lighting("off")
+
+
+# --------------------------------------------------------------------------- containers
+def test_the_background_sits_behind_every_container(win):
+    """Behind one panel it was scenery for one corner of the screen."""
+    win.set_ambient("blobs")
+    assert win._ambient_widget.parent() is win
+    assert win._ambient_widget.size() == win.size()
+    win.set_ambient("none")
+
+
+def test_panel_opacity_lets_the_background_through_but_not_the_fields(win):
+    from starplast import theme as TH
+    assert win.set_container_opacity(0.6) == 0.6
+    sheet = TH.stylesheet(win.theme, 0.6)
+    assert "rgba(" in sheet, "the containers are still opaque"
+    field_line = [line for line in sheet.splitlines() if "QLineEdit" in line and "background" in line]
+    assert not any("rgba(" in line for line in field_line), \
+        "a translucent field puts moving colour behind text somebody is reading"
+    assert win.set_container_opacity(0.0) == 0.35, "clamped: below this the list is unreadable"
+    win.set_container_opacity(1.0)
+
+
+def test_a_source_or_finish_that_does_not_exist_is_refused(win):
+    """A settings file written by a later version, or a typo in one written by hand."""
+    win.set_lighting_option("source", "top right")
+    assert win.set_lighting_option("source", "from behind the sofa") == "top right"
+    win.set_lighting_option("finish", "matt")
+    assert win.set_lighting_option("finish", "velvet") == "matt"
+
+
+def test_changing_a_light_setting_shows_at_once_while_lit(win):
+    """Turning a knob and seeing nothing until the next frame reads as the knob doing nothing."""
+    win.set_lighting("lit")
+    win.redraw()
+    before = np.array(win.scatter.color if hasattr(win.scatter, "color") else [], copy=True)
+    win.set_lighting_option("source", "bottom left")
+    assert win._lighting["source"] == "bottom left"
+    win.set_lighting("off")
+    del before
+
+
+def test_the_grid_is_left_alone_when_there_is_none(win):
+    """`show_ground` off, or a table with no genes: the lighting must not assume a grid exists."""
+    was = win.show_ground
+    win.show_ground = False
+    win.redraw()
+    assert win.grid_item is None
+    win._light_ground(win.frame_lights())          # must not raise
+    win.show_ground = was
+    win.redraw()

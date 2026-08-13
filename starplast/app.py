@@ -356,6 +356,8 @@ class Map3D(gl.GLViewWidget):
         # embedding covers only some of the genes, so a hidden gene cannot be selected by clicking
         # where it would have been.
         self.pickable = None
+        #: The pointer, as a direction in this widget's frame. None until the mouse has been in it.
+        self.pointer = None
         self.mode = "navigate"
         self.axis = "free"
         self.gate_shape = GATE_SHAPES[0]
@@ -587,6 +589,13 @@ class Map3D(gl.GLViewWidget):
         super().mousePressEvent(ev)
 
     def mouseMoveEvent(self, ev):
+        # Where the pointer is, as a direction in the view's own frame: x right, y UP (Qt counts
+        # down), z toward the eye. Kept here rather than computed from a world position because the
+        # map rotates -- a light fixed in world space swings away from the pointer the moment
+        # anything moves, which reads as the light being broken.
+        pos = ev.position()
+        w, h = max(self.width(), 1), max(self.height(), 1)
+        self.pointer = (2.0 * pos.x() / w - 1.0, 1.0 - 2.0 * pos.y() / h, 1.0)
         if self.mode == "select" and self._gate:
             p = ev.position()
             self.extend_gate(p.x(), p.y())
@@ -681,7 +690,11 @@ class Window(QtWidgets.QMainWindow):
             "mode": str(s.value("display/lighting", "off")),
             "lights": int(s.value("display/light_lights", _lighting.DEFAULT_LIGHTS, type=int)),
             "speed": float(s.value("display/light_speed", _lighting.DEFAULT_SPEED, type=float)),
+            "source": str(s.value("display/light_source", _lighting.DEFAULT_SOURCE)),
+            "finish": str(s.value("display/light_finish", _lighting.DEFAULT_FINISH)),
         }
+        #: How opaque the panels are over the drifting background. 1.0 is the old look.
+        self._container_opacity = float(s.value("display/container_opacity", 1.0, type=float))
         self._light_t = 0.0
         #: Text size for the whole interface, as a multiplier on the font this desktop asked for.
         #: Set on the application rather than on each widget: every layout then measures its own
@@ -1030,7 +1043,7 @@ class Window(QtWidgets.QMainWindow):
         self.theme = name
         app = QtWidgets.QApplication.instance()
         if app is not None:
-            app.setStyleSheet(TH.stylesheet(name))
+            app.setStyleSheet(TH.stylesheet(name, self._container_opacity))
         self.view.setBackgroundColor(pg.mkColor(TH.palette_for(name)["bg"]))
         # Recolor the classes for this ground, then restore the deliberate grey for "unknown".
         self.color_of = dict(zip(self.comps,
@@ -1683,6 +1696,43 @@ class Window(QtWidgets.QMainWindow):
         self.light_speed = slider(lighting.SPEED_RANGE, self._lighting["speed"])
         self.light_speed.valueChanged.connect(lambda v: self.set_lighting_option("speed", v))
 
+        self.light_source = QtWidgets.QComboBox()
+        self.light_source.addItems(list(lighting.SOURCES))
+        self.light_source.setCurrentText(self._lighting["source"])
+        self.light_source.setToolTip(
+            "Where the light comes from.\n\n"
+            "mouse follows the pointer, which is the default because the thing people do with this "
+            "map is lean into a cluster -- a light arriving from where they are looking lights the "
+            "points they are looking at rather than the ones behind them. The four corners are "
+            "fixed. 'selected gene' puts the light ON the gene you clicked, and 'selected gene and "
+            "its edges' lights it and everything it is joined to by an edge type that is currently "
+            "DRAWN -- not merely present, since a light on a relationship you cannot see answers a "
+            "question you did not ask.")
+        self.light_source.currentTextChanged.connect(lambda v: self.set_lighting_option("source", v))
+
+        self.light_finish = QtWidgets.QComboBox()
+        self.light_finish.addItems(list(lighting.FINISHES))
+        self.light_finish.setCurrentText(self._lighting["finish"])
+        self.light_finish.setToolTip(
+            "What the points are made of.\n\n"
+            "matt scatters everything and glints at nothing -- chalk. satin and glossy add a "
+            "highlight, tighter as it goes. metallic tints the highlight with the point's OWN "
+            "colour rather than the light's, which is the difference between a copper bead and a "
+            "white-glinting plastic one, and it darkens the diffuse half the way a metal does.")
+        self.light_finish.currentTextChanged.connect(lambda v: self.set_lighting_option("finish", v))
+
+        self.container_opacity = QtWidgets.QDoubleSpinBox()
+        self.container_opacity.setRange(0.35, 1.0)
+        self.container_opacity.setSingleStep(0.05)
+        self.container_opacity.setValue(self._container_opacity)
+        self.container_opacity.setToolTip(
+            "How solid the panels are over the drifting background.\n\n"
+            "Only the containers take it. A translucent FIELD would put moving colour behind text "
+            "somebody is reading, and the point of a background is that it stays behind things. It "
+            "stops at 0.35 for the same reason: below that the compartment list is legible only "
+            "while the blobs happen to be elsewhere.")
+        self.container_opacity.valueChanged.connect(self.set_container_opacity)
+
 
         self.zoom_box = QtWidgets.QDoubleSpinBox()
         self.zoom_box.setRange(*UI_SCALE_RANGE)
@@ -1702,8 +1752,11 @@ class Window(QtWidgets.QMainWindow):
         form.addRow("blob speed", self.ambient_speed)
         form.addRow("blob size", self.ambient_size)
         form.addRow("blob density", self.ambient_density)
+        form.addRow("panel opacity", self.container_opacity)
         form.addRow(QtWidgets.QLabel(""))
         form.addRow("3D lighting", self.light_box)
+        form.addRow("light source", self.light_source)
+        form.addRow("surface finish", self.light_finish)
         form.addRow("lights", self.light_count)
         form.addRow("light speed", self.light_speed)
         return w
@@ -1757,21 +1810,25 @@ class Window(QtWidgets.QMainWindow):
             return
         if self._ambient_widget is None:
             pal = TH.palette_for(self.theme)
+            # Parented to the WINDOW, not to one panel: it has to be behind every container -- the
+            # find panel, the compartment list, the cell, the analysis tabs -- which is what the
+            # panels' own opacity then lets through. Behind a single panel it was scenery for one
+            # corner of the screen.
             self._ambient_widget = AmbientWidget(
                 colors=[pal["accent"], pal["accent_lo"], pal.get("info", pal["accent_hi"])],
-                background=pal["bg"], parent=self.left_panel)
+                background=pal["bg"], parent=self)
             self._ambient_widget.lower()
-            self.left_panel.installEventFilter(self)
+            self.installEventFilter(self)
         self._ambient_widget.configure(**self._ambient)
-        self._ambient_widget.setGeometry(self.left_panel.rect())
+        self._ambient_widget.setGeometry(self.rect())
         self._ambient_widget.show()
         self._ambient_widget.lower()
 
     def eventFilter(self, obj, ev):
         """Keep the background the size of the panel it sits behind."""
-        if (obj is getattr(self, "left_panel", None) and self._ambient_widget is not None
+        if (obj is self and self._ambient_widget is not None
                 and ev.type() == QtCore.QEvent.Type.Resize):
-            self._ambient_widget.setGeometry(self.left_panel.rect())
+            self._ambient_widget.setGeometry(self.rect())
         return super().eventFilter(obj, ev)
 
     def set_lighting(self, mode: str) -> str:
@@ -1787,15 +1844,82 @@ class Window(QtWidgets.QMainWindow):
             self._light_timer.start(60)
         return self._lighting["mode"]
 
-    def set_lighting_option(self, key: str, value) -> None:
-        """How many lights there are, or how fast they travel. Remembered like the mode."""
-        self._lighting[key] = float(value) if key == "speed" else int(value)
+    def set_lighting_option(self, key: str, value) -> str:
+        """One of source, finish, lights or speed. Remembered like the mode, and applied at once."""
+        from .lighting import FINISHES, SOURCES
+        if key == "source":
+            value = value if value in SOURCES else self._lighting["source"]
+        elif key == "finish":
+            value = value if value in FINISHES else self._lighting["finish"]
+        self._lighting[key] = (value if key in ("source", "finish")
+                               else float(value) if key == "speed" else int(value))
         QtCore.QSettings("starplast", "starplast").setValue(f"display/light_{key}",
                                                             self._lighting[key])
+        if self._lighting["mode"] != "off":
+            self._light_tick()
+        return str(self._lighting[key])
+
+    def set_container_opacity(self, value: float) -> float:
+        """How much of the background shows through the panels."""
+        self._container_opacity = float(min(max(float(value), 0.35), 1.0))
+        QtCore.QSettings("starplast", "starplast").setValue("display/container_opacity",
+                                                            self._container_opacity)
+        self.apply_theme(self.theme)
+        return self._container_opacity
+
+    def edge_neighbours(self, index: int) -> list:
+        """Genes joined to this one by an edge type that is currently DRAWN.
+
+        Currently drawn, not merely present: the question the light is answering is "what is this
+        gene connected to in the picture in front of me", and a light on a neighbour whose edge type
+        is switched off would point at a relationship the reader cannot see.
+        """
+        out = set()
+        for k, _ in EDGE_TYPES:
+            if not self.edge_on.get(k) or k not in self.edges:
+                continue
+            e = self.edges[k]
+            a, b = np.asarray(e["a"]), np.asarray(e["b"])
+            out.update(b[a == index].tolist())
+            out.update(a[b == index].tolist())
+        out.discard(index)
+        return sorted(out)
+
+    def frame_lights(self) -> list:
+        """The lights for this frame, from whichever source is chosen."""
+        from .lighting import light_at
+        return light_at(self.xyz, self._lighting["source"], self._light_t,
+                        self._lighting["lights"], self._lighting["speed"], self._light_radius(),
+                        pointer=getattr(self.view, "pointer", None), selected=self.sel,
+                        neighbours=(self.edge_neighbours(self.sel)
+                                    if self.sel is not None
+                                    and self._lighting["source"].endswith("edges") else None))
 
     def _light_radius(self) -> float:
         """How far out the lights orbit: outside the cloud, so they light it rather than sit in it."""
         return float(np.abs(self.xyz).max() or 1.0) * 1.6
+
+    def _light_ground(self, lit) -> None:
+        """Light the grid with the same lights as the points.
+
+        A lit cloud over an unlit grid reads as two pictures: the horizon is the thing the eye uses
+        to judge where the light is coming from, and leaving it flat throws that away. The grid is
+        one flat plane, so one sample at its centre is the whole answer.
+        """
+        if self.grid_item is None or not len(self.xyz):
+            return
+        from .lighting import shade
+        centre = self.xyz.mean(0).astype(float)
+        low = float(self.xyz[:, 2].min()) - self.view.data_radius() * 0.08
+        probe = np.array([[centre[0], centre[1], low]])
+        p = TH.palette_for(self.theme)
+        base = np.array([[*TH.rgbf(p["border"])[:3], 1.0]])
+        # The grid's normal is straight up, which `shade` cannot infer from a single point, so the
+        # probe is offset above the plane: the direction from the cloud's centre to it IS up.
+        rgba = shade(np.vstack([centre, probe[0]]), np.vstack([base, base]), lit,
+                     finish="matt")[1]
+        alpha = 70 if TH.is_light(p) else 40
+        self.grid_item.setColor((int(rgba[0] * 255), int(rgba[1] * 255), int(rgba[2] * 255), alpha))
 
     def _light_tick(self) -> None:
         """One frame of moving light: reshade the points from the flat colours redraw computed.
@@ -1803,15 +1927,14 @@ class Window(QtWidgets.QMainWindow):
         From `_base_colors` rather than from whatever is on screen, because shading an
         already-shaded array darkens it a little more every frame until the map goes black.
         """
-        from .lighting import lights, shade
+        from .lighting import shade
         if self._lighting["mode"] == "off" or self._base_colors is None:
             return
         self._light_t += 0.06
-        lit = lights(self._light_t, self._lighting["lights"], self._lighting["speed"],
-                     radius=self._light_radius())
-        colors = shade(self.xyz, self._base_colors, lit,
-                       specular=self._lighting["mode"].endswith("specular"))
+        lit = self.frame_lights()
+        colors = shade(self.xyz, self._base_colors, lit, finish=self._lighting["finish"])
         self.scatter.setData(pos=self.xyz, color=colors, size=self._base_sizes)
+        self._light_ground(lit)
 
     def open_preferences(self):
         """Appearance settings, in a window of their own.
@@ -2880,11 +3003,8 @@ class Window(QtWidgets.QMainWindow):
         # whole thing went black.
         self._base_colors, self._base_sizes = colors, sizes
         if self._lighting["mode"] != "off":
-            from .lighting import lights, shade
-            lit = lights(self._light_t, self._lighting["lights"], self._lighting["speed"],
-                         radius=self._light_radius())
-            colors = shade(self.xyz, colors, lit,
-                           specular=self._lighting["mode"].endswith("specular"))
+            from .lighting import shade
+            colors = shade(self.xyz, colors, self.frame_lights(), finish=self._lighting["finish"])
         self.scatter.setData(pos=self.xyz, color=colors, size=sizes)
         self._draw_ground()
         self._draw_selection_halo()

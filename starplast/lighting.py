@@ -32,8 +32,28 @@ import math
 
 import numpy as np
 
-#: The modes offered, in the order a menu should list them.
-MODES = ("off", "lit", "lit + specular")
+#: On or off. What KIND of lit is `FINISHES`, and where the light comes from is `SOURCES` -- three
+#: separate questions that used to be one dropdown reading "lit + specular".
+MODES = ("off", "lit")
+
+#: How a point's surface answers the light. The parameters are what separate a mineral from a
+#: billiard ball: how much of the light scatters (diffuse), how much bounces (specular), how tightly
+#: (shininess), and whether the bounce takes the point's own colour (metals) or the light's
+#: (dielectrics -- plastic, chalk, skin).
+FINISHES = {
+    "matt": {"diffuse": 1.0, "specular": 0.0, "shininess": 1.0, "tint": 0.0},
+    "satin": {"diffuse": 0.9, "specular": 0.25, "shininess": 12.0, "tint": 0.0},
+    "glossy": {"diffuse": 0.75, "specular": 0.9, "shininess": 48.0, "tint": 0.0},
+    "metallic": {"diffuse": 0.35, "specular": 1.1, "shininess": 26.0, "tint": 1.0},
+}
+DEFAULT_FINISH = "satin"
+
+#: Where the light comes from. The default follows the pointer, because the thing a person does with
+#: this map is lean into a cluster -- and a light that arrives from wherever they are looking lights
+#: the points they are looking at rather than the ones behind them.
+SOURCES = ("mouse", "orbiting", "top left", "top right", "bottom left", "bottom right",
+           "selected gene", "selected gene and its edges")
+DEFAULT_SOURCE = "mouse"
 
 #: How many lights, and how fast they travel, at the defaults.
 LIGHT_RANGE = (1, 6)
@@ -73,8 +93,43 @@ def lights(t: float, n: int = DEFAULT_LIGHTS, speed: float = DEFAULT_SPEED, radi
     return out
 
 
+def fixed(direction, radius: float, color=(1.0, 0.97, 0.92)) -> list:
+    """One light, far away in a given direction -- the corner presets and the pointer both use this.
+
+    Far away rather than at the point: a light placed among the genes lights the near side of a few
+    and leaves the rest black, which reads as data missing rather than as a light.
+    """
+    d = np.asarray(direction, dtype=float)
+    n = np.linalg.norm(d)
+    d = d / n if n > 1e-9 else np.array([0.0, 0.0, 1.0])
+    return [{"pos": d * radius * 2.0, "color": np.array(color, dtype=float)}]
+
+
+#: The four corner presets, as directions in the view's own frame: x right, y up, z toward the eye.
+CORNERS = {
+    "top left": (-1.0, 1.0, 0.8), "top right": (1.0, 1.0, 0.8),
+    "bottom left": (-1.0, -1.0, 0.8), "bottom right": (1.0, -1.0, 0.8),
+}
+
+
+def at_points(coords, indices, radius: float, color=(1.0, 0.95, 0.85)) -> list:
+    """A light sitting on each of the given genes.
+
+    Used for "light the gene I clicked" and "light it and everything it is connected to", where the
+    light IS the answer to a question about those genes -- so it goes where they are rather than
+    outside the cloud, and its falloff does the rest.
+    """
+    coords = np.asarray(coords, dtype=float)
+    out = []
+    for i in np.atleast_1d(np.asarray(indices, dtype=int)):
+        if 0 <= int(i) < len(coords):
+            out.append({"pos": coords[int(i)].astype(float),
+                        "color": np.array(color, dtype=float), "local": True})
+    return out or fixed((0.0, 0.0, 1.0), radius)
+
+
 def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
-          shininess: float = 24.0) -> np.ndarray:
+          shininess: float = 24.0, finish: str = None) -> np.ndarray:
     """Point colours under a set of lights. Returns RGBA in the shape it was given.
 
     The normal is the outward direction from the centre of the cloud, because a point has no surface
@@ -92,7 +147,24 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
     normal = np.divide(normal, np.where(length > 1e-9, length, 1.0))
     scale = float(np.percentile(length, 95)) or 1.0
 
+    f = FINISHES.get(finish or "", None)
+    if f is not None:
+        specular, shininess = f["specular"] > 0, f["shininess"]
+    diffuse_gain = f["diffuse"] if f else 1.0
+    spec_gain = f["specular"] if f else 1.0
+    tint = f["tint"] if f else 0.0
+
+    # Diffuse and specular are kept APART, and this is not a detail. Multiplying the point's colour
+    # by everything -- which is what this did first -- means a highlight can never whiten a coloured
+    # point: a pure red gene has no green to raise, so a white light glinting off it stayed red and
+    # every finish looked the same on saturated colours. Diffuse light multiplies the colour, because
+    # that is light the surface absorbed and re-emitted; specular is ADDED, because that is light
+    # that bounced off without ever being coloured by it. The exception is metals, which have no
+    # separate diffuse colour and tint the bounce itself -- which is the whole difference between a
+    # copper bead and a white-glinting plastic one.
+    own = np.clip(rgba[:, :3], 0.0, 1.0)
     total = np.full((len(coords), 3), ambient, dtype=float)
+    highlight = np.zeros((len(coords), 3), dtype=float)
     # The viewer is treated as far away on +Z. A specular term that tracked the real camera would
     # move the highlight when the map is rotated, which reads as the data changing rather than the
     # view -- and rotating to look at a cluster is the commonest thing anyone does here.
@@ -103,12 +175,36 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
         direction = np.divide(to_light, np.where(dist > 1e-9, dist, 1.0))
         falloff = 1.0 / (1.0 + dist / (2.0 * scale))
         diffuse = np.clip((normal * direction).sum(axis=1, keepdims=True), 0.0, None)
-        total += (diffuse * falloff) * light["color"]
+        total += (diffuse * falloff * diffuse_gain) * light["color"]
         if specular:
             half = direction + view
             half /= np.maximum(np.linalg.norm(half, axis=1, keepdims=True), 1e-9)
             spec = np.clip((normal * half).sum(axis=1, keepdims=True), 0.0, None) ** shininess
-            total += (spec * falloff) * light["color"]
+            hue = light["color"] * (1.0 - tint) + own * tint
+            highlight += (spec * falloff * spec_gain) * hue
 
-    rgba[:, :3] = np.clip(rgba[:, :3] * np.clip(total, 0.0, 2.0), 0.0, 1.0)
+    rgba[:, :3] = np.clip(own * np.clip(total, 0.0, 2.0) + highlight, 0.0, 1.0)
     return rgba
+
+
+def light_at(coords, source: str, t: float, n: int, speed: float, radius: float,
+             pointer=None, selected=None, neighbours=None) -> list:
+    """The lights for one frame, for whichever source was chosen.
+
+    `pointer` is a direction in the view's frame -- where the cursor is, as the renderer sees it --
+    because the map rotates and a light fixed in world space would swing away from the pointer the
+    moment anything moved.
+    """
+    if source == "orbiting":
+        return lights(t, n, speed, radius=radius)
+    if source in CORNERS:
+        return fixed(CORNERS[source], radius)
+    if source == "selected gene" and selected is not None:
+        return at_points(coords, [selected], radius)
+    if source == "selected gene and its edges" and selected is not None:
+        return at_points(coords, [selected] + list(neighbours or []), radius)
+    if source == "mouse" and pointer is not None:
+        return fixed(pointer, radius)
+    # Nothing to follow yet -- no pointer in the view, nothing selected. A light from the front is
+    # the honest default: it lights what is facing the reader rather than guessing.
+    return fixed((0.0, 0.0, 1.0), radius)

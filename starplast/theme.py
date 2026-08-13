@@ -230,9 +230,22 @@ def gl_options(mode: str) -> str:
 
 
 # --------------------------------------------------------------------------- stylesheet
-def stylesheet(theme: str = "dark") -> str:
-    """Qt stylesheet for one theme. Every color comes from the palette, never a literal."""
+def rgba(hex_color: str, alpha: float) -> str:
+    """`rgba(r, g, b, a)` from a hex colour, for a panel that has to let the background through."""
+    r, g, b = (int(round(v * 255)) for v in rgbf(hex_color)[:3])
+    return f"rgba({r}, {g}, {b}, {max(0.0, min(1.0, float(alpha))):.3f})"
+
+
+def stylesheet(theme: str = "dark", container_opacity: float = 1.0) -> str:
+    """Qt stylesheet for one theme. Every color comes from the palette, never a literal.
+
+    `container_opacity` below 1 lets whatever is painted behind the window -- the drifting blob
+    field -- show through the panels. Only the CONTAINERS take it: a translucent field would put
+    moving colour behind text somebody is trying to read, and the point of the background is that it
+    is behind things.
+    """
     p = palette_for(theme)
+    CONTAINER = rgba(p["page"], container_opacity)
     return f"""
     QWidget {{ background: {p['bg']}; color: {p['fg']};
                font-size: 13px; selection-background-color: {p['accent']};
@@ -261,6 +274,7 @@ def stylesheet(theme: str = "dark") -> str:
        asked for directly, and it also makes a field look like a field on a themed background --
        with the ambient blobs behind a translucent panel, a field the colour of its container
        disappears into whatever is drifting past. */
+    QDockWidget > QWidget, QTabWidget::pane, QGroupBox {{ background: {CONTAINER}; }}
     QComboBox, QSpinBox, QDoubleSpinBox, QLineEdit, QPlainTextEdit, QTextEdit, QAbstractSpinBox {{
         background: {FIELD_GREY}; border: 1px solid {p['border']};
         border-radius: 5px; padding: 5px 8px; color: {p['fg']}; }}
