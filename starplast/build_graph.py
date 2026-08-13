@@ -462,7 +462,7 @@ def embed(nodes: pd.DataFrame) -> np.ndarray:
     # build finish, with the column named so the real problem is visible.
     dead = [f for f, m in zip(feats, med) if not np.isfinite(m)]
     if dead:
-        log(f"embedding: {len(dead)} feature(s) measured for no gene, centerd at zero: "
+        log(f"embedding: {len(dead)} feature(s) measured for no gene, centered at zero: "
             f"{', '.join(dead)}")
     med = np.where(np.isfinite(med), med, 0.0)
     X = np.where(np.isnan(X), med, X)

@@ -289,7 +289,7 @@ class _GateOverlay(QtWidgets.QWidget):
         self.update()
 
     def show_brush(self, x, y, r):
-        """Show a brush of radius `r` pixels centerd at (x, y)."""
+        """Show a brush of radius `r` pixels centered at (x, y)."""
         self.points, self.circle = [], (float(x), float(y), float(r))
         self.update()
 

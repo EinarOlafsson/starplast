@@ -47,3 +47,36 @@ now the box the click sits most centrally in, relative to that box's own size.
 - `celldiagram.py` at 100%.
 - Rendered under Xvfb and looked at: the parasite draws with rhoptries in the rhoptry colour,
   micronemes in theirs, and the note underneath naming the shared shape.
+
+## Reworked 2026-08-12, after seeing it in use
+
+Three corrections, all of them from the same complaint: the diagram was showing everything at once
+and clicking it selected the wrong thing.
+
+**Only the selected compartment is coloured.** Every mapped organelle used to take its colour, which
+makes the diagram a second legend — twenty-odd colours to read against twenty-odd names — when the
+question a person has is "where is the thing I just clicked". The rest of the drawing is grey.
+
+**The drawing is grey, and transparent where the cell is not.** This is the part that resisted:
+every fill, stroke and gradient stop in the file can be set to grey and it still renders in colour,
+with no error and nothing in the document to explain it — 145 elements carry a `coloured` class and
+eleven gradients cross-reference each other. Chasing that further was archaeology, so the render is
+desaturated instead: draw, take the luminance, put the alpha back, then tint the one selected
+organelle. A test measures the saturation of the painted widget, because that is the claim.
+
+**Clicks land on the right organelle.** Hit-testing used `boundsOnElement`, and those boxes are
+useless here: every group contains hidden `<text>` with UniProt's description of the compartment, so
+the Golgi's box is 4,894 units wide in a 1,190-wide drawing. Clicking a rhoptry landed on whatever
+inflated box happened to win. Each organelle is now rendered alone into a mask and the click is a
+pixel test, with the smallest shape winning where they nest.
+
+Two bugs surfaced under that. `<g id="SL...">` groups were extracted with a non-greedy regex, which
+stops at the FIRST nested `</g>` — and these groups nest, so most organelles were being handled as a
+fragment: eleven of the fourteen masks were silently empty. And the depth counter that replaced it
+treated a self-closing `<g/>` as an opening tag, which left six more groups — the nucleus, the
+cytosol, the plasma membrane among them — reported as absent.
+
+**A note for whoever edits this next:** two of the fixes above were written twice, because the first
+attempt patched text that the American-spelling pass had already changed (`colour` → `color`), so the
+edit silently matched nothing while the code went on doing the old thing. After task 25, patch by
+reading the file, not by remembering it.

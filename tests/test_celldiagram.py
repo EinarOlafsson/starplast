@@ -18,6 +18,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault("PYQTGRAPH_QT_LIB", "PyQt6")
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
+from PyQt6 import QtCore, QtWidgets  # noqa: E402
+
 from starplast import celldiagram as CD  # noqa: E402
 
 
@@ -30,6 +32,22 @@ def qapp():
 @pytest.fixture(scope="module")
 def svg():
     return open(CD.icon_path(), encoding="utf8").read()
+
+
+def _ink_pixel(diagram, sl):
+    """A widget point that is actually ON the drawn organelle.
+
+    Bounding boxes cannot be used for this: every group in the artwork contains hidden `<text>`
+    holding UniProt's description, so the Golgi's box is 4,894 units wide in a 1,190-wide drawing
+    and a click anywhere landed on whichever inflated box won. That is why hit-testing renders the
+    shapes, and why a test of it has to aim at a rendered pixel.
+    """
+    from PyQt6 import QtGui
+    mask = diagram.masks()[sl]
+    pts = [(x, y) for x in range(mask.width()) for y in range(mask.height())
+           if QtGui.QColor.fromRgba(mask.pixel(x, y)).alpha() > 200]
+    assert pts, f"{sl} drew nothing"
+    return pts[len(pts) // 2]
 
 
 @pytest.fixture
@@ -82,10 +100,12 @@ def test_the_fill_reaches_the_paths_not_only_the_group(svg):
     assert not re.search(r'fill\s*:\s*(?!#ff0000)#[0-9a-f]{6}', group), "a path kept its own fill"
 
 
-def test_a_shape_nobody_selected_is_neutral_not_the_first_class_s_colour(diagram):
-    """Filling a shared shape with whichever class sorts first would be a claim nobody made."""
+def test_with_nothing_selected_nothing_is_coloured(diagram):
+    """The drawing is grey until a compartment is chosen. Colouring a shared shape with whichever
+    class sorts first would be a claim nobody made, and colouring ALL of them makes the diagram a
+    second legend -- twenty-odd colours to read against twenty-odd names."""
     diagram.set_palette({"rhoptries 1": (1.0, 0.0, 0.0), "rhoptries 2": (0.0, 1.0, 0.0)}, "")
-    assert diagram.fills()["SL0233"] == CD.NEUTRAL
+    assert diagram.fills() == {}
 
 
 def test_a_shared_shape_takes_the_colour_of_whichever_class_is_selected(diagram):
@@ -108,9 +128,20 @@ def test_a_shared_shape_says_which_class_it_is_showing(diagram):
     assert diagram.showing() == "", "a shape of its own has nothing to disambiguate"
 
 
-def test_an_unshared_shape_takes_its_colour_whether_or_not_it_is_selected(diagram):
-    diagram.set_palette({"apicoplast": (0.0, 0.0, 1.0)}, "")
-    assert diagram.fills()["SL0018"] == (0.0, 0.0, 1.0)
+def test_only_the_selected_compartment_is_ever_coloured(diagram):
+    """One coloured organelle at a time, in the colour that compartment has in the list beside it."""
+    palette = {"apicoplast": (0.0, 0.0, 1.0), "micronemes": (0.0, 1.0, 0.0)}
+    diagram.set_palette(palette, "apicoplast")
+    assert diagram.fills() == {"SL0018": (0.0, 0.0, 1.0)}
+    diagram.set_palette(palette, "micronemes")
+    assert diagram.fills() == {"SL0163": (0.0, 1.0, 0.0)}
+    diagram.set_palette(palette, "")
+    assert diagram.fills() == {}
+
+
+def test_a_compartment_the_palette_does_not_carry_colours_nothing(diagram):
+    diagram.set_palette({"apicoplast": (0.0, 0.0, 1.0)}, "rhoptries 1")
+    assert diagram.fills() == {}
 
 
 def test_a_compartment_the_palette_does_not_have_colours_nothing(diagram):
@@ -146,8 +177,7 @@ def test_clicking_an_organelle_selects_its_compartment(diagram):
     """Both directions, or the diagram is decoration."""
     from PyQt6 import QtCore, QtGui
     diagram.set_palette({"apicoplast": (0.0, 0.0, 1.0)}, "")
-    box = diagram.renderer().boundsOnElement("SL0018")
-    x, y = diagram.local_to_widget(box.center().x(), box.center().y())
+    x, y = _ink_pixel(diagram, "SL0018")
     got = []
     diagram.compartment_clicked.connect(got.append)
     pos = QtCore.QPointF(x, y)
@@ -203,9 +233,7 @@ def test_clicking_the_middle_of_a_shape_selects_that_shape(diagram):
     tight box over the click, because each group's box includes its text label and a labelled
     organelle is much wider than its drawing."""
     diagram.set_palette({c: (0.5, 0.5, 0.5) for c in CD.COMPARTMENT_SL}, "")
-    r = diagram.renderer()
-    box = r.boundsOnElement("SL0188")            # nucleolus, inside the nucleus, inside the cell
-    x, y = diagram.local_to_widget(box.center().x(), box.center().y())
+    x, y = _ink_pixel(diagram, "SL0188")         # nucleolus, inside the nucleus, inside the cell
     assert diagram.organelle_at(x, y) == "SL0188"
 
 
@@ -233,9 +261,7 @@ def test_clicking_a_shape_whose_classes_are_not_in_the_palette_still_selects_one
     diagram.set_palette({}, "")
     diagram.set_palette({"apicoplast": (0.0, 0.0, 1.0)}, "")
     diagram.colour_of = {}                      # a different category is showing
-    r = diagram.renderer()
-    box = r.boundsOnElement("SL0018")
-    pos = QtCore.QPointF(*diagram.local_to_widget(box.center().x(), box.center().y()))
+    pos = QtCore.QPointF(*_ink_pixel(diagram, "SL0018"))
     got = []
     diagram.compartment_clicked.connect(got.append)
     diagram.mouseReleaseEvent(QtGui.QMouseEvent(
@@ -305,3 +331,43 @@ def test_mapping_back_from_a_widget_with_no_size_is_the_origin(qapp, tmp_path):
     d = CD.CellDiagram(path=str(path))
     d.resize(0, 0)
     assert d.widget_to_local(3, 4) == (0.0, 0.0)
+
+
+def test_the_drawing_is_grey_and_only_the_selection_has_colour(qapp):
+    """What the eye actually gets, measured on the painted widget rather than on the source: every
+    attempt to neutralise this artwork by rewriting its fills, strokes and gradient stops left it
+    rendering in full colour anyway, with no error and nothing in the document to explain it."""
+    from PyQt6 import QtGui
+    d = CD.CellDiagram()
+    d.resize(240, 380)
+    d.set_palette({"rhoptries 1": (0.2, 0.6, 1.0)}, "")
+
+    def saturated(widget):
+        img = widget.grab().toImage()
+        n = 0
+        for x in range(0, img.width(), 3):
+            for y in range(0, img.height(), 3):
+                c = QtGui.QColor.fromRgba(img.pixel(x, y))
+                if max(c.red(), c.green(), c.blue()) - min(c.red(), c.green(), c.blue()) > 40:
+                    n += 1
+        return n
+
+    assert saturated(d) == 0, "something is coloured with nothing selected"
+    d.set_palette({"rhoptries 1": (0.2, 0.6, 1.0)}, "rhoptries 1")
+    assert saturated(d) > 0, "the selected compartment was not coloured"
+
+
+def test_the_drawing_keeps_the_panel_s_background(qapp):
+    """Transparent where the cell is not, so the diagram sits on whatever the theme paints."""
+    from PyQt6 import QtGui
+    d = CD.CellDiagram()
+    d.resize(200, 320)
+    d.set_palette({}, "")
+    img = QtGui.QImage(200, 320, QtGui.QImage.Format.Format_ARGB32_Premultiplied)
+    img.fill(0)
+    p = QtGui.QPainter(img)
+    d.render(p, QtCore.QPoint(), QtGui.QRegion(d.rect()),
+             QtWidgets.QWidget.RenderFlag.DrawChildren)
+    p.end()
+    corner = QtGui.QColor.fromRgba(img.pixel(2, 2))
+    assert corner.alpha() < 40, "the drawing brought a background of its own"

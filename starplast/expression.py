@@ -23,7 +23,7 @@ converted through libreoffice, and the iTRAQ header sits on the second row. That
 supplementary data and is why each dataset is declared here rather than guessed at.
 
 Quantifications are not pooled. Each is normalized by its own type through `sources.normalise` -- counts
-and intensities are logged and centerd, ratios are left alone because centering moves their reference --
+and intensities are logged and centered, ratios are left alone because centering moves their reference --
 and the columns are named for their dataset so nothing downstream can mistake an iTRAQ ratio for a TPM.
 """
 from __future__ import annotations

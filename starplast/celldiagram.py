@@ -32,6 +32,7 @@ from __future__ import annotations
 import os
 import re
 
+import numpy as np
 from PyQt6 import QtCore, QtGui, QtSvg, QtWidgets
 
 from . import paths
@@ -77,6 +78,39 @@ UNMAPPED_NOTE = ("no organelle in this drawing — the artwork has no ribosome, 
 #: current one. Neutral on purpose -- see the module docstring.
 NEUTRAL = (0.62, 0.62, 0.66)
 
+#: The drawing with nothing selected: light grey fills, mid-grey lines, transparent ground. The
+#: artwork ships in colour -- a pink cytoplasm, a red-brown nucleus -- and those colours mean nothing
+#: here. Worse, they compete with the one colour that does: a cytoplasm that is always red says
+#: "cytosol is selected" when nothing is. Neutral, and then exactly one compartment takes the colour
+#: it has in the list beside it.
+FILL_GREY = "#d9d9d9"
+LINE_GREY = "#8d8d8d"
+
+
+def neutralise(svg: str) -> str:
+    """Strip the artwork's own colours down to grey fills and grey lines.
+
+    Every fill becomes one light grey and every stroke one mid-grey, so the drawing reads on a dark
+    ground and on a light one, and so that ANY colour in it is the selection. `fill="none"` is left
+    alone: it is not a colour, it is the absence of one, and filling those shapes in would turn the
+    cell's internal outlines into solid blocks.
+    """
+    def paint(m):
+        attr, value = m.group(1), m.group(2)
+        if value.strip().lower() in ("none", "transparent"):
+            return m.group(0)
+        colour = FILL_GREY if attr == "fill" else LINE_GREY
+        return f'{attr}{m.group(0)[len(attr)]}{colour}' if False else (
+            f'{attr}="{colour}"' if '="' in m.group(0) else f'{attr}:{colour}')
+
+    out = re.sub(r'(fill|stroke)="([^"]*)"', paint, svg)
+    out = re.sub(r'(fill|stroke)\s*:\s*([^;"\']+)', paint, out)
+    # And the gradients. Most of this artwork's colour is not in a fill attribute at all -- it is in
+    # 770 gradient stops, and a shape filled with `url(#SVGID_7_)` keeps its pink however many fill
+    # attributes have been rewritten. Greying the stops is what actually makes the cell grey.
+    out = re.sub(r'stop-color="[^"]*"', f'stop-color="{FILL_GREY}"', out)
+    return out
+
 
 def icon_path() -> str:
     """Where the artwork lives, resolved the way every other data file is."""
@@ -112,6 +146,37 @@ def missing_from_drawing(compartments, svg: str = "") -> list:
         if sl is None or (have is not None and sl not in have):
             out.append(c)
     return out
+
+
+def group_span(svg: str, sl: str):
+    """(start, end) of one SL group's markup, or None -- counting nested `<g>` as it goes.
+
+    A non-greedy `<g id="SL...".*?</g>` ends at the FIRST inner closing tag, and these groups nest:
+    the rhoptry holds its membrane, the Golgi holds four sub-compartments. Matched that way, most
+    organelles came back as a fragment -- which rendered as nothing, so eleven of the fourteen
+    hit-test masks were silently empty and the colouring painted part of a shape.
+    """
+    m = re.search(r'<g[^>]*id="%s"[^>]*>' % re.escape(sl), svg)
+    if not m:
+        return None
+    depth, i = 1, m.end()
+    # A self-closing `<g/>` opens and closes at once. Counted as an opening tag it leaves the depth
+    # permanently short, and six of the fourteen organelles -- the nucleus, the cytosol, the plasma
+    # membrane among them -- came back as "no such group" and could neither be coloured nor clicked.
+    step = re.compile(r"<g\b[^>]*/>|<g\b|</g>")
+    while depth and i < len(svg):
+        nxt = step.search(svg[i:])
+        if not nxt:
+            return None
+        token = nxt.group(0)
+        if token.endswith("/>"):
+            pass
+        elif token == "</g>":
+            depth -= 1
+        else:
+            depth += 1
+        i += nxt.end()
+    return (m.start(), i) if depth == 0 else None
 
 
 def sharing(sl: str) -> list:
@@ -220,14 +285,45 @@ def recolour(svg: str, fills: dict, neutral=NEUTRAL) -> str:
         return body
 
     out = svg
-    # Only the organelles a compartment names. Painting every group -- including the cell body and
-    # the space around it -- filled the whole drawing with the neutral grey and produced a grey card
-    # with a parasite on it, which is the opposite of taking the container's background.
+    # Only the organelles a compartment names -- in practice the one that is selected. Painting every
+    # group, including the cell body and the space around it, filled the whole drawing with grey.
     for sl in fills:
-        colour = _hex(fills.get(sl, neutral))
-        # The group and everything inside it, matched non-greedily up to its closing tag.
-        pattern = re.compile(r'(<g[^>]*id="%s".*?</g>)' % sl, re.S)
-        out = pattern.sub(lambda m: paint(m, colour), out, count=1)
+        span = group_span(out, sl)
+        if span is None:
+            continue
+        a, b = span
+        chunk = re.sub(r'fill\s*:\s*(?!none)[^;"\']+', f"fill:{_hex(fills[sl])}", out[a:b])
+        chunk = re.sub(r'fill="(?!none)[^"]*"', f'fill="{_hex(fills[sl])}"', chunk)
+        out = out[:a] + chunk + out[b:]
+    return out
+
+
+def _greyscale(img: QtGui.QImage) -> QtGui.QImage:
+    """A grey copy of an image, through Qt's own conversion.
+
+    Qt's conversion rather than arithmetic over the raw buffer: `QImage.bits()` handed to
+    `numpy.frombuffer` produced a COPY on this build, so the in-place version desaturated an image
+    nobody drew and the diagram came out in full colour with no error anywhere. This one is checked
+    by a test that renders the widget and measures the saturation of what it drew.
+    """
+    alpha = img.convertToFormat(QtGui.QImage.Format.Format_Alpha8)
+    grey = (img.convertToFormat(QtGui.QImage.Format.Format_Grayscale8)
+               .convertToFormat(QtGui.QImage.Format.Format_ARGB32_Premultiplied))
+    # The greyscale conversion drops the alpha, so it is put back: everything the drawing does not
+    # cover stays transparent and the panel's own background shows through, rather than the diagram
+    # sitting on a card of whatever colour the conversion produced.
+    grey.setAlphaChannel(alpha)
+    return grey
+
+
+def _tinted(mask: QtGui.QImage, colour) -> QtGui.QImage:
+    """The shape of `mask`, painted flat in `colour` -- the one coloured thing in the diagram."""
+    out = QtGui.QImage(mask)
+    out = out.convertToFormat(QtGui.QImage.Format.Format_ARGB32_Premultiplied)
+    p = QtGui.QPainter(out)
+    p.setCompositionMode(QtGui.QPainter.CompositionMode.CompositionMode_SourceIn)
+    p.fillRect(out.rect(), QtGui.QColor.fromRgbF(*tuple(colour)[:3]))
+    p.end()
     return out
 
 
@@ -242,6 +338,7 @@ class CellDiagram(QtWidgets.QWidget):
         super().__init__(parent)
         self.path = path or icon_path()
         raw = open(self.path, encoding="utf8").read() if available(self.path) else ""
+        raw = neutralise(raw) if raw else raw
         # The artwork's own coordinate system, kept because `boundsOnElement` reports positions in
         # it -- BEFORE the rotation that stands the cell upright. A click has to be mapped back
         # through that rotation or every organelle is hit-tested against the wrong place, which is
@@ -252,6 +349,8 @@ class CellDiagram(QtWidgets.QWidget):
         self.colour_of: dict = {}
         self.selected = ""
         self._renderer = None
+        # Pixel masks for hit-testing, and their ink, cached per widget size -- see `masks`.
+        self._masks, self._masks_for, self._ink = {}, None, {}
         self.setMinimumHeight(150)
         self.setToolTip(
             "The same colors as the map, on the organelle each compartment names. Where several "
@@ -269,23 +368,18 @@ class CellDiagram(QtWidgets.QWidget):
         self.update()
 
     def fills(self) -> dict:
-        """SL group -> color, from the map's palette and the current selection.
+        """SL group -> color: the SELECTED compartment, and nothing else.
 
-        A shape shared by several classes takes the selected one's color, and neutral when none of
-        them is selected: filling it with whichever sorts first would be a claim nobody made.
+        One coloured organelle at a time, in the colour that compartment has in the list and on the
+        map. Colouring every organelle at once makes the diagram a second legend -- twenty-odd
+        colours to read against twenty-odd names -- when what a person wants to know is where the
+        thing they just clicked is. Everything else is grey, which is also what the map shows: the
+        points of one compartment against a grey field.
         """
-        out = {}
-        for sl in self.groups:
-            classes = [c for c in sharing(sl) if c in self.colour_of]
-            if not classes:
-                continue
-            if len(classes) == 1:
-                out[sl] = self.colour_of[classes[0]]
-            elif self.selected in classes:
-                out[sl] = self.colour_of[self.selected]
-            else:
-                out[sl] = NEUTRAL
-        return out
+        sl = COMPARTMENT_SL.get(self.selected)
+        if not sl or sl not in self.groups or self.selected not in self.colour_of:
+            return {}
+        return {sl: self.colour_of[self.selected]}
 
     def showing(self) -> str:
         """Which class the shared shape is currently showing, as a sentence, or ""."""
@@ -305,12 +399,34 @@ class CellDiagram(QtWidgets.QWidget):
 
     # ------------------------------------------------------------------ drawing and clicking
     def paintEvent(self, ev):
-        """Draw the cell, scaled to fit and centerd."""
+        """Draw the cell grey, then tint the selected organelle.
+
+        Two passes over PIXELS rather than a rewrite of the artwork's colours, because rewriting them
+        does not work: every fill, stroke and gradient stop in this file can be set to grey and it
+        still renders pink. Something in it -- 145 elements carry a `coloured` class and eleven
+        gradients cross-reference each other -- puts colour back that no attribute in the document
+        accounts for. Chasing that is archaeology; taking the luminance of the render is arithmetic
+        and cannot be wrong.
+
+        So the drawing is grey and exactly one thing in it is ever coloured: the selected
+        compartment, in the colour it has in the list beside it.
+        """
         r = self.renderer()
         if r is None or not r.isValid():
             return
+        w, h = max(self.width(), 1), max(self.height(), 1)
+        img = QtGui.QImage(w, h, QtGui.QImage.Format.Format_ARGB32_Premultiplied)
+        # Transparent: the diagram takes the panel's background, whatever the theme makes it.
+        img.fill(0)
+        q = QtGui.QPainter(img)
+        r.render(q, self._target())
+        q.end()
         p = QtGui.QPainter(self)
-        r.render(p, QtCore.QRectF(self._target()))
+        p.drawImage(0, 0, _greyscale(img))
+        for sl, colour in self.fills().items():
+            mask = self.masks().get(sl)
+            if mask is not None:
+                p.drawImage(0, 0, _tinted(mask, colour))
         p.end()
 
     def _target(self) -> QtCore.QRectF:
@@ -351,36 +467,76 @@ class CellDiagram(QtWidgets.QWidget):
         vx, vy, vw, vh = self.viewbox or (0.0, 0.0, size.width(), size.height())
         return uy + vx, (vy + vh) - ux
 
-    def organelle_at(self, x: float, y: float) -> str:
-        """The SL group under a widget point, or "".
+    def _isolated(self, sl: str) -> str:
+        """The drawing with one organelle in it and nothing else, positioned as it is on screen.
 
-        Among the boxes containing the point, the one it sits most centrally in wins -- distance
-        from the center relative to the box's own size. Two other rules were tried and both are
-        wrong here: the largest match is the cytoplasm every time, since the boxes nest, and the
-        SMALLEST match picks whichever unrelated organelle happens to have a tight box over the
-        click, because each group's box includes its text label and a labeled organelle's box is
-        much wider than its drawing. Clicking the middle of a shape should select that shape.
+        The group's own markup, put back inside the same header and the same rotation, so it lands
+        exactly where it lands in the full drawing.
         """
-        r = self.renderer()
-        if r is None or not r.isValid():
+        span = group_span(self.svg, sl)
+        if span is None:
             return ""
-        target, size = self._target(), r.defaultSize()
-        if target.width() <= 0 or size.width() <= 0:
-            return ""
-        # Element bounds are reported in the artwork's own frame, and the drawing on screen has been
-        # rotated a quarter turn into portrait around it, so the click is mapped back first.
-        sx, sy = self.widget_to_local(x, y)
-        best, best_score = "", float("inf")
+        head = self.svg[:self.svg.index(">", self.svg.index("<svg")) + 1]
+        turn = re.search(r'<g transform="rotate\([^"]*\)">', self.svg)
+        return (head + (turn.group(0) if turn else "") + self.svg[span[0]:span[1]]
+                + ("</g>" if turn else "") + "</svg>")
+
+    def masks(self):
+        """Which pixels each organelle actually covers, at the current size.
+
+        Hit-testing used bounding boxes, and the boxes are useless here: every group contains hidden
+        `<text>` blocks holding UniProt's description of that compartment, so the Golgi's box is
+        4,894 units wide in a 1,190-wide drawing. Clicking a rhoptry landed on whichever inflated box
+        happened to win -- the proteasome, the plasma membrane, anything.
+
+        So the shapes are rendered. Each organelle is drawn alone into a small image and its ink
+        recorded; the hidden text does not render, so the mask is exactly what a person sees. Built
+        once per size and cached, because it costs one render per organelle.
+        """
+        key = (self.width(), self.height())
+        if self._masks_for == key and self._masks:
+            return self._masks
+        out = {}
         for sl in self.groups:
             if not sharing(sl):
                 continue                       # not a compartment this map knows about
-            box = r.boundsOnElement(sl)
-            if box.isEmpty() or not box.contains(QtCore.QPointF(sx, sy)):
+            markup = self._isolated(sl)
+            if not markup:
                 continue
-            radius = max(box.width(), box.height()) / 2.0 or 1.0
-            score = ((sx - box.center().x()) ** 2 + (sy - box.center().y()) ** 2) ** 0.5 / radius
-            if score < best_score:
-                best, best_score = sl, score
+            r = QtSvg.QSvgRenderer(QtCore.QByteArray(markup.encode("utf8")))
+            if not r.isValid():
+                continue
+            img = QtGui.QImage(max(self.width(), 1), max(self.height(), 1),
+                               QtGui.QImage.Format.Format_ARGB32_Premultiplied)
+            img.fill(0)
+            p = QtGui.QPainter(img)
+            r.render(p, self._target())
+            p.end()
+            out[sl] = img
+        self._masks, self._masks_for = out, key
+        return out
+
+    def organelle_at(self, x: float, y: float) -> str:
+        """The organelle under a widget point, or "".
+
+        Whichever drawn shape actually contains the pixel; where several do -- the nucleolus sits
+        inside the nucleus -- the SMALLEST wins, because the small one is the thing being aimed at.
+        """
+        x, y = int(x), int(y)
+        if not (0 <= x < self.width() and 0 <= y < self.height()):
+            return ""
+        best, best_ink = "", float("inf")
+        for sl, img in self.masks().items():
+            if QtGui.QColor.fromRgba(img.pixel(x, y)).alpha() < 40:
+                continue
+            ink = self._ink.get(sl)
+            if ink is None:
+                # Counted on a coarse grid: this is a tie-break between shapes, not a measurement.
+                ink = sum(QtGui.QColor.fromRgba(img.pixel(a, b)).alpha() > 40
+                          for a in range(0, img.width(), 3) for b in range(0, img.height(), 3))
+                self._ink[sl] = ink
+            if ink < best_ink:
+                best, best_ink = sl, ink
         return best
 
     def mouseReleaseEvent(self, ev):

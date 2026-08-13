@@ -1322,15 +1322,16 @@ def test_the_diagram_and_the_map_are_coloured_from_the_same_dict(win):
     """Two palettes are two claims about what a colour means, and one of them will drift."""
     if win.diagram is None:
         pytest.skip("the artwork is not present in this checkout")
+    from starplast.celldiagram import COMPARTMENT_SL
     win.on_category_changed("compartment")
+    name = next(c for c in COMPARTMENT_SL if c in win.colour_of)
+    win.select_compartment(name)
     fills = win.diagram.fills()
-    assert fills, "no organelle took a colour"
-    for sl, colour in fills.items():
-        from starplast.celldiagram import NEUTRAL, sharing
-        if colour == NEUTRAL:
-            continue
-        assert any(np.allclose(colour, win.colour_of[c], atol=1e-6)
-                   for c in sharing(sl) if c in win.colour_of)
+    assert list(fills) == [COMPARTMENT_SL[name]], "the selection is not the one thing coloured"
+    assert np.allclose(fills[COMPARTMENT_SL[name]], win.colour_of[name], atol=1e-6)
+    win.comp_list.clearSelection()
+    win._refresh_diagram()
+    assert win.diagram.fills() == {}, "with nothing selected the drawing is grey"
 
 
 def test_selecting_in_the_list_colours_the_shape_it_shares(win):
@@ -1376,15 +1377,16 @@ def test_the_compartments_with_no_organelle_are_named_beside_the_diagram(win):
 def test_changing_theme_recolours_the_diagram_with_the_map(win):
     if win.diagram is None:
         pytest.skip("the artwork is not present in this checkout")
+    from starplast.celldiagram import COMPARTMENT_SL
     win.on_category_changed("compartment")
+    name = next(c for c in COMPARTMENT_SL if c in win.colour_of)
+    win.select_compartment(name)
     before = dict(win.diagram.fills())
     win.apply_theme("paper")
+    win.select_compartment(name)
     after = dict(win.diagram.fills())
     assert before != after, "the diagram kept the old theme's colours"
-    for sl, colour in after.items():
-        from starplast.celldiagram import NEUTRAL, sharing
-        if colour == NEUTRAL:
-            continue
-        assert any(np.allclose(colour, win.colour_of[c], atol=1e-6)
-                   for c in sharing(sl) if c in win.colour_of)
+    sl = COMPARTMENT_SL[name]
+    assert np.allclose(after[sl], win.colour_of[name], atol=1e-6)
     win.apply_theme("dark")
+    win.comp_list.clearSelection()
