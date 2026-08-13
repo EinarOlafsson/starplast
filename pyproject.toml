@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "starplast"
-version = "0.20.0"
+version = "0.21.0"
 description = "A 3D browser for the Toxoplasma gondii knowledge map"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -42,6 +42,9 @@ gpu = [
 
 [project.scripts]
 starplast = "starplast.app:main"
+# Detection belongs here rather than in the installer: a wheel's dependencies are fixed when it is
+# built, and there is no environment marker for "this machine has an NVIDIA card". See install_gpu.
+starplast-install-gpu = "starplast.install_gpu:main"
 
 [project.urls]
 Homepage = "https://github.com/EinarOlafsson/starplast"

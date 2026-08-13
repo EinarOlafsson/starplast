@@ -111,6 +111,8 @@ def cluster(X: np.ndarray, algorithm="hdbscan", **kw) -> np.ndarray:
         # called on subsamples as small as 200.
         try:
             lab = on_gpu(min_cluster_size=int(kw.get("min_cluster_size", 25))).fit_predict(X)
+            get_logger(__name__).info("HDBSCAN: %s on the GPU, %d points",
+                                      gpu.backend()["cluster"], len(X))
             return np.asarray(lab, dtype=int)
         except Exception as exc:
             # A GPU that refuses is a slower run, not a failed one. Loudly, because a silent
@@ -119,6 +121,10 @@ def cluster(X: np.ndarray, algorithm="hdbscan", **kw) -> np.ndarray:
                                          type(exc).__name__, exc)
     try:
         from sklearn.cluster import HDBSCAN
+        import sklearn
+        get_logger(__name__).info("HDBSCAN: scikit-learn %s on the CPU, %d points%s",
+                                  sklearn.__version__, len(X),
+                                  "" if gpu.available()["cuml"] else " (cuml not installed)")
         return HDBSCAN(min_cluster_size=kw.get("min_cluster_size", 25),
                        min_samples=kw.get("min_samples")).fit_predict(X)
     except ImportError:                                        # pragma: no cover

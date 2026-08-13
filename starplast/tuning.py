@@ -160,8 +160,10 @@ def walk_umap_iter(nodes: pd.DataFrame, spec: EmbeddingSpec,
             Y = np.asarray(umap.UMAP(n_components=spec.n_components, n_neighbors=nn, min_dist=md,
                                      metric=spec.metric,
                                      random_state=spec.random_state).fit_transform(Xs))
+            from . import gpu
             row = {"n_neighbors": nn, "min_dist": md, "seed": seed,
-                   "sample_size": len(Xs), **_quality(Xs, Y, nn)}
+                   "sample_size": len(Xs), "backend": gpu.backend_id(),
+                   **_quality(Xs, Y, nn)}
             if cluster_check:
                 from .clustering import cluster, NOISE
                 lab = cluster(Y, algorithm="hdbscan", min_cluster_size=WALK_MIN_CLUSTER_SIZE)
@@ -176,7 +178,7 @@ def walk_umap_iter(nodes: pd.DataFrame, spec: EmbeddingSpec,
             if store is not None:
                 name = f"walk_nn{nn}_md{md:g}_seed{seed}"
                 store.save(name, Y, used, gene_ids=gene_ids, features=names,
-                           extra={"walk": True, "scores": row})
+                           extra={"walk": True, "scores": row, "backend": gpu.backend()})
             log(f"  n_neighbors={nn:4d} min_dist={md:<5} "
                 f"trust={row['trustworthiness']:.3f} "
                 f"clusters={row.get('n_clusters_hdbscan', '-')}")

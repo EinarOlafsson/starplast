@@ -323,11 +323,16 @@ def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
             # cuml's UMAP is NOT the reference implementation, so this map is not identical to the
             # one the CPU builds -- it is a different map of the same data. Said out loud, because a
             # walk whose rows came from two implementations would be a comparison of the libraries.
-            log(f"UMAP on the GPU (cuml) -- {gpu.describe()}; results differ from the CPU path")
+            log(f"UMAP: {gpu.backend()['umap']} on the GPU -- a different map from the CPU path, "
+                f"not the same map faster")
             Y = on_gpu(n_components=spec.n_components, n_neighbors=spec.n_neighbors,
                        min_dist=spec.min_dist, random_state=spec.random_state).fit_transform(X)
             return normalize(np.asarray(Y)), names, rows
         import umap
+        # Named on the CPU path too. "No message" is not an answer to "which library ran": a user
+        # who has just turned the switch on needs to see that it did nothing here and why.
+        log(f"UMAP: umap-learn {umap.__version__} on the CPU"
+            + ("" if gpu.available()["cuml"] else " (cuml not installed)"))
         Y = umap.UMAP(n_components=spec.n_components, n_neighbors=spec.n_neighbors,
                       min_dist=spec.min_dist, metric=spec.metric,
                       random_state=spec.random_state).fit_transform(X)

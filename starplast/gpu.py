@@ -82,19 +82,60 @@ def available() -> dict:
 def enabled() -> bool:
     """Whether GPU work is both wanted and possible.
 
-    Wanted is the switch in Preferences, stored in QSettings so it survives a restart; possible is
-    whether anything imports. Read on every call rather than cached: a user who installs cuml and
-    restarts nothing should still get it.
+    Possible is whether anything imports. Wanted is the switch in Preferences -- and where nobody
+    has touched that switch, wanted defaults to **whether a backend is there at all**: installing
+    two gigabytes of CUDA wheels is a deliberate act, and making the user then find a setting to get
+    what they installed is a way of wasting their afternoon.
+
+    An explicit choice always wins, in both directions, and survives a restart. Read on every call
+    rather than cached: someone who installs cuml while the program is open should get it.
     """
     forced = _forced()
+    have = any(available()[k] for k in ("cuml", "cupy", "torch"))
     if forced is not None:
-        return forced and any(available()[k] for k in ("cuml", "cupy", "torch"))
+        return forced and have
     try:
         from PyQt6 import QtCore
-        want = QtCore.QSettings("starplast", "starplast").value("compute/gpu", False, type=bool)
+        s = QtCore.QSettings("starplast", "starplast")
+        want = s.value("compute/gpu", type=bool) if s.contains("compute/gpu") else have
     except Exception:
         want = False
-    return bool(want) and any(available()[k] for k in ("cuml", "cupy", "torch"))
+    return bool(want) and have
+
+
+def backend() -> dict:
+    """Which library will do each job, with its version -- the record a run has to carry.
+
+    A map built by cuml's UMAP is a different map of the same data, so two rows of one table built
+    by two implementations would be a comparison of the libraries wearing the look of a comparison
+    of settings. Every saved run and every results row records this.
+    """
+    out = {"umap": "", "cluster": "", "gpu": enabled()}
+    if enabled() and available()["cuml"]:
+        import cuml
+        # getattr, not cuml.__version__: a build without that attribute used to raise here and fall
+        # through to the CPU branch, so the log said "umap-learn 0.5.12 on the GPU" while cuml was
+        # doing the work. A version nobody can read is a gap in the record; the wrong library name
+        # is a false one.
+        out["umap"] = out["cluster"] = f"cuml {getattr(cuml, '__version__', 'version unknown')}"
+        return out
+    try:
+        import umap
+        out["umap"] = f"umap-learn {umap.__version__}"
+    except Exception:
+        out["umap"] = "pca (umap-learn not installed)"
+    try:
+        import sklearn
+        out["cluster"] = f"scikit-learn {sklearn.__version__}"
+    except Exception:                           # pragma: no cover - sklearn is a hard dependency
+        out["cluster"] = "unknown"
+    return out
+
+
+def backend_id() -> str:
+    """The backend as one short string, for a table column: "cuml 26.8.0" or "umap-learn 0.5.9"."""
+    b = backend()
+    return b["umap"] if b["umap"] == b["cluster"] else f"{b['umap']} + {b['cluster']}"
 
 
 def describe() -> str:

@@ -232,7 +232,8 @@ def test_the_cuml_paths_are_exercised_even_without_a_gpu(monkeypatch):
     said = []
     Y, names, rows = embed(nodes, EmbeddingSpec(blocks=("fitness_screens",)), log=said.append)
     assert calls["umap"] == 1 and Y.shape[1] == 3
-    assert any("differ from the CPU path" in m for m in said), said
+    assert any("a different map from the CPU path" in m for m in said), said
+    assert any("cuml" in m for m in said), "the log named the wrong library for the work it did"
 
     labels = clustering.cluster(rng.normal(size=(1500, 3)), min_cluster_size=25)
     assert calls["hdbscan"] == 1 and len(labels) == 1500
@@ -434,3 +435,22 @@ def test_toggling_before_preferences_has_ever_opened_does_not_crash(win):
         win._on_gpu(False)
         if had is not None:
             win.gpu_note = had
+
+
+def test_without_umap_the_record_says_what_will_actually_build_the_map(monkeypatch):
+    """The embedding falls back to PCA when umap-learn is missing, and a row that recorded
+    'umap-learn' for a map PCA built would be a false provenance rather than a missing one."""
+    import builtins
+    real = builtins.__import__
+
+    def no_umap(name, *a, **k):
+        if name == "umap":
+            raise ImportError("no umap here")
+        return real(name, *a, **k)
+
+    monkeypatch.setenv(gpu.ENV_GPU, "0")
+    monkeypatch.setattr(builtins, "__import__", no_umap)
+    b = gpu.backend()
+    assert b["umap"].startswith("pca")
+    assert "scikit-learn" in b["cluster"]
+    assert "pca" in gpu.backend_id()

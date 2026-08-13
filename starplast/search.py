@@ -254,7 +254,9 @@ def score_recovery(labels: np.ndarray, truth: pd.Series, min_label=15,
     # Weighted by label size, so a structure that nails one tiny class does not outrank one that
     # organises the whole proteome.
     w = per.n_label / per.n_label.sum()
-    summary = {"mean_f1": float((per.f1 * w).sum()),
+    from . import gpu
+    summary = {"backend": gpu.backend_id(),
+               "mean_f1": float((per.f1 * w).sum()),
                "best_f1": float(per.f1.max()),
                "best_label": str(per.loc[per.f1.idxmax(), "label"]),
                "n_labels_scored": int(len(per)),

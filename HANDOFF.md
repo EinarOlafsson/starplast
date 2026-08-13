@@ -35,7 +35,13 @@ and what that will buy. cuML moves UMAP and HDBSCAN themselves; CuPy or torch mo
 which measured about 1.5x on large distance matrices and *negative* on rank scaling -- that path was
 deleted rather than shipped. Install with `pip install starplast-gpu`, or `pip install -e ".[gpu]"`
 in a checkout; both resolve to the same wheels, since the metapackage's only dependency is the
-extra. **A map built by cuML's UMAP is a different map of the same data**, not the same map faster,
+extra. `starplast-install-gpu` picks the CUDA set from the driver and shows the command before it
+runs anything -- **the newest set the driver could run is not the right answer**, because drivers
+are backward compatible and cu12 wheels run on a CUDA 13 driver while cu13 wheels do not run on a
+CUDA 12 one; it takes what torch in the environment was built against, else the lowest runnable set.
+The switch defaults ON where a backend is importable, since installing two gigabytes of CUDA wheels
+is a deliberate act, and every run records which library built it (`backend` column, and in the
+saved recipe). **A map built by cuML's UMAP is a different map of the same data**, not the same map faster,
 and the log says so whenever it happens.
 
 **Two interpreters, and the second is the one that matters.** The suite runs in
