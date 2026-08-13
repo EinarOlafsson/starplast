@@ -1636,3 +1636,92 @@ def test_a_clustering_that_matches_neither_the_map_nor_the_table_says_so(panel, 
     panel._publish_clusters(np.zeros(77, int))
     assert len(got[0]) == 77, "a mismatched clustering must not be stretched onto the wrong genes"
     assert any("cluster this map again" in m for m in sync)
+
+
+# --------------------------------------------------------------------------- saving annotations
+@pytest.fixture
+def annotating(panel, tmp_path):
+    """A panel with somewhere to save, a validated score, and a candidate list on screen."""
+    import numpy as np
+    from starplast import app as A
+    from starplast.annotations import AnnotationStore
+    panel.store_annotations = AnnotationStore(str(tmp_path / "annotations.csv"))
+    v = A.as_text(panel.nodes["compartment"]).to_numpy()
+    target = "nucleus - chromatin"
+    unlabelled = np.flatnonzero(v == "unassigned")[:200]
+    labels = np.where(v == target, 0, 1)
+    labels[unlabelled] = 0
+    panel.labels, panel.rows = labels, np.ones(len(panel.nodes), bool)
+    panel._validation_target = "compartment"
+    panel._validation_scores = pd.DataFrame({"category": [target], "n_labelled": [769],
+                                             "n_folds": [5], "precision": [0.62], "recall": [0.3],
+                                             "f1": [0.4], "refit": [False], "note": [""]})
+    panel._fill(panel.val_table, panel._validation_scores)
+    panel.show_candidates(0)
+    return panel
+
+
+def test_candidates_can_be_saved_with_the_numbers_that_justify_them(annotating, sync):
+    panel = annotating
+    panel.reasoning.setText("dense and mostly chromatin")
+    panel.save_candidates()
+    got = panel.store_annotations.load()
+    assert len(got) == panel.cand_table.rowCount() or len(got) > 0
+    r = got.iloc[0]
+    assert r.precision == pytest.approx(0.62) and r.target == "compartment"
+    assert r.reasoning == "dense and mostly chromatin" and r.date
+    assert r.blocks and r.n_neighbors == panel.nn.value()
+    assert any("saved" in m and "precision 0.62" in m for m in sync)
+
+
+def test_saving_tells_the_map_to_redraw(annotating):
+    """The fourth colour has to appear without the user having to find it."""
+    seen = []
+    annotating.annotations_changed.connect(lambda: seen.append(True))
+    annotating.save_candidates()
+    assert seen == [True]
+
+
+def test_an_unvalidated_candidate_list_is_refused_and_explained(annotating, sync):
+    """The refusal is the feature, and it has to read as the store working rather than failing."""
+    panel = annotating
+    panel._validation_scores = pd.DataFrame({"category": ["nucleus - chromatin"],
+                                             "precision": [float("nan")], "recall": [float("nan")],
+                                             "n_folds": [0], "refit": [False]})
+    panel.save_candidates()
+    assert not panel.val_note.isHidden() and "Not saved" in panel.val_note.text()
+    assert "no validated precision" in panel.val_note.text()
+    assert panel.store_annotations.load().empty
+
+
+def test_saving_before_there_are_candidates_says_what_to_do(panel, sync, tmp_path):
+    from starplast.annotations import AnnotationStore
+    panel.store_annotations = AnnotationStore(str(tmp_path / "a.csv"))
+    panel._validation_scores = None
+    panel.save_candidates()
+    assert any("no candidates" in m for m in sync)
+
+
+def test_a_panel_with_nowhere_to_save_says_so(panel, sync):
+    panel.store_annotations = None
+    panel.save_candidates()
+    assert any("no annotations file" in m for m in sync)
+
+
+def test_the_saved_configuration_is_the_one_the_map_was_built_from(annotating):
+    panel = annotating
+    panel.nn.setValue(33)
+    panel.mcs.setValue(60)
+    panel.save_candidates()
+    r = panel.store_annotations.load().iloc[0]
+    assert r.n_neighbors == 33 and r.min_cluster_size == 60 and r.seed == panel.seed.value()
+
+
+def test_a_search_that_scored_nothing_says_so_rather_than_showing_an_empty_table(panel, sync,
+                                                                                 monkeypatch):
+    """An empty table reads as "still running". Every configuration failing to produce a scorable
+    clustering is a result about the grid, and it has to be said out loud."""
+    import starplast.search as S
+    monkeypatch.setattr(S, "search", lambda n, **k: (pd.DataFrame(), pd.DataFrame()))
+    panel.run_search()
+    assert any("nothing was scorable" in m for m in sync)

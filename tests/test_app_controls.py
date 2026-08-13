@@ -1112,3 +1112,45 @@ def test_the_gated_export_uses_the_columns_that_were_ticked(win, monkeypatch, tm
     got = pd.read_csv(path)
     assert {"gene_id", "compartment", "n_publications", "x", "y", "z"} == set(got.columns)
     win.clear_gate()
+
+
+# --------------------------------------------------------------------------- annotations on the map
+def test_annotations_are_drawn_in_a_colour_of_their_own(win, tmp_path):
+    """Measurement, inference and absence have one each. A proposal is a fourth thing, and reading
+    as any of the three is the failure this application is built to prevent."""
+    from starplast.annotations import ANNOTATION_COLOUR, Annotation, AnnotationStore
+    store = AnnotationStore(str(tmp_path / "a.csv"))
+    gene = str(win.nodes.gene_id.iloc[7])
+    store.save(Annotation(gene_id=gene, proposed="dense granules", target="compartment", cluster=1,
+                          precision=0.6, recall=0.4, date="2026-08-12"))
+    win.annotations = store
+    win.refresh_annotations()
+    assert win.colour_mode == "annotations"
+    c = np.asarray(win.scatter.color)
+    assert np.allclose(c[7, :3], ANNOTATION_COLOUR, atol=1e-3)
+    # Everything else is grey: not a category, not zero -- nobody has proposed anything for it.
+    assert not np.allclose(c[8, :3], ANNOTATION_COLOUR)
+    assert "proposals, not measurements" in win.statusBar().currentMessage()
+    win.set_colour_mode("compartment")
+
+
+def test_with_no_annotations_the_mode_draws_everything_as_unknown(win, tmp_path):
+    from starplast.annotations import AnnotationStore
+    win.annotations = AnnotationStore(str(tmp_path / "none.csv"))
+    win.sel = None                     # a selected gene is drawn white, which is a third colour
+    win.refresh_annotations()
+    win.set_colour_mode("annotations")
+    c = np.asarray(win.scatter.color)
+    assert len({tuple(np.round(x, 3)) for x in c[:, :3]}) == 1, "something was coloured as annotated"
+    win.set_colour_mode("compartment")
+
+
+def test_an_unreadable_annotations_file_does_not_take_the_window_down(win, tmp_path, capsys):
+    """These files are hand-edited and shared. A broken one must cost the colour, not the session."""
+    class Broken:
+        def mask(self, ids):
+            raise ValueError("row 4 is not a row")
+
+    win.annotations = Broken()
+    win.refresh_annotations()
+    assert "annotations unavailable" in capsys.readouterr().out

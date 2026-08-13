@@ -12,14 +12,21 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~1,469 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect ~1,501 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
 ## The one thing to do first
 
-**Task 16** — the automated walk, which task 15 unblocked; drive `tuning.walk_umap_iter` rather than
-re-running the walk. Then 17 (the annotation store), which may only save an annotation with the
-validation numbers attached, and whose input is now `Window.gated` from task 18.
+**Task 23** — the left panel becomes "color by". Then 22 (the cell diagram), 25 (American spelling)
+and 24 (the logo drafts).
+
+**Tasks 16 and 17 are done** (2026-08-12, v0.9.0 and v0.10.0). `search.search` streams a `RunStep`
+per embedding — its best clustering under the objective in force, its per-category scores, its
+coordinates and its labels — and the Search tab fills a per-configuration-and-category table as it
+runs, with `search.frontier` marking what nothing beats on both mean and best F1.
+`annotations.AnnotationStore` is a CSV of its own that **refuses** a row with no validated precision
+or a precision under 10%, is never written into the node table, and draws in a colour used for
+nothing else.
 
 **Task 18 is done** (2026-08-12, v0.8.0): the left button has a Navigate mode (free orbit or
 constrained to one axis, so a view can be returned to) and a Select mode (2D lasso in screen space,
@@ -113,7 +120,7 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
   directly, never a pragma. Genuinely unreachable branches get deleted.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.9.0).
+- Bump the version for feature work (currently 0.10.0).
 
 ## Where things are
 

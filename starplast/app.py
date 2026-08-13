@@ -69,7 +69,7 @@ EDGE_CAP = 20000        # per type, on drawing only. Stated in the tooltip rathe
 
 COLOUR_MODES = ["compartment", "compartment (incl. transferred)", "clusters", "in vitro fitness",
                 "publications", "depth of attention", "structure confidence (pLDDT)",
-                "cyst / tachyzoite expression"]
+                "cyst / tachyzoite expression", "annotations"]
 
 # None means "follow the point style". The rest are absolute pixel sizes.
 POINT_SIZES = [("Automatic", None), ("Tiny (2 px)", 2.0), ("Small (4 px)", 4.0),
@@ -647,6 +647,10 @@ class Window(QtWidgets.QMainWindow):
         # without clicking 8,140 times. None means no gate has been drawn; an EMPTY array means one
         # was and it caught nothing, which is a different thing and is reported as such.
         self.gated = None
+        # Which genes carry a saved annotation. Its own mask and its own colour, because an
+        # annotation is a fourth thing beside measurement, inference and absence, and reading as any
+        # of the three is the failure this application is built to prevent.
+        self.annotated = None
         self._spin_home = None                # where spin started, so it can be put back
 
         self.view = Map3D(self.xyz)
@@ -772,6 +776,7 @@ class Window(QtWidgets.QMainWindow):
         """
         try:
             from .analysis_panel import AnalysisPanel
+            from .annotations import AnnotationStore
             from .tuning import EmbeddingStore
         except Exception as e:
             self.statusBar().showMessage(f"analysis panel unavailable: {e}")
@@ -781,11 +786,16 @@ class Window(QtWidgets.QMainWindow):
         # Shares the window's runner, so an analysis appears in the Jobs panel and can be stopped
         # there like anything else. With its own private thread it was invisible and unstoppable,
         # and it also blocked every other tab for the several minutes a search takes.
+        # Annotations live beside the cache, not inside it: the cache is built and can be rebuilt,
+        # while these are the user's own proposals and must survive `build_graph`.
+        self.annotations = AnnotationStore(
+            os.path.join(paths.user_cache_dir(), "annotations.csv"))
         panel = AnalysisPanel(self.nodes, store=EmbeddingStore(os.path.join(DATA, "embeddings")),
-                              runner=self.jobs)
+                              runner=self.jobs, annotations=self.annotations)
         panel.status.connect(lambda m: self.statusBar().showMessage(m))
         panel.embedding_ready.connect(self.use_embedding)
         panel.clusters_ready.connect(self.use_clusters)
+        panel.annotations_changed.connect(self.refresh_annotations)
         d.setWidget(panel)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, d)
         self.tabifyDockWidget(self.right_dock, d)
@@ -1227,6 +1237,26 @@ class Window(QtWidgets.QMainWindow):
         out.to_csv(path, index=False)
         self.status.showMessage(f"wrote {len(out):,} gated genes and {len(cols)} columns to {path}")
         return path
+
+    def refresh_annotations(self):
+        """Re-read the annotations file and redraw, switching to the colour that shows them.
+
+        Re-read rather than tracked: the file is meant to be shared and hand-edited, and a window
+        holding its own idea of what is in it would disagree with the file the moment anyone did.
+        """
+        try:
+            self.annotated = self.annotations.mask(self.nodes.gene_id)
+        except Exception as exc:                       # a bad row must not take the window down
+            print(f"starplast: annotations unavailable ({type(exc).__name__}: {exc})")
+            return
+        n = int(self.annotated.sum())
+        if n:
+            self.set_colour_mode("annotations")
+        else:
+            self.redraw()
+        self.status.showMessage(
+            f"{n:,} genes carry an annotation -- drawn in their own colour, which nothing else uses; "
+            f"they are proposals, not measurements")
 
     def use_clusters(self, labels):
         """Take a clustering from the analysis panel and colour the map by it.
@@ -1806,6 +1836,13 @@ class Window(QtWidgets.QMainWindow):
                 for col, k in zip(palette, ids):
                     c[lab == k, :3] = col
                 c[lab < 0, :3] = TH.unknown_colour(self.theme)[:3]
+        elif mode == "annotations":
+            # The fourth colour, used for nothing else. Everything unannotated is grey -- not a
+            # category, not zero: "nobody has proposed anything for this gene".
+            from .annotations import ANNOTATION_COLOUR
+            c[:, :3] = TH.unknown_colour(self.theme)[:3]
+            if self.annotated is not None and len(self.annotated) == self.n:
+                c[self.annotated, :3] = ANNOTATION_COLOUR
         elif mode == "depth of attention":
             # Categorical, not a scale: these tiers are read off document structure (title / abstract /
             # body-only), so shading them along a gradient would imply a quantity that does not exist.

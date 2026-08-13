@@ -263,16 +263,23 @@ class AnalysisPanel(QtWidgets.QWidget):
     walk_step = QtCore.pyqtSignal(object)
     #: A walk is starting: whatever the last one left on screen belongs to a different sweep.
     walk_started = QtCore.pyqtSignal()
+    #: An annotation was saved or withdrawn, so the map's fourth colour has changed.
+    annotations_changed = QtCore.pyqtSignal()
     #: One scored configuration of a search, as `search.RunStep`, emitted from the worker thread as
     #: each embedding finishes. Carries its clustering, because here the clustering is half of what
     #: was scored and a map shown without it is a map shown without the result.
     search_step = QtCore.pyqtSignal(object)
     status = QtCore.pyqtSignal(str)
 
-    def __init__(self, nodes: pd.DataFrame, store=None, parent=None, runner=None):
+    def __init__(self, nodes: pd.DataFrame, store=None, parent=None, runner=None,
+                 annotations=None):
         super().__init__(parent)
         self.nodes = nodes
         self.store = store
+        #: Where annotations are written. A separate file from everything else, always: the node
+        #: table is measurement, and an inference stored beside it becomes indistinguishable from
+        #: one the moment anybody reads the table without knowing which columns are which.
+        self.store_annotations = annotations
         self.labels = None
         self.coords = None
         self.rows = None
@@ -842,7 +849,70 @@ class AnalysisPanel(QtWidgets.QWidget):
             "share an orthogroup, a Pfam or an InterPro domain with the candidate — agreement "
             "from evidence the map never saw. Zero support is the common answer.")
         v.addWidget(self.cand_table, 1)
+
+        save = QtWidgets.QHBoxLayout()
+        self.reasoning = QtWidgets.QLineEdit()
+        self.reasoning.setPlaceholderText("why this cluster is worth annotating from…")
+        self.reasoning.setToolTip(
+            "Free text, saved with every annotation. The numbers say how often it would be right; "
+            "this says why you thought it was worth proposing, which is the part a collaborator "
+            "will want to argue with and the part no column can hold.")
+        self.save_annotations = QtWidgets.QPushButton("save these as annotations")
+        self.save_annotations.setToolTip(
+            "Write the candidates above to the annotations file, each carrying the validated "
+            "precision and recall for its category, the cluster's composition and the "
+            "configuration. Refused outright when there is no validated precision, or when it is "
+            "below 10% -- that is not an annotation, it is a coin toss with a record attached. "
+            "Never written into the node table: measurement and inference do not share a file.")
+        self.save_annotations.clicked.connect(self.save_candidates)
+        save.addWidget(self.reasoning, 1)
+        save.addWidget(self.save_annotations)
+        v.addLayout(save)
         return w
+
+    def save_candidates(self):
+        """Save the candidate list as annotations, with the numbers that justify each one.
+
+        Only from here, and only from a validated run: the refusal is the feature. The candidates
+        and their error rate are joined in `annotations.from_candidates` so a precision from a
+        different category or a different clustering cannot travel with a row.
+        """
+        import datetime
+        from .annotations import from_candidates
+        if self.store_annotations is None:
+            self.status.emit("no annotations file is configured")
+            return
+        cand = self._frames.get(self.cand_table)
+        d = getattr(self, "_validation_scores", None)
+        row = getattr(self, "_candidate_row", None)
+        if cand is None or not len(cand) or d is None or row is None:
+            self.status.emit("no candidates -- validate a target, then click a category")
+            return
+        scores = d.iloc[row]
+        ann = from_candidates(cand, getattr(self, "_validation_target", ""), scores,
+                              configuration=self._configuration(),
+                              reasoning=self.reasoning.text().strip(),
+                              date=datetime.date.today().isoformat())
+        try:
+            out = self.store_annotations.save(ann)
+        except ValueError as exc:
+            # Shown as an explanation, like the circularity refusal: this is the store working.
+            self.val_note.setText(f"<b>Not saved.</b> {exc}")
+            self.val_note.show()
+            self.status.emit(str(exc))
+            return
+        self.val_note.hide()
+        self.annotations_changed.emit()
+        self.status.emit(f"saved {len(ann):,} annotations at precision {scores.precision:.2f} "
+                         f"({len(out):,} in the file)")
+
+    def _configuration(self) -> dict:
+        """The recipe behind the map the candidates came from, as the store records it."""
+        spec = self.spec()
+        return {"blocks": "+".join(spec.blocks), "na_policy": spec.na_policy,
+                "scaling": spec.scaling, "n_neighbors": spec.n_neighbors,
+                "min_dist": spec.min_dist, "min_cluster_size": self.mcs.value(),
+                "seed": spec.random_state}
 
     def used_columns(self) -> list:
         """The node-table columns the current embedding is built from, categoricals included.
@@ -976,6 +1046,7 @@ class AnalysisPanel(QtWidgets.QWidget):
             self.status.emit(f"no cluster holds any gene labelled {category!r}")
             return
         genes = self.nodes.gene_id[self.rows] if self.rows is not None else self.nodes.gene_id
+        self._candidate_row = row
         cand = candidates(self.labels, truth, category, cl, genes)
         if len(cand):
             support = orthogonal_support(self.nodes, cand.gene_id, truth, category,

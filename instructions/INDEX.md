@@ -28,13 +28,13 @@ One file per task. This index is the status table; the files carry the reasoning
 | 19 | Logging — opt-in, per-level console control |
 | 18 | Navigate / Select modes, 2D and 3D gating |
 | 16 | Automated walk — UMAP, clustering, per-category scoring |
+| 17 | Annotation store |
 
 ## Open
 
 | # | Task | % | Blocked by |
 |---|---|---|---|
 | 21 | Wire the scoring objectives into the interface | 100 (done) | — |
-| 17 | Annotation store | 25 | — (20 landed; it must carry 20's numbers) |
 | 22 | Cell diagram under the compartment list, colored to match | 0 | a decision on shared organelles |
 | 23 | Left panel becomes "color by": clusterings, runs, binned numerics | 0 | — |
 | 24 | Forty black-and-white logo drafts | 0 | — |
