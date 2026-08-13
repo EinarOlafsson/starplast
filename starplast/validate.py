@@ -99,10 +99,37 @@ def circularity_error(truth: pd.Series, used_columns, target_column: str | None 
     """
     col = target_column or getattr(truth, "name", None)
     used = set(used_columns)
-    if col is not None and col in used:
+    if col is None:
+        return ""
+    if col in used:
         return (f"{col!r} is one of the columns this embedding was built from, so a cluster matching "
                 f"it is circular by construction and the number would mean nothing. Rebuild the map "
                 f"without it -- on the Data tab -- and validate that.")
+
+    # The same test the search applies, by name alone. Naming the label column is not enough: a map
+    # built on `lopit_prob_map` is a map built on hyperLOPIT's own output, and scoring hyperLOPIT's
+    # compartment against it is the same circularity by a longer route. The search guard was taught
+    # this and this one was not -- which would have put a validated-looking number on precisely the
+    # maps that cannot carry one, in the tab whose whole job is to say how much to believe a cluster.
+    from . import datasets
+    from .search import SAME_QUANTITY
+    same = datasets.provenance(col)
+    experiment = {c for c in (same.columns if same else ()) if c != col} & used
+    quantity = {q: {c for c in family if c != col} & used
+                for q, family in SAME_QUANTITY.items() if col in family}
+    quantity = {q: cols for q, cols in quantity.items() if cols}
+    reasons = []
+    if experiment:
+        reasons.append(f"{', '.join(sorted(experiment))} -- produced by the same experiment "
+                       f"({same.name})")
+    for q, cols in quantity.items():
+        rest = sorted(cols - experiment)
+        if rest:
+            reasons.append(f"{', '.join(rest)} -- another estimate of the same thing ({q})")
+    if reasons:
+        return (f"this embedding was built from {'; and '.join(reasons)}. A cluster matching "
+                f"{col!r} is then not evidence about the map. Rebuild without those columns -- on "
+                f"the Data tab -- and validate that.")
     return ""
 
 

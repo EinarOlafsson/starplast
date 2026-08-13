@@ -60,6 +60,35 @@ def test_scoring_a_label_the_embedding_used_is_refused():
         V.validate_all(labels, truth, used_columns=["compartment"], min_size=2)
 
 
+def test_scoring_a_label_against_its_own_experiment_s_other_outputs_is_refused():
+    """Naming the label column is not enough. A map built on `lopit_prob_map` is a map built on
+    hyperLOPIT's own output, and scoring hyperLOPIT's compartment against it is the same circularity
+    by a longer route -- the one the search guard caught and this one did not, in the tab whose job
+    is to say how much to believe a cluster."""
+    labels, truth = _labels_and_truth()
+    truth = truth.rename("compartment")
+    with pytest.raises(ValueError, match="same experiment"):
+        V.masked_recovery(labels, truth, "a", used_columns=["lopit_prob_map", "expr_tachy"])
+
+
+def test_scoring_a_label_against_another_estimate_of_the_same_thing_is_refused():
+    """`ortholopit_label` is localization transferred from another species: a different experiment,
+    the same quantity, and no more valid as evidence about the map."""
+    labels, truth = _labels_and_truth()
+    truth = truth.rename("compartment")
+    with pytest.raises(ValueError, match="same thing"):
+        V.masked_recovery(labels, truth, "a", used_columns=["ortholopit_label"])
+
+
+def test_an_unrelated_column_does_not_trip_the_wider_guard():
+    """It has to refuse the right maps and only those: a guard that refused everything would make
+    the tab useless while looking careful."""
+    labels, truth = _labels_and_truth()
+    truth = truth.rename("compartment")
+    r = V.masked_recovery(labels, truth, "a", used_columns=["expr_tachy", "fit_invitro_hff"])
+    assert r.precision >= 0.0
+
+
 def test_the_column_can_be_named_when_the_series_does_not_carry_it():
     """A Series sliced out of a frame keeps its name; one built by hand may not, and the caller
     knows what it is."""
