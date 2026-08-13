@@ -223,18 +223,20 @@ def galaxy(orbits: int, tilt: float, planets, seed: int, arms: int = 0, solid: b
     return "".join(body)
 
 
-def galaxy_body(orbits: int, tilt: float, planets, seed: int, rhoptries: int = 4) -> str:
-    """The parasite IS the innermost orbit, with rhoptries added to it.
+def galaxy_body(orbits: int, tilt: float, planets, seed: int, rhoptries: int = 0) -> str:
+    """Three symmetrical rings, the innermost of which is the parasite.
 
-    The other galaxy drafts stamp a crescent over the middle of the system, which is two drawings on
-    top of each other -- the mark says "a parasite" and "a system" in the same place and the eye has
-    to separate them. Here the innermost ellipse is the parasite: same tilt, same family of shapes,
-    so the system resolves INTO the organism as it gets smaller instead of being interrupted by it.
+    Two things this gets right that the other galaxy drafts do not.
 
-    What makes it a parasite rather than a bean is the rhoptries: club-shaped organelles converging
-    on the apical end, which is the most recognisable thing an apicomplexan has and the reason the
-    phylum is named after it. They are drawn along the long axis of the inner ellipse, narrow ends
-    meeting at the apex, so the tilt of the system is also the tilt of the cell.
+    **The rings are symmetrical.** Evenly spaced, one tilt, one weight -- a system with a rhythm to
+    it. The earlier version let the cell swell until it crowded the ring inside it, and the mark read
+    as two ellipses and a lump rather than as three rings.
+
+    **The innermost ring IS the cell, and it is apicomplexan by its silhouette.** Not by drawing
+    organelles: at 16 pixels a rhoptry is three dark pixels and the difference between a parasite and
+    a bean is lost anyway. What survives that size is the OUTLINE -- tapered to a point at one end,
+    round at the other, with the apical cap marked by a short arc across the tip. That taper is what
+    makes an apicomplexan recognisable in a figure at any scale, and it costs one path.
     """
     rng = random.Random(seed)
     th = math.radians(tilt)
@@ -245,38 +247,41 @@ def galaxy_body(orbits: int, tilt: float, planets, seed: int, rhoptries: int = 4
                 32 + px * math.sin(th) + py * math.cos(th))
 
     body = []
+    # Evenly spaced, evenly weighted: the symmetry IS the system.
+    inner_rx = 11.0
+    step = 9.5
     for k in range(orbits):
-        rx = 28 + k * 9.5
+        rx = inner_rx + (k + 1) * step
         ry = rx * 0.42
         body.append(f'<ellipse cx="32" cy="32" rx="{rx:.1f}" ry="{ry:.1f}" fill="none" '
-                    f'stroke="#000" stroke-width="{3.2 - k * 0.5:.2f}" '
+                    f'stroke="#000" stroke-width="3.0" '
                     f'transform="rotate({tilt:.0f} 32 32)"/>')
         for _ in range(planets[k] if k < len(planets) else 0):
             a = rng.uniform(0, 2 * math.pi)
-            body.append(dot(*place(rx * math.cos(a), ry * math.sin(a)), 3.4))
+            body.append(dot(*place(rx * math.cos(a), ry * math.sin(a)), 3.2))
 
-    # The innermost "orbit" is the cell: an ellipse of the same family, drawn heavier so it reads as
-    # a body rather than as one more ring, and filled white so the orbits behind it do not run
-    # through the organelles inside it.
-    cell_rx, cell_ry = 20.0, 10.0
-    body.append(f'<ellipse cx="32" cy="32" rx="{cell_rx}" ry="{cell_ry}" fill="#fff" '
-                f'stroke="#000" stroke-width="3.2" transform="rotate({tilt:.0f} 32 32)"/>')
+    # The innermost ring, drawn as the cell: an oval tapering to an apical point on the long axis.
+    # Filled white so the rings behind it do not run through it.
+    rx, ry = inner_rx, inner_rx * 0.62
+    tip = place(-rx * 1.5, 0)
+    top = place(rx * 0.25, -ry)
+    bot = place(rx * 0.25, ry)
+    back = place(rx, 0)
+    cell = (f"M{tip[0]:.1f} {tip[1]:.1f} "
+            f"C{place(-rx * 0.2, -ry * 0.95)[0]:.1f} {place(-rx * 0.2, -ry * 0.95)[1]:.1f}, "
+            f"{top[0]:.1f} {top[1]:.1f}, {back[0]:.1f} {back[1]:.1f} "
+            f"C{bot[0]:.1f} {bot[1]:.1f}, "
+            f"{place(-rx * 0.2, ry * 0.95)[0]:.1f} {place(-rx * 0.2, ry * 0.95)[1]:.1f}, "
+            f"{tip[0]:.1f} {tip[1]:.1f} Z")
+    body.append(f'<path d="{cell}" fill="#fff" stroke="#000" stroke-width="3.0"/>')
 
-    # Rhoptries: clubs converging on the apical end, which is the left end of the long axis here.
-    apex = (-cell_rx * 0.94, 0.0)
-    for i in range(rhoptries):
-        # Fanned across the short axis, each tapering from a bulb at the back to the apex.
-        spread = (i - (rhoptries - 1) / 2) / max(rhoptries - 1, 1)
-        bulb = (cell_rx * 0.34, spread * cell_ry * 0.55)
-        waist = (-cell_rx * 0.20, spread * cell_ry * 0.30)
-        d = (f"M{place(*apex)[0]:.1f} {place(*apex)[1]:.1f} "
-             f"Q{place(*waist)[0]:.1f} {place(*waist)[1]:.1f} "
-             f"{place(*bulb)[0]:.1f} {place(*bulb)[1]:.1f}")
-        body.append(f'<path d="{d}" fill="none" stroke="#000" stroke-width="1.9" '
-                    f'stroke-linecap="round"/>')
-        body.append(dot(*place(*bulb), 2.0))
-    # The conoid: the apical cap the rhoptries discharge through, and the point the whole cell aims.
-    body.append(dot(*place(*apex), 2.4))
+    # The apical cap: one short arc across the point. It is the whole apical complex, said in one
+    # stroke, and it is what tells the eye which end goes first.
+    a1, a2 = place(-rx * 0.75, -ry * 0.42), place(-rx * 0.75, ry * 0.42)
+    body.append(f'<path d="M{a1[0]:.1f} {a1[1]:.1f} L{a2[0]:.1f} {a2[1]:.1f}" fill="none" '
+                f'stroke="#000" stroke-width="2.6" stroke-linecap="round"/>')
+    # And the nucleus, at the back, where it is in every drawing of one.
+    body.append(dot(*place(rx * 0.42, 0), 3.0))
     return "".join(body)
 
 
@@ -326,8 +331,8 @@ def drafts() -> list:
     # The last of the series: the parasite is not stamped over the system, it IS the innermost
     # orbit, with rhoptries on it. The system resolves into the organism rather than being
     # interrupted by it.
-    out.append(("galaxy_9", "starplast — the innermost orbit is the parasite",
-                galaxy_body(orbits=2, tilt=-22, planets=(1, 1), seed=600, rhoptries=3)))
+    out.append(("galaxy_9", "starplast — the innermost of three symmetrical rings is the parasite",
+                galaxy_body(orbits=3, tilt=-22, planets=(0, 1, 1), seed=600)))
     return out
 
 

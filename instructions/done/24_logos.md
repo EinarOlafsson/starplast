@@ -34,12 +34,13 @@ constraint be a **test** rather than a hope.
 
     galaxy_9           the last of the series, and the one that answers an objection to the other
                        eight: they stamp a crescent OVER the middle of the system, which is two
-                       drawings in the same place. Here the innermost ellipse IS the parasite —
-                       same tilt, same family of shapes — so the system resolves into the organism
-                       as it gets smaller instead of being interrupted by it. What makes it a
-                       parasite rather than a bean is the rhoptries: three clubs converging on the
-                       apical end, which is the most recognisable thing an apicomplexan has and the
-                       reason the phylum is named after it.
+                       drawings in the same place. Here the innermost of three evenly spaced,
+                       evenly weighted rings IS the parasite, so the system resolves into the
+                       organism as it gets smaller instead of being interrupted by it. It is
+                       apicomplexan by its SILHOUETTE — tapered to a point at one end, round at the
+                       other, with the apical cap said in one short arc — rather than by drawn
+                       organelles: at 16 pixels a rhoptry is three dark pixels and the difference
+                       between a parasite and a bean is lost anyway, while the taper survives.
 
 Forty was the ask; the galaxy family is a seventh direction requested after the first forty were
 drawn, and adding it beat discarding drafts nobody had rejected. Forty-nine in total.
