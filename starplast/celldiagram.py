@@ -60,6 +60,18 @@ COMPARTMENT_SL = {
     "tubulin cytoskeleton": "SL0090",
 }
 
+#: Organelles that are drawn as containers rather than as shapes: they have structure inside them,
+#: and a flat fill on top of that structure erases it. Their color goes BEHIND the outlines, so the
+#: cristae, the nucleolus and the vesicles stay visible on a colored ground. Everything else -- a
+#: rhoptry, a granule, the Golgi -- is a shape, where filling it is the whole message.
+BACKGROUND_SL = frozenset({
+    "SL0091",   # cytosol
+    "SL0191",   # nucleus
+    "SL0173",   # mitochondrion, soluble
+    "SL0171",   # mitochondrion, membranes
+    "SL0018",   # apicoplast
+})
+
 #: Deliberately NOT mapped, with the reason, because a wrong mapping is worse than a stated gap:
 #:
 #:   40S / 60S ribosome     no ribosome in the drawing at all
@@ -466,10 +478,20 @@ class CellDiagram(QtWidgets.QWidget):
         r.render(q, self._target())
         q.end()
         p = QtGui.QPainter(self)
-        p.drawImage(0, 0, img)
-        for sl, color in self.fills().items():
+        fills = self.fills()
+        # The big compartments are tinted UNDER the drawing, the small ones over it. A rhoptry is a
+        # shape and filling it says everything there is to say; the cytosol, the nucleus, the
+        # mitochondrion and the apicoplast are containers with structure drawn inside them, and a
+        # flat fill on top erases the cristae, the nucleolus, the vesicles -- the picture stops being
+        # a cell and becomes a coloured blob where the cell was.
+        for sl, color in fills.items():
             mask = self.masks().get(sl)
-            if mask is not None:
+            if mask is not None and sl in BACKGROUND_SL:
+                p.drawImage(0, 0, _tinted(mask, color))
+        p.drawImage(0, 0, img)
+        for sl, color in fills.items():
+            mask = self.masks().get(sl)
+            if mask is not None and sl not in BACKGROUND_SL:
                 p.drawImage(0, 0, _tinted(mask, color))
         p.end()
 

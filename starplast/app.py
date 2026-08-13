@@ -1580,6 +1580,65 @@ class Window(QtWidgets.QMainWindow):
         self.status.showMessage(note)
         return note
 
+    def compare_backends(self, sample: int = 2000):
+        """Run the same embedding both ways and show the two maps beside each other.
+
+        In a job, because it is two UMAPs and the window should stay usable; the dialog is built by
+        `build_comparison` so a test can inspect it without entering a modal loop.
+        """
+        from .benchmark import compare
+        self.status.showMessage("building the same map on the CPU and on the GPU…")
+        spec = self.panel.spec() if getattr(self, "panel", None) is not None else None
+        job = self.run_job(lambda: compare(self.nodes, spec, sample=sample,
+                                           log=lambda m: self.status.showMessage(str(m))),
+                           "CPU vs GPU")
+
+        def show(jid: int, ok: bool):
+            # One-shot, and only for THIS job: the runner's signal carries every job's completion,
+            # and a comparison dialog opening because some unrelated search finished would be a
+            # window appearing for no reason the user can connect to anything they did.
+            if jid != job.id:
+                return
+            self.jobs.finished.disconnect(show)
+            if ok and isinstance(job.result, dict):
+                self.build_comparison(job.result).exec()
+            else:
+                self.status.showMessage(f"comparison failed: {job.error or 'no result'}")
+
+        self.jobs.finished.connect(show)
+        return job
+
+    def build_comparison(self, result: dict):
+        """The two maps, the two clocks, and how much they agree -- built, not shown."""
+        from .gallery import thumbnail
+        d = QtWidgets.QDialog(self)
+        d.setWindowTitle("CPU vs GPU")
+        lay = QtWidgets.QVBoxLayout(d)
+        maps = QtWidgets.QHBoxLayout()
+        for key, title in (("cpu", "CPU"), ("gpu", "GPU")):
+            run = result.get(key)
+            box = QtWidgets.QVBoxLayout()
+            label = QtWidgets.QLabel()
+            if run is not None:
+                img = thumbnail(run["coords"], size=260, background=TH.rgbf(
+                    TH.palette_for(self.theme)["bg"])[:3])
+                label.setPixmap(QtGui.QPixmap.fromImage(img))
+                text = f"<b>{title}</b><br>{run['backend']}<br>{run['seconds']:.1f} s"
+            else:
+                label.setText("not available")
+                text = f"<b>{title}</b><br>—"
+            box.addWidget(label)
+            box.addWidget(QtWidgets.QLabel(text))
+            maps.addLayout(box)
+        lay.addLayout(maps)
+        note = QtWidgets.QLabel(result.get("note", ""))
+        note.setWordWrap(True)
+        lay.addWidget(note)
+        close = QtWidgets.QPushButton("close")
+        close.clicked.connect(d.accept)
+        lay.addWidget(close)
+        return d
+
     def build_preferences(self):
         """Construct the dialog without showing it.
 
@@ -1628,7 +1687,7 @@ class Window(QtWidgets.QMainWindow):
         # GPU acceleration, as a switch rather than a checkbox: the same control this user has in
         # spacr, so a setting looks like a setting in both programs.
         from . import gpu
-        self.gpu_switch = TH.Switch("use the GPU where it helps", checked=self._gpu_wanted())
+        self.gpu_switch = TH.Switch("", checked=self._gpu_wanted())
         self.gpu_note = QtWidgets.QLabel(gpu.describe())
         self.gpu_note.setWordWrap(True)
         self.gpu_switch.setToolTip(
@@ -1641,6 +1700,14 @@ class Window(QtWidgets.QMainWindow):
             "of the same data -- so a walk whose rows came from both would compare the libraries "
             "rather than the settings. The arithmetic paths are checked against the CPU to 1e-5.")
         self.gpu_switch.toggled.connect(self._on_gpu)
+        self.gpu_test = QtWidgets.QPushButton("compare CPU and GPU…")
+        self.gpu_test.setToolTip(
+            "Builds the same map twice, once each way, and shows both. The clock is the smaller "
+            "half of the answer: cuml's UMAP is a different implementation, so turning this on does "
+            "not speed a map up -- it produces a DIFFERENT map of the same data. The two are shown "
+            "side by side with the share of each gene's nearest neighbours they agree on, which is "
+            "the comparison that survives rotation, reflection and scale.")
+        self.gpu_test.clicked.connect(self.compare_backends)
 
         self.spin_speed = QtWidgets.QDoubleSpinBox()
         self.spin_speed.setRange(0.05, 3.0)
@@ -1704,8 +1771,9 @@ class Window(QtWidgets.QMainWindow):
         form.addRow("color map", self.cmap_box)
         form.addRow("points", self.point_box)
         form.addRow("rendering", self.mode_box)
-        form.addRow("compute", self.gpu_switch)
+        form.addRow("GPU acceleration", self.gpu_switch)
         form.addRow("", self.gpu_note)
+        form.addRow("", self.gpu_test)
         form.addRow("spin speed", self.spin_speed)
         form.addRow("depth", self.depth_box)
         form.addRow("reference", self.ground_box)

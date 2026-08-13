@@ -146,7 +146,10 @@ def describe() -> str:
                 'pip install -e ".[gpu]")')
     parts = [k for k in ("cuml", "cupy", "torch") if have[k]]
     where = f" on {have['device']}" if have["device"] else ""
-    state = "on" if enabled() else "off (switch it on in Preferences)"
+    # Just "on" or "off": this string is shown IN Preferences, beside the switch that sets it, and
+    # in the status bar right after someone has flipped that switch. Telling them where the switch
+    # is, there, is telling them what they are looking at.
+    state = "on" if enabled() else "off"
     # What it will actually buy, because "GPU: torch" reads as a promise about UMAP and is not one.
     gain = ("UMAP and HDBSCAN move to the GPU" if have["cuml"] else
             'array work only, about 1.5x on large distance matrices -- pip install starplast-gpu '

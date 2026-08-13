@@ -512,3 +512,44 @@ def test_an_artwork_with_no_credit_block_is_left_alone(qapp, tmp_path):
     path.write_text(svg)
     d = CD.CellDiagram(path=str(path))
     assert "Cell drawing by" not in d.toolTip()
+
+
+def test_a_container_is_tinted_under_its_own_outlines(qapp):
+    """The cytosol, the nucleus, the mitochondrion and the apicoplast are containers with structure
+    drawn inside them. A flat fill on top erases the cristae, the nucleolus and the vesicles, and the
+    picture stops being a cell and becomes a coloured blob where the cell was.
+
+    Measured on the painted widget: with a container selected, its area still carries near-white ink
+    -- the outlines -- as well as the colour."""
+    from PyQt6 import QtCore, QtGui
+    d = CD.CellDiagram()
+    d.resize(240, 330)
+
+    def painted(name):
+        d.set_palette({name: (0.95, 0.25, 0.25)}, name)
+        img = QtGui.QImage(240, 330, QtGui.QImage.Format.Format_ARGB32)
+        img.fill(QtGui.QColor("#000000"))
+        p = QtGui.QPainter(img)
+        d.render(p, QtCore.QPoint(), QtGui.QRegion(d.rect()),
+                 QtWidgets.QWidget.RenderFlag.DrawChildren)
+        p.end()
+        return img
+
+    img = painted("cytosol")
+    mask = d.masks()["SL0091"]
+    inside = [(x, y) for x in range(0, 240, 2) for y in range(0, 330, 2)
+              if QtGui.QColor.fromRgba(mask.pixel(x, y)).alpha() > 200]
+    assert inside, "no cytosol mask to look inside"
+    colours = [QtGui.QColor.fromRgba(img.pixel(x, y)) for x, y in inside]
+    tinted = [c for c in colours if c.red() > 120 and c.green() < 120]
+    pale = [c for c in colours if c.red() > 180 and c.green() > 150 and c.blue() > 150]
+    assert tinted, "the container was not tinted at all"
+    assert pale, "the outlines inside the container were painted over"
+
+
+def test_a_shape_is_still_filled_over_its_outline(qapp):
+    """A rhoptry is a shape, not a container: filling it is the whole message, and leaving its
+    outline on top would just make it look unselected."""
+    assert "SL0233" not in CD.BACKGROUND_SL          # rhoptries
+    assert "SL0132" not in CD.BACKGROUND_SL          # Golgi
+    assert {"SL0091", "SL0191", "SL0173", "SL0018"} <= CD.BACKGROUND_SL

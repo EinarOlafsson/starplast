@@ -1,6 +1,7 @@
-# The GPU install under a name that reads as a product.
+# Kept as an alias now that `pip install starplast` is itself the GPU install: someone who read the
+# old instructions, or who wants to be explicit, gets the same thing.
 #
-#     pip install starplast-gpu
+#     pip install starplast-gpu   ==   pip install starplast
 #
 # It contains no code. Its whole job is to be a name someone can type: it depends on
 # `starplast[gpu]`, so the dependency list lives in one place -- the extra in the main
@@ -19,13 +20,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "starplast-gpu"
-version = "0.21.0"
+version = "0.22.0"
 description = "GPU acceleration for starplast: cuML for UMAP and HDBSCAN, CuPy for the array work"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [{name = "Einar Olafsson", email = "einar.olafsson@gmail.com"}]
-dependencies = ["starplast[gpu]==0.21.0"]
+dependencies = ["starplast==0.22.0"]
 
 [project.urls]
 Homepage = "https://github.com/EinarOlafsson/starplast"

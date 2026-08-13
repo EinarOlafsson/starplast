@@ -2,23 +2,22 @@
 #
 #     pip install starplast-cpu
 #
-# It installs `starplast` and nothing else -- the program has never required a GPU, and this exists
-# only so that the pair reads symmetrically beside `starplast-gpu` and so that "I do not want two
-# gigabytes of CUDA wheels" is something a person can express in the install command rather than in
-# a note to themselves.
+# It installs `starplast-core` -- the code -- and nothing else. `pip install starplast` carries the
+# CUDA stack by default, so this is the name for saying no to two gigabytes of wheels on a machine
+# with no card. The import name is `starplast` either way.
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "starplast-cpu"
-version = "0.21.0"
+version = "0.22.0"
 description = "starplast without the CUDA stack: the program alone"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [{name = "Einar Olafsson", email = "einar.olafsson@gmail.com"}]
-dependencies = ["starplast==0.21.0"]
+dependencies = ["starplast-core==0.22.0"]
 
 [project.urls]
 Homepage = "https://github.com/EinarOlafsson/starplast"

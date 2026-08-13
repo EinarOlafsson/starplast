@@ -355,25 +355,56 @@ def _read(*parts):
     return open(os.path.join(root, *parts), encoding="utf8").read()
 
 
-def test_the_gpu_stack_is_an_extra_and_not_a_dependency():
-    """~2 GB of CUDA wheels that only exist for CUDA 12, for a program that runs identically without
-    them. A hard dependency would make every install pay for a card most machines do not have."""
+def test_the_code_is_starplast_core_so_the_names_can_differ():
+    """One distribution cannot install two dependency sets -- dependencies are fixed when a wheel is
+    built -- and a -cpu package depending on a GPU-carrying starplast would drag the CUDA wheels in
+    anyway. So the code is `starplast-core` and the two names people type are metapackages."""
     main = _read("pyproject.toml")
-    assert "cuml-cu12" not in main.split("[project.optional-dependencies]")[0], \
-        "the GPU stack became a hard dependency"
-    extra = main.split("gpu = [")[1].split("]")[0]
-    assert "cuml-cu12" in extra and "cupy-cuda12x" in extra
+    assert 'name = "starplast-core"' in main
+    assert "cuml" not in main.split("[project.optional-dependencies]")[0], \
+        "the code distribution must not carry CUDA: starplast-cpu installs it"
 
 
-def test_the_metapackage_installs_the_extra_rather_than_repeating_it():
-    """`pip install starplast-gpu` has to mean exactly `starplast[gpu]`. Two lists of CUDA wheels
-    would disagree the first time one was updated."""
+def test_the_default_install_is_the_gpu_one():
+    """`pip install starplast` is the fast one, which is the point of the split."""
+    from starplast import __version__
+    meta = _read("packaging", "starplast", "pyproject.toml")
+    assert 'name = "starplast"' in meta
+    assert f'"starplast-core=={__version__}"' in meta
+    assert "cuml-cu12" in meta and "cupy-cuda12x" in meta
+
+
+def test_the_cuda_wheels_are_marked_for_the_platform_that_has_them():
+    """RAPIDS and CuPy publish Linux wheels only. Unmarked, `pip install starplast` would FAIL on
+    macOS and Windows rather than installing a working program."""
+    meta = _read("packaging", "starplast", "pyproject.toml")
+    for line in meta.splitlines():
+        if "cuml-cu12" in line or "cupy-cuda12x" in line:
+            assert "sys_platform == 'linux'" in line and "platform_machine == 'x86_64'" in line, line
+
+
+def test_the_cpu_name_installs_the_code_and_nothing_else():
+    from starplast import __version__
+    meta = _read("packaging", "starplast-cpu", "pyproject.toml")
+    assert f'dependencies = ["starplast-core=={__version__}"]' in meta
+    assert "cuml" not in meta.split("[project]")[1]
+
+
+def test_the_gpu_name_still_works_as_an_alias():
+    """Someone who read the old instructions gets what they expected."""
     from starplast import __version__
     meta = _read("packaging", "starplast-gpu", "pyproject.toml")
-    assert f'"starplast[gpu]=={__version__}"' in meta, \
-        "the metapackage does not pin the version it ships beside -- bump both or neither"
-    assert "cuml" not in meta.split("[project]")[1].split("dependencies")[1].split("\n")[0]
-    assert 'name = "starplast-gpu"' in meta
+    assert f'dependencies = ["starplast=={__version__}"]' in meta
+
+
+def test_every_distribution_ships_the_same_version():
+    """Four files, one release. A metapackage pinned to a version that does not exist is an install
+    that fails for a reason nobody can see from the error."""
+    from starplast import __version__
+    for parts in (("pyproject.toml",), ("packaging", "starplast", "pyproject.toml"),
+                  ("packaging", "starplast-gpu", "pyproject.toml"),
+                  ("packaging", "starplast-cpu", "pyproject.toml")):
+        assert f'version = "{__version__}"' in _read(*parts), parts
 
 
 def test_the_program_says_how_to_install_the_gpu_stack():

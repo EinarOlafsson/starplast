@@ -1,0 +1,32 @@
+# `pip install starplast` -- the program, with GPU acceleration where this platform has wheels for
+# it. The code is `starplast-core`; this name exists so that the default install is the fast one.
+#
+# The markers matter. RAPIDS and CuPy publish Linux wheels only, so on macOS or Windows a hard
+# dependency would make `pip install starplast` FAIL rather than install a working program. With the
+# markers it installs the CUDA stack where that stack exists and the program alone everywhere else.
+#
+# On a Linux machine with no NVIDIA card this still downloads about 2 GB, which is the cost of the
+# default being GPU. `pip install starplast-cpu` is the way to say no to that.
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "starplast"
+version = "0.22.0"
+description = "A 3D browser for the Toxoplasma gondii knowledge map, with GPU acceleration"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Einar Olafsson", email = "einar.olafsson@gmail.com"}]
+dependencies = [
+    "starplast-core==0.22.0",
+    "cuml-cu12>=24.10 ; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "cupy-cuda12x>=13.0 ; sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
+
+[project.urls]
+Homepage = "https://github.com/EinarOlafsson/starplast"
+
+[tool.setuptools]
+packages = []
