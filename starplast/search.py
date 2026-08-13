@@ -278,7 +278,7 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
            n_neighbors_values=(15, 50), min_dist_values=(0.0, 0.25),
            min_cluster_sizes=(25, 60), sample_size: int | None = None,
            seed: int = DEFAULT_SEED, store=None, save_above: float | None = None,
-           objective: dict | None = None, on_run=None, log=print) -> tuple:
+           objective: dict | None = None, on_run=None, should_stop=None, log=print) -> tuple:
     """Walk combinations of datasets and hyperparameters, scoring recovery of a held-out target.
 
     `objective` selects what "good structure" means, as the keyword arguments `objectives.score`
@@ -288,6 +288,13 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
     Whichever is chosen, the per-label table is computed regardless and returned alongside, because
     no single number survives contact with a real result: the winning configuration is chosen by the
     objective, and then read per label to see whether it earned it.
+
+    `should_stop` is asked before every configuration, and a search that is stopped RETURNS what it
+    has -- ranked, with its per-category table -- rather than raising. A stop is a decision that
+    enough has been seen, not an error, and throwing away twenty minutes of finished configurations
+    because the user pressed stop on the twenty-first would make the button unusable. Asked per
+    configuration rather than per log line, because the log is throttled to every fortieth run and a
+    stop that takes four minutes to land reads as a button that does not work.
 
     `on_run` is called with a `RunStep` as each EMBEDDING finishes -- carrying its best clustering
     among the `min_cluster_sizes` tried, its per-category scores, its coordinates and its labels. Per
@@ -338,7 +345,11 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
         sub = np.random.default_rng(seed).choice(len(nodes), sample_size, replace=False)
         sub.sort()
 
+    stopped = False
     for blocks, pol, sc in itertools.product(block_sets, na_policies, scalings):
+        if should_stop is not None and should_stop():
+            stopped = True
+            break
         spec0 = EmbeddingSpec(blocks=blocks, na_policy=pol, scaling=sc, random_state=seed)
         spec0 = _spec_without(spec0, nodes, banned)
         if not spec0.blocks:
@@ -364,6 +375,9 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
             log("umap-learn not installed"); return pd.DataFrame(), pd.DataFrame()
 
         for nn, md in itertools.product(n_neighbors_values, min_dist_values):
+            if should_stop is not None and should_stop():
+                stopped = True
+                break
             if nn >= len(X):
                 continue
             Y = np.array(umap.UMAP(n_components=3, n_neighbors=nn, min_dist=md,
@@ -464,6 +478,8 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
     if store is not None and not R.empty and save_above is None:
         log(f"  saved embeddings for every run; the top result is the first row of the table")
     P = pd.concat(per_label, ignore_index=True) if per_label else pd.DataFrame()
+    if stopped:
+        log(f"  STOPPED after {runs} of {total} runs -- what finished is kept, ranked and saved")
     for why, which in skipped.items():
         names = sorted(set(which))
         log(f"  skipped {len(names)} combination(s) -- {why}: "

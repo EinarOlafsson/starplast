@@ -218,6 +218,9 @@ BUTTON_TOOLTIPS = {
 
 
 from .jobs import Stopped as Cancelled  # noqa: E402  -- shared so the runner can recognise it
+from .logging_util import get_logger  # noqa: E402
+
+_log = get_logger(__name__)
 
 #: The walk's job name. Named once because it is also how a second walk is recognised and
 #: refused: two sweeps filling one table and one gallery would read as a single sweep.
@@ -238,6 +241,16 @@ class _Progress:
 
     def __init__(self, panel, job):
         self.panel, self.job = panel, job
+
+    def stopped(self) -> bool:
+        """Whether the user has asked this job to stop, without raising.
+
+        The raising form above lands at the next log line, and the search logs every fortieth run --
+        four minutes of a full-proteome sweep, which reads as a button that does nothing. Passed to
+        `search` and `walk_umap` as `should_stop`, they check it every configuration and return what
+        they have.
+        """
+        return bool(self.job.cancelled)
 
     def __call__(self, message):
         if self.job.cancelled:
@@ -289,6 +302,12 @@ class AnalysisPanel(QtWidgets.QWidget):
         # else. None is allowed: the panel is constructed without one in tests.
         self.runner = runner
         self._jobs = {}
+        #: Buttons that stop whatever this panel is running, and the jobs they stop. A stop that
+        #: lives only in the Jobs dock's right-click menu is a stop nobody finds: the first thing
+        #: asked about it was "I can't see the stop button".
+        self._stop_btns, self._running = [], []
+        #: Rows are written to disk as they arrive, one file per table per run -- see `_row_log`.
+        self._row_logs = {}
         # What each results table is showing, what clicking one of its rows means, and what to call
         # the file if it is saved. Keyed by the widget so a table cannot be registered twice or
         # forgotten -- see `results_table`.
@@ -504,7 +523,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         b2 = QtWidgets.QPushButton("build this map")
         b2.setProperty("primary", True)
         b2.clicked.connect(self.run_embed)
-        row.addWidget(b1); row.addWidget(b2)
+        row.addWidget(b1); row.addWidget(b2); row.addWidget(self.stop_button())
         v.addLayout(row)
 
         self.walk_table = self.results_table(
@@ -544,7 +563,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         b2 = QtWidgets.QPushButton("cluster this map")
         b2.setProperty("primary", True)
         b2.clicked.connect(self.run_cluster)
-        row.addWidget(b1); row.addWidget(b2)
+        row.addWidget(b1); row.addWidget(b2); row.addWidget(self.stop_button())
         v.addLayout(row)
         self.cluster_table = self.results_table(
             QtWidgets.QTableWidget(), self.show_cluster_row, "clustering_walk")
@@ -708,10 +727,12 @@ class AnalysisPanel(QtWidgets.QWidget):
         form.addRow("sample size", self.search_sample)
         form.addRow("max blocks per combination", self.max_blocks)
         v.addLayout(form)
+        run = QtWidgets.QHBoxLayout()
         b = QtWidgets.QPushButton("run the search")
         b.setProperty("primary", True)
         b.clicked.connect(self.run_search)
-        v.addWidget(b)
+        run.addWidget(b); run.addWidget(self.stop_button())
+        v.addLayout(run)
         self.search_table = self.results_table(
             QtWidgets.QTableWidget(), self.show_search_row, "recovery_search")
         self.category_search_table = self.results_table(
@@ -842,10 +863,12 @@ class AnalysisPanel(QtWidgets.QWidget):
         form.addRow("stricter", self.val_refit)
         v.addLayout(form)
 
+        run = QtWidgets.QHBoxLayout()
         b = QtWidgets.QPushButton("test the annotation")
         b.setProperty("primary", True)
         b.clicked.connect(self.run_validation)
-        v.addWidget(b)
+        run.addWidget(b); run.addWidget(self.stop_button())
+        v.addLayout(run)
 
         self.val_note = QtWidgets.QLabel("")
         self.val_note.setWordWrap(True)
@@ -1111,6 +1134,8 @@ class AnalysisPanel(QtWidgets.QWidget):
         if self.runner is not None:
             job = self.runner.submit(lambda j: fn(_Progress(self, j)), name)
             self._jobs[job.id] = (on_done, on_error)
+            self._running = [j for j in self._running if j.active] + [job]
+            self._set_stoppable(True)
             return job
         # No runner (the panel used standalone, or in a test): fall back to a private thread.
         if self._thread is not None:
@@ -1144,8 +1169,22 @@ class AnalysisPanel(QtWidgets.QWidget):
         job = self.runner.jobs.get(jid)
         if job is None:
             return
+        self._running = [j for j in self._running if j.active and j.id != jid]
+        if not self._running:
+            self._set_stoppable(False)
+        saved = self._close_row_logs()
+        where = f" -- rows saved to {'; '.join(saved)}" if saved else ""
         if job.state == "cancelled":
-            self.status.emit(f"{job.name}: stopped")
+            # A stopped search RETURNS what it computed, so there is usually a result to deliver.
+            # Discarding it because the user pressed stop would make stopping cost the whole run,
+            # which is the opposite of what the button is for.
+            kept = job.result
+            if kept is not None and on_done is not None:
+                try:
+                    on_done(kept)
+                except Exception as exc:                      # a partial result may be shaped oddly
+                    _log.warning("stopped job %d: %s: %s", jid, type(exc).__name__, exc)
+            self.status.emit(f"{job.name}: stopped -- what it finished is kept{where}")
             return
         if not ok:
             # The exception itself where the runner kept it, so a handler can tell a deliberate
@@ -1156,6 +1195,8 @@ class AnalysisPanel(QtWidgets.QWidget):
             self.status.emit(f"{job.name} failed: {job.error}")
             return
         on_done(job.result)
+        if saved:
+            self.status.emit(f"{job.name}: done{where}")
 
     def results_table(self, table: QtWidgets.QTableWidget, on_row=None, what: str = "these results"):
         """Give a results table the two things every results table needs.
@@ -1431,6 +1472,56 @@ class AnalysisPanel(QtWidgets.QWidget):
             item.setText(str(v))
         return item
 
+    def stop_button(self) -> QtWidgets.QPushButton:
+        """A stop button for whatever this panel is running, disabled until something is."""
+        b = QtWidgets.QPushButton("stop")
+        b.setEnabled(False)
+        b.setToolTip("Stop the running analysis after the configuration it is on. Everything "
+                     "already computed is kept: the rows are in the table, each embedding is in "
+                     "the store, and both have been written to disk as they were produced.")
+        b.clicked.connect(self.stop_running)
+        self._stop_btns.append(b)
+        return b
+
+    def stop_running(self) -> int:
+        """Ask every job this panel started to stop. Returns how many were asked."""
+        asked = [j for j in self._running if j is not None and j.active]
+        for job in asked:
+            job.cancel()
+        if asked:
+            self.status.emit(f"stopping after the current configuration -- what is already "
+                             f"computed is kept and saved")
+        else:
+            self.status.emit("nothing is running")
+        return len(asked)
+
+    def _set_stoppable(self, on: bool) -> None:
+        for b in self._stop_btns:
+            b.setEnabled(on)
+
+    def _row_log(self, table: QtWidgets.QTableWidget):
+        """The file this table's rows are being written to as they arrive, opening one if needed."""
+        from .results import RowLog, autosave_path
+        log = self._row_logs.get(table)
+        if log is None:
+            import datetime
+            from . import paths
+            kind = self._table_what.get(table, "results")
+            stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            log = RowLog(autosave_path(paths.user_cache_dir(), kind, stamp), kind)
+            self._row_logs[table] = log
+        return log
+
+    def _close_row_logs(self) -> list:
+        """Close every open autosave file and return the paths that got rows."""
+        out = []
+        for table, log in list(self._row_logs.items()):
+            path = log.close()
+            if path:
+                out.append(path)
+            self._row_logs.pop(table, None)
+        return out
+
     def _start_table(self, table: QtWidgets.QTableWidget, columns):
         """Empty a table and give it headers, ready for rows to arrive one at a time."""
         table.setSortingEnabled(False)          # re-enabled by _fill when the run finishes
@@ -1459,6 +1550,13 @@ class AnalysisPanel(QtWidgets.QWidget):
         prev = self._frames.get(table)
         one = pd.DataFrame([row])
         self._frames[table] = one if prev is None else pd.concat([prev, one], ignore_index=True)
+        # And onto disk, immediately. In memory is enough to survive a stop; it is not enough to
+        # survive quitting, a crash or a power cut, and an hour of search is too much to hold in
+        # a process nobody promised to keep alive.
+        try:
+            self._row_log(table).append(row)
+        except OSError as exc:
+            _log.warning("autosave: %s: %s", type(exc).__name__, exc)
         table.insertRow(i)
         for j, name in enumerate(headers):
             if name in row:
@@ -1499,8 +1597,11 @@ class AnalysisPanel(QtWidgets.QWidget):
         # panel that has already forgotten the last walk, rather than one still holding its rows.
         self._start_table(self.walk_table, [])
         self.walk_started.emit()
+        # `getattr`, because `log` is documented as any callable: the panel hands in a _Progress,
+        # which carries the stop flag, and a caller with a plain function still gets a walk.
         self._run(lambda p: walk_umap(n, spec, sample_size=size, seed=seed, log=p,
-                                      store=self.store, on_step=self.walk_step.emit, **grid),
+                                      store=self.store, on_step=self.walk_step.emit,
+                                      should_stop=getattr(p, "stopped", None), **grid),
                   lambda d: (self._fill(self.walk_table, d), self.status.emit("walk complete")),
                   name=WALK_JOB)
 
@@ -1776,8 +1877,8 @@ class AnalysisPanel(QtWidgets.QWidget):
 
         def job(p):
             R, P = search(n, target=target, block_sets=sets, sample_size=size, seed=seed,
-                          store=self.store, objective=obj, on_run=self.search_step.emit, log=p,
-                          **grid)
+                          store=self.store, objective=obj, on_run=self.search_step.emit,
+                          should_stop=getattr(p, "stopped", None), log=p, **grid)
             return R, P
 
         self._run(job, self._search_done, name=f"recovery search ({target})")

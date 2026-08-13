@@ -836,3 +836,51 @@ def test_the_default_sweep_names_the_blocks_it_used_and_the_ones_it_did_not():
     assert named, lines
     assert "fitness_screens" in named[0], "the blocks it used are not named"
     assert "not swept: localization" in named[0], "the blocks it left out are not named"
+
+
+# --------------------------------------------------------------------------- stopping
+def test_a_stopped_search_returns_what_it_finished():
+    """Pressing stop must not cost the twenty minutes already spent. A search that is stopped
+    returns its rows ranked, with the per-category table, rather than raising -- a stop is a
+    decision that enough has been seen, not an error."""
+    d = _searchable()
+    seen = {"n": 0}
+
+    def stop_after_two():
+        seen["n"] += 1
+        return seen["n"] > 2
+
+    lines = []
+    R, P = S.search(d, target="compartment",
+                    block_sets=[("fitness_screens",), ("protein_features",), ("interactions",)],
+                    n_neighbors_values=(15,), min_dist_values=(0.0,), min_cluster_sizes=(25,),
+                    should_stop=stop_after_two, log=lines.append)
+    assert not R.empty, "a stopped search threw away what it had already computed"
+    assert len(R) < 3
+    assert any("STOPPED after" in m for m in lines), lines
+
+
+def test_a_search_nobody_stops_runs_to_the_end():
+    """The flag is asked, not assumed: a `should_stop` that always says no must not shorten a run."""
+    d = _searchable()
+    R, _ = S.search(d, target="compartment", block_sets=[("fitness_screens",)],
+                    n_neighbors_values=(15,), min_dist_values=(0.0,), min_cluster_sizes=(25,),
+                    should_stop=lambda: False, log=lambda *_: None)
+    assert len(R) == 1
+
+
+def test_a_search_stopped_between_hyperparameters_keeps_the_earlier_ones():
+    """The check is in both loops. One combination can carry dozens of hyperparameter points, so a
+    stop that could only land between combinations would still take minutes on a real sweep."""
+    d = _searchable()
+    seen = {"n": 0}
+
+    def stop_on_the_third_question():
+        seen["n"] += 1
+        return seen["n"] > 2
+
+    R, _ = S.search(d, target="compartment", block_sets=[("fitness_screens",)],
+                    n_neighbors_values=(15, 25, 35), min_dist_values=(0.0,),
+                    min_cluster_sizes=(25,), should_stop=stop_on_the_third_question,
+                    log=lambda *_: None)
+    assert 0 < len(R) < 3

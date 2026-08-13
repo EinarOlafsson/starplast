@@ -128,3 +128,46 @@ def test_anything_in_a_bundle_that_is_not_a_table_is_ignored(tmp_path):
         z.writestr("notes.txt", "the second run looked better")
     back, _ = R.load_bundle(path)
     assert list(back) == ["umap_walk"]
+
+
+def test_an_autosave_with_no_rows_leaves_no_file(tmp_path):
+    """A run that is stopped before its first configuration should not leave an empty file behind
+    for someone to find and wonder about."""
+    from starplast.results import RowLog
+    log = RowLog(str(tmp_path / "empty.csv"), "umap_walk")
+    assert log.close() == ""
+    assert not (tmp_path / "empty.csv").exists()
+
+
+def test_a_row_that_carries_a_new_column_does_not_corrupt_the_file(tmp_path):
+    """The header is written once, from the first row. A later row with an extra key loses that key
+    here rather than writing a line with more fields than the header, which is not a CSV."""
+    from starplast.results import RowLog, load_table
+    log = RowLog(str(tmp_path / "walk.csv"), "umap_walk")
+    log.append({"a": 1, "b": 2})
+    log.append({"a": 3, "b": 4, "surprise": 5})
+    log.append({"a": 6})
+    path = log.close()
+    back = load_table(path)
+    assert list(back.columns) == ["a", "b"]
+    assert list(back.a) == [1, 3, 6]
+    assert pd.isna(back.b.iloc[2])
+
+
+def test_a_value_with_a_comma_or_a_quote_survives_the_round_trip(tmp_path):
+    """The excluded-columns cell is a semicolon-joined list and a block combination is `a+b`, but a
+    product description or a reasoning note can carry anything. Quoted the way to_csv would."""
+    from starplast.results import RowLog, load_table
+    log = RowLog(str(tmp_path / "w.csv"), "recovery_search")
+    log.append({"blocks": "a+b", "note": 'has, a comma and a " quote', "n": 1})
+    path = log.close()
+    back = load_table(path)
+    assert back.note.iloc[0] == 'has, a comma and a " quote'
+
+
+def test_autosaves_land_in_one_place_named_for_the_table_and_the_time(tmp_path):
+    """One directory, so a user looking for "the search I stopped yesterday" has somewhere to look,
+    and the kind in the name because that is what decides which tab it loads back into."""
+    from starplast.results import autosave_path
+    p = autosave_path(str(tmp_path), "recovery_search", "20260813_090102")
+    assert p.endswith(os.path.join("autosave", "recovery_search_20260813_090102.csv"))

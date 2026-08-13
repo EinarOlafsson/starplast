@@ -1944,3 +1944,133 @@ def test_saving_a_csv_with_no_path_asks_where(panel, tmp_path, monkeypatch):
                         staticmethod(lambda *a, **k: (str(target), "")))
     assert panel.save_table(panel.search_table) == str(target)
     assert "blocks" in target.read_text().splitlines()[0]
+
+
+# --------------------------------------------------------------------------- stopping and autosave
+def test_every_long_running_tab_has_a_visible_stop_button(panel):
+    """The first thing asked about stopping was "I can't see the stop button" -- it existed only in
+    the Jobs dock's right-click menu, which is not where anyone looks while watching a sweep."""
+    from PyQt6 import QtWidgets
+    buttons = [b for b in panel.findChildren(QtWidgets.QPushButton) if b.text() == "stop"]
+    assert len(buttons) >= 4, "the walk, clustering, search and validation tabs each need one"
+    assert all(not b.isEnabled() for b in buttons), "stop is enabled only while something runs"
+    assert all(b.toolTip() for b in buttons)
+
+
+def test_the_stop_button_asks_the_running_job_and_says_what_survives(panel, sync):
+    import threading
+
+    class FakeJob:
+        def __init__(self):
+            self.active, self.asked, self.id = True, False, 1
+
+        def cancel(self):
+            self.asked = True
+
+    job = FakeJob()
+    panel._running = [job]
+    panel._set_stoppable(True)
+    assert panel.stop_running() == 1
+    assert job.asked
+    assert any("what is already computed is kept" in m for m in sync)
+
+
+def test_stopping_with_nothing_running_says_so(panel, sync):
+    panel._running = []
+    assert panel.stop_running() == 0
+    assert any("nothing is running" in m for m in sync)
+
+
+def test_rows_reach_the_disk_as_they_arrive(panel, tmp_path, monkeypatch):
+    """In memory survives a stop; it does not survive quitting, a crash or a power cut, and an hour
+    of search is too much to hold in a process nobody promised to keep alive."""
+    from starplast import paths
+    from starplast.results import load_table, table_kind
+    monkeypatch.setenv(paths.ENV_STATE, str(tmp_path))
+    panel._start_table(panel.walk_table, [])
+    panel._append(panel.walk_table, {"n_neighbors": 5, "min_dist": 0.0, "trustworthiness": 0.9})
+    panel._append(panel.walk_table, {"n_neighbors": 15, "min_dist": 0.1, "trustworthiness": 0.8})
+    written = panel._close_row_logs()
+    assert len(written) == 1, written
+    assert table_kind(written[0]) == "umap_walk", "an autosaved file must load back into its own tab"
+    back = load_table(written[0])
+    assert len(back) == 2 and list(back.n_neighbors) == [5, 15]
+
+
+def test_an_autosave_that_cannot_be_written_costs_the_file_and_not_the_run(panel, tmp_path,
+                                                                          monkeypatch):
+    """A read-only disk must not take the analysis down with it: the rows are still in the table."""
+    from starplast import paths, results
+    monkeypatch.setenv(paths.ENV_STATE, str(tmp_path))
+
+    def refuse(self, row):
+        raise OSError("read-only file system")
+
+    monkeypatch.setattr(results.RowLog, "append", refuse)
+    panel._start_table(panel.walk_table, [])
+    panel._append(panel.walk_table, {"n_neighbors": 5, "trustworthiness": 0.9})
+    assert panel.walk_table.rowCount() == 1
+    assert len(panel._frames[panel.walk_table]) == 1
+
+
+def test_the_progress_handle_reports_a_stop_without_raising(panel):
+    """The raising form lands at the next log line, and the search logs every fortieth run. This is
+    the form the sweeps check per configuration."""
+    from starplast.analysis_panel import _Progress
+
+    class FakeJob:
+        cancelled, name, note = False, "search", ""
+
+    job = FakeJob()
+    p = _Progress(panel, job)
+    assert p.stopped() is False
+    job.cancelled = True
+    assert p.stopped() is True
+
+
+def test_a_stopped_job_that_returned_something_still_delivers_it(panel, sync):
+    """Discarding a stopped run's result would make stopping cost the whole run."""
+    got = []
+    panel._jobs[7] = (got.append, None)
+
+    class FakeJob:
+        id, name, state, result = 7, "search", "cancelled", "partial table"
+        active = False
+
+    panel.runner = type("R", (), {"jobs": {7: FakeJob()}})()
+    panel._on_job_finished(7, False)
+    assert got == ["partial table"]
+    assert any("what it finished is kept" in m for m in sync)
+
+
+def test_a_stopped_job_whose_result_will_not_load_is_reported_not_raised(panel, sync):
+    """A partial result can be shaped oddly. Losing the message about what survived because the
+    handler tripped would leave the user thinking the stop threw everything away."""
+    def boom(_result):
+        raise ValueError("half a table")
+
+    panel._jobs[8] = (boom, None)
+
+    class FakeJob:
+        id, name, state, result = 8, "search", "cancelled", "partial"
+        active = False
+
+    panel.runner = type("R", (), {"jobs": {8: FakeJob()}})()
+    panel._on_job_finished(8, False)
+    assert any("stopped" in m for m in sync)
+
+
+def test_a_finished_run_says_where_its_rows_were_saved(panel, sync, tmp_path, monkeypatch):
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_STATE, str(tmp_path))
+    panel._start_table(panel.walk_table, [])
+    panel._append(panel.walk_table, {"n_neighbors": 5, "trustworthiness": 0.9})
+    panel._jobs[9] = (lambda r: None, None)
+
+    class FakeJob:
+        id, name, state, result = 9, "walk", "done", None
+        active = False
+
+    panel.runner = type("R", (), {"jobs": {9: FakeJob()}})()
+    panel._on_job_finished(9, True)
+    assert any("rows saved to" in m for m in sync), sync

@@ -99,7 +99,7 @@ def walk_umap_iter(nodes: pd.DataFrame, spec: EmbeddingSpec,
                    n_neighbors_values=(5, 15, 25, 50, 100),
                    min_dist_values=(0.0, 0.1, 0.25, 0.5),
                    sample_size: int = 2000, seed: int = DEFAULT_SEED,
-                   cluster_check: bool = True, store=None, log=print):
+                   cluster_check: bool = True, store=None, should_stop=None, log=print):
     """Sweep UMAP hyperparameters, yielding each configuration as it finishes.
 
     This is the walk; `walk_umap` is this collected into a table. Emitting per configuration is what
@@ -108,6 +108,10 @@ def walk_umap_iter(nodes: pd.DataFrame, spec: EmbeddingSpec,
 
     Given a `store`, every configuration is saved with its full recipe as it is computed, so a walk
     that is stopped half way still leaves behind everything it had finished.
+
+    `should_stop` is asked before each configuration and simply ends the sweep: the caller keeps
+    every step already yielded. A stop is a decision that enough has been seen rather than an error,
+    so nothing is raised and nothing is discarded.
     """
     X, names, rows = build_matrix(nodes, spec, log=lambda *a: None)
     # Sorted, so the coordinates line up with the node table. `rng.choice` returns its picks in
@@ -136,6 +140,9 @@ def walk_umap_iter(nodes: pd.DataFrame, spec: EmbeddingSpec,
         if nn >= len(Xs):
             continue
         for md in min_dist_values:
+            if should_stop is not None and should_stop():
+                log(f"  stopped after {i} of {total} configurations -- each one is already saved")
+                return
             Y = np.asarray(umap.UMAP(n_components=spec.n_components, n_neighbors=nn, min_dist=md,
                                      metric=spec.metric,
                                      random_state=spec.random_state).fit_transform(Xs))
@@ -168,7 +175,7 @@ def walk_umap(nodes: pd.DataFrame, spec: EmbeddingSpec,
               min_dist_values=(0.0, 0.1, 0.25, 0.5),
               sample_size: int = 2000, seed: int = DEFAULT_SEED,
               cluster_check: bool = True, store=None, on_step=None,
-              log=print) -> pd.DataFrame:
+              should_stop=None, log=print) -> pd.DataFrame:
     """Sweep UMAP hyperparameters on a seeded subsample of the genes, and rank the settings.
 
     `on_step` is called with each `WalkStep` the moment it is computed, which is how the interface
@@ -179,7 +186,8 @@ def walk_umap(nodes: pd.DataFrame, spec: EmbeddingSpec,
     out = []
     for step in walk_umap_iter(nodes, spec, n_neighbors_values=n_neighbors_values,
                                min_dist_values=min_dist_values, sample_size=sample_size,
-                               seed=seed, cluster_check=cluster_check, store=store, log=log):
+                               seed=seed, cluster_check=cluster_check, store=store,
+                               should_stop=should_stop, log=log):
         if on_step is not None:
             on_step(step)
         out.append(step.row)

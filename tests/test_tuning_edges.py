@@ -356,3 +356,22 @@ def test_an_embedding_saved_without_gene_ids_still_loads(tmp_path):
     Y, _, meta = store.load("run")
     assert len(Y) == 5
     assert "gene_ids" not in meta
+
+
+def test_a_stopped_walk_keeps_every_configuration_it_finished(tmp_path):
+    """The walk yields per configuration and writes each one to the store as it goes, so stopping
+    costs the configuration in flight and nothing else."""
+    from starplast.embedding import EmbeddingSpec
+    store = TU.EmbeddingStore(str(tmp_path))
+    seen = {"n": 0}
+
+    def stop_after_two():
+        seen["n"] += 1
+        return seen["n"] > 2
+
+    steps = list(TU.walk_umap_iter(_nodes(), EmbeddingSpec(blocks=("fitness_screens",)),
+                                   n_neighbors_values=(5, 10, 15), min_dist_values=(0.0,),
+                                   sample_size=100, store=store, should_stop=stop_after_two,
+                                   log=lambda *_: None))
+    assert 0 < len(steps) < 3
+    assert len(store.list()) == len(steps), "a finished configuration was not saved"

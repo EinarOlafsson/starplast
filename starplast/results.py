@@ -132,3 +132,55 @@ def load_bundle(path: str) -> tuple:
 def is_bundle(path: str) -> bool:
     """Whether a path is a bundle rather than a single table."""
     return zipfile.is_zipfile(path) if os.path.exists(path) else path.endswith(".starplast")
+
+
+class RowLog:
+    """A results table written to disk one row at a time, as the run produces them.
+
+    A search is minutes to hours, and until now nothing of it reached disk except the embeddings:
+    the rows lived in the panel's frame, so stopping was safe but quitting, crashing or a power cut
+    was not, and "save results" was a step the user had to remember AFTER waiting an hour.
+
+    Written in the same format `save_table` produces -- the marker line, then CSV -- so an autosaved
+    file loads back through the ordinary Load, and its rows are as clickable as any other. Flushed
+    after every row on purpose: a buffer that loses the last twenty rows of an interrupted run is
+    the failure this exists to prevent.
+    """
+
+    def __init__(self, path: str, kind: str):
+        self.path, self.kind, self.columns, self.n = path, kind, None, 0
+        self._fh = None
+
+    def append(self, row: dict) -> None:
+        """Write one row, opening the file and writing its header on the first."""
+        if self._fh is None:
+            os.makedirs(os.path.dirname(self.path) or ".", exist_ok=True)
+            self._fh = open(self.path, "w", encoding="utf8", newline="")
+            self.columns = list(row)
+            self._fh.write(f"{MARKER} {self.kind}\n")
+            self._fh.write(",".join(_csv_cell(c) for c in self.columns) + "\n")
+        # Columns from the first row, because a table whose header changes half way through is not a
+        # CSV. A later row that carries something new loses it here rather than corrupting the file.
+        self._fh.write(",".join(_csv_cell(row.get(c, "")) for c in self.columns) + "\n")
+        self._fh.flush()
+        self.n += 1
+
+    def close(self) -> str:
+        """Close the file and return its path, or "" if nothing was ever written."""
+        if self._fh is not None:
+            self._fh.close()
+            self._fh = None
+        return self.path if self.n else ""
+
+
+def _csv_cell(value) -> str:
+    """One CSV field, quoted the way `pandas.to_csv` would quote it."""
+    text = "" if value is None else str(value)
+    if any(c in text for c in ',"\n\r'):
+        return '"' + text.replace('"', '""') + '"'
+    return text
+
+
+def autosave_path(root: str, kind: str, stamp: str) -> str:
+    """Where a run's rows are written as it computes them."""
+    return os.path.join(root, "autosave", f"{kind}_{stamp}.csv")
