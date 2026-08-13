@@ -112,3 +112,42 @@ def test_a_script_runs_end_to_end_on_a_dataset_that_is_present(tmp_path):
                           capture_output=True, text=True, timeout=300)
     assert proc.returncode == 0, proc.stderr[-2000:]
     assert "873 distinct genes" in proc.stdout, proc.stdout[-2000:]
+
+
+# --------------------------------------------------------------------------- the slot table
+def test_the_slot_table_regenerates_identically(tmp_path, monkeypatch):
+    """Both files come from one list in the generator, and the coverage numbers are counted from the
+    cache on every run. A table checked in by hand goes stale the first time a dataset lands."""
+    import runpy
+    import shutil
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    csv_path = os.path.join(root, "instructions", "open", "31_slots.csv")
+    md_path = os.path.join(root, "instructions", "open", "31_slots.md")
+    if not os.path.exists(csv_path):
+        pytest.skip("the slot table has not been generated on this machine")
+    before = {p: open(p, encoding="utf8").read() for p in (csv_path, md_path)}
+    try:
+        runpy.run_path(os.path.join(root, "scripts", "generate_slot_table.py"),
+                       run_name="__main__")
+        after = {p: open(p, encoding="utf8").read() for p in (csv_path, md_path)}
+        assert after == before, "the slot table is stale -- run scripts/generate_slot_table.py"
+    finally:
+        for p, text in before.items():
+            open(p, "w", encoding="utf8").write(text)
+
+
+def test_every_slot_that_claims_coverage_has_columns_behind_it():
+    """A slot graded A with nothing filling it would be a promise the cache does not keep."""
+    import csv as _csv
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    path = os.path.join(root, "instructions", "open", "31_slots.csv")
+    if not os.path.exists(path):
+        pytest.skip("the slot table has not been generated on this machine")
+    rows = list(_csv.DictReader(open(path, encoding="utf8")))
+    assert len(rows) > 50, "the taxonomy lost most of its slots"
+    for r in rows:
+        if r["grade"] != "-":
+            assert r["filled_by"], f"{r['slot']} is graded {r['grade']} with nothing filling it"
+            assert int(r["genes"]) > 0, r["slot"]
+        else:
+            assert not r["filled_by"], f"{r['slot']} is graded empty but names {r['filled_by']}"

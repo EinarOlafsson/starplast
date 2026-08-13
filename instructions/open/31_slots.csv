@@ -1,0 +1,72 @@
+slot,axis,context,unit,grade,genes,coverage,filled_by,detail,policy,candidates
+transcription · tachyzoite,transcription,"tachyzoite, in vitro",gene,A,7739,95.1%,"expr_tachy, rna108740_Tachyzoites",3 columns,one,
+transcription · bradyzoite / tissue cyst,transcription,bradyzoite,gene,A,7739,95.1%,"expr_cyst, rna108740_Tissue_cysts, rna108740_Day",11 columns,average,"PMID 41580398 GSE311669 (bradyzoite subtypes, 2026)"
+transcription · oocyst / sporozoite,transcription,"oocyst, sporulation",gene,A,7974,98.0%,"rna206344_, expr_sporulated",7 columns,average,
+transcription · merozoite,transcription,merozoite,gene,-,0,,,,one,"PMID 25757795 PRJEB7935 (asexual expansion, distinct from tachyzoite)"
+transcription · sexual stages,transcription,"feline gut, sexual",gene,-,0,,,,one,"PMID 38093015 GSE222819 (in vitro pre-sexual stages); PMID 42020723 (single-cell atlas of sexual development, 2026)"
+transcription · per cell-cycle phase,transcription,cell cycle,gene,-,0,,,,one,"PMID 32065584 (the study behind cellcycle_phase, re-ingested as VALUES not a call)"
+transcription · in naive macrophage,transcription,host: naive macrophage,gene,-,0,,,,one,"PMID 40630957 GSE295224 (dual single-cell and bulk, host-parasite)"
+transcription · in IFN-gamma macrophage,transcription,host: IFN-g macrophage,gene,-,0,,,,one,
+transcription · in vivo brain,transcription,host: brain,gene,-,0,,,,one,"PMID 41278634 (single-cell brain-derived bradyzoites, 2025)"
+transcription · under stress / conversion,transcription,"alkaline, stress",gene,A,7880,96.8%,stress_,10 columns,separate,
+transcription · under TF or chromatin perturbation,transcription,perturbation,gene,A,7841,96.3%,morc_,18 columns,separate,PMID 39774584 PRJNA1134678 (ApiAP2 cascade); PMID 40920096 PRJNA1281009 (AP2X-7); PMID 41193469 GSE287537 (SWI/SNF); PMID 40879678 GSE286088 (GCN5a); PMID 40593611 GSE268652 (SNF2L)
+translation · tachyzoite,translation,"tachyzoite, in vitro",gene,-,0,,,,one,PMID 29228904 GSE99395 (comparative ribosome profiling); PMID 38782906 GSE245775 (eIF1.2 and stage conversion)
+translation · bradyzoite,translation,bradyzoite,gene,-,0,,,,one,PMID 29228904 GSE99395 (same study covers the conversion)
+translation · per cell-cycle phase,translation,cell cycle,gene,-,0,,,,one,
+translation · under stress,translation,"stress, iron",gene,-,0,,,,one,"PMID 41925342 (translational remodelling under iron starvation, 2026)"
+protein abundance · tachyzoite,protein abundance,tachyzoite,gene,B,3107,38.2%,"proteome_, protein_ibaq_log2",16 columns,fill,PMID 40716488 PXD063409 (cytoskeleton proteome); PMID 25867681 PXD000297 (proteogenomics)
+protein abundance · other life stages,protein abundance,stages,gene,B,2079,25.5%,oocyst_,8 columns,separate,PMID 28626452 PXD003765 (iTRAQ across developmental stages)
+protein turnover / stability,protein abundance,tachyzoite,gene,-,0,,,,one,PMID 35976251 PXD033642 (temporal and thermal proteome profiling)
+phosphorylation · site count,PTM,tachyzoite,gene,A,8140,100.0%,"n_phosphosites, has_phospho",2 columns,one,
+phosphorylation · quantitative,PTM,tachyzoite,gene,C,1603,19.7%,phospho_,5 columns,average,PMID 33363051 PXD020655 (iTRAQ phosphoproteome); PMID 31508380 PXD007777 (type I vs type II); PMID 40901993 PXD064226 (PP2A-2 during cytokinesis)
+phosphorylation · kinase-substrate,PTM,perturbation,gene,-,0,,,,separate,PMID 37933960 PXD019677 (CDPK1 substrates); PMID 33635921 PXD019655 (CDPK7)
+acetylation,PTM,life stages,gene,-,0,,,,one,PMID 37562054 PXD040368 (lysine acetylation across stages)
+lactylation,PTM,tachyzoite,gene,-,0,,,,one,PMID 36216028 PXD022700 (protein lactylation)
+S-nitrosylation,PTM,tachyzoite,gene,-,0,,,,one,PMID 37959749 PXD046083 (proteome-wide cysteine S-nitrosylation)
+ubiquitination / SUMOylation,PTM,tachyzoite,gene,-,0,,,,one,PMID 40348811 PXD045018 (TgUAE1); PMID 40590555 PXD054719 (endodyogeny)
+glycosylation,PTM,tachyzoite,gene,-,0,,,,one,PMID 39912628 PXD056853 (nucleocytoplasmic O-fucose)
+palmitoylation,PTM,tachyzoite,gene,-,0,,,,one,
+fitness · HFF in vitro,fitness,HFF,gene,A,7325,90.0%,fit_invitro_hff,1 columns,one,
+fitness · naive macrophage,fitness,naive BMDM,gene,A,7402,90.9%,fit_naive_bmdm,1 columns,one,
+fitness · IFN-gamma macrophage,fitness,IFN-g BMDM,gene,A,7402,90.9%,fit_ifng,1 columns,one,PMID 36916910 (a second IFN-gamma screen)
+fitness · in vivo peritoneum,fitness,mouse peritoneum,gene,A,7395,90.8%,fit_invivo_PE,1 columns,one,
+fitness · in vivo lung,fitness,mouse lung,gene,A,7395,90.8%,fit_invivo_lung,1 columns,one,
+fitness · in vivo liver,fitness,mouse liver,gene,A,7395,90.8%,fit_invivo_liver,1 columns,one,
+fitness · in vivo spleen,fitness,mouse spleen,gene,A,7395,90.8%,fit_invivo_spleen,1 columns,one,
+"fitness · in vivo brain, acute",fitness,"mouse brain, acute",gene,A,7663,94.1%,invivo_WholeBrain_Acute,3 columns,average,
+"fitness · in vivo brain, chronic",fitness,"mouse brain, chronic",gene,A,7663,94.1%,"invivo_WholeBrain_Chronic, invivo_BZ_",9 columns,average,
+fitness · oxidative stress,fitness,oxidant,gene,-,0,,,,one,PMID 34163449 PRJNA707360 (genome-wide oxidative-stress screen)
+fitness · hyperLOPIT-unassigned proteins,fitness,in vivo virulence,gene,-,0,,,,one,PMID 39082802 GSE253884 (aimed at this map's largest gap)
+genetic interaction · delta-GRA17,fitness,GRA17 background,gene,A,7553,92.8%,crispr_gra17,3 columns,one,
+stage-conversion phenotype,fitness,bradyzoite conversion,gene,-,0,,,,one,
+drug sensitivity,fitness,compound,gene,-,0,,,,separate,
+TF binding · per factor,regulation,ChIP / CUT&RUN,gene,-,0,,,,separate,PMID 29788176 GSE106864 (ApiAP2 cooperative binding); PMID 37350586 GSE228853 (BDP1 bromodomain)
+chromatin state · histone marks,regulation,tachyzoite / bradyzoite,gene,-,0,,,,fill,PMID 35164683 GSE104347 (histone variants genome-wide); PMID 21179246 GSE22100 (GCN5-A under alkaline stress)
+chromatin accessibility,regulation,stages,gene,-,0,,,,one,PMID 38093015 PRJNA921935 (pre-sexual stages)
+RNA modification · m6A / 5mC,regulation,tachyzoite,gene,-,0,,,,separate,PMID 34263725 GSE168155 (m6A reader and polyadenylation); PMID 40830525 GSE294543 (5mC methylome across lineages)
+splicing / isoform use,regulation,stages,gene,-,0,,,,one,PMID 33688018 PRJNA606986 (nanopore isoform landscape)
+RNA stability / half-life,regulation,tachyzoite,gene,-,0,,,,one,PMID 39899594 PRJEB67890 (iron-mediated post-transcriptional regulation)
+localization · measured,localization,hyperLOPIT,gene,A,8140,100.0%,"compartment, lopit_prob, lopit_methods_agree",6 columns,one,
+localization · transferred,localization,orthoLOPIT,gene,A,8140,100.0%,"ortholopit_, compartment_best",5 columns,fill,
+membrane topology,localization,sequence,gene,A,8140,100.0%,"dtm_class, n_tm, has_signal_peptide, is_tm, tm_kd_",6 columns,one,
+exposure to host cytosol,localization,"PVM, export",gene,-,0,,,,fill,PMID 38747635 (TurboID exportome of secreted disordered proteins); PMID 29615509 GSE109830 (MYR1-dependent effectors); PMID 31366709 GSE122786 (translocation across the PVM)
+secretome / excreted,localization,ESA,gene,-,0,,,,one,PMID 41137792 PXD028969 (secretome and transcriptome)
+co-transcription,relation,stage series,pair,A,6375,78.3%,coexpression,"49,293 pairs",separate,
+co-translation,relation,ribosome profiling,pair,-,0,,,,separate,
+co-fitness,relation,seven screens,pair,A,7290,89.6%,cofitness,"88,997 pairs",separate,
+interaction · crosslink MS,relation,measured contact,pair,B,1630,20.0%,xlms,"2,842 pairs",one,
+"interaction · IP-MS, parasite-parasite",relation,pulldown,pair,C,48,0.6%,ip_ms,64 pairs,fill,PMID (55 IP-MS studies already downloaded and not curated)
+interaction · proximity labelling,relation,BioID / TurboID,pair,-,0,,,,fill,PMID (44 BioID studies already downloaded); PMID 36214684 PXD032102 (calmodulin proximal interactors)
+interaction · structural similarity,relation,Foldseek,pair,A,2338,28.7%,struct,"11,684 pairs",one,
+interaction · with host proteins,relation,host IP-MS,pair,-,0,,,,separate,PMID 32075880 PXD016383 (MYR1 co-IP); PMID 38747635 (exportome TurboID)
+shared compartment,relation,hyperLOPIT,pair,B,1724,21.2%,compartment,"118,712 pairs",one,
+shared orthogroup,relation,OrthoMCL,pair,B,1258,15.5%,orthogroup,"3,452 pairs",one,
+shared domain,relation,InterPro,pair,A,2235,27.5%,domain,"10,272 pairs",one,
+host transcriptional effect per effector,host effect,dual perturb-seq,gene,C,252,3.1%,hosttx_,2 columns,one,"PMID 37827122 GSE229505 (the per-effector host signature, not just its p-value)"
+domain content,sequence,InterPro,gene,A,8140,100.0%,"n_interpro, has_domain",2 columns,one,
+fold confidence / disorder,sequence,AlphaFold,gene,A,8140,100.0%,"mean_plddt, has_structure",2 columns,one,
+conservation breadth,sequence,OrthoMCL,gene,A,8140,100.0%,"has_pf_ortholog, has_cp_ortholog, lineage_specific",3 columns,one,
+paralogy,sequence,OrthoMCL,gene,A,8140,100.0%,paralog_number,1 columns,one,
+sequence basics,sequence,protein,gene,A,8140,100.0%,length,1 columns,one,
+strain variation,sequence,population,gene,-,0,,,,one,
+literature attention,NEVER a feature,PubMed / PMC,gene,A,8140,100.0%,"n_publications, n_fulltext, n_papers_, attention_depth, lit_tier",7 columns,one,
