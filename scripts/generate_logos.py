@@ -336,16 +336,21 @@ def drafts() -> list:
     return out
 
 
-def main() -> int:
-    os.makedirs(OUT, exist_ok=True)
+def main(out: str = "") -> int:
+    """Write every draft. Takes a destination so a check that they are reproducible can write
+    somewhere else and compare -- regenerating into the shipped directory means a generator change
+    overwrites the shipped artwork on the way to reporting that it changed."""
+    out = out or OUT
+    os.makedirs(out, exist_ok=True)
     made = drafts()
     for i, (name, title, body) in enumerate(made, start=1):
-        path = os.path.join(OUT, f"logo_{i:02d}_{name}.svg")
+        path = os.path.join(out, f"logo_{i:02d}_{name}.svg")
         with open(path, "w", encoding="utf8") as fh:
             fh.write(wrap(body, title))
-    print(f"{len(made)} logo drafts in {OUT}")
+    print(f"{len(made)} logo drafts in {out}")
     return len(made)
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv[1] if len(sys.argv) > 1 else "")

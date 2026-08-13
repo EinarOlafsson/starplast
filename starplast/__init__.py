@@ -1,2 +1,2 @@
 """starplast — a 3D browser for the Toxoplasma gondii knowledge map."""
-__version__ = "0.17.3"
+__version__ = "0.17.4"

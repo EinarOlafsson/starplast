@@ -120,16 +120,20 @@ def test_they_are_distinct_from_one_another():
         bodies[body] = name
 
 
-def test_regenerating_produces_the_same_forty():
+def test_regenerating_produces_the_same_forty(tmp_path):
     """Seeded, so "that one, but sparser" can be answered by editing the script rather than by
-    redrawing something nobody can reproduce."""
+    redrawing something nobody can reproduce.
+
+    Into a temporary directory, not over the shipped files. Regenerating in place means a generator
+    that has started producing something else overwrites the artwork the package ships on its way to
+    reporting that it changed -- and the check would then pass on a second run."""
     import subprocess
-    before = {f: open(os.path.join(ICONS, f), encoding="utf8").read() for f in LOGOS}
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    subprocess.run([sys.executable, os.path.join(root, "scripts", "generate_logos.py")],
-                   check=True, capture_output=True)
-    after = {f: open(os.path.join(ICONS, f), encoding="utf8").read() for f in LOGOS}
-    assert before == after
+    subprocess.run([sys.executable, os.path.join(root, "scripts", "generate_logos.py"),
+                    str(tmp_path)], check=True, capture_output=True)
+    shipped = {f: open(os.path.join(ICONS, f), encoding="utf8").read() for f in LOGOS}
+    again = {f: open(tmp_path / f, encoding="utf8").read() for f in LOGOS}
+    assert shipped == again
 
 
 def test_the_galaxy_drafts_put_the_parasite_at_the_centre(qapp):
