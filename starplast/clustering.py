@@ -104,6 +104,19 @@ def cluster(X: np.ndarray, algorithm="hdbscan", **kw) -> np.ndarray:
     if algorithm == "dbscan":
         from sklearn.cluster import DBSCAN
         return DBSCAN(eps=kw.get("eps", 0.5), min_samples=kw.get("min_samples", 10)).fit_predict(X)
+    from . import gpu
+    on_gpu = gpu.hdbscan_class()
+    if on_gpu is not None and len(X) >= 1000:
+        # cuml below a thousand points is slower than sklearn once the copy is counted, and this is
+        # called on subsamples as small as 200.
+        try:
+            lab = on_gpu(min_cluster_size=int(kw.get("min_cluster_size", 25))).fit_predict(X)
+            return np.asarray(lab, dtype=int)
+        except Exception as exc:
+            # A GPU that refuses is a slower run, not a failed one. Loudly, because a silent
+            # fallback is how "the GPU switch does nothing" becomes impossible to diagnose.
+            get_logger(__name__).warning("cuml HDBSCAN failed, using the CPU: %s: %s",
+                                         type(exc).__name__, exc)
     try:
         from sklearn.cluster import HDBSCAN
         return HDBSCAN(min_cluster_size=kw.get("min_cluster_size", 25),

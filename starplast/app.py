@@ -1557,6 +1557,25 @@ class Window(QtWidgets.QMainWindow):
         """Appearance settings, gathered in one place rather than crowding the map panel."""
         self.build_preferences().exec()
 
+    def _gpu_wanted(self) -> bool:
+        """Whether the GPU switch is on, from settings so it survives a restart."""
+        return bool(QtCore.QSettings("starplast", "starplast").value("compute/gpu", False,
+                                                                     type=bool))
+
+    def _on_gpu(self, on: bool) -> str:
+        """Remember the choice and say what it will actually do.
+
+        Reported rather than assumed: a switch that silently does nothing because no backend is
+        installed is worse than no switch, and this is the sentence that tells the difference.
+        """
+        from . import gpu
+        QtCore.QSettings("starplast", "starplast").setValue("compute/gpu", bool(on))
+        note = gpu.describe()
+        if hasattr(self, "gpu_note"):
+            self.gpu_note.setText(note)
+        self.status.showMessage(note)
+        return note
+
     def build_preferences(self):
         """Construct the dialog without showing it.
 
@@ -1601,6 +1620,21 @@ class Window(QtWidgets.QMainWindow):
             "additive: overlaps sum, which reads as density but saturates dense regions to white "
             "and destroys the color encoding.")
         self.mode_box.currentTextChanged.connect(self._on_point_mode)
+
+        # GPU acceleration, as a switch rather than a checkbox: the same control this user has in
+        # spacr, so a setting looks like a setting in both programs.
+        from . import gpu
+        self.gpu_switch = TH.Switch("use the GPU where it helps", checked=self._gpu_wanted())
+        self.gpu_note = QtWidgets.QLabel(gpu.describe())
+        self.gpu_note.setWordWrap(True)
+        self.gpu_switch.setToolTip(
+            "cuml does UMAP and HDBSCAN themselves; cupy or torch do the array work -- scaling, "
+            "ranking and the distance matrix the walk recomputes for every configuration. Nothing "
+            "here is a dependency: with no backend installed the switch has nothing to turn on.\n\n"
+            "A map built by cuml's UMAP is NOT the map umap-learn builds -- it is a different map "
+            "of the same data -- so a walk whose rows came from both would compare the libraries "
+            "rather than the settings. The arithmetic paths are checked against the CPU to 1e-5.")
+        self.gpu_switch.toggled.connect(self._on_gpu)
 
         self.spin_speed = QtWidgets.QDoubleSpinBox()
         self.spin_speed.setRange(0.05, 3.0)
@@ -1664,6 +1698,8 @@ class Window(QtWidgets.QMainWindow):
         form.addRow("color map", self.cmap_box)
         form.addRow("points", self.point_box)
         form.addRow("rendering", self.mode_box)
+        form.addRow("compute", self.gpu_switch)
+        form.addRow("", self.gpu_note)
         form.addRow("spin speed", self.spin_speed)
         form.addRow("depth", self.depth_box)
         form.addRow("reference", self.ground_box)

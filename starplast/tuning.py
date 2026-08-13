@@ -58,14 +58,28 @@ def _quality(X: np.ndarray, Y: np.ndarray, n_neighbors: int) -> dict:
     except Exception:
         out["trustworthiness"] = np.nan
     # Distance correlation on a bounded random subset -- the full matrix is quadratic and unnecessary.
+    # The distances go to the GPU when there is one and the matrix is big enough to pay for the
+    # copy: this runs once per configuration, so a 288-point sweep runs it 288 times.
     try:
-        from scipy.spatial.distance import pdist
         from scipy.stats import spearmanr
+        from . import gpu
         idx = _subsample(len(X), min(600, len(X)), DEFAULT_SEED)
-        out["continuity_proxy"] = float(spearmanr(pdist(X[idx]), pdist(Y[idx])).statistic)
+        a, b = _condensed(X[idx]), _condensed(Y[idx])
+        out["continuity_proxy"] = float(spearmanr(a, b).statistic)
     except Exception:
         out["continuity_proxy"] = np.nan
     return out
+
+
+def _condensed(A):
+    """The upper triangle of A's distance matrix, from the GPU where that is worth it."""
+    from . import gpu
+    if gpu.worth_it(np.asarray(A)):
+        D = gpu.pairwise_distances(A)
+        iu = np.triu_indices(len(D), k=1)
+        return D[iu]
+    from scipy.spatial.distance import pdist
+    return pdist(A)
 
 
 @dataclass

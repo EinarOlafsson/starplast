@@ -138,6 +138,8 @@ def _scale(X: np.ndarray, how: str) -> np.ndarray:
     if how == "rank":
         # Rank is the safe default for the published screens: they carry inverted sign conventions,
         # ~64x differences in spread, and heavy tails that z-scoring does not tame.
+        # On the CPU on purpose: the device version was six times slower on the real matrix and
+        # disagreed by 1.4e-4 because float32 reorders near-ties. See the note in `gpu.py`.
         out = np.empty_like(X, dtype=float)
         for j in range(X.shape[1]):
             col = X[:, j]
@@ -315,6 +317,16 @@ def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
     get_logger(__name__).info("embedding: %s", spec.to_dict())
     X, names, rows = build_matrix(nodes, spec, log=log)
     try:
+        from . import gpu
+        on_gpu = gpu.umap_class()
+        if on_gpu is not None:
+            # cuml's UMAP is NOT the reference implementation, so this map is not identical to the
+            # one the CPU builds -- it is a different map of the same data. Said out loud, because a
+            # walk whose rows came from two implementations would be a comparison of the libraries.
+            log(f"UMAP on the GPU (cuml) -- {gpu.describe()}; results differ from the CPU path")
+            Y = on_gpu(n_components=spec.n_components, n_neighbors=spec.n_neighbors,
+                       min_dist=spec.min_dist, random_state=spec.random_state).fit_transform(X)
+            return normalize(np.asarray(Y)), names, rows
         import umap
         Y = umap.UMAP(n_components=spec.n_components, n_neighbors=spec.n_neighbors,
                       min_dist=spec.min_dist, metric=spec.metric,

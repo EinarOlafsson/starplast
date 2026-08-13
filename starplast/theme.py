@@ -21,6 +21,8 @@ sign. `CMAPS` therefore records the kind, and the UI offers only the appropriate
 """
 from __future__ import annotations
 
+from PyQt6 import QtCore, QtGui, QtWidgets
+
 # --------------------------------------------------------------------------- palettes
 DARK = {
     "bg": "#0b0d10", "page": "#101317", "surface": "#141820", "surface_alt": "#1a1f28",
@@ -297,3 +299,82 @@ def stylesheet(theme: str = "dark") -> str:
     QToolTip {{ background: {p['surface_hi']}; color: {p['fg']};
                 border: 1px solid {p['border']}; padding: 5px; }}
     """
+
+
+#: The two-state colors of spacr's own switch, so the two programs read as one pair of tools.
+SWITCH_OFF = "#800080"
+SWITCH_ON = "#008080"
+
+
+class Switch(QtWidgets.QWidget):
+    """A boolean slider, the shape and colors of `spacr.gui_elements.spacrSwitch`.
+
+    A checkbox would have done the job. This exists because the user runs both programs and a
+    setting that looks like a setting in one of them should look like one in the other: 40x20 track,
+    a 12-pixel knob that slides, purple for off and teal for on, caption on the left.
+    """
+
+    toggled = QtCore.pyqtSignal(bool)
+
+    def __init__(self, text: str = "", checked: bool = False, parent=None):
+        super().__init__(parent)
+        self._on = bool(checked)
+        self._x = 24.0 if self._on else 4.0
+        self.text = text
+        self.setCursor(QtCore.Qt.CursorShape.PointingHandCursor)
+        self.setMinimumHeight(24)
+        self._anim = QtCore.QPropertyAnimation(self, b"knob", self)
+        self._anim.setDuration(120)
+
+    # The knob position is a Qt property so QPropertyAnimation can drive it; the slide is the whole
+    # point of copying this control rather than using a checkbox.
+    def _get_knob(self) -> float:
+        return self._x
+
+    def _set_knob(self, value: float) -> None:
+        self._x = float(value)
+        self.update()
+
+    knob = QtCore.pyqtProperty(float, fget=_get_knob, fset=_set_knob)
+
+    def isChecked(self) -> bool:
+        """The current state."""
+        return self._on
+
+    def setChecked(self, on: bool) -> None:
+        """Set the state, sliding the knob, without emitting."""
+        self._on = bool(on)
+        self._anim.stop()
+        self._anim.setStartValue(self._x)
+        self._anim.setEndValue(24.0 if self._on else 4.0)
+        self._anim.start()
+        self.update()
+
+    def mouseReleaseEvent(self, ev):
+        """Click anywhere on the control -- the track or the caption -- to toggle it."""
+        if ev.button() == QtCore.Qt.MouseButton.LeftButton:
+            self.setChecked(not self._on)
+            self.toggled.emit(self._on)
+        super().mouseReleaseEvent(ev)
+
+    def sizeHint(self):
+        """Wide enough for the caption plus the 40-pixel track and its margin."""
+        w = QtGui.QFontMetrics(self.font()).horizontalAdvance(self.text)
+        return QtCore.QSize(w + 60, 24)
+
+    def paintEvent(self, _ev):
+        p = QtGui.QPainter(self)
+        p.setRenderHint(QtGui.QPainter.RenderHint.Antialiasing)
+        fm = QtGui.QFontMetrics(self.font())
+        if self.text:
+            p.setPen(self.palette().color(QtGui.QPalette.ColorRole.WindowText))
+            p.drawText(0, 0, self.width() - 50, self.height(),
+                       int(QtCore.Qt.AlignmentFlag.AlignVCenter
+                           | QtCore.Qt.AlignmentFlag.AlignLeft), self.text)
+        left = self.width() - 42
+        p.setPen(QtCore.Qt.PenStyle.NoPen)
+        p.setBrush(QtGui.QColor("#ffffff"))
+        p.drawRoundedRect(QtCore.QRectF(left, 2, 36, 16), 8, 8)
+        p.setBrush(QtGui.QColor(SWITCH_ON if self._on else SWITCH_OFF))
+        p.drawEllipse(QtCore.QRectF(left + self._x - 2, 4, 12, 12))
+        p.end()
