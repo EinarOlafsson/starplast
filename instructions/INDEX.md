@@ -29,6 +29,7 @@ One file per task. This index is the status table; the files carry the reasoning
 | 18 | Navigate / Select modes, 2D and 3D gating |
 | 16 | Automated walk — UMAP, clustering, per-category scoring |
 | 17 | Annotation store |
+| 23 | Left panel becomes "color by" |
 
 ## Open
 
@@ -36,7 +37,6 @@ One file per task. This index is the status table; the files carry the reasoning
 |---|---|---|---|
 | 21 | Wire the scoring objectives into the interface | 100 (done) | — |
 | 22 | Cell diagram under the compartment list, colored to match | 0 | a decision on shared organelles |
-| 23 | Left panel becomes "color by": clusterings, runs, binned numerics | 0 | — |
 | 24 | Forty black-and-white logo drafts | 0 | — |
 | 25 | American spelling — attempted, reverted, read the file first | 0 | — |
 
