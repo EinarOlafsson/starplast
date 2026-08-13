@@ -285,9 +285,13 @@ The tier is now computed from the embedding itself (`lod.py`): connected compone
 grid, no clustering library, deterministic, numbered largest-first so a landmark keeps its name. On the
 shipped map that is 5 structures covering 8,123 of 8,140 genes, with centroids 0.40–0.97 of the radius
 from the centre and spreads of 0.04–0.15 — each one now closer to its own members than to the middle,
-which is the property the compartment version failed. The smallest is 76 genes and 96% `PM - peripheral 1`;
-independently, that is the single best-recovered compartment label in the full-proteome search (F1 0.500).
-Two methods finding the same structure is the reason to believe it is there.
+which is the property the compartment version failed. The smallest is 76 genes, of which **25 carry a compartment
+at all, and 24 of those are `PM - peripheral 1`** — 96% of the labelled quarter, not of the structure,
+and the difference is the whole first rule of this project: 51 of those 76 genes have no localization,
+which is not the same as being peripheral. Independently, `PM - peripheral 1` is the single
+best-recovered compartment label in the full-proteome search (F1 0.500, measured before the
+circularity fix in 3f-2). Two methods finding the same structure is the reason to believe it is there;
+neither of them says what the other 51 genes are.
 
 ## Data sources — all already on this disk
 
