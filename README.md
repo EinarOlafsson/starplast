@@ -181,3 +181,8 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 
 Cite the original studies, not this table. The repository redistributes derived facts and the identity
 tables, never the source articles' files.
+
+The cell drawing under the compartment list is **SwissBioPics** artwork by Philippe Le Mercier (SIB
+Swiss Institute of Bioinformatics), used under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0).
+The program shows the outlines only, filled from its own palette; the attribution travels with the
+widget, whose tooltip carries it, because the artwork's own credit block is not drawn.

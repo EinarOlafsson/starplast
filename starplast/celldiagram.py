@@ -234,6 +234,33 @@ def transparent_ground(svg: str) -> str:
     return out
 
 
+#: The artwork's own credit block: the creator's name and the SIB logos, sitting in the corner of the
+#: canvas. It has to come out of the DRAWING -- hollowed and rotated it renders as a solid grey
+#: rectangle beside the parasite, which reads as a compartment nobody can click -- and the credit it
+#: carries has to go somewhere a person can actually read it. See `credit`.
+CREDIT_GROUP = "sib_copyright"
+
+
+def credit(svg: str) -> dict:
+    """Who drew the cell and under what licence, read out of the artwork itself.
+
+    Read rather than written down here: the file embeds `property="creator"` and a CC licence link,
+    and a hand-copied attribution is one that silently stops matching the file it credits. The
+    artwork is CC BY, so the attribution is a condition of using it, not a courtesy -- which is why
+    dropping the logo block from the drawing has to be paired with showing this.
+    """
+    name = re.search(r'property="name"[^>]*>([^<]+)<', svg or "")
+    lic = re.search(r'property="license"[^>]*href="([^"]+)"', svg or "")
+    return {"creator": name.group(1).strip() if name else "",
+            "license": lic.group(1).strip() if lic else ""}
+
+
+def drop_credit(svg: str) -> str:
+    """Remove the credit block from the drawing (the credit itself travels via `credit`)."""
+    span = group_span(svg, CREDIT_GROUP)
+    return svg if span is None else svg[:span[0]] + svg[span[1]:]
+
+
 def view_box(svg: str):
     """The artwork's own (x, y, width, height), or None. See `CellDiagram.viewbox`."""
     m = re.search(r'viewBox="([\d.\s-]+)"', svg or "")
@@ -350,7 +377,11 @@ class CellDiagram(QtWidgets.QWidget):
         # through that rotation or every organelle is hit-tested against the wrong place, which is
         # exactly the kind of "works, but selects the neighbour" bug this project keeps finding.
         self.viewbox = view_box(raw)
-        base = portrait(transparent_ground(raw)) if raw else ""
+        #: Who drew this and under what licence -- kept because the credit block is taken OUT of the
+        #: drawing below, and a CC BY image whose attribution was deleted with it is a licence
+        #: breach as well as a discourtesy. Shown in the tooltip.
+        self.credit = credit(raw)
+        base = portrait(transparent_ground(drop_credit(raw))) if raw else ""
         # Two versions of the same drawing. The DISPLAYED one is hollow, white line on nothing; the
         # SOLID one is what the hit-test masks are rendered from, because a click belongs to the
         # organelle it lands inside, not only to the two pixels of its outline.
@@ -368,7 +399,10 @@ class CellDiagram(QtWidgets.QWidget):
             "classes share one shape -- both rhoptry classes, both nucleus classes, the three "
             "plasma-membrane classes -- the shape shows the one that is selected and says so; click "
             "it again to step to the next. Gray means nothing is selected for that shape, or that "
-            "the class is unassigned, which is not a compartment.")
+            "the class is unassigned, which is not a compartment."
+            + (f"\n\nCell drawing by {self.credit['creator']} (SwissBioPics, SIB)"
+               + (f", {self.credit['license']}" if self.credit["license"] else "")
+               if self.credit["creator"] else ""))
 
     # ------------------------------------------------------------------ state
     def set_palette(self, color_of: dict, selected: str = ""):

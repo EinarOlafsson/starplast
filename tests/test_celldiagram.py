@@ -452,3 +452,63 @@ def test_an_organelle_whose_markup_will_not_render_gets_no_mask(qapp, tmp_path, 
     d._masks, d._masks_for = {}, None
     monkeypatch.setattr(d, "_isolated", lambda sl: "<svg>not really svg")
     assert d.masks() == {}
+
+
+# --------------------------------------------------------------------------- the artwork's credit
+def test_the_credit_block_is_not_part_of_the_drawing(qapp):
+    """The artwork carries the creator's name and two SIB logos in the corner of its canvas. Hollowed
+    and turned upright they render as a solid grey rectangle floating beside the parasite -- a filled
+    shape in a drawing whose whole point is that the one filled thing is the selection, and one that
+    belongs to no organelle so clicking it does nothing.
+
+    Measured as the longest run of fully opaque pixels across a row, with nothing selected. The
+    outlines are thin and anti-aliased and produce none; the logo produced 19."""
+    from PyQt6 import QtCore, QtGui
+    d = CD.CellDiagram()
+    d.resize(240, 380)
+
+    def longest_solid_run(widget):
+        img = QtGui.QImage(widget.width(), widget.height(),
+                           QtGui.QImage.Format.Format_ARGB32_Premultiplied)
+        img.fill(0)
+        p = QtGui.QPainter(img)
+        widget.render(p, QtCore.QPoint(), QtGui.QRegion(widget.rect()),
+                      QtWidgets.QWidget.RenderFlag.DrawChildren)
+        p.end()
+        worst = 0
+        for y in range(img.height()):
+            run = 0
+            for x in range(img.width()):
+                run = run + 1 if QtGui.QColor.fromRgba(img.pixel(x, y)).alpha() > 200 else 0
+                worst = max(worst, run)
+        return worst
+
+    d.set_palette({"rhoptries 1": (0.2, 0.6, 1.0)}, "")
+    assert longest_solid_run(d) < 6, "something in the drawing is a solid block with nothing selected"
+    d.set_palette({"rhoptries 1": (0.2, 0.6, 1.0)}, "rhoptries 1")
+    assert longest_solid_run(d) > 10, "the selected compartment is not filled"
+
+    assert CD.group_span(d.svg, CD.CREDIT_GROUP) is None
+
+
+def test_the_credit_survives_being_taken_out_of_the_picture(qapp):
+    """The artwork is CC BY: taking the logo block out of the drawing without carrying its
+    attribution somewhere a person can read would be a licence breach, not a tidy-up. Read out of
+    the file rather than written down here, so it cannot quietly stop matching what it credits."""
+    d = CD.CellDiagram()
+    assert d.credit["creator"] and "creativecommons.org" in d.credit["license"]
+    assert d.credit["creator"] in d.toolTip()
+    assert d.credit["license"] in d.toolTip()
+
+
+def test_an_artwork_with_no_credit_block_is_left_alone(qapp, tmp_path):
+    """Not every drawing carries one, and removing a group that is not there must not remove
+    something else."""
+    svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10">'
+           '<g id="SL0018"><rect width="4" height="4" fill="#000"/></g></svg>')
+    assert CD.drop_credit(svg) == svg
+    assert CD.credit(svg) == {"creator": "", "license": ""}
+    path = tmp_path / "plain.svg"
+    path.write_text(svg)
+    d = CD.CellDiagram(path=str(path))
+    assert "Cell drawing by" not in d.toolTip()
