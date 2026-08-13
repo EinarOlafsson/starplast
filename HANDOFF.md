@@ -249,9 +249,14 @@ put a validated-looking number on a map built from that label's own experiment.
 (`search.search` with `block_sets=None`) sweeps a hard-coded six-block base —
 `expression_summary`, `expression_raw`, `fitness_screens`, `published_screens`, `protein_features`,
 `interactions` — which contains neither `localization` nor `literature`. So no published row could
-ever have used the leaking columns, and the re-run under the fixed rules confirms it: **every number
-in 3f is unchanged, to the last digit, including the winning block combination.** See
+ever have used the leaking columns, and the re-run under the fixed rules confirms it for all four
+targets: **0.675, 0.398, 0.322 and 0.193, unchanged to the last digit, winning block combination and
+per-label best F1 included.** See
 `results/full_proteome_2026_08_13_provenance/`.
+
+The 3,000-gene subsample battery in `results/search_2026_08_12_corrected/` used the same six-block
+base — checked, not assumed: 0 of its 328 rows name `localization`. **So no published number in this
+project is affected by any of the three leaks.**
 
 The interface is the other case. `AnalysisPanel.run_search` builds its combinations from **every**
 block that has columns in the table, `localization` included, so a search run from the Search tab

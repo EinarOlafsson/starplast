@@ -9,3 +9,7 @@ program never reads.
 | directory | what |
 |---|---|
 | `search_2026_08_12/` | the structure search that found the negative-control failure — the tables that justify excluding absence labels from `score_recovery` |
+| `search_2026_08_12_corrected/` | the same battery with absence labels excluded — the numbers 3f quotes for the 3,000-gene subsample |
+| `full_proteome_2026_08_12/` | all four targets over all 8,140 genes; the subsample turned out to be flattering |
+| `predictions_2026_08_12/` | what the winning cell-cycle structure predicts: nothing clears the 80% purity bar |
+| `full_proteome_2026_08_13_provenance/` | the full-proteome battery re-run after three leaks were found in the circularity guard — every number identical, which is the result |

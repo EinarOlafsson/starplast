@@ -64,8 +64,8 @@ built on `lopit_prob_map` and accepts one built on expression and fitness.
 
 **The published numbers turn out to be unaffected, and that is worth stating precisely.** The
 full-proteome battery sweeps a hard-coded six-block base that contains neither `localization` nor
-`literature`, so no published row could use the leaking columns. Re-run under the fixed rules, every
-target reproduces its previous number exactly, winning block combination included —
+`literature`, so no published row could use the leaking columns. Re-run under the fixed rules, all four
+targets reproduce exactly — 0.675, 0.398, 0.322, 0.193 —
 `results/full_proteome_2026_08_13_provenance/`.
 
 The leak was reachable from the **interface**, which sweeps every block that has columns: run from

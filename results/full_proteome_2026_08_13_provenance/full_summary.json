@@ -1,0 +1,38 @@
+{
+ "cellcycle_phase": {
+  "role": "measured",
+  "mean_f1": 0.398,
+  "labels": 5,
+  "blocks": "expression_summary+published_screens",
+  "n_neighbors": 50,
+  "min_dist": 0.25,
+  "min_cluster_size": 25
+ },
+ "compartment": {
+  "role": "measured",
+  "mean_f1": 0.193,
+  "labels": 24,
+  "blocks": "expression_summary+expression_raw+protein_features",
+  "n_neighbors": 15,
+  "min_dist": 0.0,
+  "min_cluster_size": 25
+ },
+ "stage_enriched_derived": {
+  "role": "POSITIVE control",
+  "mean_f1": 0.675,
+  "labels": 3,
+  "blocks": "expression_raw+fitness_screens",
+  "n_neighbors": 15,
+  "min_dist": 0.25,
+  "min_cluster_size": 60
+ },
+ "attention_depth": {
+  "role": "NEGATIVE control",
+  "mean_f1": 0.322,
+  "labels": 3,
+  "blocks": "expression_summary+expression_raw+fitness_screens",
+  "n_neighbors": 50,
+  "min_dist": 0.25,
+  "min_cluster_size": 60
+ }
+}
