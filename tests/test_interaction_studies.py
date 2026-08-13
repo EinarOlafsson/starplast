@@ -275,7 +275,7 @@ def test_parasite_symbols_go_through_the_identity_layer(tmp_path):
         return "TGME49_230180"
 
     out = IS.host_interactions(str(tmp_path), resolve=resolve, log=lambda *_: None)
-    assert seen == ["GRA24"], "punctuation and spacing are normalised before lookup"
+    assert seen == ["GRA24"], "punctuation and spacing are normalized before lookup"
     assert out.loc[0, "gene_id"] == "TGME49_230180"
 
 

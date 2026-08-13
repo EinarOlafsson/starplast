@@ -130,7 +130,7 @@ REGISTRY = [
                  "structures.py uses. The database paper is Varadi et al., not Jumper et al. -- "
                  "Jumper is the method, and there is no paper by Jumper titled after the database."),
 
-    # ------------------------------------------------------------------ localisation
+    # ------------------------------------------------------------------ localization
     Dataset("lopit_tgon", "T. gondii hyperLOPIT", "post_translation", "LOPIT",
             "Subcellular compartment, MAP and MCMC, with posteriors",
             ("compartment", "lopit_map", "lopit_mcmc", "lopit_prob_map", "lopit_prob_mcmc"),

@@ -10,7 +10,7 @@ spatial meaning, drawn as though it did.
 
 That the collapse happens at all is the same fact the held-out search reports from the other
 direction: `compartment` is the worst-recovered target, below even the study-effort control. The map
-is not organised by localisation, so localisation centroids cannot organise the map.
+is not organised by localization, so localization centroids cannot organise the map.
 
 So the galaxy tier is computed from the embedding itself instead, which is what HANDOFF means by
 "data-driven, not invented tiers". Coarse spatial structure is found by connected components over an

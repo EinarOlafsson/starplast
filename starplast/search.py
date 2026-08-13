@@ -374,9 +374,9 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
                 genes = np.zeros(len(nodes), dtype=bool)
                 genes[idx] = True
                 used = EmbeddingSpec(**{**asdict(spec0), "n_neighbors": nn, "min_dist": md})
-                from .embedding import normalise
+                from .embedding import normalize
                 on_run(RunStep(index=emitted, total=embeddings, row=best_row, per=best_per,
-                               coords=normalise(Y), genes=genes, labels=best_lab, spec=used))
+                               coords=normalize(Y), genes=genes, labels=best_lab, spec=used))
         # Report on crossing each multiple of 40 rather than on exact equality. The check sits at the
         # end of a dataset combination, so `runs` jumps by however many hyperparameter points that
         # combination had: equality only ever fired when that stride happened to divide 40, and with a
@@ -441,18 +441,18 @@ def rebuild(nodes: pd.DataFrame, row, log=print) -> tuple:
         X, idx = X[sel], idx[sel]
     log(f"rebuilding {'+'.join(spec.blocks)} over {len(X):,} genes, seed {seed}")
     import umap
-    from .embedding import normalise
+    from .embedding import normalize
     Y = np.asarray(umap.UMAP(n_components=3, n_neighbors=spec.n_neighbors,
                              min_dist=spec.min_dist, metric="euclidean",
                              random_state=seed).fit_transform(X))
     mcs = int(float(get("min_cluster_size", 25)))
     log(f"clustering at min_cluster_size={mcs}")
-    # Clustered on the raw coordinates, displayed normalised: normalising is a uniform scaling, so
+    # Clustered on the raw coordinates, displayed normalized: normalizing is a uniform scaling, so
     # it cannot change the clustering, and doing it in this order keeps that guarantee obvious.
     labels = cluster(Y, algorithm="hdbscan", min_cluster_size=mcs)
     genes = np.zeros(len(nodes), dtype=bool)
     genes[idx] = True
-    return normalise(Y), genes, labels, names
+    return normalize(Y), genes, labels, names
 
 
 def predictions(nodes: pd.DataFrame, labels: np.ndarray, truth: pd.Series, gene_index,

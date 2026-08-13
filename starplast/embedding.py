@@ -53,13 +53,20 @@ BLOCKS = {
     "expression_raw": r"^rna\d+_",
     "fitness_screens": r"^fit_",
     "published_screens": r"^(crispr_|hosttx_)",
-    "localisation": r"^(lopit_prob|lopit_methods_agree)",
+    "localization": r"^(lopit_prob|lopit_methods_agree)",
     "protein_features": r"^(mean_plddt|paralog_number|n_interpro|n_phosphosites|n_tm|length"
                         r"|tm_kd_|has_domain|has_signal_peptide|is_tm|lineage_specific"
                         r"|protein_ibaq_log2)",
     "literature": r"^(n_publications|n_fulltext|n_papers_)",
     "interactions": r"^(n_xlink_partners|n_struct_similar|n_ipms_partners|n_holes)",
 }
+#: Blocks that have been renamed: the spelling a recipe may carry -> what it is called now. A recipe
+#: is a promise that a run can be rebuilt, and the embeddings saved before the rename name their
+#: blocks as they were spelled when they were computed. An unrecognised block does not fail loudly --
+#: `columns_for` skips it -- so a stale recipe would quietly rebuild a DIFFERENT embedding under the
+#: same name. Translating on the way in is what keeps "saved recipe" and "rebuildable" the same thing.
+RENAMED_BLOCKS = {"localisation": "localization"}
+
 # Categorical blocks are one-hot encoded and scaled separately (see `categorical_weight`).
 CATEGORICAL_BLOCKS = {"compartment": "compartment", "compartment_best": "compartment_best"}
 
@@ -82,6 +89,14 @@ class EmbeddingSpec:
     min_dist: float = 0.25
     metric: str = "euclidean"
     random_state: int = 42
+
+    def __post_init__(self):
+        # Every route a spec arrives by passes through here: a stored recipe, a row of a results
+        # table saved last week, a hand-written call. So this is where a renamed block is translated,
+        # once, rather than in each of them.
+        self.blocks = tuple(RENAMED_BLOCKS.get(b, b) for b in self.blocks)
+        if self.block_weights:
+            self.block_weights = {RENAMED_BLOCKS.get(k, k): v for k, v in self.block_weights.items()}
 
     def to_dict(self):
         """The recipe as a plain dict, for storing beside an embedding."""
@@ -196,7 +211,7 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
 
         if M.shape[1] == 0:
             continue
-        # Normalise each block to TOTAL variance 1 before weighting, so influence follows the user's
+        # Normalize each block to TOTAL variance 1 before weighting, so influence follows the user's
         # weights rather than an accident of column count or tail shape. Without it, hyperLOPIT's 27
         # one-hot columns took 56% of the matrix simply by being numerous, and robust scaling on the
         # published screens (fit_invivo_PE spans -799..516) inflated that block to half. With it,
@@ -210,7 +225,7 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
         mats.append(M * w)
         names += keep
 
-    # Missingness is real information, but it is not a measurement, so it is normalised as its own
+    # Missingness is real information, but it is not a measurement, so it is normalized as its own
     # block and weighted below 1 by default rather than being allowed to rival a measured block by
     # sheer column count.
     if ind_mats:
@@ -268,7 +283,7 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
     return X, names, rows
 
 
-def normalise(Y, scale: float = 50.0) -> np.ndarray:
+def normalize(Y, scale: float = 50.0) -> np.ndarray:
     """Center an embedding and scale it to a fixed extent.
 
     Every map arrives at the same size, which is what lets one replace another in the view without
@@ -309,7 +324,7 @@ def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
         from sklearn.decomposition import PCA
         Y = PCA(n_components=spec.n_components,
                 random_state=spec.random_state).fit_transform(np.nan_to_num(X))
-    return normalise(Y), names, rows
+    return normalize(Y), names, rows
 
 
 # --------------------------------------------------------------------------- diagnostics

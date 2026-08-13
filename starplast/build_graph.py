@@ -25,7 +25,7 @@ import numpy as np
 import pandas as pd
 
 from . import (cellcycle, corpus, expression, identity, interaction_studies, interactions, literature,
-               localisation, screens)
+               localization, screens)
 
 from . import paths
 
@@ -57,7 +57,7 @@ def load_nodes() -> pd.DataFrame:
     n = n.drop_duplicates("gene_id").reset_index(drop=True)
     log(f"{len(n)} genes from the node table")
 
-    n = localisation.lopit_labels(DS, n, log=log)
+    n = localization.lopit_labels(DS, n, log=log)
 
     prod = pd.read_csv(os.path.join(DS, "orthomcl_toxoplasma_gondii_ME49.csv"), low_memory=False)
     prod = prod[["gene_source_id", "gene_product"]].rename(columns={"gene_source_id": "gene_id"})
@@ -337,7 +337,7 @@ def build_edges(nodes: pd.DataFrame):
 # almost always share domains, so counting them separately manufactures agreement out of one fact. That
 # collapse is not cosmetic -- of the 66 sharpest candidates before it, 53 were nothing but paralogy.
 #
-# `compartment` is excluded entirely. Sharing one of 27 hyperLOPIT classes is real co-localisation but far
+# `compartment` is excluded entirely. Sharing one of 27 hyperLOPIT classes is real co-localization but far
 # too unspecific at 118,712 edges, and hyperLOPIT assignment tracks abundance, so it would preferentially
 # link the well-expressed genes that are already well studied.
 EVIDENCE_FAMILY = {"coexpression": "expression", "cofitness": "fitness",
@@ -498,7 +498,7 @@ def main():
     # allowlist that silently drops whole assays -- an earlier version kept 3 of 18 RNA columns and 7 of
     # 8 fitness screens without saying so. Only genuinely internal scratch columns are dropped.
     # Exact duplicates carried in from the upstream table. Left in place they would inflate any
-    # feature selection that picks "all localisation columns", and double-weight that block in an
+    # feature selection that picks "all localization columns", and double-weight that block in an
     # embedding. `compartment` is kept over `lopit_map` because it carries the explicit "unassigned".
     DROP = {"structure_path", "lopit_class", "lopit_posterior", "gene_product"}
     keep = [c for c in nodes.columns if c not in DROP]

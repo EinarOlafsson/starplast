@@ -21,7 +21,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from starplast import localisation as L  # noqa: E402
+from starplast import localization as L  # noqa: E402
 
 
 # --------------------------------------------------------------------------- fixtures

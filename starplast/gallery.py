@@ -28,7 +28,7 @@ runs on. A thumbnail is a small orthographic projection of the same coordinates 
 fast enough to keep up with a walk, and testable without a display. It is a picture; the map it opens
 into is the application's own 3D view, where a gene can be clicked like any other.
 
-Color comes from the caller (`colour_fn`), so a thumbnail is colored by whatever the main map is
+Color comes from the caller (`color_fn`), so a thumbnail is colored by whatever the main map is
 colored by. Gray means unknown there and means unknown here.
 """
 from __future__ import annotations
@@ -41,7 +41,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 THUMB = 150
 #: Edge of the single large view in scroll mode.
 LARGE = 460
-#: Fallback point colour when no `colour_fn` is given: an unsaturated blue-grey that reads on both
+#: Fallback point color when no `color_fn` is given: an unsaturated blue-grey that reads on both
 #: the dark and the light themes without claiming to encode anything.
 DEFAULT_POINT = (0.55, 0.72, 0.90, 0.85)
 
@@ -67,7 +67,7 @@ def project(coords: np.ndarray, size: int, margin: float = 0.06):
     return px[:, 0], size - px[:, 1]
 
 
-def thumbnail(coords, colours=None, size: int = THUMB, background=(0.06, 0.07, 0.09),
+def thumbnail(coords, colors=None, size: int = THUMB, background=(0.06, 0.07, 0.09),
               point: float = 2.0) -> QtGui.QImage:
     """One configuration's map as a small image.
 
@@ -81,7 +81,7 @@ def thumbnail(coords, colours=None, size: int = THUMB, background=(0.06, 0.07, 0
     if coords.ndim != 2 or len(coords) == 0:
         return img
     x, y = project(coords, size)
-    c = np.asarray(colours, dtype=float) if colours is not None else None
+    c = np.asarray(colors, dtype=float) if colors is not None else None
     if c is None or c.ndim != 2 or len(c) != len(coords):
         c = np.tile(np.asarray(DEFAULT_POINT, dtype=float), (len(coords), 1))
     if c.shape[1] == 3:
@@ -136,14 +136,14 @@ class GalleryPanel(QtWidgets.QWidget):
     """
 
     #: A configuration the user asked to see, as a `tuning.WalkStep`. The window shows it in the
-    #: central 3D view, where it behaves like any other map -- clickable genes, colour modes, edges.
+    #: central 3D view, where it behaves like any other map -- clickable genes, color modes, edges.
     chosen = QtCore.pyqtSignal(object)
 
-    def __init__(self, colour_fn=None, background=(0.06, 0.07, 0.09), parent=None):
+    def __init__(self, color_fn=None, background=(0.06, 0.07, 0.09), parent=None):
         super().__init__(parent)
         #: Called with a step's boolean gene mask; returns one RGBA row per coordinate. Supplied by
-        #: the window so a thumbnail is coloured by whatever the main map is coloured by.
-        self.colour_fn = colour_fn
+        #: the window so a thumbnail is colored by whatever the main map is colored by.
+        self.color_fn = color_fn
         self.background = background
         self.steps = []
 
@@ -238,39 +238,39 @@ class GalleryPanel(QtWidgets.QWidget):
         self.count.setText("no maps yet")
         self.hint.show()
 
-    #: Colours for a step that carries its own clustering. Built once, here, rather than taken from
+    #: Colors for a step that carries its own clustering. Built once, here, rather than taken from
     #: the window's palette, because a thumbnail of a scored configuration has to show the
-    #: clustering that was scored -- the map's current colour mode is about something else.
-    CLUSTER_COLOURS = [
+    #: clustering that was scored -- the map's current color mode is about something else.
+    CLUSTER_COLORS = [
         (0.95, 0.75, 0.20), (0.35, 0.70, 0.95), (0.45, 0.85, 0.45), (0.95, 0.45, 0.55),
         (0.70, 0.55, 0.95), (0.30, 0.85, 0.80), (0.95, 0.60, 0.30), (0.60, 0.80, 0.35),
     ]
     #: Unclustered points. Grey, for the same reason grey means unknown everywhere else: HDBSCAN
     #: calling a gene noise is a finding about that gene, not a gap in the drawing.
-    NOISE_COLOUR = (0.45, 0.45, 0.48, 0.55)
+    NOISE_COLOR = (0.45, 0.45, 0.48, 0.55)
 
-    def cluster_colours(self, labels) -> np.ndarray:
+    def cluster_colors(self, labels) -> np.ndarray:
         """One color per point from a clustering, noise in gray."""
         labels = np.asarray(labels)
-        out = np.tile(np.asarray(self.NOISE_COLOUR, dtype=float), (len(labels), 1))
+        out = np.tile(np.asarray(self.NOISE_COLOR, dtype=float), (len(labels), 1))
         ids = sorted({int(v) for v in labels if v >= 0})
         for k, cid in enumerate(ids):
-            out[labels == cid, :3] = self.CLUSTER_COLOURS[k % len(self.CLUSTER_COLOURS)]
+            out[labels == cid, :3] = self.CLUSTER_COLORS[k % len(self.CLUSTER_COLORS)]
             out[labels == cid, 3] = 0.9
         return out
 
-    def colours_for(self, step):
+    def colors_for(self, step):
         """The point colors for one step: its own clustering if it has one, else the window's."""
         labels = getattr(step, "labels", None)
         if labels is not None and len(labels) == len(step.coords):
-            return self.cluster_colours(labels)
-        if self.colour_fn is None:
+            return self.cluster_colors(labels)
+        if self.color_fn is None:
             return None
         try:
-            c = self.colour_fn(step.genes)
+            c = self.color_fn(step.genes)
         except Exception as exc:
-            # A gallery is a viewer. A colouring that fails -- a column dropped, a clustering of the
-            # wrong length -- must cost the colour, not the picture, and must say so once rather than
+            # A gallery is a viewer. A coloring that fails -- a column dropped, a clustering of the
+            # wrong length -- must cost the color, not the picture, and must say so once rather than
             # raising out of a signal handler where Qt will simply print it and continue.
             print(f"starplast: gallery coloring unavailable ({type(exc).__name__}: {exc})")
             return None
@@ -286,7 +286,7 @@ class GalleryPanel(QtWidgets.QWidget):
         """
         at_end = self.slider.value() >= self.slider.maximum()
         self.steps.append(step)
-        img = thumbnail(step.coords, self.colours_for(step), size=THUMB,
+        img = thumbnail(step.coords, self.colors_for(step), size=THUMB,
                         background=self.background)
         it = QtWidgets.QListWidgetItem(QtGui.QIcon(QtGui.QPixmap.fromImage(img)), caption(step))
         it.setData(QtCore.Qt.ItemDataRole.UserRole, len(self.steps) - 1)
@@ -325,7 +325,7 @@ class GalleryPanel(QtWidgets.QWidget):
         if not (0 <= i < len(self.steps)):
             return
         step = self.steps[i]
-        img = thumbnail(step.coords, self.colours_for(step), size=LARGE,
+        img = thumbnail(step.coords, self.colors_for(step), size=LARGE,
                         background=self.background, point=2.6)
         self.big.setPixmap(QtGui.QPixmap.fromImage(img))
         self.caption.setText(f"<b>{i + 1} of {len(self.steps)}</b> &nbsp; {caption(step)}")

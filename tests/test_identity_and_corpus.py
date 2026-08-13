@@ -32,8 +32,8 @@ def _identity_tsv(tmp_path, rows):
     return str(p)
 
 
-# --------------------------------------------------------------------------- normalisation
-def test_normalisation_is_case_and_punctuation_insensitive():
+# --------------------------------------------------------------------------- normalization
+def test_normalization_is_case_and_punctuation_insensitive():
     assert ID.norm("GRA-16") == ID.norm("gra16") == ID.norm(" GRA 16 ")
 
 
@@ -299,7 +299,7 @@ def test_a_jats_article_becomes_a_sectioned_document(tmp_path):
         <abstract><p>We show GRA16 does something.</p></abstract>
         <pub-date><year>2020</year></pub-date>
       </article-meta></front>
-      <body><sec><title>Results</title><p>GRA16 was tagged and localised to the dense granules in every replicate we examined.</p></sec></body>
+      <body><sec><title>Results</title><p>GRA16 was tagged and localized to the dense granules in every replicate we examined.</p></sec></body>
     </article>""")
     doc = CO.parse_jats(p)
     assert doc is not None
@@ -347,7 +347,7 @@ def test_caption_text_is_not_counted_twice(tmp_path):
     p = _jats(tmp_path, """<article>
       <front><article-meta><title-group><article-title>A study</article-title></title-group>
       </article-meta></front>
-      <body><fig><caption><p>Figure 1. GRA16 localises to the nucleus in all conditions tested.</p>
+      <body><fig><caption><p>Figure 1. GRA16 localizes to the nucleus in all conditions tested.</p>
       </caption></fig></body></article>""")
     doc = CO.parse_jats(p)
     texts = [s.text for s in doc.sections if "GRA16" in s.text]

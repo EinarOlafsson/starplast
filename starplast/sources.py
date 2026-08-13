@@ -3,7 +3,7 @@
 
 Two repositories, two very different situations, and the difference decides what can be automated.
 
-**GEO deposits processed matrices.** `GSE108740_FPKM.xlsx`, `GSE206344_Normalised_data...xlsx` — the
+**GEO deposits processed matrices.** `GSE108740_FPKM.xlsx`, `GSE206344_Normalized_data...xlsx` — the
 per-gene quantification is right there, so transcriptomics can be fetched and normalized end to end.
 
 **PRIDE deposits raw instrument files.** PXD019729 holds 24 `.raw` files, two search outputs and no
@@ -139,7 +139,7 @@ def pride_files(accession: str, log=print) -> pd.DataFrame:
     return t
 
 
-# --------------------------------------------------------------------------- normalising
+# --------------------------------------------------------------------------- normalizing
 def infer_quant(values, name: str = "") -> str:
     """Guess a quantification type when it was not recorded, and say so where it is a guess.
 
@@ -173,7 +173,7 @@ def infer_quant(values, name: str = "") -> str:
     return "fpkm"
 
 
-def normalise(df: pd.DataFrame, quant: str, log=print) -> pd.DataFrame:
+def normalize(df: pd.DataFrame, quant: str, log=print) -> pd.DataFrame:
     """Standardise one dataset's numeric matrix according to its quantification type."""
     if quant not in TRANSFORM:
         log(f"unknown quantification {quant!r}; leaving values untouched")
@@ -190,7 +190,7 @@ def normalise(df: pd.DataFrame, quant: str, log=print) -> pd.DataFrame:
     return X
 
 
-def rank_normalise(df: pd.DataFrame) -> pd.DataFrame:
+def rank_normalize(df: pd.DataFrame) -> pd.DataFrame:
     """Per-column ranks scaled to [-0.5, 0.5].
 
     The only defensible way to put an FPKM column and an iBAQ column on one axis: it keeps the ordering,
@@ -207,7 +207,7 @@ def harmonise(datasets: dict, log=print) -> pd.DataFrame:
     out = []
     for name, (df, quant) in datasets.items():
         q = quant or infer_quant(df.stack(), name)
-        norm = rank_normalise(normalise(df, q, log=log))
+        norm = rank_normalize(normalize(df, q, log=log))
         norm.columns = [f"{name}__{c}" for c in norm.columns]
         log(f"{name}: {df.shape[1]} columns as {q}, rank-normalized")
         out.append(norm)

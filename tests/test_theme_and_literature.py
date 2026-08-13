@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Theme resolution, colour-map choice, and the literature layer's remaining edges.
+"""Theme resolution, color-map choice, and the literature layer's remaining edges.
 
-The colour-map tests carry a real constraint: pyqtgraph ships no `coolwarm`, and asking for a name it
+The color-map tests carry a real constraint: pyqtgraph ships no `coolwarm`, and asking for a name it
 does not have raises FileNotFoundError from inside a paint call -- a crash with no useful traceback,
 during rendering, from a menu selection. So resolution falls back rather than raising, and the offered
 names are only ones the library can actually build.
@@ -24,7 +24,7 @@ from starplast import theme as TH  # noqa: E402
 
 
 # --------------------------------------------------------------------------- palettes
-def test_the_background_is_the_page_colour_not_a_literal():
+def test_the_background_is_the_page_color_not_a_literal():
     """So a new theme changes the viewport with everything else instead of leaving a black hole."""
     for t in TH.THEMES:
         assert TH.background(t)[:3] == TH.rgbf(TH.palette_for(t)["bg"])[:3]
@@ -32,9 +32,9 @@ def test_the_background_is_the_page_colour_not_a_literal():
 
 
 def test_unknown_has_its_own_grey_derived_from_the_theme():
-    """"Unknown" is not "absent" and not a compartment; it needs a colour that reads on either ground."""
+    """"Unknown" is not "absent" and not a compartment; it needs a color that reads on either ground."""
     for t in TH.THEMES:
-        assert TH.unknown_colour(t)[:3] == TH.rgbf(TH.palette_for(t)["fg_dim"])[:3]
+        assert TH.unknown_color(t)[:3] == TH.rgbf(TH.palette_for(t)["fg_dim"])[:3]
 
 
 def test_the_stylesheet_is_produced_for_every_theme():
@@ -52,14 +52,14 @@ def test_rgbf_parses_hex_and_applies_alpha():
     assert TH.rgbf("#000000", 0.5)[3] == pytest.approx(0.5)
 
 
-def test_every_offered_colour_map_can_actually_be_built():
+def test_every_offered_color_map_can_actually_be_built():
     """A name pyqtgraph does not have raises FileNotFoundError inside a paint call. Offering
     matplotlib's `coolwarm` -- which pyqtgraph does not ship -- did exactly that."""
     for name in TH.CMAPS:
         assert TH.resolve_cmap(name) is not None, name
 
 
-def test_an_unknown_colour_map_falls_back_instead_of_raising():
+def test_an_unknown_color_map_falls_back_instead_of_raising():
     assert TH.resolve_cmap("no_such_colormap_anywhere") is not None
 
 
@@ -103,22 +103,22 @@ def test_a_mostly_text_column_is_categorical_even_with_some_numbers():
     assert TH.kind_for_column(pd.Series(["a", "b", "c", 1, 2])) == "categorical"
 
 
-# --------------------------------------------------------------------------- categorical colours
-def test_categorical_colours_are_distinct_and_in_range():
-    cols = TH.categorical_colours(8, theme="dark")
+# --------------------------------------------------------------------------- categorical colors
+def test_categorical_colors_are_distinct_and_in_range():
+    cols = TH.categorical_colors(8, theme="dark")
     assert len(cols) == 8
     assert len({tuple(round(c, 3) for c in col) for col in cols}) > 1
     assert all(0.0 <= c <= 1.0 for col in cols for c in col)
 
 
-def test_categorical_colours_are_lightened_on_dark_and_darkened_on_light():
+def test_categorical_colors_are_lightened_on_dark_and_darkened_on_light():
     """The same hue at the same value is legible on one ground and not the other."""
-    dark = TH.categorical_colours(6, theme="dark")
-    light = TH.categorical_colours(6, theme="light")
+    dark = TH.categorical_colors(6, theme="dark")
+    light = TH.categorical_colors(6, theme="light")
     assert sum(sum(c) for c in dark) > sum(sum(c) for c in light)
 
 
-def test_colours_are_produced_even_without_matplotlib(monkeypatch):
+def test_colors_are_produced_even_without_matplotlib(monkeypatch):
     """matplotlib is not a hard dependency of the viewer, and a missing palette must not stop it
     drawing."""
     import builtins
@@ -130,18 +130,18 @@ def test_colours_are_produced_even_without_matplotlib(monkeypatch):
         return real(name, *a, **k)
 
     monkeypatch.setattr(builtins, "__import__", no_mpl)
-    cols = TH.categorical_colours(5, theme="dark")
+    cols = TH.categorical_colors(5, theme="dark")
     assert len(cols) == 5
     assert all(0.0 <= c <= 1.0 for col in cols for c in col)
 
 
 def test_a_named_map_can_seed_the_categorical_palette():
-    assert len(TH.categorical_colours(4, cmap=next(iter(TH.CMAPS)), theme="dark")) == 4
+    assert len(TH.categorical_colors(4, cmap=next(iter(TH.CMAPS)), theme="dark")) == 4
 
 
 # --------------------------------------------------------------------------- rendering mode
 def test_additive_is_offered_but_is_not_what_anything_else_maps_to():
-    """8,140 genes in dense UMAP clusters sum to white under additive blending and every colour mode
+    """8,140 genes in dense UMAP clusters sum to white under additive blending and every color mode
     renders as one featureless blob -- while every array-level test passes."""
     assert TH.gl_options("additive") == "additive"
     assert TH.gl_options("occlude") == "translucent"
@@ -262,7 +262,7 @@ def test_an_unknown_name_falls_through_to_the_default(monkeypatch):
 
 def test_resolution_ends_rather_than_looping_when_nothing_can_be_built(monkeypatch):
     """pyqtgraph returns None rather than raising for some unknown names, so the loop's guard is
-    `is not None` and the function still has to terminate in a value. It cannot invent a colour map,
+    `is not None` and the function still has to terminate in a value. It cannot invent a color map,
     but it must not raise from inside a paint call either."""
     import pyqtgraph as pg
     calls = []
@@ -293,5 +293,5 @@ def test_the_expectation_is_divided_by_units_not_by_the_sum_of_per_gene_counts()
 
 def test_an_empty_column_is_categorical_rather_than_a_ramp_over_nothing():
     """A filter that matched no genes leaves an empty column, and computing a range over it gives
-    NaN bounds -- so the colour bar would be drawn from NaN to NaN."""
+    NaN bounds -- so the color bar would be drawn from NaN to NaN."""
     assert TH.kind_for_column(pd.Series([], dtype=float)) == "categorical"

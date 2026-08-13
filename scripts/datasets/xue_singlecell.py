@@ -28,4 +28,4 @@ from _common import run
 KEY = "xue_singlecell"
 
 if __name__ == "__main__":
-    run(KEY, sep='\t', normalised_by='cellcycle.add_all()')
+    run(KEY, sep='\t', normalized_by='cellcycle.add_all()')

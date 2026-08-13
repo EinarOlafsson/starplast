@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""hyperLOPIT localisation: both inference methods, and orthoLOPIT across three species.
+"""hyperLOPIT localization: both inference methods, and orthoLOPIT across three species.
 
 hyperLOPIT assigns a compartment to 3,827 of 8,140 *Toxoplasma* genes — 47%. The other 53% are not
 "cytosolic by default"; assignment tracks protein abundance, so the unlabelled set is biased toward
@@ -182,7 +182,7 @@ def lopit_labels(ds: str, nodes: pd.DataFrame, log=print) -> pd.DataFrame:
         nodes.ortholopit_label.where(nodes.ortholopit_accepted)).fillna("unassigned")
     # hyperLOPIT assignment tracks abundance: a missing call is unknown, never a 27th compartment
     nodes["compartment"] = nodes.compartment.fillna("unassigned")
-    log(f"localisation: {int(measured.sum()):,} measured + {int(transferred.sum()):,} orthoLOPIT "
+    log(f"localization: {int(measured.sum()):,} measured + {int(transferred.sum()):,} orthoLOPIT "
         f"= {int(measured.sum() + transferred.sum()):,} of {len(nodes):,} genes labeled "
         f"({(measured.sum() + transferred.sum()) / len(nodes):.0%})")
     return nodes

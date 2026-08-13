@@ -215,21 +215,21 @@ def test_ordinary_output_is_never_hidden_by_a_level(pane):
     assert "walk_umap" in pane.text() and "noise" not in pane.text()
 
 
-def test_a_level_colours_its_own_line(pane):
-    from starplast.console import LEVEL_COLOUR
+def test_a_level_colors_its_own_line(pane):
+    from starplast.console import LEVEL_COLOR
     from PyQt6 import QtGui
     pane.append("[ERROR] it fell over\n")
     doc = pane.view.document()
     block = doc.lastBlock()
     fmt = block.begin().fragment().charFormat()
-    assert fmt.foreground().color().name() == QtGui.QColor(LEVEL_COLOUR["ERROR"]).name()
+    assert fmt.foreground().color().name() == QtGui.QColor(LEVEL_COLOR["ERROR"]).name()
 
 
-def test_levelless_lines_keep_the_pane_s_own_colour(pane):
-    from starplast.console import LEVEL_COLOUR
+def test_levelless_lines_keep_the_pane_s_own_color(pane):
+    from starplast.console import LEVEL_COLOR
     pane.append("just a print\n")
     fmt = pane.view.document().lastBlock().begin().fragment().charFormat()
-    assert fmt.foreground().color().name() not in {c.lower() for c in LEVEL_COLOUR.values()}
+    assert fmt.foreground().color().name() not in {c.lower() for c in LEVEL_COLOR.values()}
 
 
 def test_the_level_filter_and_the_text_filter_both_apply(pane):

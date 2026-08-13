@@ -2,7 +2,7 @@
 """Headless smoke test for the app against the committed cache.
 
 The handoff claimed a passing smoke test but none was ever committed, so it could not be re-run. This
-drives the real Window offscreen: every level of detail, every colour mode, every edge type, the attention
+drives the real Window offscreen: every level of detail, every color mode, every edge type, the attention
 toggle, search and picking. It asserts the app builds and survives each control, not that it looks right.
 
 Skipped automatically where Qt cannot open an offscreen GL context, and where the cache is absent.
@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from starplast import paths
-from starplast.app import COLOUR_MODES  # noqa: E402
+from starplast.app import COLOR_MODES  # noqa: E402
 
 DATA = paths.data_dir()
 pytestmark = pytest.mark.skipif(
@@ -57,20 +57,20 @@ def test_cache_loads_with_expected_shape(win):
 def test_depth_of_attention_is_categorical_and_grey_when_unnamed(win):
     """Never-named genes must stay grey with everything else unknown, not sit at the bottom of a ramp."""
     import numpy as np
-    from starplast.app import DEPTH_COLOUR
+    from starplast.app import DEPTH_COLOR
     from starplast import theme as TH
-    i = COLOUR_MODES.index("depth of attention")
+    i = COLOR_MODES.index("depth of attention")
     assert i >= 0
-    win.set_colour_mode(COLOUR_MODES[i])
+    win.set_color_mode(COLOR_MODES[i])
     win.redraw()
-    c = win.colours(np.ones(win.n, bool))
+    c = win.colors(np.ones(win.n, bool))
     unnamed = (win.nodes.attention_depth.astype(str) == "").to_numpy()
     if unnamed.any():
         # The unknown grey is derived from the active theme's fg_dim, not a module constant,
         # so a theme switch cannot leave it invisible against the new ground.
-        expected = np.array(TH.unknown_colour(win.theme)[:3], dtype=np.float32)
+        expected = np.array(TH.unknown_color(win.theme)[:3], dtype=np.float32)
         assert np.allclose(c[unnamed][:, :3], expected, atol=1e-5)
-    for tier, col in DEPTH_COLOUR.items():
+    for tier, col in DEPTH_COLOR.items():
         m = (win.nodes.attention_depth.astype(str) == tier).to_numpy()
         if m.any():
             assert np.allclose(c[m][:, :3], np.array(col, dtype=np.float32), atol=1e-5)
@@ -113,9 +113,9 @@ def test_every_level_of_detail(win):
         win.redraw()
 
 
-def test_every_colour_mode(win):
-    for i in range(len(COLOUR_MODES)):
-        win.set_colour_mode(COLOUR_MODES[i])
+def test_every_color_mode(win):
+    for i in range(len(COLOR_MODES)):
+        win.set_color_mode(COLOR_MODES[i])
         win.redraw()
 
 
@@ -131,9 +131,9 @@ def test_attention_toggle_changes_drawn_comention(win):
 
 
 def test_scatter_does_not_blend_additively(win):
-    """Additive blending summed 8,140 overlapping points to white and hid the colour encoding entirely.
+    """Additive blending summed 8,140 overlapping points to white and hid the color encoding entirely.
 
-    Every colour mode rendered as one white blob while all the array-level tests still passed, so this
+    Every color mode rendered as one white blob while all the array-level tests still passed, so this
     checks the GL state the renderer actually uses.
     """
     from OpenGL.GL import GL_DEPTH_TEST, GL_ONE, GL_SRC_ALPHA
@@ -155,10 +155,10 @@ def test_edge_alpha_encodes_weight(win):
     win.sel = None
     win.redraw()
     assert win.edge_items, "no edge item was drawn"
-    colours = [np.asarray(it.color) for it in win.edge_items
+    colors = [np.asarray(it.color) for it in win.edge_items
                if getattr(it, "color", None) is not None and np.asarray(it.color).ndim == 2]
-    assert colours, "edges drawn with a single flat colour, not a per-edge colour array"
-    alphas = np.concatenate([c[:, 3] for c in colours])
+    assert colors, "edges drawn with a single flat color, not a per-edge color array"
+    alphas = np.concatenate([c[:, 3] for c in colors])
     assert alphas.ptp() > 0.01, "edge alpha does not vary with weight"
 
 

@@ -78,7 +78,7 @@ def test_symbol_and_tg_prefixed_alias(ix):
     assert genes(ix, "TgGRA16 binds") == {"TGME49_208830"}
 
 
-def test_hyphenated_symbol_normalises(ix):
+def test_hyphenated_symbol_normalizes(ix):
     assert genes(ix, "GRA-16 was detected") == {"TGME49_208830"}
 
 
@@ -137,7 +137,7 @@ JATS = """<?xml version="1.0"?><article><front><article-meta>
 <pub-date><year>2021</year></pub-date>
 </article-meta></front><body>
 <sec><p>The protein ROP18 was measured in a long enough paragraph to be kept by the parser.</p>
-<fig><caption><p>Figure 1. Localisation of GRA16 in infected cells.</p></caption></fig></sec>
+<fig><caption><p>Figure 1. Localization of GRA16 in infected cells.</p></caption></fig></sec>
 </body><back><ref-list><ref><mixed-citation>Smith et al. TGME49_205250 is a kinase.
 </mixed-citation></ref></ref-list></back></article>"""
 

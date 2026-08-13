@@ -66,9 +66,9 @@ def is_dark(theme: str) -> bool:
     return theme in DARK_THEMES
 
 
-def rgbf(hex_colour: str, alpha: float = 1.0) -> tuple:
+def rgbf(hex_color: str, alpha: float = 1.0) -> tuple:
     """Hex to the 0-1 RGBA tuple pyqtgraph's GL items want."""
-    h = hex_colour.lstrip("#")
+    h = hex_color.lstrip("#")
     return (int(h[0:2], 16) / 255, int(h[2:4], 16) / 255, int(h[4:6], 16) / 255, alpha)
 
 
@@ -77,12 +77,12 @@ def background(theme: str) -> tuple:
     return rgbf(palette_for(theme)["bg"])
 
 
-def unknown_colour(theme: str) -> tuple:
+def unknown_color(theme: str) -> tuple:
     """The gray for 'unknown, not absent'. Derived from fg_dim so it reads on either ground."""
     return rgbf(palette_for(theme)["fg_dim"])
 
 
-# --------------------------------------------------------------------------- colour maps
+# --------------------------------------------------------------------------- color maps
 # name -> (kind, the name pyqtgraph will accept). pyqtgraph ships only five matplotlib maps; its
 # diverging maps come from the CET (Peter Kovesi) set, which is perceptually uniform and a better
 # choice than coolwarm anyway. Offering a name pyqtgraph cannot build raises FileNotFoundError deep in
@@ -153,7 +153,7 @@ POINT_STYLES = {
 DEFAULT_POINT_STYLE = "standard"
 
 # How strongly distance from the camera fades a point. 0 disables it. A 3D scatter drawn without depth
-# cueing reads as a flat disc of colour: near and far points are equally bright, so the eye has nothing
+# cueing reads as a flat disc of color: near and far points are equally bright, so the eye has nothing
 # to build a shape from. This is the cheapest thing that makes the map three-dimensional.
 DEPTH_FADE = 0.55        # fraction of alpha the farthest point keeps
 DEPTH_SHRINK = 0.45      # fraction of size the farthest point keeps
@@ -190,7 +190,7 @@ def depth_cue(xyz, camera_pos, alpha, size, fade=DEPTH_FADE, shrink=DEPTH_SHRINK
             size * (1.0 - t * (1.0 - shrink)))
 
 
-def categorical_colours(n: int, theme: str = "dark", cmap: str | None = None) -> list:
+def categorical_colors(n: int, theme: str = "dark", cmap: str | None = None) -> list:
     """`n` distinct colors for unordered classes, legible on this theme's ground.
 
     A palette tuned for a dark background washes out on a light one -- the same hues that read as

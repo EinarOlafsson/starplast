@@ -28,8 +28,8 @@ quirks that cost time the first time round, straight from the registry.
 ## What they are not
 
 They are not a second implementation of the build. The shipped columns are assembled by
-`starplast.build_graph.load_nodes()` through the domain modules (`localisation`, `expression`,
-`screens`, `cellcycle`), and each script names the one that normalises its columns. A per-dataset
+`starplast.build_graph.load_nodes()` through the domain modules (`localization`, `expression`,
+`screens`, `cellcycle`), and each script names the one that normalizes its columns. A per-dataset
 copy of that logic would drift and eventually misrepresent what produced the shipped data.
 
 What these scripts do is the part that genuinely is per-dataset: fetch, read, and standardise the

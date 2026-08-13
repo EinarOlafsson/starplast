@@ -57,7 +57,7 @@ score it as a class, you are rewarding the model for separating **measured** ent
 ones — and that is usually the strongest signal in any real dataset, because an entity absent from most
 assays is absent from most of the feature matrix.
 
-Measured, not argued: localisation scored mean F1 **0.484**, and its single best-recovered label was
+Measured, not argued: localization scored mean F1 **0.484**, and its single best-recovered label was
 `unassigned` at 0.39. Excluding that pseudo-label, the same run scores **0.207**. The real classes sat
 between 0.21 and 0.35 the whole time.
 
@@ -75,7 +75,7 @@ In the real case the negative control scored **0.654**, above both measured targ
 breakdown was decisive: essentially all of it came from one class — the never-mentioned entities at
 F1 0.77 — while the genuine attention tiers scored 0.14–0.35.
 
-That single number reinterpreted every other result in the project. Without it, localisation's 0.484
+That single number reinterpreted every other result in the project. Without it, localization's 0.484
 would have been reported as a finding.
 
 Run a **positive control** too: a label you know is a deterministic function of the features. It must

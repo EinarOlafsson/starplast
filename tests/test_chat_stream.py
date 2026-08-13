@@ -240,7 +240,7 @@ def test_closing_a_stream_that_refuses_to_close_is_survived(qapp, monkeypatch):
 
 
 def test_the_accent_falls_back_when_the_palette_cannot_be_read(qapp, panels, monkeypatch):
-    """A panel with no window, or a theme module that moved, must still colour the two speakers apart."""
+    """A panel with no window, or a theme module that moved, must still color the two speakers apart."""
     panel = C.ChatPanel()
     panels.append(panel)
     monkeypatch.setattr(panel, "window", lambda: (_ for _ in ()).throw(RuntimeError("no window")))
@@ -341,7 +341,7 @@ def test_closing_the_panel_stops_a_running_worker(qapp, panels):
 
 
 def test_the_accent_falls_back_when_the_theme_is_unavailable(qapp, panels):
-    """A chat panel with no window must still colour its two speakers apart."""
+    """A chat panel with no window must still color its two speakers apart."""
     panel = C.ChatPanel()
     panels.append(panel)
     assert panel._accent("you") != panel._accent("assistant")

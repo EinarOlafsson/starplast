@@ -21,4 +21,4 @@ from _common import run
 KEY = "gse206344"
 
 if __name__ == "__main__":
-    run(KEY, sheet='1', normalised_by='expression.load_all()')
+    run(KEY, sheet='1', normalized_by='expression.load_all()')

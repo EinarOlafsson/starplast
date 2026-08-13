@@ -67,7 +67,7 @@ FIT = ["fit_invitro_hff", "fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver"
 
 EDGE_CAP = 20000        # per type, on drawing only. Stated in the tooltip rather than applied silently.
 
-COLOUR_MODES = ["compartment", "compartment (incl. transferred)", "clusters", "in vitro fitness",
+COLOR_MODES = ["compartment", "compartment (incl. transferred)", "clusters", "in vitro fitness",
                 "publications", "depth of attention", "structure confidence (pLDDT)",
                 "cyst / tachyzoite expression", "annotations"]
 
@@ -91,7 +91,7 @@ MAP_EXPLANATION = (
     "Position is similarity in expression, fitness screens, protein features and literature "
     "co-mention, reduced to three dimensions by UMAP. That is all it is.\n\n"
     "Held-out testing on the full proteome found that no target is reliably recovered: cell cycle "
-    "recovers 0 of 5 phases and localisation 1 of 24 compartments. Localisation scores below the "
+    "recovers 0 of 5 phases and localization 1 of 24 compartments. Localization scores below the "
     "negative control — the map reflects how much a gene has been studied better than it reflects "
     "where the protein is.\n\n"
     "So proximity here is a hypothesis to check, never evidence on its own. No predictions are "
@@ -117,7 +117,7 @@ def as_text(s):
     return s.astype("object").where(s.notna(), "").astype(str)
 
 
-#: Prefix marking a colour source that is a kept clustering rather than a column.
+#: Prefix marking a color source that is a kept clustering rather than a column.
 RUN_PREFIX = "clustering: "
 #: Prefix marking a numeric column shown as bins rather than as a ramp.
 BIN_PREFIX = "binned: "
@@ -179,7 +179,7 @@ def category_columns(nodes) -> list[str]:
 
 # Qualitative palette; "unassigned" is deliberately grey, because a missing hyperLOPIT call means
 # unknown (assignment tracks abundance) and must not read as a 27th compartment.
-# Kept as a fallback: the categorical colour map chosen in the UI supersedes it.
+# Kept as a fallback: the categorical color map chosen in the UI supersedes it.
 PALETTE = [
     (0.90, 0.24, 0.24), (0.20, 0.55, 0.90), (0.25, 0.75, 0.35), (0.95, 0.65, 0.15),
     (0.65, 0.35, 0.85), (0.15, 0.80, 0.78), (0.95, 0.45, 0.70), (0.55, 0.75, 0.20),
@@ -189,7 +189,7 @@ PALETTE = [
     (0.70, 0.70, 0.90), (0.55, 0.45, 0.20), (0.30, 0.85, 0.60), (0.90, 0.40, 0.45),
     (0.50, 0.50, 0.95), (0.65, 0.85, 0.35),
 ]
-GREY = (0.45, 0.45, 0.48)   # fallback; the live value comes from TH.unknown_colour(theme)
+GREY = (0.45, 0.45, 0.48)   # fallback; the live value comes from TH.unknown_color(theme)
 
 # An orthogroup needs this many visible members before it earns a marker at system level. Below it the
 # view fills with thousands of singleton markers, which is the gene level with extra steps.
@@ -201,7 +201,7 @@ EDGE_INK_TARGET = 1500
 
 # Depth of attention is categorical (see literature.DEPTH_OF): named in a title / in an abstract / only in
 # a body or caption. Distinct hues rather than a ramp, because the tiers are not a measured quantity.
-DEPTH_COLOUR = {"focal": (0.98, 0.86, 0.30),          # the paper is about this gene
+DEPTH_COLOR = {"focal": (0.98, 0.86, 0.30),          # the paper is about this gene
                 "substantive": (0.35, 0.70, 0.95),    # a stated part of the paper's claims
                 "incidental": (0.55, 0.35, 0.60)}     # mentioned in passing, or listed in a table
 
@@ -646,7 +646,7 @@ class Window(QtWidgets.QMainWindow):
         from .runs import RunStore
         self.categories = category_columns(self.nodes)
         self.numerics = numeric_columns(self.nodes)
-        #: How many bins a numeric colour source is cut into. Quantile bins, so the choice is about
+        #: How many bins a numeric color source is cut into. Quantile bins, so the choice is about
         #: how fine a distinction to draw rather than about the shape of the distribution.
         self.bins = 5
         #: Kept clusterings. Beside the cache rather than in it: these are the user's runs and must
@@ -658,23 +658,23 @@ class Window(QtWidgets.QMainWindow):
         absent = {str(x).lower() for x in ABSENCE}
         self.comps = ([c for c in comps if c.lower() not in absent]
                       + [c for c in comps if c.lower() in absent])
-        self.colour_of = dict(zip(self.comps,
-                                  TH.categorical_colours(len(self.comps), self.theme)))
+        self.color_of = dict(zip(self.comps,
+                                  TH.categorical_colors(len(self.comps), self.theme)))
         for c in self.comps:
             if c.lower() in absent:
-                self.colour_of[c] = GREY
+                self.color_of[c] = GREY
 
-        # Level of detail, colouring and edge state now live in the menus, so they are plain
+        # Level of detail, coloring and edge state now live in the menus, so they are plain
         # attributes with menu actions over them rather than widgets read out of a side panel.
         self.level_idx = 2                    # gene tier: the map as it actually is
-        self.colour_mode = "compartment"
+        self.color_mode = "compartment"
         self.point_size = None                # None means "whatever the point style says"
         self.edge_on = {k: (k in ("comention", "cofitness") and k in self.edges)
                         for k, _ in EDGE_TYPES}
         self.attn_on = True                   # a correctness default, not a preference
         self.all_edges_on = False
         self._galaxies = None                 # computed lazily; the grid pass is not free
-        # A clustering from the analysis panel, so the map can be coloured by it. Looking at
+        # A clustering from the analysis panel, so the map can be colored by it. Looking at
         # structure beside a held-out variable is what this application is for, and until this
         # existed the Clusters tab computed labels and discarded them.
         self.cluster_labels = None
@@ -688,7 +688,7 @@ class Window(QtWidgets.QMainWindow):
         #: Every import this session, with the choices that produced it. An imported column whose
         #: provenance is a memory of which dropdowns were set cannot be defended three weeks later.
         self.imports = []
-        # Which genes carry a saved annotation. Its own mask and its own colour, because an
+        # Which genes carry a saved annotation. Its own mask and its own color, because an
         # annotation is a fourth thing beside measurement, inference and absence, and reading as any
         # of the three is the failure this application is built to prevent.
         self.annotated = None
@@ -698,8 +698,8 @@ class Window(QtWidgets.QMainWindow):
         self.view.picked.connect(self.on_pick)
         self.view.gated.connect(self.on_gated)
         self.scatter = gl.GLScatterPlotItem(pos=self.xyz, size=5.0, pxMode=True)
-        # GLScatterPlotItem blends additively by default, which sums the colours of overlapping points.
-        # With 8,140 genes in dense UMAP clusters every mode rendered as one white blob and the colour
+        # GLScatterPlotItem blends additively by default, which sums the colors of overlapping points.
+        # With 8,140 genes in dense UMAP clusters every mode rendered as one white blob and the color
         # encoding -- the thing the map is for -- was invisible. Translucent blending with depth testing
         # makes nearer points occlude farther ones instead of adding to them.
         self.scatter.setGLOptions("translucent")
@@ -982,12 +982,12 @@ class Window(QtWidgets.QMainWindow):
         if app is not None:
             app.setStyleSheet(TH.stylesheet(name))
         self.view.setBackgroundColor(pg.mkColor(TH.palette_for(name)["bg"]))
-        # Recolour the classes for this ground, then restore the deliberate grey for "unknown".
-        self.colour_of = dict(zip(self.comps,
-                                  TH.categorical_colours(len(self.comps), name, self.cmap_name)))
-        self.colour_of["unassigned"] = TH.unknown_colour(name)[:3]
+        # Recolor the classes for this ground, then restore the deliberate grey for "unknown".
+        self.color_of = dict(zip(self.comps,
+                                  TH.categorical_colors(len(self.comps), name, self.cmap_name)))
+        self.color_of["unassigned"] = TH.unknown_color(name)[:3]
         if getattr(self, "diagram", None) is not None:
-            # Recoloured with the map, from the same dict, so a theme change moves both together.
+            # Recolored with the map, from the same dict, so a theme change moves both together.
             self._refresh_diagram()
         if hasattr(self, "gallery"):
             # Thumbnails already painted keep the ground they were painted on; the large view is
@@ -1004,7 +1004,7 @@ class Window(QtWidgets.QMainWindow):
         """Re-apply the point style and redraw."""
         st = TH.POINT_STYLES[self.point_style]
         self.scatter.setGLOptions(TH.gl_options(self.point_mode))
-        self.scatter.setData(pos=self.xyz, color=self.colours(self.visible_mask()),
+        self.scatter.setData(pos=self.xyz, color=self.colors(self.visible_mask()),
                              size=st["size"])
         self.redraw()
 
@@ -1055,7 +1055,7 @@ class Window(QtWidgets.QMainWindow):
         """
         from .gallery import GalleryPanel
         bg = TH.rgbf(TH.palette_for(self.theme)["bg"])[:3]
-        self.gallery = GalleryPanel(colour_fn=self.colours_for_genes, background=bg)
+        self.gallery = GalleryPanel(color_fn=self.colors_for_genes, background=bg)
         self.gallery.chosen.connect(self.show_walk_map)
         self.gallery_dock = QtWidgets.QDockWidget("gallery", self)
         self.gallery_dock.setWidget(self.gallery)
@@ -1063,7 +1063,7 @@ class Window(QtWidgets.QMainWindow):
         self.gallery_dock.hide()
         self.panel.walk_started.connect(self._walk_started)
         self.panel.walk_step.connect(self.gallery.add)
-        # A search's configurations go to the same wall, each coloured by the clustering that was
+        # A search's configurations go to the same wall, each colored by the clustering that was
         # scored. The two walks produce the same kind of thing -- a map with a number attached --
         # and looking at them in two different places would be an accident of implementation.
         self.panel.search_step.connect(self.gallery.add)
@@ -1074,15 +1074,15 @@ class Window(QtWidgets.QMainWindow):
         self.gallery_dock.show()
         self.gallery_dock.raise_()
 
-    def colours_for_genes(self, mask):
+    def colors_for_genes(self, mask):
         """The current coloring, restricted to a subset of genes -- what the gallery paints with.
 
-        Taken from `colours` rather than reimplemented so a thumbnail is colored by exactly what the
+        Taken from `colors` rather than reimplemented so a thumbnail is colored by exactly what the
         map is colored by, including the rule that gray means unknown. The visibility filter is
         deliberately not applied: a thumbnail showing only the filtered classes would look like a
         different embedding rather than the same one seen through a filter.
         """
-        c = self.colours(np.ones(self.n, bool))
+        c = self.colors(np.ones(self.n, bool))
         m = np.asarray(mask)
         return c[m.astype(bool)] if m.dtype == bool else c[m.astype(int)]
 
@@ -1192,13 +1192,13 @@ class Window(QtWidgets.QMainWindow):
             act.triggered.connect(lambda _c, k=i: self.set_level(k))
 
         col = v.addMenu("Color by")
-        self.colour_group = QtGui.QActionGroup(self)
-        for name in COLOUR_MODES:
+        self.color_group = QtGui.QActionGroup(self)
+        for name in COLOR_MODES:
             act = col.addAction(name)
             act.setCheckable(True)
-            act.setChecked(name == self.colour_mode)
-            self.colour_group.addAction(act)
-            act.triggered.connect(lambda _c, n=name: self.set_colour_mode(n))
+            act.setChecked(name == self.color_mode)
+            self.color_group.addAction(act)
+            act.triggered.connect(lambda _c, n=name: self.set_color_mode(n))
 
         ps = v.addMenu("Point size")
         self.size_group = QtGui.QActionGroup(self)
@@ -1364,9 +1364,9 @@ class Window(QtWidgets.QMainWindow):
         self.level_idx = int(i)
         self.on_level_changed()
 
-    def set_colour_mode(self, name: str):
+    def set_color_mode(self, name: str):
         """Change what color encodes. Each mode is a different claim about the data."""
-        self.colour_mode = name
+        self.color_mode = name
         self.redraw()
 
     def set_point_size(self, size):
@@ -1511,7 +1511,7 @@ class Window(QtWidgets.QMainWindow):
             return
         n = int(self.annotated.sum())
         if n:
-            self.set_colour_mode("annotations")
+            self.set_color_mode("annotations")
         else:
             self.redraw()
         self.status.showMessage(
@@ -1538,7 +1538,7 @@ class Window(QtWidgets.QMainWindow):
             except Exception:      # the panel is optional; a run without its recipe still beats none
                 recipe = {}
         self.keep_run(self.cluster_labels, recipe=recipe)
-        self.set_colour_mode("clusters")
+        self.set_color_mode("clusters")
         n = len(set(self.cluster_labels[self.cluster_labels >= 0]))
         self.status.showMessage(f"coloring by {n} clusters, kept as a run you can come back to; "
                                 f"gray is unclustered, which is a real answer and not a missing one")
@@ -1949,9 +1949,9 @@ class Window(QtWidgets.QMainWindow):
         self.cmap_name = None if name.startswith("auto") else name
         kind = TH.CMAPS.get(self.cmap_name, (None,))[0] if self.cmap_name else None
         if kind in (None, "categorical"):
-            self.colour_of = dict(zip(self.comps, TH.categorical_colours(
+            self.color_of = dict(zip(self.comps, TH.categorical_colors(
                 len(self.comps), self.theme, self.cmap_name if kind == "categorical" else None)))
-            self.colour_of["unassigned"] = TH.unknown_colour(self.theme)[:3]
+            self.color_of["unassigned"] = TH.unknown_color(self.theme)[:3]
         self.redraw()
 
     def _on_point_style(self, name):
@@ -1988,12 +1988,12 @@ class Window(QtWidgets.QMainWindow):
         L.addWidget(QtWidgets.QLabel("<b>color by</b>"))
         self.category_box = QtWidgets.QComboBox()
         self.category_box.setToolTip(
-            "What colour means right now, and what the list below filters and flies by. Three kinds "
+            "What color means right now, and what the list below filters and flies by. Three kinds "
             "of thing, because they answer the same question: any column with a manageable number "
             "of repeated values; any clustering you have kept, by name; and any quantity cut into "
-            "bins, which is what makes a measurement comparable with a clustering. Localisation is "
+            "bins, which is what makes a measurement comparable with a clustering. Localization is "
             "the worst-recovered property in this map, so it is a poor thing to be the only way in.")
-        self.category_box.addItems(self.colour_sources())
+        self.category_box.addItems(self.color_sources())
         if "compartment" in self.categories:
             self.category_box.setCurrentText("compartment")
         self.category_box.currentTextChanged.connect(self.on_category_changed)
@@ -2026,7 +2026,7 @@ class Window(QtWidgets.QMainWindow):
         self._fill_category_list()
 
         # The cell, under the list, filled from the same palette the points are. Shown only for a
-        # localisation category: there is no sensible mapping from cell-cycle phase onto organelles.
+        # localization category: there is no sensible mapping from cell-cycle phase onto organelles.
         from .celldiagram import CellDiagram, available as diagram_available
         self.diagram = CellDiagram() if diagram_available() else None
         self.diagram_note = QtWidgets.QLabel("")
@@ -2081,7 +2081,7 @@ class Window(QtWidgets.QMainWindow):
         for v in named + tail:
             it = QtWidgets.QListWidgetItem(f"{v}  ({int(counts[v]):,})")
             it.setData(QtCore.Qt.ItemDataRole.UserRole, v)
-            col = self.colour_of.get(v)
+            col = self.color_of.get(v)
             if col is not None:
                 it.setForeground(QtGui.QColor.fromRgbF(*col))
             if str(v).lower() in absent:
@@ -2113,17 +2113,17 @@ class Window(QtWidgets.QMainWindow):
         self.rename_row.setVisible(is_run)
         if is_run:
             self.run_name.setText(name[len(RUN_PREFIX):])
-        # Colouring follows the panel: this IS the colour choice, not a filter beside one.
-        self.colour_mode = "compartment" if name == "compartment" else self.colour_mode
+        # Coloring follows the panel: this IS the color choice, not a filter beside one.
+        self.color_mode = "compartment" if name == "compartment" else self.color_mode
         vals = sorted(self.category_values().unique())
         absent = {str(x).lower() for x in ABSENCE}
         self.comps = ([v for v in vals if str(v).lower() not in absent]
                       + [v for v in vals if str(v).lower() in absent])
-        self.colour_of = dict(zip(self.comps,
-                                  TH.categorical_colours(len(self.comps), self.theme, self.cmap_name)))
+        self.color_of = dict(zip(self.comps,
+                                  TH.categorical_colors(len(self.comps), self.theme, self.cmap_name)))
         for v in self.comps:
             if str(v).lower() in absent:
-                self.colour_of[v] = TH.unknown_colour(self.theme)[:3]
+                self.color_of[v] = TH.unknown_color(self.theme)[:3]
         self._fill_category_list()
         self._refresh_diagram()
         self.redraw()
@@ -2142,10 +2142,10 @@ class Window(QtWidgets.QMainWindow):
         self.status.showMessage(f"{name} is not in this list")
 
     def _refresh_diagram(self):
-        """Show the cell for a localisation category, filled from the map's palette.
+        """Show the cell for a localization category, filled from the map's palette.
 
-        Hidden for anything else: colouring organelles by cell-cycle phase would be a picture of a
-        relationship that does not exist. The fills come from `colour_of`, the same dict the points
+        Hidden for anything else: coloring organelles by cell-cycle phase would be a picture of a
+        relationship that does not exist. The fills come from `color_of`, the same dict the points
         are drawn from, so the diagram and the map cannot disagree.
         """
         if self.diagram is None:
@@ -2157,7 +2157,7 @@ class Window(QtWidgets.QMainWindow):
         if not show:
             return
         sel = [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.comp_list.selectedItems()]
-        self.diagram.set_palette(self.colour_of, sel[0] if len(sel) == 1 else "")
+        self.diagram.set_palette(self.color_of, sel[0] if len(sel) == 1 else "")
         absent = [c for c in missing_from_drawing(self.comps, self.diagram.svg)
                   if str(c).lower() not in {str(x).lower() for x in ABSENCE}]
         note = self.diagram.showing()
@@ -2179,7 +2179,7 @@ class Window(QtWidgets.QMainWindow):
         return d
 
     # ------------------------------------------------------------------ drawing
-    def colour_sources(self) -> list:
+    def color_sources(self) -> list:
         """Everything the map can be colored by, in one list: columns, runs, binned quantities.
 
         One list rather than three controls, because they answer the same question -- what should
@@ -2236,7 +2236,7 @@ class Window(QtWidgets.QMainWindow):
         want = self.category_box.currentText()
         self.category_box.blockSignals(True)
         self.category_box.clear()
-        self.category_box.addItems(self.colour_sources())
+        self.category_box.addItems(self.color_sources())
         i = self.category_box.findText(want)
         self.category_box.setCurrentIndex(max(i, 0))
         self.category_box.blockSignals(False)
@@ -2265,13 +2265,13 @@ class Window(QtWidgets.QMainWindow):
         placed = getattr(self, "placed", None)
         return vis if placed is None else (vis & placed)
 
-    def colours(self, vis):
+    def colors(self, vis):
         """An RGBA color per gene under the current color mode. Gray always means unknown."""
-        mode = self.colour_mode
+        mode = self.color_mode
         c = np.zeros((self.n, 4), dtype=np.float32)
         if mode.startswith("compartment"):
-            # The default colours whatever the colour-by panel names -- a column, a kept clustering
-            # or a binned quantity -- because that panel IS the choice of what colour means. The
+            # The default colors whatever the color-by panel names -- a column, a kept clustering
+            # or a binned quantity -- because that panel IS the choice of what color means. The
             # "incl. transferred" variant is the one exception, a preset that names a column of its
             # own: ortholog-transferred labels are inferences from another species, offered because
             # coverage matters and kept separate because provenance matters more.
@@ -2279,40 +2279,40 @@ class Window(QtWidgets.QMainWindow):
                 vals = as_text(self.nodes["compartment_best"])
             else:
                 vals = self.category_values()
-            for comp, col in self.colour_of.items():
+            for comp, col in self.color_of.items():
                 c[(vals == comp).to_numpy(), :3] = col
             for absent in ("unassigned", ""):
-                c[(vals == absent).to_numpy(), :3] = TH.unknown_colour(self.theme)[:3]
+                c[(vals == absent).to_numpy(), :3] = TH.unknown_color(self.theme)[:3]
         elif mode == "clusters":
             # Noise stays grey, with everything else that is unknown. HDBSCAN calling a gene
             # unclustered is a finding about that gene, not a gap in the drawing.
             if self.cluster_labels is None or len(self.cluster_labels) != self.n:
-                c[:, :3] = TH.unknown_colour(self.theme)[:3]
+                c[:, :3] = TH.unknown_color(self.theme)[:3]
             else:
                 lab = self.cluster_labels
                 ids = sorted(set(lab[lab >= 0]))
-                palette = TH.categorical_colours(max(len(ids), 1), self.theme, self.cmap_name)
+                palette = TH.categorical_colors(max(len(ids), 1), self.theme, self.cmap_name)
                 for col, k in zip(palette, ids):
                     c[lab == k, :3] = col
-                c[lab < 0, :3] = TH.unknown_colour(self.theme)[:3]
+                c[lab < 0, :3] = TH.unknown_color(self.theme)[:3]
         elif mode == "annotations":
-            # The fourth colour, used for nothing else. Everything unannotated is grey -- not a
+            # The fourth color, used for nothing else. Everything unannotated is grey -- not a
             # category, not zero: "nobody has proposed anything for this gene".
-            from .annotations import ANNOTATION_COLOUR
-            c[:, :3] = TH.unknown_colour(self.theme)[:3]
+            from .annotations import ANNOTATION_COLOR
+            c[:, :3] = TH.unknown_color(self.theme)[:3]
             if self.annotated is not None and len(self.annotated) == self.n:
-                c[self.annotated, :3] = ANNOTATION_COLOUR
+                c[self.annotated, :3] = ANNOTATION_COLOR
         elif mode == "depth of attention":
             # Categorical, not a scale: these tiers are read off document structure (title / abstract /
             # body-only), so shading them along a gradient would imply a quantity that does not exist.
             # Never-named genes stay grey with everything else that is unknown rather than absent.
             if "attention_depth" not in self.nodes.columns:
-                c[:, :3] = TH.unknown_colour(self.theme)[:3]
+                c[:, :3] = TH.unknown_color(self.theme)[:3]
             else:
                 d = as_text(self.nodes.attention_depth).to_numpy()
-                for tier, col in DEPTH_COLOUR.items():
+                for tier, col in DEPTH_COLOR.items():
                     c[d == tier, :3] = col
-                c[d == "", :3] = TH.unknown_colour(self.theme)[:3]
+                c[d == "", :3] = TH.unknown_color(self.theme)[:3]
         else:
             col = {"in vitro fitness": "fit_invitro_hff", "publications": "n_publications",
                    "structure confidence (pLDDT)": "mean_plddt"}.get(mode)
@@ -2328,15 +2328,15 @@ class Window(QtWidgets.QMainWindow):
                 t = np.clip((v - lo) / max(hi - lo, 1e-9), 0, 1)
                 cm = TH.resolve_cmap(self._cmap_for(v))
                 c[:, :3] = cm.map(np.nan_to_num(t, nan=0.0), mode="float")[:, :3]
-            c[~ok, :3] = TH.unknown_colour(self.theme)[:3]   # missingness stays grey, never a value
+            c[~ok, :3] = TH.unknown_color(self.theme)[:3]   # missingness stays grey, never a value
         alpha = float(TH.POINT_STYLES.get(self.point_style, {}).get('alpha', 0.95))
         c[:, 3] = np.where(vis, alpha, 0.06)
         if self.sel is not None:
             c[self.sel] = (1.0, 1.0, 1.0, 1.0)
         if getattr(self, "gated", None) is not None and len(self.gated):
-            # A gate is a SELECTION, not a claim about the data, so it must not recolour anything --
-            # measurement, inference, absence and annotation are what colour means here. The gated
-            # genes keep their own colour and everything else recedes.
+            # A gate is a SELECTION, not a claim about the data, so it must not recolor anything --
+            # measurement, inference, absence and annotation are what color means here. The gated
+            # genes keep their own color and everything else recedes.
             m = np.zeros(self.n, dtype=bool)
             m[self.gated] = True
             c[~m, 3] *= 0.12
@@ -2403,7 +2403,7 @@ class Window(QtWidgets.QMainWindow):
             col, ssz = [], []
             for i in range(len(pos)):
                 name, frac = dom.get(i, ("mixed", 0.0))
-                col.append((*self.colour_of.get(name, TH.unknown_colour(self.theme)[:3]), 0.95))
+                col.append((*self.color_of.get(name, TH.unknown_color(self.theme)[:3]), 0.95))
                 ssz.append(float(10 + 30 * np.sqrt(num[i] / max(vis.sum(), 1))))
                 self._galaxy_info.append((int(num[i]), name, frac))
             if len(pos):
@@ -2429,7 +2429,7 @@ class Window(QtWidgets.QMainWindow):
                     continue
                 pos.append(self.xyz[idx].mean(0))
                 comp = self.category_values().iloc[idx[0]]
-                col.append((*self.colour_of.get(comp, TH.unknown_colour(self.theme)[:3]), 0.9))
+                col.append((*self.color_of.get(comp, TH.unknown_color(self.theme)[:3]), 0.9))
                 ssz.append(float(6 + 18 * np.sqrt(len(idx) / 40.0)))
             if pos:
                 self.centroid_item = gl.GLScatterPlotItem(
@@ -2440,23 +2440,23 @@ class Window(QtWidgets.QMainWindow):
             if self.sel is not None and og[self.sel] not in ("", "nan", "None"):
                 sizes[og == og[self.sel]] = max(base * 2.0, 9.0)
 
-        colours = self.colours(vis)
+        colors = self.colors(vis)
         self._depth_ctx = None
         if self.depth_cue:
             # Fade and shrink with distance so the cloud has a front and a back. Without it the map is
-            # a flat disc of colour however much it is rotated.
+            # a flat disc of color however much it is rotated.
             cam = self.view.cameraPosition()
             cam = (cam.x(), cam.y(), cam.z())
             d = np.linalg.norm(self.xyz - np.asarray(cam, np.float32), axis=1)
-            # One range shared by points and edges. Normalising each set against its own extent makes
+            # One range shared by points and edges. Normalizing each set against its own extent makes
             # an edge and the point it touches fade by different amounts, which reads as flicker.
             self._depth_ctx = (cam, (float(d.min()), float(d.max())))
-            a, sizes = TH.depth_cue(self.xyz, cam, colours[:, 3], sizes, rng=self._depth_ctx[1])
-            colours = colours.copy()
-            colours[:, 3] = a
+            a, sizes = TH.depth_cue(self.xyz, cam, colors[:, 3], sizes, rng=self._depth_ctx[1])
+            colors = colors.copy()
+            colors[:, 3] = a
             sizes = sizes.astype(np.float32)
 
-        self.scatter.setData(pos=self.xyz, color=colours, size=sizes)
+        self.scatter.setData(pos=self.xyz, color=colors, size=sizes)
         self._draw_ground()
         self._draw_selection_halo()
         self.draw_edges(vis)
@@ -2574,7 +2574,7 @@ class Window(QtWidgets.QMainWindow):
                    # measured physical evidence gets its own cool, high-contrast family
                    "xlms": (0.30, 0.95, 0.90, 0.65), "ip_ms": (0.20, 1.00, 0.55, 0.90),
                    "struct": (0.70, 0.80, 0.30, 0.45),
-                   # deliberately the loudest colours in the palette: these are the things to look at
+                   # deliberately the loudest colors in the palette: these are the things to look at
                    "structural_hole": (1.00, 0.25, 0.25, 0.85),
                    "unwritten_interaction": (1.00, 0.55, 0.00, 0.90)}[k]
             # Fade each edge by its own weight. Drawn at one flat alpha, 7,733 full-text edges are an
@@ -2692,7 +2692,7 @@ class Window(QtWidgets.QMainWindow):
                  "structure confidence (pLDDT)": ["mean_plddt"],
                  "depth of attention": ["attention_depth"],
                  "cyst / tachyzoite expression": ["expr_cyst", "expr_tachy"],
-                 }.get(self.colour_mode, ["compartment"])
+                 }.get(self.color_mode, ["compartment"])
         seen, out = set(), []
         for c in want:
             if c in self.nodes.columns and c not in seen:
@@ -2886,7 +2886,7 @@ class Window(QtWidgets.QMainWindow):
         """A briefing for the assistant: what is on screen right now."""
         vis = self.visible_mask()
         bits = [f"Level: {['galaxy','system','planet'][self.level_idx]}.",
-                f"Coloring: {self.colour_mode}.",
+                f"Coloring: {self.color_mode}.",
                 f"Filter column: {self.category}.",
                 f"{int(vis.sum()):,} of {self.n:,} genes visible."]
         active = [k for k, _ in EDGE_TYPES if self.edge_on.get(k)]

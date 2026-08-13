@@ -27,7 +27,7 @@ from starplast import expression as EX  # noqa: E402
 
 
 # --------------------------------------------------------------------------- helpers
-def test_an_accession_is_normalised_out_of_a_messy_string():
+def test_an_accession_is_normalized_out_of_a_messy_string():
     assert EX._norm_acc("TGME49_200010") == "TGME49_200010"
     assert EX._norm_acc("tgme49-200010") == "TGME49_200010"
     assert EX._norm_acc("TGME49.200010") == "TGME49_200010"
@@ -44,7 +44,7 @@ def test_a_string_with_no_accession_is_none():
     assert EX._norm_acc(np.nan) is None
 
 
-def test_resolution_is_applied_after_normalisation():
+def test_resolution_is_applied_after_normalization():
     out = EX._resolve(pd.Series(["tgme49-200010"]), resolve=lambda a: a.replace("ME49", "GT1"))
     assert out.tolist() == ["TGGT1_200010"]
 
@@ -184,7 +184,7 @@ def test_the_two_row_merged_header_is_read_as_two_rows(tmp_path):
                for c in out.columns) == 2
 
 
-def test_abundances_and_fold_changes_are_normalised_differently(tmp_path):
+def test_abundances_and_fold_changes_are_normalized_differently(tmp_path):
     """One is an intensity already on a log scale, the other is a ratio: centring the ratio would move
     the zero, which is the reference condition."""
     _proteome(tmp_path,

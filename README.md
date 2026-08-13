@@ -91,7 +91,7 @@ Settings live in the menu bar; the panel keeps only what is used continuously.
 | search box | gene ID or product text, then flies to it |
 | filter by | any categorical column — compartment, cell-cycle phase, attention depth, and others |
 | double-click a value | fly to that class's centroid |
-| **View** | level of detail, colour by, point size, spin, theme, preferences |
+| **View** | level of detail, color by, point size, spin, theme, preferences |
 | **Edges** | the twelve relation types, "draw all active edges", attention correction, and why they are never combined |
 | **File** | export the image, the visible genes as CSV, or the active graph as GraphML |
 | **Tools** | console, running jobs, the walk gallery, and an assistant that is told what is on screen |
@@ -101,7 +101,7 @@ strongest 20,000 per type.
 
 Every results table in the analysis panel behaves the same way: **click a row to see the map it is
 about** — a walk or search row is rebuilt exactly, on the same genes, with the clustering its score
-counted; a clustering row is applied to the map on screen; an Inference or Validation row colours the
+counted; a clustering row is applied to the map on screen; an Inference or Validation row colors the
 map by the clustering it was scored against. **Right-click a table to save it as CSV** (the whole
 result, not the screenful shown) or to copy the selected rows.
 

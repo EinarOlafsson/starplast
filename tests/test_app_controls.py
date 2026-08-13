@@ -2,10 +2,10 @@
 """Every control in the main window, driven headlessly against the real cache.
 
 The reason this exists at all: a rendering bug in this project has three times passed every array-level
-test in the suite. Additive blending summed 8,140 points to white and every colour mode drew as one
-featureless blob, while every assertion about the colour array held. The point style was applied and
-then immediately overwritten by the next redraw. The colour map only reached the continuous ramp, so
-choosing one while colouring by compartment did nothing at all.
+test in the suite. Additive blending summed 8,140 points to white and every color mode drew as one
+featureless blob, while every assertion about the color array held. The point style was applied and
+then immediately overwritten by the next redraw. The color map only reached the continuous ramp, so
+choosing one while coloring by compartment did nothing at all.
 
 So these tests assert on the item list and on redraw ORDER as well as on the arrays -- a control that
 takes effect and is then silently undone is the failure mode, and only the final state catches it.
@@ -24,7 +24,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PyQt6 import QtCore, QtWidgets  # noqa: E402
 from starplast import theme as TH  # noqa: E402
-from starplast.app import COLOUR_MODES  # noqa: E402
+from starplast.app import COLOR_MODES  # noqa: E402
 
 
 @pytest.fixture(scope="module")
@@ -44,33 +44,33 @@ def win():
     w.close()
 
 
-# --------------------------------------------------------------------------- colour modes
-def test_every_colour_mode_produces_a_full_colour_array(win):
+# --------------------------------------------------------------------------- color modes
+def test_every_color_mode_produces_a_full_color_array(win):
     """Each mode is a different claim about the data, and one that silently falls through to the
-    previous mode's colours is indistinguishable from one that works."""
+    previous mode's colors is indistinguishable from one that works."""
     seen = []
-    for i in range(len(COLOUR_MODES)):
-        win.set_colour_mode(COLOUR_MODES[i])
+    for i in range(len(COLOR_MODES)):
+        win.set_color_mode(COLOR_MODES[i])
         c = np.asarray(win.scatter.color)
-        assert c.shape == (win.n, 4), win.colour_mode
+        assert c.shape == (win.n, 4), win.color_mode
         assert np.isfinite(c).all()
         seen.append(c.copy())
-    assert any(not np.allclose(seen[0], s) for s in seen[1:]), "every mode drew the same colours"
+    assert any(not np.allclose(seen[0], s) for s in seen[1:]), "every mode drew the same colors"
 
 
 def test_unknown_is_drawn_in_its_own_grey_rather_than_as_a_category(win):
-    """"Not measured" is not a compartment, and giving it a categorical colour would put it in the
+    """"Not measured" is not a compartment, and giving it a categorical color would put it in the
     legend beside real ones."""
-    for i in range(len(COLOUR_MODES)):
-        win.set_colour_mode(COLOUR_MODES[i])
+    for i in range(len(COLOR_MODES)):
+        win.set_color_mode(COLOR_MODES[i])
         c = np.asarray(win.scatter.color)
         assert c.shape[0] == win.n
 
 
-def test_the_colour_map_choice_reaches_the_categorical_modes_too(win):
-    """It used to affect only the continuous ramp, so choosing a map while colouring by compartment --
+def test_the_color_map_choice_reaches_the_categorical_modes_too(win):
+    """It used to affect only the continuous ramp, so choosing a map while coloring by compartment --
     the default -- appeared to do nothing."""
-    win.set_colour_mode(COLOUR_MODES[0])
+    win.set_color_mode(COLOR_MODES[0])
     before = np.asarray(win.scatter.color).copy()
     categorical = next(n for n, (kind, _) in TH.CMAPS.items() if kind == "categorical")
     win._on_cmap(categorical)          # the handler, which rebuilds the per-compartment palette
@@ -87,11 +87,11 @@ def test_choosing_auto_returns_to_the_default_palette(win):
 
 def test_a_continuous_map_does_not_disturb_the_compartment_palette(win):
     """A sequential ramp has nothing to say about 27 categories, so the categorical palette stands."""
-    win.set_colour_mode(COLOUR_MODES[0])
+    win.set_color_mode(COLOR_MODES[0])
     seq = next(n for n, (kind, _) in TH.CMAPS.items() if kind == "sequential")
-    before = dict(win.colour_of)
+    before = dict(win.color_of)
     win._on_cmap(seq)
-    assert win.colour_of == before
+    assert win.color_of == before
     win._on_cmap("auto (match the data)")
 
 
@@ -292,7 +292,7 @@ def test_the_preferences_dialog_builds_every_control(win):
 
 
 def test_every_preferences_control_carries_an_explanation(win):
-    """The useful tooltip says WHY: "additive saturates dense regions to white and destroys the colour
+    """The useful tooltip says WHY: "additive saturates dense regions to white and destroys the color
     encoding" beats "blending mode"."""
     win.build_preferences()
     for attr in ("theme_box", "cmap_box", "point_box", "mode_box", "depth_box", "ground_box"):
@@ -326,7 +326,7 @@ def test_depth_cueing_and_the_horizon_can_each_be_turned_off(win):
 # --------------------------------------------------------------------------- tooltips
 def test_every_main_window_control_explains_itself(win):
     """The useful tooltip says WHY, not what. "Grey always means unknown, never a category and never
-    zero" is worth reading; "colour mode" is not."""
+    zero" is worth reading; "color mode" is not."""
     for attr in ("search", "category_box", "spin_act", "attn_act", "all_edges_act", "comp_list"):
         tip = getattr(win, attr).toolTip()
         assert tip, f"{attr} has no tooltip"
@@ -445,7 +445,7 @@ def test_applying_a_theme_updates_the_preferences_box_without_re_firing(win):
     win.apply_theme("dark")
 
 
-def test_the_preferences_box_shows_the_colour_map_in_use(win):
+def test_the_preferences_box_shows_the_color_map_in_use(win):
     categorical = next(n for n, (kind, _) in TH.CMAPS.items() if kind == "categorical")
     win._on_cmap(categorical)
     win.build_preferences()
@@ -462,12 +462,12 @@ def test_choosing_a_point_style_and_mode_through_the_handlers(win):
         assert win.point_mode == mode
 
 
-def test_the_named_colour_map_is_used_for_the_continuous_ramp(win):
+def test_the_named_color_map_is_used_for_the_continuous_ramp(win):
     seq = next(n for n, (kind, _) in TH.CMAPS.items() if kind == "sequential")
     win._on_cmap(seq)
-    idx = next(i for i in range(len(COLOUR_MODES))
-               if "fitness" in COLOUR_MODES[i].lower())
-    win.set_colour_mode(COLOUR_MODES[idx])
+    idx = next(i for i in range(len(COLOR_MODES))
+               if "fitness" in COLOR_MODES[i].lower())
+    win.set_color_mode(COLOR_MODES[idx])
     assert np.asarray(win.scatter.color).shape == (win.n, 4)
     win._on_cmap("auto (match the data)")
 
@@ -584,13 +584,13 @@ def test_nothing_on_screen_selects_nothing(win, monkeypatch):
     assert got == []
 
 
-# --------------------------------------------------------------------------- colouring edges
-def test_attention_colouring_survives_a_table_without_the_column(win, monkeypatch):
+# --------------------------------------------------------------------------- coloring edges
+def test_attention_coloring_survives_a_table_without_the_column(win, monkeypatch):
     """The column is absent on a cache built before the literature layer existed, and the mode must
     grey out rather than raise."""
-    idx = next(i for i in range(len(COLOUR_MODES))
-               if "attention" in COLOUR_MODES[i].lower())
-    win.set_colour_mode(COLOUR_MODES[idx])
+    idx = next(i for i in range(len(COLOR_MODES))
+               if "attention" in COLOR_MODES[i].lower())
+    win.set_color_mode(COLOR_MODES[idx])
     real = win.nodes
     try:
         win.nodes = real.drop(columns=["attention_depth"])
@@ -598,7 +598,7 @@ def test_attention_colouring_survives_a_table_without_the_column(win, monkeypatc
         assert np.asarray(win.scatter.color).shape == (win.n, 4)
     finally:
         win.nodes = real
-        win.set_colour_mode(COLOUR_MODES[0])
+        win.set_color_mode(COLOR_MODES[0])
         win.redraw()
 
 
@@ -878,14 +878,14 @@ def test_a_gate_never_takes_a_gene_that_has_no_position(win):
     win.set_interaction_mode("navigate")
 
 
-def test_a_gated_set_recedes_the_rest_of_the_map_without_recolouring_it(win):
-    """A gate is a selection, not a claim about the data. Recolouring the gated genes would put a
+def test_a_gated_set_recedes_the_rest_of_the_map_without_recoloring_it(win):
+    """A gate is a selection, not a claim about the data. Recoloring the gated genes would put a
     selection into the one channel that means measurement, inference or absence."""
-    win.set_colour_mode("compartment")
+    win.set_color_mode("compartment")
     before = np.asarray(win.scatter.color).copy()
     win.on_gated(np.arange(50))
     after = np.asarray(win.scatter.color)
-    assert np.allclose(after[:50, :3], before[:50, :3]), "the gated genes were recoloured"
+    assert np.allclose(after[:50, :3], before[:50, :3]), "the gated genes were recolored"
     assert after[500, 3] < before[500, 3], "the rest of the map did not recede"
     assert np.asarray(win.scatter.size)[:50].max() > np.asarray(win.scatter.size)[500]
     win.clear_gate()
@@ -1116,38 +1116,38 @@ def test_the_gated_export_uses_the_columns_that_were_ticked(win, monkeypatch, tm
 
 
 # --------------------------------------------------------------------------- annotations on the map
-def test_annotations_are_drawn_in_a_colour_of_their_own(win, tmp_path):
+def test_annotations_are_drawn_in_a_color_of_their_own(win, tmp_path):
     """Measurement, inference and absence have one each. A proposal is a fourth thing, and reading
     as any of the three is the failure this application is built to prevent."""
-    from starplast.annotations import ANNOTATION_COLOUR, Annotation, AnnotationStore
+    from starplast.annotations import ANNOTATION_COLOR, Annotation, AnnotationStore
     store = AnnotationStore(str(tmp_path / "a.csv"))
     gene = str(win.nodes.gene_id.iloc[7])
     store.save(Annotation(gene_id=gene, proposed="dense granules", target="compartment", cluster=1,
                           precision=0.6, recall=0.4, date="2026-08-12"))
     win.annotations = store
     win.refresh_annotations()
-    assert win.colour_mode == "annotations"
+    assert win.color_mode == "annotations"
     c = np.asarray(win.scatter.color)
-    assert np.allclose(c[7, :3], ANNOTATION_COLOUR, atol=1e-3)
+    assert np.allclose(c[7, :3], ANNOTATION_COLOR, atol=1e-3)
     # Everything else is grey: not a category, not zero -- nobody has proposed anything for it.
-    assert not np.allclose(c[8, :3], ANNOTATION_COLOUR)
+    assert not np.allclose(c[8, :3], ANNOTATION_COLOR)
     assert "proposals, not measurements" in win.statusBar().currentMessage()
-    win.set_colour_mode("compartment")
+    win.set_color_mode("compartment")
 
 
 def test_with_no_annotations_the_mode_draws_everything_as_unknown(win, tmp_path):
     from starplast.annotations import AnnotationStore
     win.annotations = AnnotationStore(str(tmp_path / "none.csv"))
-    win.sel = None                     # a selected gene is drawn white, which is a third colour
+    win.sel = None                     # a selected gene is drawn white, which is a third color
     win.refresh_annotations()
-    win.set_colour_mode("annotations")
+    win.set_color_mode("annotations")
     c = np.asarray(win.scatter.color)
-    assert len({tuple(np.round(x, 3)) for x in c[:, :3]}) == 1, "something was coloured as annotated"
-    win.set_colour_mode("compartment")
+    assert len({tuple(np.round(x, 3)) for x in c[:, :3]}) == 1, "something was colored as annotated"
+    win.set_color_mode("compartment")
 
 
 def test_an_unreadable_annotations_file_does_not_take_the_window_down(win, tmp_path, capsys):
-    """These files are hand-edited and shared. A broken one must cost the colour, not the session."""
+    """These files are hand-edited and shared. A broken one must cost the color, not the session."""
     class Broken:
         def mask(self, ids):
             raise ValueError("row 4 is not a row")
@@ -1159,18 +1159,18 @@ def test_an_unreadable_annotations_file_does_not_take_the_window_down(win, tmp_p
 
 # --------------------------------------------------------------------------- color by
 def test_the_panel_offers_columns_runs_and_binned_quantities_in_one_list(win):
-    """One list rather than three controls: they answer the same question -- what should colour mean
+    """One list rather than three controls: they answer the same question -- what should color mean
     right now -- and having to know which of three places to look is the state this replaced."""
     from starplast.app import BIN_PREFIX, RUN_PREFIX
     win.keep_run(np.arange(win.n) % 4, name="test_run_a")
-    sources = win.colour_sources()
+    sources = win.color_sources()
     assert "compartment" in sources
     assert RUN_PREFIX + "test_run_a" in sources
     assert any(s.startswith(BIN_PREFIX) for s in sources)
     assert [win.category_box.itemText(i) for i in range(win.category_box.count())] == sources
 
 
-def test_colouring_by_a_kept_run_uses_that_run(win):
+def test_coloring_by_a_kept_run_uses_that_run(win):
     from starplast.app import RUN_PREFIX
     labels = np.where(np.arange(win.n) % 3 == 0, 0, 1)
     run = win.keep_run(labels, name="test_run_b")
@@ -1179,7 +1179,7 @@ def test_colouring_by_a_kept_run_uses_that_run(win):
     assert set(vals.unique()) == {"cluster 0", "cluster 1"}
     assert win.comp_list.count() == 2
     c = np.asarray(win.scatter.color)
-    assert len({tuple(np.round(x, 3)) for x in c[:, :3]}) > 1, "one run drew one colour"
+    assert len({tuple(np.round(x, 3)) for x in c[:, :3]}) > 1, "one run drew one color"
 
 
 def test_two_runs_are_both_kept_and_can_be_switched_between(win):
@@ -1232,7 +1232,7 @@ def test_a_name_already_in_use_is_refused(win, tmp_path):
     assert "name is taken" in win.statusBar().currentMessage()
 
 
-def test_a_quantity_can_be_coloured_as_bins(win):
+def test_a_quantity_can_be_colored_as_bins(win):
     """Binning makes a measurement behave like a category, which is what makes it comparable with a
     clustering -- the comparison this panel exists for."""
     from starplast.app import BIN_PREFIX
@@ -1249,7 +1249,7 @@ def test_a_quantity_can_be_coloured_as_bins(win):
 
 def test_a_quantity_that_is_mostly_one_value_gets_fewer_bins_and_says_so(win):
     """`n_publications` is zero for most of this proteome, so its quartile edges are all zero.
-    Splitting the tie by rank or by equal width would draw four colours over a column with one
+    Splitting the tie by rank or by equal width would draw four colors over a column with one
     level -- a picture of a distinction that does not exist."""
     from starplast.app import BIN_PREFIX
     win.bins_box.setValue(4)
@@ -1259,7 +1259,7 @@ def test_a_quantity_that_is_mostly_one_value_gets_fewer_bins_and_says_so(win):
     assert "share one value" in win.statusBar().currentMessage()
 
 
-def test_changing_the_number_of_bins_recolours(win):
+def test_changing_the_number_of_bins_recolors(win):
     from starplast.app import BIN_PREFIX
     win.on_category_changed(BIN_PREFIX + "mean_plddt")
     win.set_bins(3)
@@ -1279,7 +1279,7 @@ def test_genes_with_no_value_for_a_binned_quantity_are_absent_not_a_low_bin(win)
         assert (vals[missing] == "").all()
         c = np.asarray(win.scatter.color)
         import starplast.theme as TH
-        assert np.allclose(c[missing][0, :3], TH.unknown_colour(win.theme)[:3], atol=1e-3)
+        assert np.allclose(c[missing][0, :3], TH.unknown_color(win.theme)[:3], atol=1e-3)
 
 
 def test_the_filter_and_the_fly_to_follow_the_chosen_source(win):
@@ -1296,7 +1296,7 @@ def test_the_filter_and_the_fly_to_follow_the_chosen_source(win):
     win.comp_list.clearSelection()
 
 
-def test_a_source_that_no_longer_exists_colours_nothing_rather_than_raising(win):
+def test_a_source_that_no_longer_exists_colors_nothing_rather_than_raising(win):
     win.on_category_changed("clustering: never_existed")
     assert (win.category_values() == "").all()
     win.on_category_changed("binned: not_a_column")
@@ -1305,8 +1305,8 @@ def test_a_source_that_no_longer_exists_colours_nothing_rather_than_raising(win)
 
 
 # --------------------------------------------------------------------------- the cell diagram
-def test_the_diagram_shows_for_a_localisation_category_and_hides_otherwise(win):
-    """There is no sensible mapping from cell-cycle phase onto organelles, and colouring them by one
+def test_the_diagram_shows_for_a_localization_category_and_hides_otherwise(win):
+    """There is no sensible mapping from cell-cycle phase onto organelles, and coloring them by one
     would be a picture of a relationship that does not exist."""
     if win.diagram is None:
         pytest.skip("the artwork is not present in this checkout")
@@ -1318,23 +1318,23 @@ def test_the_diagram_shows_for_a_localisation_category_and_hides_otherwise(win):
     win.on_category_changed("compartment")
 
 
-def test_the_diagram_and_the_map_are_coloured_from_the_same_dict(win):
-    """Two palettes are two claims about what a colour means, and one of them will drift."""
+def test_the_diagram_and_the_map_are_colored_from_the_same_dict(win):
+    """Two palettes are two claims about what a color means, and one of them will drift."""
     if win.diagram is None:
         pytest.skip("the artwork is not present in this checkout")
     from starplast.celldiagram import COMPARTMENT_SL
     win.on_category_changed("compartment")
-    name = next(c for c in COMPARTMENT_SL if c in win.colour_of)
+    name = next(c for c in COMPARTMENT_SL if c in win.color_of)
     win.select_compartment(name)
     fills = win.diagram.fills()
-    assert list(fills) == [COMPARTMENT_SL[name]], "the selection is not the one thing coloured"
-    assert np.allclose(fills[COMPARTMENT_SL[name]], win.colour_of[name], atol=1e-6)
+    assert list(fills) == [COMPARTMENT_SL[name]], "the selection is not the one thing colored"
+    assert np.allclose(fills[COMPARTMENT_SL[name]], win.color_of[name], atol=1e-6)
     win.comp_list.clearSelection()
     win._refresh_diagram()
     assert win.diagram.fills() == {}, "with nothing selected the drawing is grey"
 
 
-def test_selecting_in_the_list_colours_the_shape_it_shares(win):
+def test_selecting_in_the_list_colors_the_shape_it_shares(win):
     if win.diagram is None:
         pytest.skip("the artwork is not present in this checkout")
     win.on_category_changed("compartment")
@@ -1345,7 +1345,7 @@ def test_selecting_in_the_list_colours_the_shape_it_shares(win):
             pytest.skip("this cache has no rhoptry classes")
         win.comp_list.clearSelection()
         item.setSelected(True)
-        assert np.allclose(win.diagram.fills()["SL0233"], win.colour_of[name], atol=1e-6)
+        assert np.allclose(win.diagram.fills()["SL0233"], win.color_of[name], atol=1e-6)
         assert name in win.diagram_note.text()
     win.comp_list.clearSelection()
 
@@ -1374,20 +1374,20 @@ def test_the_compartments_with_no_organelle_are_named_beside_the_diagram(win):
     assert "unassigned" not in note, "absence is not a compartment that is missing a shape"
 
 
-def test_changing_theme_recolours_the_diagram_with_the_map(win):
+def test_changing_theme_recolors_the_diagram_with_the_map(win):
     if win.diagram is None:
         pytest.skip("the artwork is not present in this checkout")
     from starplast.celldiagram import COMPARTMENT_SL
     win.on_category_changed("compartment")
-    name = next(c for c in COMPARTMENT_SL if c in win.colour_of)
+    name = next(c for c in COMPARTMENT_SL if c in win.color_of)
     win.select_compartment(name)
     before = dict(win.diagram.fills())
     win.apply_theme("paper")
     win.select_compartment(name)
     after = dict(win.diagram.fills())
-    assert before != after, "the diagram kept the old theme's colours"
+    assert before != after, "the diagram kept the old theme's colors"
     sl = COMPARTMENT_SL[name]
-    assert np.allclose(after[sl], win.colour_of[name], atol=1e-6)
+    assert np.allclose(after[sl], win.color_of[name], atol=1e-6)
     win.apply_theme("dark")
     win.comp_list.clearSelection()
 
@@ -1458,10 +1458,10 @@ def test_imported_columns_can_build_a_map(win, tmp_path):
     assert panel.spec().extra_columns == ()
 
 
-def test_an_imported_column_can_be_coloured_by_like_any_other(win, tmp_path):
+def test_an_imported_column_can_be_colored_by_like_any_other(win, tmp_path):
     from starplast.app import BIN_PREFIX
     win.apply_import(win.build_import_dialog(_user_table(tmp_path, win)))
-    assert BIN_PREFIX + "imported_day3" in win.colour_sources()
+    assert BIN_PREFIX + "imported_day3" in win.color_sources()
     win.on_category_changed(BIN_PREFIX + "imported_day3")
     assert len({v for v in win.category_values().unique() if v}) > 1
     win.on_category_changed("compartment")

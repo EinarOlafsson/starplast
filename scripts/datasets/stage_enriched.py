@@ -26,4 +26,4 @@ from _common import run
 KEY = "stage_enriched"
 
 if __name__ == "__main__":
-    run(KEY, normalised_by='cellcycle.add_all()')
+    run(KEY, normalized_by='cellcycle.add_all()')

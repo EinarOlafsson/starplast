@@ -46,12 +46,12 @@ CORRESPONDENCE = {
     },
     "GSE206344": {
         # Two workbooks ship for this series and only one is the source. `LFCs` holds seven sheets of
-        # pairwise contrasts; `Normalised_data` holds the per-sample matrix on sheet "1", whose column
+        # pairwise contrasts; `Normalized_data` holds the per-sample matrix on sheet "1", whose column
         # names -- Unsporulated R1, Sporulating R1 -- are exactly what the shipped rna206344_* columns
         # are named after. Declaring the wrong one would have produced a number that looks like
         # verification and is not, which is why this correspondence went unrecorded until the sheet
         # names settled it.
-        "file": "transcription/RNAseq/GSE206344/GSE206344_Normalised_data_ToxoDB_Release68.xlsx",
+        "file": "transcription/RNAseq/GSE206344/GSE206344_Normalized_data_ToxoDB_Release68.xlsx",
         "sheet": "1",
         "id_column": "ToxoDB ID Release 68",
         "pairs": {

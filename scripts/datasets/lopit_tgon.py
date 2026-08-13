@@ -17,7 +17,7 @@ Quirks that cost time once:
 
 Fetches the source, reads it, resolves its accessions to current ToxoDB ME49, and reports the
 coverage that resolution achieves. The shipped columns are assembled by
-`starplast.localisation.lopit_labels()`; this script is the per-dataset view of the same source, for
+`starplast.localization.lopit_labels()`; this script is the per-dataset view of the same source, for
 inspecting or re-fetching one dataset without running the whole build.
 
 Run:  python scripts/datasets/lopit_tgon.py
@@ -27,4 +27,4 @@ from _common import run
 KEY = "lopit_tgon"
 
 if __name__ == "__main__":
-    run(KEY, normalised_by='localisation.lopit_labels()')
+    run(KEY, normalized_by='localization.lopit_labels()')

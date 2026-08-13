@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetching from GEO and PRIDE, and normalising by quantification type.
+"""Fetching from GEO and PRIDE, and normalizing by quantification type.
 
 The quantification tests are the important ones, and they pin a pair of failures the same GEO series
 produced in both directions. `GSE108740_FPKM.xlsx` reaches 16,520 and is genuine FPKM: skip the log and
@@ -74,50 +74,50 @@ def test_non_numeric_values_do_not_crash_the_inference():
     assert S.infer_quant(pd.Series(["a", "b", None]), "x") == "unknown"
 
 
-# --------------------------------------------------------------------------- normalisation
+# --------------------------------------------------------------------------- normalization
 def test_counts_are_logged_and_centred_per_sample():
     d = pd.DataFrame({"s1": [1.0, 3.0, 7.0], "s2": [10.0, 30.0, 70.0]})
-    out = S.normalise(d, "counts", log=lambda *_: None)
+    out = S.normalize(d, "counts", log=lambda *_: None)
     assert out.median().abs().max() == pytest.approx(0.0, abs=1e-9)
     assert out.s1.iloc[0] < out.s1.iloc[2]
 
 
 def test_already_logged_data_is_centred_but_not_logged_again():
     d = pd.DataFrame({"s1": [1.0, 2.0, 3.0]})
-    out = S.normalise(d, "log_intensity", log=lambda *_: None)
+    out = S.normalize(d, "log_intensity", log=lambda *_: None)
     assert out.s1.tolist() == pytest.approx([-1.0, 0.0, 1.0])
 
 
 def test_a_ratio_is_returned_untouched():
     """Centring a ratio moves the zero, which IS the reference condition."""
     d = pd.DataFrame({"s1": [0.5, 1.0, 2.0]})
-    assert S.normalise(d, "ratio", log=lambda *_: None).s1.tolist() == pytest.approx([0.5, 1.0, 2.0])
+    assert S.normalize(d, "ratio", log=lambda *_: None).s1.tolist() == pytest.approx([0.5, 1.0, 2.0])
 
 
 def test_a_log_fold_change_is_returned_untouched():
     d = pd.DataFrame({"s1": [-2.0, 0.0, 2.0]})
-    assert S.normalise(d, "lfc", log=lambda *_: None).s1.tolist() == pytest.approx([-2.0, 0.0, 2.0])
+    assert S.normalize(d, "lfc", log=lambda *_: None).s1.tolist() == pytest.approx([-2.0, 0.0, 2.0])
 
 
 def test_centring_is_per_sample_not_per_gene():
     """Per-sample corrects for how much material was loaded in each run, which is the systematic
     difference between columns. Per-gene would erase the between-gene differences that are the signal."""
     d = pd.DataFrame({"s1": [1.0, 2.0, 3.0], "s2": [11.0, 12.0, 13.0]})
-    out = S.normalise(d, "log_intensity", log=lambda *_: None)
+    out = S.normalize(d, "log_intensity", log=lambda *_: None)
     assert out.s1.tolist() == pytest.approx(out.s2.tolist())
     assert out.iloc[0].tolist() != pytest.approx([0.0, 0.0])
 
 
 def test_negative_values_are_clipped_before_the_log_rather_than_producing_nan():
     d = pd.DataFrame({"s1": [-5.0, 0.0, 3.0]})
-    assert np.isfinite(S.normalise(d, "counts", log=lambda *_: None).to_numpy()).all()
+    assert np.isfinite(S.normalize(d, "counts", log=lambda *_: None).to_numpy()).all()
 
 
 def test_an_unknown_quantification_is_reported_and_left_alone():
     """Silently applying the wrong transform is how this module's failures happen."""
     msgs = []
     d = pd.DataFrame({"s1": [1.0, 2.0]})
-    out = S.normalise(d, "something_new", log=msgs.append)
+    out = S.normalize(d, "something_new", log=msgs.append)
     assert out.s1.tolist() == [1.0, 2.0]
     assert any("unknown quantification" in m for m in msgs)
 
@@ -130,14 +130,14 @@ def test_every_declared_quantification_type_has_a_transform():
 # --------------------------------------------------------------------------- ranks
 def test_ranks_are_bounded_and_order_preserving():
     d = pd.DataFrame({"s1": [10.0, 20.0, 30.0, 40.0]})
-    out = S.rank_normalise(d)
+    out = S.rank_normalize(d)
     assert out.s1.min() >= -0.5 and out.s1.max() <= 0.5
     assert out.s1.is_monotonic_increasing
 
 
 def test_missing_values_stay_missing_rather_than_becoming_a_rank():
     d = pd.DataFrame({"s1": [1.0, np.nan, 3.0]})
-    assert pd.isna(S.rank_normalise(d).s1.iloc[1])
+    assert pd.isna(S.rank_normalize(d).s1.iloc[1])
 
 
 def test_ranks_put_incomparable_units_on_one_axis():
@@ -145,7 +145,7 @@ def test_ranks_put_incomparable_units_on_one_axis():
     both support, and discard the units, which are not comparable."""
     fpkm = pd.DataFrame({"a": [1.0, 100.0, 16520.0]})
     ibaq = pd.DataFrame({"b": [0.001, 0.5, 0.9]})
-    assert S.rank_normalise(fpkm).a.tolist() == pytest.approx(S.rank_normalise(ibaq).b.tolist())
+    assert S.rank_normalize(fpkm).a.tolist() == pytest.approx(S.rank_normalize(ibaq).b.tolist())
 
 
 # --------------------------------------------------------------------------- harmonising

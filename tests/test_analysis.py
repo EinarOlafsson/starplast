@@ -197,6 +197,16 @@ def test_embedding_store_round_trips_the_recipe(tmp_path, toy):
     assert list(s.list().name) == ["t"]
 
 
+def test_a_stored_recipe_lists_its_blocks_under_their_current_names(tmp_path):
+    """The listing is read straight from the JSON on disk, and every file written before the rename
+    carries the old spelling. One block appearing under two spellings in one column reads as two."""
+    import json
+    store = T.EmbeddingStore(str(tmp_path))
+    json.dump({"name": "old", "n_genes": 10, "spec": {"blocks": ["localisation"]}},
+              open(tmp_path / "old.json", "w"))
+    assert list(store.list().blocks) == ["localization"]
+
+
 def test_import_repairs_a_malformed_gene_column():
     df = pd.DataFrame({"id": ["TgME49.208830", "TgME49.205250", "junk"], "v": [1.0, 2.0, 3.0]})
     col, frac, needs = T.suggest_gene_column(df)
@@ -231,11 +241,11 @@ def test_quantification_is_inferred_from_range_not_filename():
     assert S.infer_quant(pd.Series(rng.normal(0, 2, 500)), "LFCs") == "lfc"
 
 
-def test_normalise_never_logs_twice():
+def test_normalize_never_logs_twice():
     from starplast import sources as S
     df = pd.DataFrame({"a": [0.0, 10.0, 16520.0, 3.0] * 25})
-    once = S.normalise(df, "fpkm", log=lambda *a: None)
-    twice = S.normalise(once, "log_intensity", log=lambda *a: None)
+    once = S.normalize(df, "fpkm", log=lambda *a: None)
+    twice = S.normalize(once, "log_intensity", log=lambda *a: None)
     assert once.max().max() < 20, "linear intensity should be logged"
     # centring is idempotent-ish; the point is that no second log is applied
     assert abs(twice.max().max() - once.max().max()) < 1e-9
@@ -245,13 +255,13 @@ def test_ratios_are_left_alone():
     """Centring a log-ratio moves its zero, which is the reference condition."""
     from starplast import sources as S
     df = pd.DataFrame({"lfc": [-3.0, 0.0, 2.5, 1.0] * 25})
-    out = S.normalise(df, "lfc", log=lambda *a: None)
+    out = S.normalize(df, "lfc", log=lambda *a: None)
     assert (out.lfc == df.lfc).all()
 
 
-def test_rank_normalise_puts_incomparable_units_on_one_axis():
+def test_rank_normalize_puts_incomparable_units_on_one_axis():
     from starplast import sources as S
     df = pd.DataFrame({"fpkm": [1.0, 10.0, 100.0, 1000.0], "ibaq": [30.0, 25.0, 20.0, 15.0]})
-    r = S.rank_normalise(df)
+    r = S.rank_normalize(df)
     assert r.min().min() >= -0.5 and r.max().max() <= 0.5
     assert r.fpkm.corr(r.ibaq) < 0, "opposite orderings must stay opposite"

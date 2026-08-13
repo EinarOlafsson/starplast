@@ -33,7 +33,7 @@ from dataclasses import asdict, dataclass
 import numpy as np
 import pandas as pd
 
-from .embedding import EmbeddingSpec, build_matrix, normalise
+from .embedding import RENAMED_BLOCKS, EmbeddingSpec, build_matrix, normalize
 
 DEFAULT_SEED = 42
 #: The min_cluster_size the walk's own cluster check uses. Named because the interface rebuilds a
@@ -147,7 +147,7 @@ def walk_umap_iter(nodes: pd.DataFrame, spec: EmbeddingSpec,
                 row["n_clusters_hdbscan"] = int(len(set(lab[lab != NOISE])))
                 row["noise_frac"] = float((lab == NOISE).mean())
             i += 1
-            # Scored on the raw output and displayed from the normalised one. Normalising is a
+            # Scored on the raw output and displayed from the normalized one. Normalizing is a
             # uniform move-and-scale, so it cannot change trustworthiness or the clustering, but
             # computing the numbers first keeps that guarantee obvious rather than argued.
             used = EmbeddingSpec(**{**asdict(spec), "n_neighbors": int(nn), "min_dist": float(md)})
@@ -159,7 +159,7 @@ def walk_umap_iter(nodes: pd.DataFrame, spec: EmbeddingSpec,
             log(f"  n_neighbors={nn:4d} min_dist={md:<5} "
                 f"trust={row['trustworthiness']:.3f} "
                 f"clusters={row.get('n_clusters_hdbscan', '-')}")
-            yield WalkStep(index=i, total=total, row=row, coords=normalise(Y), genes=genes,
+            yield WalkStep(index=i, total=total, row=row, coords=normalize(Y), genes=genes,
                            spec=used, name=name)
 
 
@@ -243,7 +243,10 @@ class EmbeddingStore:
             m = json.load(open(os.path.join(self.root, f)))
             s = m.get("spec", {})
             rows.append({"name": m.get("name", f[:-5]), "n_genes": m.get("n_genes"),
-                         "blocks": ",".join(s.get("blocks", [])),
+                         # Through the rename table, so the list says what a block is called now
+                         # rather than what it was called on the day each file was written -- one
+                         # block under two spellings reads as two blocks.
+                         "blocks": ",".join(RENAMED_BLOCKS.get(b, b) for b in s.get("blocks", [])),
                          "na_policy": s.get("na_policy"), "scaling": s.get("scaling"),
                          "n_neighbors": s.get("n_neighbors"), "min_dist": s.get("min_dist")})
         return pd.DataFrame(rows)

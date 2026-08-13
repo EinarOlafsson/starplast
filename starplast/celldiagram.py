@@ -3,7 +3,7 @@
 
 A list of 27 compartment names is a legend; a parasite with its rhoptries filled in the color the
 rhoptries have on the map is a picture of where the genes are. This draws the second from the first,
-at draw time, from `Window.colour_of` -- never from a second palette, because two palettes are two
+at draw time, from `Window.color_of` -- never from a second palette, because two palettes are two
 claims about what a color means and one of them will drift.
 
 The artwork is UniProt's subcellular-location diagram (`data/icons/Apicomplexa_cells.svg`): 59
@@ -66,7 +66,7 @@ COMPARTMENT_SL = {
 #:   19S / 20S proteasome   likewise
 #:   apical 1 / apical 2    no conoid or apical complex shape
 #:   endomembrane vesicles  the drawing has COPI and COPII vesicles, which are specific organelles;
-#:                          the hyperLOPIT class is a mixed one and colouring COPI for it would be a
+#:                          the hyperLOPIT class is a mixed one and coloring COPI for it would be a
 #:                          claim the data does not make
 #:   unassigned             not a compartment
 #:
@@ -79,33 +79,33 @@ UNMAPPED_NOTE = ("no organelle in this drawing — the artwork has no ribosome, 
 NEUTRAL = (0.62, 0.62, 0.66)
 
 #: The drawing with nothing selected: light grey fills, mid-grey lines, transparent ground. The
-#: artwork ships in colour -- a pink cytoplasm, a red-brown nucleus -- and those colours mean nothing
-#: here. Worse, they compete with the one colour that does: a cytoplasm that is always red says
-#: "cytosol is selected" when nothing is. Neutral, and then exactly one compartment takes the colour
+#: artwork ships in color -- a pink cytoplasm, a red-brown nucleus -- and those colors mean nothing
+#: here. Worse, they compete with the one color that does: a cytoplasm that is always red says
+#: "cytosol is selected" when nothing is. Neutral, and then exactly one compartment takes the color
 #: it has in the list beside it.
 FILL_GREY = "#d9d9d9"
 LINE_GREY = "#8d8d8d"
 
 
 def neutralise(svg: str) -> str:
-    """Strip the artwork's own colours down to grey fills and grey lines.
+    """Strip the artwork's own colors down to grey fills and grey lines.
 
     Every fill becomes one light grey and every stroke one mid-grey, so the drawing reads on a dark
-    ground and on a light one, and so that ANY colour in it is the selection. `fill="none"` is left
-    alone: it is not a colour, it is the absence of one, and filling those shapes in would turn the
+    ground and on a light one, and so that ANY color in it is the selection. `fill="none"` is left
+    alone: it is not a color, it is the absence of one, and filling those shapes in would turn the
     cell's internal outlines into solid blocks.
     """
     def paint(m):
         attr, value = m.group(1), m.group(2)
         if value.strip().lower() in ("none", "transparent"):
             return m.group(0)
-        colour = FILL_GREY if attr == "fill" else LINE_GREY
-        return f'{attr}{m.group(0)[len(attr)]}{colour}' if False else (
-            f'{attr}="{colour}"' if '="' in m.group(0) else f'{attr}:{colour}')
+        color = FILL_GREY if attr == "fill" else LINE_GREY
+        return f'{attr}{m.group(0)[len(attr)]}{color}' if False else (
+            f'{attr}="{color}"' if '="' in m.group(0) else f'{attr}:{color}')
 
     out = re.sub(r'(fill|stroke)="([^"]*)"', paint, svg)
     out = re.sub(r'(fill|stroke)\s*:\s*([^;"\']+)', paint, out)
-    # And the gradients. Most of this artwork's colour is not in a fill attribute at all -- it is in
+    # And the gradients. Most of this artwork's color is not in a fill attribute at all -- it is in
     # 770 gradient stops, and a shape filled with `url(#SVGID_7_)` keeps its pink however many fill
     # attributes have been rewritten. Greying the stops is what actually makes the cell grey.
     out = re.sub(r'stop-color="[^"]*"', f'stop-color="{FILL_GREY}"', out)
@@ -154,7 +154,7 @@ def group_span(svg: str, sl: str):
     A non-greedy `<g id="SL...".*?</g>` ends at the FIRST inner closing tag, and these groups nest:
     the rhoptry holds its membrane, the Golgi holds four sub-compartments. Matched that way, most
     organelles came back as a fragment -- which rendered as nothing, so eleven of the fourteen
-    hit-test masks were silently empty and the colouring painted part of a shape.
+    hit-test masks were silently empty and the coloring painted part of a shape.
     """
     m = re.search(r'<g[^>]*id="%s"[^>]*>' % re.escape(sl), svg)
     if not m:
@@ -162,7 +162,7 @@ def group_span(svg: str, sl: str):
     depth, i = 1, m.end()
     # A self-closing `<g/>` opens and closes at once. Counted as an opening tag it leaves the depth
     # permanently short, and six of the fourteen organelles -- the nucleus, the cytosol, the plasma
-    # membrane among them -- came back as "no such group" and could neither be coloured nor clicked.
+    # membrane among them -- came back as "no such group" and could neither be colored nor clicked.
     step = re.compile(r"<g\b[^>]*/>|<g\b|</g>")
     while depth and i < len(svg):
         nxt = step.search(svg[i:])
@@ -188,8 +188,8 @@ def sharing(sl: str) -> list:
     return [c for c, code in COMPARTMENT_SL.items() if code == sl]
 
 
-def _hex(colour) -> str:
-    r, g, b = (int(max(0.0, min(1.0, float(v))) * 255) for v in tuple(colour)[:3])
+def _hex(color) -> str:
+    r, g, b = (int(max(0.0, min(1.0, float(v))) * 255) for v in tuple(color)[:3])
     return f"#{r:02x}{g:02x}{b:02x}"
 
 
@@ -199,8 +199,8 @@ def _hex(colour) -> str:
 #: to load.
 CANVAS_GROUPS = ("SL0112", "SL0243")
 
-#: The white sheet the artwork is drawn on. Removed rather than recoloured: the diagram sits in a
-#: panel whose colour changes with the theme, and a white card behind a parasite on a dark ground
+#: The white sheet the artwork is drawn on. Removed rather than recolored: the diagram sits in a
+#: panel whose color changes with the theme, and a white card behind a parasite on a dark ground
 #: reads as an image that failed to load.
 BACKGROUND_ID = "path_1_"
 
@@ -270,7 +270,7 @@ def portrait(svg: str) -> str:
             f'{inner}</g></svg>')
 
 
-def recolour(svg: str, fills: dict, neutral=NEUTRAL) -> str:
+def recolor(svg: str, fills: dict, neutral=NEUTRAL) -> str:
     """Set the fill of each SL group, returning the modified SVG text.
 
     Done on the text at draw time rather than by shipping a recolored copy: there are four themes
@@ -281,10 +281,10 @@ def recolour(svg: str, fills: dict, neutral=NEUTRAL) -> str:
     `fill` on the individual paths -- a fill on the group alone is overridden by every path in it and
     the diagram would come back gray while every test on the returned string passed.
     """
-    def paint(match, colour: str) -> str:
+    def paint(match, color: str) -> str:
         body = match.group(0)
-        body = re.sub(r'fill\s*:\s*[^;"\']+', f"fill:{colour}", body)
-        body = re.sub(r'fill="(?!none)[^"]*"', f'fill="{colour}"', body)
+        body = re.sub(r'fill\s*:\s*[^;"\']+', f"fill:{color}", body)
+        body = re.sub(r'fill="(?!none)[^"]*"', f'fill="{color}"', body)
         return body
 
     out = svg
@@ -333,7 +333,7 @@ def _greyscale(img: QtGui.QImage) -> QtGui.QImage:
 
     Qt's conversion rather than arithmetic over the raw buffer: `QImage.bits()` handed to
     `numpy.frombuffer` produced a COPY on this build, so the in-place version desaturated an image
-    nobody drew and the diagram came out in full colour with no error anywhere. This one is checked
+    nobody drew and the diagram came out in full color with no error anywhere. This one is checked
     by a test that renders the widget and measures the saturation of what it drew.
     """
     alpha = img.convertToFormat(QtGui.QImage.Format.Format_Alpha8)
@@ -341,18 +341,18 @@ def _greyscale(img: QtGui.QImage) -> QtGui.QImage:
                .convertToFormat(QtGui.QImage.Format.Format_ARGB32_Premultiplied))
     # The greyscale conversion drops the alpha, so it is put back: everything the drawing does not
     # cover stays transparent and the panel's own background shows through, rather than the diagram
-    # sitting on a card of whatever colour the conversion produced.
+    # sitting on a card of whatever color the conversion produced.
     grey.setAlphaChannel(alpha)
     return grey
 
 
-def _tinted(mask: QtGui.QImage, colour) -> QtGui.QImage:
-    """The shape of `mask`, painted flat in `colour` -- the one coloured thing in the diagram."""
+def _tinted(mask: QtGui.QImage, color) -> QtGui.QImage:
+    """The shape of `mask`, painted flat in `color` -- the one colored thing in the diagram."""
     out = QtGui.QImage(mask)
     out = out.convertToFormat(QtGui.QImage.Format.Format_ARGB32_Premultiplied)
     p = QtGui.QPainter(out)
     p.setCompositionMode(QtGui.QPainter.CompositionMode.CompositionMode_SourceIn)
-    p.fillRect(out.rect(), QtGui.QColor.fromRgbF(*tuple(colour)[:3]))
+    p.fillRect(out.rect(), QtGui.QColor.fromRgbF(*tuple(color)[:3]))
     p.end()
     return out
 
@@ -381,7 +381,7 @@ class CellDiagram(QtWidgets.QWidget):
         self.svg_solid = base
         self.svg = outline_only(base) if base else ""
         self.groups = groups_in(self.svg)
-        self.colour_of: dict = {}
+        self.color_of: dict = {}
         self.selected = ""
         self._renderer = None
         # Pixel masks for hit-testing, and their ink, cached per widget size -- see `masks`.
@@ -395,9 +395,9 @@ class CellDiagram(QtWidgets.QWidget):
             "the class is unassigned, which is not a compartment.")
 
     # ------------------------------------------------------------------ state
-    def set_palette(self, colour_of: dict, selected: str = ""):
+    def set_palette(self, color_of: dict, selected: str = ""):
         """Take the map's palette and the current selection, and redraw from them."""
-        self.colour_of = dict(colour_of or {})
+        self.color_of = dict(color_of or {})
         self.selected = selected or ""
         self._renderer = None
         self.update()
@@ -405,16 +405,16 @@ class CellDiagram(QtWidgets.QWidget):
     def fills(self) -> dict:
         """SL group -> color: the SELECTED compartment, and nothing else.
 
-        One coloured organelle at a time, in the colour that compartment has in the list and on the
-        map. Colouring every organelle at once makes the diagram a second legend -- twenty-odd
-        colours to read against twenty-odd names -- when what a person wants to know is where the
+        One colored organelle at a time, in the color that compartment has in the list and on the
+        map. Coloring every organelle at once makes the diagram a second legend -- twenty-odd
+        colors to read against twenty-odd names -- when what a person wants to know is where the
         thing they just clicked is. Everything else is grey, which is also what the map shows: the
         points of one compartment against a grey field.
         """
         sl = COMPARTMENT_SL.get(self.selected)
-        if not sl or sl not in self.groups or self.selected not in self.colour_of:
+        if not sl or sl not in self.groups or self.selected not in self.color_of:
             return {}
-        return {sl: self.colour_of[self.selected]}
+        return {sl: self.color_of[self.selected]}
 
     def showing(self) -> str:
         """Which class the shared shape is currently showing, as a sentence, or ""."""
@@ -428,7 +428,7 @@ class CellDiagram(QtWidgets.QWidget):
     def renderer(self):
         """The SVG renderer for the current colors, built once per palette change."""
         if self._renderer is None and self.svg:
-            data = recolour(self.svg, self.fills()).encode("utf8")
+            data = recolor(self.svg, self.fills()).encode("utf8")
             self._renderer = QtSvg.QSvgRenderer(QtCore.QByteArray(data))
         return self._renderer
 
@@ -437,13 +437,13 @@ class CellDiagram(QtWidgets.QWidget):
         """Draw the cell grey, then tint the selected organelle.
 
         The drawing is hollow -- white outlines on nothing -- so it sits on whatever is behind it and
-        the one FILLED thing in it is unmistakably the selection, in the colour that compartment has
+        the one FILLED thing in it is unmistakably the selection, in the color that compartment has
         in the list beside it.
 
         Hollowing it is also what finally made it neutral. Every fill, stroke and gradient stop in
-        this file can be set to grey and it still renders pink: 145 elements carry a `coloured` class
+        this file can be set to grey and it still renders pink: 145 elements carry a `colored` class
         and eleven gradients cross-reference each other, and nothing in the document accounts for it.
-        A shape with no fill has nothing to render in any colour.
+        A shape with no fill has nothing to render in any color.
         """
         r = self.renderer()
         if r is None or not r.isValid():
@@ -457,10 +457,10 @@ class CellDiagram(QtWidgets.QWidget):
         q.end()
         p = QtGui.QPainter(self)
         p.drawImage(0, 0, img)
-        for sl, colour in self.fills().items():
+        for sl, color in self.fills().items():
             mask = self.masks().get(sl)
             if mask is not None:
-                p.drawImage(0, 0, _tinted(mask, colour))
+                p.drawImage(0, 0, _tinted(mask, color))
         p.end()
 
     def _target(self) -> QtCore.QRectF:
@@ -588,6 +588,6 @@ class CellDiagram(QtWidgets.QWidget):
             return
         # Non-empty by construction: `organelle_at` only returns groups that stand for at least one
         # compartment, so there is no "no classes" case to guard here.
-        classes = [c for c in sharing(sl) if c in self.colour_of] or sharing(sl)
+        classes = [c for c in sharing(sl) if c in self.color_of] or sharing(sl)
         i = classes.index(self.selected) + 1 if self.selected in classes else 0
         self.compartment_clicked.emit(classes[i % len(classes)])

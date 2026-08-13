@@ -26,4 +26,4 @@ from _common import run
 KEY = "proteome_pru"
 
 if __name__ == "__main__":
-    run(KEY, normalised_by='screens.proteomics()')
+    run(KEY, normalized_by='screens.proteomics()')

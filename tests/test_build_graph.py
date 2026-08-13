@@ -109,7 +109,7 @@ def test_orthogroup_and_domain_are_one_evidence_family_not_two():
 
 
 def test_compartment_is_not_an_evidence_family_at_all():
-    """Sharing one of 27 hyperLOPIT classes is real co-localisation but far too unspecific at 118,712
+    """Sharing one of 27 hyperLOPIT classes is real co-localization but far too unspecific at 118,712
     edges, and the assignment tracks abundance."""
     assert "compartment" not in BG.EVIDENCE_FAMILY
 
@@ -624,7 +624,7 @@ def test_the_node_load_composes_the_upstream_table_with_products_and_expression(
     monkeypatch.setattr(BG, "DS", str(ds))
     monkeypatch.setattr(BG, "OUT", str(out))
     monkeypatch.setattr(BG, "log", lambda *a, **k: None)
-    monkeypatch.setattr(BG.localisation, "lopit_labels", lambda ds, n, log=None: n.assign(
+    monkeypatch.setattr(BG.localization, "lopit_labels", lambda ds, n, log=None: n.assign(
         compartment="unassigned", lopit_unified=None))
     monkeypatch.setattr(BG.screens, "crispr_screens", lambda *a, **k: pd.DataFrame())
     monkeypatch.setattr(BG.screens, "proteomics", lambda *a, **k: pd.DataFrame())
@@ -651,7 +651,7 @@ def test_duplicate_genes_from_upstream_are_collapsed(monkeypatch, tmp_path):
     monkeypatch.setattr(BG, "DS", str(ds))
     monkeypatch.setattr(BG, "OUT", str(out))
     monkeypatch.setattr(BG, "log", lambda *a, **k: None)
-    monkeypatch.setattr(BG.localisation, "lopit_labels", lambda ds, n, log=None: n.assign(
+    monkeypatch.setattr(BG.localization, "lopit_labels", lambda ds, n, log=None: n.assign(
         compartment="unassigned"))
     monkeypatch.setattr(BG.screens, "crispr_screens", lambda *a, **k: pd.DataFrame())
     monkeypatch.setattr(BG.screens, "proteomics", lambda *a, **k: pd.DataFrame())
@@ -669,7 +669,7 @@ def test_joined_dataset_columns_reach_the_node_table(monkeypatch, tmp_path):
     monkeypatch.setattr(BG, "DS", str(ds))
     monkeypatch.setattr(BG, "OUT", str(out))
     monkeypatch.setattr(BG, "log", lambda *a, **k: None)
-    monkeypatch.setattr(BG.localisation, "lopit_labels", lambda ds, n, log=None: n.assign(
+    monkeypatch.setattr(BG.localization, "lopit_labels", lambda ds, n, log=None: n.assign(
         compartment="unassigned"))
     monkeypatch.setattr(BG.screens, "crispr_screens", lambda *a, **k: screen)
     monkeypatch.setattr(BG.screens, "proteomics", lambda *a, **k: pd.DataFrame())
@@ -717,8 +717,8 @@ def test_the_written_cache_keeps_every_surviving_column(monkeypatch, tmp_path):
 
 
 def test_internal_scratch_columns_are_dropped(monkeypatch, tmp_path):
-    """Exact duplicates carried in from upstream would double-weight localisation in any embedding
-    that selects "all localisation columns"."""
+    """Exact duplicates carried in from upstream would double-weight localization in any embedding
+    that selects "all localization columns"."""
     out = tmp_path / "out"
     out.mkdir()
     nodes = _nodes(60, expr_tachy=1.0, mean_plddt=80.0, structure_path="x", lopit_class="y",
@@ -770,7 +770,7 @@ def test_the_resolver_maps_a_supplements_accession_to_a_current_gene_id(monkeypa
     monkeypatch.setattr(BG, "DS", str(ds))
     monkeypatch.setattr(BG, "OUT", str(out))
     monkeypatch.setattr(BG, "log", lambda *a, **k: None)
-    monkeypatch.setattr(BG.localisation, "lopit_labels", lambda ds, n, log=None: n.assign(
+    monkeypatch.setattr(BG.localization, "lopit_labels", lambda ds, n, log=None: n.assign(
         compartment="unassigned"))
     monkeypatch.setattr(BG.screens, "crispr_screens", screens_using_the_resolver)
     monkeypatch.setattr(BG.screens, "proteomics", lambda *a, **k: pd.DataFrame())
@@ -805,7 +805,7 @@ def test_the_whole_build_runs_end_to_end_over_a_synthetic_tree(monkeypatch, tmp_
     monkeypatch.setattr(BG, "FULLTEXTS", str(tmp_path / "no_fulltexts"))
     monkeypatch.setattr(BG, "TOXONET", str(tmp_path / "no_edges.parquet"))
     monkeypatch.setattr(BG, "log", lambda *a, **k: None)
-    monkeypatch.setattr(BG.localisation, "lopit_labels", lambda d, n, log=None: n.assign(
+    monkeypatch.setattr(BG.localization, "lopit_labels", lambda d, n, log=None: n.assign(
         compartment=["rhoptry"] * 30 + ["dense granules"] * 30))
     monkeypatch.setattr(BG.screens, "crispr_screens", lambda *a, **k: pd.DataFrame())
     monkeypatch.setattr(BG.screens, "proteomics", lambda *a, **k: pd.DataFrame())

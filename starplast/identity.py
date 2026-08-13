@@ -40,7 +40,7 @@ KINDS = ("accession", "accession_prev", "accession_strain", "symbol", "alias")
 ACC_RX = re.compile(r"\bTG[A-Z0-9]{2,6}_(\d{5,6})[A-Za-z]?\b", re.I)
 
 # Word-ish tokens for symbol lookup. Hyphens are kept so "GRA-16" survives tokenisation and is then
-# normalised to "GRA16"; a giant regex alternation over ~3,000 symbols is far slower than set lookup.
+# normalized to "GRA16"; a giant regex alternation over ~3,000 symbols is far slower than set lookup.
 #
 # The character class is Unicode-aware on purpose. An ASCII-only class ([A-Za-z]) truncates accented words
 # mid-token, and this corpus carries French, Portuguese and Spanish abstracts: "Santé" tokenised as "Sant"

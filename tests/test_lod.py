@@ -105,7 +105,7 @@ def test_dominant_reports_a_fraction_not_just_a_name():
 
 def test_dominant_ignores_absence_labels():
     """Without this every galaxy in the real map is named "unassigned" -- true, and useless."""
-    # grid=3 because a single blob normalised to its own extent spreads across a fine grid until no
+    # grid=3 because a single blob normalized to its own extent spreads across a fine grid until no
     # cell is occupied. The tier is relative to the spread of what it is given.
     xyz = _blobs([(0, 0, 0)], n=90)
     lab = lod.galaxies(xyz, grid=3, min_members=20)

@@ -120,7 +120,7 @@ def text_of(path: str) -> str:
 
 
 def find_accessions(text: str, organism="toxo") -> set:
-    """Accessions, normalised to the underscore form publishers keep mangling."""
+    """Accessions, normalized to the underscore form publishers keep mangling."""
     rx = ACCESSIONS.get(organism, ACCESSIONS["toxo"])
     out = set()
     for m in rx.finditer(text or ""):

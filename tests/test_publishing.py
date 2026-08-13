@@ -202,7 +202,7 @@ def test_the_methods_and_the_notebook_travel_with_the_data(tmp_path):
     assert "METHODS.md" in written
     assert "build_hf_release.ipynb" in written
     methods = open(os.path.join(tmp_path, "METHODS.md")).read()
-    # Whitespace-normalised: the source is hard-wrapped, so the phrase spans a newline.
+    # Whitespace-normalized: the source is hard-wrapped, so the phrase spans a newline.
     flat = " ".join(methods.split())
     assert "membership, not interaction" in flat.lower()
     assert "No raw supplementary file is mirrored" in flat

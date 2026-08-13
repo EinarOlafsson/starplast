@@ -4,7 +4,7 @@
 A clustering used to be computed, drawn and lost, so the second run replaced the first with no way
 back -- which makes the one comparison this application exists for impossible to make by looking.
 The tests here are mostly about the third property: a run over a subsample has fewer labels than the
-map has genes, and lining them up by position would put cluster 3's colour on whichever gene happens
+map has genes, and lining them up by position would put cluster 3's color on whichever gene happens
 to sit at that index.
 """
 from __future__ import annotations
@@ -28,7 +28,7 @@ def _run(store, name="r1", n=10, covered=None):
 
 
 def test_a_run_knows_which_genes_it_applies_to_not_just_how_many():
-    """The subsample case. Placed by position, cluster 3's colour lands on whichever gene sits at
+    """The subsample case. Placed by position, cluster 3's color lands on whichever gene sits at
     that index -- confidently, and wrongly, for every gene after the first gap."""
     covered = np.zeros(12, bool)
     covered[[1, 4, 7]] = True
@@ -46,7 +46,7 @@ def test_a_gene_outside_a_run_is_absent_not_unclustered():
     assert v[0] == R.NOISE_NAME and v[1] == ""
 
 
-def test_a_run_whose_mask_and_labels_disagree_colours_nothing():
+def test_a_run_whose_mask_and_labels_disagree_colors_nothing():
     """Better an empty column than 8,140 confident mislabels."""
     v = R.Run(name="r", labels=np.array([0, 1, 2]), genes=np.array([True, False])).values(2)
     assert (v == "").all()
@@ -154,7 +154,7 @@ def test_missing_values_are_absent_rather_than_a_low_bin():
 
 def test_a_column_that_is_mostly_one_value_gets_fewer_bins_and_says_why():
     """`n_publications` is zero for most of this proteome, so its quartile edges are all zero.
-    Splitting the tie by rank or by equal width would draw four colours over a column with one
+    Splitting the tie by rank or by equal width would draw four colors over a column with one
     level, which is a picture of a distinction that does not exist."""
     said = []
     v = R.bin_column(pd.Series([0.0] * 90 + list(range(1, 11))), bins=4, log=said.append)

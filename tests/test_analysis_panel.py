@@ -1502,7 +1502,7 @@ def test_a_search_row_that_cannot_be_rebuilt_explains_rather_than_failing(panel,
         raise ValueError("every block in that row feeds a column the run excluded")
 
     monkeypatch.setattr(S, "rebuild", boom)
-    panel._fill(panel.search_table, pd.DataFrame({"blocks": ["localisation"], "n_neighbors": [15],
+    panel._fill(panel.search_table, pd.DataFrame({"blocks": ["localization"], "n_neighbors": [15],
                                                   "min_dist": [0.1]}))
     panel.show_search_row(0)
     assert any("cannot rebuild that row" in m for m in sync)
@@ -1515,8 +1515,8 @@ def test_a_search_row_with_no_blocks_says_so(panel, sync):
     assert any("does not name a configuration" in m for m in sync)
 
 
-def test_clicking_an_inference_row_colours_the_map_by_the_clustering_it_scored(panel, sync):
-    """Reading "cluster 3 is 90% apicoplast" while looking at a map coloured by compartment is a
+def test_clicking_an_inference_row_colors_the_map_by_the_clustering_it_scored(panel, sync):
+    """Reading "cluster 3 is 90% apicoplast" while looking at a map colored by compartment is a
     needless act of translation."""
     import numpy as np
     panel.labels = np.arange(len(panel.nodes)) % 4
@@ -1540,7 +1540,7 @@ def test_an_inference_row_before_any_clustering_says_what_to_do(panel, sync):
 
 
 def test_a_clustering_of_a_subsample_is_published_over_the_whole_table(panel):
-    """The window colours 8,140 points by it. Left short, it fell back to grey everywhere, which
+    """The window colors 8,140 points by it. Left short, it fell back to grey everywhere, which
     reads as "this clustering found nothing"."""
     import numpy as np
     keep = np.zeros(len(panel.nodes), bool)
@@ -1610,7 +1610,7 @@ def test_building_a_map_can_cluster_it_in_the_same_job(panel, sync, monkeypatch)
 
 def test_building_a_map_without_clustering_leaves_the_clustering_alone(panel, sync, monkeypatch):
     """A new map invalidates the old labels, but silently publishing a stale clustering over it
-    would colour the new map by the old one."""
+    would color the new map by the old one."""
     import numpy as np
     import starplast.embedding as E
     rows = np.zeros(len(panel.nodes), bool)
@@ -1675,7 +1675,7 @@ def test_candidates_can_be_saved_with_the_numbers_that_justify_them(annotating, 
 
 
 def test_saving_tells_the_map_to_redraw(annotating):
-    """The fourth colour has to appear without the user having to find it."""
+    """The fourth color has to appear without the user having to find it."""
     seen = []
     annotating.annotations_changed.connect(lambda: seen.append(True))
     annotating.save_candidates()

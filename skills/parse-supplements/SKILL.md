@@ -35,7 +35,7 @@ tab and `</w:tr>` with a newline first. Strip tags without doing that and every 
 together, which turns a gene/description table into one unusable line.
 
 **Accessions get mangled by typesetting.** `TGME49_208830` appears as `TGME49-208830`, `TGME49.208830`,
-`TGME49 208830` and `TGME49208830` depending on the journal's line-breaking. Normalise separators before
+`TGME49 208830` and `TGME49208830` depending on the journal's line-breaking. Normalize separators before
 matching, and re-insert the underscore when it has been dropped entirely.
 
 **A digit-free symbol must appear in upper case to count.** `HOOK`, `CLAMP`, `CLIP`, `SPARK` and `REMIND`

@@ -29,10 +29,10 @@ from .logging_util import LEVELS, parse_level
 
 MAX_LINES = 5000        # a runaway loop must not exhaust memory through the log widget
 
-#: One colour per level, chosen to read on both the dark and the light themes rather than to match
-#: either. Levelless output -- ordinary prints -- takes the pane's own text colour, so the default
+#: One color per level, chosen to read on both the dark and the light themes rather than to match
+#: either. Levelless output -- ordinary prints -- takes the pane's own text color, so the default
 #: case looks exactly as it did.
-LEVEL_COLOUR = {"DEBUG": "#7f8c9b", "INFO": "#5aa9e6", "WARNING": "#d79a2b", "ERROR": "#e05561"}
+LEVEL_COLOR = {"DEBUG": "#7f8c9b", "INFO": "#5aa9e6", "WARNING": "#d79a2b", "ERROR": "#e05561"}
 
 
 class Tee(QtCore.QObject):
@@ -79,7 +79,7 @@ class Tee(QtCore.QObject):
         self.flush()
 
     def isatty(self):
-        # Progress bars and colour codes key off this. The widget is not a terminal, and claiming
+        # Progress bars and color codes key off this. The widget is not a terminal, and claiming
         # otherwise fills the pane with escape sequences.
         """False: the pane is not a terminal, and claiming otherwise fills it with escapes."""
         return False
@@ -125,8 +125,8 @@ class ConsolePanel(QtWidgets.QWidget):
         bar.setStretch(0, 1)
         L.addLayout(bar)
 
-        # QTextEdit rather than QPlainTextEdit: a level has to be able to colour its own line, and
-        # the plain widget has one colour for the whole document.
+        # QTextEdit rather than QPlainTextEdit: a level has to be able to color its own line, and
+        # the plain widget has one color for the whole document.
         self.view = QtWidgets.QTextEdit()
         self.view.setReadOnly(True)
         self.view.document().setMaximumBlockCount(MAX_LINES)
@@ -194,8 +194,8 @@ class ConsolePanel(QtWidgets.QWidget):
 
     def _write(self, stamp: str, line: str, level: str = ""):
         """Put one line in the view, in its level's color."""
-        colour = LEVEL_COLOUR.get(level)
-        self.view.setTextColor(QtGui.QColor(colour) if colour
+        color = LEVEL_COLOR.get(level)
+        self.view.setTextColor(QtGui.QColor(color) if color
                                else self.view.palette().text().color())
         self.view.append(f"{stamp}  {line}")
 

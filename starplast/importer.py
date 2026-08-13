@@ -2,7 +2,7 @@
 """Bringing a user's own table into the map, with every choice made along the way visible.
 
 Everything here already exists somewhere in this project, applied to published data:
-`tuning.import_table` resolves identifiers through the identity layer, `sources.normalise` applies
+`tuning.import_table` resolves identifiers through the identity layer, `sources.normalize` applies
 the transform a quantification type implies, `embedding` supplies the scalings and the missing-value
 policies. What was missing is that none of it was reachable for a file of your own, so importing
 meant either editing the node table by hand or not importing.
@@ -196,14 +196,14 @@ def preprocess(df: pd.DataFrame, gene_column: str = "", columns=None, quantifica
 
     if flip:
         # Screens disagree about which sign means "worse". Offered rather than guessed, and the
-        # warning travels with it: pooling screens without rank-normalising first is how the 64x
+        # warning travels with it: pooling screens without rank-normalizing first is how the 64x
         # spread between them bites.
         wide = -wide
-        log("sign flipped -- rank-normalise before pooling this with another screen")
+        log("sign flipped -- rank-normalize before pooling this with another screen")
 
     if quantification != "none":
-        from .sources import normalise
-        wide = normalise(wide, quantification, log=log)
+        from .sources import normalize
+        wide = normalize(wide, quantification, log=log)
 
     if na_policy == "drop_genes":
         before = len(wide)

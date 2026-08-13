@@ -3,7 +3,7 @@
 
 The point of it is that a list of 27 names becomes a picture of where the genes are, and the risk of
 it is that a picture is persuasive whether or not it is true. So these tests are about the joins: the
-colours come from the map's own dict rather than a second palette, a shape shared by three classes
+colors come from the map's own dict rather than a second palette, a shape shared by three classes
 says which one it is showing, and a compartment the artwork has no organelle for is NAMED rather
 than quietly dropped.
 """
@@ -64,7 +64,7 @@ def test_the_artwork_ships_with_the_package(svg):
 
 def test_every_mapped_compartment_names_an_organelle_that_exists(svg):
     """A mapping to a shape the drawing does not have is a silent no-op: the compartment would
-    simply never colour anything and nothing would say why."""
+    simply never color anything and nothing would say why."""
     have = CD.groups_in(svg)
     missing = {c: sl for c, sl in CD.COMPARTMENT_SL.items() if sl not in have}
     assert not missing, missing
@@ -89,26 +89,26 @@ def test_the_classes_that_share_a_shape_are_known(svg):
     assert CD.sharing("SL9999") == []
 
 
-# --------------------------------------------------------------------------- colouring
+# --------------------------------------------------------------------------- coloring
 def test_the_fill_reaches_the_paths_not_only_the_group(svg):
     """The artwork sets `fill` on the individual paths, so a fill on the group alone is overridden
     by every path in it -- the diagram comes back grey while every assertion on the string passes."""
-    out = CD.recolour(svg, {"SL0018": (1.0, 0.0, 0.0)})
+    out = CD.recolor(svg, {"SL0018": (1.0, 0.0, 0.0)})
     import re
     group = re.search(r'<g[^>]*id="SL0018".*?</g>', out, re.S).group(0)
     assert "#ff0000" in group
     assert not re.search(r'fill\s*:\s*(?!#ff0000)#[0-9a-f]{6}', group), "a path kept its own fill"
 
 
-def test_with_nothing_selected_nothing_is_coloured(diagram):
-    """The drawing is grey until a compartment is chosen. Colouring a shared shape with whichever
-    class sorts first would be a claim nobody made, and colouring ALL of them makes the diagram a
-    second legend -- twenty-odd colours to read against twenty-odd names."""
+def test_with_nothing_selected_nothing_is_colored(diagram):
+    """The drawing is grey until a compartment is chosen. Coloring a shared shape with whichever
+    class sorts first would be a claim nobody made, and coloring ALL of them makes the diagram a
+    second legend -- twenty-odd colors to read against twenty-odd names."""
     diagram.set_palette({"rhoptries 1": (1.0, 0.0, 0.0), "rhoptries 2": (0.0, 1.0, 0.0)}, "")
     assert diagram.fills() == {}
 
 
-def test_a_shared_shape_takes_the_colour_of_whichever_class_is_selected(diagram):
+def test_a_shared_shape_takes_the_color_of_whichever_class_is_selected(diagram):
     diagram.set_palette({"rhoptries 1": (1.0, 0.0, 0.0), "rhoptries 2": (0.0, 1.0, 0.0)},
                         "rhoptries 2")
     assert diagram.fills()["SL0233"] == (0.0, 1.0, 0.0)
@@ -118,7 +118,7 @@ def test_a_shared_shape_takes_the_colour_of_whichever_class_is_selected(diagram)
 
 
 def test_a_shared_shape_says_which_class_it_is_showing(diagram):
-    """A user coming back to the window cannot otherwise tell whether the rhoptry is coloured for 1
+    """A user coming back to the window cannot otherwise tell whether the rhoptry is colored for 1
     or for 2."""
     diagram.set_palette({"rhoptries 1": (1.0, 0.0, 0.0), "rhoptries 2": (0.0, 1.0, 0.0)},
                         "rhoptries 2")
@@ -128,8 +128,8 @@ def test_a_shared_shape_says_which_class_it_is_showing(diagram):
     assert diagram.showing() == "", "a shape of its own has nothing to disambiguate"
 
 
-def test_only_the_selected_compartment_is_ever_coloured(diagram):
-    """One coloured organelle at a time, in the colour that compartment has in the list beside it."""
+def test_only_the_selected_compartment_is_ever_colored(diagram):
+    """One colored organelle at a time, in the color that compartment has in the list beside it."""
     palette = {"apicoplast": (0.0, 0.0, 1.0), "micronemes": (0.0, 1.0, 0.0)}
     diagram.set_palette(palette, "apicoplast")
     assert diagram.fills() == {"SL0018": (0.0, 0.0, 1.0)}
@@ -139,12 +139,12 @@ def test_only_the_selected_compartment_is_ever_coloured(diagram):
     assert diagram.fills() == {}
 
 
-def test_a_compartment_the_palette_does_not_carry_colours_nothing(diagram):
+def test_a_compartment_the_palette_does_not_carry_colors_nothing(diagram):
     diagram.set_palette({"apicoplast": (0.0, 0.0, 1.0)}, "rhoptries 1")
     assert diagram.fills() == {}
 
 
-def test_a_compartment_the_palette_does_not_have_colours_nothing(diagram):
+def test_a_compartment_the_palette_does_not_have_colors_nothing(diagram):
     diagram.set_palette({}, "")
     assert diagram.fills() == {}
 
@@ -195,7 +195,7 @@ def test_clicking_a_shared_shape_steps_through_the_classes_it_stands_for(diagram
     diagram.set_palette(palette, "")
     seen = []
     for _ in range(4):
-        classes = [c for c in CD.sharing("SL0039") if c in diagram.colour_of]
+        classes = [c for c in CD.sharing("SL0039") if c in diagram.color_of]
         i = classes.index(diagram.selected) + 1 if diagram.selected in classes else 0
         nxt = classes[i % len(classes)]
         seen.append(nxt)
@@ -260,7 +260,7 @@ def test_clicking_a_shape_whose_classes_are_not_in_the_palette_still_selects_one
     from PyQt6 import QtCore, QtGui
     diagram.set_palette({}, "")
     diagram.set_palette({"apicoplast": (0.0, 0.0, 1.0)}, "")
-    diagram.colour_of = {}                      # a different category is showing
+    diagram.color_of = {}                      # a different category is showing
     pos = QtCore.QPointF(*_ink_pixel(diagram, "SL0018"))
     got = []
     diagram.compartment_clicked.connect(got.append)
@@ -333,11 +333,11 @@ def test_mapping_back_from_a_widget_with_no_size_is_the_origin(qapp, tmp_path):
     assert d.widget_to_local(3, 4) == (0.0, 0.0)
 
 
-def test_the_drawing_is_hollow_and_only_the_selection_has_colour(qapp):
+def test_the_drawing_is_hollow_and_only_the_selection_has_color(qapp):
     """What the eye actually gets, measured on the painted widget rather than on the source: every
     attempt to neutralise this artwork by rewriting its fills, strokes and gradient stops left it
-    rendering in full colour anyway, with no error and nothing in the document to explain it. A
-    shape with no fill has nothing to render in any colour, which is what finally settled it."""
+    rendering in full color anyway, with no error and nothing in the document to explain it. A
+    shape with no fill has nothing to render in any color, which is what finally settled it."""
     from PyQt6 import QtGui
     d = CD.CellDiagram()
     d.resize(240, 380)
@@ -353,9 +353,9 @@ def test_the_drawing_is_hollow_and_only_the_selection_has_colour(qapp):
                     n += 1
         return n
 
-    assert saturated(d) == 0, "something is coloured with nothing selected"
+    assert saturated(d) == 0, "something is colored with nothing selected"
     d.set_palette({"rhoptries 1": (0.2, 0.6, 1.0)}, "rhoptries 1")
-    assert saturated(d) > 0, "the selected compartment was not coloured"
+    assert saturated(d) > 0, "the selected compartment was not colored"
 
 
 def test_the_drawing_keeps_the_panel_s_background(qapp):

@@ -6,11 +6,11 @@ can be inspected, re-fetched or debugged on its own, without running a build tha
 
 **What these scripts are not.** They are not a second implementation of the build. The shipped
 columns are assembled by `starplast.build_graph.load_nodes()` through the domain modules
-(`localisation`, `expression`, `screens`, `cellcycle`), and a per-dataset copy of that logic would
+(`localization`, `expression`, `screens`, `cellcycle`), and a per-dataset copy of that logic would
 drift from it and eventually lie about what produced the data. What these scripts do is the part
 that is genuinely per-dataset: fetch the file, read it, resolve its accessions to current ToxoDB
 ME49, and report the coverage that resolution achieves. Each script names the module that does the
-authoritative normalisation for its columns.
+authoritative normalization for its columns.
 
 The accession step is not a formality. Published supplements cite whatever identifier was current
 when they were written, and `TGGT1_` turns out to be more common than `TGME49_`. A dataset keyed on
@@ -145,7 +145,7 @@ def describe(key: str, log=print) -> None:
         log(f"  note       : {d.note}")
 
 
-def run(key: str, sep=None, sheet=None, id_col=None, normalised_by="build_graph.load_nodes()"):
+def run(key: str, sep=None, sheet=None, id_col=None, normalized_by="build_graph.load_nodes()"):
     """Fetch, read, standardise and report one dataset. The body of every script here."""
     describe(key)
     print()
@@ -156,5 +156,5 @@ def run(key: str, sep=None, sheet=None, id_col=None, normalised_by="build_graph.
     print(f"read {len(df):,} rows x {len(df.columns)} columns from {os.path.basename(path)}")
     out = standardise(df, id_col)
     print()
-    print(f"authoritative normalisation for the shipped columns: starplast.{normalised_by}")
+    print(f"authoritative normalization for the shipped columns: starplast.{normalized_by}")
     return out

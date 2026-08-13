@@ -76,8 +76,8 @@ sum of per-gene counts), and per-gene unit counts are taken over the **same** po
 counted over, i.e. after list-like units are excluded.
 
 **3b. What the map draws must be visible, and that is testable.** (Added v1.1.) The scatter blended
-additively, so 8,140 overlapping points summed to white and every colour mode rendered as one blob --
-while every array-level test passed, because they checked the colour array and never the render. Points
+additively, so 8,140 overlapping points summed to white and every color mode rendered as one blob --
+while every array-level test passed, because they checked the color array and never the render. Points
 now occlude (translucent + depth test) and edge alpha scales with edge weight, without which the attention
 toggle is visually almost a no-op. Both are pinned by tests that read the GL state. **Render the app and
 look at it before believing a display claim.**
@@ -164,9 +164,9 @@ The two targets with no absence class did not move at all, which is the rule beh
 The negative control now sits below both measured targets and **passes**: the map is not substantially
 organised by study effort among genes that have been studied.
 
-**But localisation (0.228) is now below the negative control (0.339).** Stated plainly: the map recovers
+**But localization (0.228) is now below the negative control (0.339).** Stated plainly: the map recovers
 how much a gene has been studied better than it recovers where the protein is. That caveat must travel
-with any localisation claim. Cell cycle at 0.489 is the only target that clears the floor, and it does
+with any localization claim. Cell cycle at 0.489 is the only target that clears the floor, and it does
 so comfortably — which reverses the assumption the project started from. Location was the target that
 had data; cell cycle is the one the map organises.
 
@@ -299,7 +299,7 @@ Fill the `Next:` line in before sending — leaving the placeholder just costs a
 **Built and working.** `identity.py`, `corpus.py`, `literature.py`, `build_graph.py`, `fetch_names.py`,
 `interactions.py`, `app.py`, `tests/`, `pyproject.toml`, `README.md`. **67 tests pass headless** (`pytest tests/ -q`), covering
 identity resolution, every precision guard, JATS parsing, the mentions table, the attention arithmetic,
-the attention-depth tiering, and the app itself offscreen: 8,140 nodes, all 12 edge types, all 3 LOD levels, all 6 colour modes, picking,
+the attention-depth tiering, and the app itself offscreen: 8,140 nodes, all 12 edge types, all 3 LOD levels, all 6 color modes, picking,
 search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
 
 **Numbers as built** (do not quote the older estimates):
@@ -334,7 +334,7 @@ search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
 **Coverage went 601 → 2,566. Attention went 601 → 750.** 71% of the coverage gain is `incidental` — genes
 sitting in a screen's hit table, named once and never discussed. Quoting 2,566 as "genes the field has
 studied" would repeat precisely the error the attention correction exists to prevent. The app labels such
-genes **"Listed, not studied"**, and `attention_depth` is a colour mode.
+genes **"Listed, not studied"**, and `attention_depth` is a color mode.
 
 **601 → 2,566 is better identity, not more literature.** The old code read only current `TGME49_`
 accessions, so old `TGME49_0xxxxx` ids and the `TGGT1_`/`TGVEG_` strain ids papers use interchangeably

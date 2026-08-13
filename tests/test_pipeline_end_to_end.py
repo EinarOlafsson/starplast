@@ -273,7 +273,7 @@ def test_no_column_in_the_embedding_is_constant_or_all_missing(nodes):
 
 def test_the_variance_shares_sum_to_one_and_no_block_dominates_by_column_count(nodes):
     """27 one-hot compartment columns took 56% of the matrix by being numerous, which is why blocks are
-    normalised before weighting."""
+    normalized before weighting."""
     from starplast.embedding import EmbeddingSpec, variance_share
     share = variance_share(nodes, EmbeddingSpec())
     assert share.share.sum() == pytest.approx(1.0, abs=1e-6)

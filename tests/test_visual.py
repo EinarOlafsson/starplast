@@ -2,7 +2,7 @@
 """The visual layer, tested on values rather than on appearance.
 
 Rendering bugs in this project have all passed array-level tests before: additive blending summed 8,140
-points to white while every colour array was correct. So these tests assert the things that *can* be
+points to white while every color array was correct. So these tests assert the things that *can* be
 asserted numerically -- monotonicity, agreement between subsets, degenerate inputs -- and the appearance
 claims they support are the ones that were also checked by rendering the app and looking at it.
 """
@@ -50,10 +50,10 @@ def test_equidistant_points_do_not_divide_by_zero():
     assert a[0] == pytest.approx(0.8) and s[0] == pytest.approx(5.0)
 
 
-def test_a_subset_normalised_against_the_full_range_agrees_with_the_full_set():
+def test_a_subset_normalized_against_the_full_range_agrees_with_the_full_set():
     """Edges are cued against the whole cloud's range for exactly this reason.
 
-    Normalise a subset against its own extent and an edge fades by a different amount than the point it
+    Normalize a subset against its own extent and an edge fades by a different amount than the point it
     touches, at the same place on screen -- which reads as flicker while orbiting.
     """
     rng_state = np.random.default_rng(0)
@@ -129,8 +129,8 @@ def test_points_carry_a_depth_gradient_when_cueing_is_on(win):
 
 
 def test_turning_depth_cueing_off_restores_flat_alpha(win):
-    """It is a toggle because the fade changes apparent colour with position, and comparing two
-    points' colours exactly requires it off."""
+    """It is a toggle because the fade changes apparent color with position, and comparing two
+    points' colors exactly requires it off."""
     win.depth_cue = False
     win.redraw()
     alpha = np.asarray(win.scatter.color)[:, 3]

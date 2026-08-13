@@ -22,7 +22,7 @@ data behind a `Legend` sheet, one is a legacy `.xls` that pandas cannot open at 
 converted through libreoffice, and the iTRAQ header sits on the second row. That is normal for
 supplementary data and is why each dataset is declared here rather than guessed at.
 
-Quantifications are not pooled. Each is normalized by its own type through `sources.normalise` -- counts
+Quantifications are not pooled. Each is normalized by its own type through `sources.normalize` -- counts
 and intensities are logged and centered, ratios are left alone because centering moves their reference --
 and the columns are named for their dataset so nothing downstream can mistake an iTRAQ ratio for a TPM.
 """
@@ -38,14 +38,14 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from .sources import normalise
+from .sources import normalize
 
 warnings.filterwarnings("ignore")
 
 # Separators other than the underscore are allowed because typesetting mangles them: the same
 # accession appears as TGME49_208830, TGME49-208830, TGME49.208830 and TGME49208830 depending on the
-# journal's line-breaking. `_norm_acc` already normalised "-" and "." back to "_", but the pattern
-# never let those forms through to be normalised, so they resolved to nothing. A space is deliberately
+# journal's line-breaking. `_norm_acc` already normalized "-" and "." back to "_", but the pattern
+# never let those forms through to be normalized, so they resolved to nothing. A space is deliberately
 # NOT accepted: in running prose it would join two adjacent tokens into a false accession.
 ACC = re.compile(r"TG[A-Z0-9]{2,6}[-._]?\d{5,6}", re.I)
 
@@ -103,7 +103,7 @@ def invivo_brain(base: str, resolve=None, log=print) -> pd.DataFrame:
     idcol = "Gene_ref" if "Gene_ref" in d.columns else d.columns[0]
     val = [c for c in d.columns if re.match(r"(TZ|WholeBrain|BZ)_", str(c))]
     X = _collapse(d[val], _resolve(d[idcol], resolve))
-    X = normalise(X, "fpkm", log=lambda *a: None)
+    X = normalize(X, "fpkm", log=lambda *a: None)
     X.columns = [f"invivo_{c}" for c in X.columns]
     log(f"in vivo brain (31726967): {X.shape[1]} columns, {len(X):,} genes")
     return X
@@ -118,7 +118,7 @@ def stress_induction(base: str, resolve=None, log=print) -> pd.DataFrame:
     d = pd.read_csv(p, sep="\t")
     val = [c for c in d.columns[1:] if pd.api.types.is_numeric_dtype(d[c])]
     X = _collapse(d[val], _resolve(d.iloc[:, 0], resolve))
-    X = normalise(X, "counts", log=lambda *a: None)
+    X = normalize(X, "counts", log=lambda *a: None)
     strip_gsm = re.compile(r"^GSM\d+_")     # a GSM prefix is the sample id, not the condition
     X.columns = ["stress_" + strip_gsm.sub("", str(c)) for c in X.columns]
     log(f"stress induction (GSE132248): {X.shape[1]} columns, {len(X):,} genes")
@@ -136,7 +136,7 @@ def morc_depletion(base: str, resolve=None, log=print) -> pd.DataFrame:
     d = xl.parse(sheet)
     val = [c for c in d.columns[1:] if pd.api.types.is_numeric_dtype(d[c])]
     X = _collapse(d[val], _resolve(d.iloc[:, 0], resolve))
-    X = normalise(X, "tpm" if sheet == "TPM" else "counts", log=lambda *a: None)
+    X = normalize(X, "tpm" if sheet == "TPM" else "counts", log=lambda *a: None)
     X.columns = [f"morc_{c}" for c in X.columns]
     log(f"MORC depletion (PXD058095, sheet {sheet!r}): {X.shape[1]} columns, {len(X):,} genes")
     return X
@@ -167,18 +167,18 @@ def total_proteome(base: str, resolve=None, log=print) -> pd.DataFrame:
     idcol = next((c for c in d.columns if str(c).lower().startswith("accession")), d.columns[0])
     genes = _resolve(d[idcol], resolve)
 
-    # Two kinds of number here, and they must not be normalised the same way. The per-replicate log2
+    # Two kinds of number here, and they must not be normalized the same way. The per-replicate log2
     # abundances are an intensity already on a log scale; the fold changes are ratios.
     abund = [c for c in d.columns if re.search(r"^log2\(normalized.*\s+\S+\s*R\d", str(c), re.I)
              or re.search(r"\b(UT|T-\d+h)\s*R\d\b", str(c))]
     ratios = [c for c in d.columns if "log2(fold change)" in str(c)]
     parts = []
     if abund:
-        A = normalise(_collapse(d[abund], genes), "log_intensity", log=lambda *a: None)
+        A = normalize(_collapse(d[abund], genes), "log_intensity", log=lambda *a: None)
         A.columns = [f"proteome_{re.sub(r'[^A-Za-z0-9]+', '_', str(c)).strip('_')}" for c in A.columns]
         parts.append(A)
     if ratios:
-        R = normalise(_collapse(d[ratios], genes), "lfc", log=lambda *a: None)
+        R = normalize(_collapse(d[ratios], genes), "lfc", log=lambda *a: None)
         R.columns = [f"proteome_lfc_{re.sub(r'[^A-Za-z0-9]+', '_', str(c)).strip('_')}"
                      for c in R.columns]
         parts.append(R)
@@ -242,7 +242,7 @@ def oocyst_itraq(base: str, resolve=None, log=print) -> pd.DataFrame:
         num = [c for c in d.columns if pd.api.types.is_numeric_dtype(d[c])]
         val = num[4:] if len(num) > 6 else num
     X = _collapse(d[val], _resolve(d[idcol], resolve))
-    X = normalise(X, "ratio", log=lambda *a: None)
+    X = normalize(X, "ratio", log=lambda *a: None)
     X.columns = [f"oocyst_itraq_{re.sub(r'[^A-Za-z0-9]+', '_', str(c)).strip('_')}" for c in X.columns]
     log(f"oocyst iTRAQ (PXD003765): {X.shape[1]} columns, {len(X):,} proteins")
     return X

@@ -42,6 +42,6 @@ Techniques used here that would generalise, if a second project needs them:
   accession was current when written; strain accessions may outnumber the
   reference ones; ambiguity must be recorded rather than guessed
   (`starplast/identity.py`)
-- **normalising by quantification type** — the range decides, not the filename;
+- **normalizing by quantification type** — the range decides, not the filename;
   the same series can be raw FPKM in one file and already-logged in another
   (`starplast/sources.py`)

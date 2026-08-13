@@ -21,4 +21,4 @@ from _common import run
 KEY = "gse108740"
 
 if __name__ == "__main__":
-    run(KEY, normalised_by='expression.load_all()')
+    run(KEY, normalized_by='expression.load_all()')

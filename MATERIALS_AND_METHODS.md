@@ -51,7 +51,7 @@ resulting index resolves 19,368 strings plus 15,192 strain accessions.
 This layer proved necessary rather than precautionary: one published in vivo CRISPR screen cites pre-2012
 accessions for every gene it reports and contributed no rows at all until its identifiers were resolved.
 
-## Subcellular localisation
+## Subcellular localization
 
 Compartment assignments derive from hyperLOPIT **[cite Barylyuk et al.]**, which assigns 3,827 of 8,140
 genes (47.0%) to one of 26 compartments. Both the MAP and MCMC assignments were retained as separate
@@ -204,7 +204,7 @@ outrank one that organises the proteome. Every run records its full recipe, seed
 set of columns excluded, so a result can be re-derived rather than trusted.
 
 **Labels meaning "not measured" are excluded from scoring.** This is not a detail. Scored with them
-included, localisation reached mean F1 0.484 and its single best-recovered label was `unassigned`
+included, localization reached mean F1 0.484 and its single best-recovered label was `unassigned`
 (F1 0.39); excluded, the same run scores 0.207, with real compartments between 0.21 and 0.35. Because
 hyperLOPIT assignment tracks protein abundance, `unassigned` is largely "too scarce to call", so a
 structure separating it is separating measured genes from unmeasured ones.

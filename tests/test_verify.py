@@ -164,7 +164,7 @@ def test_the_declared_sheet_is_the_one_compared(tmp_path, monkeypatch):
     from starplast import paths
     d = tmp_path / "transcription" / "RNAseq" / "GSE206344"
     d.mkdir(parents=True)
-    f = d / "GSE206344_Normalised_data_ToxoDB_Release68.xlsx"
+    f = d / "GSE206344_Normalized_data_ToxoDB_Release68.xlsx"
     ids = [f"TGME49_{200000+i}" for i in range(40)]
     raw = np.arange(1.0, 41.0)
     with pd.ExcelWriter(f) as w:

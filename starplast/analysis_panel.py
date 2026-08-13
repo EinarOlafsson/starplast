@@ -123,7 +123,7 @@ LIMITS = {
 TOOLTIPS = {
     # 1 Data
     "cat_cb": "One-hot the measured hyperLOPIT compartment INTO the map. Leave it OFF when you "
-              "intend to hold localisation out and test whether the map recovers it: a map built on "
+              "intend to hold localization out and test whether the map recovers it: a map built on "
               "a label separates that label by construction, and the result means nothing.",
     "nn_grid": "The n_neighbors values the WALK sweeps, as opposed to the single value above, "
                "which only affects 'build this map'. Comma-separated (5, 15, 25) or a range "
@@ -253,9 +253,9 @@ class AnalysisPanel(QtWidgets.QWidget):
     """Data selection, tuning, clustering and the hypothesis battery."""
 
     embedding_ready = QtCore.pyqtSignal(object, object)          # coords, gene mask
-    #: A clustering, so the map can colour by it. Without this the Clusters tab computed labels,
+    #: A clustering, so the map can color by it. Without this the Clusters tab computed labels,
     #: printed how many there were, and threw them away -- which made the one thing this application
-    #: is for, looking at structure coloured by a held-out variable, impossible to actually do.
+    #: is for, looking at structure colored by a held-out variable, impossible to actually do.
     clusters_ready = QtCore.pyqtSignal(object)                   # labels, -1 for noise
     #: One finished configuration of a walk, as `tuning.WalkStep`, emitted from the worker thread the
     #: moment it is computed. Qt queues it to the GUI thread, which is what lets a row and a thumbnail
@@ -263,7 +263,7 @@ class AnalysisPanel(QtWidgets.QWidget):
     walk_step = QtCore.pyqtSignal(object)
     #: A walk is starting: whatever the last one left on screen belongs to a different sweep.
     walk_started = QtCore.pyqtSignal()
-    #: An annotation was saved or withdrawn, so the map's fourth colour has changed.
+    #: An annotation was saved or withdrawn, so the map's fourth color has changed.
     annotations_changed = QtCore.pyqtSignal()
     #: One scored configuration of a search, as `search.RunStep`, emitted from the worker thread as
     #: each embedding finishes. Carries its clustering, because here the clustering is half of what
@@ -1387,7 +1387,7 @@ class AnalysisPanel(QtWidgets.QWidget):
             if int(rows.sum()) != len(labels):
                 # Neither the map's length nor the table's, which means the clustering and the map
                 # on screen are not of the same genes. Emitted unchanged so the window's own length
-                # check draws it grey rather than putting cluster i's colour on gene j -- and said
+                # check draws it grey rather than putting cluster i's color on gene j -- and said
                 # out loud, because grey everywhere otherwise reads as "this found nothing".
                 self.status.emit(f"the clustering covers {len(labels):,} genes and the map covers "
                                  f"{int(rows.sum()):,} -- cluster this map again")
@@ -1707,7 +1707,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.labels = labels
         k = len(set(labels[labels != NOISE]))
         # Expanded to the node table before it leaves: a clustering of a map built over a subsample
-        # covers only that subsample, and the window colours all 8,140 points by it.
+        # covers only that subsample, and the window colors all 8,140 points by it.
         self._publish_clusters(labels)
         self.status.emit(f"{k} clusters, {100 * (labels == NOISE).mean():.0f}% unassigned "
                          f"-- color the map by 'clusters' to see them")

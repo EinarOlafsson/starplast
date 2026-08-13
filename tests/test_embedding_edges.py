@@ -169,7 +169,7 @@ def test_a_constant_column_does_not_produce_nan_under_scaling():
         assert np.isfinite(X).all()
 
 
-def test_blocks_are_normalised_to_equal_variance_before_weighting():
+def test_blocks_are_normalized_to_equal_variance_before_weighting():
     """Otherwise a block with 70 columns drowns one with 3, and the map is about column counts."""
     share = variance_share(_nodes(), EmbeddingSpec(blocks=("fitness_screens", "expression_summary")))
     assert len(share) == 2
@@ -178,7 +178,7 @@ def test_blocks_are_normalised_to_equal_variance_before_weighting():
 
 
 def test_a_weight_shifts_the_variance_share():
-    """Blocks are normalised to equal variance first, so a weight means what it says rather than
+    """Blocks are normalized to equal variance first, so a weight means what it says rather than
     depending on how many columns a block happens to have."""
     spec = EmbeddingSpec(blocks=("fitness_screens", "expression_summary"),
                          block_weights={"fitness_screens": 3.0})
@@ -379,26 +379,26 @@ def test_one_hot_column_names_come_from_the_frame_that_was_encoded():
     assert len(onehot) == X.shape[1] - 2, "the names do not match the columns that were added"
 
 
-# --------------------------------------------------------------------------- normalising a map
+# --------------------------------------------------------------------------- normalizing a map
 def test_a_map_arrives_at_a_known_size_wherever_it_came_from():
     """Every embedding is put at the same extent, which is what lets one replace another in the view
     without the camera having to be re-framed, and what makes two thumbnails comparable."""
-    from starplast.embedding import normalise
+    from starplast.embedding import normalize
     Y = np.random.default_rng(0).normal(size=(50, 3)) * 0.001 + 900.0
-    out = normalise(Y)
+    out = normalize(Y)
     assert np.allclose(out.mean(0), 0.0, atol=1e-3)
     assert np.isclose(np.abs(out).max(), 50.0, atol=1e-3)
 
 
-def test_normalising_moves_and_resizes_a_map_without_distorting_it():
+def test_normalizing_moves_and_resizes_a_map_without_distorting_it():
     """It is applied AFTER trustworthiness and the clustering are computed, and the guarantee that it
     could not have changed them is that it scales both axes by one factor. Per-axis scaling would
     stretch a genuinely elongated map into a round one -- the difference between two configurations
     that a walk exists to show."""
     from scipy.spatial.distance import pdist
-    from starplast.embedding import normalise
+    from starplast.embedding import normalize
     Y = np.random.default_rng(1).normal(size=(40, 3)) * np.array([10.0, 1.0, 0.5])
-    d0, d1 = pdist(Y), pdist(normalise(Y))
+    d0, d1 = pdist(Y), pdist(normalize(Y))
     assert np.allclose(d1 / d0, (d1 / d0)[0])
 
 
@@ -406,8 +406,44 @@ def test_a_read_only_embedding_is_copied_rather_than_scaled_in_place():
     """umap returns a read-only array in recent versions and the centring then fails with "output
     array is read-only" -- the fourth place this project has hit that, and it appears only on the
     newer library."""
-    from starplast.embedding import normalise
+    from starplast.embedding import normalize
     Y = np.random.default_rng(2).normal(size=(20, 3))
     Y.flags.writeable = False
-    out = normalise(Y)
+    out = normalize(Y)
     assert out.shape == (20, 3) and not Y.flags.writeable
+
+
+# --------------------------------------------------------------------------- a renamed block
+def _lopit_nodes(n=120):
+    """A table carrying the columns the renamed block selects."""
+    d = _nodes(n)
+    rng = np.random.default_rng(3)
+    d["lopit_prob"] = rng.random(n)
+    d["lopit_methods_agree"] = rng.integers(0, 2, n).astype(float)
+    return d
+
+
+def test_a_recipe_saved_under_the_old_block_name_still_selects_its_columns():
+    """The one thing a rename can break in silence. `columns_for` skips a block it does not
+    recognise, so a recipe carrying the pre-rename spelling would not fail -- it would build an
+    embedding with a whole feature block missing, under the name of the run it is supposed to
+    reproduce. Every embedding saved before the rename carries that spelling."""
+    spec = EmbeddingSpec.from_dict({"blocks": ["localisation", "fitness_screens"],
+                                    "block_weights": {"localisation": 2.0}})
+    assert spec.blocks == ("localization", "fitness_screens")
+    assert spec.block_weights == {"localization": 2.0}, "a weight must follow its block's new name"
+    assert "localization" in columns_for(_lopit_nodes(), spec)
+
+
+def test_a_results_row_saved_under_the_old_block_name_rebuilds_its_map():
+    """The same translation by the other route. A results table saved before the rename holds its
+    blocks as one `+`-joined string, and clicking that row is supposed to rebuild the map it
+    describes -- from the same features, or it is a different map wearing the row's numbers."""
+    from starplast.search import rebuild
+    coords, genes, labels, features = rebuild(
+        _lopit_nodes(80),
+        {"blocks": "localisation", "na_policy": "median", "scaling": "rank", "n_neighbors": 5,
+         "min_dist": 0.1, "seed": 0, "min_cluster_size": 5, "sample_size": 60},
+        log=lambda *_: None)
+    assert len(coords) == int(np.sum(genes))
+    assert [f for f in features if f.startswith("lopit_")], "the renamed block contributed nothing"

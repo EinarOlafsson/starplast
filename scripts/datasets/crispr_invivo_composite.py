@@ -26,4 +26,4 @@ from _common import run
 KEY = "crispr_invivo_composite"
 
 if __name__ == "__main__":
-    run(KEY, normalised_by='screens.crispr_screens()')
+    run(KEY, normalized_by='screens.crispr_screens()')

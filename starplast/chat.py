@@ -6,12 +6,12 @@ authenticate against a chat subscription, so there is no key to store, leak, or 
 the one in this repository stays a viewer rather than becoming a thing that bills people.
 
 What makes it worth having here rather than in a browser tab is context. The panel builds a briefing
-from the actual state -- the selected gene and its evidence, the colouring, how many genes are
+from the actual state -- the selected gene and its evidence, the coloring, how many genes are
 filtered out, and the standing caveats about what this map does and does not recover -- so a question
 about "this gene" has a referent. An assistant that cannot see the screen answers about Toxoplasma in
 general, which the user can already get anywhere.
 
-The caveats are not decoration. The held-out search says localisation is recovered worse than study
+The caveats are not decoration. The held-out search says localization is recovered worse than study
 effort, so an assistant left to free-associate about a gene's neighbours would produce exactly the
 overclaim the rest of the project is built to prevent.
 """
@@ -37,14 +37,14 @@ literature co-mention, then clustered. Position is similarity in those features,
 
 What held-out testing says about it, which you must respect:
   - On the full proteome no target is reliably recovered. Cell cycle recovers 0 of 5 phases and
-    localisation 1 of 24 compartments at the search's threshold.
-  - Localisation is recovered WORSE (mean F1 0.193) than how much a gene has been studied (0.322,
-    which is the negative control). Never present spatial proximity as evidence of co-localisation.
+    localization 1 of 24 compartments at the search's threshold.
+  - Localization is recovered WORSE (mean F1 0.193) than how much a gene has been studied (0.322,
+    which is the negative control). Never present spatial proximity as evidence of co-localization.
   - No predictions were issued: the purest cluster is 52% one phase against an 80% bar.
   - Grey always means unknown. It never means zero and never means a category.
 
 So: describe what is on screen and what the underlying data says. Do not infer a gene's function,
-localisation or role from its neighbours in the embedding. If asked to, say plainly why that
+localization or role from its neighbours in the embedding. If asked to, say plainly why that
 inference is not supported here. Prefer "these genes are near each other in this embedding" over
 "these genes are related". Be brief."""
 
@@ -304,8 +304,8 @@ class ChatPanel(QtWidgets.QWidget):
         # Escaped, because a model reply containing "<" would otherwise be parsed as markup and
         # silently swallow the rest of the answer.
         safe = html_escape(text).replace("\n", "<br>")
-        colour = self._accent(who)
-        self.log.append(f"<p style='margin:6px 0'><b style='color:{colour}'>{html_escape(who)}</b>"
+        color = self._accent(who)
+        self.log.append(f"<p style='margin:6px 0'><b style='color:{color}'>{html_escape(who)}</b>"
                         f"<br>{safe}</p>")
 
     def _accent(self, who: str) -> str:

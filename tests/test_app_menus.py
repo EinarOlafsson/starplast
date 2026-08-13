@@ -347,13 +347,13 @@ def test_exporting_relationships_with_none_visible_says_what_to_do(win, tmp_path
 def test_the_column_picker_defaults_to_what_is_on_screen(win):
     """The columns worth exporting are usually the ones being looked at."""
     win.on_category_changed("cellcycle_phase")
-    win.set_colour_mode("publications")
+    win.set_color_mode("publications")
     got = win.default_export_columns()
     assert got[0] == "gene_id"
     assert "cellcycle_phase" in got, "the active filter column is not offered"
-    assert "n_publications" in got, "the active colouring is not offered"
+    assert "n_publications" in got, "the active coloring is not offered"
     win.on_category_changed("compartment")
-    win.set_colour_mode("compartment")
+    win.set_color_mode("compartment")
 
 
 def test_the_column_picker_offers_every_column_and_reads_back_the_ticks(win):
@@ -784,17 +784,17 @@ def test_help_offers_both_explanations(win):
     assert any("gamed" in x for x in labels)
 
 
-# --------------------------------------------------------------------------- colouring by cluster
+# --------------------------------------------------------------------------- coloring by cluster
 def test_a_clustering_can_be_seen_on_the_map(win):
     """The Clusters tab computed labels, printed how many there were, and threw them away. There was
-    no cluster colour mode at all, so the one thing this application is for -- looking at structure
+    no cluster color mode at all, so the one thing this application is for -- looking at structure
     beside a held-out variable -- could not be done."""
     import numpy as np
-    assert "clusters" in A.COLOUR_MODES
+    assert "clusters" in A.COLOR_MODES
     lab = np.random.default_rng(0).integers(-1, 5, size=win.n)
     win.use_clusters(lab)
-    assert win.colour_mode == "clusters", "clustering must show the clusters, not stay on compartment"
-    cols = win.colours(np.ones(win.n, bool))
+    assert win.color_mode == "clusters", "clustering must show the clusters, not stay on compartment"
+    cols = win.colors(np.ones(win.n, bool))
     assert len(set(map(tuple, cols[:, :3].round(4)))) >= 5, "clusters are not drawn apart"
 
 
@@ -803,29 +803,29 @@ def test_unclustered_genes_are_grey_like_everything_else_unknown(win):
     import numpy as np
     lab = np.random.default_rng(1).integers(-1, 4, size=win.n)
     win.use_clusters(lab)
-    cols = win.colours(np.ones(win.n, bool))
-    grey = tuple(round(float(x), 4) for x in A.TH.unknown_colour(win.theme)[:3])
+    cols = win.colors(np.ones(win.n, bool))
+    grey = tuple(round(float(x), 4) for x in A.TH.unknown_color(win.theme)[:3])
     assert tuple(round(float(x), 4) for x in cols[lab < 0][0][:3]) == grey
-    assert len(set(map(tuple, cols[lab < 0][:, :3]))) == 1, "noise must be one colour"
+    assert len(set(map(tuple, cols[lab < 0][:, :3]))) == 1, "noise must be one color"
 
 
-def test_colouring_by_clusters_before_any_exist_is_not_a_crash(win):
+def test_coloring_by_clusters_before_any_exist_is_not_a_crash(win):
     """Selecting the mode from the menu with nothing clustered yet must be grey, not an exception."""
     import numpy as np
     win.cluster_labels = None
-    win.set_colour_mode("clusters")
-    cols = win.colours(np.ones(win.n, bool))
+    win.set_color_mode("clusters")
+    cols = win.colors(np.ones(win.n, bool))
     assert len(set(map(tuple, cols[:, :3]))) == 1
-    win.set_colour_mode("compartment")
+    win.set_color_mode("compartment")
 
 
 def test_a_stale_clustering_is_not_drawn_against_the_wrong_genes(win):
     """A clustering of a subsample has fewer labels than the map has genes, and lining them up by
-    position would colour genes by somebody else's cluster."""
+    position would color genes by somebody else's cluster."""
     import numpy as np
     win.cluster_labels = np.zeros(7, int)
-    win.set_colour_mode("clusters")
-    cols = win.colours(np.ones(win.n, bool))
+    win.set_color_mode("clusters")
+    cols = win.colors(np.ones(win.n, bool))
     assert len(set(map(tuple, cols[:, :3]))) == 1, "a mismatched clustering must not be drawn"
     win.cluster_labels = None
-    win.set_colour_mode("compartment")
+    win.set_color_mode("compartment")

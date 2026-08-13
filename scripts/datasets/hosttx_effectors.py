@@ -23,4 +23,4 @@ from _common import run
 KEY = "hosttx_effectors"
 
 if __name__ == "__main__":
-    run(KEY, normalised_by='screens.crispr_screens()')
+    run(KEY, normalized_by='screens.crispr_screens()')

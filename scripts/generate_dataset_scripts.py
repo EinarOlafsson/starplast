@@ -11,7 +11,7 @@ A test asserts that regenerating produces no diff, so a registry edit without a 
 the suite rather than leaving a stale script behind.
 
 The per-dataset specifics that are NOT in the registry -- a tab-separated file with a .csv extension,
-which sheet of a workbook holds the matrix, which module normalises the resulting columns -- live in
+which sheet of a workbook holds the matrix, which module normalizes the resulting columns -- live in
 SPECIALS below, keyed by dataset. That keeps them in one reviewable place instead of scattered
 through generated files where an edit would be overwritten on the next run.
 """
@@ -31,20 +31,20 @@ OUT_DIR = os.path.join(HERE, "datasets")
 #   sep    -- explicit separator, for files whose extension lies about their format
 #   sheet  -- which sheet of a workbook holds the table
 #   id_col -- the identifier column, where guessing by resolution rate picks the wrong one
-#   by     -- the module that does the authoritative normalisation of this dataset's columns
+#   by     -- the module that does the authoritative normalization of this dataset's columns
 SPECIALS: dict[str, dict] = {
     "xue_singlecell": {"sep": "\t", "by": "cellcycle.add_all()"},
     "stage_enriched": {"by": "cellcycle.add_all()"},
-    # hyperLOPIT, measured and ortholog-transferred, all through the localisation module.
-    "lopit_tgon": {"by": "localisation.lopit_labels()"},
-    "lopit_pfal": {"by": "localisation.lopit_labels()"},
-    "lopit_cpar": {"by": "localisation.lopit_labels()"},
+    # hyperLOPIT, measured and ortholog-transferred, all through the localization module.
+    "lopit_tgon": {"by": "localization.lopit_labels()"},
+    "lopit_pfal": {"by": "localization.lopit_labels()"},
+    "lopit_cpar": {"by": "localization.lopit_labels()"},
     "gse108740": {"by": "expression.load_all()"},
     "gse206344": {"by": "expression.load_all()", "sheet": "1"},
     "proteome_pru": {"by": "screens.proteomics()"},
     "phosphosites": {"by": "screens.proteomics()"},
 }
-# Every CRISPR screen is normalised by the same module, so it is stated once rather than repeated.
+# Every CRISPR screen is normalized by the same module, so it is stated once rather than repeated.
 for _k in ("crispr_invitro", "crispr_invivo_composite", "crispr_macrophage", "crispr_young2019",
            "gra17_synthlethal", "invivo_platform", "gra12", "hosttx_effectors"):
     SPECIALS.setdefault(_k, {})["by"] = "screens.crispr_screens()"
@@ -91,7 +91,7 @@ def render(d) -> str:
             args += f", {name}={spec[name]!r}"
     by = spec.get("by", "build_graph.load_nodes()")
     if by != "build_graph.load_nodes()":
-        args += f", normalised_by={by!r}"
+        args += f", normalized_by={by!r}"
     note = f"\nQuirks that cost time once:\n{_wrap(d.note)}\n" if d.note else ""
     return TEMPLATE.format(
         key=d.key,

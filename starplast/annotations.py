@@ -23,7 +23,7 @@ Three rules, and each is a refusal rather than a convention:
   record's clothes.
 * **Its own color, used for nothing else.** Measurement, inference and absence already have one
   each in this application. An annotation is a fourth thing, and reading as any of the other three
-  is the failure mode -- see `ANNOTATION_COLOUR`.
+  is the failure mode -- see `ANNOTATION_COLOR`.
 
 The file is CSV rather than a database: it is small, a person should be able to read it, and the
 reasoning field is the part a collaborator will want to argue with.
@@ -40,10 +40,10 @@ from .logging_util import get_logger
 
 _log = get_logger(__name__)
 
-#: The colour an annotation is drawn in, and nothing else is. Deliberately outside the categorical
+#: The color an annotation is drawn in, and nothing else is. Deliberately outside the categorical
 #: palette and outside the greys: a proposal must not read as a measured call, as an inference from
 #: a held-out feature, or as absence.
-ANNOTATION_COLOUR = (0.95, 0.35, 0.85)
+ANNOTATION_COLOR = (0.95, 0.35, 0.85)
 
 #: Below this validated precision, saving is refused outright rather than warned about. Measured on
 #: this map's coarse components, annotating from them would be right 1-6% of the time; a store that

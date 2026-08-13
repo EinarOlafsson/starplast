@@ -49,7 +49,7 @@ def test_every_special_names_a_real_dataset():
     """A typo in SPECIALS is silent: the entry is ignored and the dataset gets the defaults.
 
     Six of these were wrong when the generator was first written -- `lopit` for `lopit_tgon`,
-    `proteomics` for `proteome_pru` -- so every affected script claimed the wrong normalising module.
+    `proteomics` for `proteome_pru` -- so every affected script claimed the wrong normalizing module.
     """
     import generate_dataset_scripts as G
     keys = {d.key for d in datasets.REGISTRY}
@@ -67,7 +67,7 @@ def test_each_script_carries_its_provenance():
             assert d.citation in text, f"{d.key}.py does not cite its source"
         if d.path:
             assert d.path in text, f"{d.key}.py does not say where the file lives"
-        assert "None" not in text.split("Fetches the source")[0].replace("normalised_by", ""), \
+        assert "None" not in text.split("Fetches the source")[0].replace("normalized_by", ""), \
             f"{d.key}.py renders a missing field as the literal None"
         if d.pmid:
             assert str(d.pmid) in text
@@ -76,7 +76,7 @@ def test_each_script_carries_its_provenance():
             assert " ".join(str(d.note).split()[:6]) in " ".join(text.split())
 
 
-def test_each_script_names_the_module_that_normalises_it():
+def test_each_script_names_the_module_that_normalizes_it():
     """So nobody mistakes these for the code that produced the shipped columns."""
     for d in datasets.REGISTRY:
         text = open(os.path.join(GENERATED, f"{d.key}.py")).read()

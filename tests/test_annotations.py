@@ -148,7 +148,7 @@ def test_a_file_missing_a_column_still_loads(tmp_path):
 
 
 def test_the_mask_says_which_genes_carry_an_annotation(tmp_path):
-    """What the map's fourth colour is drawn from, defined once so "is this gene annotated" has one
+    """What the map's fourth color is drawn from, defined once so "is this gene annotated" has one
     answer."""
     store = A.AnnotationStore(str(tmp_path / "a.csv"))
     store.save(_annotation(gene_id="g2"))
@@ -203,17 +203,17 @@ def test_an_annotation_is_never_written_into_the_node_table(tmp_path):
     assert after.equals(nodes)
 
 
-def test_the_annotation_colour_is_used_for_nothing_else():
+def test_the_annotation_color_is_used_for_nothing_else():
     """Measurement, inference and absence have one each. A proposal reading as any of them is the
     failure mode -- so it is checked against the palettes rather than assumed."""
     from starplast import theme as TH
-    from starplast.app import DEPTH_COLOUR, GREY, PALETTE
+    from starplast.app import DEPTH_COLOR, GREY, PALETTE
     taken = [tuple(np.round(c, 3)) for c in PALETTE]
-    taken += [tuple(np.round(c, 3)) for c in DEPTH_COLOUR.values()]
+    taken += [tuple(np.round(c, 3)) for c in DEPTH_COLOR.values()]
     taken.append(tuple(np.round(GREY, 3)))
     for theme in TH.THEMES:
-        taken += [tuple(np.round(c[:3], 3)) for c in TH.categorical_colours(30, theme)]
-        taken.append(tuple(np.round(TH.unknown_colour(theme)[:3], 3)))
-    mine = np.asarray(A.ANNOTATION_COLOUR)
+        taken += [tuple(np.round(c[:3], 3)) for c in TH.categorical_colors(30, theme)]
+        taken.append(tuple(np.round(TH.unknown_color(theme)[:3], 3)))
+    mine = np.asarray(A.ANNOTATION_COLOR)
     assert all(np.linalg.norm(mine - np.asarray(c)) > 0.15 for c in taken), \
-        "the annotation colour is too close to one that already means something else"
+        "the annotation color is too close to one that already means something else"

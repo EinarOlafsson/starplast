@@ -132,7 +132,7 @@ def test_imported_columns_are_prefixed_so_they_cannot_pass_as_measurements():
 
 
 def test_the_quantification_transform_is_the_one_the_rest_of_the_program_uses():
-    """`sources.normalise`, not a second implementation of log-and-centre."""
+    """`sources.normalize`, not a second implementation of log-and-centre."""
     d = _table(form="fpkm")
     out, _ = I.preprocess(d, gene_column="gene", quantification="fpkm", log=lambda *_: None)
     assert out.to_numpy().max() < 20, "the log was not taken"
@@ -150,11 +150,11 @@ def test_every_scaling_the_embedding_offers_is_offered_here(scaling):
 
 
 def test_a_sign_flip_is_offered_with_the_warning_that_goes_with_it():
-    """Screens disagree about which sign means worse, and pooling them without rank-normalising
+    """Screens disagree about which sign means worse, and pooling them without rank-normalizing
     first is how the 64x spread between them bites."""
     said = []
     out, record = I.preprocess(_table(), gene_column="gene", flip=True, log=said.append)
-    assert record["flip"] and any("rank-normalise before pooling" in m for m in said)
+    assert record["flip"] and any("rank-normalize before pooling" in m for m in said)
     plain, _ = I.preprocess(_table(), gene_column="gene", log=lambda *_: None)
     assert np.allclose(out.to_numpy(), -plain.to_numpy())
 

@@ -8,7 +8,7 @@ The first is a picture that is not the map. A thumbnail is a projection painted 
 guarantees it corresponds to the embedding it claims to show except tests that check the arithmetic:
 the same scale on both axes (a map that is genuinely elongated must not be squared up), y pointing
 the right way, and near points drawn over far ones rather than summed. The rendering bug that made
-every colour mode draw as one white blob passed every array-level test in the suite.
+every color mode draw as one white blob passed every array-level test in the suite.
 
 The second is absence drawn as data. A walk embeds a seeded subsample, so most genes have NO position
 in one of its maps -- and the code that displays a rebuilt embedding used to leave every one of them
@@ -102,9 +102,9 @@ def test_coordinates_without_a_third_component_still_draw(app):
     assert img.width() == 60
 
 
-def test_colours_are_used_when_they_line_up_and_ignored_when_they_do_not(app):
-    """A colour array of the wrong length means the caller's colouring does not describe these genes.
-    Painting it anyway would colour gene 12 with gene 40's category -- a picture that is confidently
+def test_colors_are_used_when_they_line_up_and_ignored_when_they_do_not(app):
+    """A color array of the wrong length means the caller's coloring does not describe these genes.
+    Painting it anyway would color gene 12 with gene 40's category -- a picture that is confidently
     wrong, which is worse than the neutral default."""
     step = _step(n=30)
     red = np.tile([1.0, 0.0, 0.0], (30, 1))
@@ -114,7 +114,7 @@ def test_colours_are_used_when_they_line_up_and_ignored_when_they_do_not(app):
 
 
 def test_a_thumbnail_takes_rgb_as_well_as_rgba(app):
-    """`colours` returns RGBA and a caller's own palette is usually RGB; refusing one of them is a
+    """`colors` returns RGBA and a caller's own palette is usually RGB; refusing one of them is a
     papercut in the only path that gives a thumbnail any meaning."""
     step = _step(n=20)
     assert G.thumbnail(step.coords, np.tile([0.2, 0.9, 0.4], (20, 1)), size=50).width() == 50
@@ -250,39 +250,39 @@ def test_current_is_none_before_anything_has_been_computed(panel):
     assert panel.current() is None
 
 
-# --------------------------------------------------------------------------- colouring
-def test_colours_come_from_the_caller_so_the_thumbnail_matches_the_map(app):
+# --------------------------------------------------------------------------- coloring
+def test_colors_come_from_the_caller_so_the_thumbnail_matches_the_map(app):
     seen = {}
 
-    def colour_fn(mask):
+    def color_fn(mask):
         seen["n"] = int(np.sum(mask))
         return np.tile([1.0, 0.0, 0.0, 1.0], (int(np.sum(mask)), 1))
 
-    p = G.GalleryPanel(colour_fn=colour_fn)
+    p = G.GalleryPanel(color_fn=color_fn)
     step = _step(n=40)
-    assert p.colours_for(step).shape == (40, 4)
+    assert p.colors_for(step).shape == (40, 4)
     assert seen["n"] == 40
 
 
-def test_a_colouring_of_the_wrong_length_is_refused_rather_than_recycled(app):
-    p = G.GalleryPanel(colour_fn=lambda mask: np.zeros((3, 4)))
-    assert p.colours_for(_step(n=40)) is None
+def test_a_coloring_of_the_wrong_length_is_refused_rather_than_recycled(app):
+    p = G.GalleryPanel(color_fn=lambda mask: np.zeros((3, 4)))
+    assert p.colors_for(_step(n=40)) is None
 
 
-def test_a_colouring_that_fails_costs_the_colour_not_the_picture(app, capsys):
+def test_a_coloring_that_fails_costs_the_color_not_the_picture(app, capsys):
     """A viewer must not raise out of a signal handler because a column was dropped."""
     def boom(mask):
         raise KeyError("compartment")
 
-    p = G.GalleryPanel(colour_fn=boom)
-    assert p.colours_for(_step()) is None
+    p = G.GalleryPanel(color_fn=boom)
+    assert p.colors_for(_step()) is None
     assert "coloring unavailable" in capsys.readouterr().out
     p.add(_step())               # and it still draws
     assert p.list.count() == 1
 
 
-def test_without_a_colour_function_thumbnails_still_draw(panel):
-    assert panel.colours_for(_step()) is None
+def test_without_a_color_function_thumbnails_still_draw(panel):
+    assert panel.colors_for(_step()) is None
     panel.add(_step())
     assert panel.list.count() == 1
 
@@ -336,13 +336,13 @@ def test_a_configuration_reaches_the_gallery_as_the_walk_emits_it(win):
     assert win.gallery.list.count() == 1
 
 
-def test_thumbnails_are_coloured_the_way_the_map_is(win):
+def test_thumbnails_are_colored_the_way_the_map_is(win):
     """Same function, so "grey means unknown" cannot mean one thing on the map and another here."""
     mask = np.zeros(win.n, bool)
     mask[:50] = True
-    c = win.colours_for_genes(mask)
+    c = win.colors_for_genes(mask)
     assert c.shape == (50, 4)
-    assert np.allclose(c, win.colours(np.ones(win.n, bool))[:50])
+    assert np.allclose(c, win.colors(np.ones(win.n, bool))[:50])
 
 
 def test_opening_a_configuration_shows_it_in_the_central_view(win, restored):
@@ -439,30 +439,30 @@ def _run_step(n=40, n_genes=100, clusters=3):
                    spec=EmbeddingSpec())
 
 
-def test_a_scored_configuration_is_coloured_by_the_clustering_that_was_scored(app):
-    """The map's current colour mode is about something else. Here the clustering IS half of what
+def test_a_scored_configuration_is_colored_by_the_clustering_that_was_scored(app):
+    """The map's current color mode is about something else. Here the clustering IS half of what
     the row's number describes, so a thumbnail that showed compartments would be a picture of a
     different claim."""
-    p = G.GalleryPanel(colour_fn=lambda mask: np.tile([1.0, 0.0, 0.0, 1.0],
+    p = G.GalleryPanel(color_fn=lambda mask: np.tile([1.0, 0.0, 0.0, 1.0],
                                                       (int(np.sum(mask)), 1)))
     step = _run_step()
-    c = p.colours_for(step)
+    c = p.colors_for(step)
     assert c.shape == (len(step.coords), 4)
-    assert not np.allclose(c[:, 0], 1.0), "the window's colouring was used instead of the clusters"
+    assert not np.allclose(c[:, 0], 1.0), "the window's coloring was used instead of the clusters"
     noise = step.labels < 0
-    assert len({tuple(row) for row in c[~noise]}) > 1, "every cluster drew the same colour"
-    assert len({tuple(row) for row in c[noise]}) == 1, "noise is one colour, and it is grey"
+    assert len({tuple(row) for row in c[~noise]}) > 1, "every cluster drew the same color"
+    assert len({tuple(row) for row in c[noise]}) == 1, "noise is one color, and it is grey"
 
 
 def test_unclustered_points_stay_grey_in_a_thumbnail(app, panel):
     """HDBSCAN calling a gene noise is a finding about that gene, not a gap in the drawing."""
-    c = panel.cluster_colours(np.array([0, 1, -1, -1]))
-    assert tuple(c[2]) == tuple(c[3]) == G.GalleryPanel.NOISE_COLOUR
+    c = panel.cluster_colors(np.array([0, 1, -1, -1]))
+    assert tuple(c[2]) == tuple(c[3]) == G.GalleryPanel.NOISE_COLOR
     assert c[2][3] < c[0][3], "noise is not drawn as loudly as a cluster"
 
 
-def test_more_clusters_than_colours_still_draws_them_all(app, panel):
-    c = panel.cluster_colours(np.arange(30))
+def test_more_clusters_than_colors_still_draws_them_all(app, panel):
+    c = panel.cluster_colors(np.arange(30))
     assert np.isfinite(c).all() and (c[:, 3] > 0).all()
 
 

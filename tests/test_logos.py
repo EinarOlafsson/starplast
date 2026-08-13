@@ -81,8 +81,8 @@ def test_each_draft_is_black_and_white_with_no_greys(name, qapp):
     """A grey vanishes when the icon is printed or shown small, which is the one place this has to
     work. Checked in the source rather than the render, where antialiasing makes greys legitimately."""
     text = open(os.path.join(ICONS, name), encoding="utf8").read()
-    colours = set(re.findall(r'(?:fill|stroke)="([^"]+)"', text))
-    assert colours <= {"#000", "#fff", "none"}, f"{name}: {colours}"
+    colors = set(re.findall(r'(?:fill|stroke)="([^"]+)"', text))
+    assert colors <= {"#000", "#fff", "none"}, f"{name}: {colors}"
 
 
 @pytest.mark.parametrize("name", LOGOS)
