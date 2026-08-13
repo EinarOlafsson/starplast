@@ -183,6 +183,44 @@ def test_the_negative_control_does_not_get_to_see_its_own_inputs():
     assert "fit_a" not in ex
 
 
+def test_the_same_quantity_measured_another_way_is_excluded():
+    """Provenance says which experiment made a column; this says what the column is an estimate OF,
+    and the two come apart wherever the project measures something twice. `ortholopit_label` is a
+    localization label transferred from P. falciparum and C. parvum orthologs -- a different
+    experiment, a different species, the same quantity -- and it sits at 0.72 against `compartment`
+    on the real cache, just under the threshold, which is what a near-copy does."""
+    rng = np.random.default_rng(9)
+    d = _leaky_nodes()
+    d["ortholopit_label"] = list(d["compartment"])
+    d["lit_tier"] = rng.choice(["focal", "incidental", ""], len(d))
+    ex = S.excluded_for(d, "compartment")
+    assert "ortholopit_label" in ex
+    assert "lit_tier" not in ex, "a different quantity stays in"
+
+
+def test_a_second_tiering_of_attention_is_excluded_from_the_control():
+    rng = np.random.default_rng(10)
+    d = _leaky_nodes()
+    d["attention_depth"] = rng.choice(["focal", "substantive", ""], len(d))
+    d["lit_tier"] = d["attention_depth"]
+    ex = S.excluded_for(d, "attention_depth")
+    assert "lit_tier" in ex and "compartment" not in ex
+
+
+def test_the_families_name_only_columns_that_exist():
+    """A family that lists a column the cache does not have is a note to nobody; one that lists a
+    column that has been renamed is a guard that silently stopped guarding."""
+    import pandas as pd
+    from starplast import paths
+    cache = paths.cache_file("nodes.parquet")
+    if not os.path.exists(cache):
+        pytest.skip("no built cache on this machine")
+    have = set(pd.read_parquet(cache).columns)
+    for quantity, cols in S.SAME_QUANTITY.items():
+        missing = [c for c in cols if c not in have]
+        assert not missing, f"{quantity} names columns the cache does not have: {missing}"
+
+
 def test_the_exclusion_threshold_is_stricter_than_the_reporting_one():
     """0.8 when choosing what an embedding may SEE, 0.95 when flagging a result after the fact. A
     0.85-associated column leaks nearly as much as an identical one."""

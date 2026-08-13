@@ -115,6 +115,23 @@ def frontier(R: pd.DataFrame, columns=("mean_f1", "best_f1")) -> pd.Series:
     return pd.Series(on, index=R.index)
 
 
+#: Columns that estimate the same quantity, grouped by the quantity rather than by the experiment.
+#: Recovering a label is only a claim about the map if the map was not shown that label by some other
+#: route, and this project measures several things twice: localization is measured by hyperLOPIT and
+#: transferred from two other species; attention is tiered twice. Membership is written out rather
+#: than pattern-matched, because a rule that guessed at family from a column NAME would eventually
+#: throw away a real measurement for looking like the target.
+SAME_QUANTITY = {
+    "localization": ("compartment", "compartment_best", "compartment_source", "lopit_map",
+                     "lopit_mcmc", "lopit_unified", "lopit_prob_map", "lopit_prob_mcmc",
+                     "lopit_methods_agree", "lopit_confident", "ortholopit_label",
+                     "ortholopit_donors", "ortholopit_accuracy", "ortholopit_accepted"),
+    "attention": ("attention_depth", "lit_tier", "n_publications", "n_fulltext",
+                  "n_papers_focal", "n_papers_substantive", "n_papers_incidental"),
+    "cell cycle": ("cellcycle_phase", "cellcycle_pseudotime"),
+}
+
+
 def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8) -> set:
     """The target, everything that restates it, and everything the same experiment produced.
 
@@ -147,6 +164,17 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8) -> set:
     same = datasets.provenance(target)
     if same is not None:
         out |= {c for c in same.columns if c in nodes.columns}
+
+    # The same QUANTITY, however it was arrived at. Provenance is about which experiment produced a
+    # column; this is about what the column is an estimate OF, and the two come apart wherever the
+    # project estimates something twice. `ortholopit_label` is a localization label transferred from
+    # P. falciparum and C. parvum orthologs -- a different experiment, in a different species,
+    # estimating the same thing, at association 0.72 with `compartment`; `lit_tier` is a second
+    # tiering of how much a gene has been written about, at 0.71 with `attention_depth`. Both sit
+    # just under the exclusion threshold, which is what a near-copy does.
+    for family in SAME_QUANTITY.values():
+        if target in family:
+            out |= {c for c in family if c in nodes.columns}
 
     # Anything the target was DECLARED to be computed from, plus the rest of that column's block.
     # Measured association is pairwise and cannot see a label that is a joint function of several
