@@ -637,15 +637,14 @@ def test_a_chosen_map_is_used_only_where_its_kind_suits_the_column(win):
     win.cmap_name = None
 
 
-def test_opening_preferences_shows_the_dialog_it_builds(win, monkeypatch):
-    """exec() enters a modal loop, so only the call is asserted -- entering it in a test hangs the
-    process rather than failing it."""
+def test_opening_preferences_shows_the_dialog_it_builds(win):
+    """Shown rather than exec'd since 0.23: modal, it froze the map behind it, so every setting had
+    to be judged from memory of what the map looked like a moment ago."""
     from PyQt6 import QtWidgets
-    shown = []
-    monkeypatch.setattr(QtWidgets.QDialog, "exec", lambda self: shown.append(self) or 0)
-    win.open_preferences()
-    assert len(shown) == 1
-    assert isinstance(shown[0], QtWidgets.QDialog)
+    d = win.open_preferences()
+    assert isinstance(d, QtWidgets.QDialog)
+    assert d.isVisible() and not d.isModal()
+    d.close()
 
 
 def test_main_builds_and_shows_the_window(monkeypatch, app):

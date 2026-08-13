@@ -12,7 +12,7 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~1,970 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect ~2,007 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
 ## The list is clear
@@ -101,7 +101,7 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
   found by looking at a real machine rather than by a failing test.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.22.0).
+- Bump the version for feature work (currently 0.23.0).
 
 ## Where things are
 

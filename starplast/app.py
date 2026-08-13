@@ -661,6 +661,28 @@ class Window(QtWidgets.QMainWindow):
         self.bins = 5
         #: Kept clusterings. Beside the cache rather than in it: these are the user's runs and must
         #: survive a rebuild of the data.
+        # Display settings, read once from where they were left. The lighting timer exists whether
+        # or not it is running: creating it lazily inside a handler is how a timer ends up owned by
+        # whichever thread happened to touch it first.
+        s = QtCore.QSettings("starplast", "starplast")
+        from . import ambient as _ambient, lighting as _lighting
+        self._ambient_mode = str(s.value("display/ambient", "none"))
+        self._ambient = {
+            "speed": float(s.value("display/ambient_speed", _ambient.DEFAULT_SPEED, type=float)),
+            "size": float(s.value("display/ambient_size", _ambient.DEFAULT_SIZE, type=float)),
+            "density": float(s.value("display/ambient_density", _ambient.DEFAULT_DENSITY,
+                                     type=float)),
+        }
+        self._ambient_widget = None
+        self._lighting = {
+            "mode": str(s.value("display/lighting", "off")),
+            "lights": int(s.value("display/light_lights", _lighting.DEFAULT_LIGHTS, type=int)),
+            "speed": float(s.value("display/light_speed", _lighting.DEFAULT_SPEED, type=float)),
+        }
+        self._light_t = 0.0
+        self._base_colors = self._base_sizes = None
+        self._light_timer = QtCore.QTimer(self)
+        self._light_timer.timeout.connect(self._light_tick)
         self.runs = RunStore(os.path.join(paths.user_cache_dir(), "runs"))
         self.runs.load_all()
         self.category = "compartment" if "compartment" in self.categories else self.categories[0]
@@ -735,6 +757,10 @@ class Window(QtWidgets.QMainWindow):
         self.view.customContextMenuRequested.connect(self._context_menu)
         self.apply_theme(self.theme)
         self.redraw()
+        if self._ambient_mode != "none":
+            self._apply_ambient()
+        if self._lighting["mode"] != "off":
+            self._light_timer.start(60)
 
     # ------------------------------------------------------------------ importing
     def import_data(self, path: str = ""):
@@ -1170,6 +1196,11 @@ class Window(QtWidgets.QMainWindow):
                      "cache.")
         a.triggered.connect(self.import_data)
         f.addSeparator()
+        a = f.addAction("Preferences…")
+        a.setShortcut("Ctrl+,")
+        a.setMenuRole(QtWidgets.QMenu.__mro__ and QtGui.QAction.MenuRole.PreferencesRole)
+        a.triggered.connect(self.open_preferences)
+        f.addSeparator()
         # Results are the expensive thing this program produces -- a search is minutes to hours --
         # and until now they lived only until the window closed.
         a = f.addAction("Save all analysis results…")
@@ -1281,7 +1312,6 @@ class Window(QtWidgets.QMainWindow):
             "without also moving the camera you had set up.")
         v.addSeparator()
         v.addAction("Reset view / clear filters").triggered.connect(self.reset)
-        v.addAction("Preferences…").triggered.connect(self.open_preferences)
 
         # ---- Edges
         self.edge_menu = mb.addMenu("&Edges")
@@ -1329,6 +1359,10 @@ class Window(QtWidgets.QMainWindow):
         h.addAction("What this map does and does not show").triggered.connect(self.explain_map)
         h.addAction("Precision, recall, and how each can be gamed").triggered.connect(
             self.explain_scoring)
+        h.addSeparator()
+        a = h.addAction("About starplast")
+        a.setMenuRole(QtGui.QAction.MenuRole.AboutRole)
+        a.triggered.connect(self.about)
 
     def _context_menu(self, pos):
         """Right-click on the map. Shows the menu; `build_context_menu` makes it."""
@@ -1400,6 +1434,36 @@ class Window(QtWidgets.QMainWindow):
     def explain_map(self):
         """Explain what the map is and what held-out testing says it does not support."""
         QtWidgets.QMessageBox.information(self, "What this map shows", MAP_EXPLANATION)
+
+    def about(self):
+        """What this is, what it is standing on, and who drew the cell."""
+        QtWidgets.QMessageBox.about(self, "About starplast", self.about_text())
+        return self.about_text()
+
+    def about_text(self) -> str:
+        """The About text, built rather than written down, so it cannot go stale.
+
+        Everything in it is read at the moment it is asked for: the version, what is doing the
+        computing, how big the shipped cache is and how many genes it holds. A dialog that claims a
+        version the program is not running is worse than no dialog.
+        """
+        from . import __version__, gpu, paths
+        b = gpu.backend()
+        credit = getattr(self.diagram, "credit", {}) if self.diagram is not None else {}
+        return (
+            f"<h3>starplast {__version__}</h3>"
+            f"<p>A 3D browser for the <i>Toxoplasma gondii</i> knowledge map: {len(self.nodes):,} "
+            f"genes, positioned by UMAP over expression, fitness screens, protein features and the "
+            f"measured hyperLOPIT compartment.</p>"
+            f"<p><b>Computing:</b> UMAP {b['umap']}, clustering {b['cluster']}.<br>"
+            f"<b>Cache:</b> {paths.data_dir()}</p>"
+            f"<p>Proximity here is a hypothesis to check, never evidence on its own. Grey means "
+            f"unknown: never zero, never a category.</p>"
+            + (f"<p>Cell drawing by {credit.get('creator')} (SwissBioPics, SIB), "
+               f"<a href='{credit.get('license')}'>CC BY 4.0</a>.</p>" if credit.get("creator")
+               else "")
+            + "<p><a href='https://github.com/EinarOlafsson/starplast'>"
+              "github.com/EinarOlafsson/starplast</a></p>")
 
     def explain_scoring(self):
         """The precision/recall explainer, read from objectives.py so it cannot drift from the code.
@@ -1557,9 +1621,170 @@ class Window(QtWidgets.QMainWindow):
         self.status.showMessage(f"coloring by {n} clusters, kept as a run you can come back to; "
                                 f"gray is unclustered, which is a real answer and not a missing one")
 
+    def _display_tab(self):
+        """Scenery and lighting: the two settings that change how the map LOOKS rather than what it
+        says. Kept apart from Appearance because everything here costs frames, and a control that
+        costs frames should be somewhere a person can find it again to turn it off."""
+        from . import ambient, lighting
+        w = QtWidgets.QWidget()
+        form = QtWidgets.QFormLayout(w)
+
+        self.ambient_box = QtWidgets.QComboBox()
+        self.ambient_box.addItems(["none", "blobs"])
+        self.ambient_box.setCurrentText(self._ambient_mode)
+        self.ambient_box.setToolTip(
+            "Soft colour blobs drifting behind the panels -- spaCR's own background, with the same "
+            "controls. Scenery: it never covers a control and never takes a click.")
+        self.ambient_box.currentTextChanged.connect(self.set_ambient)
+
+        def slider(bounds, value, step=0.05):
+            s = QtWidgets.QDoubleSpinBox()
+            s.setRange(*bounds)
+            s.setSingleStep(step)
+            s.setValue(value)
+            return s
+
+        self.ambient_speed = slider(ambient.SPEED_RANGE, self._ambient["speed"])
+        self.ambient_size = slider(ambient.SIZE_RANGE, self._ambient["size"])
+        self.ambient_density = slider(ambient.DENSITY_RANGE, self._ambient["density"])
+        for box, key in ((self.ambient_speed, "speed"), (self.ambient_size, "size"),
+                         (self.ambient_density, "density")):
+            box.valueChanged.connect(lambda v, k=key: self.set_ambient_option(k, v))
+
+        self.light_box = QtWidgets.QComboBox()
+        self.light_box.addItems(list(lighting.MODES))
+        self.light_box.setCurrentText(self._lighting["mode"])
+        self.light_box.setToolTip(
+            "Lights that move around the map, with every gene shaded by how much light reaches it "
+            "from their direction. It is per-point shading, not ray tracing: a point cloud has no "
+            "surfaces to cast shadows onto, and this renders through pyqtgraph's GL scatter. What "
+            "it buys is DIRECTION -- the side of the cloud facing a light is bright and the far "
+            "side is dim, so the shape of the map reads as a body rather than as a flat field.")
+        self.light_box.currentTextChanged.connect(self.set_lighting)
+
+        self.light_count = QtWidgets.QSpinBox()
+        self.light_count.setRange(*lighting.LIGHT_RANGE)
+        self.light_count.setValue(self._lighting["lights"])
+        self.light_count.valueChanged.connect(lambda v: self.set_lighting_option("lights", v))
+        self.light_speed = slider(lighting.SPEED_RANGE, self._lighting["speed"])
+        self.light_speed.valueChanged.connect(lambda v: self.set_lighting_option("speed", v))
+
+        note = QtWidgets.QLabel(
+            "<b>Why not ray tracing.</b> Ray tracing, Light Propagation Volumes and Voxel Cone "
+            "Tracing all answer questions about light travelling between <i>surfaces</i> — "
+            "reflections, refraction, one object shadowing another, bounced indirect light. This "
+            "scene has no surfaces: it is unconnected points, so there is nothing to occlude "
+            "anything and nothing to voxelise but a sparse cloud of isolated cells, which would "
+            "return each point's own colour blurred — the ambient term, expensively. Direction is "
+            "the part that changes the picture, and that is what these lights do.")
+        note.setWordWrap(True)
+
+        form.addRow("background", self.ambient_box)
+        form.addRow("blob speed", self.ambient_speed)
+        form.addRow("blob size", self.ambient_size)
+        form.addRow("blob density", self.ambient_density)
+        form.addRow(QtWidgets.QLabel(""))
+        form.addRow("3D lighting", self.light_box)
+        form.addRow("lights", self.light_count)
+        form.addRow("light speed", self.light_speed)
+        form.addRow("", note)
+        return w
+
+    def set_ambient(self, mode: str) -> str:
+        """Turn the drifting background on or off, and remember the choice."""
+        self._ambient_mode = "blobs" if str(mode) == "blobs" else "none"
+        QtCore.QSettings("starplast", "starplast").setValue("display/ambient", self._ambient_mode)
+        self._apply_ambient()
+        return self._ambient_mode
+
+    def set_ambient_option(self, key: str, value) -> None:
+        """One of speed, size or density."""
+        self._ambient[key] = float(value)
+        QtCore.QSettings("starplast", "starplast").setValue(f"display/ambient_{key}", float(value))
+        if self._ambient_widget is not None:
+            self._ambient_widget.configure(**{key: float(value)})
+
+    def _apply_ambient(self) -> None:
+        """Build the background widget on first use, and show or hide it."""
+        from .ambient import AmbientWidget
+        if self._ambient_mode == "none":
+            if self._ambient_widget is not None:
+                self._ambient_widget.hide()
+            return
+        if self._ambient_widget is None:
+            pal = TH.palette_for(self.theme)
+            self._ambient_widget = AmbientWidget(
+                colors=[pal["accent"], pal["accent_lo"], pal.get("info", pal["accent_hi"])],
+                background=pal["bg"], parent=self.left_panel)
+            self._ambient_widget.lower()
+            self.left_panel.installEventFilter(self)
+        self._ambient_widget.configure(**self._ambient)
+        self._ambient_widget.setGeometry(self.left_panel.rect())
+        self._ambient_widget.show()
+        self._ambient_widget.lower()
+
+    def eventFilter(self, obj, ev):
+        """Keep the background the size of the panel it sits behind."""
+        if (obj is getattr(self, "left_panel", None) and self._ambient_widget is not None
+                and ev.type() == QtCore.QEvent.Type.Resize):
+            self._ambient_widget.setGeometry(self.left_panel.rect())
+        return super().eventFilter(obj, ev)
+
+    def set_lighting(self, mode: str) -> str:
+        """Switch the moving lights on or off; "off" restores the flat colours."""
+        from .lighting import MODES
+        self._lighting["mode"] = mode if mode in MODES else "off"
+        QtCore.QSettings("starplast", "starplast").setValue("display/lighting",
+                                                            self._lighting["mode"])
+        if self._lighting["mode"] == "off":
+            self._light_timer.stop()
+            self.redraw()
+        else:
+            self._light_timer.start(60)
+        return self._lighting["mode"]
+
+    def set_lighting_option(self, key: str, value) -> None:
+        """How many lights there are, or how fast they travel. Remembered like the mode."""
+        self._lighting[key] = float(value) if key == "speed" else int(value)
+        QtCore.QSettings("starplast", "starplast").setValue(f"display/light_{key}",
+                                                            self._lighting[key])
+
+    def _light_radius(self) -> float:
+        """How far out the lights orbit: outside the cloud, so they light it rather than sit in it."""
+        return float(np.abs(self.xyz).max() or 1.0) * 1.6
+
+    def _light_tick(self) -> None:
+        """One frame of moving light: reshade the points from the flat colours redraw computed.
+
+        From `_base_colors` rather than from whatever is on screen, because shading an
+        already-shaded array darkens it a little more every frame until the map goes black.
+        """
+        from .lighting import lights, shade
+        if self._lighting["mode"] == "off" or self._base_colors is None:
+            return
+        self._light_t += 0.06
+        lit = lights(self._light_t, self._lighting["lights"], self._lighting["speed"],
+                     radius=self._light_radius())
+        colors = shade(self.xyz, self._base_colors, lit,
+                       specular=self._lighting["mode"].endswith("specular"))
+        self.scatter.setData(pos=self.xyz, color=colors, size=self._base_sizes)
+
     def open_preferences(self):
-        """Appearance settings, gathered in one place rather than crowding the map panel."""
-        self.build_preferences().exec()
+        """Appearance settings, in a window of their own.
+
+        Shown rather than exec'd, and kept on `self`: a modal dialog freezes the map behind it, so
+        every setting had to be judged from memory of what the map looked like a moment ago. This
+        one stays open beside the window, is moved independently of it, and changes take effect
+        under it while it sits there.
+        """
+        if getattr(self, "_prefs", None) is None:
+            self._prefs = self.build_preferences()
+            self._prefs.setModal(False)
+            self._prefs.setWindowFlag(QtCore.Qt.WindowType.Window, True)
+        self._prefs.show()
+        self._prefs.raise_()
+        self._prefs.activateWindow()
+        return self._prefs
 
     def _gpu_wanted(self) -> bool:
         """Whether the GPU switch is on, from settings so it survives a restart."""
@@ -1648,7 +1873,12 @@ class Window(QtWidgets.QMainWindow):
         """
         d = QtWidgets.QDialog(self)
         d.setWindowTitle("Preferences")
-        form = QtWidgets.QFormLayout(d)
+        outer = QtWidgets.QVBoxLayout(d)
+        self.pref_tabs = QtWidgets.QTabWidget()
+        outer.addWidget(self.pref_tabs)
+        appearance = QtWidgets.QWidget()
+        form = QtWidgets.QFormLayout(appearance)
+        self.pref_tabs.addTab(appearance, "Appearance")
 
         self.theme_box = QtWidgets.QComboBox()
         self.theme_box.addItems(TH.THEMES)
@@ -1781,9 +2011,10 @@ class Window(QtWidgets.QMainWindow):
         form.addRow("keep at level", self.log_file_level)
         form.addRow("show at level", self.log_console_level)
         form.addRow("log file", self.log_path)
+        self.pref_tabs.addTab(self._display_tab(), "Display")
         close = QtWidgets.QPushButton("close")
         close.clicked.connect(d.accept)
-        form.addRow(close)
+        outer.addWidget(close)
         return d
 
     # ------------------------------------------------------------------ docks, jobs, progress
@@ -2094,6 +2325,8 @@ class Window(QtWidgets.QMainWindow):
         d = QtWidgets.QDockWidget("find")
         d.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
         w = QtWidgets.QWidget()
+        # Kept, because the drifting background is parented to it and has to follow its size.
+        self.left_panel = w
         L = QtWidgets.QVBoxLayout(w)
         L.setContentsMargins(8, 8, 8, 8)
 
@@ -2590,6 +2823,16 @@ class Window(QtWidgets.QMainWindow):
             colors[:, 3] = a
             sizes = sizes.astype(np.float32)
 
+        # The flat colours are kept as they are: lighting modulates a COPY of them every frame, and
+        # shading an already-shaded array would darken the map a little more on each pass until the
+        # whole thing went black.
+        self._base_colors, self._base_sizes = colors, sizes
+        if self._lighting["mode"] != "off":
+            from .lighting import lights, shade
+            lit = lights(self._light_t, self._lighting["lights"], self._lighting["speed"],
+                         radius=self._light_radius())
+            colors = shade(self.xyz, colors, lit,
+                           specular=self._lighting["mode"].endswith("specular"))
         self.scatter.setData(pos=self.xyz, color=colors, size=sizes)
         self._draw_ground()
         self._draw_selection_halo()
