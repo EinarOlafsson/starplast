@@ -17,7 +17,7 @@ not from you.
 
 ## The list is clear
 
-Every task in `INDEX.md` has landed (2026-08-12, v0.14.0). What a fresh session should know before
+Every task in `INDEX.md` has landed (2026-08-13, v0.17.1). What a fresh session should know before
 adding to it:
 
 - **`search.search` streams.** `on_run` gets a `RunStep` per embedding — its best clustering under
@@ -26,12 +26,18 @@ adding to it:
 - **`Window.placed`** is the mask of genes the displayed embedding covers; unplaced genes are hidden,
   unpickable and excluded from `visible_mask`. **`Window.gated`** is the set someone drew a gate
   around, which is what annotation takes as input.
-- **The colour-by panel is the one place colour is chosen** — columns, kept clusterings (`runs.py`)
+- **The color-by panel is the one place color is chosen** — columns, kept clusterings (`runs.py`)
   and binned quantities. `Window.category_values()` is what everything reads.
 - **Annotations refuse to be saved without a validated precision**, live in their own file, and draw
-  in a colour used for nothing else. That refusal is the point of the feature, not an obstacle in it.
-- **Two things are known and deliberately not on the list**: the identifier rename that task 25's
-  job 2 describes, and the Cryptosporidium fetch bug recorded in `HANDOFF.md`.
+  in a color used for nothing else. That refusal is the point of the feature, not an obstacle in it.
+- **Results save and load** (`results.py`): one table is a CSV whose first line names which table it
+  is, every tab at once is a zip of those plus a manifest, and a loaded row is as clickable as a
+  computed one. A file whose kind does not match the tab is refused rather than loaded.
+- **A user's own table imports** through `importer.py` and `File ▸ Import data…`, with the
+  preprocessing offered rather than assumed and every choice recorded. Imported columns are prefixed
+  and joined in memory; the cache on disk is never written.
+- **One thing is known and deliberately not on the list**: the *Cryptosporidium* fetch bug recorded
+  in `HANDOFF.md`.
 
 ## Two environments, and the second one is the one that matters
 
@@ -75,16 +81,20 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
 
 ## Conventions worth knowing before you write anything
 
-- **American spelling in user-facing text.** Identifiers are still British in places
-  (`colour_of`, `colour_mode`, `localisation.py`) -- see task 23; do not rename them piecemeal.
+- **American spelling everywhere**, text and identifiers both: `color_of`, `color_mode`,
+  `normalize`, `localization.py`. The rename landed on 2026-08-12 (`done/25b`). A block name lives
+  inside every saved recipe, so `embedding.RENAMED_BLOCKS` translates old spellings on the way in --
+  any future rename of a block needs an entry there or it silently rebuilds a different map.
 - Tooltips say WHY a control exists and what choosing badly costs, not what it is called. Bounded
   controls explain their bounds. A test fails if any control has none.
 - Every public module, class, function and method has a docstring. A test fails otherwise.
 - **Results tables go through `AnalysisPanel.results_table`**, which gives them a row action (click a
   row, see the map it is about) and a right-click menu (save as CSV, copy rows). A table wired by
   hand is a table that silently lacks both.
-- Coverage is 100% on the modules that have it, and the way to cover a Qt-thread body is to call it
-  directly, never a pragma. Genuinely unreachable branches get deleted.
+- **Coverage is 100% on every module** (7,389 statements, 1,849 tests) and stays there. The way to
+  cover a Qt-thread body is to call it directly, never a pragma; genuinely unreachable branches get
+  deleted. Two functions were deleted rather than covered in the last pass, and writing one of the
+  missing tests found a real defect in `objectives.adjusted`.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
 - Bump the version for feature work (currently 0.17.1).
@@ -97,5 +107,10 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
     starplast/validate.py        putting an error rate on an annotation
     starplast/jobs.py            background work, stopping, state
     starplast/lod.py             the three levels of detail
+    starplast/gallery.py         thumbnails of a sweep, grid and scroll
+    starplast/runs.py            kept clusterings, with their recipe and their mask
+    starplast/results.py         saving and loading what the tabs computed
+    starplast/importer.py        a user's own table, with the preprocessing offered
+    starplast/celldiagram.py     the parasite under the compartment list
     instructions/INDEX.md        status table
     results/                     every published number, with the script that made it

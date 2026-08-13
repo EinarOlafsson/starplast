@@ -17,17 +17,26 @@ Terminal entry point: `starplast`
 ## Run it
 
 ```bash
-cd /mnt/firecuda2/Claude/toxoplasma_projects/starplast
+cd /mnt/firecuda2/Claude/repo/starplast        # the working copy on this machine
 pip install -e .            # installs the console_scripts entry point
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min)
 starplast                   # launch
-pytest tests/ -q            # 902 tests, headless, no network, ~40 s
+pytest tests/ -q            # 1,849 tests, headless, no network, ~3 min
 pytest tests/ -q -m slow    # the real build and the pdoc pass, ~2 min
 ```
 
 If the GL widget fails on a headless machine, that is expected — this needs a display. The test suite is
 headless and does not.
+
+**Two interpreters, and the second is the one that matters.** The suite runs in
+`~/anaconda3/envs/spacr` (pandas 2.3.3); the user runs `~/anaconda3/envs/starplast` (pandas 3.0.5),
+where the editable install points at this checkout. Three bugs have shipped that were invisible on
+pandas 2 and total on pandas 3 — a read-only array written in place, and `.astype(str)` keeping NA
+where it used to give `"nan"`. Re-check anything touching a dataframe under the second interpreter.
+
+There is a second, **stale** checkout at `../toxoplasma_projects/starplast` from before the move.
+Nothing reads it; do not commit into it.
 
 ## Design decisions, and why (do not silently reverse these)
 
@@ -274,33 +283,66 @@ Read `.claude/skills/toxoplasma-scientist/SKILL.md` before interpreting anything
 
 ## Where the work list lives
 
-`instructions/` tracks unfinished work across sessions, in the same arrangement as
-spacr/instructions: `00_INDEX.txt` orients a cold start and lists the open tasks in the order to do
-them, `open/` holds one file per unfinished task, `done/` records what was finished and how it was
-verified. Read `instructions/00_INDEX.txt` first — it carries the traps that cost real time to find.
+`instructions/` tracks unfinished work across sessions: `START_HERE.md` orients a cold start,
+`INDEX.md` is the status table, `open/` holds one file per unfinished task, and `done/` records what
+was finished and how it was verified. Read `START_HERE.md` first — it carries the traps that cost
+real time to find. **`open/` is currently empty**: every task anyone has written down has landed.
 
 `skills/` holds reusable techniques worked out here, also installed under `.claude/skills/`.
 
 ## Start a session on this project by pasting this
 
 ```
-Read /mnt/firecuda2/Claude/toxoplasma_projects/starplast/instructions/00_INDEX.txt and
-HANDOFF.md, then continue starplast.
-v0+v1+v1.1+v1.2 are done and pushed to github.com/EinarOlafsson/starplast (private); 67 tests pass
-headless. Do not re-derive the design decisions in that file.
+Read /mnt/firecuda2/Claude/repo/starplast/instructions/START_HERE.md and HANDOFF.md, then
+continue starplast. Everything through v0.17.1 is pushed to github.com/EinarOlafsson/starplast
+(private); 1,849 tests pass headless with every module at 100%. Do not re-derive the design
+decisions in that file.
 Next: <state what you want — e.g. "v2 species switching", "search a new target", or
 "curate hit lists from the 65 PDF-only interaction studies">.
 ```
 
 Fill the `Next:` line in before sending — leaving the placeholder just costs a round trip.
 
-## State at handoff — verified 2026-08-11 (v1.2)
+## State of the application — verified 2026-08-13 (v0.17.1)
 
-**Built and working.** `identity.py`, `corpus.py`, `literature.py`, `build_graph.py`, `fetch_names.py`,
-`interactions.py`, `app.py`, `tests/`, `pyproject.toml`, `README.md`. **67 tests pass headless** (`pytest tests/ -q`), covering
-identity resolution, every precision guard, JATS parsing, the mentions table, the attention arithmetic,
-the attention-depth tiering, and the app itself offscreen: 8,140 nodes, all 12 edge types, all 3 LOD levels, all 6 color modes, picking,
-search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
+**1,849 tests pass headless** (`pytest tests/ -q`, ~3 min) and **every module is at 100% coverage**
+(7,389 statements). No `pragma: no cover` anywhere: a Qt-thread body is covered by calling it
+directly, and a branch that genuinely cannot run is deleted. Two functions were deleted in the last
+pass on that rule, and writing one of the missing tests found a real defect in `objectives.adjusted`.
+
+What the window does now, beyond the map itself:
+
+* **A sweep is watched, not waited for.** `search.search` and `tuning.walk_umap_iter` emit one step
+  per configuration — scores, coordinates, labels, and a mask of the genes it covers — so the table
+  and the **gallery** (`gallery.py`, grid and scroll) fill one row and one thumbnail at a time. Click
+  a thumbnail and it becomes the central map, where a gene is clickable like any other.
+* **Clusterings are kept** (`runs.py`) with their recipe and their gene mask, named by timestamp and
+  renameable, and they colour the map from the same one place every colour comes from.
+* **Annotations** (`annotations.py`) cannot be saved without the validated precision, recall and
+  enrichment for their category. That refusal is the feature.
+* **Results save and load** (`results.py`): one table is a CSV whose first line names which table it
+  is; every tab at once is a zip of those plus a manifest. A loaded row is as clickable as a computed
+  one — clicking it rebuilds its map — and a file whose kind does not match the tab is refused.
+* **A user's own table imports** (`importer.py`, `File ▸ Import data…`) from CSV/TSV/Excel/parquet,
+  with the quantification guessed from the RANGE and the reason shown, every preprocessing choice
+  offered rather than assumed, and the whole record kept. Columns are prefixed and joined in memory;
+  the cache on disk is never written.
+* **The compartment list has a parasite beside it** (`celldiagram.py`), drawn in outline on the
+  panel's own ground, with exactly one compartment filled — the selected one, in its list colour —
+  and clickable both ways.
+* **Logging** (`logging_util.py`) is opt-in with per-level console control, and jobs
+  (`jobs.py`) can be stopped, inspected and have their traceback copied.
+
+The identifier spelling is American throughout as of 2026-08-12 (`color_of`, `normalize`,
+`localization.py`); `embedding.RENAMED_BLOCKS` translates the block name inside recipes saved before
+that, because a block name lives in every stored recipe and an unrecognised one rebuilds a different
+map in silence.
+
+**The data layer beneath it, verified 2026-08-11 (v1.2).** `identity.py`, `corpus.py`,
+`literature.py`, `build_graph.py`, `fetch_names.py`, `interactions.py`: identity resolution, every
+precision guard, JATS parsing, the mentions table, the attention arithmetic, the attention-depth
+tiering, and the app offscreen over 8,140 nodes, all 12 edge types, all 3 LOD levels, every colour
+mode, picking, search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
 
 **Numbers as built** (do not quote the older estimates):
 
@@ -320,7 +362,7 @@ search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
 | genes named in **either** | **2,566 (31.5%)** — was 601 |
 | genes named in **neither** | 5,574 (68.5%) |
 | distinct papers naming ≥1 gene | 4,579 |
-| cache size | 2.4 MB app cache + 2.6 MB ToxoDB identity tables, all committed |
+| cache size | 17 MB inside the package (`starplast/data/`), including the ToxoDB identity tables, all committed |
 
 **Depth of attention — the number to quote, and the one that reframes the rest:**
 
