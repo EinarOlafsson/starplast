@@ -105,3 +105,29 @@ def test_the_superseded_figures_do_not_come_back():
         text = _doc(doc)
         for phrase in gone:
             assert phrase not in text, f"{doc} has reverted to: {phrase!r}"
+
+
+def test_the_explainers_name_the_features_the_shipped_map_was_actually_built_from():
+    """Both texts said "expression, fitness screens, protein features and literature co-mention",
+    and the shipped layout uses no literature column at all while using the measured hyperLOPIT
+    compartment, one-hot at half weight, as an input.
+
+    Getting that backwards is not a wording slip. A reader told compartment was held out reads the
+    compartment coloring as a finding, when genes of one compartment sit together partly by
+    construction -- and the chat text is a system prompt, so the model repeats it."""
+    from starplast import build_graph
+    from starplast.app import MAP_EXPLANATION
+    from starplast.chat import GROUNDING
+
+    feats = ["expr_tachy", "expr_cyst", "expr_max", "mean_plddt", "paralog_number", "n_interpro",
+             "n_phosphosites", "has_domain", "lineage_specific"] + list(build_graph.FIT)
+    source = open(os.path.join(ROOT, "starplast", "build_graph.py"), encoding="utf8").read()
+    body = source[source.index("def embed("):source.index("def embed(") + 1500]
+    assert "nodes.compartment" in body, "the shipped embedding no longer one-hots the compartment"
+    assert not [f for f in feats if f.startswith(("n_publications", "n_fulltext", "n_papers"))], \
+        "a literature column became an input; the explainers say there is none"
+
+    for name, text in (("the map explainer", MAP_EXPLANATION), ("the chat grounding", GROUNDING)):
+        assert "hyperLOPIT compartment" in text, f"{name} does not say compartment is an input"
+        assert "no literature column is an input" in text.lower(), \
+            f"{name} still implies literature is an input"

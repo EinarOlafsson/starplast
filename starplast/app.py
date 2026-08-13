@@ -88,8 +88,13 @@ EDGE_EXPLANATION = (
     "'are these two related' is 'by which evidence'.")
 
 MAP_EXPLANATION = (
-    "Position is similarity in expression, fitness screens, protein features and literature "
-    "co-mention, reduced to three dimensions by UMAP. That is all it is.\n\n"
+    "Position is similarity in three stage-expression columns, seven CRISPR fitness screens, six "
+    "protein features, and the measured hyperLOPIT compartment one-hot encoded at half weight, "
+    "reduced to three dimensions by UMAP. That is all it is. No literature column is an input.\n\n"
+    "The compartment being an INPUT is the thing to remember: genes of one compartment sit together "
+    "here partly by construction, so this layout can never be evidence about localization. The "
+    "held-out searches build their own maps without it, and those are what the numbers below "
+    "describe.\n\n"
     "Held-out testing on the full proteome found that no target is reliably recovered: cell cycle "
     "recovers 0 of 5 phases and localization 1 of 24 compartments. Localization scores below the "
     "negative control — the map reflects how much a gene has been studied better than it reflects "

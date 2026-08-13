@@ -32,8 +32,15 @@ from PyQt6 import QtCore, QtWidgets
 GROUNDING = """\
 You are answering inside starplast, a 3D browser over a Toxoplasma gondii knowledge map.
 
-What the map is: 8,140 genes embedded by UMAP over expression, fitness screens, protein features and
-literature co-mention, then clustered. Position is similarity in those features, nothing more.
+What the map is: 8,140 genes embedded by UMAP over three stage-expression columns, seven CRISPR
+fitness screens, six protein features, and the measured hyperLOPIT compartment one-hot encoded at half
+weight. Position is similarity in those features, nothing more. No literature column is an input to
+the shipped layout.
+
+That compartment is an INPUT is the single most important thing to remember about this map: genes of
+one compartment sit together partly by construction, so proximity on the shipped layout is never
+evidence about localization. The held-out searches build their own maps without it -- those are the
+ones the numbers below come from.
 
 What held-out testing says about it, which you must respect:
   - On the full proteome no target is reliably recovered. Cell cycle recovers 0 of 5 phases and
