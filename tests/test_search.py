@@ -120,6 +120,37 @@ def test_the_target_itself_is_always_excluded():
     assert "compartment" in S.excluded_for(_leaky_nodes(), "compartment")
 
 
+def test_the_same_experiment_s_other_outputs_are_excluded_too():
+    """The third leak this guard has had, and the one neither other mechanism can see.
+
+    `lopit_prob_map` is the posterior of hyperLOPIT's own assignment. It does not restate the
+    compartment -- pairwise association 0.29 on the real cache, far under any workable threshold --
+    and the label is not computed from it, so there is nothing to declare. It is the same
+    experiment's other output, and a map built on it is scored against a label that experiment also
+    produced. Measured on the shipped cache, the three-column localization block recovered
+    `compartment` at mean F1 0.259, above every measurement block in the map.
+    """
+    rng = np.random.default_rng(5)
+    n = len(_leaky_nodes())
+    d = _leaky_nodes()
+    d["lopit_prob_map"] = rng.random(n)
+    d["lopit_methods_agree"] = rng.integers(0, 2, n).astype(float)
+    ex = S.excluded_for(d, "compartment")
+    assert {"lopit_prob_map", "lopit_methods_agree"} <= ex
+    assert "unrelated" not in ex, "shared provenance must not become an excuse to exclude everything"
+
+
+def test_a_target_from_another_experiment_keeps_the_hyperlopit_columns():
+    """The exclusion is per experiment, not a blanket. Asking whether the map recovers cell-cycle
+    phase has no reason to throw away localization -- and a guard that excluded everything would
+    make every search unanswerable while looking rigorous."""
+    rng = np.random.default_rng(6)
+    d = _leaky_nodes()
+    d["lopit_prob_map"] = rng.random(len(d))
+    d["cellcycle_phase"] = ["G1", "S"] * (len(d) // 2)
+    assert "lopit_prob_map" not in S.excluded_for(d, "cellcycle_phase")
+
+
 def test_the_exclusion_threshold_is_stricter_than_the_reporting_one():
     """0.8 when choosing what an embedding may SEE, 0.95 when flagging a result after the fact. A
     0.85-associated column leaks nearly as much as an identical one."""
@@ -223,6 +254,19 @@ def _searchable(n=400):
 def test_an_unknown_target_is_rejected_by_name():
     with pytest.raises(ValueError, match="not in the table"):
         S.search(_searchable(), target="no_such_column", log=lambda *_: None)
+
+
+def test_a_combination_the_guard_empties_is_reported_rather_than_dropped(capsys):
+    """Closing the provenance leak removes whole combinations from a sweep, and "8 runs" quietly
+    becoming 7 is the failure this project keeps finding: work that did not happen, reported as a
+    number that looks like it did."""
+    d = _searchable()
+    d["lopit_prob_map"] = np.random.default_rng(7).random(len(d))
+    lines = []
+    S.search(d, target="compartment", block_sets=[("fitness_screens",), ("localization",)],
+             n_neighbors_values=(15,), min_dist_values=(0.0,), min_cluster_sizes=(25,),
+             log=lines.append)
+    assert any("skipped 1 combination" in m and "localization" in m for m in lines), lines
 
 
 def test_the_walk_runs_and_ranks_by_mean_f1():

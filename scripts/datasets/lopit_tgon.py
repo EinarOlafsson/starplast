@@ -4,7 +4,7 @@
 Subcellular compartment, MAP and MCMC, with posteriors
 
     level / kind : post_translation / LOPIT
-    provides     : compartment, lopit_map, lopit_mcmc, lopit_prob_map, lopit_prob_mcmc
+    provides     : compartment, compartment_best, compartment_source, lopit_map, lopit_mcmc, lopit_prob_map, lopit_prob_mcmc, lopit_methods_agree, lopit_confident, lopit_unified
     coverage     : 3,827 (47.0%)
     citation     : A Comprehensive Subcellular Atlas of the Toxoplasma Proteome via hyperLOPIT (Barylyuk et al. 2020)
     PMID         : 33053376

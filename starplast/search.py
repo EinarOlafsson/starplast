@@ -116,14 +116,37 @@ def frontier(R: pd.DataFrame, columns=("mean_f1", "best_f1")) -> pd.Series:
 
 
 def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8) -> set:
-    """The target plus every column that substantially restates it.
+    """The target, everything that restates it, and everything the same experiment produced.
 
-    The threshold is deliberately stricter than the 0.95 used to flag derived columns after the fact.
-    Here we are choosing what an embedding may *see*, and a 0.85-associated column leaks nearly as much
-    as an identical one -- `lopit_mcmc` is a second inference over the same experiment at 0.74.
+    Three mechanisms, because each is blind to what the others catch and this guard has now leaked
+    three separate ways:
+
+    * **measured association**, for the undeclared copy -- a renamed column, a second inference over
+      the same data. The threshold is stricter than the 0.95 used to flag derived columns after the
+      fact, because here we are choosing what an embedding may *see*, and a 0.85-associated column
+      leaks nearly as much as an identical one: `lopit_mcmc` is a second inference over the same
+      experiment at 0.74;
+    * **declared derivation**, for the joint function -- a label that is the argmax of three columns
+      shows 0.56-0.66 against each of them separately, so no pairwise statistic can see it;
+    * **shared provenance**, for the same experiment's OTHER outputs, which is neither of the above.
     """
     assoc = _association_with_inputs(nodes, {target})
     out = {target} | {c for c, v in assoc.items() if v >= threshold}
+
+    # Shared provenance. `lopit_prob_map` is the posterior of hyperLOPIT's own assignment: not a
+    # restatement of the compartment (association 0.29, far under any workable threshold), and not a
+    # declared source of it either, since the label is not computed from the posterior. It is the
+    # same experiment's other output, and a map built on it is being scored against a label that
+    # experiment also produced.
+    #
+    # Not a small effect. On the shipped cache the three-column `localization` block recovered
+    # `compartment` at mean F1 0.259, above interactions (0.192), protein features (0.171) and every
+    # expression and fitness block. Three columns beating eighteen RNA columns and eight CRISPR
+    # screens is not the map finding biology.
+    from . import datasets
+    same = datasets.provenance(target)
+    if same is not None:
+        out |= {c for c in same.columns if c in nodes.columns}
 
     # Anything the target was DECLARED to be computed from, plus the rest of that column's block.
     # Measured association is pairwise and cannot see a label that is a joint function of several
@@ -260,6 +283,11 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
         log(f"  {len(block_sets)} dataset combinations from {len(base)} blocks")
 
     rows, per_label, runs, last_reported, emitted = [], [], 0, 0, 0
+    # Combinations the sweep never ran, and why. A skip that is not counted turns "8 runs" into "7
+    # runs" with nothing to explain the difference, and the commonest reason for one is now the
+    # circularity guard removing every block a combination names -- which is exactly the thing a
+    # reader of the table needs told.
+    skipped = {}
     total = (len(block_sets) * len(na_policies) * len(scalings)
              * len(n_neighbors_values) * len(min_dist_values) * len(min_cluster_sizes))
     # How many EMBEDDINGS the walk expects, which is what a step counts against: the clusterings of
@@ -276,16 +304,21 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
         spec0 = EmbeddingSpec(blocks=blocks, na_policy=pol, scaling=sc, random_state=seed)
         spec0 = _spec_without(spec0, nodes, banned)
         if not spec0.blocks:
+            skipped.setdefault("every block they name feeds a column the guard excluded",
+                               []).append("+".join(blocks))
             continue
         try:
             X, names, keep = build_matrix(nodes, spec0, log=lambda *a: None)
         except ValueError:
+            skipped.setdefault("no usable feature matrix", []).append("+".join(blocks))
             continue
         idx = np.arange(len(nodes))[keep]
         if sub is not None:
             sel = np.isin(idx, sub)
             X, idx = X[sel], idx[sel]
         if len(X) < 200:
+            skipped.setdefault("fewer than 200 genes survive the missing-value policy",
+                               []).append("+".join(blocks))
             continue
         try:
             import umap
@@ -393,6 +426,10 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
     if store is not None and not R.empty and save_above is None:
         log(f"  saved embeddings for every run; the top result is the first row of the table")
     P = pd.concat(per_label, ignore_index=True) if per_label else pd.DataFrame()
+    for why, which in skipped.items():
+        names = sorted(set(which))
+        log(f"  skipped {len(names)} combination(s) -- {why}: "
+            + ", ".join(names[:6]) + (f" and {len(names) - 6} more" if len(names) > 6 else ""))
     log(f"  done: {runs} runs in {time.time() - t0:.0f}s")
     if not R.empty:
         b = R.iloc[0]

@@ -133,7 +133,15 @@ REGISTRY = [
     # ------------------------------------------------------------------ localization
     Dataset("lopit_tgon", "T. gondii hyperLOPIT", "post_translation", "LOPIT",
             "Subcellular compartment, MAP and MCMC, with posteriors",
-            ("compartment", "lopit_map", "lopit_mcmc", "lopit_prob_map", "lopit_prob_mcmc"),
+            # Every column this experiment produces, including the ones `localization.py` computes
+            # from it. Listing them all is not bookkeeping: `search.excluded_for` reads provenance to
+            # decide what a map may SEE when the target came from here, and the five that were
+            # missing are the five that leaked -- `lopit_prob_map`, `lopit_prob_mcmc` and
+            # `lopit_methods_agree` together recover `compartment` better than any measurement block
+            # in the cache.
+            ("compartment", "compartment_best", "compartment_source", "lopit_map", "lopit_mcmc",
+             "lopit_prob_map", "lopit_prob_mcmc", "lopit_methods_agree", "lopit_confident",
+             "lopit_unified"),
             "3,827 (47.0%)", pmid="33053376",
             citation="A Comprehensive Subcellular Atlas of the Toxoplasma Proteome via hyperLOPIT "
                      "(Barylyuk et al. 2020)",
