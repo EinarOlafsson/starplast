@@ -82,6 +82,154 @@ quantity were approximating on 2026-08-13.
 
 """
 
+#: Every study the table cites: PMID -> year, journal and title. Written down here rather than
+#: looked up, because the table has to render on a machine with no corpus and no network --
+#: and because a proposal that names a PMID without its title asks the reader to go and find
+#: out what was being proposed. Titles are as PubMed gives them.
+REFERENCES = {
+    "21179246": ("2010", "PLoS pathogens",
+               "Toxoplasma gondii lysine acetyltransferase GCN5-A functions in the cellular response "
+               "to alkaline stress and expression of cyst genes."),
+    "25757795": ("2015", "BMC genomics",
+               "Asexual expansion of Toxoplasma gondii merozoites is distinct from tachyzoites and "
+               "entails expression of non-overlapping gene families to attach, invade, and replicate "
+               "within feline enterocytes."),
+    "25867681": ("2015", "Proteomics",
+               "A large-scale proteogenomics study of apicomplexan pathogens-Toxoplasma gondii and "
+               "Neospora caninum."),
+    "28626452": ("2017", "Frontiers in microbiology",
+               "Proteomic Differences between Developmental Stages of Toxoplasma gondii Revealed by "
+               "iTRAQ-Based Quantitative Proteomics."),
+    "29228904": ("2017", "BMC genomics",
+               "Comparative ribosome profiling uncovers a dominant role for translational control in "
+               "Toxoplasma gondii."),
+    "29615509": ("2018", "mBio",
+               "MYR1-Dependent Effectors Are the Major Drivers of a Host Cell's Early Response to "
+               "Toxoplasma, Including Counteracting MYR1-Independent Effects."),
+    "29788176": ("2018", "Nucleic acids research",
+               "Cooperative binding of ApiAP2 transcription factors is crucial for the expression of "
+               "virulence genes in Toxoplasma gondii."),
+    "31366709": ("2019", "mSphere",
+               "Translocation of Dense Granule Effectors across the Parasitophorous Vacuole Membrane "
+               "in Toxoplasma-Infected Cells Requires the Activity of ROP17, a Rhoptry Protein Kinase."),
+    "31508380": ("2019", "Frontiers in cellular and infection microbio",
+               "iTRAQ-Based Global Phosphoproteomics Reveals Novel Molecular Differences Between "
+               "Toxoplasma gondii Strains of Different Genotypes."),
+    "32065584": ("2020", "eLife",
+               "A single-parasite transcriptional atlas of Toxoplasma Gondii reveals novel control of "
+               "antigen expression."),
+    "32075880": ("2020", "mSphere",
+               "Coimmunoprecipitation with MYR1 Identifies Three Additional Proteins within the "
+               "Toxoplasma gondii Parasitophorous Vacuole Required for Translocation of Dense Granule "
+               "Effectors into Host Cells."),
+    "33363051": ("2020", "Frontiers in cellular and infection microbio",
+               "iTRAQ-Based Phosphoproteomic Analysis of Toxoplasma gondii Tachyzoites Provides "
+               "Insight Into the Role of Phosphorylation for its Invasion and Egress."),
+    "33635921": ("2021", "PLoS pathogens",
+               "Protein kinase TgCDPK7 regulates vesicular trafficking and phospholipid synthesis in "
+               "Toxoplasma gondii."),
+    "33688018": ("2021", "mSystems",
+               "Direct Nanopore Sequencing of mRNA Reveals Landscape of Transcript Isoforms in "
+               "Apicomplexan Parasites."),
+    "34163449": ("2021", "Frontiers in microbiology",
+               "Genome-Wide CRISPR/Cas9 Screen Identifies New Genes Critical for Defense Against "
+               "Oxidant Stress in Toxoplasma gondii."),
+    "34263725": ("2021", "eLife",
+               "A plant-like mechanism coupling m6A reading to polyadenylation safeguards "
+               "transcriptome integrity and developmental gene partitioning in Toxoplasma."),
+    "35164683": ("2022", "BMC genomics",
+               "Genome-wide localization of histone variants in Toxoplasma gondii implicates variant "
+               "exchange in stage-specific gene expression."),
+    "35976251": ("2022", "eLife",
+               "Temporal and thermal profiling of the Toxoplasma proteome implicates parasite Protein "
+               "Phosphatase 1 in the regulation of Ca2+-responsive pathways."),
+    "36214684": ("2022", "Microbiology spectrum",
+               "Essential Functions of Calmodulin and Identification of Its Proximal Interacting "
+               "Proteins in Tachyzoite-Stage Toxoplasma gondii via BioID Technology."),
+    "36216028": ("2023", "Genomics, proteomics & bioinformatics",
+               "Protein Lactylation and Metabolic Regulation of the Zoonotic Parasite Toxoplasma "
+               "gondii."),
+    "36916910": ("2023", "mBio",
+               "CRISPR Screens Identify Toxoplasma Genes That Determine Parasite Fitness in Interferon "
+               "Gamma-Stimulated Human Cells."),
+    "37350586": ("2023", "mBio",
+               "An apicomplexan bromodomain protein, TgBDP1, associates with diverse epigenetic "
+               "factors to regulate essential transcriptional processes in Toxoplasma gondii."),
+    "37562054": ("2023", "Journal of proteome research",
+               "Label-free quantitative detection and comparative analysis of lysine acetylation "
+               "during the different life stages of Eimeria tenella."),
+    "37827122": ("2023", "Cell host & microbe",
+               "High-throughput identification of Toxoplasma gondii effector proteins that target host "
+               "cell transcription."),
+    "37933960": ("2023", "eLife",
+               "Analysis of CDPK1 targets identifies a trafficking adaptor complex that regulates "
+               "microneme exocytosis in Toxoplasma."),
+    "37959749": ("2023", "Molecules (Basel, Switzerland)",
+               "Global Proteome-Wide Analysis of Cysteine S-Nitrosylation in Toxoplasma gondii."),
+    "38093015": ("2024", "Nature",
+               "In vitro production of cat-restricted Toxoplasma pre-sexual stages."),
+    "38747635": ("2024", "mBio",
+               "TurboID mapping reveals the exportome of secreted intrinsically disordered proteins in "
+               "the transforming parasite Theileria annulata."),
+    "38782906": ("2024", "Nature communications",
+               "Translation initiation factor eIF1.2 promotes Toxoplasma stage conversion by "
+               "regulating levels of key differentiation factors."),
+    "39082802": ("2024", "mBio",
+               "CRISPR screens identify genes essential for in vivo virulence among proteins of "
+               "hyperLOPIT-unassigned subcellular localization in Toxoplasma."),
+    "39774584": ("2024", "PLoS pathogens",
+               "Cascading expression of ApiAP2 transcription factors controls daughter cell assembly "
+               "in Toxoplasma gondii."),
+    "39899594": ("2025", "PLoS pathogens",
+               "Iron-mediated post-transcriptional regulation in Toxoplasma gondii."),
+    "39912628": ("2025", "mSphere",
+               "Novel antibodies detect nucleocytoplasmic O-fucose in protist pathogens, cellular "
+               "slime molds, and plants."),
+    "40348811": ("2025", "Communications biology",
+               "Ubiquitin-activating enzyme1 (TgUAE1) acts as a key regulator of Toxoplasma gondii "
+               "lytic cycle and homeostasis."),
+    "40590555": ("2025", "mBio",
+               "Deciphering cell cycle organization of Toxoplasma endodyogeny."),
+    "40593611": ("2025", "Nature communications",
+               "Regulation of the developmental programs in Toxoplasma by a novel SNF2L-containing "
+               "chromatin remodeling complex."),
+    "40630957": ("2025", "Frontiers in immunology",
+               "Dual single-cell and bulk RNA sequencing reveal transcriptional profiles underlying "
+               "heterogenous host-parasite interactions in human peripheral blood mononuclear cells."),
+    "40716488": ("2025", "Journal of proteomics",
+               "Quantitative proteomic analysis of the Toxoplasma gondii cytoskeleton and "
+               "bioinformatic identification of highly antigenic proteins."),
+    "40830525": ("2025", "Infectious diseases of poverty",
+               "Cross-lineage 5-methylcytosine methylome profiling reveals methylated divergence among "
+               "Toxoplasma gondii tachyzoites of the three major clonal lineages."),
+    "40879678": ("2025", "mSphere",
+               "GCN5a is a telomeric lysine acetyltransferase whose loss primes Toxoplasma gondii for "
+               "latency."),
+    "40901993": ("2025", "PLoS pathogens",
+               "The PP2A-2 holoenzyme orchestrates daughter cell emergence during cytokinesis in "
+               "Toxoplasma gondii."),
+    "40920096": ("2025", "mSphere",
+               "TgAP2X-7 is a novel cell cycle-regulated transcription factor that plays an essential "
+               "role in Toxoplasma tachyzoite propagation."),
+    "41137792": ("2025", "Journal of proteome research",
+               "Secretome and Transcriptome Analyses Reveal New Potential Virulence Factors during "
+               "Cryptosporidium parvum Invasion."),
+    "41193469": ("2025", "Nature communications",
+               "Toxoplasma gondii chromatin remodeler SWI/SNF controls parasite division and gene "
+               "expression."),
+    "41278634": ("2025", "bioRxiv : the preprint server for biology",
+               "Single-cell analysis of brain-derived Toxoplasma bradyzoites reveals a novel cell "
+               "cycle regulated by AP2XI-6."),
+    "41580398": ("2026", "Nature communications",
+               "Bradyzoite subtypes rule the crossroads of Toxoplasma development."),
+    "41925342": ("2026", "mBio",
+               "Global translational and metabolic remodeling during iron deprivation in Toxoplasma "
+               "gondii."),
+    "42020723": ("2026", "Nature microbiology",
+               "A single-cell atlas of Toxoplasma sexual development in the feline intestinal tract."),
+}
+
+
 #: (slot, axis, context, unit, columns/edges that fill it, suggested policy, candidates)
 #: `columns` are prefixes or exact names; `edges` name a relation in graph.npz. A slot with neither
 #: is empty, which is the point of listing it.
@@ -269,6 +417,32 @@ def grade(frac: float, filled: bool, unit: str) -> str:
     return "A" if frac >= 0.8 else ("B" if frac >= 0.2 else "C")
 
 
+def _cited(row) -> str:
+    """The candidates for one slot, each as its title, year and accession -- not a bare PMID.
+
+    A proposal that names an identifier and nothing else asks the reader to go and look up what is
+    being proposed, which is most of the work of reading a list like this.
+    """
+    out = []
+    for token in (row["candidates"] or "").split(";"):
+        token = token.strip()
+        if not token:
+            continue
+        if not token.startswith("PMID "):
+            out.append(token)
+            continue
+        parts = token.split()
+        pmid = parts[1]
+        rest = " ".join(parts[2:])
+        acc = rest.split("(")[0].strip()
+        year, journal, title = REFERENCES.get(pmid, ("", "", ""))
+        link = f"[{pmid}](https://pubmed.ncbi.nlm.nih.gov/{pmid}/)"
+        bits = [f"**{title}**" if title else "", f"({journal} {year})".strip() if journal else year,
+                link, f"`{acc}`" if acc else ""]
+        out.append(" ".join(b for b in bits if b))
+    return "<br>".join(out)
+
+
 def _write_markdown(rows) -> None:
     """The same table, rendered. One file to read, one file to compute with."""
     by_axis = {}
@@ -284,14 +458,9 @@ def _write_markdown(rows) -> None:
                      "candidates to fill or improve it |")
         lines.append("|---|---|---|---|---|---|---|---|")
         for r in group:
-            cands = r["candidates"] or ""
-            for token in cands.split("PMID ")[1:]:
-                pmid = token.split()[0]
-                cands = cands.replace(f"PMID {pmid}",
-                                      f"[{pmid}](https://pubmed.ncbi.nlm.nih.gov/{pmid}/)")
             lines.append(f"| {r['slot']} | {r['context']} | **{r['grade']}** | "
                          f"{r['genes'] or ''} | {r['coverage']} | `{r['filled_by']}` | "
-                         f"{r['policy']} | {cands} |")
+                         f"{r['policy']} | {_cited(r) or '—'} |")
         lines.append("")
 
     # One dataset, several slots -- the many-to-many, read off the table itself.
@@ -354,6 +523,8 @@ def main() -> int:
             "filled_by": ", ".join(edges or columns), "detail": detail, "policy": policy,
             "candidates": "; ".join(f"PMID {p} {a}".strip() + (f" ({n})" if n else "")
                                     for p, a, n in cands),
+            "candidate_titles": " | ".join(
+                f"{p}: {REFERENCES.get(p, ('', '', n))[2]}" if p else n for p, a, n in cands),
         })
 
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)

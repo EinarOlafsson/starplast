@@ -151,3 +151,26 @@ def test_every_slot_that_claims_coverage_has_columns_behind_it():
             assert int(r["genes"]) > 0, r["slot"]
         else:
             assert not r["filled_by"], f"{r['slot']} is graded empty but names {r['filled_by']}"
+
+
+def test_every_cited_study_carries_its_title():
+    """A proposal that names a PMID and nothing else asks the reader to go and look up what is being
+    proposed, which is most of the work of reading a list like this."""
+    import csv as _csv
+    import re
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    path = os.path.join(root, "instructions", "open", "31_slots.csv")
+    if not os.path.exists(path):
+        pytest.skip("the slot table has not been generated on this machine")
+    sys.path.insert(0, os.path.join(root, "scripts"))
+    import generate_slot_table as G
+
+    for r in _csv.DictReader(open(path, encoding="utf8")):
+        for pmid in re.findall(r"PMID (\d{7,8})", r["candidates"] or ""):
+            assert pmid in G.REFERENCES, f"{r['slot']} cites {pmid} with no reference"
+            year, journal, title = G.REFERENCES[pmid]
+            assert title and len(title) > 20, f"{pmid} has no usable title"
+            assert pmid in r["candidate_titles"], f"{r['slot']} does not render {pmid}'s title"
+    # And nothing mangled by the line wrapping that keeps the reference block readable.
+    for _, _, title in G.REFERENCES.values():
+        assert not [w for w in title.split() if len(w) > 34], f"a wrapped title lost a space: {title}"
