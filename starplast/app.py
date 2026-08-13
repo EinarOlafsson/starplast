@@ -786,6 +786,9 @@ class Window(QtWidgets.QMainWindow):
         self.colour_of = dict(zip(self.comps,
                                   TH.categorical_colours(len(self.comps), name, self.cmap_name)))
         self.colour_of["unassigned"] = TH.unknown_colour(name)[:3]
+        if getattr(self, "diagram", None) is not None:
+            # Recoloured with the map, from the same dict, so a theme change moves both together.
+            self._refresh_diagram()
         if hasattr(self, "gallery"):
             # Thumbnails already painted keep the ground they were painted on; the large view is
             # re-rendered on the spot so at least the one being looked at follows the theme.
@@ -1798,9 +1801,22 @@ class Window(QtWidgets.QMainWindow):
         self.comp_list.setSelectionMode(
             QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         self.comp_list.itemSelectionChanged.connect(self.redraw)
+        self.comp_list.itemSelectionChanged.connect(self._refresh_diagram)
         self.comp_list.itemDoubleClicked.connect(self.fly_to_compartment)
         L.addWidget(self.comp_list, 1)
         self._fill_category_list()
+
+        # The cell, under the list, filled from the same palette the points are. Shown only for a
+        # localisation category: there is no sensible mapping from cell-cycle phase onto organelles.
+        from .celldiagram import CellDiagram, available as diagram_available
+        self.diagram = CellDiagram() if diagram_available() else None
+        self.diagram_note = QtWidgets.QLabel("")
+        self.diagram_note.setWordWrap(True)
+        self.diagram_note.setStyleSheet("color: #888")
+        if self.diagram is not None:
+            self.diagram.compartment_clicked.connect(self.select_compartment)
+            L.addWidget(self.diagram, 1)
+            L.addWidget(self.diagram_note)
 
         rename = QtWidgets.QHBoxLayout()
         self.run_name = QtWidgets.QLineEdit()
@@ -1890,7 +1906,47 @@ class Window(QtWidgets.QMainWindow):
             if str(v).lower() in absent:
                 self.colour_of[v] = TH.unknown_colour(self.theme)[:3]
         self._fill_category_list()
+        self._refresh_diagram()
         self.redraw()
+
+    def select_compartment(self, name: str):
+        """Select a compartment in the list, from the diagram. The other half of both directions."""
+        for i in range(self.comp_list.count()):
+            item = self.comp_list.item(i)
+            if item.data(QtCore.Qt.ItemDataRole.UserRole) == name:
+                self.comp_list.clearSelection()
+                item.setSelected(True)
+                self.comp_list.setCurrentItem(item)
+                self._refresh_diagram()
+                self.status.showMessage(f"{name} selected from the diagram")
+                return
+        self.status.showMessage(f"{name} is not in this list")
+
+    def _refresh_diagram(self):
+        """Show the cell for a localisation category, filled from the map's palette.
+
+        Hidden for anything else: colouring organelles by cell-cycle phase would be a picture of a
+        relationship that does not exist. The fills come from `colour_of`, the same dict the points
+        are drawn from, so the diagram and the map cannot disagree.
+        """
+        if self.diagram is None:
+            return
+        from .celldiagram import UNMAPPED_NOTE, missing_from_drawing
+        show = self.category in ("compartment", "compartment_best")
+        self.diagram.setVisible(show)
+        self.diagram_note.setVisible(show)
+        if not show:
+            return
+        sel = [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.comp_list.selectedItems()]
+        self.diagram.set_palette(self.colour_of, sel[0] if len(sel) == 1 else "")
+        absent = [c for c in missing_from_drawing(self.comps, self.diagram.svg)
+                  if str(c).lower() not in {str(x).lower() for x in ABSENCE}]
+        note = self.diagram.showing()
+        if not note and absent:
+            # Named rather than dropped: between them these are a large part of the proteome, and a
+            # compartment that vanishes from the legend reads as one that does not exist.
+            note = f"{', '.join(absent)}: {UNMAPPED_NOTE}"
+        self.diagram_note.setText(note)
 
     def _right(self):
         d = QtWidgets.QDockWidget("evidence")

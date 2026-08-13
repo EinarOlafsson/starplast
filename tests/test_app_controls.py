@@ -1302,3 +1302,89 @@ def test_a_source_that_no_longer_exists_colours_nothing_rather_than_raising(win)
     win.on_category_changed("binned: not_a_column")
     assert (win.category_values() == "").all()
     win.on_category_changed("compartment")
+
+
+# --------------------------------------------------------------------------- the cell diagram
+def test_the_diagram_shows_for_a_localisation_category_and_hides_otherwise(win):
+    """There is no sensible mapping from cell-cycle phase onto organelles, and colouring them by one
+    would be a picture of a relationship that does not exist."""
+    if win.diagram is None:
+        pytest.skip("the artwork is not present in this checkout")
+    win.on_category_changed("compartment")
+    assert not win.diagram.isHidden()
+    other = next(c for c in win.categories if c not in ("compartment", "compartment_best"))
+    win.on_category_changed(other)
+    assert win.diagram.isHidden()
+    win.on_category_changed("compartment")
+
+
+def test_the_diagram_and_the_map_are_coloured_from_the_same_dict(win):
+    """Two palettes are two claims about what a colour means, and one of them will drift."""
+    if win.diagram is None:
+        pytest.skip("the artwork is not present in this checkout")
+    win.on_category_changed("compartment")
+    fills = win.diagram.fills()
+    assert fills, "no organelle took a colour"
+    for sl, colour in fills.items():
+        from starplast.celldiagram import NEUTRAL, sharing
+        if colour == NEUTRAL:
+            continue
+        assert any(np.allclose(colour, win.colour_of[c], atol=1e-6)
+                   for c in sharing(sl) if c in win.colour_of)
+
+
+def test_selecting_in_the_list_colours_the_shape_it_shares(win):
+    if win.diagram is None:
+        pytest.skip("the artwork is not present in this checkout")
+    win.on_category_changed("compartment")
+    for name in ("rhoptries 1", "rhoptries 2"):
+        item = next((win.comp_list.item(i) for i in range(win.comp_list.count())
+                     if win.comp_list.item(i).data(QtCore.Qt.ItemDataRole.UserRole) == name), None)
+        if item is None:
+            pytest.skip("this cache has no rhoptry classes")
+        win.comp_list.clearSelection()
+        item.setSelected(True)
+        assert np.allclose(win.diagram.fills()["SL0233"], win.colour_of[name], atol=1e-6)
+        assert name in win.diagram_note.text()
+    win.comp_list.clearSelection()
+
+
+def test_clicking_the_diagram_selects_in_the_list(win):
+    """Both directions, or the diagram is decoration."""
+    if win.diagram is None:
+        pytest.skip("the artwork is not present in this checkout")
+    win.on_category_changed("compartment")
+    win.select_compartment("apicoplast")
+    chosen = [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in win.comp_list.selectedItems()]
+    assert chosen == ["apicoplast"]
+    assert win.visible_mask().sum() < win.n, "selecting in the list must also filter the map"
+    win.select_compartment("not a compartment")
+    assert "not in this list" in win.statusBar().currentMessage()
+    win.comp_list.clearSelection()
+
+
+def test_the_compartments_with_no_organelle_are_named_beside_the_diagram(win):
+    if win.diagram is None:
+        pytest.skip("the artwork is not present in this checkout")
+    win.on_category_changed("compartment")
+    win.comp_list.clearSelection()
+    note = win.diagram_note.text()
+    assert "no organelle in this drawing" in note
+    assert "unassigned" not in note, "absence is not a compartment that is missing a shape"
+
+
+def test_changing_theme_recolours_the_diagram_with_the_map(win):
+    if win.diagram is None:
+        pytest.skip("the artwork is not present in this checkout")
+    win.on_category_changed("compartment")
+    before = dict(win.diagram.fills())
+    win.apply_theme("paper")
+    after = dict(win.diagram.fills())
+    assert before != after, "the diagram kept the old theme's colours"
+    for sl, colour in after.items():
+        from starplast.celldiagram import NEUTRAL, sharing
+        if colour == NEUTRAL:
+            continue
+        assert any(np.allclose(colour, win.colour_of[c], atol=1e-6)
+                   for c in sharing(sl) if c in win.colour_of)
+    win.apply_theme("dark")
