@@ -22,6 +22,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault("PYQTGRAPH_QT_LIB", "PyQt6")
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
+from PyQt6 import QtCore  # noqa: E402
 from starplast import theme as TH  # noqa: E402
 from starplast.app import COLOUR_MODES  # noqa: E402
 
@@ -1154,3 +1155,150 @@ def test_an_unreadable_annotations_file_does_not_take_the_window_down(win, tmp_p
     win.annotations = Broken()
     win.refresh_annotations()
     assert "annotations unavailable" in capsys.readouterr().out
+
+
+# --------------------------------------------------------------------------- color by
+def test_the_panel_offers_columns_runs_and_binned_quantities_in_one_list(win):
+    """One list rather than three controls: they answer the same question -- what should colour mean
+    right now -- and having to know which of three places to look is the state this replaced."""
+    from starplast.app import BIN_PREFIX, RUN_PREFIX
+    win.keep_run(np.arange(win.n) % 4, name="test_run_a")
+    sources = win.colour_sources()
+    assert "compartment" in sources
+    assert RUN_PREFIX + "test_run_a" in sources
+    assert any(s.startswith(BIN_PREFIX) for s in sources)
+    assert [win.category_box.itemText(i) for i in range(win.category_box.count())] == sources
+
+
+def test_colouring_by_a_kept_run_uses_that_run(win):
+    from starplast.app import RUN_PREFIX
+    labels = np.where(np.arange(win.n) % 3 == 0, 0, 1)
+    run = win.keep_run(labels, name="test_run_b")
+    win.on_category_changed(RUN_PREFIX + run.name)
+    vals = win.category_values()
+    assert set(vals.unique()) == {"cluster 0", "cluster 1"}
+    assert win.comp_list.count() == 2
+    c = np.asarray(win.scatter.color)
+    assert len({tuple(np.round(x, 3)) for x in c[:, :3]}) > 1, "one run drew one colour"
+
+
+def test_two_runs_are_both_kept_and_can_be_switched_between(win):
+    """The whole point: the second used to replace the first with no way back."""
+    from starplast.app import RUN_PREFIX
+    a = win.keep_run(np.zeros(win.n, int), name="test_two_a")
+    b = win.keep_run(np.arange(win.n) % 5, name="test_two_b")
+    assert {a.name, b.name} <= set(win.runs.names())
+    win.on_category_changed(RUN_PREFIX + a.name)
+    assert set(win.category_values().unique()) == {"cluster 0"}
+    win.on_category_changed(RUN_PREFIX + b.name)
+    assert len(set(win.category_values().unique())) == 5
+
+
+def test_a_run_over_a_subsample_leaves_the_rest_absent_not_unclustered(win):
+    """They were not put in no cluster; they were not in the map. Conflating the two would put
+    thousands of genes into a category that means something else entirely."""
+    from starplast.app import RUN_PREFIX
+    placed = np.zeros(win.n, bool)
+    placed[:300] = True
+    win.placed = placed
+    run = win.keep_run(np.arange(300) % 2, name="test_subsample")
+    win.on_category_changed(RUN_PREFIX + run.name)
+    vals = win.category_values()
+    assert (vals[300:] == "").all() and set(vals[:300].unique()) == {"cluster 0", "cluster 1"}
+    win.placed = None
+
+
+def test_a_run_can_be_renamed_and_keeps_its_recipe(win, tmp_path):
+    from starplast.app import RUN_PREFIX
+    from starplast.runs import RunStore
+    win.runs = RunStore(str(tmp_path))
+    win.keep_run(np.zeros(win.n, int), recipe={"algorithm": "hdbscan", "min_cluster_size": 60},
+                 name="test_rename_from")
+    assert win.rename_run("test_rename_from", "gras_are_clean")
+    assert win.runs.get("gras_are_clean").recipe["min_cluster_size"] == 60
+    assert win.category_box.currentText() == RUN_PREFIX + "gras_are_clean"
+    import json, os
+    saved = json.load(open(str(tmp_path / "gras_are_clean.json")))
+    assert saved["recipe"]["algorithm"] == "hdbscan"
+    assert not os.path.exists(str(tmp_path / "test_rename_from.json"))
+
+
+def test_a_name_already_in_use_is_refused(win, tmp_path):
+    from starplast.runs import RunStore
+    win.runs = RunStore(str(tmp_path))
+    win.keep_run(np.zeros(win.n, int), name="taken")
+    win.keep_run(np.zeros(win.n, int), name="other")
+    assert win.rename_run("other", "taken") is False
+    assert "name is taken" in win.statusBar().currentMessage()
+
+
+def test_a_quantity_can_be_coloured_as_bins(win):
+    """Binning makes a measurement behave like a category, which is what makes it comparable with a
+    clustering -- the comparison this panel exists for."""
+    from starplast.app import BIN_PREFIX
+    win.bins_box.setValue(4)
+    win.on_category_changed(BIN_PREFIX + "mean_plddt")
+    vals = win.category_values()
+    named = {v for v in vals.unique() if v}
+    assert 1 < len(named) <= 4
+    # The list carries the bins plus, where the column has gaps, one entry for absence -- which is
+    # listed and sunk to the bottom rather than folded into the lowest bin.
+    assert win.comp_list.count() == len(named) + int((vals == "").any())
+    assert win.bins_box.isVisibleTo(win.bins_box.parentWidget())
+
+
+def test_a_quantity_that_is_mostly_one_value_gets_fewer_bins_and_says_so(win):
+    """`n_publications` is zero for most of this proteome, so its quartile edges are all zero.
+    Splitting the tie by rank or by equal width would draw four colours over a column with one
+    level -- a picture of a distinction that does not exist."""
+    from starplast.app import BIN_PREFIX
+    win.bins_box.setValue(4)
+    win.on_category_changed(BIN_PREFIX + "n_publications")
+    named = {v for v in win.category_values().unique() if v}
+    assert len(named) < 4
+    assert "share one value" in win.statusBar().currentMessage()
+
+
+def test_changing_the_number_of_bins_recolours(win):
+    from starplast.app import BIN_PREFIX
+    win.on_category_changed(BIN_PREFIX + "mean_plddt")
+    win.set_bins(3)
+    three = {v for v in win.category_values().unique() if v}
+    win.set_bins(8)
+    eight = {v for v in win.category_values().unique() if v}
+    assert len(eight) > len(three)
+
+
+def test_genes_with_no_value_for_a_binned_quantity_are_absent_not_a_low_bin(win):
+    from starplast.app import BIN_PREFIX
+    col = "mean_plddt"
+    win.on_category_changed(BIN_PREFIX + col)
+    vals = win.category_values()
+    missing = win.nodes[col].isna().to_numpy()
+    if missing.any():
+        assert (vals[missing] == "").all()
+        c = np.asarray(win.scatter.color)
+        import starplast.theme as TH
+        assert np.allclose(c[missing][0, :3], TH.unknown_colour(win.theme)[:3], atol=1e-3)
+
+
+def test_the_filter_and_the_fly_to_follow_the_chosen_source(win):
+    """The list under the chooser filters what the chooser names, or the two controls describe
+    different things while sitting on top of each other."""
+    from starplast.app import RUN_PREFIX
+    run = win.keep_run(np.where(np.arange(win.n) < 100, 0, 1), name="test_filter_run")
+    win.on_category_changed(RUN_PREFIX + run.name)
+    item = next(win.comp_list.item(i) for i in range(win.comp_list.count())
+                if win.comp_list.item(i).data(QtCore.Qt.ItemDataRole.UserRole) == "cluster 0")
+    item.setSelected(True)
+    assert win.visible_mask().sum() == 100
+    win.fly_to_compartment(item)
+    win.comp_list.clearSelection()
+
+
+def test_a_source_that_no_longer_exists_colours_nothing_rather_than_raising(win):
+    win.on_category_changed("clustering: never_existed")
+    assert (win.category_values() == "").all()
+    win.on_category_changed("binned: not_a_column")
+    assert (win.category_values() == "").all()
+    win.on_category_changed("compartment")

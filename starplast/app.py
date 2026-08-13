@@ -117,6 +117,35 @@ def as_text(s):
     return s.astype("object").where(s.notna(), "").astype(str)
 
 
+#: Prefix marking a colour source that is a kept clustering rather than a column.
+RUN_PREFIX = "clustering: "
+#: Prefix marking a numeric column shown as bins rather than as a ramp.
+BIN_PREFIX = "binned: "
+
+
+def numeric_columns(nodes) -> list[str]:
+    """Every column that is a quantity worth binning, best first.
+
+    A quantity binned behaves like a category, which is what makes it comparable with a clustering
+    -- the comparison the colour-by panel exists for. Identifiers and flags are left out: binning
+    `gene_id` is not a question anybody has.
+    """
+    from pandas.api import types as pdt
+    out = []
+    for c in nodes.columns:
+        if c in CATEGORY_DENYLIST:
+            continue
+        s = nodes[c]
+        if not pdt.is_numeric_dtype(s) or pdt.is_bool_dtype(s):
+            continue
+        if s.notna().sum() < 30 or s.nunique(dropna=True) < 5:
+            continue
+        out.append(c)
+    front = [c for c in ("fit_invitro_hff", "n_publications", "mean_plddt", "expr_tachy",
+                         "expr_cyst") if c in out]
+    return front + sorted(c for c in out if c not in front)
+
+
 def category_columns(nodes) -> list[str]:
     """Every column that can serve as a filter class, best first.
 
@@ -614,7 +643,16 @@ class Window(QtWidgets.QMainWindow):
         self.setWindowTitle("starplast — Toxoplasma knowledge map")
         self.resize(1580, 950)
 
+        from .runs import RunStore
         self.categories = category_columns(self.nodes)
+        self.numerics = numeric_columns(self.nodes)
+        #: How many bins a numeric colour source is cut into. Quantile bins, so the choice is about
+        #: how fine a distinction to draw rather than about the shape of the distribution.
+        self.bins = 5
+        #: Kept clusterings. Beside the cache rather than in it: these are the user's runs and must
+        #: survive a rebuild of the data.
+        self.runs = RunStore(os.path.join(paths.user_cache_dir(), "runs"))
+        self.runs.load_all()
         self.category = "compartment" if "compartment" in self.categories else self.categories[0]
         comps = sorted(as_text(self.nodes[self.category]).unique())
         absent = {str(x).lower() for x in ABSENCE}
@@ -1196,7 +1234,7 @@ class Window(QtWidgets.QMainWindow):
         exists to produce and most of this proteome is among them.
         """
         idx = np.asarray(idx, dtype=int)
-        vals = as_text(self.nodes[self.category]).to_numpy()[idx]
+        vals = self.category_values().to_numpy()[idx]
         absent = {str(x).lower() for x in ABSENCE}
         counts = pd.Series(vals).value_counts()
         named = [(v, n) for v, n in counts.items() if str(v).lower() not in absent]
@@ -1259,16 +1297,29 @@ class Window(QtWidgets.QMainWindow):
             f"they are proposals, not measurements")
 
     def use_clusters(self, labels):
-        """Take a clustering from the analysis panel and colour the map by it.
+        """Take a clustering from the analysis panel, KEEP it, and colour the map by it.
 
-        Switches the colouring automatically, because a user who has just pressed "cluster this map"
-        wants to see the clusters -- and leaving it on compartment made the button look inert.
+        Kept rather than only drawn: the second run used to replace the first with no way back, so
+        the one comparison this application is for -- does this structure survive different settings
+        -- could not be made by looking. It arrives in the colour-by panel under a timestamp name.
+
+        The colouring switches automatically, because a user who has just pressed "cluster this map"
+        wants to see the clusters and leaving it on compartment made the button look inert.
         """
         self.cluster_labels = np.asarray(labels)
+        recipe = {}
+        panel = getattr(self, "panel", None)
+        if panel is not None:
+            try:
+                recipe = {"spec": panel.spec().to_dict(), "algorithm": panel.algo.currentText(),
+                          "min_cluster_size": panel.mcs.value(), "eps": panel.eps.value()}
+            except Exception:      # the panel is optional; a run without its recipe still beats none
+                recipe = {}
+        self.keep_run(self.cluster_labels, recipe=recipe)
         self.set_colour_mode("clusters")
         n = len(set(self.cluster_labels[self.cluster_labels >= 0]))
-        self.status.showMessage(f"colouring by {n} clusters; grey is unclustered, which is a real "
-                                f"answer and not a missing one")
+        self.status.showMessage(f"colouring by {n} clusters, kept as a run you can come back to; "
+                                f"grey is unclustered, which is a real answer and not a missing one")
 
     def open_preferences(self):
         """Appearance settings, gathered in one place rather than crowding the map panel."""
@@ -1712,17 +1763,32 @@ class Window(QtWidgets.QMainWindow):
         self.search.returnPressed.connect(self.do_search)
         L.addWidget(self.search)
 
-        L.addWidget(QtWidgets.QLabel("<b>filter by</b>"))
+        L.addWidget(QtWidgets.QLabel("<b>color by</b>"))
         self.category_box = QtWidgets.QComboBox()
         self.category_box.setToolTip(
-            "Which classification to filter and fly by. Any column with a manageable number of "
-            "repeated values is offered, not compartment alone -- localisation is the worst-recovered "
-            "property in this map, so it is a poor thing to be the only way in.")
-        self.category_box.addItems(self.categories)
+            "What colour means right now, and what the list below filters and flies by. Three kinds "
+            "of thing, because they answer the same question: any column with a manageable number "
+            "of repeated values; any clustering you have kept, by name; and any quantity cut into "
+            "bins, which is what makes a measurement comparable with a clustering. Localisation is "
+            "the worst-recovered property in this map, so it is a poor thing to be the only way in.")
+        self.category_box.addItems(self.colour_sources())
         if "compartment" in self.categories:
             self.category_box.setCurrentText("compartment")
         self.category_box.currentTextChanged.connect(self.on_category_changed)
         L.addWidget(self.category_box)
+
+        self.bins_box = QtWidgets.QSpinBox()
+        self.bins_box.setRange(2, 20)
+        self.bins_box.setValue(self.bins)
+        self.bins_box.setPrefix("bins: ")
+        self.bins_box.setToolTip(
+            "How many bins a quantity is cut into. Quantile bins, not equal-width: nearly every "
+            "quantity in this table is heavy-tailed -- the fitness screens span 64x within "
+            "themselves -- and equal-width bins put 95% of the genes in one colour and call that a "
+            "colouring. Only used when the source above is a binned quantity.")
+        self.bins_box.valueChanged.connect(self.set_bins)
+        self.bins_box.hide()
+        L.addWidget(self.bins_box)
 
         self.comp_list = QtWidgets.QListWidget()
         self.comp_list.setToolTip(
@@ -1736,6 +1802,26 @@ class Window(QtWidgets.QMainWindow):
         L.addWidget(self.comp_list, 1)
         self._fill_category_list()
 
+        rename = QtWidgets.QHBoxLayout()
+        self.run_name = QtWidgets.QLineEdit()
+        self.run_name.setPlaceholderText("name this run…")
+        self.run_name.setToolTip(
+            "Rename the clustering selected above. Runs are named by the clock to the second so two "
+            "a minute apart are distinguishable without anyone typing anything, but "
+            "'hdbscan_60 on expression' is what you will look for a week later.")
+        self.rename_btn = QtWidgets.QPushButton("save name")
+        self.rename_btn.setToolTip(
+            "Rename and re-save the run with its full recipe -- the embedding spec and the "
+            "clustering parameters. Without the recipe a name is a label on nothing: the run cannot "
+            "be rebuilt and two runs cannot be told apart except by their numbers.")
+        self.rename_btn.clicked.connect(self._rename_current_run)
+        rename.addWidget(self.run_name, 1)
+        rename.addWidget(self.rename_btn)
+        self.rename_row = QtWidgets.QWidget()
+        self.rename_row.setLayout(rename)
+        self.rename_row.hide()
+        L.addWidget(self.rename_row)
+
         b = QtWidgets.QPushButton("reset view / clear filters")
         b.setToolTip("Clear the selection and every class filter, and frame the whole map again. "
                      "The way back when a filter has left you looking at forty genes and it is no "
@@ -1747,10 +1833,10 @@ class Window(QtWidgets.QMainWindow):
         return d
 
     def _fill_category_list(self):
-        """Rebuild the value list for the current category, ordered by size with absences last."""
+        """Rebuild the value list for the current source, ordered by size with absences last."""
         self.comp_list.blockSignals(True)
         self.comp_list.clear()
-        vals = as_text(self.nodes[self.category])
+        vals = self.category_values()
         counts = vals.value_counts()
         absent = {str(x).lower() for x in ABSENCE}
         named = [v for v in counts.index if str(v).lower() not in absent]
@@ -1769,10 +1855,32 @@ class Window(QtWidgets.QMainWindow):
             self.comp_list.addItem(it)
         self.comp_list.blockSignals(False)
 
+    def set_bins(self, n: int):
+        """Change how finely a binned quantity is cut, and redraw if that is what is showing."""
+        self.bins = int(n)
+        if self.category.startswith(BIN_PREFIX):
+            self.on_category_changed(self.category)
+
+    def _rename_current_run(self):
+        """Rename the run currently selected in the colour-by list."""
+        if not self.category.startswith(RUN_PREFIX):
+            return
+        self.rename_run(self.category[len(RUN_PREFIX):], self.run_name.text().strip())
+
     def on_category_changed(self, name: str):
-        """Switch the filter column, rebuild its palette and its list."""
+        """Switch what colour means, rebuild its palette and its list of values."""
         self.category = name
-        vals = sorted(as_text(self.nodes[name]).unique())
+        # The controls that only apply to one kind of source appear only for that kind. A bins spin
+        # box beside a compartment list is a control that does nothing, which teaches people that
+        # controls here might do nothing.
+        is_run = name.startswith(RUN_PREFIX)
+        self.bins_box.setVisible(name.startswith(BIN_PREFIX))
+        self.rename_row.setVisible(is_run)
+        if is_run:
+            self.run_name.setText(name[len(RUN_PREFIX):])
+        # Colouring follows the panel: this IS the colour choice, not a filter beside one.
+        self.colour_mode = "compartment" if name == "compartment" else self.colour_mode
+        vals = sorted(self.category_values().unique())
         absent = {str(x).lower() for x in ABSENCE}
         self.comps = ([v for v in vals if str(v).lower() not in absent]
                       + [v for v in vals if str(v).lower() in absent])
@@ -1796,6 +1904,78 @@ class Window(QtWidgets.QMainWindow):
         return d
 
     # ------------------------------------------------------------------ drawing
+    def colour_sources(self) -> list:
+        """Everything the map can be coloured by, in one list: columns, runs, binned quantities.
+
+        One list rather than three controls, because they answer the same question -- what should
+        colour mean right now -- and having to know which of three places to look for an answer is
+        the state this panel replaced.
+        """
+        return (list(self.categories)
+                + [RUN_PREFIX + r.name for r in self.runs.runs]
+                + [BIN_PREFIX + c for c in self.numerics])
+
+    def category_values(self) -> pd.Series:
+        """The current colour source as a string column over every gene.
+
+        Absence is "" in all three cases and means the same thing each time: no value measured, no
+        position in that run, no number to bin. It is drawn grey, never as a category.
+        """
+        src = self.category
+        if src.startswith(RUN_PREFIX):
+            run = self.runs.get(src[len(RUN_PREFIX):])
+            return (run.values(self.n) if run is not None
+                    else pd.Series([""] * self.n, dtype=object))
+        if src.startswith(BIN_PREFIX):
+            from .runs import bin_column
+            col = src[len(BIN_PREFIX):]
+            if col not in self.nodes.columns:
+                return pd.Series([""] * self.n, dtype=object)
+            return bin_column(self.nodes[col], self.bins,
+                              log=lambda m: self.status.showMessage(f"{col}: {m}"))
+        if src not in self.nodes.columns:
+            return pd.Series([""] * self.n, dtype=object)
+        return as_text(self.nodes[src])
+
+    def keep_run(self, labels, recipe=None, name: str = ""):
+        """Keep a clustering, list it in the colour-by panel, and colour the map by it.
+
+        Kept rather than drawn and forgotten: the second run used to replace the first with no way
+        back, which makes the one comparison this application is for -- does this structure survive
+        different settings -- impossible to make by looking.
+        """
+        labels = np.asarray(labels)
+        genes = getattr(self, "placed", None)
+        genes = np.ones(self.n, bool) if genes is None else np.asarray(genes, bool)
+        if len(labels) == self.n:
+            genes = np.ones(self.n, bool)
+        run = self.runs.add(labels, genes, recipe=recipe or {}, name=name)
+        self.runs.save(run)
+        self._refresh_sources()
+        self.category_box.setCurrentText(RUN_PREFIX + run.name)
+        self.status.showMessage(f"kept as {run.describe()}")
+        return run
+
+    def _refresh_sources(self):
+        """Rebuild the colour-by list, keeping the current choice if it still exists."""
+        want = self.category_box.currentText()
+        self.category_box.blockSignals(True)
+        self.category_box.clear()
+        self.category_box.addItems(self.colour_sources())
+        i = self.category_box.findText(want)
+        self.category_box.setCurrentIndex(max(i, 0))
+        self.category_box.blockSignals(False)
+
+    def rename_run(self, old: str, new: str) -> bool:
+        """Rename a kept run and keep the panel pointing at it."""
+        if not self.runs.rename(old, new):
+            self.status.showMessage(f"cannot rename to {new!r} -- that name is taken")
+            return False
+        self._refresh_sources()
+        self.category_box.setCurrentText(RUN_PREFIX + new)
+        self.status.showMessage(f"renamed to {new}, saved with its recipe")
+        return True
+
     def visible_mask(self):
         """Boolean mask of the genes passing the current class filter AND having a position.
 
@@ -1806,7 +1986,7 @@ class Window(QtWidgets.QMainWindow):
         """
         sel = [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.comp_list.selectedItems()]
         vis = (np.ones(self.n, bool) if not sel
-               else as_text(self.nodes[self.category]).isin(sel).to_numpy())
+               else self.category_values().isin(sel).to_numpy())
         placed = getattr(self, "placed", None)
         return vis if placed is None else (vis & placed)
 
@@ -1815,15 +1995,19 @@ class Window(QtWidgets.QMainWindow):
         mode = self.colour_mode
         c = np.zeros((self.n, 4), dtype=np.float32)
         if mode.startswith("compartment"):
-            # The default colours the MEASURED hyperLOPIT call only. The second mode fills in
-            # ortholog-transferred labels, which are inferences from another species -- offered because
-            # coverage matters, kept separate because provenance matters more.
-            col_name = ("compartment_best" if "transferred" in mode
-                        and "compartment_best" in self.nodes.columns else "compartment")
-            vals = as_text(self.nodes[col_name])
+            # The default colours whatever the colour-by panel names -- a column, a kept clustering
+            # or a binned quantity -- because that panel IS the choice of what colour means. The
+            # "incl. transferred" variant is the one exception, a preset that names a column of its
+            # own: ortholog-transferred labels are inferences from another species, offered because
+            # coverage matters and kept separate because provenance matters more.
+            if "transferred" in mode and "compartment_best" in self.nodes.columns:
+                vals = as_text(self.nodes["compartment_best"])
+            else:
+                vals = self.category_values()
             for comp, col in self.colour_of.items():
                 c[(vals == comp).to_numpy(), :3] = col
-            c[(vals == "unassigned").to_numpy(), :3] = TH.unknown_colour(self.theme)[:3]
+            for absent in ("unassigned", ""):
+                c[(vals == absent).to_numpy(), :3] = TH.unknown_colour(self.theme)[:3]
         elif mode == "clusters":
             # Noise stays grey, with everything else that is unknown. HDBSCAN calling a gene
             # unclustered is a finding about that gene, not a gap in the drawing.
@@ -1938,7 +2122,7 @@ class Window(QtWidgets.QMainWindow):
             sizes = np.full(self.n, max(base * 0.4, 1.5), np.float32)
             lab = self.galaxy_labels()
             pos, num, spread = lod.centroids(self.xyz, np.where(vis, lab, -1))
-            dom = lod.dominant(as_text(self.nodes[self.category]).to_numpy(),
+            dom = lod.dominant(self.category_values().to_numpy(),
                                np.where(vis, lab, -1), ignore=ABSENCE)
             self._galaxy_info = []
             col, ssz = [], []
@@ -1969,7 +2153,7 @@ class Window(QtWidgets.QMainWindow):
                 if len(idx) < MIN_ORTHOGROUP_FOR_SYSTEM:
                     continue
                 pos.append(self.xyz[idx].mean(0))
-                comp = as_text(self.nodes[self.category]).iloc[idx[0]]
+                comp = self.category_values().iloc[idx[0]]
                 col.append((*self.colour_of.get(comp, TH.unknown_colour(self.theme)[:3]), 0.9))
                 ssz.append(float(6 + 18 * np.sqrt(len(idx) / 40.0)))
             if pos:
@@ -2180,7 +2364,7 @@ class Window(QtWidgets.QMainWindow):
     def fly_to_compartment(self, item):
         """Move the camera to a class's centroid and drop to the gene tier."""
         c = item.data(QtCore.Qt.ItemDataRole.UserRole)
-        m = (as_text(self.nodes[self.category]) == c).to_numpy()
+        m = (self.category_values() == c).to_numpy()
         if m.sum():
             self.view.setCameraPosition(pos=pg.Vector(*self.xyz[m].mean(0)), distance=60)
             self.set_level(2)
