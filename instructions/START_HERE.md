@@ -12,59 +12,26 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~1,572 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect ~1,724 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
-## The one thing to do first
+## The list is clear
 
-**Task 23** — the left panel becomes "color by". Then 22 (the cell diagram), 25 (American spelling)
-and 24 (the logo drafts).
+Every task in `INDEX.md` has landed (2026-08-12, v0.14.0). What a fresh session should know before
+adding to it:
 
-**Tasks 16 and 17 are done** (2026-08-12, v0.9.0 and v0.10.0). `search.search` streams a `RunStep`
-per embedding — its best clustering under the objective in force, its per-category scores, its
-coordinates and its labels — and the Search tab fills a per-configuration-and-category table as it
-runs, with `search.frontier` marking what nothing beats on both mean and best F1.
-`annotations.AnnotationStore` is a CSV of its own that **refuses** a row with no validated precision
-or a precision under 10%, is never written into the node table, and draws in a colour used for
-nothing else.
-
-**Task 18 is done** (2026-08-12, v0.8.0): the left button has a Navigate mode (free orbit or
-constrained to one axis, so a view can be returned to) and a Select mode (2D lasso in screen space,
-3D brush in world space). A gate fills `Window.gated`; the evidence panel shows the set's composition
-and `File ▸ Export gated selection` writes it out.
-
-**Task 19 is done** (2026-08-12, v0.7.0): `logging_util.get_logger(__name__)` anywhere, levels
-DEBUG–ERROR, an opt-in rotating file, and a console level that is separate from the file's and is
-never silent — a warning nobody enabled a log to see is a silent failure with extra steps. Console
-lines carry a `[LEVEL]` prefix, which is what the pane colours and filters by. **Log the outcome of
-anything that can fail quietly**, with the URL or the recipe attached; that is the whole point of
-it.
-
-**Task 20 is done** (2026-08-12, v0.5.0), and two of its findings outlive it:
-
-- The circularity guard never fired. It compared a category VALUE against a list of column names,
-  and the panel passed BLOCK names, so the tab that exists to refuse circular questions would have
-  scored a target the map was built on. It now tests the label COLUMN, before the job is submitted
-  as well as inside it. `AnalysisPanel.used_columns()` is what to pass anywhere else this matters.
-- Every score on screen now carries what it has to be read against: `prevalence` and `lift` in the
-  per-category table, `overall_frac_category` and `enrichment` on every candidate. On the real table
-  the best cluster is 10.2% nucleus-chromatin against a map that is 9.4% — enrichment 1.09.
-
-**Task 15 is done** (2026-08-12, v0.4.0), so the contract it was blocking is now this:
-`tuning.walk_umap_iter` yields one `WalkStep` per configuration as it is computed — the scores, the
-coordinates, and a boolean mask over the node table saying which genes those coordinates are for.
-`walk_umap` is that collected and ranked, with an `on_step` callback, so existing callers are
-unchanged. The walk table and the gallery dock each fill one row and one thumbnail at a time.
-**Task 16 is unblocked, and should drive that iterator rather than re-running the walk.**
-
-Two consequences anything touching the map needs to know:
-
-- `Window.placed` is the mask of genes the displayed embedding has coordinates for. A walk map covers
-  a subsample, so most genes have no position in it: they are hidden, unpickable, and excluded from
-  `visible_mask`, which is what points, centroids, edges and the gene count all read. They used to be
-  left at the origin, drawn and clickable.
-- `embedding.normalise` puts every map at the same extent, and is what to use for anything that
-  produces coordinates — otherwise the camera has to be re-framed for each one.
+- **`search.search` streams.** `on_run` gets a `RunStep` per embedding — its best clustering under
+  the objective in force, its per-category scores, its coordinates and its labels. `walk_umap_iter`
+  does the same for a plain hyperparameter walk. Drive those rather than re-running anything.
+- **`Window.placed`** is the mask of genes the displayed embedding covers; unplaced genes are hidden,
+  unpickable and excluded from `visible_mask`. **`Window.gated`** is the set someone drew a gate
+  around, which is what annotation takes as input.
+- **The colour-by panel is the one place colour is chosen** — columns, kept clusterings (`runs.py`)
+  and binned quantities. `Window.category_values()` is what everything reads.
+- **Annotations refuse to be saved without a validated precision**, live in their own file, and draw
+  in a colour used for nothing else. That refusal is the point of the feature, not an obstacle in it.
+- **Two things are known and deliberately not on the list**: the identifier rename that task 25's
+  job 2 describes, and the Cryptosporidium fetch bug recorded in `HANDOFF.md`.
 
 ## Two environments, and the second one is the one that matters
 
@@ -120,7 +87,7 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
   directly, never a pragma. Genuinely unreachable branches get deleted.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.13.0).
+- Bump the version for feature work (currently 0.14.0).
 
 ## Where things are
 

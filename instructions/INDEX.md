@@ -32,13 +32,23 @@ One file per task. This index is the status table; the files carry the reasoning
 | 23 | Left panel becomes "color by" |
 | 22 | Cell diagram under the compartment list |
 | 25 | American spelling in user-facing text |
+| 24 | Forty black-and-white logo drafts |
+| 21 | Scoring objectives in the interface |
 
 ## Open
 
-| # | Task | % | Blocked by |
-|---|---|---|---|
-| 21 | Wire the scoring objectives into the interface | 100 (done) | — |
-| 24 | Forty black-and-white logo drafts | 0 | — |
+**Nothing.** Every task written down here has landed (2026-08-12, v0.14.0).
+
+Two things are known and deliberately not on this list, so that "open" stays a list of work someone
+asked for rather than a list of everything imaginable:
+
+- **The identifier rename** — `colour_of`, `colour_mode`, `set_colour_mode`, `categorical_colours`,
+  `unknown_colour`, `normalise`, `localisation.py`. Task 25 asked for user-facing text only and says
+  this is a separate, deliberate refactor with the tests green on each side. See
+  `done/25_american_spelling.md`.
+- **The Cryptosporidium VEuPathDB fetch**, which downloaded nothing and reported success. It is
+  recorded in `../HANDOFF.md` under "Known outstanding bug", where it belongs: it is a data-fetch
+  defect rather than a piece of application work.
 
 ## The one ordering constraint that is not negotiable — now satisfied
 
