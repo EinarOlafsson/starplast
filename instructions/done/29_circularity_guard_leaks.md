@@ -62,5 +62,12 @@ columns excluded for `compartment`, 7 for `attention_depth`, 2 for `cellcycle_ph
 `localization` combination is dropped from a sweep and said so; the Validation tab refuses a map
 built on `lopit_prob_map` and accepts one built on expression and fitness.
 
-**Every recovery number this project has published predates this.** The full-proteome battery was
-re-run under the fixed rules — see `results/full_proteome_2026_08_13_provenance/`.
+**The published numbers turn out to be unaffected, and that is worth stating precisely.** The
+full-proteome battery sweeps a hard-coded six-block base that contains neither `localization` nor
+`literature`, so no published row could use the leaking columns. Re-run under the fixed rules, every
+target reproduces its previous number exactly, winning block combination included —
+`results/full_proteome_2026_08_13_provenance/`.
+
+The leak was reachable from the **interface**, which sweeps every block that has columns: run from
+the Search tab on a 600-gene subsample, the localization block won outright, 0.259 against 0.192 for
+the best measurement block. A user would have believed it.

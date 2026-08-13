@@ -245,9 +245,19 @@ quantity for everything the same work produced by another route. `validate.circu
 the same three, because the Validation tab was refusing only the label column by name and would have
 put a validated-looking number on a map built from that label's own experiment.
 
-**Consequences for every number in 3f:** they were all computed with at least the first leak open, so
-they are upper bounds. The full-proteome battery has been re-run under the fixed rules —
-`results/full_proteome_2026_08_13_provenance/` — and that table is the one to quote.
+**Where the leak was reachable, and where it was not.** The published full-proteome battery
+(`search.search` with `block_sets=None`) sweeps a hard-coded six-block base —
+`expression_summary`, `expression_raw`, `fitness_screens`, `published_screens`, `protein_features`,
+`interactions` — which contains neither `localization` nor `literature`. So no published row could
+ever have used the leaking columns, and the re-run under the fixed rules confirms it: **every number
+in 3f is unchanged, to the last digit, including the winning block combination.** See
+`results/full_proteome_2026_08_13_provenance/`.
+
+The interface is the other case. `AnalysisPanel.run_search` builds its combinations from **every**
+block that has columns in the table, `localization` included, so a search run from the Search tab
+could and did select it: on a 600-gene subsample the localization block won outright at mean F1
+0.259 against 0.192 for the best measurement block. That is where this was found, and it is the
+configuration a user would have believed.
 
 **3g. A walk emits its configurations; a gene with no position in a map is not drawn in it.**
 (Added v0.4.0, 2026-08-12.) `tuning.walk_umap_iter` yields one `WalkStep` per configuration as it is

@@ -820,3 +820,19 @@ def test_a_real_search_marks_its_frontier():
     if R.empty:
         pytest.skip("no scorable clustering on this fixture")
     assert "on_frontier" in R.columns and R.on_frontier.any()
+
+
+def test_the_default_sweep_names_the_blocks_it_used_and_the_ones_it_did_not():
+    """"41 combinations from 6 blocks" does not say which six. The default base leaves out
+    `localization` and `literature` on purpose, the interface sweeps every block, and the difference
+    between those two is how a leak that could never reach the published battery reached the Search
+    tab. A sweep has to say what it swept."""
+    d = _searchable()
+    d["lopit_prob_map"] = np.random.default_rng(11).random(len(d))
+    lines = []
+    S.search(d, target="compartment", n_neighbors_values=(15,), min_dist_values=(0.0,),
+             min_cluster_sizes=(25,), log=lines.append)
+    named = [m for m in lines if "dataset combinations from" in m]
+    assert named, lines
+    assert "fitness_screens" in named[0], "the blocks it used are not named"
+    assert "not swept: localization" in named[0], "the blocks it left out are not named"

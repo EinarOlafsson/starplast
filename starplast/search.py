@@ -304,11 +304,21 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
     log(f"  excluded from every embedding ({len(banned)}): {', '.join(sorted(banned))}")
 
     if block_sets is None:
+        # Six blocks, not the nine that exist: `localization` and `literature` are deliberately out
+        # of the default sweep, the first because it is the localization experiment's own output and
+        # the second because it counts study effort. The interface sweeps every block instead, which
+        # is why a leak that could never reach this default reached the Search tab -- so the base is
+        # NAMED in the log rather than counted. "41 combinations from 6 blocks" does not let a
+        # reader tell which six, and that difference is the whole story of 3f-2 in HANDOFF.md.
         base = ["expression_summary", "expression_raw", "fitness_screens",
                 "published_screens", "protein_features", "interactions"]
         base = [b for b in base if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b)]
         block_sets = [tuple(c) for r in (1, 2, 3) for c in itertools.combinations(base, r)]
-        log(f"  {len(block_sets)} dataset combinations from {len(base)} blocks")
+        left_out = [b for b in BLOCKS if b not in base and columns_for(
+            nodes, EmbeddingSpec(blocks=(b,))).get(b)]
+        log(f"  {len(block_sets)} dataset combinations from {len(base)} blocks: "
+            + ", ".join(base)
+            + (f"  (not swept: {', '.join(left_out)})" if left_out else ""))
 
     rows, per_label, runs, last_reported, emitted = [], [], 0, 0, 0
     # Combinations the sweep never ran, and why. A skip that is not counted turns "8 runs" into "7
