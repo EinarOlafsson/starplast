@@ -12,7 +12,7 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~1,724 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect ~1,727 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
 ## The list is clear

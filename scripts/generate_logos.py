@@ -223,6 +223,63 @@ def galaxy(orbits: int, tilt: float, planets, seed: int, arms: int = 0, solid: b
     return "".join(body)
 
 
+def galaxy_body(orbits: int, tilt: float, planets, seed: int, rhoptries: int = 4) -> str:
+    """The parasite IS the innermost orbit, with rhoptries added to it.
+
+    The other galaxy drafts stamp a crescent over the middle of the system, which is two drawings on
+    top of each other -- the mark says "a parasite" and "a system" in the same place and the eye has
+    to separate them. Here the innermost ellipse is the parasite: same tilt, same family of shapes,
+    so the system resolves INTO the organism as it gets smaller instead of being interrupted by it.
+
+    What makes it a parasite rather than a bean is the rhoptries: club-shaped organelles converging
+    on the apical end, which is the most recognisable thing an apicomplexan has and the reason the
+    phylum is named after it. They are drawn along the long axis of the inner ellipse, narrow ends
+    meeting at the apex, so the tilt of the system is also the tilt of the cell.
+    """
+    rng = random.Random(seed)
+    th = math.radians(tilt)
+
+    def place(px, py):
+        """A point in the tilted frame of the system."""
+        return (32 + px * math.cos(th) - py * math.sin(th),
+                32 + px * math.sin(th) + py * math.cos(th))
+
+    body = []
+    for k in range(orbits):
+        rx = 28 + k * 9.5
+        ry = rx * 0.42
+        body.append(f'<ellipse cx="32" cy="32" rx="{rx:.1f}" ry="{ry:.1f}" fill="none" '
+                    f'stroke="#000" stroke-width="{3.2 - k * 0.5:.2f}" '
+                    f'transform="rotate({tilt:.0f} 32 32)"/>')
+        for _ in range(planets[k] if k < len(planets) else 0):
+            a = rng.uniform(0, 2 * math.pi)
+            body.append(dot(*place(rx * math.cos(a), ry * math.sin(a)), 3.4))
+
+    # The innermost "orbit" is the cell: an ellipse of the same family, drawn heavier so it reads as
+    # a body rather than as one more ring, and filled white so the orbits behind it do not run
+    # through the organelles inside it.
+    cell_rx, cell_ry = 20.0, 10.0
+    body.append(f'<ellipse cx="32" cy="32" rx="{cell_rx}" ry="{cell_ry}" fill="#fff" '
+                f'stroke="#000" stroke-width="3.2" transform="rotate({tilt:.0f} 32 32)"/>')
+
+    # Rhoptries: clubs converging on the apical end, which is the left end of the long axis here.
+    apex = (-cell_rx * 0.94, 0.0)
+    for i in range(rhoptries):
+        # Fanned across the short axis, each tapering from a bulb at the back to the apex.
+        spread = (i - (rhoptries - 1) / 2) / max(rhoptries - 1, 1)
+        bulb = (cell_rx * 0.34, spread * cell_ry * 0.55)
+        waist = (-cell_rx * 0.20, spread * cell_ry * 0.30)
+        d = (f"M{place(*apex)[0]:.1f} {place(*apex)[1]:.1f} "
+             f"Q{place(*waist)[0]:.1f} {place(*waist)[1]:.1f} "
+             f"{place(*bulb)[0]:.1f} {place(*bulb)[1]:.1f}")
+        body.append(f'<path d="{d}" fill="none" stroke="#000" stroke-width="1.9" '
+                    f'stroke-linecap="round"/>')
+        body.append(dot(*place(*bulb), 2.0))
+    # The conoid: the apical cap the rhoptries discharge through, and the point the whole cell aims.
+    body.append(dot(*place(*apex), 2.4))
+    return "".join(body)
+
+
 def drafts() -> list:
     """The drafts, as (name, title, body). Seven directions, not forty variations on one."""
     out = []
@@ -266,6 +323,11 @@ def drafts() -> list:
         out.append((f"galaxy_{i + 1}", "starplast — a tilted system with Toxoplasma at its centre",
                     galaxy(orbits, tilt, planets, seed=500 + i, arms=arms, solid=solid,
                            dotted=dotted)))
+    # The last of the series: the parasite is not stamped over the system, it IS the innermost
+    # orbit, with rhoptries on it. The system resolves into the organism rather than being
+    # interrupted by it.
+    out.append(("galaxy_9", "starplast — the innermost orbit is the parasite",
+                galaxy_body(orbits=2, tilt=-22, planets=(1, 1), seed=600, rhoptries=3)))
     return out
 
 

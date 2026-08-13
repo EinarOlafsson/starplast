@@ -9,7 +9,7 @@ the six directions actually distinct; the seeds mean "that one, but sparser" can
 changing a number rather than by redrawing something nobody can reproduce; and it lets the 16-pixel
 constraint be a **test** rather than a hope.
 
-## Seven directions, forty-eight drafts
+## Seven directions, forty-nine drafts
 
     constellation (8)  the map IS a point cloud, with nearest-neighbour edges rather than random
                        ones — a constellation whose lines cross at random reads as a scribble
@@ -32,8 +32,17 @@ constraint be a **test** rather than a hope.
                        and the middle of the mark is a blob rather than the body the system turns
                        around.
 
+    galaxy_9           the last of the series, and the one that answers an objection to the other
+                       eight: they stamp a crescent OVER the middle of the system, which is two
+                       drawings in the same place. Here the innermost ellipse IS the parasite —
+                       same tilt, same family of shapes — so the system resolves into the organism
+                       as it gets smaller instead of being interrupted by it. What makes it a
+                       parasite rather than a bean is the rhoptries: three clubs converging on the
+                       apical end, which is the most recognisable thing an apicomplexan has and the
+                       reason the phylum is named after it.
+
 Forty was the ask; the galaxy family is a seventh direction requested after the first forty were
-drawn, and adding it beat discarding drafts nobody had rejected.
+drawn, and adding it beat discarding drafts nobody had rejected. Forty-nine in total.
 
 ## The 16-pixel test did its job four times
 
