@@ -425,7 +425,23 @@ the map's *structural holes* rather than over authors' stated gaps — is the go
 what this app displays. It was in progress when context ran out. B7 is one of its six hole types, so
 building the map gets B7 nearly free.
 
-**Known outstanding bug:** the *Cryptosporidium* VEuPathDB fetch silently downloaded nothing (CryptoDB
-organism listing threw an HTTPError, was logged, and the job reported completion). Same failure class as
-two earlier bugs — a job reporting success having done nothing. Needs a retry with the fixed
-`abbrev()` in `.claude/skills/download_veupathdb.py`.
+**The *Cryptosporidium* VEuPathDB fetch is fixed and has been run — 2026-08-13.** It had downloaded
+nothing and reported completion: the CryptoDB organism listing 404'd because the webapp path is
+`cryptodb`, not the `crypto` that dropping "db" from the project name gives, and the error was logged
+while the job printed `DONE files=0`.
+
+Two more silent skips turned up on the retry, both of the same shape — work that did nothing and
+reported a number as though it had. `abbrev()` left punctuation in the species token, so
+`Cryptosporidium sp. chipmunk LX-2015` became `Csp.chipmunkLX2015` and 404'd on all four of its
+files; and the derived name is simply wrong for some organisms, because VEuPathDB keeps hyphens in
+`CbaileyiTAMU-09Q1` and `CparvumIOWA-ATCC` and drops "genotype I" from `Cspchipmunk37763`. Deriving a
+name and hoping is now replaced by **resolving it against the release index** (`release_dirs`,
+`resolve`), matched on letters and digits alone; anything that still does not resolve is printed by
+name, counted, and downgrades the run to PARTIAL rather than vanishing.
+
+Result: 19 of 19 *Cryptosporidium* organisms resolved, 61 files, 354 MB. Thirteen carry the full set;
+the other six publish a genome and nothing else, which was verified against the site rather than
+assumed — those assemblies are unannotated upstream.
+
+The same fix applies to every other skill that script serves, and **the other corpora have not been
+re-run**: any organism whose name needed the index to resolve was silently skipped there too.
