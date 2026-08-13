@@ -12,7 +12,7 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~1,852 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect ~1,855 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
 ## The list is clear
@@ -95,9 +95,13 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
   cover a Qt-thread body is to call it directly, never a pragma; genuinely unreachable branches get
   deleted. Two functions were deleted rather than covered in the last pass, and writing one of the
   missing tests found a real defect in `objectives.adjusted`.
+- **The suite must not write into the user's own state.** `STARPLAST_STATE` points kept runs,
+  annotations and saved embeddings at a temporary directory for the run (`conftest.py`), the way
+  QSettings is already redirected. Both isolations exist because both were violated, and each was
+  found by looking at a real machine rather than by a failing test.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.17.2).
+- Bump the version for feature work (currently 0.17.3).
 
 ## Where things are
 

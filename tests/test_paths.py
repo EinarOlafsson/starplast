@@ -74,6 +74,9 @@ def test_a_missing_dataset_root_is_a_state_not_an_exception(monkeypatch, tmp_pat
 
 
 def test_dataset_root_can_create_a_writable_download_location(monkeypatch, tmp_path):
+    # Without dropping the override this measures the suite's own state directory, which an earlier
+    # test has already created -- so the branch that creates one never runs.
+    monkeypatch.delenv(paths.ENV_STATE, raising=False)
     monkeypatch.setenv("XDG_CACHE_HOME", str(tmp_path))
     monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path / "absent"))
     r = paths.dataset_root(create=True)
@@ -102,12 +105,33 @@ def test_find_accepts_path_segments():
 
 
 # --------------------------------------------------------------------------- platform behaviour
+#
+# Every test below asks what the PLATFORM default is, so each one has to drop the state override the
+# suite sets on itself in conftest -- otherwise they all measure the override and none of them
+# measures the branch it names.
+def test_the_state_directory_can_be_pointed_somewhere_else(monkeypatch, tmp_path):
+    """The override the suite runs under, and the reason it exists: a Window keeps the user's runs
+    and annotations here, so a test that builds one must not be able to write into them."""
+    monkeypatch.setenv(paths.ENV_STATE, str(tmp_path / "elsewhere"))
+    assert paths.user_cache_dir() == str(tmp_path / "elsewhere")
+
+
+def test_an_empty_override_is_no_override(monkeypatch, tmp_path):
+    """An unset variable and one set to nothing mean the same thing; treating "" as a directory
+    would put the user's runs at the filesystem root."""
+    monkeypatch.setenv(paths.ENV_STATE, "")
+    monkeypatch.setenv("XDG_CACHE_HOME", str(tmp_path))
+    assert paths.user_cache_dir() == os.path.join(str(tmp_path), "starplast")
+
+
 def test_user_cache_dir_is_per_user_and_named(monkeypatch, tmp_path):
+    monkeypatch.delenv(paths.ENV_STATE, raising=False)
     monkeypatch.setenv("XDG_CACHE_HOME", str(tmp_path))
     assert paths.user_cache_dir() == os.path.join(str(tmp_path), "starplast")
 
 
 def test_user_cache_dir_falls_back_when_xdg_is_unset(monkeypatch):
+    monkeypatch.delenv(paths.ENV_STATE, raising=False)
     monkeypatch.delenv("XDG_CACHE_HOME", raising=False)
     assert paths.user_cache_dir().startswith(os.path.expanduser("~"))
 
@@ -149,12 +173,14 @@ def test_the_cli_survives_a_broken_registry(monkeypatch, capsys):
 # --------------------------------------------------------------------------- the other platforms
 def test_windows_cache_location(monkeypatch, tmp_path):
     """Packaged as an .exe, so the Windows branch is shipped code, not a hypothetical."""
+    monkeypatch.delenv(paths.ENV_STATE, raising=False)
     monkeypatch.setattr(os, "name", "nt")
     monkeypatch.setenv("LOCALAPPDATA", str(tmp_path))
     assert paths.user_cache_dir() == os.path.join(str(tmp_path), "starplast")
 
 
 def test_windows_cache_falls_back_to_home_when_localappdata_is_unset(monkeypatch):
+    monkeypatch.delenv(paths.ENV_STATE, raising=False)
     monkeypatch.setattr(os, "name", "nt")
     monkeypatch.delenv("LOCALAPPDATA", raising=False)
     assert paths.user_cache_dir().startswith(os.path.expanduser("~"))
@@ -162,6 +188,7 @@ def test_windows_cache_falls_back_to_home_when_localappdata_is_unset(monkeypatch
 
 def test_macos_cache_location(monkeypatch):
     """Packaged as a .dmg, likewise."""
+    monkeypatch.delenv(paths.ENV_STATE, raising=False)
     monkeypatch.setattr(os, "name", "posix")
     monkeypatch.setattr(os, "uname", lambda: type("u", (), {"sysname": "Darwin"})())
     assert paths.user_cache_dir() == os.path.expanduser("~/Library/Caches/starplast")
@@ -196,6 +223,7 @@ def test_data_dir_last_resort_is_the_user_cache(monkeypatch, tmp_path):
     """Every candidate empty -- only reachable if the package has no location, but it is the branch that
     keeps data_dir() total, and a resolver that can return None puts a None into an os.path.join."""
     monkeypatch.delenv(paths.ENV_CACHE, raising=False)
+    monkeypatch.delenv(paths.ENV_STATE, raising=False)
     monkeypatch.setattr(paths, "_cache_candidates", lambda: iter([None, None]))
     monkeypatch.setenv("XDG_CACHE_HOME", str(tmp_path))
     assert paths.data_dir() == os.path.join(str(tmp_path), "starplast", "data")

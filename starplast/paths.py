@@ -41,8 +41,18 @@ _PKG = os.path.dirname(os.path.abspath(__file__))
 _REPO = os.path.dirname(_PKG)
 
 
+#: Where this session keeps the user's own state -- kept runs, annotations, downloads. An override
+#: rather than only a platform default because the test suite must be able to point it somewhere
+#: else: every `Window` built in a test wrote its kept runs into the real one, and a suite that
+#: leaves `test_run_a` in somebody's saved clusterings has damaged what it was checking.
+ENV_STATE = "STARPLAST_STATE"
+
+
 def user_cache_dir() -> str:
     """Platform cache directory. Downloads land here, so it must be writable and per-user."""
+    override = os.environ.get(ENV_STATE)
+    if override:
+        return override
     if os.name == "nt":
         base = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
     elif os.uname().sysname == "Darwin":

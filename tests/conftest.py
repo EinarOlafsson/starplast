@@ -34,3 +34,14 @@ QtCore.QSettings.setDefaultFormat(QtCore.QSettings.Format.IniFormat)
 for _fmt in (QtCore.QSettings.Format.NativeFormat, QtCore.QSettings.Format.IniFormat):
     QtCore.QSettings.setPath(_fmt, QtCore.QSettings.Scope.UserScope, SETTINGS_DIR)
     QtCore.QSettings.setPath(_fmt, QtCore.QSettings.Scope.SystemScope, SETTINGS_DIR)
+
+# The same rule for the user's own state, and for the same reason. Every `Window` the suite builds
+# keeps its clusterings in `paths.user_cache_dir()/runs` and its annotations beside them, so the
+# tests were writing into the saved runs of whoever ran them: a real store on this machine had
+# `test_run_a`, `test_two_b` and `before` sitting among a user's own work, and any test that keeps a
+# run left another one behind. Saved embeddings go the same way, into the package's own directory.
+#
+# `STARPLAST_STATE` points all three somewhere temporary for the duration of the run.
+# `test_the_user_s_saved_runs_are_isolated_from_the_suite` is the check that this holds.
+STATE_DIR = tempfile.mkdtemp(prefix="starplast-test-state-")
+os.environ["STARPLAST_STATE"] = STATE_DIR

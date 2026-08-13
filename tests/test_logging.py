@@ -279,3 +279,31 @@ def test_settings_are_isolated_from_the_user_running_the_suite(qapp):
     assert os.path.exists(s.fileName())
     real = os.path.expanduser("~/.config/starplast/starplast.conf")
     assert not os.path.exists(real) or "test-settings" not in open(real).read()
+
+
+def test_the_user_s_saved_runs_are_isolated_from_the_suite(qapp):
+    """The same failure as the settings one, found the same way -- by looking at a real machine. A
+    user's store held `test_run_a`, `test_two_b` and `before` among their own clusterings, because
+    every Window the suite builds keeps its runs in `paths.user_cache_dir()`. A test that writes
+    into what it is testing has damaged the thing it was checking.
+
+    Saved embeddings travel with it: they land inside the package, so the suite was leaving walk
+    output in the shipped directory too.
+    """
+    import numpy as np
+    from starplast import paths
+    from starplast.app import Window
+
+    assert "starplast-test-state" in paths.user_cache_dir(), paths.user_cache_dir()
+    win = Window()
+    try:
+        win.keep_run(np.zeros(win.n, dtype=int), name="isolation_check")
+        assert "starplast-test-state" in win.runs.root
+        assert "starplast-test-state" in win.annotations.path
+        assert "starplast-test-state" in win.panel.store.root
+        assert os.path.exists(os.path.join(win.runs.root, "isolation_check.npz"))
+    finally:
+        win.close()
+    real = os.path.join(os.path.expanduser("~/.cache/starplast"), "runs")
+    assert not os.path.exists(os.path.join(real, "isolation_check.npz")), \
+        "the suite wrote a run into the store of whoever ran it"

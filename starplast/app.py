@@ -1031,7 +1031,11 @@ class Window(QtWidgets.QMainWindow):
         # while these are the user's own proposals and must survive `build_graph`.
         self.annotations = AnnotationStore(
             os.path.join(paths.user_cache_dir(), "annotations.csv"))
-        panel = AnalysisPanel(self.nodes, store=EmbeddingStore(os.path.join(DATA, "embeddings")),
+        # Saved embeddings sit inside the package, beside the cache they were computed from -- unless
+        # the state directory is overridden, which is how the suite keeps its own walks out of the
+        # user's store. Read here rather than at import time so setting the variable takes effect.
+        embeddings = os.path.join(os.environ.get(paths.ENV_STATE) or DATA, "embeddings")
+        panel = AnalysisPanel(self.nodes, store=EmbeddingStore(embeddings),
                               runner=self.jobs, annotations=self.annotations)
         panel.status.connect(lambda m: self.statusBar().showMessage(m))
         panel.embedding_ready.connect(self.use_embedding)
