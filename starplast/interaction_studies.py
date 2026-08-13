@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Parsing published proximity-labelling and pulldown supplements into gene lists.
+"""Parsing published proximity-labeling and pulldown supplements into gene lists.
 
 97 studies with a tagged *Toxoplasma* protein were catalogued from the abstract corpus and their
 supplementary files downloaded. This module turns the machine-readable ones into a table of
@@ -159,7 +159,7 @@ def guess_baits(studies: pd.DataFrame, symbol_to_gene: dict, log=print) -> pd.Da
     """Guess the tagged protein from the paper title, via ToxoDB symbols.
 
     Titles like "IMC29 Plays an Important Role..." or "...disulfide isomerase PDI8..." name the bait
-    directly. This is a heuristic and is labelled as one: `bait_confidence` is `title` when a symbol was
+    directly. This is a heuristic and is labeled as one: `bait_confidence` is `title` when a symbol was
     found and empty otherwise, so nothing downstream can treat a guess as an annotation.
     """
     if studies.empty:

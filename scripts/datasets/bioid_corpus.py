@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Proximity-labelling corpus
+"""Proximity-labeling corpus
 
 42 BioID/TurboID/APEX studies with a tagged Toxoplasma protein
 

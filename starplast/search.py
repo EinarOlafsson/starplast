@@ -8,7 +8,7 @@ weighting, clustering walks — exists so that this question can be asked withou
     never given to it?
 
 If a map built from expression and fitness alone puts 97% of apicoplast proteins in one cluster, then
-compartment is *predictable from that structure*, and the unlabelled genes in that cluster acquire a
+compartment is *predictable from that structure*, and the unlabeled genes in that cluster acquire a
 testable prediction. The same question for cell-cycle or stage tells you when a hypothetical gene is
 likely active. That is inference, not description — and it is only valid because the target was held out.
 
@@ -26,7 +26,7 @@ Three rules make the search trustworthy, and each of them was a bug before it wa
    not a result.
 
 The search is deliberately exhaustive rather than clever. This space has not been mapped, so the useful
-first move is to cover it and look, not to optimise into one corner of it.
+first move is to cover it and look, not to optimize into one corner of it.
 """
 from __future__ import annotations
 
@@ -249,7 +249,7 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
     if truth_col not in nodes.columns:
         raise ValueError(f"target {truth_col!r} not in the table")
     banned = excluded_for(nodes, truth_col)
-    log(f"target {truth_col!r}: {int(nodes[truth_col].notna().sum()):,} labelled genes")
+    log(f"target {truth_col!r}: {int(nodes[truth_col].notna().sum()):,} labeled genes")
     log(f"  excluded from every embedding ({len(banned)}): {', '.join(sorted(banned))}")
 
     if block_sets is None:
@@ -457,10 +457,10 @@ def rebuild(nodes: pd.DataFrame, row, log=print) -> tuple:
 
 def predictions(nodes: pd.DataFrame, labels: np.ndarray, truth: pd.Series, gene_index,
                 min_precision=0.8, min_cluster_labelled=10) -> pd.DataFrame:
-    """Turn a recovered structure into predictions for the unlabelled genes in each cluster.
+    """Turn a recovered structure into predictions for the unlabeled genes in each cluster.
 
     Only clusters that are already purely one label are used, and the precision achieved on the
-    *labelled* members is carried through as the prediction's confidence -- it is the only honest
+    *labeled* members is carried through as the prediction's confidence -- it is the only honest
     estimate of how often the prediction will be right.
     """
     out = []

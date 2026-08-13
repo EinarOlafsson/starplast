@@ -87,7 +87,7 @@ class _Task(QtCore.QRunnable):
 
     def run(self):
         if self.job.cancelled:
-            _log.info("job %d %r: cancelled before it started", self.job.id, self.job.name)
+            _log.info("job %d %r: canceled before it started", self.job.id, self.job.name)
             self.sig.finished.emit(self.job.id, False)
             return
         t0 = time.monotonic()

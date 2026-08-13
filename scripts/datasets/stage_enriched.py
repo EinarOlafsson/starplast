@@ -12,7 +12,7 @@ Quirks that cost time once:
     DERIVED, not measured: computed here from expr_tachy / expr_cyst / expr_sporulated by
     z-scoring each and taking the argmax where it leads by 0.5 z. It is a restatement of those
     columns, so holding it out against an embedding built on them is circular by construction.
-    Left unlabelled where no stage leads clearly.
+    Left unlabeled where no stage leads clearly.
 
 Fetches the source, reads it, resolves its accessions to current ToxoDB ME49, and reports the
 coverage that resolution achieves. The shipped columns are assembled by

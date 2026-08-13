@@ -163,7 +163,7 @@ def lopit_labels(ds: str, nodes: pd.DataFrame, log=print) -> pd.DataFrame:
         & ((nodes.ortholopit_accuracy >= MIN_TRANSFER_ACCURACY)
            | (nodes.ortholopit_accuracy.isna() & multi_donor)))
     if len(dual):
-        log(f"orthoLOPIT calibration on {len(dual):,} dual-labelled genes: "
+        log(f"orthoLOPIT calibration on {len(dual):,} dual-labeled genes: "
             f"{(dual.lopit_unified == dual.ortholopit_label).mean():.1%} overall. "
             f"Gating is per (category, donor-set), so a category can pass from one donor and fail "
             f"from another:")
@@ -183,6 +183,6 @@ def lopit_labels(ds: str, nodes: pd.DataFrame, log=print) -> pd.DataFrame:
     # hyperLOPIT assignment tracks abundance: a missing call is unknown, never a 27th compartment
     nodes["compartment"] = nodes.compartment.fillna("unassigned")
     log(f"localisation: {int(measured.sum()):,} measured + {int(transferred.sum()):,} orthoLOPIT "
-        f"= {int(measured.sum() + transferred.sum()):,} of {len(nodes):,} genes labelled "
+        f"= {int(measured.sum() + transferred.sum()):,} of {len(nodes):,} genes labeled "
         f"({(measured.sum() + transferred.sum()) / len(nodes):.0%})")
     return nodes

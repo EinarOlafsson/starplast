@@ -276,7 +276,7 @@ def test_a_colouring_that_fails_costs_the_colour_not_the_picture(app, capsys):
 
     p = G.GalleryPanel(colour_fn=boom)
     assert p.colours_for(_step()) is None
-    assert "colouring unavailable" in capsys.readouterr().out
+    assert "coloring unavailable" in capsys.readouterr().out
     p.add(_step())               # and it still draws
     assert p.list.count() == 1
 

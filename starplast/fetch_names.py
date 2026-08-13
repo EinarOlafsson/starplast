@@ -27,7 +27,7 @@ RENAME = {"Gene ID": "gene_id", "Gene Name or Symbol": "gene_name",
 
 
 def fetch(organism: str, attributes: list) -> str:
-    """Retrieve a tabular attribute report from ToxoDB for one organism."""
+    """Retrieve a tabular attribute report from ToxoDB for one organizm."""
     body = {"searchConfig": {"parameters": {"organism": json.dumps([organism])}},
             "reportConfig": {"attributes": attributes, "includeHeader": True,
                              "attachmentType": "plain"}}

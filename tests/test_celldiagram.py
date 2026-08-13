@@ -147,9 +147,7 @@ def test_clicking_an_organelle_selects_its_compartment(diagram):
     from PyQt6 import QtCore, QtGui
     diagram.set_palette({"apicoplast": (0.0, 0.0, 1.0)}, "")
     box = diagram.renderer().boundsOnElement("SL0018")
-    target, size = diagram._target(), diagram.renderer().defaultSize()
-    x = target.x() + box.center().x() * target.width() / size.width()
-    y = target.y() + box.center().y() * target.height() / size.height()
+    x, y = diagram.local_to_widget(box.center().x(), box.center().y())
     got = []
     diagram.compartment_clicked.connect(got.append)
     pos = QtCore.QPointF(x, y)
@@ -207,9 +205,7 @@ def test_clicking_the_middle_of_a_shape_selects_that_shape(diagram):
     diagram.set_palette({c: (0.5, 0.5, 0.5) for c in CD.COMPARTMENT_SL}, "")
     r = diagram.renderer()
     box = r.boundsOnElement("SL0188")            # nucleolus, inside the nucleus, inside the cell
-    target, size = diagram._target(), r.defaultSize()
-    x = target.x() + box.center().x() * target.width() / size.width()
-    y = target.y() + box.center().y() * target.height() / size.height()
+    x, y = diagram.local_to_widget(box.center().x(), box.center().y())
     assert diagram.organelle_at(x, y) == "SL0188"
 
 
@@ -239,9 +235,7 @@ def test_clicking_a_shape_whose_classes_are_not_in_the_palette_still_selects_one
     diagram.colour_of = {}                      # a different category is showing
     r = diagram.renderer()
     box = r.boundsOnElement("SL0018")
-    target, size = diagram._target(), r.defaultSize()
-    pos = QtCore.QPointF(target.x() + box.center().x() * target.width() / size.width(),
-                         target.y() + box.center().y() * target.height() / size.height())
+    pos = QtCore.QPointF(*diagram.local_to_widget(box.center().x(), box.center().y()))
     got = []
     diagram.compartment_clicked.connect(got.append)
     diagram.mouseReleaseEvent(QtGui.QMouseEvent(
@@ -260,3 +254,54 @@ def test_a_drawing_with_no_size_of_its_own_fills_the_widget(qapp, tmp_path):
     d.resize(80, 200)                 # the widget has a minimum height of its own
     assert d._target().width() == d.width() and d._target().height() == d.height()
     assert d.organelle_at(10, 10) == ""
+
+
+def test_the_cell_stands_upright_with_the_apex_at_the_top(diagram):
+    """Drawn lying down it is a strip a centimetre high in a 260-pixel column -- and apex-first is
+    how the parasite is drawn in every paper about invasion, because that is the end that goes in."""
+    r = diagram.renderer()
+    assert r.defaultSize().height() > r.defaultSize().width(), "the drawing is still landscape"
+    # The rhoptries are apical, the nucleus is basal: upright means the rhoptries are ABOVE it.
+    rh = r.boundsOnElement("SL0233").center()
+    nu = r.boundsOnElement("SL0191").center()
+    _, rh_y = diagram.local_to_widget(rh.x(), rh.y())
+    _, nu_y = diagram.local_to_widget(nu.x(), nu.y())
+    assert rh_y < nu_y, "the apical end is not at the top"
+
+
+def test_the_artwork_brings_no_background_of_its_own(diagram, svg):
+    """A white card behind a parasite on a dark ground reads as an image that failed to load. Two
+    things make that card: a white rectangle behind everything, and a single path that traces the
+    canvas and then the cell outline, filled even-odd so it paints everything outside the parasite."""
+    assert 'id="path_1_"' in svg, "the artwork's background rect is gone from the source file"
+    assert 'id="path_1_"' not in diagram.svg
+    i = diagram.svg.find("M0,0v")
+    assert i > 0, "the surround path is not in the drawing any more"
+    tag_start = diagram.svg.rfind("<path", 0, i)
+    assert 'fill="none"' in diagram.svg[tag_start:i], "the surround is still painted"
+
+
+def test_mapping_a_point_to_the_widget_and_back_returns_it(diagram):
+    """The two directions are defined together so they cannot drift: an off-by-a-quarter-turn hit
+    test is invisible until someone clicks an organelle and selects its neighbour."""
+    diagram.set_palette({"apicoplast": (0.0, 0.0, 1.0)}, "")
+    x, y = diagram.local_to_widget(300.0, 400.0)
+    back = diagram.widget_to_local(x, y)
+    assert abs(back[0] - 300.0) < 1e-6 and abs(back[1] - 400.0) < 1e-6
+
+
+def test_mapping_without_a_drawing_is_the_origin_rather_than_a_crash(qapp, tmp_path):
+    d = CD.CellDiagram(path=str(tmp_path / "nothing.svg"))
+    assert d.local_to_widget(1, 2) == (0.0, 0.0)
+    assert d.widget_to_local(1, 2) == (0.0, 0.0)
+
+
+def test_mapping_back_from_a_widget_with_no_size_is_the_origin(qapp, tmp_path):
+    """Qt lays widgets out after they are built, so a click can arrive before the widget has a
+    size -- and dividing by that width is how a hit test becomes an exception."""
+    path = tmp_path / "flat.svg"
+    path.write_text('<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" '
+                    'viewBox="0 0 0 0"><g id="SL0018"><rect width="0" height="0"/></g></svg>')
+    d = CD.CellDiagram(path=str(path))
+    d.resize(0, 0)
+    assert d.widget_to_local(3, 4) == (0.0, 0.0)

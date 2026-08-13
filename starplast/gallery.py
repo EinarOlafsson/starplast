@@ -28,8 +28,8 @@ runs on. A thumbnail is a small orthographic projection of the same coordinates 
 fast enough to keep up with a walk, and testable without a display. It is a picture; the map it opens
 into is the application's own 3D view, where a gene can be clicked like any other.
 
-Colour comes from the caller (`colour_fn`), so a thumbnail is coloured by whatever the main map is
-coloured by. Grey means unknown there and means unknown here.
+Color comes from the caller (`colour_fn`), so a thumbnail is colored by whatever the main map is
+colored by. Gray means unknown there and means unknown here.
 """
 from __future__ import annotations
 
@@ -175,7 +175,7 @@ class GalleryPanel(QtWidgets.QWidget):
         self.list.setWordWrap(True)
         self.list.setToolTip(
             "Every configuration this walk has finished. Click one to open it in the main view, "
-            "where it is a map like any other -- click a gene for its evidence, colour by anything, "
+            "where it is a map like any other -- click a gene for its evidence, color by anything, "
             "draw edges. The caption is the configuration and what it scored; a map that looks "
             "structured is a lead to check, not a result.")
         self.list.itemClicked.connect(self._on_item)
@@ -204,7 +204,7 @@ class GalleryPanel(QtWidgets.QWidget):
         self.open_btn = QtWidgets.QPushButton("open this map in the main view")
         self.open_btn.setToolTip(
             "Show this configuration in the 3D view, replacing what is there. It becomes the map: "
-            "genes are clickable, every colour mode applies, and the walk keeps running behind it. "
+            "genes are clickable, every color mode applies, and the walk keeps running behind it. "
             "Genes outside the walk's subsample have no position in this embedding and are hidden "
             "rather than drawn at the origin.")
         self.open_btn.clicked.connect(self.expand_current)
@@ -250,7 +250,7 @@ class GalleryPanel(QtWidgets.QWidget):
     NOISE_COLOUR = (0.45, 0.45, 0.48, 0.55)
 
     def cluster_colours(self, labels) -> np.ndarray:
-        """One colour per point from a clustering, noise in grey."""
+        """One color per point from a clustering, noise in gray."""
         labels = np.asarray(labels)
         out = np.tile(np.asarray(self.NOISE_COLOUR, dtype=float), (len(labels), 1))
         ids = sorted({int(v) for v in labels if v >= 0})
@@ -260,7 +260,7 @@ class GalleryPanel(QtWidgets.QWidget):
         return out
 
     def colours_for(self, step):
-        """The point colours for one step: its own clustering if it has one, else the window's."""
+        """The point colors for one step: its own clustering if it has one, else the window's."""
         labels = getattr(step, "labels", None)
         if labels is not None and len(labels) == len(step.coords):
             return self.cluster_colours(labels)
@@ -272,7 +272,7 @@ class GalleryPanel(QtWidgets.QWidget):
             # A gallery is a viewer. A colouring that fails -- a column dropped, a clustering of the
             # wrong length -- must cost the colour, not the picture, and must say so once rather than
             # raising out of a signal handler where Qt will simply print it and continue.
-            print(f"starplast: gallery colouring unavailable ({type(exc).__name__}: {exc})")
+            print(f"starplast: gallery coloring unavailable ({type(exc).__name__}: {exc})")
             return None
         c = np.asarray(c, dtype=float) if c is not None else None
         return c if (c is not None and len(c) == len(step.coords)) else None

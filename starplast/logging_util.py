@@ -26,7 +26,7 @@ steps, which is the thing this module exists to end.
 
 ## The console format is parsed, not just read
 
-Console lines are `[LEVEL] message`, which is what lets the console pane colour them and filter by
+Console lines are `[LEVEL] message`, which is what lets the console pane color them and filter by
 level. It is a prefix rather than a suffix or a column so that a wrapped or truncated line still
 begins with its level.
 """
@@ -163,7 +163,7 @@ def log_file() -> str:
 def parse_level(line: str):
     """The level a console line was logged at, or None if it was an ordinary print.
 
-    The console pane uses this to colour and filter. Ordinary prints are not forced into a level:
+    The console pane uses this to color and filter. Ordinary prints are not forced into a level:
     most of this application's output is `print`, and calling all of it INFO would make an INFO
     filter useless.
     """

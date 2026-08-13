@@ -285,7 +285,7 @@ def test_hiding_every_gene_of_a_category_scores_nothing_rather_than_guessing():
     labels, truth = _labels_and_truth(n_per=10)
     r = V.masked_recovery(labels, truth, "a", folds=3, hold_frac=1.0)
     assert r.folds == []
-    assert "not enough labelled genes" in r.summary()
+    assert "not enough labeled genes" in r.summary()
 
 
 def test_a_clustering_that_is_all_noise_annotates_nothing():

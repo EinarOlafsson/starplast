@@ -9,7 +9,7 @@ Capture is deliberately a tee rather than a redirect. Swallowing stderr would hi
 anyone debugging from a terminal, which is where they are actually read.
 
 Lines that came through `logging_util` carry their level as a `[LEVEL]` prefix, and the pane reads
-it: it colours by level and filters by minimum level, so a warning is findable in a walk that
+it: it colors by level and filters by minimum level, so a warning is findable in a walk that
 printed four thousand progress lines. Ordinary prints are left levelless rather than being called
 INFO -- most output here is `print`, and folding it into a level would make filtering by that level
 useless.
@@ -193,7 +193,7 @@ class ConsolePanel(QtWidgets.QWidget):
         return not f or f in line.lower()
 
     def _write(self, stamp: str, line: str, level: str = ""):
-        """Put one line in the view, in its level's colour."""
+        """Put one line in the view, in its level's color."""
         colour = LEVEL_COLOUR.get(level)
         self.view.setTextColor(QtGui.QColor(colour) if colour
                                else self.view.palette().text().color())

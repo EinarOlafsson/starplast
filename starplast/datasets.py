@@ -90,7 +90,7 @@ REGISTRY = [
             note="DERIVED, not measured: computed here from expr_tachy / expr_cyst / expr_sporulated "
                  "by z-scoring each and taking the argmax where it leads by 0.5 z. It is a "
                  "restatement of those columns, so holding it out against an embedding built on them "
-                 "is circular by construction. Left unlabelled where no stage leads clearly."),
+                 "is circular by construction. Left unlabeled where no stage leads clearly."),
 
     # ------------------------------------------------------------------ reference
     Dataset("toxodb_identity", "ToxoDB gene identity", "reference", "identity",
@@ -286,7 +286,7 @@ REGISTRY = [
             note="COMPUTED HERE, so there is nothing to download: Foldseek all-vs-all over the "
                  "Toxoplasma AlphaFold models (see the alphafold entry for how to obtain those), "
                  "keeping pairs at TM >= 0.7. Needs no orthology, so it reaches lineage-specific effectors homology edges cannot."),
-    Dataset("bioid_corpus", "Proximity-labelling corpus", "post_translation", "BioID",
+    Dataset("bioid_corpus", "Proximity-labeling corpus", "post_translation", "BioID",
             "42 BioID/TurboID/APEX studies with a tagged Toxoplasma protein", (),
             "28 studies with data, 127 files",
             url=EPMC.format(pmcid="{pmcid}"),
@@ -422,7 +422,7 @@ def fetchable(key: str) -> tuple:
         return False, "URL is a landing page, not a file"
     if d.url.lower().endswith(_FILE_SUFFIXES) or "MediaObjects" in d.url or "type=supplementary" in d.url:
         return True, "direct"
-    return False, "URL is not recognisably a file"
+    return False, "URL is not recognizably a file"
 
 
 def ensure(key: str, log=print) -> str | None:

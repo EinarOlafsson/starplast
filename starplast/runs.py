@@ -13,7 +13,7 @@ Three things a kept run has to carry, and each of them was missing:
 * **Its recipe.** An embedding spec and the clustering parameters. Without them a name is a label on
   nothing: nobody can rebuild the run, and two runs cannot be told apart except by their numbers.
 * **Which genes it applies to.** Not how many -- which. A clustering of a subsample has fewer labels
-  than the map has genes, and lining them up by position would put cluster 3's colour on whichever
+  than the map has genes, and lining them up by position would put cluster 3's color on whichever
   gene happens to sit at that index. The mask travels with the labels for exactly that reason.
 
 Saved as one `.npz` of arrays plus one `.json` of the recipe, in the same shape as `EmbeddingStore`,
@@ -139,7 +139,7 @@ class RunStore:
         return True
 
     def names(self) -> list:
-        """Every kept run's name, in the order they were made -- what the colour-by list shows."""
+        """Every kept run's name, in the order they were made -- what the color-by list shows."""
         return [r.name for r in self.runs]
 
     # ------------------------------------------------------------------ on disk
@@ -182,21 +182,21 @@ class RunStore:
 
 
 def bin_column(values, bins: int = 5, log=None) -> pd.Series:
-    """A numeric column as a categorical one, labelled by its ranges.
+    """A numeric column as a categorical one, labeled by its ranges.
 
-    Colouring a quantity by a ramp is already offered; binning makes it behave like a category,
+    Coloring a quantity by a ramp is already offered; binning makes it behave like a category,
     which is what makes it comparable with a clustering -- the comparison this panel exists for.
 
     Quantile bins, not equal-width: nearly every quantity in this table is heavy-tailed (the fitness
     screens span 64x within themselves), and equal-width bins put 95% of the genes in one of them
-    and call the result a colouring. Missing values become "", which is absence everywhere else --
+    and call the result a coloring. Missing values become "", which is absence everywhere else --
     they are not a low bin.
 
     **Fewer bins than asked for is an answer, not a failure, and it is reported rather than worked
     around.** `n_publications` is zero for most of this proteome, so its quartile edges are all zero
     and quantile binning yields one bin. Splitting the tie anyway -- by rank, or by equal width --
-    would draw four colours over a column that has one level, which is a picture of a distinction
-    that does not exist. The honest colouring of a mostly-constant quantity is mostly one colour.
+    would draw four colors over a column that has one level, which is a picture of a distinction
+    that does not exist. The honest coloring of a mostly-constant quantity is mostly one color.
     """
     s = pd.to_numeric(pd.Series(values), errors="coerce")
     out = pd.Series([""] * len(s), dtype=object)

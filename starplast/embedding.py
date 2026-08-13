@@ -25,7 +25,7 @@ Missing-value policies:
 
     "drop_columns"    exclude any feature missing in more than `max_missing` of genes
     "drop_genes"      keep the features, drop genes with any missing value
-    "median"          impute to the column median (the old behaviour, kept for comparison)
+    "median"          impute to the column median (the old behavior, kept for comparison)
     "indicator"       impute, AND add a 0/1 column recording that it was missing
 
 Measured on this table: `median` gives the smallest gap (0.68 map-radii), `indicator` the largest (1.02)
@@ -269,21 +269,21 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
 
 
 def normalise(Y, scale: float = 50.0) -> np.ndarray:
-    """Centre an embedding and scale it to a fixed extent.
+    """Center an embedding and scale it to a fixed extent.
 
     Every map arrives at the same size, which is what lets one replace another in the view without
     the camera having to be re-framed, and what makes two thumbnails comparable. The scaling is
     uniform across axes rather than per-axis, so it moves and resizes the cloud without distorting
-    it: neighbourhoods, distance ranks and any clustering computed on the result are unchanged.
+    it: neighborhoods, distance ranks and any clustering computed on the result are unchanged.
 
-    Centred in double precision and cast to float32 only at the end. Done the other way round -- the
+    Centerd in double precision and cast to float32 only at the end. Done the other way round -- the
     cast first, as this did -- a cloud whose spread is small next to its offset from the origin loses
     that spread to cancellation: 900 ± 0.001 in float32 has about three digits left to subtract with,
     and the map comes back quantised into bands. It is the cast that has to be last, not the
     subtraction. The GL widget still receives float32, which is what it wants.
 
     Building a new array rather than scaling in place also sidesteps the read-only input: UMAP
-    returns one in recent versions, and in-place centring fails there with "output array is
+    returns one in recent versions, and in-place centering fails there with "output array is
     read-only" -- the fourth place this project has hit that.
     """
     Y = np.asarray(Y, dtype=np.float64)

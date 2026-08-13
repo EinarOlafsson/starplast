@@ -16,7 +16,7 @@ Three jobs that belong together because they are what a user does before trustin
 **On scoring a UMAP.** There is no ground truth for "a good embedding", so the walk reports several
 quantities that measure different things and lets the user decide, rather than manufacturing one number:
 
-    trustworthiness      does the map preserve the original neighbourhoods (0-1, higher better)
+    trustworthiness      does the map preserve the original neighborhoods (0-1, higher better)
     continuity_proxy     correlation between original and embedded pairwise distances
     n_clusters_hdbscan   how many clusters fall out, and how much is noise
 

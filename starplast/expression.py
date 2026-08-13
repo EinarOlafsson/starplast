@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Six further expression datasets, each normalised according to what it actually measures.
+"""Six further expression datasets, each normalized according to what it actually measures.
 
 These add four biological axes the map did not have, plus a real proteome and site-level phospho:
 
@@ -22,8 +22,8 @@ data behind a `Legend` sheet, one is a legacy `.xls` that pandas cannot open at 
 converted through libreoffice, and the iTRAQ header sits on the second row. That is normal for
 supplementary data and is why each dataset is declared here rather than guessed at.
 
-Quantifications are not pooled. Each is normalised by its own type through `sources.normalise` -- counts
-and intensities are logged and centred, ratios are left alone because centring moves their reference --
+Quantifications are not pooled. Each is normalized by its own type through `sources.normalise` -- counts
+and intensities are logged and centerd, ratios are left alone because centering moves their reference --
 and the columns are named for their dataset so nothing downstream can mistake an iTRAQ ratio for a TPM.
 """
 from __future__ import annotations

@@ -31,6 +31,7 @@ One file per task. This index is the status table; the files carry the reasoning
 | 17 | Annotation store |
 | 23 | Left panel becomes "color by" |
 | 22 | Cell diagram under the compartment list |
+| 25 | American spelling in user-facing text |
 
 ## Open
 
@@ -38,7 +39,6 @@ One file per task. This index is the status table; the files carry the reasoning
 |---|---|---|---|
 | 21 | Wire the scoring objectives into the interface | 100 (done) | — |
 | 24 | Forty black-and-white logo drafts | 0 | — |
-| 25 | American spelling — attempted, reverted, read the file first | 0 | — |
 
 ## The one ordering constraint that is not negotiable — now satisfied
 

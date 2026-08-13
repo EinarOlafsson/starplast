@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Palettes, colour maps and point styles.
+"""Palettes, color maps and point styles.
 
 Structured after spaCR's theme module so the two tools feel like one toolkit: a palette is a dict of
-named roles, every theme defines the same roles, and colours that are a *function* of the theme are
+named roles, every theme defines the same roles, and colors that are a *function* of the theme are
 derived rather than typed in. The rule that matters is spaCR's: a hex written into a widget is a hex
-that stays dark on the light theme, so nothing here hardcodes a colour at a call site.
+that stays dark on the light theme, so nothing here hardcodes a color at a call site.
 
 Four themes. `dark` and `light` are the general pair; `slate` is a low-contrast dark for long sessions
 staring at a 3D scatter, and `paper` is a high-contrast light intended for figures and screenshots.
 
-Colour maps are separated by what they are *for*, because using the wrong kind is the commonest way to
+Color maps are separated by what they are *for*, because using the wrong kind is the commonest way to
 mislead with a map of this sort:
 
     sequential   an ordered quantity with a meaningful zero or floor (expression, pLDDT)
@@ -57,7 +57,7 @@ DARK_THEMES = ("dark", "slate")
 
 
 def palette_for(theme: str = "dark") -> dict:
-    """The colour palette for a named theme."""
+    """The color palette for a named theme."""
     return _PALETTES.get(theme, DARK)
 
 
@@ -73,12 +73,12 @@ def rgbf(hex_colour: str, alpha: float = 1.0) -> tuple:
 
 
 def background(theme: str) -> tuple:
-    """GL viewport background — the page colour, not a literal, so themes stay coherent."""
+    """GL viewport background — the page color, not a literal, so themes stay coherent."""
     return rgbf(palette_for(theme)["bg"])
 
 
 def unknown_colour(theme: str) -> tuple:
-    """The grey for 'unknown, not absent'. Derived from fg_dim so it reads on either ground."""
+    """The gray for 'unknown, not absent'. Derived from fg_dim so it reads on either ground."""
     return rgbf(palette_for(theme)["fg_dim"])
 
 
@@ -112,12 +112,12 @@ def resolve_cmap(name: str):
 
 
 def cmaps_of(kind: str) -> list:
-    """The colour maps appropriate to one kind of data: sequential, diverging or categorical."""
+    """The color maps appropriate to one kind of data: sequential, diverging or categorical."""
     return [n for n, (k, _) in CMAPS.items() if k == kind]
 
 
 def kind_for_column(values) -> str:
-    """Which family of colour map a column deserves.
+    """Which family of color map a column deserves.
 
     Diverging only when the data actually straddles a midpoint -- a residual or a score that goes both
     ways. Applying one to a strictly positive quantity invents a midpoint that is not there.
@@ -169,11 +169,11 @@ def is_light(theme_or_palette) -> bool:
 
 
 def depth_t(xyz, camera_pos, rng=None):
-    """Distance from the camera, normalised to 0 (nearest) .. 1 (farthest).
+    """Distance from the camera, normalized to 0 (nearest) .. 1 (farthest).
 
-    `rng` is the (min, max) distance to normalise against. Pass the WHOLE cloud's range when cueing a
+    `rng` is the (min, max) distance to normalize against. Pass the WHOLE cloud's range when cueing a
     subset -- edges touching a point must fade by the same amount as that point, and a subset
-    normalised against its own extent does not agree with the full set at the same location.
+    normalized against its own extent does not agree with the full set at the same location.
     """
     import numpy as np
     d = np.linalg.norm(np.asarray(xyz, dtype=float) - np.asarray(camera_pos, dtype=float), axis=1)
@@ -191,11 +191,11 @@ def depth_cue(xyz, camera_pos, alpha, size, fade=DEPTH_FADE, shrink=DEPTH_SHRINK
 
 
 def categorical_colours(n: int, theme: str = "dark", cmap: str | None = None) -> list:
-    """`n` distinct colours for unordered classes, legible on this theme's ground.
+    """`n` distinct colors for unordered classes, legible on this theme's ground.
 
     A palette tuned for a dark background washes out on a light one -- the same hues that read as
     saturated against near-black read as pastel against near-white. Rather than ship two hand-tuned
-    lists, the colours are darkened for light themes and lightened for dark ones, so any chosen
+    lists, the colors are darkened for light themes and lightened for dark ones, so any chosen
     categorical map stays legible on either ground.
     """
     import numpy as np
@@ -221,7 +221,7 @@ def gl_options(mode: str) -> str:
     """pyqtgraph GL option set for a point mode.
 
     `additive` is offered because density is sometimes what you want to see, but it is not the default:
-    with 8,140 genes in dense UMAP clusters it saturates every colour mode to white and destroys the
+    with 8,140 genes in dense UMAP clusters it saturates every color mode to white and destroys the
     encoding entirely.
     """
     return "additive" if mode == "additive" else "translucent"
@@ -229,7 +229,7 @@ def gl_options(mode: str) -> str:
 
 # --------------------------------------------------------------------------- stylesheet
 def stylesheet(theme: str = "dark") -> str:
-    """Qt stylesheet for one theme. Every colour comes from the palette, never a literal."""
+    """Qt stylesheet for one theme. Every color comes from the palette, never a literal."""
     p = palette_for(theme)
     return f"""
     QWidget {{ background: {p['bg']}; color: {p['fg']};

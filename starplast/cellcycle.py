@@ -13,7 +13,7 @@ alone answered.
 
 Xue et al. 2020 (eLife 9:e54129, PMID 32065584) sequenced single parasites and assigned each gene a
 cell-cycle phase from where its expression peaks along pseudotime. Supplementary file 3 gives 964 genes
-a phase from **G1a, G1b, S, M, C**. That is an independent measurement of cell-cycle behaviour: it comes
+a phase from **G1a, G1b, S, M, C**. That is an independent measurement of cell-cycle behavior: it comes
 from single-cell expression this project does not otherwise use, and it is a label a paper committed to,
 not a threshold chosen here.
 
@@ -100,7 +100,7 @@ def phase_labels(base: str, resolve=None, log=print) -> pd.DataFrame:
     counts = d.groupby("gene_id").cellcycle_phase.nunique()
     ambiguous = set(counts[counts > 1].index)
     if ambiguous:
-        log(f"cell cycle: {len(ambiguous)} genes carry conflicting phases and are left unlabelled")
+        log(f"cell cycle: {len(ambiguous)} genes carry conflicting phases and are left unlabeled")
     d = d[~d.gene_id.isin(ambiguous)].drop_duplicates("gene_id").set_index("gene_id")
 
     out = d[["cellcycle_phase"]]
@@ -159,7 +159,7 @@ def stage_enrichment(nodes: pd.DataFrame, log=print) -> pd.DataFrame:
     and log intensities cannot be compared as raw numbers, and whichever column happened to have the
     largest units would otherwise win every gene.
 
-    A gene is left unlabelled unless one stage leads the next by `MIN_MARGIN`. Assigning every gene a
+    A gene is left unlabeled unless one stage leads the next by `MIN_MARGIN`. Assigning every gene a
     class would manufacture confident labels for the flat majority, and a label that is really a coin
     toss is worse than an absent one: it looks like a measurement in every table it appears in.
 

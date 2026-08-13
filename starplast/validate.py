@@ -1,7 +1,7 @@
 """Does a cluster-based annotation actually work? Measured by hiding labels we already have.
 
 The workflow this exists to check: hold out a label, build a map, find a cluster that is mostly one
-category, and propose the unlabelled members of that cluster as candidates. That produces a list of
+category, and propose the unlabeled members of that cluster as candidates. That produces a list of
 genes and no error rate, and a candidate list with no error rate is a list of guesses.
 
 The check is to make the same inference where the answer is already known. Hide a fraction of the
@@ -78,7 +78,7 @@ class Validation:
     def summary(self) -> str:
         """One line: the numbers, and whether the embedding was refit per fold."""
         if not self.folds:
-            return f"{self.category}: not enough labelled genes to hide any"
+            return f"{self.category}: not enough labeled genes to hide any"
         how = "re-embedded per fold" if self.refit else "one fixed embedding, labels hidden only from scoring"
         return (f"{self.category}: precision {self.precision:.2f}, recall {self.recall:.2f}, "
                 f"F1 {self.f1:.2f} over {len(self.folds)} folds ({how})")
@@ -212,7 +212,7 @@ def validate_all(labels: np.ndarray, truth: pd.Series, *, min_size: int = 15, lo
     log(f"validating {len(scorable)} categories of {getattr(truth, 'name', 'the target')!r} "
         f"({int(counts.sum()):,} genes, {len(counts) - len(scorable)} categories too small or absent)")
     for i, (cat, n) in enumerate(scorable, start=1):
-        log(f"  {i}/{len(scorable)} {cat} ({int(n):,} labelled)")
+        log(f"  {i}/{len(scorable)} {cat} ({int(n):,} labeled)")
         r = masked_recovery(labels, truth, str(cat), **kw)
         rows.append({"category": cat, "n_labelled": int(n), "n_folds": len(r.folds),
                      "precision": r.precision, "recall": r.recall, "f1": r.f1,
@@ -225,7 +225,7 @@ def validate_all(labels: np.ndarray, truth: pd.Series, *, min_size: int = 15, lo
 
 
 def best_cluster(labels: np.ndarray, truth: pd.Series, category: str) -> int | None:
-    """The cluster holding most of a category's labelled genes, or None if none does.
+    """The cluster holding most of a category's labeled genes, or None if none does.
 
     The same choice `masked_recovery` makes inside each fold, and the same one a user makes by eye,
     so the cluster a candidate list comes from is the cluster the error rate was measured on. Noise
@@ -247,11 +247,11 @@ SUPPORT_COLUMNS = ("orthogroup", "pfam_id", "interpro_id")
 
 def orthogonal_support(nodes: pd.DataFrame, candidate_ids, truth: pd.Series, category: str, *,
                        columns=SUPPORT_COLUMNS, used_columns=(), log=print) -> pd.DataFrame:
-    """For each candidate, how many genes already labelled `category` it shares a group with.
+    """For each candidate, how many genes already labeled `category` it shares a group with.
 
     A candidate's whole claim is that it sits near genes of one category in a map. That is one piece
     of evidence, and the honest question about it is whether anything the map never saw agrees.
-    Sharing an orthogroup or a domain with the labelled members is such a thing: not proof -- paralogs
+    Sharing an orthogroup or a domain with the labeled members is such a thing: not proof -- paralogs
     of a dense-granule protein need not be dense-granule proteins -- but independent, and countable.
 
     A column that fed the embedding is refused rather than counted, and the refusal is logged. Its

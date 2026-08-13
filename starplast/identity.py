@@ -49,7 +49,7 @@ TOKEN_RX = re.compile(r"[^\W\d_][\w-]{2,}", re.UNICODE)
 
 
 def norm(s: str) -> str:
-    """Normalise a candidate string to a lookup key: upper case, no hyphens/spaces/underscores."""
+    """Normalize a candidate string to a lookup key: upper case, no hyphens/spaces/underscores."""
     return re.sub(r"[-\s_.]", "", (s or "").strip().upper())
 
 

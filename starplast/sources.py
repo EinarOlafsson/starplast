@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Downloading expression data from its source repositories, and normalising it comparably.
+"""Downloading expression data from its source repositories, and normalizing it comparably.
 
 Two repositories, two very different situations, and the difference decides what can be automated.
 
 **GEO deposits processed matrices.** `GSE108740_FPKM.xlsx`, `GSE206344_Normalised_data...xlsx` — the
-per-gene quantification is right there, so transcriptomics can be fetched and normalised end to end.
+per-gene quantification is right there, so transcriptomics can be fetched and normalized end to end.
 
 **PRIDE deposits raw instrument files.** PXD019729 holds 24 `.raw` files, two search outputs and no
 per-protein table at all. Turning those into quantification means running MaxQuant or Proteome Discoverer,
@@ -12,7 +12,7 @@ which is a different project. So for proteomics this module fetches what PRIDE l
 exists, and otherwise says plainly that only raw was deposited and the numbers must come from the paper's
 supplementary tables. Pretending otherwise would be the useful-looking lie here.
 
-## Why normalisation needs the quantification type recorded
+## Why normalization needs the quantification type recorded
 
 Different quantifications are not interchangeable, and the failure is silent in both directions. The
 same series demonstrates each. GEO's `GSE108740_FPKM.xlsx` reaches **16,520** and is genuine FPKM: skip
@@ -25,11 +25,11 @@ reports what it concluded.
 
 So every dataset carries a `quant` label, and the transform follows from it:
 
-    counts        log2(x + 1), then per-sample median centring
-    fpkm / tpm    log2(x + 1), then per-sample median centring
-    log_intensity already logged: centre only, never log twice
-    ratio / lfc   already relative: leave alone, centring would destroy the reference
-    ibaq / lfq    log2(x + 1), then per-sample median centring
+    counts        log2(x + 1), then per-sample median centering
+    fpkm / tpm    log2(x + 1), then per-sample median centering
+    log_intensity already logged: center only, never log twice
+    ratio / lfc   already relative: leave alone, centering would destroy the reference
+    ibaq / lfq    log2(x + 1), then per-sample median centering
 
 Cross-dataset comparison uses ranks, because that is the only defensible way to put an FPKM column and an
 iBAQ column on one axis.
@@ -200,7 +200,7 @@ def rank_normalise(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def harmonise(datasets: dict, log=print) -> pd.DataFrame:
-    """Normalise several datasets and join them on gene id, ranked onto a common scale.
+    """Normalize several datasets and join them on gene id, ranked onto a common scale.
 
     `datasets` maps name -> (DataFrame indexed by gene_id, quant type).
     """
@@ -209,7 +209,7 @@ def harmonise(datasets: dict, log=print) -> pd.DataFrame:
         q = quant or infer_quant(df.stack(), name)
         norm = rank_normalise(normalise(df, q, log=log))
         norm.columns = [f"{name}__{c}" for c in norm.columns]
-        log(f"{name}: {df.shape[1]} columns as {q}, rank-normalised")
+        log(f"{name}: {df.shape[1]} columns as {q}, rank-normalized")
         out.append(norm)
     if not out:
         return pd.DataFrame()

@@ -84,7 +84,7 @@ EDGE_EXPLANATION = (
     "Combining them would let the weakest inference borrow the credibility of the strongest "
     "measurement: a merged score of 0.8 cannot tell you whether two proteins were measured touching "
     "or merely mentioned together, and there is no honest weighting that recovers the difference "
-    "afterwards. So they are drawn in separate colours and toggled independently, and the answer to "
+    "afterwards. So they are drawn in separate colors and toggled independently, and the answer to "
     "'are these two related' is 'by which evidence'.")
 
 MAP_EXPLANATION = (
@@ -127,7 +127,7 @@ def numeric_columns(nodes) -> list[str]:
     """Every column that is a quantity worth binning, best first.
 
     A quantity binned behaves like a category, which is what makes it comparable with a clustering
-    -- the comparison the colour-by panel exists for. Identifiers and flags are left out: binning
+    -- the comparison the color-by panel exists for. Identifiers and flags are left out: binning
     `gene_id` is not a question anybody has.
     """
     from pandas.api import types as pdt
@@ -289,7 +289,7 @@ class _GateOverlay(QtWidgets.QWidget):
         self.update()
 
     def show_brush(self, x, y, r):
-        """Show a brush of radius `r` pixels centred at (x, y)."""
+        """Show a brush of radius `r` pixels centerd at (x, y)."""
         self.points, self.circle = [], (float(x), float(y), float(r))
         self.update()
 
@@ -359,7 +359,7 @@ class Map3D(gl.GLViewWidget):
     def fit_view(self, margin=1.35):
         """Frame the data rather than assuming a fixed distance.
 
-        The embedding is renormalised on every build and its extent changes with the feature set, so a
+        The embedding is renormalized on every build and its extent changes with the feature set, so a
         hard-coded 170 left the map as a small island in a large empty viewport.
         """
         if len(self.xyz):
@@ -397,7 +397,7 @@ class Map3D(gl.GLViewWidget):
         self._cam_timer.start(16)
 
     def data_radius(self) -> float:
-        """Radius of the point cloud about its centre, for framing and grid sizing."""
+        """Radius of the point cloud about its center, for framing and grid sizing."""
         if not len(self.xyz):
             return 100.0
         return float(np.linalg.norm(self.xyz - self.xyz.mean(0), axis=1).max())
@@ -622,7 +622,7 @@ class Map3D(gl.GLViewWidget):
 class Window(QtWidgets.QMainWindow):
     """The application window: a 3D map, the panels around it, and everything they can do.
 
-    Holds the view state that the menus mutate -- level of detail, colouring, point size, which edge
+    Holds the view state that the menus mutate -- level of detail, coloring, point size, which edge
     layers are active, the filter category -- and redraws from it. State lives here as plain
     attributes rather than being read back out of widgets, so a headless caller can drive the whole
     interface without a window manager, which is how the tests exercise it.
@@ -765,7 +765,7 @@ class Window(QtWidgets.QMainWindow):
 
     # ------------------------------------------------------------------ appearance
     def _cmap_for(self, values):
-        """The colour map for a column: the user's choice if it suits the data, else the right default.
+        """The color map for a column: the user's choice if it suits the data, else the right default.
 
         A diverging map on a strictly positive quantity invents a midpoint, and a sequential map on a
         residual hides its sign, so the column's kind has the final say over an inappropriate choice.
@@ -776,7 +776,7 @@ class Window(QtWidgets.QMainWindow):
         return TH.DEFAULT_CMAP[kind]
 
     def apply_theme(self, name: str):
-        """Repaint everything from the palette -- widgets, GL background, and the compartment colours."""
+        """Repaint everything from the palette -- widgets, GL background, and the compartment colors."""
         self.theme = name
         app = QtWidgets.QApplication.instance()
         if app is not None:
@@ -875,10 +875,10 @@ class Window(QtWidgets.QMainWindow):
         self.gallery_dock.raise_()
 
     def colours_for_genes(self, mask):
-        """The current colouring, restricted to a subset of genes -- what the gallery paints with.
+        """The current coloring, restricted to a subset of genes -- what the gallery paints with.
 
-        Taken from `colours` rather than reimplemented so a thumbnail is coloured by exactly what the
-        map is coloured by, including the rule that grey means unknown. The visibility filter is
+        Taken from `colours` rather than reimplemented so a thumbnail is colored by exactly what the
+        map is colored by, including the rule that gray means unknown. The visibility filter is
         deliberately not applied: a thumbnail showing only the filtered classes would look like a
         different embedding rather than the same one seen through a filter.
         """
@@ -928,7 +928,7 @@ class Window(QtWidgets.QMainWindow):
         """Show one configuration from the gallery in the central view.
 
         The expanded map is not a picture of a map: it goes through the same path as "build this
-        map", so genes are clickable, every colour mode applies and edges draw as usual.
+        map", so genes are clickable, every color mode applies and edges draw as usual.
         """
         self.use_embedding(step.coords, step.genes)
         self.statusBar().showMessage(
@@ -972,7 +972,7 @@ class Window(QtWidgets.QMainWindow):
             self.level_group.addAction(act)
             act.triggered.connect(lambda _c, k=i: self.set_level(k))
 
-        col = v.addMenu("Colour by")
+        col = v.addMenu("Color by")
         self.colour_group = QtGui.QActionGroup(self)
         for name in COLOUR_MODES:
             act = col.addAction(name)
@@ -1146,7 +1146,7 @@ class Window(QtWidgets.QMainWindow):
         self.on_level_changed()
 
     def set_colour_mode(self, name: str):
-        """Change what colour encodes. Each mode is a different claim about the data."""
+        """Change what color encodes. Each mode is a different claim about the data."""
         self.colour_mode = name
         self.redraw()
 
@@ -1233,7 +1233,7 @@ class Window(QtWidgets.QMainWindow):
         """What is in a gated set: its composition by the current category, and what carries none.
 
         Composition rather than a list, because the question a gate is drawn to answer is "what is
-        this clump". The unlabelled count leads, because those genes are the candidates a gate
+        this clump". The unlabeled count leads, because those genes are the candidates a gate
         exists to produce and most of this proteome is among them.
         """
         idx = np.asarray(idx, dtype=int)
@@ -1280,7 +1280,7 @@ class Window(QtWidgets.QMainWindow):
         return path
 
     def refresh_annotations(self):
-        """Re-read the annotations file and redraw, switching to the colour that shows them.
+        """Re-read the annotations file and redraw, switching to the color that shows them.
 
         Re-read rather than tracked: the file is meant to be shared and hand-edited, and a window
         holding its own idea of what is in it would disagree with the file the moment anyone did.
@@ -1296,17 +1296,17 @@ class Window(QtWidgets.QMainWindow):
         else:
             self.redraw()
         self.status.showMessage(
-            f"{n:,} genes carry an annotation -- drawn in their own colour, which nothing else uses; "
+            f"{n:,} genes carry an annotation -- drawn in their own color, which nothing else uses; "
             f"they are proposals, not measurements")
 
     def use_clusters(self, labels):
-        """Take a clustering from the analysis panel, KEEP it, and colour the map by it.
+        """Take a clustering from the analysis panel, KEEP it, and color the map by it.
 
         Kept rather than only drawn: the second run used to replace the first with no way back, so
         the one comparison this application is for -- does this structure survive different settings
-        -- could not be made by looking. It arrives in the colour-by panel under a timestamp name.
+        -- could not be made by looking. It arrives in the color-by panel under a timestamp name.
 
-        The colouring switches automatically, because a user who has just pressed "cluster this map"
+        The coloring switches automatically, because a user who has just pressed "cluster this map"
         wants to see the clusters and leaving it on compartment made the button look inert.
         """
         self.cluster_labels = np.asarray(labels)
@@ -1321,8 +1321,8 @@ class Window(QtWidgets.QMainWindow):
         self.keep_run(self.cluster_labels, recipe=recipe)
         self.set_colour_mode("clusters")
         n = len(set(self.cluster_labels[self.cluster_labels >= 0]))
-        self.status.showMessage(f"colouring by {n} clusters, kept as a run you can come back to; "
-                                f"grey is unclustered, which is a real answer and not a missing one")
+        self.status.showMessage(f"coloring by {n} clusters, kept as a run you can come back to; "
+                                f"gray is unclustered, which is a real answer and not a missing one")
 
     def open_preferences(self):
         """Appearance settings, gathered in one place rather than crowding the map panel."""
@@ -1353,7 +1353,7 @@ class Window(QtWidgets.QMainWindow):
             self.cmap_box.setCurrentText(self.cmap_name)
         self.cmap_box.setToolTip(
             "Sequential for ordered quantities, diverging only where values straddle a midpoint, "
-            "categorical for classes. A map of the wrong kind is ignored in favour of the right "
+            "categorical for classes. A map of the wrong kind is ignored in favor of the right "
             "default, because a diverging ramp on a positive quantity invents a midpoint.")
         self.cmap_box.currentTextChanged.connect(self._on_cmap)
 
@@ -1370,7 +1370,7 @@ class Window(QtWidgets.QMainWindow):
         self.mode_box.setToolTip(
             "occlude: nearer points hide farther ones — the correct default.\n"
             "additive: overlaps sum, which reads as density but saturates dense regions to white "
-            "and destroys the colour encoding.")
+            "and destroys the color encoding.")
         self.mode_box.currentTextChanged.connect(self._on_point_mode)
 
         self.spin_speed = QtWidgets.QDoubleSpinBox()
@@ -1384,8 +1384,8 @@ class Window(QtWidgets.QMainWindow):
         self.depth_box.setChecked(self.depth_cue)
         self.depth_box.setToolTip(
             "Without it, near and far points are equally bright and the map reads as a flat disc "
-            "however far it is rotated. Turn it off to compare two points' colours exactly, since the "
-            "fade changes apparent colour with position.")
+            "however far it is rotated. Turn it off to compare two points' colors exactly, since the "
+            "fade changes apparent color with position.")
         self.depth_box.toggled.connect(lambda v: (setattr(self, "depth_cue", v), self.redraw()))
 
         self.ground_box = QtWidgets.QCheckBox("horizon grid")
@@ -1432,7 +1432,7 @@ class Window(QtWidgets.QMainWindow):
         self.log_path.setWordWrap(True)
 
         form.addRow("theme", self.theme_box)
-        form.addRow("colour map", self.cmap_box)
+        form.addRow("color map", self.cmap_box)
         form.addRow("points", self.point_box)
         form.addRow("rendering", self.mode_box)
         form.addRow("spin speed", self.spin_speed)
@@ -1722,9 +1722,9 @@ class Window(QtWidgets.QMainWindow):
         self.view.orbit(self._spin_speed, 0)
 
     def _on_cmap(self, name):
-        """Apply a colour map. Categorical colours are rebuilt, not just the continuous ramp.
+        """Apply a color map. Categorical colors are rebuilt, not just the continuous ramp.
 
-        Only the ramp honoured this before, so choosing a map while colouring by compartment -- the
+        Only the ramp honoured this before, so choosing a map while coloring by compartment -- the
         default mode -- appeared to do nothing at all.
         """
         self.cmap_name = None if name.startswith("auto") else name
@@ -1747,7 +1747,7 @@ class Window(QtWidgets.QMainWindow):
     def _left(self):
         """Search and the category filter. Everything else moved into the menus.
 
-        This panel used to carry the level, the colouring, twelve edge checkboxes, spin, preferences
+        This panel used to carry the level, the coloring, twelve edge checkboxes, spin, preferences
         and the compartment list all at once, which is most of the application's settings stacked in a
         column beside a 3D view. Settings that are chosen once belong in a menu; the two things used
         continuously -- finding a gene and narrowing the field -- stay on screen.
@@ -1787,8 +1787,8 @@ class Window(QtWidgets.QMainWindow):
         self.bins_box.setToolTip(
             "How many bins a quantity is cut into. Quantile bins, not equal-width: nearly every "
             "quantity in this table is heavy-tailed -- the fitness screens span 64x within "
-            "themselves -- and equal-width bins put 95% of the genes in one colour and call that a "
-            "colouring. Only used when the source above is a binned quantity.")
+            "themselves -- and equal-width bins put 95% of the genes in one color and call that a "
+            "coloring. Only used when the source above is a binned quantity.")
         self.bins_box.valueChanged.connect(self.set_bins)
         self.bins_box.hide()
         L.addWidget(self.bins_box)
@@ -1878,13 +1878,13 @@ class Window(QtWidgets.QMainWindow):
             self.on_category_changed(self.category)
 
     def _rename_current_run(self):
-        """Rename the run currently selected in the colour-by list."""
+        """Rename the run currently selected in the color-by list."""
         if not self.category.startswith(RUN_PREFIX):
             return
         self.rename_run(self.category[len(RUN_PREFIX):], self.run_name.text().strip())
 
     def on_category_changed(self, name: str):
-        """Switch what colour means, rebuild its palette and its list of values."""
+        """Switch what color means, rebuild its palette and its list of values."""
         self.category = name
         # The controls that only apply to one kind of source appear only for that kind. A bins spin
         # box beside a compartment list is a control that does nothing, which teaches people that
@@ -1961,10 +1961,10 @@ class Window(QtWidgets.QMainWindow):
 
     # ------------------------------------------------------------------ drawing
     def colour_sources(self) -> list:
-        """Everything the map can be coloured by, in one list: columns, runs, binned quantities.
+        """Everything the map can be colored by, in one list: columns, runs, binned quantities.
 
         One list rather than three controls, because they answer the same question -- what should
-        colour mean right now -- and having to know which of three places to look for an answer is
+        color mean right now -- and having to know which of three places to look for an answer is
         the state this panel replaced.
         """
         return (list(self.categories)
@@ -1972,10 +1972,10 @@ class Window(QtWidgets.QMainWindow):
                 + [BIN_PREFIX + c for c in self.numerics])
 
     def category_values(self) -> pd.Series:
-        """The current colour source as a string column over every gene.
+        """The current color source as a string column over every gene.
 
         Absence is "" in all three cases and means the same thing each time: no value measured, no
-        position in that run, no number to bin. It is drawn grey, never as a category.
+        position in that run, no number to bin. It is drawn gray, never as a category.
         """
         src = self.category
         if src.startswith(RUN_PREFIX):
@@ -1994,7 +1994,7 @@ class Window(QtWidgets.QMainWindow):
         return as_text(self.nodes[src])
 
     def keep_run(self, labels, recipe=None, name: str = ""):
-        """Keep a clustering, list it in the colour-by panel, and colour the map by it.
+        """Keep a clustering, list it in the color-by panel, and color the map by it.
 
         Kept rather than drawn and forgotten: the second run used to replace the first with no way
         back, which makes the one comparison this application is for -- does this structure survive
@@ -2013,7 +2013,7 @@ class Window(QtWidgets.QMainWindow):
         return run
 
     def _refresh_sources(self):
-        """Rebuild the colour-by list, keeping the current choice if it still exists."""
+        """Rebuild the color-by list, keeping the current choice if it still exists."""
         want = self.category_box.currentText()
         self.category_box.blockSignals(True)
         self.category_box.clear()
@@ -2047,7 +2047,7 @@ class Window(QtWidgets.QMainWindow):
         return vis if placed is None else (vis & placed)
 
     def colours(self, vis):
-        """An RGBA colour per gene under the current colour mode. Grey always means unknown."""
+        """An RGBA color per gene under the current color mode. Gray always means unknown."""
         mode = self.colour_mode
         c = np.zeros((self.n, 4), dtype=np.float32)
         if mode.startswith("compartment"):
@@ -2298,9 +2298,9 @@ class Window(QtWidgets.QMainWindow):
     def _draw_selection_halo(self):
         """A soft ring behind the selected gene.
 
-        A size bump alone is invisible in a dense region -- the neighbours are the same colour and the
+        A size bump alone is invisible in a dense region -- the neighbours are the same color and the
         selected point simply becomes a slightly bigger dot in a crowd. A translucent halo in the
-        accent colour separates it from its neighbourhood at any density.
+        accent color separates it from its neighborhood at any density.
         """
         if self.halo_item is not None:
             self.view.removeItem(self.halo_item)
@@ -2462,7 +2462,7 @@ class Window(QtWidgets.QMainWindow):
         return path if ok else None
 
     def default_export_columns(self) -> list[str]:
-        """What to tick when the picker opens: identity, the active filter, the active colouring.
+        """What to tick when the picker opens: identity, the active filter, the active coloring.
 
         Taken from the current view rather than fixed, because the columns worth exporting are
         usually the ones being looked at.
@@ -2667,7 +2667,7 @@ class Window(QtWidgets.QMainWindow):
         """A briefing for the assistant: what is on screen right now."""
         vis = self.visible_mask()
         bits = [f"Level: {['galaxy','system','planet'][self.level_idx]}.",
-                f"Colouring: {self.colour_mode}.",
+                f"Coloring: {self.colour_mode}.",
                 f"Filter column: {self.category}.",
                 f"{int(vis.sum()):,} of {self.n:,} genes visible."]
         active = [k for k, _ in EDGE_TYPES if self.edge_on.get(k)]
@@ -2770,7 +2770,7 @@ class Window(QtWidgets.QMainWindow):
                     agree = ("model does not place them in contact"
                              if isinstance(row.frac_satisfied, float) and row.frac_satisfied == 0
                              else f"{row.frac_satisfied:.0%} of crosslinks satisfied"
-                             if np.isfinite(row.frac_satisfied) else "not modelled")
+                             if np.isfinite(row.frac_satisfied) else "not modeled")
                     nm = int(row.n_models) if np.isfinite(row.n_models) else 0
                     ok = bool(getattr(row, "model_trustworthy", False))
                     items.append(
@@ -2782,7 +2782,7 @@ class Window(QtWidgets.QMainWindow):
                         + (f" · ipTM {row.chai_iptm:.2f}" if np.isfinite(row.chai_iptm) else "")
                         + "</span></li>")
                 where = m.model_dir.dropna().iloc[0] if m.model_dir.notna().any() else None
-                xl = ("<p><b>How the binding is modelled</b> <span style='color:#888;"
+                xl = ("<p><b>How the binding is modeled</b> <span style='color:#888;"
                       "font-weight:normal;font-size:11px'>— the crosslink is the measurement; the "
                       "model is a guess at the pose, and 60% of them explain no crosslink at all"
                       "</span></p><ul style='margin-top:2px'>"

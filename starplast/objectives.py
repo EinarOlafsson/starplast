@@ -1,7 +1,7 @@
 """What "good structure" means, made explicit and selectable.
 
 F1 is one answer to a question that has several, and the right one depends on what the structure is
-for. Hunting a single compartment is not the same job as organising the whole proteome, and a search
+for. Hunting a single compartment is not the same job as organizing the whole proteome, and a search
 that only ever maximises one blended number cannot tell you it found the other thing.
 
 The four objectives a user actually asks for, in their own words, and what each one is:
@@ -29,7 +29,7 @@ the coverage and cluster count beside its score. A number without those is not i
 
 WEIGHTING IS A CHOICE, not a detail. `search.score_recovery` weights by label size, so on this
 proteome nucleus-chromatin at 769 genes dominates and dense granules at 167 barely registers -- and
-someone hunting dense granules is optimising against themselves. `macro` weights every label
+someone hunting dense granules is optimizing against themselves. `macro` weights every label
 equally and is the right default for finding a rare class.
 """
 from __future__ import annotations
@@ -76,7 +76,7 @@ Any precision objective is won by shattering the map into singletons, because a 
 perfectly pure. Any recall objective is won by one giant cluster, because everything is then in its
 best cluster. Neither is hypothetical: on the full proteome the positive control scored 0.675 -- the
 highest of four targets -- from a two-cluster solution whose per-label recalls were 1.000, 1.000 and
-1.000. A hyperparameter walk is an optimiser, and an optimiser finds exactly what you reward.
+1.000. A hyperparameter walk is an optimizer, and an optimizer finds exactly what you reward.
 
 Three things follow, and they are enforced rather than advised:
 
@@ -106,7 +106,7 @@ OBJECTIVES = {
     "best_precision": "at least one cluster is mostly one label",
     "best_f1": "at least one label has mostly its own cluster",
     "n_recovered": "how many labels clear a threshold (immune to class prevalence)",
-    "v_measure": "the whole clustering agrees with the whole labelling",
+    "v_measure": "the whole clustering agrees with the whole labeling",
     "precision_at_recall": "the purest cluster that still holds enough of a label to annotate from "
                            "(recommended for annotation)",
 }
@@ -254,7 +254,7 @@ def v_measure(labels: np.ndarray, truth: pd.Series) -> float:
 
 
 def agreement(labels: np.ndarray, truth: pd.Series) -> dict:
-    """Chance-corrected agreement between the clustering and the labelling.
+    """Chance-corrected agreement between the clustering and the labeling.
 
     Reported alongside any objective because it is the one family immune to BOTH degenerate cases:
     one giant cluster and all-singletons each score about zero, since neither beats chance. A high

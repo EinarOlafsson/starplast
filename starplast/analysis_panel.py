@@ -85,7 +85,7 @@ def range_note(widget) -> str:
 #: Why each bounded control stops where it does. A minimum and a maximum are decisions, and an
 #: unexplained bound reads as arbitrary -- or worse, as a limit of the method rather than a choice.
 LIMITS = {
-    "nn": "Below 2 there is no neighbourhood to embed from. The upper bound is well past "
+    "nn": "Below 2 there is no neighborhood to embed from. The upper bound is well past "
           "useful: at 400 neighbours on 8,140 genes the map is nearly global structure only.",
     "md": "0 packs points as tightly as the layout allows; 1 spreads them as far as it can. "
           "Both extremes are legal and both are misleading, for opposite reasons.",
@@ -140,7 +140,7 @@ TOOLTIPS = {
                    "proteome is unmeasured, so a permissive setting fills the map with columns that "
                    "are mostly absence indicators rather than measurements.",
     # 2 Map
-    "nn": "UMAP n_neighbors: how much of the neighbourhood each point is placed by. Small values "
+    "nn": "UMAP n_neighbors: how much of the neighborhood each point is placed by. Small values "
           "preserve local detail and fragment the map; large values preserve global shape and merge "
           "genuinely distinct groups. This is the single most consequential hyperparameter here.",
     "md": "UMAP min_dist: how tightly points may pack. Low values make dense, visually separated "
@@ -161,7 +161,7 @@ TOOLTIPS = {
     "mcs": "The smallest group that counts as a cluster. This is the guard against the degenerate "
            "answer: any purity objective is won outright by shattering the map into singletons, "
            "because a cluster of one is perfectly pure. Raise it if clusters look suspiciously tidy.",
-    "eps": "DBSCAN neighbourhood radius, in embedding units. Ignored by HDBSCAN, which infers the "
+    "eps": "DBSCAN neighborhood radius, in embedding units. Ignored by HDBSCAN, which infers the "
            "equivalent per cluster instead of taking one value for the whole map.",
     # 5 Search
     "target": "The label to hold out and try to recover. It is excluded from the features along "
@@ -180,7 +180,7 @@ TOOLTIPS = {
     "val_folds": "How many times to repeat the hide-and-recover test with a different random "
                  "selection. More folds give a steadier estimate; the spread across folds is what "
                  "tells you whether a single good result was luck.",
-    "val_hold": "Fraction of each category's labelled genes hidden per fold. These are the genes "
+    "val_hold": "Fraction of each category's labeled genes hidden per fold. These are the genes "
                 "the score is computed on, and they take no part in choosing which cluster to "
                 "annotate from -- otherwise the test would be marking its own homework.",
     "val_refit": "Build a fresh map and clustering for every fold, with a different seed. The label "
@@ -527,7 +527,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.cluster_table = self.results_table(
             QtWidgets.QTableWidget(), self.show_cluster_row, "clustering_walk")
         self.cluster_table.setToolTip(
-            "Click a row to cluster the current map with those settings and colour it by the "
+            "Click a row to cluster the current map with those settings and color it by the "
             "result. A silhouette for a clustering nobody can see is a number about nothing. "
             "Right-click to save the whole table as CSV.")
         v.addWidget(self.cluster_table, 1)
@@ -577,7 +577,7 @@ class AnalysisPanel(QtWidgets.QWidget):
             "Walk combinations of datasets and hyperparameters looking for a structure that recovers a "
             "label it was never given. The target and everything that restates it are excluded from "
             "every map, which is what makes the recovery meaningful — and what turns it into a "
-            "prediction for the unlabelled genes in a pure cluster.")
+            "prediction for the unlabeled genes in a pure cluster.")
         note.setWordWrap(True)
         v.addWidget(note)
         form = QtWidgets.QFormLayout()
@@ -625,7 +625,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.focus.setMaximumHeight(120)
         self.focus.setToolTip(
             "Which categories to score. Select none for all of them; select one or several to "
-            "optimise for exactly those. The objective and the label set are independent, so "
+            "optimize for exactly those. The objective and the label set are independent, so "
             "'precision for dense granules' and 'recall for dense granules and rhoptries' are both "
             "reachable. With several, mean objectives average over them and best objectives take "
             "the best among them.")
@@ -674,7 +674,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self._refresh_focus(self.target.currentText())
 
         form.addRow("target to recover", self.target)
-        form.addRow("optimise for", self.objective)
+        form.addRow("optimize for", self.objective)
         form.addRow("weighting", self.weighting)
         form.addRow("categories to score", self.focus)
         form.addRow("minimum recall", self.min_recall)
@@ -751,7 +751,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         """Offer the categories of the chosen target, so 'focus on one' means something.
 
         Rebuilt whenever the target changes: the categories of `compartment` are not the categories
-        of `cellcycle_phase`, and a stale list would let someone optimise for a label that no longer
+        of `cellcycle_phase`, and a stale list would let someone optimize for a label that no longer
         exists in the column being scored.
         """
         from .search import ABSENCE_LABELS
@@ -812,7 +812,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.val_folds.setValue(5)
         self.val_hold = QtWidgets.QDoubleSpinBox(); self.val_hold.setRange(0.05, 0.5)
         self.val_hold.setSingleStep(0.05); self.val_hold.setValue(0.2)
-        self.val_hold.setToolTip("Fraction of each category's labelled genes hidden per fold.")
+        self.val_hold.setToolTip("Fraction of each category's labeled genes hidden per fold.")
         self.val_refit = QtWidgets.QCheckBox("re-embed and re-cluster for every fold")
         form.addRow("hold out", self.val_target)
         form.addRow("folds", self.val_folds)
@@ -843,9 +843,9 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.cand_table = self.results_table(
             QtWidgets.QTableWidget(), None, "candidates")
         self.cand_table.setToolTip(
-            "The unlabelled members of that category's cluster: the list this whole tab exists to "
+            "The unlabeled members of that category's cluster: the list this whole tab exists to "
             "put a number on. Every row carries how much of its cluster already carries the "
-            "category and how much carries something else, and how many genes already labelled it "
+            "category and how much carries something else, and how many genes already labeled it "
             "share an orthogroup, a Pfam or an InterPro domain with the candidate — agreement "
             "from evidence the map never saw. Zero support is the common answer.")
         v.addWidget(self.cand_table, 1)
@@ -1043,7 +1043,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         truth = self._aligned_truth(target)
         cl = best_cluster(self.labels, truth, category)
         if cl is None:
-            self.status.emit(f"no cluster holds any gene labelled {category!r}")
+            self.status.emit(f"no cluster holds any gene labeled {category!r}")
             return
         genes = self.nodes.gene_id[self.rows] if self.rows is not None else self.nodes.gene_id
         self._candidate_row = row
@@ -1063,7 +1063,7 @@ class AnalysisPanel(QtWidgets.QWidget):
     def _validation_verdict(d) -> str:
         """One line leading with the number a candidate list is meaningless without."""
         if d is None or not len(d):
-            return "no category had enough labelled genes to hide any"
+            return "no category had enough labeled genes to hide any"
         best = d.iloc[0]
         return (f"best: {best.category} at precision {best.precision:.2f} -- annotate from that "
                 f"cluster and roughly {best.precision:.0%} would be right")
@@ -1247,10 +1247,10 @@ class AnalysisPanel(QtWidgets.QWidget):
     def _publish_clusters(self, labels, genes=None):
         """Send a clustering to the map, over the whole node table.
 
-        A clustering of a subsample covers only the genes that map covers, and the window colours
-        8,140 points by it. Expanded here with -1 -- unclustered, which is drawn grey -- rather than
+        A clustering of a subsample covers only the genes that map covers, and the window colors
+        8,140 points by it. Expanded here with -1 -- unclustered, which is drawn gray -- rather than
         left short, because a labels array of the wrong length made the window fall back to
-        colouring everything grey, which reads as "this clustering found nothing".
+        coloring everything gray, which reads as "this clustering found nothing".
         """
         labels = np.asarray(labels)
         rows = self.rows if genes is None else genes
@@ -1407,7 +1407,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         """Re-cluster the current map with the settings on one row of the clustering walk.
 
         The walk scores clusterings of the map that is already on screen, so there is nothing to
-        rebuild -- the row is a set of parameters, and this applies them and colours the map by the
+        rebuild -- the row is a set of parameters, and this applies them and colors the map by the
         result. Without it the tab reported silhouettes for clusterings nobody could see.
         """
         from .clustering import cluster
@@ -1489,12 +1489,12 @@ class AnalysisPanel(QtWidgets.QWidget):
                          f"{100 * (labels == NOISE).mean():.0f}% unclustered{note}")
 
     def show_inference_row(self, row: int):
-        """Colour the map by the clustering a battery row is about, and say which cluster it names.
+        """Color the map by the clustering a battery row is about, and say which cluster it names.
 
         An Inference row is not a configuration -- it is a feature of the map already on screen --
         so the map does not change. What clicking it does is put the clustering the row was scored
         against back on the map, because reading "cluster 3 is 90% apicoplast" while looking at a
-        map coloured by compartment is a needless act of translation.
+        map colored by compartment is a needless act of translation.
         """
         if self.labels is None:
             self.status.emit("cluster a map first -- these rows describe a clustering")
@@ -1506,7 +1506,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.status.emit(
             f"cluster {cl} is the best match for {cat}"
             + (f" at {float(lift):.1f}x its prevalence" if lift not in (None, "", "nan") else "")
-            + " -- the map is coloured by that clustering")
+            + " -- the map is colored by that clustering")
 
     def run_embed(self, then_cluster=None):
         """Build one embedding from the current spec and show it in the 3D view.
@@ -1582,7 +1582,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         # covers only that subsample, and the window colours all 8,140 points by it.
         self._publish_clusters(labels)
         self.status.emit(f"{k} clusters, {100 * (labels == NOISE).mean():.0f}% unassigned "
-                         f"-- colour the map by 'clusters' to see them")
+                         f"-- color the map by 'clusters' to see them")
 
     def run_battery(self):
         """Test what the clusters correspond to, using only features the map never saw."""
@@ -1631,7 +1631,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         Every configuration is embedded, clustered at each `min_cluster_size` in the grid, and
         scored per category -- the automated walk. Results stream: the configuration table and the
         per-category table fill as they are computed, and each embedding's best clustering appears
-        in the gallery, coloured by that clustering rather than by the map's colour mode. A search is
+        in the gallery, colored by that clustering rather than by the map's color mode. A search is
         hundreds of runs and a table that arrives at the end is a table nobody watches.
         """
         from .search import search
@@ -1707,7 +1707,7 @@ class AnalysisPanel(QtWidgets.QWidget):
 
         The same rebuild as the configuration table -- the recipe is on the row -- so a category
         score can be taken from a number to a map in one click. The cluster it names is the one the
-        score is about, which is not obvious from a map coloured by 40 clusters.
+        score is about, which is not obvious from a map colored by 40 clusters.
         """
         v = self.row_values(self.category_search_table, row)
         if not v.get("blocks"):

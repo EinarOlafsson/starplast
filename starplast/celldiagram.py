@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""An apicomplexan cell, coloured from the same palette as the map.
+"""An apicomplexan cell, colored from the same palette as the map.
 
-A list of 27 compartment names is a legend; a parasite with its rhoptries filled in the colour the
+A list of 27 compartment names is a legend; a parasite with its rhoptries filled in the color the
 rhoptries have on the map is a picture of where the genes are. This draws the second from the first,
 at draw time, from `Window.colour_of` -- never from a second palette, because two palettes are two
-claims about what a colour means and one of them will drift.
+claims about what a color means and one of them will drift.
 
 The artwork is UniProt's subcellular-location diagram (`data/icons/Apicomplexa_cells.svg`): 59
 organelles, each a `<g>` carrying a **UniProt SL identifier**. So the drawing already speaks a
@@ -14,8 +14,8 @@ codes -- `COMPARTMENT_SL` -- rather than any renaming of the artwork.
 ## Three decisions this module implements, all of them forced by the data
 
 **Several hyperLOPIT classes share one organelle.** Both rhoptry classes, both nucleus classes and
-the three plasma-membrane classes map to a single shape, which cannot carry three colours at once.
-The shape takes the colour of whichever class is SELECTED, and says which one it is showing. With
+the three plasma-membrane classes map to a single shape, which cannot carry three colors at once.
+The shape takes the color of whichever class is SELECTED, and says which one it is showing. With
 nothing selected it is neutral: filling it with whichever class sorts first would be a claim nobody
 made. Clicking it cycles through the classes that share it, saying each time which is now selected.
 
@@ -24,7 +24,7 @@ not in the artwork, and cytosol has no distinct shape worth clicking. They are l
 diagram rather than silently absent -- between them they are a large part of this proteome, and a
 compartment that vanishes from the legend reads as one that does not exist.
 
-**Absence stays grey.** `unassigned` is 4,313 genes. It is never filled with a compartment colour
+**Absence stays gray.** `unassigned` is 4,313 genes. It is never filled with a compartment color
 and never looks like a measurement.
 """
 from __future__ import annotations
@@ -92,14 +92,14 @@ def groups_in(svg: str) -> set:
     """Every SL group the artwork actually contains.
 
     Read from the file rather than trusted from the table above, because a mapping to a shape that
-    is not in the drawing is a silent no-op -- the compartment would simply never colour anything
+    is not in the drawing is a silent no-op -- the compartment would simply never color anything
     and nothing would say why.
     """
     return set(re.findall(r'<g[^>]*id="(SL\d+)"', svg))
 
 
 def missing_from_drawing(compartments, svg: str = "") -> list:
-    """Compartments with no organelle to colour, in the order given.
+    """Compartments with no organelle to color, in the order given.
 
     Named rather than dropped. Between the proteasome classes, the apical classes and anything the
     artwork lacks, these are a large part of the proteome, and a compartment that vanishes from the
@@ -128,16 +128,90 @@ def _hex(colour) -> str:
     return f"#{r:02x}{g:02x}{b:02x}"
 
 
+#: Groups that are "outside the cell" and are drawn as a filled sheet across the whole canvas. Made
+#: transparent so the panel's own background shows through: the diagram sits on a ground that changes
+#: with the theme, and a white -- or grey -- card behind the parasite reads as an image that failed
+#: to load.
+CANVAS_GROUPS = ("SL0112", "SL0243")
+
+#: The white sheet the artwork is drawn on. Removed rather than recoloured: the diagram sits in a
+#: panel whose colour changes with the theme, and a white card behind a parasite on a dark ground
+#: reads as an image that failed to load.
+BACKGROUND_ID = "path_1_"
+
+
+def transparent_ground(svg: str) -> str:
+    """Drop the artwork's own background so the panel's shows through.
+
+    Two things make the card: a white rectangle behind everything, and the groups that stand for the
+    space OUTSIDE the cell, which are drawn as filled sheets across the whole canvas. Both go.
+    """
+    out = re.sub(r'<rect[^>]*id="%s"[^>]*/>' % BACKGROUND_ID, "", svg, count=1)
+    # The surround: a single path that traces the whole canvas and then the cell outline, filled
+    # even-odd so it paints everything OUTSIDE the parasite. It is the artwork's way of drawing "not
+    # in the cell", and on a themed panel it is a white card with a parasite-shaped hole in it.
+    # It carries no fill of its own -- it inherits one -- so the fill is ADDED rather than replaced.
+    # Matched on the `M0,0` that starts at the canvas corner: nothing else in the drawing does.
+    def blank(m):
+        tag = re.sub(r'\sfill="[^"]*"', "", m.group(0))
+        return tag[:5] + ' fill="none"' + tag[5:]
+
+    out = re.sub(r'<path[^>]*\sd="M0,0[^"]*"[^>]*>', blank, out, count=1)
+    for sl in CANVAS_GROUPS:
+        pattern = re.compile(r'(<g[^>]*id="%s".*?</g>)' % sl, re.S)
+        out = pattern.sub(lambda m: re.sub(r'fill\s*:\s*[^;"\']+', "fill:none",
+                                           re.sub(r'fill="(?!none)[^"]*"', 'fill="none"',
+                                                  m.group(0))),
+                          out, count=1)
+    return out
+
+
+def view_box(svg: str):
+    """The artwork's own (x, y, width, height), or None. See `CellDiagram.viewbox`."""
+    m = re.search(r'viewBox="([\d.\s-]+)"', svg or "")
+    if not m:
+        return None
+    parts = [float(v) for v in m.group(1).split()]
+    return tuple(parts) if len(parts) == 4 else None
+
+
+def portrait(svg: str) -> str:
+    """Turn the cell upright, apical end -- the rhoptries -- at the top.
+
+    The artwork is drawn lying down, apex to the left, which is the orientation of a textbook figure
+    and the wrong one for a tall panel: laid out flat in a 260-pixel column it is a strip a
+    centimetre high. Rotated a quarter turn it fills the column, and it matches how the parasite is
+    drawn in every paper about invasion -- apex first, because that is the end that goes in.
+
+    Done by wrapping the drawing in a rotation and swapping the viewBox rather than by editing
+    coordinates: the artwork has 59 groups and several thousand paths, and touching them would break
+    the SL ids that everything else here depends on.
+    """
+    m = re.search(r'viewBox="([\d.\s-]+)"', svg)
+    if not m:
+        return svg
+    x, y, w, h = (float(v) for v in m.group(1).split())
+    # A quarter turn CLOCKWISE, which is the one that sends the left edge -- the apex -- to the top.
+    # Anticlockwise puts the nucleus above the rhoptries, i.e. the parasite on its head, and a test
+    # asserts the rhoptries end up higher than the nucleus rather than trusting the sign.
+    inner = re.sub(r"^.*?<svg[^>]*>", "", svg, count=1, flags=re.S)
+    inner = re.sub(r"</svg>\s*$", "", inner, flags=re.S)
+    head = svg[:svg.index(">", svg.index("<svg")) + 1]
+    head = head.replace(m.group(0), f'viewBox="0 0 {h:g} {w:g}"')
+    return (f'{head}<g transform="rotate(90) translate({-x:g} {-(y + h):g})">'
+            f'{inner}</g></svg>')
+
+
 def recolour(svg: str, fills: dict, neutral=NEUTRAL) -> str:
     """Set the fill of each SL group, returning the modified SVG text.
 
-    Done on the text at draw time rather than by shipping a recoloured copy: there are four themes
+    Done on the text at draw time rather than by shipping a recolored copy: there are four themes
     and the categorical palette changes with each, so any stored copy would be wrong for three of
     them and would drift from the map the moment a palette changed.
 
     The fill is applied to the group AND its descendants' inline styles, because the artwork sets
     `fill` on the individual paths -- a fill on the group alone is overridden by every path in it and
-    the diagram would come back grey while every test on the returned string passed.
+    the diagram would come back gray while every test on the returned string passed.
     """
     def paint(match, colour: str) -> str:
         body = match.group(0)
@@ -146,7 +220,10 @@ def recolour(svg: str, fills: dict, neutral=NEUTRAL) -> str:
         return body
 
     out = svg
-    for sl in groups_in(svg):
+    # Only the organelles a compartment names. Painting every group -- including the cell body and
+    # the space around it -- filled the whole drawing with the neutral grey and produced a grey card
+    # with a parasite on it, which is the opposite of taking the container's background.
+    for sl in fills:
         colour = _hex(fills.get(sl, neutral))
         # The group and everything inside it, matched non-greedily up to its closing tag.
         pattern = re.compile(r'(<g[^>]*id="%s".*?</g>)' % sl, re.S)
@@ -164,17 +241,23 @@ class CellDiagram(QtWidgets.QWidget):
     def __init__(self, parent=None, path: str = ""):
         super().__init__(parent)
         self.path = path or icon_path()
-        self.svg = open(self.path, encoding="utf8").read() if available(self.path) else ""
+        raw = open(self.path, encoding="utf8").read() if available(self.path) else ""
+        # The artwork's own coordinate system, kept because `boundsOnElement` reports positions in
+        # it -- BEFORE the rotation that stands the cell upright. A click has to be mapped back
+        # through that rotation or every organelle is hit-tested against the wrong place, which is
+        # exactly the kind of "works, but selects the neighbour" bug this project keeps finding.
+        self.viewbox = view_box(raw)
+        self.svg = portrait(transparent_ground(raw)) if raw else ""
         self.groups = groups_in(self.svg)
         self.colour_of: dict = {}
         self.selected = ""
         self._renderer = None
         self.setMinimumHeight(150)
         self.setToolTip(
-            "The same colours as the map, on the organelle each compartment names. Where several "
+            "The same colors as the map, on the organelle each compartment names. Where several "
             "classes share one shape -- both rhoptry classes, both nucleus classes, the three "
             "plasma-membrane classes -- the shape shows the one that is selected and says so; click "
-            "it again to step to the next. Grey means nothing is selected for that shape, or that "
+            "it again to step to the next. Gray means nothing is selected for that shape, or that "
             "the class is unassigned, which is not a compartment.")
 
     # ------------------------------------------------------------------ state
@@ -186,9 +269,9 @@ class CellDiagram(QtWidgets.QWidget):
         self.update()
 
     def fills(self) -> dict:
-        """SL group -> colour, from the map's palette and the current selection.
+        """SL group -> color, from the map's palette and the current selection.
 
-        A shape shared by several classes takes the selected one's colour, and neutral when none of
+        A shape shared by several classes takes the selected one's color, and neutral when none of
         them is selected: filling it with whichever sorts first would be a claim nobody made.
         """
         out = {}
@@ -210,11 +293,11 @@ class CellDiagram(QtWidgets.QWidget):
         others = [c for c in sharing(sl or "") if c != self.selected]
         if not self.selected or not others:
             return ""
-        return (f"the {self.selected} colour is on a shape shared with "
+        return (f"the {self.selected} color is on a shape shared with "
                 f"{', '.join(others)} — click it to step through them")
 
     def renderer(self):
-        """The SVG renderer for the current colours, built once per palette change."""
+        """The SVG renderer for the current colors, built once per palette change."""
         if self._renderer is None and self.svg:
             data = recolour(self.svg, self.fills()).encode("utf8")
             self._renderer = QtSvg.QSvgRenderer(QtCore.QByteArray(data))
@@ -222,7 +305,7 @@ class CellDiagram(QtWidgets.QWidget):
 
     # ------------------------------------------------------------------ drawing and clicking
     def paintEvent(self, ev):
-        """Draw the cell, scaled to fit and centred."""
+        """Draw the cell, scaled to fit and centerd."""
         r = self.renderer()
         if r is None or not r.isValid():
             return
@@ -240,14 +323,42 @@ class CellDiagram(QtWidgets.QWidget):
         w, h = size.width() * scale, size.height() * scale
         return QtCore.QRectF((self.width() - w) / 2, (self.height() - h) / 2, w, h)
 
+    def local_to_widget(self, px: float, py: float):
+        """A point in the artwork's own frame to widget pixels, through the rotation and the fit.
+
+        Defined beside its inverse so the two cannot drift: an off-by-a-quarter-turn hit test is
+        invisible until someone clicks an organelle and selects its neighbour.
+        """
+        r = self.renderer()
+        if r is None or not r.isValid():
+            return 0.0, 0.0
+        target, size = self._target(), r.defaultSize()
+        vx, vy, vw, vh = self.viewbox or (0.0, 0.0, size.width(), size.height())
+        ux, uy = (vy + vh) - py, px - vx
+        return (target.x() + ux * target.width() / max(size.width(), 1),
+                target.y() + uy * target.height() / max(size.height(), 1))
+
+    def widget_to_local(self, x: float, y: float):
+        """Widget pixels back to the artwork's own frame -- the inverse of `local_to_widget`."""
+        r = self.renderer()
+        if r is None or not r.isValid():
+            return 0.0, 0.0
+        target, size = self._target(), r.defaultSize()
+        if target.width() <= 0 or target.height() <= 0:
+            return 0.0, 0.0
+        ux = (x - target.x()) * size.width() / target.width()
+        uy = (y - target.y()) * size.height() / target.height()
+        vx, vy, vw, vh = self.viewbox or (0.0, 0.0, size.width(), size.height())
+        return uy + vx, (vy + vh) - ux
+
     def organelle_at(self, x: float, y: float) -> str:
         """The SL group under a widget point, or "".
 
         Among the boxes containing the point, the one it sits most centrally in wins -- distance
-        from the centre relative to the box's own size. Two other rules were tried and both are
+        from the center relative to the box's own size. Two other rules were tried and both are
         wrong here: the largest match is the cytoplasm every time, since the boxes nest, and the
         SMALLEST match picks whichever unrelated organelle happens to have a tight box over the
-        click, because each group's box includes its text label and a labelled organelle's box is
+        click, because each group's box includes its text label and a labeled organelle's box is
         much wider than its drawing. Clicking the middle of a shape should select that shape.
         """
         r = self.renderer()
@@ -256,8 +367,9 @@ class CellDiagram(QtWidgets.QWidget):
         target, size = self._target(), r.defaultSize()
         if target.width() <= 0 or size.width() <= 0:
             return ""
-        sx = (x - target.x()) * size.width() / target.width()
-        sy = (y - target.y()) * size.height() / target.height()
+        # Element bounds are reported in the artwork's own frame, and the drawing on screen has been
+        # rotated a quarter turn into portrait around it, so the click is mapped back first.
+        sx, sy = self.widget_to_local(x, y)
         best, best_score = "", float("inf")
         for sl in self.groups:
             if not sharing(sl):

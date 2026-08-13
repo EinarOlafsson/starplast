@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Published CRISPR screens and mass-spectrometry abundance, normalised to one gene per row.
+"""Published CRISPR screens and mass-spectrometry abundance, normalized to one gene per row.
 
 Everything here is read from `datasets/crispr_screens/` and `toxo_stage_atlas/data/proteomics/`; see
 `datasets/crispr_screens/SOURCES.md` for provenance. Four screens and two proteomes, each with a very
@@ -16,7 +16,7 @@ different scope, and the scope is the thing to keep in view:
   how much it perturbs host transcription (Hotelling T2).
 
 **The screens do not share a sign convention or a scale.** That is established for the seven screens
-already in the node table, and nothing here changes it: always rank-normalise and check direction before
+already in the node table, and nothing here changes it: always rank-normalize and check direction before
 pooling anything with anything.
 
 **Mass spectrometry is thin.** The only abundance data in this tree is two Pru immunoprecipitation

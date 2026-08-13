@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Publishing the study corpus to HuggingFace, license-gated.
 
-The 97 proximity-labelling and pulldown studies come to ~400 MB, which is past what belongs in git but
+The 97 proximity-labeling and pulldown studies come to ~400 MB, which is past what belongs in git but
 unremarkable for a HuggingFace dataset repo. The obstacle is not size, it is redistribution rights.
 
 Measured from the JATS license blocks of the local full texts:
@@ -103,7 +103,7 @@ tags: [toxoplasma, proteomics, interactome, bioid, ip-ms]
 
 # Toxoplasma gondii tagged-protein interaction studies
 
-Which genes appear in the supplementary tables of {len(studies)} published proximity-labelling
+Which genes appear in the supplementary tables of {len(studies)} published proximity-labeling
 (BioID / TurboID / APEX) and pulldown (IP-MS / co-IP) studies with a tagged *Toxoplasma gondii* protein.
 Studies were identified by screening {33924:,} PubMed abstracts; supplementary files were retrieved from
 the publishers.

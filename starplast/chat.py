@@ -309,9 +309,9 @@ class ChatPanel(QtWidgets.QWidget):
                         f"<br>{safe}</p>")
 
     def _accent(self, who: str) -> str:
-        """Two distinguishable colours from the active theme rather than fixed hexes.
+        """Two distinguishable colors from the active theme rather than fixed hexes.
 
-        Hardcoded chat colours are the usual way a panel becomes unreadable on a light theme.
+        Hardcoded chat colors are the usual way a panel becomes unreadable on a light theme.
         """
         try:
             from . import theme as TH

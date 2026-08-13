@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Annotations: a proposed label for a gene, and the numbers that make it a proposal rather than a claim.
 
-A cluster is mostly one category; the unlabelled genes in it are candidates. Writing those down is a
+A cluster is mostly one category; the unlabeled genes in it are candidates. Writing those down is a
 few lines of code and is the single easiest way for this project to start manufacturing exactly what
 it exists to prevent -- because a candidate list looks identical whether it is 90% right or 6%, and
 measured on the coarse level-of-detail components of this map it was **1-6%**.
@@ -21,7 +21,7 @@ Three rules, and each is a refusal rather than a convention:
   precision from the same clustering the candidate came from is the only honest estimate of how
   often that annotation will be right, and a stored annotation without one is a guess wearing a
   record's clothes.
-* **Its own colour, used for nothing else.** Measurement, inference and absence already have one
+* **Its own color, used for nothing else.** Measurement, inference and absence already have one
   each in this application. An annotation is a fourth thing, and reading as any of the other three
   is the failure mode -- see `ANNOTATION_COLOUR`.
 
@@ -175,7 +175,7 @@ class AnnotationStore:
     def mask(self, gene_ids) -> np.ndarray:
         """Which of `gene_ids` carry an annotation, as a boolean array over that order.
 
-        What the map draws its fourth colour from. Built here rather than in the window so that
+        What the map draws its fourth color from. Built here rather than in the window so that
         "is this gene annotated" has one answer.
         """
         have = set(self.load().gene_id.astype(str)) if os.path.exists(self.path) else set()

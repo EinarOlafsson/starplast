@@ -168,7 +168,7 @@ def test_measured_binding_and_structure_layers_present(win):
     assert {"n_xlink_partners", "n_struct_similar", "best_model_agreement"} <= set(win.nodes.columns)
 
 
-def test_panel_shows_how_the_binding_is_modelled(win):
+def test_panel_shows_how_the_binding_is_modeled(win):
     """The crosslink model table is what answers 'how does this binding happen'."""
     import numpy as np
     if not len(win.models):
@@ -177,7 +177,7 @@ def test_panel_shows_how_the_binding_is_modelled(win):
     i = int(np.where(win.nodes.gene_id.to_numpy() == gid)[0][0])
     win.on_pick(i)
     html = win.detail.toHtml()
-    assert "How the binding is modelled" in html
+    assert "How the binding is modeled" in html
     assert "crosslink" in html.lower()
 
 

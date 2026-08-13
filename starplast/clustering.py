@@ -8,7 +8,7 @@ tachyzoite?*
 
 **The circularity guard is the point of this module.** If a feature fed the embedding, then finding that
 it separates the resulting clusters is guaranteed and means nothing — the clusters were built to separate
-it. Every result is therefore labelled `used` or `held_out`, and only `held_out` features are evidence.
+it. Every result is therefore labeled `used` or `held_out`, and only `held_out` features are evidence.
 Reporting a `used` feature as a discovery is the single easiest way to produce a confident artefact here,
 so `battery` refuses to sort the two together.
 

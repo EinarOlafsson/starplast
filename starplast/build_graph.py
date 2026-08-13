@@ -356,7 +356,7 @@ def structural_holes(edges: dict, nodes: pd.DataFrame):
 
     This is the app's governing question: not what the field says, but where its map has a gap that the
     data says should be crossed. A hole is a *derived* relation, not an observed one -- it is the absence
-    of a co-mention edge across a pair the measurements agree about -- and it is labelled as such.
+    of a co-mention edge across a pair the measurements agree about -- and it is labeled as such.
 
     Both co-mention layers count as literature, so a pair discussed anywhere, in any abstract or any
     open-access paragraph, is not a hole.
@@ -410,7 +410,7 @@ def unwritten_interactions(edges: dict, nodes: pd.DataFrame):
     covalently joined in a cell lysate, or a replicated pulldown -- and the literature still never put the
     two proteins in one sentence.
 
-    This is a merge of `xlms` and `ip_ms`, and it is an explicit, labelled one rather than a silent
+    This is a merge of `xlms` and `ip_ms`, and it is an explicit, labeled one rather than a silent
     blending of edge types: both remain separately toggleable.
     """
     src = [k for k in ("xlms", "ip_ms") if k in edges]
@@ -462,7 +462,7 @@ def embed(nodes: pd.DataFrame) -> np.ndarray:
     # build finish, with the column named so the real problem is visible.
     dead = [f for f, m in zip(feats, med) if not np.isfinite(m)]
     if dead:
-        log(f"embedding: {len(dead)} feature(s) measured for no gene, centred at zero: "
+        log(f"embedding: {len(dead)} feature(s) measured for no gene, centerd at zero: "
             f"{', '.join(dead)}")
     med = np.where(np.isfinite(med), med, 0.0)
     X = np.where(np.isnan(X), med, X)
