@@ -347,3 +347,38 @@ def test_fetch_names_runs_as_a_module(monkeypatch, tmp_path):
     runpy.run_module("starplast.fetch_names", run_name="__main__")
     assert os.path.exists(os.path.join(tmp_path, "toxodb_identity.tsv"))
     assert open(os.path.join(tmp_path, "toxodb_identity.tsv")).read().startswith("gene_id")
+
+
+# --------------------------------------------------------------------------- the GPU install
+def _read(*parts):
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return open(os.path.join(root, *parts), encoding="utf8").read()
+
+
+def test_the_gpu_stack_is_an_extra_and_not_a_dependency():
+    """~2 GB of CUDA wheels that only exist for CUDA 12, for a program that runs identically without
+    them. A hard dependency would make every install pay for a card most machines do not have."""
+    main = _read("pyproject.toml")
+    assert "cuml-cu12" not in main.split("[project.optional-dependencies]")[0], \
+        "the GPU stack became a hard dependency"
+    extra = main.split("gpu = [")[1].split("]")[0]
+    assert "cuml-cu12" in extra and "cupy-cuda12x" in extra
+
+
+def test_the_metapackage_installs_the_extra_rather_than_repeating_it():
+    """`pip install starplast-gpu` has to mean exactly `starplast[gpu]`. Two lists of CUDA wheels
+    would disagree the first time one was updated."""
+    from starplast import __version__
+    meta = _read("packaging", "starplast-gpu", "pyproject.toml")
+    assert f'"starplast[gpu]=={__version__}"' in meta, \
+        "the metapackage does not pin the version it ships beside -- bump both or neither"
+    assert "cuml" not in meta.split("[project]")[1].split("dependencies")[1].split("\n")[0]
+    assert 'name = "starplast-gpu"' in meta
+
+
+def test_the_program_says_how_to_install_the_gpu_stack():
+    """The switch reports what it found; when it found nothing it has to say what to type."""
+    from starplast import gpu
+    text = gpu.describe()
+    if not any(gpu.available()[k] for k in ("cuml", "cupy", "torch")):
+        assert "starplast-gpu" in text or "starplast[gpu]" in text

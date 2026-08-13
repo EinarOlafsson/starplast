@@ -19,6 +19,7 @@ Terminal entry point: `starplast`
 ```bash
 cd /mnt/firecuda2/Claude/repo/starplast        # the working copy on this machine
 pip install -e .            # installs the console_scripts entry point
+pip install -e ".[gpu]"     # optional: cuML and CuPy, for CUDA 12 -- see below
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min)
 starplast                   # launch
@@ -28,6 +29,14 @@ pytest tests/ -q -m slow    # the real build and the pdoc pass, ~2 min
 
 If the GL widget fails on a headless machine, that is expected — this needs a display. The test suite is
 headless and does not.
+
+**GPU acceleration is optional and off by default.** `Preferences ▸ compute` reports what it found
+and what that will buy. cuML moves UMAP and HDBSCAN themselves; CuPy or torch move the array work,
+which measured about 1.5x on large distance matrices and *negative* on rank scaling -- that path was
+deleted rather than shipped. Install with `pip install starplast-gpu`, or `pip install -e ".[gpu]"`
+in a checkout; both resolve to the same wheels, since the metapackage's only dependency is the
+extra. **A map built by cuML's UMAP is a different map of the same data**, not the same map faster,
+and the log says so whenever it happens.
 
 **Two interpreters, and the second is the one that matters.** The suite runs in
 `~/anaconda3/envs/spacr` (pandas 2.3.3); the user runs `~/anaconda3/envs/starplast` (pandas 3.0.5),

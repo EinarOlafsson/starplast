@@ -1630,7 +1630,9 @@ class Window(QtWidgets.QMainWindow):
         self.gpu_switch.setToolTip(
             "cuml does UMAP and HDBSCAN themselves; cupy or torch do the array work -- scaling, "
             "ranking and the distance matrix the walk recomputes for every configuration. Nothing "
-            "here is a dependency: with no backend installed the switch has nothing to turn on.\n\n"
+            "here is a dependency: with no backend installed the switch has nothing to turn on -- "
+            'install them with `pip install starplast-gpu`, or `pip install -e ".[gpu]"` in a '
+            "checkout.\n\n"
             "A map built by cuml's UMAP is NOT the map umap-learn builds -- it is a different map "
             "of the same data -- so a walk whose rows came from both would compare the libraries "
             "rather than the settings. The arithmetic paths are checked against the CPU to 1e-5.")

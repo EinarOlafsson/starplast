@@ -16,7 +16,8 @@ other design decision: **[HANDOFF.md](HANDOFF.md)**. Methods prose for publicati
 ## Install and run
 
 ```bash
-pip install -e .
+pip install -e .                 # the program
+pip install -e ".[gpu]"          # and the CUDA 12 stack it can use, if this machine has a card
 starplast
 ```
 

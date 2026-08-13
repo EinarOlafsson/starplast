@@ -24,6 +24,21 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0"]
+# The GPU stack, as an extra rather than a dependency: it is ~2 GB of CUDA wheels, it only exists
+# for CUDA 12, and the program runs identically without it -- `starplast.gpu` reports what it found
+# and falls back. cuml does UMAP and HDBSCAN themselves; cupy does the array work.
+#
+#     pip install "starplast[gpu]"          from PyPI
+#     pip install -e ".[gpu]"               in this checkout, editable
+#     pip install starplast-gpu             the same thing under a name that reads as a product
+#
+# Both RAPIDS and CuPy publish to PyPI proper now, so no --extra-index-url is needed. Pinned to
+# CUDA 12 because that is what the driver on this machine serves and what torch was built against;
+# a CUDA 13 box wants cuml-cu13 and cupy-cuda13x.
+gpu = [
+    "cuml-cu12>=24.10",
+    "cupy-cuda12x>=13.0",
+]
 
 [project.scripts]
 starplast = "starplast.app:main"
