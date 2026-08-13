@@ -315,7 +315,14 @@ REGISTRY = [
     # ------------------------------------------------------------------ literature
     Dataset("pubmed", "PubMed abstracts", "reference", "literature",
             "Titles and abstracts for co-mention and attention",
-            ("n_publications", "attention_depth"), "33,924 records",
+            # The per-tier paper counts belong here too, and `attention_depth` is declared as what it
+            # is: np.select over exactly those three columns (`literature.attention_depth`). Without
+            # the declaration the NEGATIVE control was embedding its own inputs -- the counts score
+            # 0.25-0.43 against the tiering, under any workable threshold, because a count is not a
+            # restatement of a tier while determining it completely.
+            ("n_publications", "n_papers_focal", "n_papers_substantive", "n_papers_incidental",
+             "attention_depth"), "33,924 records",
+            derived_from=("n_papers_focal", "n_papers_substantive", "n_papers_incidental"),
             url="https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
                 "?db=pubmed&term=Toxoplasma&retmax=100000",
             path=".claude/skills/toxoplasma-scientist/corpus/pubmed_toxoplasma.jsonl",

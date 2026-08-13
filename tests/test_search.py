@@ -151,6 +151,38 @@ def test_a_target_from_another_experiment_keeps_the_hyperlopit_columns():
     assert "lopit_prob_map" not in S.excluded_for(d, "cellcycle_phase")
 
 
+def test_the_negative_control_does_not_get_to_see_its_own_inputs():
+    """`attention_depth` is `np.select` over n_papers_focal / substantive / incidental -- a
+    deterministic function of exactly those three columns. Each scores 0.25-0.43 against the tiering
+    on the real cache, far under the threshold, because a count is not a restatement of a tier while
+    determining it completely.
+
+    It matters more here than anywhere: this is the NEGATIVE control, the number every measured
+    target is compared against. A control that is allowed to embed its own inputs scores too high,
+    and every real target then looks worse than it is by exactly that much."""
+    from starplast import datasets
+    assert datasets.derived_sources("attention_depth"), \
+        "the registry must declare what the tiering is computed from"
+    rng = np.random.default_rng(8)
+    n = 300
+    d = pd.DataFrame({
+        "gene_id": [f"TGME49_{200000+i}" for i in range(n)],
+        "n_papers_focal": rng.integers(0, 5, n).astype(float),
+        "n_papers_substantive": rng.integers(0, 5, n).astype(float),
+        "n_papers_incidental": rng.integers(0, 9, n).astype(float),
+        "n_publications": rng.integers(0, 12, n).astype(float),
+        "n_fulltext": rng.integers(0, 7, n).astype(float),
+        "fit_a": rng.normal(size=n),
+    })
+    d["attention_depth"] = np.where(d.n_papers_focal > 0, "focal",
+                                    np.where(d.n_papers_substantive > 0, "substantive", ""))
+    ex = S.excluded_for(d, "attention_depth")
+    assert {"n_papers_focal", "n_papers_substantive", "n_papers_incidental"} <= ex
+    assert "n_publications" in ex and "n_fulltext" in ex, \
+        "the rest of the literature block counts the same thing"
+    assert "fit_a" not in ex
+
+
 def test_the_exclusion_threshold_is_stricter_than_the_reporting_one():
     """0.8 when choosing what an embedding may SEE, 0.95 when flagging a result after the fact. A
     0.85-associated column leaks nearly as much as an identical one."""

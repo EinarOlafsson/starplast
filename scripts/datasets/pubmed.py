@@ -4,10 +4,11 @@
 Titles and abstracts for co-mention and attention
 
     level / kind : reference / literature
-    provides     : n_publications, attention_depth
+    provides     : n_publications, n_papers_focal, n_papers_substantive, n_papers_incidental, attention_depth
     coverage     : 33,924 records
     url          : https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Toxoplasma&retmax=100000
     local path   : .claude/skills/toxoplasma-scientist/corpus/pubmed_toxoplasma.jsonl
+    derived from : n_papers_focal, n_papers_substantive, n_papers_incidental
 
 Quirks that cost time once:
     ASSEMBLED HERE from an E-utilities query rather than downloaded as a file: the esearch above
