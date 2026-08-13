@@ -333,10 +333,11 @@ def test_mapping_back_from_a_widget_with_no_size_is_the_origin(qapp, tmp_path):
     assert d.widget_to_local(3, 4) == (0.0, 0.0)
 
 
-def test_the_drawing_is_grey_and_only_the_selection_has_colour(qapp):
+def test_the_drawing_is_hollow_and_only_the_selection_has_colour(qapp):
     """What the eye actually gets, measured on the painted widget rather than on the source: every
     attempt to neutralise this artwork by rewriting its fills, strokes and gradient stops left it
-    rendering in full colour anyway, with no error and nothing in the document to explain it."""
+    rendering in full colour anyway, with no error and nothing in the document to explain it. A
+    shape with no fill has nothing to render in any colour, which is what finally settled it."""
     from PyQt6 import QtGui
     d = CD.CellDiagram()
     d.resize(240, 380)
@@ -371,3 +372,21 @@ def test_the_drawing_keeps_the_panel_s_background(qapp):
     p.end()
     corner = QtGui.QColor.fromRgba(img.pixel(2, 2))
     assert corner.alpha() < 40, "the drawing brought a background of its own"
+
+
+def test_the_cell_is_outlines_with_nothing_filled_behind_them(qapp):
+    """Hollow, so the diagram sits on whatever is behind it and the one filled thing in it is
+    unmistakably the selection."""
+    d = CD.CellDiagram()
+    assert 'fill="none"' in d.svg
+    assert '#ffffff' in d.svg, "the outlines are not white"
+    # The masks come from the SOLID version: a click belongs to the organelle it lands inside, not
+    # only to the two pixels of its outline.
+    assert d.svg_solid and d.svg_solid != d.svg
+    d.resize(240, 380)
+    d.set_palette({"rhoptries 1": (0.2, 0.6, 1.0)}, "rhoptries 1")
+    mask = d.masks()["SL0233"]
+    from PyQt6 import QtGui
+    ink = sum(QtGui.QColor.fromRgba(mask.pixel(x, y)).alpha() > 200
+              for x in range(mask.width()) for y in range(mask.height()))
+    assert ink > 200, "the hit-test mask is only an outline"

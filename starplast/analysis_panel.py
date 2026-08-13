@@ -1170,6 +1170,106 @@ class AnalysisPanel(QtWidgets.QWidget):
         menu.exec(table.viewport().mapToGlobal(pos))
         return menu
 
+    def table_kind(self, table) -> str:
+        """The key a saved file records for this table -- what makes a load refuse a mismatch."""
+        return self._table_what.get(table, "")
+
+    def results_tables(self) -> dict:
+        """Every results table by its key. What "all tabs at once" means, in one place."""
+        return {self._table_what[t]: t for t in self._table_what}
+
+    def save_results(self, table, path: str = "") -> str:
+        """Write one table so it can be loaded back and clicked, not merely read."""
+        from .results import save_table
+        df = self._frames.get(table)
+        kind = self.table_kind(table)
+        if df is None or not len(df):
+            self.status.emit("nothing to save -- run something first")
+            return ""
+        if not path:
+            path, _ = QtWidgets.QFileDialog.getSaveFileName(
+                self, "Save results", f"{kind}.csv", "starplast results (*.csv)")
+        if not path:
+            return ""
+        save_table(path, kind, df)
+        self.status.emit(f"wrote {len(df):,} rows of {kind} to {path} -- load it back and its rows "
+                         f"are still clickable")
+        return path
+
+    def load_results(self, table, path: str = "") -> bool:
+        """Load a saved table back into this one, refusing a file that came from another.
+
+        Refused rather than loaded anyway: the rows of one table are recipes for rebuilding a map and
+        the rows of another are per-category scores, so a validation file dropped into the walk tab
+        produces rows nobody can rebuild and an error message about the wrong thing.
+        """
+        from .results import load_table, table_kind
+        kind = self.table_kind(table)
+        if not path:
+            path, _ = QtWidgets.QFileDialog.getOpenFileName(
+                self, f"Load {kind}", "", "starplast results (*.csv);;All files (*)")
+        if not path:
+            return False
+        found = table_kind(path)
+        if found and found != kind:
+            self.status.emit(f"that file holds {found}, not {kind} -- load it into the tab it came "
+                             f"from, where its rows mean something")
+            return False
+        try:
+            df = load_table(path)
+        except Exception as exc:
+            self.status.emit(f"could not read {path}: {type(exc).__name__}: {exc}")
+            return False
+        self._fill(table, df)
+        self.status.emit(f"loaded {len(df):,} rows into {kind}"
+                         + ("" if found else " -- the file did not say which table it came from"))
+        return True
+
+    def save_all_results(self, path: str = "") -> str:
+        """Every tab's results in one file."""
+        from .results import save_bundle
+        tables = {kind: self._frames.get(t) for kind, t in self.results_tables().items()}
+        if not any(df is not None and len(df) for df in tables.values()):
+            self.status.emit("no results to save -- run something first")
+            return ""
+        if not path:
+            path, _ = QtWidgets.QFileDialog.getSaveFileName(
+                self, "Save all results", "starplast_results.starplast",
+                "starplast results (*.starplast)")
+        if not path:
+            return ""
+        save_bundle(path, tables, meta={"target": self.target.currentText(),
+                                        "spec": self.spec().to_dict()})
+        n = sum(1 for df in tables.values() if df is not None and len(df))
+        self.status.emit(f"wrote {n} table(s) to {path}")
+        return path
+
+    def load_all_results(self, path: str = "") -> int:
+        """Load a bundle back into every tab it names."""
+        from .results import load_bundle
+        if not path:
+            path, _ = QtWidgets.QFileDialog.getOpenFileName(
+                self, "Load results", "", "starplast results (*.starplast);;All files (*)")
+        if not path:
+            return 0
+        try:
+            tables, meta = load_bundle(path)
+        except Exception as exc:
+            self.status.emit(f"could not read {path}: {type(exc).__name__}: {exc}")
+            return 0
+        known = self.results_tables()
+        loaded = 0
+        for kind, df in tables.items():
+            if kind in known and len(df):
+                self._fill(known[kind], df)
+                loaded += 1
+        # Named rather than counted: a bundle whose tables this version does not have is a file from
+        # a later one, and "3 of 5 loaded" with no names is not something anyone can act on.
+        unknown = [k for k in tables if k not in known]
+        self.status.emit(f"loaded {loaded} table(s) from {path}"
+                         + (f"; this version has no tab for {', '.join(unknown)}" if unknown else ""))
+        return loaded
+
     def build_table_menu(self, table) -> QtWidgets.QMenu:
         """Construct a results table's menu without showing it.
 
@@ -1185,6 +1285,12 @@ class AnalysisPanel(QtWidgets.QWidget):
         copy = m.addAction("Copy selected rows")
         copy.setEnabled(bool(table.selectedItems()))
         copy.triggered.connect(lambda: self.copy_rows(table))
+        m.addSeparator()
+        keep = m.addAction("Save these results (reloadable)…")
+        keep.setEnabled(df is not None and len(df) > 0)
+        keep.triggered.connect(lambda: self.save_results(table))
+        back = m.addAction("Load results into this table…")
+        back.triggered.connect(lambda: self.load_results(table))
         if self._row_action.get(table) is not None:
             m.addSeparator()
             show = m.addAction("Show this row's map")

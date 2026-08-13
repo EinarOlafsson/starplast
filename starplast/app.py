@@ -948,6 +948,18 @@ class Window(QtWidgets.QMainWindow):
         a.triggered.connect(self.export_image)
         f.addAction("Export visible genes (CSV)…").triggered.connect(self.export_visible)
         f.addAction("Export gated selection (CSV)…").triggered.connect(self.export_gated)
+        f.addSeparator()
+        # Results are the expensive thing this program produces -- a search is minutes to hours --
+        # and until now they lived only until the window closed.
+        a = f.addAction("Save all analysis results…")
+        a.setToolTip("Every tab's table in one file, loadable back into the tabs it came from.")
+        a.triggered.connect(lambda: self.panel.save_all_results()
+                            if hasattr(self, "panel") else None)
+        a = f.addAction("Load analysis results…")
+        a.setToolTip("Load a saved bundle back into every tab it names. A loaded row is as "
+                     "clickable as a computed one: it carries the recipe that rebuilds its map.")
+        a.triggered.connect(lambda: self.panel.load_all_results()
+                            if hasattr(self, "panel") else None)
         f.addAction("Export relationships (CSV)…").triggered.connect(self.export_relationships)
         f.addAction("Export graph (GraphML)…").triggered.connect(self.export_graphml)
         f.addSeparator()

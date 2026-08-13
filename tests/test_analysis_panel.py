@@ -1725,3 +1725,111 @@ def test_a_search_that_scored_nothing_says_so_rather_than_showing_an_empty_table
     monkeypatch.setattr(S, "search", lambda n, **k: (pd.DataFrame(), pd.DataFrame()))
     panel.run_search()
     assert any("nothing was scorable" in m for m in sync)
+
+
+# --------------------------------------------------------------------------- saving results
+def test_a_saved_table_can_be_loaded_back_and_is_still_clickable(panel, sync, tmp_path,
+                                                                 monkeypatch):
+    """The point of the whole format. A loader that produced a table you could only read would be a
+    screenshot with extra steps."""
+    import numpy as np
+    import starplast.search as S
+    rows = pd.DataFrame({"blocks": ["fitness_screens"], "na_policy": ["median"],
+                         "scaling": ["rank"], "n_neighbors": [15], "min_dist": [0.1],
+                         "min_cluster_size": [25], "seed": [42], "sample_size": [0],
+                         "excluded": ["compartment"], "mean_f1": [0.3]})
+    panel._fill(panel.search_table, rows)
+    path = panel.save_results(panel.search_table, str(tmp_path / "s.csv"))
+    assert path and any("still clickable" in m for m in sync)
+
+    panel._start_table(panel.search_table, [])
+    assert panel.load_results(panel.search_table, path)
+    assert panel.search_table.rowCount() == 1
+
+    seen = {}
+
+    def fake_rebuild(nodes, row, log=print):
+        seen.update(row)
+        genes = np.zeros(len(nodes), bool)
+        genes[:10] = True
+        return np.zeros((10, 3)), genes, np.zeros(10, int), ["f"]
+
+    monkeypatch.setattr(S, "rebuild", fake_rebuild)
+    panel.show_search_row(0)
+    assert seen["blocks"] == "fitness_screens", "a loaded row could not be rebuilt"
+
+
+def test_a_file_from_another_tab_is_refused(panel, sync, tmp_path):
+    """Its rows are per-category scores, not recipes: loaded into the walk tab they produce rows
+    nobody can rebuild and an error about the wrong thing."""
+    panel._fill(panel.val_table, pd.DataFrame({"category": ["dense granules"], "precision": [0.6]}))
+    path = panel.save_results(panel.val_table, str(tmp_path / "v.csv"))
+    assert panel.load_results(panel.search_table, path) is False
+    assert any("load it into the tab it came from" in m for m in sync)
+
+
+def test_a_csv_that_names_no_table_loads_and_says_so(panel, sync, tmp_path):
+    path = tmp_path / "mine.csv"
+    pd.DataFrame({"a": [1, 2]}).to_csv(path, index=False)
+    assert panel.load_results(panel.walk_table, str(path))
+    assert any("did not say which table" in m for m in sync)
+
+
+def test_loading_something_unreadable_says_so_rather_than_raising(panel, sync, tmp_path):
+    path = tmp_path / "bad.csv"
+    path.write_bytes(b"\xff\xfe\x00 not a csv")
+    assert panel.load_results(panel.walk_table, str(path)) is False
+    assert any("could not read" in m for m in sync)
+
+
+def test_saving_an_empty_table_says_so(panel, sync, tmp_path):
+    panel._start_table(panel.walk_table, [])
+    assert panel.save_results(panel.walk_table, str(tmp_path / "x.csv")) == ""
+    assert any("nothing to save" in m for m in sync)
+
+
+def test_every_tab_can_be_saved_and_loaded_in_one_file(panel, sync, tmp_path):
+    panel._fill(panel.walk_table, pd.DataFrame({"n_neighbors": [15], "trustworthiness": [0.9]}))
+    panel._fill(panel.search_table, pd.DataFrame({"blocks": ["fitness_screens"], "mean_f1": [0.3]}))
+    panel._fill(panel.val_table, pd.DataFrame({"category": ["nucleus"], "precision": [0.4]}))
+    path = panel.save_all_results(str(tmp_path / "all.starplast"))
+    assert path and any("wrote 3 table(s)" in m for m in sync)
+    for table in (panel.walk_table, panel.search_table, panel.val_table):
+        panel._start_table(table, [])
+    assert panel.load_all_results(path) == 3
+    assert panel.walk_table.rowCount() == 1 and panel.search_table.rowCount() == 1
+    assert panel.val_table.rowCount() == 1
+
+
+def test_a_bundle_from_a_later_version_names_what_this_one_cannot_show(panel, sync, tmp_path):
+    """"3 of 5 loaded" with no names is not something anyone can act on."""
+    from starplast.results import save_bundle
+    path = save_bundle(str(tmp_path / "future.starplast"),
+                       {"umap_walk": pd.DataFrame({"n_neighbors": [15]}),
+                        "some_new_tab": pd.DataFrame({"x": [1]})})
+    assert panel.load_all_results(path) == 1
+    assert any("no tab for some_new_tab" in m for m in sync)
+
+
+def test_saving_everything_with_nothing_computed_says_so(panel, sync, tmp_path):
+    for table in panel.results_tables().values():
+        panel._start_table(table, [])
+    assert panel.save_all_results(str(tmp_path / "none.starplast")) == ""
+    assert any("no results to save" in m for m in sync)
+
+
+def test_loading_a_bundle_that_will_not_open_says_so(panel, sync, tmp_path):
+    path = tmp_path / "not.starplast"
+    path.write_bytes(b"definitely not a zip")
+    assert panel.load_all_results(str(path)) == 0
+    assert any("could not read" in m for m in sync)
+
+
+def test_every_results_table_offers_saving_and_loading(panel):
+    import pandas as pd
+    for name in RESULTS_TABLES:
+        table = getattr(panel, name)
+        panel._fill(table, pd.DataFrame({"a": [1.0]}))
+        actions = [a.text() for a in panel.build_table_menu(table).actions() if a.text()]
+        assert any("reloadable" in a for a in actions), name
+        assert any("Load results" in a for a in actions), name

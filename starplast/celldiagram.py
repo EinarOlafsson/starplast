@@ -219,7 +219,10 @@ def transparent_ground(svg: str) -> str:
     # Matched on the `M0,0` that starts at the canvas corner: nothing else in the drawing does.
     def blank(m):
         tag = re.sub(r'\sfill="[^"]*"', "", m.group(0))
-        return tag[:5] + ' fill="none"' + tag[5:]
+        tag = re.sub(r'\sstroke="[^"]*"', "", tag)
+        # Stroke as well as fill: hollowing the drawing gives every shape an outline, and an outline
+        # around the whole canvas is a frame nobody asked for.
+        return tag[:5] + ' fill="none" stroke="none" stroke-width="0"' + tag[5:]
 
     out = re.sub(r'<path[^>]*\sd="M0,0[^"]*"[^>]*>', blank, out, count=1)
     for sl in CANVAS_GROUPS:
@@ -298,6 +301,33 @@ def recolour(svg: str, fills: dict, neutral=NEUTRAL) -> str:
     return out
 
 
+def outline_only(svg: str, stroke: str = "#ffffff", width: float = 1.4) -> str:
+    """Hollow every shape out and draw it in white line.
+
+    A cell drawn as outlines sits on whatever is behind it -- the panel, the theme, anything -- and
+    the one filled thing in it is then unmistakably the selection. Filled shapes, however pale, are
+    a card the diagram sits on.
+
+    Shapes that carried no stroke get one, because a shape whose fill is removed and which has no
+    outline is simply gone: the nucleus and the cell body are both drawn as fills in this artwork.
+    """
+    def hollow(m):
+        tag = m.group(0)
+        if 'stroke="none"' in tag:
+            return tag                      # deliberately blanked -- the canvas surround
+        tag = re.sub(r'\sfill="[^"]*"', ' fill="none"', tag)
+        if 'fill="none"' not in tag:
+            tag = tag[: len(m.group(1)) + 1] + ' fill="none"' + tag[len(m.group(1)) + 1:]
+        tag = re.sub(r'\sstroke="[^"]*"', f' stroke="{stroke}"', tag)
+        if f'stroke="{stroke}"' not in tag:
+            tag = tag[: len(m.group(1)) + 1] + f' stroke="{stroke}"' + tag[len(m.group(1)) + 1:]
+        if "stroke-width" not in tag:
+            tag = tag[: len(m.group(1)) + 1] + f' stroke-width="{width}"' + tag[len(m.group(1)) + 1:]
+        return tag
+
+    return re.sub(r"<(path|rect|circle|ellipse|polygon|polyline|line)\b[^>]*>", hollow, svg)
+
+
 def _greyscale(img: QtGui.QImage) -> QtGui.QImage:
     """A grey copy of an image, through Qt's own conversion.
 
@@ -344,7 +374,12 @@ class CellDiagram(QtWidgets.QWidget):
         # through that rotation or every organelle is hit-tested against the wrong place, which is
         # exactly the kind of "works, but selects the neighbour" bug this project keeps finding.
         self.viewbox = view_box(raw)
-        self.svg = portrait(transparent_ground(raw)) if raw else ""
+        base = portrait(transparent_ground(raw)) if raw else ""
+        # Two versions of the same drawing. The DISPLAYED one is hollow, white line on nothing; the
+        # SOLID one is what the hit-test masks are rendered from, because a click belongs to the
+        # organelle it lands inside, not only to the two pixels of its outline.
+        self.svg_solid = base
+        self.svg = outline_only(base) if base else ""
         self.groups = groups_in(self.svg)
         self.colour_of: dict = {}
         self.selected = ""
@@ -401,15 +436,14 @@ class CellDiagram(QtWidgets.QWidget):
     def paintEvent(self, ev):
         """Draw the cell grey, then tint the selected organelle.
 
-        Two passes over PIXELS rather than a rewrite of the artwork's colours, because rewriting them
-        does not work: every fill, stroke and gradient stop in this file can be set to grey and it
-        still renders pink. Something in it -- 145 elements carry a `coloured` class and eleven
-        gradients cross-reference each other -- puts colour back that no attribute in the document
-        accounts for. Chasing that is archaeology; taking the luminance of the render is arithmetic
-        and cannot be wrong.
+        The drawing is hollow -- white outlines on nothing -- so it sits on whatever is behind it and
+        the one FILLED thing in it is unmistakably the selection, in the colour that compartment has
+        in the list beside it.
 
-        So the drawing is grey and exactly one thing in it is ever coloured: the selected
-        compartment, in the colour it has in the list beside it.
+        Hollowing it is also what finally made it neutral. Every fill, stroke and gradient stop in
+        this file can be set to grey and it still renders pink: 145 elements carry a `coloured` class
+        and eleven gradients cross-reference each other, and nothing in the document accounts for it.
+        A shape with no fill has nothing to render in any colour.
         """
         r = self.renderer()
         if r is None or not r.isValid():
@@ -422,7 +456,7 @@ class CellDiagram(QtWidgets.QWidget):
         r.render(q, self._target())
         q.end()
         p = QtGui.QPainter(self)
-        p.drawImage(0, 0, _greyscale(img))
+        p.drawImage(0, 0, img)
         for sl, colour in self.fills().items():
             mask = self.masks().get(sl)
             if mask is not None:
@@ -473,12 +507,13 @@ class CellDiagram(QtWidgets.QWidget):
         The group's own markup, put back inside the same header and the same rotation, so it lands
         exactly where it lands in the full drawing.
         """
-        span = group_span(self.svg, sl)
+        source = self.svg_solid or self.svg
+        span = group_span(source, sl)
         if span is None:
             return ""
-        head = self.svg[:self.svg.index(">", self.svg.index("<svg")) + 1]
-        turn = re.search(r'<g transform="rotate\([^"]*\)">', self.svg)
-        return (head + (turn.group(0) if turn else "") + self.svg[span[0]:span[1]]
+        head = source[:source.index(">", source.index("<svg")) + 1]
+        turn = re.search(r'<g transform="rotate\([^"]*\)">', source)
+        return (head + (turn.group(0) if turn else "") + source[span[0]:span[1]]
                 + ("</g>" if turn else "") + "</svg>")
 
     def masks(self):
