@@ -146,7 +146,8 @@ two Pru IP experiments totalling 748 proteins, which is enrichment, not coverage
 proteome-wide.
 
 **3f. The search is the point; the circularity guard is what makes it valid.** (Added v1.4;
-substantially revised 2026-08-12 — read this whole entry before quoting any recovery number.)
+substantially revised 2026-08-12; **the guard was found leaking three more ways on 2026-08-13 — read
+the entry below this one before quoting any number in this one.**)
 `search.py` walks dataset combinations x hyperparameters and scores each by recovery of a label
 *excluded from the embedding*. With hyperLOPIT leaked in, the battery reports it separating clusters at
 V = 0.96. Held out, the number is far smaller — and it took a negative control to find out how much
@@ -207,6 +208,46 @@ Precision and recall are never blended: a cluster that is 100% apicoplast holdin
 proteins is useless for inference.
 
 **Every run stores its full recipe, seed and scores.** A hit nobody can rebuild is not a result.
+
+**3f-2. The guard leaked three more ways, and every number in 3f predates the fix.** (Added
+v0.18.0, 2026-08-13.) Found by running a real search in the real window and reading what won.
+
+Recovering `compartment`, the winning configuration was built on the `localization` block:
+`lopit_prob_map`, `lopit_prob_mcmc`, `lopit_methods_agree` — hyperLOPIT's own posteriors and its
+methods-agreement flag. The label being recovered is hyperLOPIT's assignment. **On the shipped cache
+those three columns recover it at mean F1 0.259, above interactions (0.192), protein features (0.171)
+and every expression and fitness block.** Three columns beating eighteen RNA columns and eight CRISPR
+screens is not the map finding biology.
+
+Neither existing mechanism could see it. Measured association is 0.29 and 0.43 — far under the 0.8
+threshold, because a posterior does not restate *which* compartment a protein is in. Declared
+derivation sees nothing either: the label is not computed from the posterior. They are the same
+experiment's **other outputs**, which is a third thing, and `excluded_for` now excludes them by
+reading provenance from the registry.
+
+The same question asked of the other targets found two more:
+
+- **The negative control was embedding its own inputs.** `attention_depth` is `np.select` over
+  `n_papers_focal / substantive / incidental`, and none of the three was declared or excluded (they
+  score 0.25–0.43 against the tiering, because a count is not a restatement of a tier while
+  determining it completely). A control that sees its own inputs scores too high, and every measured
+  target then looks worse than it is by exactly that much — including the headline in 3f that
+  localisation is recovered worse than study effort.
+- **The same quantity, measured another way.** `ortholopit_label` (localization transferred from
+  *P. falciparum* and *C. parvum* orthologs) sits at 0.72 against `compartment`; `lit_tier` at 0.71
+  against `attention_depth`. Both just under the threshold, which is what a near-copy does.
+  `search.SAME_QUANTITY` now groups columns by what they are an estimate OF, written out rather than
+  pattern-matched.
+
+So the guard is now three tests, and each was a bug before it was a rule: measured association for
+the undeclared copy, declared derivation for the joint function, shared provenance and shared
+quantity for everything the same work produced by another route. `validate.circularity_error` applies
+the same three, because the Validation tab was refusing only the label column by name and would have
+put a validated-looking number on a map built from that label's own experiment.
+
+**Consequences for every number in 3f:** they were all computed with at least the first leak open, so
+they are upper bounds. The full-proteome battery has been re-run under the fixed rules —
+`results/full_proteome_2026_08_13_provenance/` — and that table is the one to quote.
 
 **3g. A walk emits its configurations; a gene with no position in a map is not drawn in it.**
 (Added v0.4.0, 2026-08-12.) `tuning.walk_umap_iter` yields one `WalkStep` per configuration as it is
