@@ -44,32 +44,7 @@ class Worker(QtCore.QObject):
 
 
 
-def wrap_tip(text: str, width: int = 64) -> str:
-    """A tooltip as one block of even lines, wrapped once and left that way.
-
-    Qt lays a plain tooltip out on a single line, so any real explanation becomes a strip wider than
-    the screen. Inserting line breaks alone does not fix it: Qt re-wraps rich text at a width of its
-    own choosing, so the manual breaks land inside Qt's lines and strand two words on a row -- which
-    is exactly what the first version did.
-
-    `white-space: pre` is what stops the second wrap. Measured on a typical tooltip it takes the
-    laid-out width from 1188 pixels to 347 and keeps the breaks where they were put. A fixed table
-    width and a styled div were both tried first and neither constrains a tooltip, because Qt only
-    wraps when it is given an explicit text width and a tooltip sets its own.
-
-    Lines are padded to equal length so the block is a rectangle rather than a ragged edge. True
-    justification -- flush on both sides with stretched spaces -- is not available in Qt's rich-text
-    subset, so this is the closest honest thing to it.
-    """
-    import textwrap
-    from html import escape
-    blocks = []
-    for para in [" ".join(p.split()) for p in text.split("\n\n") if p.strip()]:
-        lines = textwrap.wrap(para, width) or [""]
-        longest = max(len(x) for x in lines)
-        # Padded with non-breaking spaces, which Qt keeps; ordinary trailing spaces are dropped.
-        blocks.append("\n".join(escape(x) + "&#160;" * (longest - len(x)) for x in lines))
-    return '<div style="white-space:pre">' + "\n\n".join(blocks) + "</div>"
+from .theme import tip as wrap_tip  # noqa: E402  -- one implementation, in the theme
 
 
 def range_note(widget) -> str:
@@ -330,6 +305,10 @@ class AnalysisPanel(QtWidgets.QWidget):
         lay = QtWidgets.QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         lay.addWidget(tabs)
+        # `_apply_tooltips` already wraps every one of these through `theme.tip` and copies it onto
+        # the form label. Walking the children again from here crashed the interpreter: this runs
+        # inside __init__, and findChildren hands back wrappers around C++ objects that widgets
+        # still under construction destroy as they go.
         self._apply_tooltips()
 
     def _apply_tooltips(self):

@@ -107,6 +107,9 @@ MAP_EXPLANATION = (
 # is an identifier rather than a class -- orthogroup has 7,331 values, and a list that long is not a
 # filter, it is a scrolling exercise.
 MAX_CATEGORY_VALUES = 60
+#: How far the interface text can be scaled. Below 0.8 the compartment counts stop being readable
+#: at a glance; above 1.6 the six analysis tabs no longer fit a laptop screen.
+UI_SCALE_RANGE = (0.8, 1.6)
 #: How tall the caption under the cell diagram is, whatever it says. Three lines at the default
 #: font: enough for "the X color is on a shape shared with Y -- click it to step through them", and
 #: fixed so that a longer note scrolls instead of moving the drawing.
@@ -680,6 +683,15 @@ class Window(QtWidgets.QMainWindow):
             "speed": float(s.value("display/light_speed", _lighting.DEFAULT_SPEED, type=float)),
         }
         self._light_t = 0.0
+        #: Text size for the whole interface, as a multiplier on the font this desktop asked for.
+        #: Set on the application rather than on each widget: every layout then measures its own
+        #: contents at the new size, which is what keeps a longer label from being clipped instead
+        #: of merely smaller.
+        self._ui_scale = float(s.value("display/ui_scale", 1.0, type=float))
+        #: The desktop's own font, kept so scaling is always applied to it rather than to whatever
+        #: the last scaling produced -- compounding 1.2 three times is 1.7, and the text creeps.
+        app = QtWidgets.QApplication.instance()
+        self._base_font = QtGui.QFont(app.font()) if app is not None else QtGui.QFont()
         self._base_colors = self._base_sizes = None
         self._light_timer = QtCore.QTimer(self)
         self._light_timer.timeout.connect(self._light_tick)
@@ -756,6 +768,8 @@ class Window(QtWidgets.QMainWindow):
         self.view.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
         self.view.customContextMenuRequested.connect(self._context_menu)
         self.apply_theme(self.theme)
+        self.set_ui_scale(self._ui_scale)
+        TH.wrap_tooltips(self)
         self.redraw()
         if self._ambient_mode != "none":
             self._apply_ambient()
@@ -1669,16 +1683,21 @@ class Window(QtWidgets.QMainWindow):
         self.light_speed = slider(lighting.SPEED_RANGE, self._lighting["speed"])
         self.light_speed.valueChanged.connect(lambda v: self.set_lighting_option("speed", v))
 
-        note = QtWidgets.QLabel(
-            "<b>Why not ray tracing.</b> Ray tracing, Light Propagation Volumes and Voxel Cone "
-            "Tracing all answer questions about light travelling between <i>surfaces</i> — "
-            "reflections, refraction, one object shadowing another, bounced indirect light. This "
-            "scene has no surfaces: it is unconnected points, so there is nothing to occlude "
-            "anything and nothing to voxelise but a sparse cloud of isolated cells, which would "
-            "return each point's own colour blurred — the ambient term, expensively. Direction is "
-            "the part that changes the picture, and that is what these lights do.")
-        note.setWordWrap(True)
 
+        self.zoom_box = QtWidgets.QDoubleSpinBox()
+        self.zoom_box.setRange(*UI_SCALE_RANGE)
+        self.zoom_box.setSingleStep(0.05)
+        self.zoom_box.setValue(self._ui_scale)
+        self.zoom_box.setSuffix("  ×")
+        self.zoom_box.setToolTip(
+            "Text size for the whole interface, as a multiple of the size this desktop asked for.\n\n"
+            "It moves the application's font rather than a stylesheet, so every layout re-measures "
+            "its own contents: a longer label makes a wider row instead of being cut off at the "
+            "old width. Nothing here is ever clipped -- if a panel cannot fit its text it grows, "
+            "and if the window cannot fit the panel the panel scrolls.")
+        self.zoom_box.valueChanged.connect(self.set_ui_scale)
+
+        form.addRow("text size", self.zoom_box)
         form.addRow("background", self.ambient_box)
         form.addRow("blob speed", self.ambient_speed)
         form.addRow("blob size", self.ambient_size)
@@ -1687,8 +1706,33 @@ class Window(QtWidgets.QMainWindow):
         form.addRow("3D lighting", self.light_box)
         form.addRow("lights", self.light_count)
         form.addRow("light speed", self.light_speed)
-        form.addRow("", note)
         return w
+
+    def set_ui_scale(self, scale: float) -> float:
+        """Scale every piece of text in the program, and let the layouts follow.
+
+        On the QApplication's font rather than on a stylesheet: a stylesheet font-size does not
+        change what a widget reports as its size hint, so the text grew and the boxes did not, and
+        labels were cut off at the old width. Changing the application font invalidates every
+        layout, which is the whole point -- a wider label makes a wider row.
+        """
+        scale = float(min(max(scale, UI_SCALE_RANGE[0]), UI_SCALE_RANGE[1]))
+        self._ui_scale = scale
+        QtCore.QSettings("starplast", "starplast").setValue("display/ui_scale", scale)
+        app = QtWidgets.QApplication.instance()
+        if app is not None:
+            font = QtGui.QFont(self._base_font)
+            size = self._base_font.pointSizeF()
+            if size > 0:
+                font.setPointSizeF(size * scale)
+            else:
+                font.setPixelSize(max(int(self._base_font.pixelSize() * scale), 1))
+            # `setFont` on the application and nothing else. Qt propagates it to every widget that
+            # has not been given a font of its own and re-lays them out; walking allWidgets() to set
+            # it by hand touched widgets that were mid-deletion and segfaulted the interpreter.
+            app.setFont(font)
+            self.updateGeometry()
+        return scale
 
     def set_ambient(self, mode: str) -> str:
         """Turn the drifting background on or off, and remember the choice."""
@@ -2015,6 +2059,8 @@ class Window(QtWidgets.QMainWindow):
         close = QtWidgets.QPushButton("close")
         close.clicked.connect(d.accept)
         outer.addWidget(close)
+        # The dialog is built after the window's own pass, so its tooltips are wrapped here.
+        TH.wrap_tooltips(d)
         return d
 
     # ------------------------------------------------------------------ docks, jobs, progress
@@ -2395,6 +2441,12 @@ class Window(QtWidgets.QMainWindow):
         self.diagram_note_area.setWidgetResizable(True)
         self.diagram_note_area.setFixedHeight(DIAGRAM_NOTE_HEIGHT)
         self.diagram_note_area.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        # Transparent, viewport included: a scroll area paints its own background, and a black card
+        # under the caption covers whatever the theme is drawing behind the panel.
+        self.diagram_note_area.setStyleSheet("background: transparent;")
+        self.diagram_note_area.viewport().setAutoFillBackground(False)
+        self.diagram_note_area.viewport().setStyleSheet("background: transparent;")
+        self.diagram_note.setStyleSheet("color: #888; background: transparent;")
         self.diagram_note_area.setHorizontalScrollBarPolicy(
             QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         if self.diagram is not None:

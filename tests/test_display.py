@@ -259,11 +259,20 @@ def qapp():
 
 @pytest.fixture(scope="module")
 def win(qapp):
+    """The window, and the application font put back afterwards.
+
+    The text-size tests move the font on the QApplication -- which is shared with every other test
+    module in the run -- so leaving it scaled would resize widgets belonging to files that never
+    asked for it, in whatever order the suite happens to run them.
+    """
+    from PyQt6 import QtGui
     from starplast.app import Window
+    before = QtGui.QFont(qapp.font())
     w = Window()
     w.resize(1200, 800)
     yield w
     w.close()
+    qapp.setFont(before)
 
 
 def test_the_settings_are_remembered_across_a_restart(qapp, tmp_path, monkeypatch):
@@ -327,3 +336,185 @@ def test_about_opens(win, monkeypatch):
                         staticmethod(lambda *a: shown.append(a[-1])))
     text = win.about()
     assert shown and "starplast" in shown[0] and text == shown[0]
+
+
+# --------------------------------------------------------------------------- the console, quiet
+def test_the_artwork_no_longer_makes_qt_complain(qapp, capfd):
+    """Three warnings per render, on every repaint of every organelle mask, is a console nobody can
+    read -- and a real warning would be lost in it. UniProt nests hidden `<text>` descriptions and
+    `<a>` links inside `<path>` elements, where the content model does not allow them."""
+    from starplast import celldiagram as CD
+    capfd.readouterr()
+    d = CD.CellDiagram()
+    d.resize(200, 280)
+    d.set_palette({"rhoptries 1": (0.2, 0.6, 1.0)}, "rhoptries 1")
+    d.masks()
+    d.grab()
+    err = capfd.readouterr().err
+    assert "Could not add child element" not in err, err
+
+
+def test_stripping_the_metadata_keeps_every_organelle(qapp):
+    """It removes what is not drawn. An organelle lost with it would be a compartment that stops
+    being clickable, which is the whole feature."""
+    from starplast import celldiagram as CD
+    raw = open(CD.icon_path(), encoding="utf8").read()
+    stripped = CD.strip_metadata(raw)
+    assert CD.groups_in(stripped) == CD.groups_in(raw)
+    assert "<text" not in stripped and "<a " not in stripped
+    d = CD.CellDiagram()
+    d.resize(200, 280)
+    assert len(d.masks()) == 14
+
+
+def test_the_credit_survives_the_stripping(qapp):
+    """The creator's name and the licence ARE that metadata. Stripping it and then looking for it is
+    how a CC BY attribution silently disappears."""
+    from starplast import celldiagram as CD
+    d = CD.CellDiagram()
+    assert d.credit["creator"] and "creativecommons.org" in d.credit["license"]
+    assert d.credit["creator"] in d.toolTip()
+
+
+# --------------------------------------------------------------------------- tooltips and text size
+def test_a_tooltip_is_a_rectangle_of_prose(qapp):
+    """A fixed table width does NOT constrain a tooltip -- measured at 1,588 px when it was tried.
+    `white-space: pre` with the breaks already in is what holds it."""
+    from PyQt6 import QtGui
+    from starplast import theme as TH
+    text = ("One long sentence about why a control exists and what choosing badly costs, which on "
+            "one line would run off the side of any monitor and be unreadable because the start "
+            "and the end are too far apart to hold in the head at once.")
+    doc = QtGui.QTextDocument()
+    doc.setHtml(TH.tip(text))
+    assert doc.idealWidth() < 600, f"{doc.idealWidth():.0f}px is still a strip"
+    lines = [x for x in doc.toPlainText().split("\n") if x.strip()]
+    assert len(lines) > 2
+    widths = [len(x.rstrip()) for x in lines]
+    assert max(widths) - min(widths) < 70, "ragged: not a rectangle"
+
+
+def test_the_tooltip_is_on_the_setting_not_only_the_field(qapp):
+    """The label is the word people hover over; the box beside it is the thing they click."""
+    from PyQt6 import QtWidgets
+    from starplast import theme as TH
+    w = QtWidgets.QWidget()
+    form = QtWidgets.QFormLayout(w)
+    box = QtWidgets.QComboBox()
+    box.setToolTip("Why this setting exists and what it costs to choose it badly.")
+    form.addRow("theme", box)
+    assert TH.wrap_tooltips(w) == 1
+    assert "white-space:pre" in box.toolTip()
+    assert form.labelForField(box).toolTip() == box.toolTip()
+    assert TH.wrap_tooltips(w) == 0, "wrapping twice would wrap the wrapper"
+
+
+def test_every_control_in_preferences_explains_itself_in_a_block(win):
+    from PyQt6 import QtWidgets
+    d = win.build_preferences()
+    tips = [q.toolTip() for q in d.findChildren(QtWidgets.QWidget) if q.toolTip()]
+    assert tips
+    assert all("white-space:pre" in t for t in tips), "a one-line tooltip survived"
+    d.close()
+
+
+def test_text_size_scales_the_whole_interface(win):
+    """On the application's font, not a stylesheet: a stylesheet font-size does not change what a
+    widget reports as its size hint, so the text grew and the boxes did not -- and labels were cut
+    off at the old width."""
+    from PyQt6 import QtWidgets
+    from starplast.app import UI_SCALE_RANGE
+    app = QtWidgets.QApplication.instance()
+    base = win._base_font.pointSizeF()
+    win.set_ui_scale(1.4)
+    assert abs(app.font().pointSizeF() - base * 1.4) < 0.6
+    win.set_ui_scale(1.0)
+    assert abs(app.font().pointSizeF() - base) < 0.6
+    assert win.set_ui_scale(99.0) == UI_SCALE_RANGE[1]
+    assert win.set_ui_scale(0.01) == UI_SCALE_RANGE[0]
+    win.set_ui_scale(1.0)
+
+
+def test_scaling_never_compounds(win):
+    """Applied to the desktop's own font every time: compounding 1.2 three times is 1.7, and the
+    text creeps every time the dialog is opened."""
+    from PyQt6 import QtWidgets
+    app = QtWidgets.QApplication.instance()
+    win.set_ui_scale(1.2)
+    once = app.font().pointSizeF()
+    win.set_ui_scale(1.2)
+    win.set_ui_scale(1.2)
+    assert abs(app.font().pointSizeF() - once) < 1e-6
+    win.set_ui_scale(1.0)
+
+
+def test_bigger_text_makes_a_wider_label_rather_than_a_clipped_one(win):
+    """The whole point of moving the application font rather than a stylesheet: a widget's size hint
+    grows with its text, so the layout gives it room instead of cutting it off.
+
+    Measured on a label, because a QListWidget's hint is a fixed 256x192 whatever is in it -- which
+    is a fact about QListWidget, not about whether the scaling worked."""
+    from PyQt6 import QtWidgets
+    win.set_ui_scale(1.0)
+    QtWidgets.QApplication.processEvents()
+    # Parentless and destroyed here rather than handed to Qt's deferred deletion: this file's
+    # window is module-scoped, and a child queued for deletion outlives the test that made it.
+    label = QtWidgets.QLabel("nucleus - non-chromatin  (461)")
+    label.setFont(QtWidgets.QApplication.instance().font())
+    small = label.sizeHint().width()
+    win.set_ui_scale(1.5)
+    QtWidgets.QApplication.processEvents()
+    label.setFont(QtWidgets.QApplication.instance().font())
+    grown = label.sizeHint().width()
+    win.set_ui_scale(1.0)
+    del label
+    assert grown > small, "the text grew and its box did not"
+
+
+def test_a_font_measured_in_pixels_scales_too(win, monkeypatch):
+    """Some desktops hand out a font with no point size at all -- pointSizeF is -1 and the size is
+    in pixels. Scaling by a negative number would make the text vanish."""
+    from PyQt6 import QtGui, QtWidgets
+    pixel_font = QtGui.QFont(win._base_font)
+    pixel_font.setPixelSize(12)
+    monkeypatch.setattr(win, "_base_font", pixel_font)
+    win.set_ui_scale(1.5)
+    assert QtWidgets.QApplication.instance().font().pixelSize() == 18
+    monkeypatch.undo()
+    win.set_ui_scale(1.0)
+
+
+def test_the_caption_under_the_cell_has_no_card_of_its_own(win):
+    """A scroll area paints its own background, and a black box under the caption covers whatever
+    the theme is drawing behind the panel."""
+    assert "transparent" in win.diagram_note_area.styleSheet()
+    assert not win.diagram_note_area.viewport().autoFillBackground()
+    assert "transparent" in win.diagram_note.styleSheet()
+
+
+def test_fields_are_one_dark_grey_everywhere(qapp):
+    from starplast import theme as TH
+    for name in TH.THEMES:
+        assert TH.FIELD_GREY in TH.stylesheet(name)
+
+
+def test_a_widget_destroyed_mid_walk_is_skipped(qapp):
+    """findChildren hands back wrappers around C++ objects, and a widget under construction can
+    destroy one while this loop runs. PyQt raises RuntimeError for the ones it can catch; without
+    the guard the walk stops and the rest of the window keeps its one-line tooltips."""
+    from PyQt6 import QtWidgets
+    from starplast import theme as TH
+
+    class Vanishing(QtWidgets.QLabel):
+        def toolTip(self):
+            raise RuntimeError("wrapped C/C++ object of type QLabel has been deleted")
+
+    parent = QtWidgets.QWidget()
+    layout = QtWidgets.QFormLayout(parent)
+    gone = Vanishing("x", parent)
+    layout.addRow("gone", gone)
+    ok = QtWidgets.QComboBox()
+    ok.setToolTip("Why this setting exists.")
+    layout.addRow("fine", ok)
+    assert TH.wrap_tooltips(parent) == 1, "the walk stopped at the dead widget"
+    assert "white-space:pre" in ok.toolTip()

@@ -553,3 +553,14 @@ def test_a_shape_is_still_filled_over_its_outline(qapp):
     assert "SL0233" not in CD.BACKGROUND_SL          # rhoptries
     assert "SL0132" not in CD.BACKGROUND_SL          # Golgi
     assert {"SL0091", "SL0191", "SL0173", "SL0018"} <= CD.BACKGROUND_SL
+
+
+
+def test_a_self_closing_group_does_not_break_the_span():
+    """`<g/>` opens and closes at once. Counted as an opening tag it leaves the depth permanently
+    short, and six of the fourteen organelles came back as "no such group"."""
+    svg = '<svg><g id="SL0018"><g class="x"/><path/></g><g id="SL0019"/></svg>'
+    span = CD.group_span(svg, "SL0018")
+    assert span is not None
+    assert svg[span[0]:span[1]].endswith("</g>")
+    assert "SL0019" not in svg[span[0]:span[1]], "the span ran past its own group"

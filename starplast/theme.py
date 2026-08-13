@@ -257,8 +257,12 @@ def stylesheet(theme: str = "dark") -> str:
                                    color: {p['bg'] if is_dark(theme) else '#ffffff'};
                                    font-weight: 600; }}
     QPushButton[primary="true"]:hover {{ background: {p['accent_hi']}; }}
-    QComboBox, QSpinBox, QDoubleSpinBox, QLineEdit {{
-        background: {p['surface_hi']}; border: 1px solid {p['border']};
+    /* One dark grey for every field, rather than the panel colour of wherever it happens to sit:
+       asked for directly, and it also makes a field look like a field on a themed background --
+       with the ambient blobs behind a translucent panel, a field the colour of its container
+       disappears into whatever is drifting past. */
+    QComboBox, QSpinBox, QDoubleSpinBox, QLineEdit, QPlainTextEdit, QTextEdit, QAbstractSpinBox {{
+        background: {FIELD_GREY}; border: 1px solid {p['border']};
         border-radius: 5px; padding: 5px 8px; color: {p['fg']}; }}
     QComboBox:focus, QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus {{
         border-color: {p['accent']}; }}
@@ -302,6 +306,11 @@ def stylesheet(theme: str = "dark") -> str:
 
 
 #: The two-state colors of spacr's own switch, so the two programs read as one pair of tools.
+#: Every editable field, in every theme. Dark grey rather than the surrounding panel's colour: a
+#: field that takes its container's background stops looking like something you can type in, and on
+#: a themed background it dissolves into whatever is drifting past behind it.
+FIELD_GREY = "#2a2e35"
+
 SWITCH_OFF = "#800080"
 SWITCH_ON = "#008080"
 
@@ -378,3 +387,72 @@ class Switch(QtWidgets.QWidget):
         p.setBrush(QtGui.QColor(SWITCH_ON if self._on else SWITCH_OFF))
         p.drawEllipse(QtCore.QRectF(left + self._x - 2, 4, 12, 12))
         p.end()
+
+
+#: How wide a tooltip block is, in CHARACTERS. A tooltip is a paragraph of explanation in this
+#: program -- why a control exists and what choosing badly costs -- and 64 characters is about the
+#: width of a column of prose, which is what makes a block of it readable.
+TOOLTIP_WIDTH = 64
+
+
+def tip(text: str, width: int = 64) -> str:
+    """A tooltip as one block of even lines, wrapped once and left that way.
+
+    Qt lays a plain tooltip out on a single line, so any real explanation becomes a strip wider than
+    the screen. Inserting line breaks alone does not fix it: Qt re-wraps rich text at a width of its
+    own choosing and strands two words on a row. **A fixed table width does not constrain it
+    either** -- that was tried here and measured at 1,588 pixels, because Qt only wraps when it is
+    given an explicit text width and a tooltip sets its own.
+
+    `white-space: pre` is what stops the second wrap: 1,188 pixels to 347 on a typical tooltip, with
+    the breaks where they were put. Lines are padded to equal length so the block is a rectangle
+    rather than a ragged edge; true justification is not in Qt's rich-text subset.
+
+    `width` is in characters, not pixels, because that is what the wrapping is done in.
+    """
+    import textwrap
+    from html import escape
+    blocks = []
+    for para in [" ".join(p.split()) for p in str(text).split("\n\n") if p.strip()]:
+        lines = textwrap.wrap(para, width) or [""]
+        longest = max(len(x) for x in lines)
+        # Padded with non-breaking spaces, which Qt keeps; ordinary trailing spaces are dropped.
+        blocks.append("\n".join(escape(x) + "&#160;" * (longest - len(x)) for x in lines))
+    return '<div style="white-space:pre">' + "\n\n".join(blocks) + "</div>"
+
+
+def wrap_tooltips(root, width: int = TOOLTIP_WIDTH) -> int:
+    """Rewrite every tooltip under `root` as a wrapped block, and move it onto its label.
+
+    Two things, because they are the same complaint: a tooltip belongs on the SETTING, not on the
+    box you type in. A form row is a label and a field, and hovering the label -- which is what
+    names the thing and what the eye goes to first -- said nothing at all. Returns how many were
+    rewritten, so a test can tell this ran.
+    """
+    from PyQt6 import QtWidgets
+    done = 0
+    # By TYPE, not every QWidget under the root. Walking all of them crashed the interpreter -- this
+    # window contains a pyqtgraph GL view, and asking its internals for a tooltip from Python is a
+    # segfault rather than an exception. Settings live on these six classes; nothing else in this
+    # program carries an explanation worth wrapping.
+    kinds = (QtWidgets.QAbstractButton, QtWidgets.QComboBox, QtWidgets.QAbstractSpinBox,
+             QtWidgets.QLineEdit, QtWidgets.QLabel, QtWidgets.QAbstractSlider, Switch)
+    found = []
+    for kind in kinds:
+        found.extend(root.findChildren(kind))
+    for w in found:
+        try:
+            text = w.toolTip()
+            if not text or "white-space:pre" in text:
+                continue
+            w.setToolTip(tip(text, width))
+            done += 1
+            parent = w.parentWidget()
+            form = parent.layout() if parent is not None else None
+            if isinstance(form, QtWidgets.QFormLayout):
+                label = form.labelForField(w)
+                if label is not None and not label.toolTip():
+                    label.setToolTip(w.toolTip())
+        except RuntimeError:
+            continue
+    return done

@@ -99,6 +99,31 @@ FILL_GREY = "#d9d9d9"
 LINE_GREY = "#8d8d8d"
 
 
+def strip_metadata(svg: str) -> str:
+    """Remove the artwork's hidden text and links.
+
+    UniProt ships each organelle with a `<text>` description, a `<text>` name and an `<a>` link to
+    its own page, all `visibility="hidden"` -- and some of them nested INSIDE a `<path>`, where the
+    SVG content model does not allow them. Qt's renderer says so, three times per render:
+
+        qt.svg: <input>:42:452: Could not add child element to parent element because the types
+        are incorrect.
+
+    It then draws the file correctly, so the warnings are noise -- but noise printed on every repaint
+    of every organelle mask is a console nobody can read, and a real warning would be lost in it.
+    None of this is drawn: it is metadata for a page that is not this one.
+    """
+    out = re.sub(r"<text\b[^>]*/>", "", svg)
+    out = re.sub(r"<text\b.*?</text>", "", out, flags=re.S)
+    out = re.sub(r"<a\b[^>]*/>", "", out)
+    out = re.sub(r"<a\b.*?</a>", "", out, flags=re.S)
+    # And `<g class="membranes"/>` sitting INSIDE a `<path>`, which is the last of the three: a path
+    # takes no children at all. Only groups with no id are removed -- an empty group draws nothing,
+    # but an id'd one is an organelle this program addresses by name.
+    out = re.sub(r"<g(?![^>]*\bid=)[^>]*/>", "", out)
+    return out
+
+
 def neutralise(svg: str) -> str:
     """Strip the artwork's own colors down to grey fills and grey lines.
 
@@ -383,16 +408,16 @@ class CellDiagram(QtWidgets.QWidget):
         super().__init__(parent)
         self.path = path or icon_path()
         raw = open(self.path, encoding="utf8").read() if available(self.path) else ""
-        raw = neutralise(raw) if raw else raw
+        # The credit is IN the metadata that is about to be stripped -- the creator's name is a
+        # `<text property="name">` and the licence an `<a property="license">` -- so it is read
+        # first. Stripping it and then looking for it is how the attribution silently disappeared.
+        self.credit = credit(raw)
+        raw = neutralise(strip_metadata(raw)) if raw else raw
         # The artwork's own coordinate system, kept because `boundsOnElement` reports positions in
         # it -- BEFORE the rotation that stands the cell upright. A click has to be mapped back
         # through that rotation or every organelle is hit-tested against the wrong place, which is
         # exactly the kind of "works, but selects the neighbour" bug this project keeps finding.
         self.viewbox = view_box(raw)
-        #: Who drew this and under what licence -- kept because the credit block is taken OUT of the
-        #: drawing below, and a CC BY image whose attribution was deleted with it is a licence
-        #: breach as well as a discourtesy. Shown in the tooltip.
-        self.credit = credit(raw)
         base = portrait(transparent_ground(drop_credit(raw))) if raw else ""
         # Two versions of the same drawing. The DISPLAYED one is hollow, white line on nothing; the
         # SOLID one is what the hit-test masks are rendered from, because a click belongs to the
