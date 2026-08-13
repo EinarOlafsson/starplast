@@ -508,6 +508,77 @@ def test_the_structure_search_fills_its_table(panel, sync, monkeypatch):
     assert any("search complete" in m for m in sync)
 
 
+def test_the_search_also_fills_a_table_of_per_category_scores(panel, sync, monkeypatch):
+    """A mean over categories hides the case this table exists for: a map where the GRAs are clean
+    and everything else is a mess is exactly what you want when you are looking for GRAs."""
+    import starplast.search as S
+    R = pd.DataFrame({"mean_f1": [0.5], "best_f1": [0.8], "blocks": ["fitness_screens"]})
+    P = pd.DataFrame({"label": ["dense granules", "rhoptries"], "precision": [0.9, 0.2],
+                      "recall": [0.7, 0.1], "f1": [0.79, 0.13], "n_label": [193, 71],
+                      "blocks": ["fitness_screens"] * 2, "n_neighbors": [15, 15],
+                      "min_dist": [0.1, 0.1], "min_cluster_size": [25, 25]})
+    monkeypatch.setattr(S, "search", lambda n, **k: (R, P))
+    panel.run_search()
+    assert panel.category_search_table.rowCount() == 2
+    heads = [panel.category_search_table.horizontalHeaderItem(c).text()
+             for c in range(panel.category_search_table.columnCount())]
+    assert "category" in heads and {"precision", "recall", "f1"} <= set(heads)
+    assert panel.category_search_table.item(0, heads.index("category")).text() == "dense granules"
+
+
+def test_a_scored_configuration_reaches_both_tables_as_it_finishes(panel, sync):
+    """The automated walk is hundreds of runs; a table that arrives at the end is a table nobody
+    watches, and the question it exists to answer is asked while it is still running."""
+    import numpy as np
+    from starplast.embedding import EmbeddingSpec
+    from starplast.search import RunStep
+    row = {"blocks": "fitness_screens", "n_neighbors": 15, "min_dist": 0.1,
+           "min_cluster_size": 25, "seed": 42, "sample_size": 0, "excluded": "compartment",
+           "mean_f1": 0.4, "best_f1": 0.6, "n_clusters": 7}
+    per = pd.DataFrame({"label": ["dense granules"], "precision": [0.9], "recall": [0.5],
+                        "f1": [0.64], "n_label": [193], "n_in_cluster": [96], "cluster": [3]})
+    panel.search_step.emit(RunStep(index=1, total=8, row=row, per=per,
+                                   coords=np.zeros((10, 3)), genes=np.ones(len(panel.nodes), bool),
+                                   labels=np.zeros(10, int), spec=EmbeddingSpec()))
+    assert panel.search_table.rowCount() == 1
+    assert panel.category_search_table.rowCount() == 1
+    assert any("search 1 of 8" in m for m in sync)
+
+
+def test_a_per_category_row_carries_enough_to_rebuild_its_map(panel, sync, monkeypatch):
+    """Otherwise the score and the configuration live in different tables and the row cannot be
+    clicked into anything."""
+    import numpy as np
+    import starplast.search as S
+    from starplast.embedding import EmbeddingSpec
+    from starplast.search import RunStep
+    row = {"blocks": "fitness_screens", "n_neighbors": 15, "min_dist": 0.1,
+           "min_cluster_size": 25, "seed": 42, "sample_size": 0, "excluded": "compartment"}
+    per = pd.DataFrame({"label": ["dense granules"], "precision": [0.9], "recall": [0.5],
+                        "f1": [0.64], "n_label": [193], "n_in_cluster": [96], "cluster": [3]})
+    panel.search_step.emit(RunStep(index=1, total=1, row=row, per=per, coords=np.zeros((10, 3)),
+                                   genes=np.ones(len(panel.nodes), bool), labels=np.zeros(10, int),
+                                   spec=EmbeddingSpec()))
+    seen = {}
+
+    def fake_rebuild(nodes, r, log=print):
+        seen.update(r)
+        genes = np.zeros(len(nodes), bool)
+        genes[:20] = True
+        return np.zeros((20, 3)), genes, np.zeros(20, int), ["f"]
+
+    monkeypatch.setattr(S, "rebuild", fake_rebuild)
+    panel.show_search_category_row(0)
+    assert seen["blocks"] == "fitness_screens" and seen["min_cluster_size"] == "25"
+    assert any("dense granules was matched by cluster 3" in m for m in sync)
+
+
+def test_a_per_category_row_with_no_configuration_says_so(panel, sync):
+    panel._fill(panel.category_search_table, pd.DataFrame({"category": ["x"], "f1": [0.5]}))
+    panel.show_search_category_row(0)
+    assert any("does not name a configuration" in m for m in sync)
+
+
 def test_the_search_is_given_the_chosen_target_and_a_bounded_set_of_combinations(panel, sync,
                                                                                  monkeypatch):
     """Every block combination up to the chosen size; unbounded it is 2^n runs."""

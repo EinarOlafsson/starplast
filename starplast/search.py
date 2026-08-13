@@ -34,7 +34,7 @@ import itertools
 import json
 import os
 import time
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 
 import numpy as np
 import pandas as pd
@@ -64,6 +64,55 @@ TARGETS = {
     # finding would be the circularity mistake this project has already made once.
     "stage_enriched_derived": "stage_enriched_derived",
 }
+
+
+@dataclass
+class RunStep:
+    """One scored configuration of a search: its numbers, its map, and its clustering.
+
+    The automated walk's output is a table of (configuration x category) scores, and a table of
+    scores is not a result -- the structure it scored is. A step carries the coordinates and the
+    labels so the configuration can be shown as it finishes, which is the difference between a walk
+    that can be watched and one that reports at the end. Same contract as `tuning.WalkStep`, plus
+    the clustering, because here the clustering is half of what was scored.
+    """
+    index: int                   # 1-based, so it reads as "7 of 20"
+    total: int                   # configurations this search expects to run, at most
+    row: dict                    # the best-scoring row for this embedding
+    per: pd.DataFrame            # its per-category precision / recall / F1
+    coords: np.ndarray           # the embedding, at the same scale as any other map
+    genes: np.ndarray            # boolean mask over the node table: which genes have a position
+    labels: np.ndarray           # the clustering that was scored
+    spec: EmbeddingSpec          # the full recipe, with this configuration's hyperparameters
+
+    @property
+    def label(self) -> str:
+        """The configuration in one line, for a thumbnail caption or a status message."""
+        return (f"{self.row.get('blocks', '?')}  nn={self.row.get('n_neighbors', '?')} "
+                f"md={self.row.get('min_dist', '?')} mcs={self.row.get('min_cluster_size', '?')}")
+
+
+def frontier(R: pd.DataFrame, columns=("mean_f1", "best_f1")) -> pd.Series:
+    """Which rows are on the Pareto frontier of two objectives: nothing beats them on both.
+
+    The task asked for the two targets "offered rather than chosen", and ranked on each. Ranking on
+    each is two sorts; the frontier is the thing neither sort shows -- a configuration that is second
+    on both is often the one to use, and it appears at the top of neither list. Rows not on the
+    frontier are beaten outright by some other row, which is a fact about them worth having.
+    """
+    cols = [c for c in columns if c in R.columns]
+    if R.empty or len(cols) < 2:
+        return pd.Series([True] * len(R), index=R.index)
+    v = R[cols].to_numpy(dtype=float)
+    on = np.ones(len(R), dtype=bool)
+    for i in range(len(R)):
+        if not np.isfinite(v[i]).all():
+            on[i] = False
+            continue
+        # Dominated: some other row is at least as good on both and strictly better on one.
+        better = (v >= v[i]).all(axis=1) & (v > v[i]).any(axis=1)
+        on[i] = not better.any()
+    return pd.Series(on, index=R.index)
 
 
 def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8) -> set:
@@ -178,7 +227,7 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
            n_neighbors_values=(15, 50), min_dist_values=(0.0, 0.25),
            min_cluster_sizes=(25, 60), sample_size: int | None = None,
            seed: int = DEFAULT_SEED, store=None, save_above: float | None = None,
-           objective: dict | None = None, log=print) -> tuple:
+           objective: dict | None = None, on_run=None, log=print) -> tuple:
     """Walk combinations of datasets and hyperparameters, scoring recovery of a held-out target.
 
     `objective` selects what "good structure" means, as the keyword arguments `objectives.score`
@@ -188,6 +237,12 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
     Whichever is chosen, the per-label table is computed regardless and returned alongside, because
     no single number survives contact with a real result: the winning configuration is chosen by the
     objective, and then read per label to see whether it earned it.
+
+    `on_run` is called with a `RunStep` as each EMBEDDING finishes -- carrying its best clustering
+    among the `min_cluster_sizes` tried, its per-category scores, its coordinates and its labels. Per
+    embedding rather than per row, because the rows for one embedding differ only in the clustering
+    and a gallery of the same map five times is not a gallery. Every row still reaches the returned
+    table: what is streamed is what can be looked at, not a subset of what was scored.
     """
     log = _flushing(log)
     truth_col = TARGETS.get(target, target)
@@ -204,9 +259,12 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
         block_sets = [tuple(c) for r in (1, 2, 3) for c in itertools.combinations(base, r)]
         log(f"  {len(block_sets)} dataset combinations from {len(base)} blocks")
 
-    rows, per_label, runs, last_reported = [], [], 0, 0
+    rows, per_label, runs, last_reported, emitted = [], [], 0, 0, 0
     total = (len(block_sets) * len(na_policies) * len(scalings)
              * len(n_neighbors_values) * len(min_dist_values) * len(min_cluster_sizes))
+    # How many EMBEDDINGS the walk expects, which is what a step counts against: the clusterings of
+    # one embedding are the same map scored several ways.
+    embeddings = max(total // max(len(min_cluster_sizes), 1), 1)
     log(f"  {total} runs")
     t0 = time.time()
     sub = None
@@ -239,6 +297,7 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
                 continue
             Y = np.array(umap.UMAP(n_components=3, n_neighbors=nn, min_dist=md,
                                      metric="euclidean", random_state=seed).fit_transform(X), copy=True)
+            made = []
             for mcs in min_cluster_sizes:
                 if mcs >= len(Y):
                     # HDBSCAN raises rather than returning all-noise when min_cluster_size exceeds the
@@ -286,6 +345,7 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
                                     ("blocks", "na_policy", "scaling", "n_neighbors",
                                      "min_dist", "min_cluster_size", "target")})
                 per_label.append(per)
+                made.append((row, per, lab))
                 # Default to saving the best runs relative to what this search actually found,
                 # not an absolute bar. A fixed 0.6 threshold saved nothing at all on the first
                 # real search, whose best was 0.592 -- the gate silently discarded the answer.
@@ -305,6 +365,18 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
                                       "clustering": {"algorithm": "hdbscan",
                                                      "min_cluster_size": mcs},
                                       "scores": summary})
+            if made and on_run is not None:
+                # The best clustering of this embedding, by whichever objective is in force -- the
+                # HDBSCAN search is a search, and what it is for is keeping the winner.
+                key = "objective_score" if objective else "mean_f1"
+                best_row, best_per, best_lab = max(made, key=lambda m: m[0].get(key, float("-inf")))
+                emitted += 1
+                genes = np.zeros(len(nodes), dtype=bool)
+                genes[idx] = True
+                used = EmbeddingSpec(**{**asdict(spec0), "n_neighbors": nn, "min_dist": md})
+                from .embedding import normalise
+                on_run(RunStep(index=emitted, total=embeddings, row=best_row, per=best_per,
+                               coords=normalise(Y), genes=genes, labels=best_lab, spec=used))
         # Report on crossing each multiple of 40 rather than on exact equality. The check sits at the
         # end of a dataset combination, so `runs` jumps by however many hyperparameter points that
         # combination had: equality only ever fired when that stride happened to divide 40, and with a
@@ -314,6 +386,10 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
             log(f"    {runs}/{total} runs, {time.time() - t0:.0f}s")
 
     R = pd.DataFrame(rows).sort_values("mean_f1", ascending=False) if rows else pd.DataFrame()
+    if not R.empty:
+        # Marked rather than filtered: a dominated configuration is still a result, and the column
+        # says which ones nothing beats on both objectives at once.
+        R["on_frontier"] = frontier(R)
     if store is not None and not R.empty and save_above is None:
         log(f"  saved embeddings for every run; the top result is the first row of the table")
     P = pd.concat(per_label, ignore_index=True) if per_label else pd.DataFrame()

@@ -109,11 +109,19 @@ def caption(step) -> str:
     "clusters=nan" reads as a failure rather than as a question that was not asked.
     """
     row = getattr(step, "row", {}) or {}
-    bits = [f"nn={row.get('n_neighbors', '?')}", f"md={row.get('min_dist', '?')}"]
+    bits = []
+    if row.get("blocks"):
+        bits.append(str(row["blocks"]))
+    bits += [f"nn={row.get('n_neighbors', '?')}", f"md={row.get('min_dist', '?')}"]
     t = row.get("trustworthiness")
     if t is not None and np.isfinite(t):
         bits.append(f"trust {t:.3f}")
-    k = row.get("n_clusters_hdbscan")
+    # A scored configuration leads with what it scored; a plain walk has no score to show.
+    for key, name in (("mean_f1", "mean F1"), ("best_f1", "best F1")):
+        v = row.get(key)
+        if v is not None and np.isfinite(v):
+            bits.append(f"{name} {v:.3f}")
+    k = row.get("n_clusters_hdbscan", row.get("n_clusters"))
     if k is not None:
         noise = row.get("noise_frac")
         bits.append(f"{int(k)} clusters" + (f", {noise:.0%} noise" if noise is not None else ""))
@@ -230,8 +238,32 @@ class GalleryPanel(QtWidgets.QWidget):
         self.count.setText("no maps yet")
         self.hint.show()
 
+    #: Colours for a step that carries its own clustering. Built once, here, rather than taken from
+    #: the window's palette, because a thumbnail of a scored configuration has to show the
+    #: clustering that was scored -- the map's current colour mode is about something else.
+    CLUSTER_COLOURS = [
+        (0.95, 0.75, 0.20), (0.35, 0.70, 0.95), (0.45, 0.85, 0.45), (0.95, 0.45, 0.55),
+        (0.70, 0.55, 0.95), (0.30, 0.85, 0.80), (0.95, 0.60, 0.30), (0.60, 0.80, 0.35),
+    ]
+    #: Unclustered points. Grey, for the same reason grey means unknown everywhere else: HDBSCAN
+    #: calling a gene noise is a finding about that gene, not a gap in the drawing.
+    NOISE_COLOUR = (0.45, 0.45, 0.48, 0.55)
+
+    def cluster_colours(self, labels) -> np.ndarray:
+        """One colour per point from a clustering, noise in grey."""
+        labels = np.asarray(labels)
+        out = np.tile(np.asarray(self.NOISE_COLOUR, dtype=float), (len(labels), 1))
+        ids = sorted({int(v) for v in labels if v >= 0})
+        for k, cid in enumerate(ids):
+            out[labels == cid, :3] = self.CLUSTER_COLOURS[k % len(self.CLUSTER_COLOURS)]
+            out[labels == cid, 3] = 0.9
+        return out
+
     def colours_for(self, step):
-        """The point colours for one step, from the window's own colouring, or None."""
+        """The point colours for one step: its own clustering if it has one, else the window's."""
+        labels = getattr(step, "labels", None)
+        if labels is not None and len(labels) == len(step.coords):
+            return self.cluster_colours(labels)
         if self.colour_fn is None:
             return None
         try:

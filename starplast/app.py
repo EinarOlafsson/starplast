@@ -812,6 +812,10 @@ class Window(QtWidgets.QMainWindow):
         self.gallery_dock.hide()
         self.panel.walk_started.connect(self._walk_started)
         self.panel.walk_step.connect(self.gallery.add)
+        # A search's configurations go to the same wall, each coloured by the clustering that was
+        # scored. The two walks produce the same kind of thing -- a map with a number attached --
+        # and looking at them in two different places would be an accident of implementation.
+        self.panel.search_step.connect(self.gallery.add)
 
     def _walk_started(self):
         """Clear the gallery and show it, so the first thumbnail lands somewhere visible."""

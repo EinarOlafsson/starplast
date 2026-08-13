@@ -625,3 +625,84 @@ def test_a_rebuilt_map_arrives_at_the_same_scale_as_any_other():
         pytest.skip("no scorable clustering on this fixture")
     coords, _, _, _ = S.rebuild(d, R.iloc[0], log=lambda *_: None)
     assert np.isclose(np.abs(coords).max(), 50.0, atol=1e-3)
+
+
+# --------------------------------------------------------------------------- the automated walk
+def test_each_embedding_is_emitted_with_its_best_clustering():
+    """The automated walk: build, cluster at each size, keep the winner, and hand it back as
+    something that can be looked at rather than only counted."""
+    d = _searchable()
+    steps = []
+    R, P = S.search(d, target="compartment", block_sets=[("fitness_screens",)],
+                    n_neighbors_values=(15,), min_dist_values=(0.0,),
+                    min_cluster_sizes=(10, 25), on_run=steps.append, log=lambda *_: None)
+    if R.empty:
+        pytest.skip("no scorable clustering on this fixture")
+    # One step per EMBEDDING, not per row: the rows for one embedding differ only in the clustering,
+    # and a gallery of the same map twice is not a gallery.
+    assert len(steps) == 1 and len(R) >= 1
+    step = steps[0]
+    assert step.coords.shape[0] == int(step.genes.sum()) == len(step.labels)
+    assert step.row["min_cluster_size"] in (10, 25)
+    best = R[R.n_neighbors == 15].mean_f1.max()
+    assert step.row["mean_f1"] == pytest.approx(best), "a step kept a clustering that did not win"
+    assert not step.per.empty and {"label", "precision", "recall", "f1"} <= set(step.per.columns)
+
+
+def test_a_step_arrives_at_the_same_scale_as_any_other_map():
+    d = _searchable()
+    steps = []
+    S.search(d, target="compartment", block_sets=[("fitness_screens",)],
+             n_neighbors_values=(15,), min_dist_values=(0.0,), min_cluster_sizes=(25,),
+             on_run=steps.append, log=lambda *_: None)
+    if steps:
+        assert np.isclose(np.abs(steps[0].coords).max(), 50.0, atol=1e-3)
+        assert "nn=15" in steps[0].label
+
+
+def test_the_winner_is_chosen_by_the_objective_in_force():
+    """"Best" is not a fixed thing: which clustering wins depends on what was being optimised, and a
+    step that ignored the objective would show a different map from the one the ranking names."""
+    d = _searchable()
+    steps = []
+    S.search(d, target="compartment", block_sets=[("fitness_screens",)],
+             n_neighbors_values=(15,), min_dist_values=(0.0,), min_cluster_sizes=(10, 25),
+             objective={"objective": "mean_recall", "min_cluster": 1, "min_label": 5},
+             on_run=steps.append, log=lambda *_: None)
+    if not steps:
+        pytest.skip("no scorable clustering on this fixture")
+    assert "objective_score" in steps[0].row
+
+
+# --------------------------------------------------------------------------- the frontier
+def test_the_frontier_keeps_what_nothing_beats_on_both():
+    """Ranking on each of two objectives is two sorts; the frontier is what neither sort shows -- a
+    configuration second on both is often the one to use and tops neither list."""
+    R = pd.DataFrame({"mean_f1": [0.5, 0.4, 0.45, 0.2, 0.45],
+                      "best_f1": [0.6, 0.9, 0.70, 0.3, 0.55]})
+    on = S.frontier(R)
+    # (0.45, 0.70) survives: it is worse than (0.5, 0.6) on the mean and better on the best, so
+    # neither beats the other and both are choices. (0.45, 0.55) does not: (0.5, 0.6) beats it on
+    # both. (0.2, 0.3) is beaten by everything.
+    assert list(on) == [True, True, True, False, False]
+
+
+def test_a_configuration_with_no_score_is_not_on_the_frontier():
+    R = pd.DataFrame({"mean_f1": [0.5, np.nan], "best_f1": [0.6, 0.9]})
+    assert list(S.frontier(R)) == [True, False]
+
+
+def test_the_frontier_of_a_table_that_has_only_one_objective_is_everything():
+    R = pd.DataFrame({"mean_f1": [0.5, 0.4]})
+    assert S.frontier(R).all()
+    assert S.frontier(pd.DataFrame()).empty
+
+
+def test_a_real_search_marks_its_frontier():
+    d = _searchable()
+    R, _ = S.search(d, target="compartment", block_sets=[("fitness_screens",)],
+                    n_neighbors_values=(15, 30), min_dist_values=(0.0,), min_cluster_sizes=(25,),
+                    log=lambda *_: None)
+    if R.empty:
+        pytest.skip("no scorable clustering on this fixture")
+    assert "on_frontier" in R.columns and R.on_frontier.any()

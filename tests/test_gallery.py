@@ -419,3 +419,69 @@ def test_the_theme_repaints_the_gallery_ground(win):
     assert max(win.gallery.background) > 0.5
     win.apply_theme("dark")
     assert max(win.gallery.background) < 0.5
+
+
+# --------------------------------------------------------------------------- scored configurations
+def _run_step(n=40, n_genes=100, clusters=3):
+    """One scored configuration, shaped as `search.RunStep` yields them."""
+    import pandas as pd
+    from starplast.search import RunStep
+    rng = np.random.default_rng(4)
+    genes = np.zeros(n_genes, dtype=bool)
+    genes[:n] = True
+    return RunStep(index=1, total=6,
+                   row={"blocks": "fitness_screens", "n_neighbors": 15, "min_dist": 0.1,
+                        "mean_f1": 0.412, "best_f1": 0.688, "n_clusters": clusters,
+                        "noise_frac": 0.1},
+                   per=pd.DataFrame({"label": ["dense granules"], "f1": [0.688]}),
+                   coords=rng.normal(size=(n, 3)) * 10, genes=genes,
+                   labels=np.array([i % clusters if i % 7 else -1 for i in range(n)]),
+                   spec=EmbeddingSpec())
+
+
+def test_a_scored_configuration_is_coloured_by_the_clustering_that_was_scored(app):
+    """The map's current colour mode is about something else. Here the clustering IS half of what
+    the row's number describes, so a thumbnail that showed compartments would be a picture of a
+    different claim."""
+    p = G.GalleryPanel(colour_fn=lambda mask: np.tile([1.0, 0.0, 0.0, 1.0],
+                                                      (int(np.sum(mask)), 1)))
+    step = _run_step()
+    c = p.colours_for(step)
+    assert c.shape == (len(step.coords), 4)
+    assert not np.allclose(c[:, 0], 1.0), "the window's colouring was used instead of the clusters"
+    noise = step.labels < 0
+    assert len({tuple(row) for row in c[~noise]}) > 1, "every cluster drew the same colour"
+    assert len({tuple(row) for row in c[noise]}) == 1, "noise is one colour, and it is grey"
+
+
+def test_unclustered_points_stay_grey_in_a_thumbnail(app, panel):
+    """HDBSCAN calling a gene noise is a finding about that gene, not a gap in the drawing."""
+    c = panel.cluster_colours(np.array([0, 1, -1, -1]))
+    assert tuple(c[2]) == tuple(c[3]) == G.GalleryPanel.NOISE_COLOUR
+    assert c[2][3] < c[0][3], "noise is not drawn as loudly as a cluster"
+
+
+def test_more_clusters_than_colours_still_draws_them_all(app, panel):
+    c = panel.cluster_colours(np.arange(30))
+    assert np.isfinite(c).all() and (c[:, 3] > 0).all()
+
+
+def test_a_scored_configuration_captions_with_its_scores(app):
+    text = G.caption(_run_step())
+    assert "fitness_screens" in text and "mean F1 0.412" in text and "best F1 0.688" in text
+    assert "3 clusters" in text
+
+
+def test_a_walk_step_still_captions_the_way_it_did(app):
+    text = G.caption(_step())
+    assert "trust" in text and "mean F1" not in text
+
+
+def test_a_search_configuration_lands_in_the_same_gallery(win):
+    """Two walks that produce the same kind of thing -- a map with a number attached -- looked at in
+    two different places would be an accident of implementation."""
+    win.gallery.clear()
+    step = _run_step(n=60, n_genes=win.n)
+    win.panel.search_step.emit(step)
+    assert win.gallery.list.count() == 1
+    assert "mean F1" in win.gallery.list.item(0).text()

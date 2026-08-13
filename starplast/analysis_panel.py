@@ -263,6 +263,10 @@ class AnalysisPanel(QtWidgets.QWidget):
     walk_step = QtCore.pyqtSignal(object)
     #: A walk is starting: whatever the last one left on screen belongs to a different sweep.
     walk_started = QtCore.pyqtSignal()
+    #: One scored configuration of a search, as `search.RunStep`, emitted from the worker thread as
+    #: each embedding finishes. Carries its clustering, because here the clustering is half of what
+    #: was scored and a map shown without it is a map shown without the result.
+    search_step = QtCore.pyqtSignal(object)
     status = QtCore.pyqtSignal(str)
 
     def __init__(self, nodes: pd.DataFrame, store=None, parent=None, runner=None):
@@ -288,6 +292,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         # the worker thread, and filling a table from there is the crash this panel already documents
         # once. Going through the signal makes Qt queue it onto the GUI thread.
         self.walk_step.connect(self._walk_step_arrived)
+        self.search_step.connect(self._search_step_arrived)
 
         tabs = QtWidgets.QTabWidget()
         tabs.addTab(self._data_tab(), "1 · Data")
@@ -680,12 +685,23 @@ class AnalysisPanel(QtWidgets.QWidget):
         v.addWidget(b)
         self.search_table = self.results_table(
             QtWidgets.QTableWidget(), self.show_search_row, "recovery_search")
+        self.category_search_table = self.results_table(
+            QtWidgets.QTableWidget(), self.show_search_category_row, "recovery_per_category")
+        self.category_search_table.setToolTip(
+            "One row per configuration and category: how well that map isolates that compartment, "
+            "phase or class, rather than how it did on average. A mean hides the case this table "
+            "exists for -- a map where the GRAs are clean and everything else is a mess is exactly "
+            "what you want when you are looking for GRAs. Click a row to rebuild that map.")
         self.search_table.setToolTip(
             "Click a row to rebuild that exact configuration -- same blocks, same policy, same "
             "seed, same subsample, same excluded columns -- and show it with its clustering. A "
             "recovery score with no way to look at the structure it scored is a 'trust me'. "
             "Right-click to save the whole table as CSV.")
         v.addWidget(self.search_table, 1)
+        v.addWidget(QtWidgets.QLabel(
+            "<i>Per configuration and category — a mean over categories hides the map that nails "
+            "one of them.</i>"))
+        v.addWidget(self.category_search_table, 1)
         return w
 
     @staticmethod
@@ -1348,7 +1364,7 @@ class AnalysisPanel(QtWidgets.QWidget):
                                     eps=eps),
                   self._clustered, name=f"cluster ({algo})")
 
-    def show_search_row(self, row: int):
+    def show_search_row(self, row: int, table=None):
         """Rebuild the exact configuration on one row of the search table, and show it clustered.
 
         This is the table where a row is a whole recipe -- blocks, missing-value policy, scaling,
@@ -1361,7 +1377,9 @@ class AnalysisPanel(QtWidgets.QWidget):
         different map on screen from the one the row's numbers describe.
         """
         from .search import rebuild
-        v = self.row_values(self.search_table, row)
+        # The table is a parameter because the per-category rows carry the same recipe and rebuild
+        # the same way: one implementation, so the two cannot come to disagree about what a row means.
+        v = self.row_values(table if table is not None else self.search_table, row)
         if not v.get("blocks"):
             self.status.emit("that row does not name a configuration this can rebuild")
             return
@@ -1391,8 +1409,13 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.embedding_ready.emit(coords, genes)
         self._publish_clusters(labels, genes)
         k = len(set(labels[labels != NOISE]))
+        note = ""
+        want = getattr(self, "_category_of_interest", None)
+        if want and want[0]:
+            note = f"  ·  {want[0]} was matched by cluster {want[1]}"
+        self._category_of_interest = None
         self.status.emit(f"showing that configuration: {len(coords):,} genes, {k} clusters, "
-                         f"{100 * (labels == NOISE).mean():.0f}% unclustered")
+                         f"{100 * (labels == NOISE).mean():.0f}% unclustered{note}")
 
     def show_inference_row(self, row: int):
         """Colour the map by the clustering a battery row is about, and say which cluster it names.
@@ -1532,7 +1555,14 @@ class AnalysisPanel(QtWidgets.QWidget):
             f"reach F1 0.5")
 
     def run_search(self):
-        """Walk dataset combinations, scoring each by how well it recovers the held-out label."""
+        """Walk dataset combinations, scoring each by how well it recovers the held-out label.
+
+        Every configuration is embedded, clustered at each `min_cluster_size` in the grid, and
+        scored per category -- the automated walk. Results stream: the configuration table and the
+        per-category table fill as they are computed, and each embedding's best clustering appears
+        in the gallery, coloured by that clustering rather than by the map's colour mode. A search is
+        hundreds of runs and a table that arrives at the end is a table nobody watches.
+        """
         from .search import search
         import itertools
         n, target = self.nodes, self.target.currentText()
@@ -1541,12 +1571,76 @@ class AnalysisPanel(QtWidgets.QWidget):
         base = [b for b in BLOCKS if columns_for(n, EmbeddingSpec(blocks=(b,))).get(b)]
         r = self.max_blocks.value()
         sets = [tuple(c) for k in range(1, r + 1) for c in itertools.combinations(base, k)]
+        for table in (self.search_table, self.category_search_table):
+            self._start_table(table, [])
+        self.walk_started.emit()
 
         def job(p):
             R, P = search(n, target=target, block_sets=sets, sample_size=size, seed=seed,
-                          store=self.store, objective=obj, log=p, **grid)
-            return R
+                          store=self.store, objective=obj, on_run=self.search_step.emit, log=p,
+                          **grid)
+            return R, P
 
-        self._run(job, lambda R: (self._fill(self.search_table, R),
-                                  self.status.emit(f"search complete: {len(R)} runs scored")),
-                  name=f"recovery search ({target})")
+        self._run(job, self._search_done, name=f"recovery search ({target})")
+
+    def _search_step_arrived(self, step):
+        """One configuration finished: its rows into both tables, its map into the gallery.
+
+        Runs on the GUI thread -- see the connection in `__init__`. The per-category rows go in as
+        they arrive rather than being collected, so the question this walk exists to answer ("is
+        there a map where THIS category comes out clean") can be asked while it is still running.
+        """
+        self._append(self.search_table, step.row)
+        for _, row in step.per.iterrows():
+            self._append(self.category_search_table, self._category_row(step, row))
+        self.status.emit(f"search {step.index} of {step.total}: {step.label}")
+
+    @staticmethod
+    def _category_row(step, row) -> dict:
+        """One (configuration x category) row, with enough of the recipe to rebuild it."""
+        out = {"category": row.get("label"), "precision": row.get("precision"),
+               "recall": row.get("recall"), "f1": row.get("f1"),
+               "n_label": row.get("n_label"), "n_in_cluster": row.get("n_in_cluster"),
+               "cluster": row.get("cluster")}
+        # The recipe travels on every row: a per-category score whose configuration is only in
+        # another table cannot be rebuilt from what is on screen, which is what clicking it needs.
+        for k in ("blocks", "na_policy", "scaling", "n_neighbors", "min_dist", "min_cluster_size",
+                  "seed", "sample_size", "excluded", "mean_f1", "best_f1"):
+            if k in step.row:
+                out[k] = step.row[k]
+        return out
+
+    def _search_done(self, result):
+        """Replace the streamed rows with the ranked tables, and say what was found."""
+        R, P = result
+        self._fill(self.search_table, R)
+        if not R.empty:
+            per = P.copy()
+            if not per.empty:
+                per = per.rename(columns={"label": "category"}).sort_values("f1", ascending=False)
+                self._fill(self.category_search_table, per)
+            best = R.iloc[0]
+            n_front = int(R.on_frontier.sum()) if "on_frontier" in R.columns else 0
+            # Read defensively: this is the display path, and a results frame that is missing a
+            # column should cost the sentence, not the whole run's output.
+            score = f"{best['mean_f1']:.3f}" if "mean_f1" in R.columns else "-"
+            blocks = best["blocks"] if "blocks" in R.columns else "?"
+            self.status.emit(
+                f"search complete: {len(R)} runs scored; best mean F1 {score} ({blocks}), "
+                f"{n_front} on the frontier of mean and best F1")
+        else:
+            self.status.emit("search complete: nothing was scorable")
+
+    def show_search_category_row(self, row: int):
+        """Rebuild the configuration behind one per-category row, and say which cluster to look at.
+
+        The same rebuild as the configuration table -- the recipe is on the row -- so a category
+        score can be taken from a number to a map in one click. The cluster it names is the one the
+        score is about, which is not obvious from a map coloured by 40 clusters.
+        """
+        v = self.row_values(self.category_search_table, row)
+        if not v.get("blocks"):
+            self.status.emit("that row does not name a configuration this can rebuild")
+            return
+        self._category_of_interest = (v.get("category"), v.get("cluster"))
+        self.show_search_row(row, table=self.category_search_table)
