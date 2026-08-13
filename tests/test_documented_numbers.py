@@ -36,8 +36,16 @@ def facts():
     nodes = pd.read_parquet(paths.cache_file("nodes.parquet"))
     graph = np.load(paths.cache_file("graph.npz"), allow_pickle=True)
     types = sorted({k.split("__")[0] for k in graph.files if "__" in k})
-    size = sum(os.path.getsize(os.path.join(dp, f))
-               for dp, _, fs in os.walk(paths.data_dir()) for f in fs)
+    # The SHIPPED cache, which is what the documents quote: the directories the application writes
+    # into while it runs are excluded. Saved embeddings and kept clusterings are the user's own work,
+    # they are gitignored, and on a machine where somebody has run a search they are 69 MB — so
+    # measuring them here turns "you used this application" into "the documentation is wrong", which
+    # is the opposite of what this test is for.
+    written_while_running = {"embeddings", "runs", "logs"}
+    size = 0
+    for dp, dirs, fs in os.walk(paths.data_dir()):
+        dirs[:] = [d for d in dirs if d not in written_while_running]
+        size += sum(os.path.getsize(os.path.join(dp, f)) for f in fs)
     return {"genes": len(nodes), "columns": nodes.shape[1],
             "edge_types": len(types), "mb": size / 1e6}
 

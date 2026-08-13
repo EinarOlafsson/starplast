@@ -61,3 +61,12 @@ guard the same failure — no contrast at the size it will actually be seen.
 Also tested: no greys anywhere in the sources, all forty distinct, each carrying a `<title>` saying
 what it argues, none containing anything from the cell artwork, and regenerating produces the same
 forty byte for byte.
+
+## A postscript from consolidating
+
+Running the suite in the working checkout — the one where searches have actually been run — failed
+`test_the_cache_size_is_quoted_correctly`: it walked the whole data directory and found 81 MB against
+the documented 17. The documents were right. The 69 MB is saved embeddings, which are gitignored,
+written by running the application, and the user's own work. The test now measures the shipped cache
+only, skipping `embeddings/`, `runs/` and `logs/`. Left as it was, using the application would have
+looked like the documentation drifting.
