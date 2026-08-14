@@ -38,13 +38,26 @@ MODES = ("off", "lit")
 
 #: How a point's surface answers the light. The parameters are what separate a mineral from a
 #: billiard ball: how much of the light scatters (diffuse), how much bounces (specular), how tightly
-#: (shininess), and whether the bounce takes the point's own colour (metals) or the light's
-#: (dielectrics -- plastic, chalk, skin).
+#: (shininess), how much the silhouette catches the light (rim), and whether the bounce takes the
+#: point's own colour (metals) or the light's (dielectrics -- plastic, chalk, skin).
+#:
+#: The shininess numbers are LOW for a reason worth stating, because the textbook values are not.
+#: A Phong lobe of 48 -- ordinary for a glossy solid -- is about four degrees wide, and these normals
+#: are not surface normals: they are the outward radial direction, one per gene, on a cloud of a few
+#: thousand scattered points. A four-degree lobe on a scatter that sparse lands on one or two points
+#: out of thousands, which is invisible; measured, every finish came out matt, which is exactly what
+#: was reported. Broad lobes plus a rim term is what reads at this sampling: the rim brightens every
+#: point whose normal turns away from the viewer, so the finish shows up along the whole silhouette
+#: of the cloud rather than in a highlight too small to find.
+#: The diffuse gains stay near 1. Dropping diffuse as gloss rises is what a physical shader does --
+#: energy that bounces off did not scatter -- but here it cancelled the effect exactly: glossy lost
+#: as much broad light as its highlight added, so the mean barely moved and the finish was invisible.
+#: These finishes differ by what they ADD, which is the part a reader can see.
 FINISHES = {
-    "matt": {"diffuse": 1.0, "specular": 0.0, "shininess": 1.0, "tint": 0.0},
-    "satin": {"diffuse": 0.9, "specular": 0.25, "shininess": 12.0, "tint": 0.0},
-    "glossy": {"diffuse": 0.75, "specular": 0.9, "shininess": 48.0, "tint": 0.0},
-    "metallic": {"diffuse": 0.35, "specular": 1.1, "shininess": 26.0, "tint": 1.0},
+    "matt": {"diffuse": 1.0, "specular": 0.0, "shininess": 1.0, "rim": 0.0, "tint": 0.0},
+    "satin": {"diffuse": 1.0, "specular": 0.45, "shininess": 5.0, "rim": 0.18, "tint": 0.0},
+    "glossy": {"diffuse": 0.95, "specular": 1.1, "shininess": 12.0, "rim": 0.45, "tint": 0.0},
+    "metallic": {"diffuse": 0.55, "specular": 1.3, "shininess": 7.0, "rim": 0.70, "tint": 1.0},
 }
 DEFAULT_FINISH = "satin"
 
@@ -129,7 +142,7 @@ def at_points(coords, indices, radius: float, color=(1.0, 0.95, 0.85)) -> list:
 
 
 def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
-          shininess: float = 24.0, finish: str = None) -> np.ndarray:
+          shininess: float = 24.0, finish: str = None, eye=None) -> np.ndarray:
     """Point colours under a set of lights. Returns RGBA in the shape it was given.
 
     The normal is the outward direction from the centre of the cloud, because a point has no surface
@@ -152,6 +165,7 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
         specular, shininess = f["specular"] > 0, f["shininess"]
     diffuse_gain = f["diffuse"] if f else 1.0
     spec_gain = f["specular"] if f else 1.0
+    rim_gain = f["rim"] if f else 0.0
     tint = f["tint"] if f else 0.0
 
     # Diffuse and specular are kept APART, and this is not a detail. Multiplying the point's colour
@@ -168,7 +182,18 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
     # The viewer is treated as far away on +Z. A specular term that tracked the real camera would
     # move the highlight when the map is rotated, which reads as the data changing rather than the
     # view -- and rotating to look at a cluster is the commonest thing anyone does here.
-    view = np.array([0.0, 0.0, 1.0])
+    # The REAL camera where there is one. A specular term computed against a fixed +Z never lands
+    # where the viewer is looking once the map has been orbited, so the highlight sits on the far
+    # side of the cloud and every finish looks matt from the front -- which is what was reported.
+    if eye is not None:
+        to_eye = np.asarray(eye, dtype=float) - coords
+        view = to_eye / np.maximum(np.linalg.norm(to_eye, axis=1, keepdims=True), 1e-9)
+    else:
+        view = np.array([0.0, 0.0, 1.0])
+    # How far each point's normal has turned away from the viewer. 1 on the silhouette, 0 dead
+    # centre. Squared so it stays confined to the edge instead of washing the whole cloud.
+    facing = np.abs((normal * view).sum(axis=1, keepdims=True)) if rim_gain else None
+    fresnel = (1.0 - np.clip(facing, 0.0, 1.0)) ** 2 if rim_gain else None
     for light in lit:
         to_light = light["pos"] - coords
         dist = np.linalg.norm(to_light, axis=1, keepdims=True)
@@ -182,29 +207,59 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
             spec = np.clip((normal * half).sum(axis=1, keepdims=True), 0.0, None) ** shininess
             hue = light["color"] * (1.0 - tint) + own * tint
             highlight += (spec * falloff * spec_gain) * hue
+            if rim_gain:
+                # Tied to the light rather than free-standing: a rim that glows on the side no
+                # light reaches would be inventing brightness, and this is a data display. The
+                # 0.3 floor keeps the silhouette visible in grazing light instead of switching
+                # off the moment a point turns edge-on to the source.
+                highlight += (fresnel * falloff * rim_gain * (0.3 + 0.7 * diffuse)) * hue
 
     rgba[:, :3] = np.clip(own * np.clip(total, 0.0, 2.0) + highlight, 0.0, 1.0)
     return rgba
 
 
+def on_screen(where, basis, centre, radius: float, color=(1.0, 0.97, 0.92)) -> list:
+    """A light placed relative to the CAMERA rather than to the data.
+
+    `where` is (x, y, z) in the screen's own frame: x right, y up, z toward the viewer. `basis` is
+    (eye, right, up, forward) from the renderer. This is what makes "top left" mean the top left of
+    the picture and keep meaning it while the map is orbited -- placed in world coordinates instead,
+    a corner light drifts to the other side of the cloud as soon as anything moves, which looks like
+    a light that does not work rather than one that is somewhere else.
+    """
+    eye, right, up, forward = basis
+    x, y, z = (float(v) for v in where)
+    direction = right * x + up * y - forward * z
+    n = np.linalg.norm(direction)
+    direction = direction / n if n > 1e-9 else np.asarray(forward, dtype=float)
+    return [{"pos": np.asarray(centre, dtype=float) + direction * radius * 2.0,
+             "color": np.array(color, dtype=float)}]
+
+
 def light_at(coords, source: str, t: float, n: int, speed: float, radius: float,
-             pointer=None, selected=None, neighbours=None) -> list:
+             pointer=None, basis=None, selected=None, neighbours=None) -> list:
     """The lights for one frame, for whichever source was chosen.
 
-    `pointer` is a direction in the view's frame -- where the cursor is, as the renderer sees it --
-    because the map rotates and a light fixed in world space would swing away from the pointer the
-    moment anything moved.
+    The screen-relative sources need `basis` -- the camera's own axes -- because "top left" and
+    "where the pointer is" are statements about the picture, not about the data.
     """
+    coords = np.asarray(coords, dtype=float)
+    centre = coords.mean(axis=0) if len(coords) else np.zeros(3)
     if source == "orbiting":
         return lights(t, n, speed, radius=radius)
-    if source in CORNERS:
-        return fixed(CORNERS[source], radius)
     if source == "selected gene" and selected is not None:
         return at_points(coords, [selected], radius)
     if source == "selected gene and its edges" and selected is not None:
         return at_points(coords, [selected] + list(neighbours or []), radius)
-    if source == "mouse" and pointer is not None:
-        return fixed(pointer, radius)
-    # Nothing to follow yet -- no pointer in the view, nothing selected. A light from the front is
-    # the honest default: it lights what is facing the reader rather than guessing.
+    if basis is not None:
+        if source in CORNERS:
+            return on_screen(CORNERS[source], basis, centre, radius)
+        if source == "mouse" and pointer is not None:
+            # Pushed forward of the screen plane so the light is between the viewer and the cloud
+            # rather than in it: at z=0 half the map is behind the light and goes dark.
+            x, y, _ = pointer
+            return on_screen((x * 1.4, y * 1.4, 1.0), basis, centre, radius)
+        return on_screen((0.0, 0.0, 1.0), basis, centre, radius)
+    # No camera to speak of -- offscreen, or before the first frame. A light from +Z lights what is
+    # facing the reader, which is the honest default rather than a guess.
     return fixed((0.0, 0.0, 1.0), radius)

@@ -588,6 +588,23 @@ class Map3D(gl.GLViewWidget):
             return
         super().mousePressEvent(ev)
 
+    def camera_basis(self):
+        """(eye, right, up, forward) in world coordinates, read off the camera.
+
+        Everything screen-relative needs this. A light asked for "top left" or "where the pointer
+        is" is a statement about the SCREEN, and putting it at a fixed world position instead means
+        it stops being top-left the moment the map is orbited -- which is exactly what "the corner
+        lights do not seem to move" was.
+        """
+        eye = np.array(self.cameraPosition(), dtype=float)
+        m = self.viewMatrix()
+        # A view matrix's rows are the camera's axes in world space: row 0 right, row 1 up, row 2
+        # points AWAY from what is being looked at, so forward is its negative.
+        right = np.array([m.row(0).x(), m.row(0).y(), m.row(0).z()], dtype=float)
+        up = np.array([m.row(1).x(), m.row(1).y(), m.row(1).z()], dtype=float)
+        forward = -np.array([m.row(2).x(), m.row(2).y(), m.row(2).z()], dtype=float)
+        return eye, right, up, forward
+
     def mouseMoveEvent(self, ev):
         # Where the pointer is, as a direction in the view's own frame: x right, y UP (Qt counts
         # down), z toward the eye. Kept here rather than computed from a world position because the
@@ -1043,7 +1060,7 @@ class Window(QtWidgets.QMainWindow):
         self.theme = name
         app = QtWidgets.QApplication.instance()
         if app is not None:
-            app.setStyleSheet(TH.stylesheet(name, self._container_opacity))
+            app.setStyleSheet(TH.stylesheet(name, self._container_opacity, self._ui_scale))
         self.view.setBackgroundColor(pg.mkColor(TH.palette_for(name)["bg"]))
         # Recolor the classes for this ground, then restore the deliberate grey for "unknown".
         self.color_of = dict(zip(self.comps,
@@ -1734,20 +1751,29 @@ class Window(QtWidgets.QMainWindow):
         self.container_opacity.valueChanged.connect(self.set_container_opacity)
 
 
-        self.zoom_box = QtWidgets.QDoubleSpinBox()
-        self.zoom_box.setRange(*UI_SCALE_RANGE)
-        self.zoom_box.setSingleStep(0.05)
-        self.zoom_box.setValue(self._ui_scale)
-        self.zoom_box.setSuffix("  ×")
+        # A slider, because this is a thing people drag until it looks right rather than a number
+        # they know in advance -- and the label beside it says what the number is, since a slider
+        # with no read-out cannot be set back to where it was.
+        zoom_row = QtWidgets.QWidget()
+        zoom_lay = QtWidgets.QHBoxLayout(zoom_row)
+        zoom_lay.setContentsMargins(0, 0, 0, 0)
+        self.zoom_box = QtWidgets.QSlider(QtCore.Qt.Orientation.Horizontal)
+        self.zoom_box.setRange(int(UI_SCALE_RANGE[0] * 100), int(UI_SCALE_RANGE[1] * 100))
+        self.zoom_box.setSingleStep(5)
+        self.zoom_box.setPageStep(10)
+        self.zoom_box.setValue(int(round(self._ui_scale * 100)))
+        self.zoom_label = QtWidgets.QLabel(f"{self._ui_scale:.2f}×")
         self.zoom_box.setToolTip(
             "Text size for the whole interface, as a multiple of the size this desktop asked for.\n\n"
             "It moves the application's font rather than a stylesheet, so every layout re-measures "
             "its own contents: a longer label makes a wider row instead of being cut off at the "
             "old width. Nothing here is ever clipped -- if a panel cannot fit its text it grows, "
             "and if the window cannot fit the panel the panel scrolls.")
-        self.zoom_box.valueChanged.connect(self.set_ui_scale)
+        self.zoom_box.valueChanged.connect(lambda v: self.set_ui_scale(v / 100.0))
+        zoom_lay.addWidget(self.zoom_box, 1)
+        zoom_lay.addWidget(self.zoom_label)
 
-        form.addRow("text size", self.zoom_box)
+        form.addRow("text size", zoom_row)
         form.addRow("background", self.ambient_box)
         form.addRow("blob speed", self.ambient_speed)
         form.addRow("blob size", self.ambient_size)
@@ -1772,6 +1798,8 @@ class Window(QtWidgets.QMainWindow):
         scale = float(min(max(scale, UI_SCALE_RANGE[0]), UI_SCALE_RANGE[1]))
         self._ui_scale = scale
         QtCore.QSettings("starplast", "starplast").setValue("display/ui_scale", scale)
+        if getattr(self, "zoom_label", None) is not None:
+            self.zoom_label.setText(f"{scale:.2f}×")
         app = QtWidgets.QApplication.instance()
         if app is not None:
             font = QtGui.QFont(self._base_font)
@@ -1784,6 +1812,10 @@ class Window(QtWidgets.QMainWindow):
             # has not been given a font of its own and re-lays them out; walking allWidgets() to set
             # it by hand touched widgets that were mid-deletion and segfaulted the interpreter.
             app.setFont(font)
+            # And the stylesheet, which carries font sizes of its own -- a stylesheet font-size
+            # BEATS the application font, so without this the setting changed the font and the
+            # sheet immediately overrode it on every widget. That is why it appeared to do nothing.
+            app.setStyleSheet(TH.stylesheet(self.theme, self._container_opacity, scale))
             self.updateGeometry()
         return scale
 
@@ -1888,12 +1920,23 @@ class Window(QtWidgets.QMainWindow):
     def frame_lights(self) -> list:
         """The lights for this frame, from whichever source is chosen."""
         from .lighting import light_at
+        try:
+            basis = self.view.camera_basis()
+        except Exception:                       # no GL context yet -- offscreen, or mid-startup
+            basis = None
         return light_at(self.xyz, self._lighting["source"], self._light_t,
                         self._lighting["lights"], self._lighting["speed"], self._light_radius(),
-                        pointer=getattr(self.view, "pointer", None), selected=self.sel,
+                        pointer=getattr(self.view, "pointer", None), basis=basis, selected=self.sel,
                         neighbours=(self.edge_neighbours(self.sel)
                                     if self.sel is not None
                                     and self._lighting["source"].endswith("edges") else None))
+
+    def _eye(self):
+        """Where the camera is, in world coordinates, or None before there is one."""
+        try:
+            return self.view.camera_basis()[0]
+        except Exception:
+            return None
 
     def _light_radius(self) -> float:
         """How far out the lights orbit: outside the cloud, so they light it rather than sit in it."""
@@ -1902,24 +1945,35 @@ class Window(QtWidgets.QMainWindow):
     def _light_ground(self, lit) -> None:
         """Light the grid with the same lights as the points.
 
-        A lit cloud over an unlit grid reads as two pictures: the horizon is the thing the eye uses
-        to judge where the light is coming from, and leaving it flat throws that away. The grid is
-        one flat plane, so one sample at its centre is the whole answer.
+        A lit cloud over an unlit grid reads as two pictures: the horizon is what the eye uses to
+        judge where the light is coming from, and leaving it flat throws that away.
+
+        Computed here rather than through `shade`, which infers a point's normal from the direction
+        out of the cloud's centre. That is right for a point cloud and wrong for a floor: the probe
+        sits BELOW the centre, so the inferred normal pointed down and every light above the map
+        gave the grid exactly zero. A plane has a real normal, and it is up.
         """
         if self.grid_item is None or not len(self.xyz):
             return
-        from .lighting import shade
-        centre = self.xyz.mean(0).astype(float)
-        low = float(self.xyz[:, 2].min()) - self.view.data_radius() * 0.08
-        probe = np.array([[centre[0], centre[1], low]])
         p = TH.palette_for(self.theme)
-        base = np.array([[*TH.rgbf(p["border"])[:3], 1.0]])
-        # The grid's normal is straight up, which `shade` cannot infer from a single point, so the
-        # probe is offset above the plane: the direction from the cloud's centre to it IS up.
-        rgba = shade(np.vstack([centre, probe[0]]), np.vstack([base, base]), lit,
-                     finish="matt")[1]
-        alpha = 70 if TH.is_light(p) else 40
-        self.grid_item.setColor((int(rgba[0] * 255), int(rgba[1] * 255), int(rgba[2] * 255), alpha))
+        base = np.array(TH.rgbf(p["border"])[:3], dtype=float)
+        centre = self.xyz.mean(0).astype(float)
+        r = self.view.data_radius() or 1.0
+        probe = np.array([centre[0], centre[1], float(self.xyz[:, 2].min()) - r * 0.08])
+        up = np.array([0.0, 0.0, 1.0])
+
+        total = 0.35                                   # the same ambient floor the points get
+        for light in lit:
+            to_light = np.asarray(light["pos"], dtype=float) - probe
+            dist = float(np.linalg.norm(to_light)) or 1.0
+            total += max(float(np.dot(up, to_light / dist)), 0.0) / (1.0 + dist / (2.0 * r))
+        rgb = np.clip(base * min(total, 2.0) * 1.5, 0.0, 1.0)
+        # The grid is drawn faint, so colour alone is not visible: the light moves its ALPHA too,
+        # between the theme's own value and about three times it. That is what makes a lit horizon
+        # read as lit rather than as a slightly different grey.
+        flat = 70 if TH.is_light(p) else 40
+        self.grid_item.setColor((int(rgb[0] * 255), int(rgb[1] * 255), int(rgb[2] * 255),
+                                 int(np.clip(flat * min(total, 2.2), 15, 210))))
 
     def _light_tick(self) -> None:
         """One frame of moving light: reshade the points from the flat colours redraw computed.
@@ -1932,7 +1986,8 @@ class Window(QtWidgets.QMainWindow):
             return
         self._light_t += 0.06
         lit = self.frame_lights()
-        colors = shade(self.xyz, self._base_colors, lit, finish=self._lighting["finish"])
+        colors = shade(self.xyz, self._base_colors, lit, finish=self._lighting["finish"],
+                       eye=self._eye())
         self.scatter.setData(pos=self.xyz, color=colors, size=self._base_sizes)
         self._light_ground(lit)
 
@@ -3004,9 +3059,16 @@ class Window(QtWidgets.QMainWindow):
         self._base_colors, self._base_sizes = colors, sizes
         if self._lighting["mode"] != "off":
             from .lighting import shade
-            colors = shade(self.xyz, colors, self.frame_lights(), finish=self._lighting["finish"])
+            lit = self.frame_lights()
+            colors = shade(self.xyz, colors, lit, finish=self._lighting["finish"],
+                           eye=self._eye())
         self.scatter.setData(pos=self.xyz, color=colors, size=sizes)
         self._draw_ground()
+        if self._lighting["mode"] != "off":
+            # After `_draw_ground`, which builds a new grid item with the flat theme colour: lighting
+            # it before that is lighting an object that is about to be replaced, which is why the
+            # grid never appeared to be lit.
+            self._light_ground(lit)
         self._draw_selection_halo()
         self.draw_edges(vis)
 

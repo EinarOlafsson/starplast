@@ -236,7 +236,8 @@ def rgba(hex_color: str, alpha: float) -> str:
     return f"rgba({r}, {g}, {b}, {max(0.0, min(1.0, float(alpha))):.3f})"
 
 
-def stylesheet(theme: str = "dark", container_opacity: float = 1.0) -> str:
+def stylesheet(theme: str = "dark", container_opacity: float = 1.0,
+               text_scale: float = 1.0) -> str:
     """Qt stylesheet for one theme. Every color comes from the palette, never a literal.
 
     `container_opacity` below 1 lets whatever is painted behind the window -- the drifting blob
@@ -246,9 +247,14 @@ def stylesheet(theme: str = "dark", container_opacity: float = 1.0) -> str:
     """
     p = palette_for(theme)
     CONTAINER = rgba(p["page"], container_opacity)
+    # The sizes are scaled here as well as on the application font, because a stylesheet font-size
+    # BEATS the application font -- which is why the text-size setting appeared to do nothing at all:
+    # the font was changing and this rule was overriding it on every widget.
+    BODY = max(int(round(13 * text_scale)), 6)
+    SMALL = max(int(round(11 * text_scale)), 5)
     return f"""
     QWidget {{ background: {p['bg']}; color: {p['fg']};
-               font-size: 13px; selection-background-color: {p['accent']};
+               font-size: {BODY}px; selection-background-color: {p['accent']};
                selection-color: {p['bg'] if is_dark(theme) else p['page']}; }}
     QMainWindow, QDialog {{ background: {p['bg']}; }}
     QDockWidget {{ background: {p['surface']}; color: {p['fg']}; titlebar-close-icon: none; }}
@@ -258,7 +264,7 @@ def stylesheet(theme: str = "dark", container_opacity: float = 1.0) -> str:
     QGroupBox {{ border: 1px solid {p['border']}; border-radius: 6px; margin-top: 16px;
                  padding-top: 10px; background: {p['surface']}; }}
     QGroupBox::title {{ subcontrol-origin: margin; left: 10px; padding: 0 5px;
-                        color: {p['fg_muted']}; font-size: 11px;
+                        color: {p['fg_muted']}; font-size: {SMALL}px;
                         text-transform: uppercase; letter-spacing: 1px; }}
     QLabel {{ background: transparent; }}
     QPushButton {{ background: {p['surface_hi']}; border: 1px solid {p['border']};
@@ -300,7 +306,7 @@ def stylesheet(theme: str = "dark", container_opacity: float = 1.0) -> str:
         border: 1px solid {p['border']}; border-radius: 6px; }}
     QHeaderView::section {{ background: {p['surface_alt']}; color: {p['fg_muted']};
         padding: 6px 8px; border: none; border-bottom: 1px solid {p['border']};
-        font-size: 11px; text-transform: uppercase; letter-spacing: .6px; }}
+        font-size: {SMALL}px; text-transform: uppercase; letter-spacing: .6px; }}
     QTextBrowser {{ background: {p['page']}; border: 1px solid {p['border']};
                     border-radius: 6px; padding: 4px; }}
     QProgressBar {{ background: {p['surface_hi']}; border: none; border-radius: 4px;

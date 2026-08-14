@@ -8,6 +8,7 @@ untouched under the shading, so nothing here can quietly darken a map into a dif
 from __future__ import annotations
 
 import os
+import re
 import sys
 
 import numpy as np
@@ -435,6 +436,42 @@ def test_text_size_scales_the_whole_interface(win):
     win.set_ui_scale(1.0)
 
 
+def test_the_stylesheet_grows_with_the_text_size(win):
+    """The application font alone was not enough, and this is the bug that was reported as "text
+    size does nothing".
+
+    A stylesheet `font-size` BEATS the application font on every widget the sheet touches -- which
+    here is nearly all of them. So the setting moved the app font, the sheet's hard-coded 13px
+    immediately overrode it, and nothing on screen changed. The sheet has to be rebuilt at the new
+    scale as well; the app font still matters, for the size hints the test above measures."""
+    from PyQt6 import QtWidgets
+    app = QtWidgets.QApplication.instance()
+    sizes = lambda: [int(t) for t in re.findall(r"font-size:\s*(\d+)px", app.styleSheet())]
+    win.set_ui_scale(1.0)
+    small = sizes()
+    assert small, "the stylesheet declares no font size at all"
+    win.set_ui_scale(1.5)
+    grown = sizes()
+    win.set_ui_scale(1.0)
+    assert len(grown) == len(small)
+    assert all(g > s for g, s in zip(grown, small)), f"{small} -> {grown}"
+
+
+def test_the_text_size_control_is_a_slider_that_says_where_it_is(win):
+    """A number box asks for a figure nobody knows in advance. This is a thing you drag until it
+    looks right -- and the read-out beside it is what lets you put it back."""
+    from PyQt6 import QtWidgets
+    from starplast.app import UI_SCALE_RANGE
+    win.build_preferences()
+    assert isinstance(win.zoom_box, QtWidgets.QSlider)
+    assert (win.zoom_box.minimum(), win.zoom_box.maximum()) == (
+        int(UI_SCALE_RANGE[0] * 100), int(UI_SCALE_RANGE[1] * 100))
+    win.zoom_box.setValue(130)
+    assert abs(win._ui_scale - 1.3) < 1e-6, "dragging the slider did not change the scale"
+    assert "1.30" in win.zoom_label.text()
+    win.zoom_box.setValue(100)
+
+
 def test_scaling_never_compounds(win):
     """Applied to the desktop's own font every time: compounding 1.2 three times is 1.7, and the
     text creeps every time the dialog is opened."""
@@ -579,6 +616,88 @@ def test_a_source_with_nothing_to_follow_lights_from_the_front(qapp):
         assert len(lit) == 1 and lit[0]["pos"][2] > 0
 
 
+def test_a_finish_changes_a_large_share_of_the_cloud_not_two_points(qapp):
+    """Reported as "the points always look matt", and the first version of this really was matt in
+    every practical sense: a textbook Phong lobe of 48 is about four degrees wide, and four degrees
+    on a sparse scatter of radial pseudo-normals lands on one or two points out of thousands. The
+    maths was right and nothing was visible. Broad lobes plus a rim term is what reads here, so the
+    guard is on how MUCH of the cloud a finish moves, not on whether the arithmetic ran."""
+    rng = np.random.default_rng(11)
+    xyz = rng.normal(size=(2000, 3)) * 20
+    flat = np.full((2000, 4), 0.5)
+    lit = L.lights(0.0, 2)
+    matt = L.shade(xyz, flat, lit, finish="matt")[:, :3]
+    moved = lambda name: float((np.abs(L.shade(xyz, flat, lit, finish=name)[:, :3] - matt)
+                                .max(axis=1) > 2 / 255).mean())
+    for name in ("satin", "glossy", "metallic"):
+        assert moved(name) > 0.15, f"{name} changed {moved(name):.1%} of the cloud -- invisible"
+    assert moved("glossy") > moved("satin"), "satin is doing more than glossy"
+
+
+def test_the_rim_lights_the_silhouette_and_not_the_dark_side(qapp):
+    """What the rim is for, and what it must not do.
+
+    For: the edge of the cloud, where the normal turns away from the viewer -- that outline is what
+    makes a shape read as glossy, and on a scatter this sparse it is the only specular cue big
+    enough to see. Must not: glow on the side no light reaches. A free-standing fresnel does exactly
+    that, which on a data display is a point claiming a brightness nothing gave it, so the term is
+    multiplied by the light that arrives. It keeps a 0.3 floor, deliberately -- a silhouette point
+    is edge-on to the viewer, so under a light behind the viewer its diffuse is ~0 and a strict
+    product would switch the rim off precisely where it is wanted."""
+    eye = np.array([0.0, 0.0, 120.0])
+    xyz = np.array([[0.0, 0.0, 12.0],      # facing the eye and the light
+                    [12.0, 0.0, 0.0],      # on the silhouette, edge-on to the eye
+                    [0.0, 0.0, -12.0]])    # facing away from both
+    flat = np.full((3, 4), 0.5)
+    # At the distance the map actually puts its lights -- a few times the radius of the cloud. Set
+    # them thirty radii out instead and distance falloff swamps every finish, which measures the
+    # falloff rather than the rim.
+    behind = [{"pos": np.array([0.0, 0.0, 40.0]), "color": np.array([1.0, 1.0, 1.0])}]
+    matt = L.shade(xyz, flat, behind, finish="matt", eye=eye)[:, :3].max(axis=1)
+    glossy = L.shade(xyz, flat, behind, finish="glossy", eye=eye)[:, :3].max(axis=1)
+    gained = glossy - matt
+    assert gained[1] > 0.02, f"the silhouette gained nothing ({gained[1]:.4f})"
+    assert gained[2] < 0.005, f"the dark side lit itself ({gained[2]:.4f})"
+
+
+def test_a_corner_light_keeps_its_corner_when_the_map_is_turned(qapp):
+    """"Top left" is a statement about the picture, not about the data. Placed in world coordinates
+    it drifted to the far side of the cloud as soon as anything was orbited, which is why the corner
+    presets read as "something changes but the light doesn't move"."""
+    centre = np.zeros(3)
+    facing = (np.array([0.0, 0.0, 90.0]), np.array([1.0, 0.0, 0.0]),
+              np.array([0.0, 1.0, 0.0]), np.array([0.0, 0.0, -1.0]))
+    turned = (np.array([90.0, 0.0, 0.0]), np.array([0.0, 1.0, 0.0]),
+              np.array([0.0, 0.0, 1.0]), np.array([-1.0, 0.0, 0.0]))
+    a = L.on_screen(L.CORNERS["top left"], facing, centre, 40.0)[0]["pos"]
+    b = L.on_screen(L.CORNERS["top left"], turned, centre, 40.0)[0]["pos"]
+    assert not np.allclose(a, b), "the light stayed put while the camera moved"
+    # Still top left of the PICTURE in both: left of the camera's right axis, above its up axis.
+    for pos, (_, right, up, _) in ((a, facing), (b, turned)):
+        assert float(pos @ right) < 0 and float(pos @ up) > 0
+
+
+def test_the_pointer_light_follows_the_pointer(qapp):
+    xyz = np.random.default_rng(5).normal(size=(40, 3)) * 10
+    basis = (np.array([0.0, 0.0, 90.0]), np.array([1.0, 0.0, 0.0]),
+             np.array([0.0, 1.0, 0.0]), np.array([0.0, 0.0, -1.0]))
+    left = L.light_at(xyz, "mouse", 0.0, 1, 0.3, 30.0, pointer=(-0.9, 0.5, 0.0), basis=basis)
+    right = L.light_at(xyz, "mouse", 0.0, 1, 0.3, 30.0, pointer=(0.9, 0.5, 0.0), basis=basis)
+    assert left[0]["pos"][0] < right[0]["pos"][0], "the light ignored the pointer"
+
+
+def test_the_highlight_lands_where_the_viewer_actually_is(qapp):
+    """Computed against a fixed +Z, the specular term stays on the side of the cloud that faced the
+    reader before they orbited -- so from anywhere else, every finish looks matt."""
+    xyz = np.random.default_rng(6).normal(size=(500, 3)) * 15
+    flat = np.full((500, 4), 0.5)
+    lit = [{"pos": np.array([80.0, 0.0, 0.0]), "color": np.array([1.0, 1.0, 1.0])}]
+    front = L.shade(xyz, flat, lit, finish="glossy", eye=np.array([0.0, 0.0, 200.0]))
+    side = L.shade(xyz, flat, lit, finish="glossy", eye=np.array([200.0, 0.0, 0.0]))
+    assert not np.allclose(front[:, :3], side[:, :3]), "the highlight ignored the camera"
+    assert side[:, :3].max() > front[:, :3].max(), "looking down the light, nothing glinted back"
+
+
 def test_lighting_a_gene_lights_the_gene(qapp):
     xyz = np.random.default_rng(4).normal(size=(30, 3)) * 5
     lit = L.at_points(xyz, [7], 20.0)
@@ -611,6 +730,20 @@ def test_the_edges_that_light_a_neighbour_are_the_ones_being_drawn(win):
     assert win.edge_neighbours(10) == with_edges
 
 
+def test_lighting_still_draws_when_there_is_no_camera_to_ask(win, monkeypatch):
+    """Every screen-relative source needs the camera's own axes, and there is a window of startup --
+    and the whole of an offscreen render -- where the renderer has no camera to give. Falling over
+    there would take the map with it, so the fallback is a light from the front."""
+    def no_camera():
+        raise RuntimeError("no GL context")
+    monkeypatch.setattr(win.view, "camera_basis", no_camera)
+    win._lighting["source"] = "top left"
+    assert win._eye() is None
+    lit = win.frame_lights()
+    assert len(lit) == 1 and lit[0]["pos"][2] > 0, "no camera left the map unlit"
+    win._light_tick()                                  # and the frame still draws
+
+
 def test_the_grid_is_lit_by_the_same_lights_as_the_points(win):
     """A lit cloud over an unlit grid reads as two pictures: the horizon is what the eye uses to
     judge where the light is coming from."""
@@ -623,7 +756,23 @@ def test_the_grid_is_lit_by_the_same_lights_as_the_points(win):
     win._light_tick()
     after = win.grid_item.color().getRgb()
     assert after[:3] != before[:3], "the grid ignored the light"
-    assert after[3] == before[3], "the grid's alpha is a theme decision, not a lighting one"
+    # Alpha moves too, and it did not always. Holding it at the theme's value was defensible in
+    # principle -- how solid the grid is IS a theme decision -- but the grid is drawn so faint that
+    # a colour-only change was below the threshold of visible, which is how it was reported: "I
+    # can't see the grid being lit". Light moves both now, and the band keeps it inside the range
+    # the theme set rather than letting a bright light turn the horizon into a wall.
+    assert after[3] != before[3], "the grid's alpha ignored the light"
+    assert 15 <= after[3] <= 210, "the lit grid left the theme's range"
+
+    # A light BELOW the floor leaves it darker than one above: the sign of the thing is what makes
+    # it read as lighting rather than as a flicker.
+    win._lighting["source"] = "bottom left"
+    win._light_tick()
+    below = win.grid_item.color().getRgb()
+    win._lighting["source"] = "top left"
+    win._light_tick()
+    above = win.grid_item.color().getRgb()
+    assert sum(below[:3]) < sum(above[:3]), "the grid was as bright from below as from above"
     win.set_lighting("off")
 
 
