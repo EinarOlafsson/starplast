@@ -47,6 +47,20 @@ import pandas as pd
 NA_POLICIES = ("indicator", "median", "drop_columns", "drop_genes")
 SCALINGS = ("robust", "zscore", "rank", "none")
 
+#: How the matrix is taken down to a few dimensions. Three answers to different questions, and the
+#: differences matter more than "which one looks nicer".
+#:
+#: umap -- keeps neighbourhoods and makes some attempt at the space between them. The default, and
+#: what every published figure from this project used.
+#: tsne -- keeps neighbourhoods and abandons everything else. Distances BETWEEN clusters in a t-SNE
+#: are not interpretable at all, which is a real cost here because the map is read as a space; what
+#: it buys is that within-cluster structure is usually cleaner, so a clustering run on it splits
+#: groups UMAP merges. Worth having for exactly that.
+#: pca -- keeps variance and nothing else. Nobody should read biology off a PCA of this matrix, and
+#: it belongs here anyway: it is the honest baseline, and a claim that survives on a PCA is a claim
+#: that did not need the embedding to be true.
+METHODS = ("umap", "tsne", "pca")
+
 # Feature blocks the user picks from. Regexes match node-table columns.
 BLOCKS = {
     "expression_summary": r"^expr_",
@@ -84,9 +98,14 @@ class EmbeddingSpec:
     block_weights: dict = field(default_factory=dict)   # block -> multiplier, default 1.0
     categorical_weight: float = 1.0    # see note in `build_matrix`
     indicator_weight: float = 0.5      # missingness informs, but is not a measurement
+    method: str = "umap"
     n_components: int = 3
     n_neighbors: int = 25
     min_dist: float = 0.25
+    # t-SNE's own two. Perplexity is its n_neighbors and behaves like one; exaggeration decides how
+    # hard clusters are pushed apart early on, which is why a t-SNE looks more separated than it is.
+    perplexity: float = 30.0
+    early_exaggeration: float = 12.0
     metric: str = "euclidean"
     random_state: int = 42
 
@@ -316,6 +335,26 @@ def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
     # another or reported in a methods section, and the recipe is small next to the run.
     get_logger(__name__).info("embedding: %s", spec.to_dict())
     X, names, rows = build_matrix(nodes, spec, log=log)
+    if spec.method == "pca":
+        from sklearn.decomposition import PCA
+        # Clamped to what the matrix can actually give. A block set with two columns and a request
+        # for three components is an error sklearn raises, and raising it in the middle of a search
+        # ends the whole run over one configuration that was never going to work.
+        k = int(max(min(spec.n_components, min(np.shape(X))), 1))
+        log(f"PCA: {k} components -- the baseline, not a map to read biology off")
+        return normalize(PCA(n_components=k, random_state=spec.random_state)
+                         .fit_transform(np.nan_to_num(X))), names, rows
+    if spec.method == "tsne":
+        from sklearn.manifold import TSNE
+        # Perplexity has to stay under a third of the sample or the neighbourhoods it builds cover
+        # the whole set; sklearn raises rather than clamping, which would end a sweep mid-run.
+        perplexity = float(min(spec.perplexity, max((len(X) - 1) / 3.0, 2.0)))
+        log(f"t-SNE: scikit-learn, perplexity {perplexity:g} -- neighbourhoods are meaningful, "
+            f"distances between clusters are NOT")
+        Y = TSNE(n_components=spec.n_components, perplexity=perplexity,
+                 early_exaggeration=spec.early_exaggeration, metric=spec.metric,
+                 init="pca", random_state=spec.random_state).fit_transform(np.nan_to_num(X))
+        return normalize(np.asarray(Y)), names, rows
     try:
         from . import gpu
         on_gpu = gpu.umap_class()

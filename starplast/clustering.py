@@ -29,6 +29,30 @@ import pandas as pd
 
 NOISE = -1
 
+#: What may be run on an embedding, and what each one assumes. The assumption is the reason to pick
+#: one, and it is the thing a menu of algorithm names hides.
+#:
+#: hdbscan -- clusters of any shape and any density, and everything else is noise. The right default
+#: for a proteome, where most genes belong to no tight group and saying so is the honest answer.
+#: dbscan -- one density for the whole map. Simpler and much more sensitive to eps; useful when the
+#: map really is uniform, which this one is not.
+#: kmeans -- every gene belongs somewhere, in a fixed number of round groups. Wrong about the
+#: biology and useful anyway: it is the only one that never returns noise, so it is what to use when
+#: a downstream question needs every gene in some group.
+#: agglomerative -- nested, and cuts at a chosen count. Wards's linkage assumes round groups like
+#: kmeans; average linkage does not, which is why both are offered through `linkage`.
+ALGORITHMS = ("hdbscan", "dbscan", "kmeans", "agglomerative")
+
+#: The knobs each algorithm takes, for a search that has to know what it may vary. Named here rather
+#: than in the optimiser so that adding an algorithm is one edit rather than two that can disagree.
+PARAMS = {
+    "hdbscan": ("min_cluster_size", "min_samples", "cluster_selection_epsilon",
+                "cluster_selection_method"),
+    "dbscan": ("eps", "min_samples"),
+    "kmeans": ("n_clusters",),
+    "agglomerative": ("n_clusters", "linkage"),
+}
+
 
 # --------------------------------------------------------------------------- hyperparameter walks
 def _score(X: np.ndarray, labels: np.ndarray) -> dict:
@@ -103,7 +127,18 @@ def cluster(X: np.ndarray, algorithm="hdbscan", **kw) -> np.ndarray:
     get_logger(__name__).debug("clustering %d points: %s %s", len(X), algorithm, kw)
     if algorithm == "dbscan":
         from sklearn.cluster import DBSCAN
-        return DBSCAN(eps=kw.get("eps", 0.5), min_samples=kw.get("min_samples", 10)).fit_predict(X)
+        return DBSCAN(eps=kw.get("eps", 0.5),
+                      min_samples=int(kw.get("min_samples") or 10)).fit_predict(X)
+    if algorithm == "kmeans":
+        from sklearn.cluster import KMeans
+        n = int(min(max(int(kw.get("n_clusters", 20)), 2), max(len(X) - 1, 2)))
+        return KMeans(n_clusters=n, n_init=10,
+                      random_state=int(kw.get("random_state", 42))).fit_predict(X)
+    if algorithm == "agglomerative":
+        from sklearn.cluster import AgglomerativeClustering
+        n = int(min(max(int(kw.get("n_clusters", 20)), 2), max(len(X) - 1, 2)))
+        linkage = str(kw.get("linkage", "ward"))
+        return AgglomerativeClustering(n_clusters=n, linkage=linkage).fit_predict(X)
     from . import gpu
     on_gpu = gpu.hdbscan_class()
     if on_gpu is not None and len(X) >= 1000:
@@ -125,8 +160,15 @@ def cluster(X: np.ndarray, algorithm="hdbscan", **kw) -> np.ndarray:
         get_logger(__name__).info("HDBSCAN: scikit-learn %s on the CPU, %d points%s",
                                   sklearn.__version__, len(X),
                                   "" if gpu.available()["cuml"] else " (cuml not installed)")
-        return HDBSCAN(min_cluster_size=kw.get("min_cluster_size", 25),
-                       min_samples=kw.get("min_samples")).fit_predict(X)
+        # epsilon merges clusters closer than a distance, and the selection method decides whether
+        # to take the stable parent or every leaf. Between them they are the difference between
+        # eleven clusters and ninety on the same map, which is most of why this has been hard to
+        # get right -- min_cluster_size alone cannot express "split this further".
+        return HDBSCAN(min_cluster_size=int(kw.get("min_cluster_size", 25)),
+                       min_samples=(int(kw["min_samples"]) if kw.get("min_samples") else None),
+                       cluster_selection_epsilon=float(kw.get("cluster_selection_epsilon", 0.0)),
+                       cluster_selection_method=str(kw.get("cluster_selection_method", "eom")),
+                       ).fit_predict(X)
     except ImportError:                                        # pragma: no cover
         import hdbscan as _h
         return _h.HDBSCAN(min_cluster_size=kw.get("min_cluster_size", 25),

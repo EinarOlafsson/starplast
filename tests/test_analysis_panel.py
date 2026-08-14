@@ -2074,3 +2074,127 @@ def test_a_finished_run_says_where_its_rows_were_saved(panel, sync, tmp_path, mo
     panel.runner = type("R", (), {"jobs": {9: FakeJob()}})()
     panel._on_job_finished(9, True)
     assert any("rows saved to" in m for m in sync), sync
+
+
+# --------------------------------------------------------------------------- the discovery tab
+def test_the_discovery_tab_offers_every_mode_and_a_layer_to_ask_about(panel):
+    from starplast import optimize
+    assert [panel.discover_mode.itemText(i)
+            for i in range(panel.discover_mode.count())] == list(optimize.MODES)
+    assert panel.discover_layer.currentText() in panel.nodes.columns
+    assert panel.discover_against.currentText() in panel.nodes.columns
+    # Fitness by default where there is one: "same compartment, opposite fitness" is the
+    # disagreement people come here for, and the alphabetical default was protein length.
+    assert not panel.discover_against.currentText().startswith("length")
+
+
+def test_the_reading_is_not_offered_before_there_is_anything_to_read(panel):
+    assert not panel.read_button.isEnabled()
+    panel.read_discovery()                                  # must not raise with nothing found
+    assert panel.discover_report.toPlainText() == ""
+
+
+def test_a_finished_climb_enables_the_reading_and_says_what_it_found(panel):
+    import numpy as np
+    said = []
+    panel.status.connect(said.append)
+    findings = pd.DataFrame([{
+        "kind": "guilt", "layer": "compartment", "layer_kind": "discrete", "cluster": 3,
+        "category": "IMC", "n_cluster": 40, "n_known": 30, "n_hits": 25, "purity": 0.83,
+        "background": 0.05, "lift": 16.6, "p": 1e-20, "q": 1e-18, "n_predicted": 10,
+        "circular": False, "genes": list(panel.nodes.gene_id[:10])}])
+    panel._discovery_done(pd.DataFrame([{"score": 12.5, "n_findings": 1, "_findings": findings,
+                                         "_labels": np.zeros(3)}]))
+    assert panel.read_button.isEnabled()
+    assert any("best 12.500" in s for s in said)
+    panel.read_discovery()
+    text = panel.discover_report.toPlainText()
+    assert "IMC" in text and "25 of 30" in text
+    assert "hypothesis" in text, "the reading dropped its caveats"
+
+
+def test_an_empty_climb_leaves_the_reading_switched_off(panel):
+    panel._discovery_done(pd.DataFrame())
+    assert not panel.read_button.isEnabled()
+    panel._discovery_done(None)
+    assert not panel.read_button.isEnabled()
+
+
+def test_each_configuration_reaches_the_table_without_its_artefacts(panel):
+    import numpy as np
+    panel._start_table(panel.discover_table, [])
+    panel._discovery_step_arrived({"restart": 0, "step": 1, "score": 3.0, "n_clusters": 12,
+                                   "_labels": np.zeros(5), "_findings": pd.DataFrame()})
+    headers = [panel.discover_table.horizontalHeaderItem(i).text()
+               for i in range(panel.discover_table.columnCount())]
+    assert "score" in headers and "n_clusters" in headers
+    assert not any(h.startswith("_") for h in headers), "an artefact column reached the table"
+
+
+def test_a_row_with_no_recipe_on_it_says_so_rather_than_rebuilding_nothing(panel):
+    said = []
+    panel.status.connect(said.append)
+    panel._start_table(panel.discover_table, [])
+    panel._discovery_step_arrived({"restart": 0, "step": 1, "score": 1.0})
+    panel.show_discovery_row(0)
+    assert any("does not name a configuration" in s for s in said)
+
+
+def test_the_climb_runs_with_the_settings_on_screen(panel, sync, monkeypatch):
+    """The whole path: the tab's controls become an evaluator and a climb, and every configuration
+    it streams reaches the table while it is still running."""
+    import numpy as np
+    import starplast.optimize as O
+    seen = {}
+
+    def fake_climb(evaluate, start, **kw):
+        seen.update(start=start, kw=kw)
+        kw["on_step"]({"restart": 0, "step": 0, "score": 2.0, "n_clusters": 9}, start, {})
+        return pd.DataFrame([{"score": 2.0, "n_findings": 0, "_findings": pd.DataFrame(),
+                              "_labels": np.zeros(3)}])
+
+    monkeypatch.setattr(O, "climb", fake_climb)
+    monkeypatch.setattr(O, "evaluator", lambda nodes, **kw: seen.setdefault("evaluator", kw))
+    panel.discover_mode.setCurrentText("disagreement")
+    panel.discover_budget.setValue(11)
+    panel.discover_restarts.setValue(3)
+    panel.run_discovery()
+    assert seen["evaluator"]["mode"] == "disagreement"
+    assert seen["evaluator"]["layers"] == (panel.discover_layer.currentText(),)
+    assert seen["evaluator"]["against"] == (panel.discover_against.currentText(),)
+    assert seen["kw"]["max_evaluations"] == 11 and seen["kw"]["restarts"] == 3
+    # The stop is taken from the job's progress object, which only carries one under the real
+    # runner -- the same contract the recovery search uses. What is checkable here is that the
+    # climb is asked at all.
+    assert "should_stop" in seen["kw"], "a climb that is never asked whether to stop"
+    assert seen["start"]["blocks"], "the climb started with no data in the map"
+    assert panel.discover_table.rowCount() == 1
+    assert panel.read_button.isEnabled()
+
+
+def test_a_climb_with_no_table_loaded_does_nothing_rather_than_raising(panel):
+    was, panel.nodes = panel.nodes, None
+    try:
+        panel.run_discovery()
+    finally:
+        panel.nodes = was
+
+
+def test_a_discovery_row_rebuilds_the_map_it_scored(panel, sync, monkeypatch):
+    """Through the same `search.rebuild` the recovery table uses: one implementation, so the two
+    tables cannot come to disagree about what a row means."""
+    import numpy as np
+    import starplast.search as S
+    asked = {}
+
+    def fake_rebuild(nodes, row, log=print):
+        asked.update(row)
+        return np.zeros((3, 3)), np.ones(3, bool), np.zeros(3, int), ["x"]
+
+    monkeypatch.setattr(S, "rebuild", fake_rebuild)
+    panel._start_table(panel.discover_table, [])
+    panel._discovery_step_arrived({"restart": 0, "step": 1, "score": 4.0, "method": "tsne",
+                                   "algorithm": "kmeans", "blocks": "expression_summary"})
+    panel.show_discovery_row(0)
+    assert asked.get("blocks") == "expression_summary"
+    assert asked.get("method") == "tsne"

@@ -257,6 +257,10 @@ class AnalysisPanel(QtWidgets.QWidget):
     #: each embedding finishes. Carries its clustering, because here the clustering is half of what
     #: was scored and a map shown without it is a map shown without the result.
     search_step = QtCore.pyqtSignal(object)
+    #: One configuration of a discovery climb, as a plain row. A row rather than a step object
+    #: because the climb's artefacts -- the labels, the findings -- are held for the reading rather
+    #: than drawn, and shipping them through a GUI signal every step would copy them for nothing.
+    discovery_step = QtCore.pyqtSignal(object)
     status = QtCore.pyqtSignal(str)
 
     def __init__(self, nodes: pd.DataFrame, store=None, parent=None, runner=None,
@@ -294,6 +298,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         # once. Going through the signal makes Qt queue it onto the GUI thread.
         self.walk_step.connect(self._walk_step_arrived)
         self.search_step.connect(self._search_step_arrived)
+        self.discovery_step.connect(self._discovery_step_arrived)
 
         tabs = QtWidgets.QTabWidget()
         tabs.addTab(self._data_tab(), "1 · Data")
@@ -302,6 +307,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         tabs.addTab(self._meaning_tab(), "4 · Inference")
         tabs.addTab(self._search_tab(), "5 · Search")
         tabs.addTab(self._validation_tab(), "6 · Validation")
+        tabs.addTab(self._discover_tab(), "7 · Discover")
         lay = QtWidgets.QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         lay.addWidget(tabs)
@@ -590,6 +596,206 @@ class AnalysisPanel(QtWidgets.QWidget):
         return w
 
     # ------------------------------------------------------------------ 5 search
+    def _discover_tab(self):
+        """Search the space of maps for the two claims a map can make, and read the winner back.
+
+        A separate tab from Search because it asks the opposite question. Search asks whether a map
+        can be trusted -- hold out a label, see if it comes back. This asks whether a map is USEFUL:
+        how much does it say about genes nobody has measured, and where does one layer split a
+        category another layer calls uniform. A configuration can be excellent at one and useless at
+        the other, and putting them in one tab under one "optimize for" box would hide that.
+        """
+        from . import discovery, optimize
+        w = QtWidgets.QWidget()
+        v = QtWidgets.QVBoxLayout(w)
+        note = QtWidgets.QLabel(
+            "Hill-climb the space of embeddings and clusterings looking for structure that PREDICTS "
+            "rather than structure that agrees. Guilt by association finds clusters whose labelled "
+            "members agree and whose unlabelled members inherit the claim; layer disagreement finds "
+            "clusters that agree about one measurement and split on another. Then press "
+            "\u201cread the results\u201d and the run is written back as ranked claims with their "
+            "numbers and their caveats.")
+        note.setWordWrap(True)
+        v.addWidget(note)
+
+        form = QtWidgets.QFormLayout()
+        self.discover_mode = QtWidgets.QComboBox()
+        self.discover_mode.addItems(list(optimize.MODES))
+        self.discover_mode.setToolTip(
+            "What the climb maximises.\n\n"
+            "guilt -- how much the map predicts about genes nobody has measured.\n"
+            "disagreement -- how many categories one layer splits along another.\n"
+            "both -- the sum, for \u201cfind me anything\u201d.\n"
+            "recovery -- the old objective: how well a held-out label comes back. Measures trust "
+            "rather than yield, and a map tuned until it recovers a label perfectly has often "
+            "found nothing new.\n"
+            "auprc / auroc -- how good a shortlist the map gives per category, as a ranking rather "
+            "than a partition. Unlike the partition scores these cannot be won by merging "
+            "everything into one cluster. AUPRC is reported as lift over prevalence, because a raw "
+            "AUPRC is uninterpretable without knowing how common the class is.\n"
+            "knn -- scores the EMBEDDING alone, with no clustering in it. Optimise this first when "
+            "the clustering is the thing that keeps going wrong.")
+
+        columns = list(self.nodes.columns) if self.nodes is not None else []
+        def _layers(numeric):
+            out = []
+            for c in columns:
+                s = self.nodes[c]
+                is_num = pd.api.types.is_numeric_dtype(s)
+                if is_num == numeric and s.notna().sum() > 100 and (numeric or s.nunique() <= 40):
+                    out.append(c)
+            return out
+
+        self.discover_layer = QtWidgets.QComboBox()
+        self.discover_layer.addItems(_layers(False) + _layers(True))
+        for i, name in enumerate(("compartment_best", "compartment")):
+            if self.discover_layer.findText(name) >= 0:
+                self.discover_layer.setCurrentText(name)
+                break
+        self.discover_layer.setToolTip(
+            "The layer a claim is about. A category (localisation, cell-cycle phase) produces "
+            "enrichment claims about the genes in a cluster that carry no label; a quantity "
+            "(fitness, abundance) produces claims about the genes nobody measured.")
+
+        self.discover_against = QtWidgets.QComboBox()
+        self.discover_against.addItems(_layers(True) + _layers(False))
+        # Fitness first where there is one: "same compartment, opposite fitness" is the disagreement
+        # people actually come here for, and the alphabetical default was protein length.
+        for name in ("fit_invitro_hff", "fitness", "cellcycle_phase"):
+            if self.discover_against.findText(name) >= 0:
+                self.discover_against.setCurrentText(name)
+                break
+        self.discover_against.setToolTip(
+            "The second layer, for disagreement: the one a cluster is allowed to disagree about "
+            "while agreeing about the first. Same compartment, opposite fitness.")
+
+        self.discover_budget = QtWidgets.QSpinBox()
+        self.discover_budget.setRange(4, 400)
+        self.discover_budget.setValue(40)
+        self.discover_budget.setToolTip(
+            "How many configurations the climb may evaluate. Each one is an embedding and a "
+            "clustering, so this is the run\u2019s cost in minutes as much as its thoroughness. "
+            "Embeddings are cached across steps that change only the clustering, which is most of "
+            "them, so the true cost is far below the count.")
+
+        self.discover_restarts = QtWidgets.QSpinBox()
+        self.discover_restarts.setRange(1, 10)
+        self.discover_restarts.setValue(2)
+        self.discover_restarts.setToolTip(
+            "A hill climber finds the top of whatever hill it started on. Restarts are the cheapest "
+            "defence against reporting a local optimum as the answer.")
+
+        form.addRow("optimize for", self.discover_mode)
+        form.addRow("layer", self.discover_layer)
+        form.addRow("disagreeing with", self.discover_against)
+        form.addRow("configurations to try", self.discover_budget)
+        form.addRow("restarts", self.discover_restarts)
+        v.addLayout(form)
+
+        run = QtWidgets.QHBoxLayout()
+        go = QtWidgets.QPushButton("search for structure")
+        go.setProperty("primary", True)
+        go.setToolTip(
+            "Start the climb. It steps one coordinate at a time -- one hyperparameter, or one "
+            "dataset added or removed -- keeps the step when the score improves, and restarts "
+            "elsewhere when it can no longer improve.\n\n"
+            "Every configuration appears in the table as it finishes, with its score and every "
+            "other metric alongside, so a run optimised for one thing can be re-read against "
+            "another afterwards. Stopping keeps everything already evaluated.")
+        go.clicked.connect(self.run_discovery)
+        self.read_button = QtWidgets.QPushButton("read the results")
+        self.read_button.clicked.connect(self.read_discovery)
+        self.read_button.setEnabled(False)
+        self.read_button.setToolTip(
+            "Rank what the winning configuration found and write it out as claims: which clusters "
+            "matter, what they say, which genes they are about, and what is wrong with each one. "
+            "Ranked by strength x reach x novelty -- a statistically overwhelming claim about two "
+            "well-published genes is not the finding to read first.")
+        run.addWidget(go)
+        run.addWidget(self.read_button)
+        run.addWidget(self.stop_button())
+        v.addLayout(run)
+
+        self.discover_table = self.results_table(
+            QtWidgets.QTableWidget(), self.show_discovery_row, "discovery")
+        v.addWidget(self.discover_table, 1)
+        self.discover_report = QtWidgets.QTextBrowser()
+        self.discover_report.setOpenExternalLinks(True)
+        self.discover_report.setMinimumHeight(180)
+        v.addWidget(self.discover_report, 1)
+        self._discovered = None
+        return w
+
+    def run_discovery(self):
+        """Climb, streaming each configuration into the table as it finishes."""
+        from . import optimize
+        if self.nodes is None:
+            return
+        mode = self.discover_mode.currentText()
+        layer, against = self.discover_layer.currentText(), self.discover_against.currentText()
+        budget, restarts = self.discover_budget.value(), self.discover_restarts.value()
+        pool = optimize.block_pool(self.nodes)
+        seed = self.seed.value()
+        start = {**{k: v[len(v) // 2] for k, v in optimize.SPACE.items()},
+                 "method": "umap", "algorithm": "hdbscan", "blocks": tuple(pool[:3]) or ("",)}
+        self._start_table(self.discover_table, [])
+        self.discover_report.setPlainText("")
+
+        def job(p):
+            evaluate = optimize.evaluator(self.nodes, mode=mode, layers=(layer,),
+                                          against=(against,), seed=seed, log=p)
+            return optimize.climb(evaluate, start, block_pool=pool, restarts=restarts,
+                                  max_evaluations=budget, seed=seed,
+                                  on_step=lambda row, cfg, extras: self.discovery_step.emit(row),
+                                  should_stop=getattr(p, "stopped", None), log=p)
+
+        self._run(job, self._discovery_done, name=f"discovery ({mode}, {layer})")
+
+    def _discovery_step_arrived(self, row):
+        """One configuration finished. Its private artefacts are not shown -- they are held for the
+        reading -- so the table stays a table."""
+        self._append(self.discover_table, {k: v for k, v in row.items() if not k.startswith("_")})
+
+    def _discovery_done(self, result):
+        self._discovered = result
+        got = result is not None and not result.empty
+        self.read_button.setEnabled(bool(got))
+        if got:
+            best = result.iloc[0]
+            self.status.emit(f"best {best.score:.3f} from {len(result)} configurations "
+                             f"({int(best.get('n_findings', 0))} findings)")
+
+    def read_discovery(self):
+        """Write the winning configuration's findings back as ranked claims."""
+        from . import interpret
+        if self._discovered is None or self._discovered.empty:
+            return
+        findings = self._discovered.iloc[0].get("_findings")
+        self.discover_report.setMarkdown(interpret.report(findings, self.nodes, top=8))
+
+    def show_discovery_row(self, row: int, table=None):
+        """Rebuild the configuration on one row and put it on screen with its clustering.
+
+        Through `search.rebuild`, which is what the recovery table uses: one implementation, so the
+        two tables cannot come to disagree about what a row means. A row here carries the newer
+        coordinates as well -- the method, the algorithm -- and rebuild reads what it recognises.
+        """
+        from .search import rebuild
+        v = self.row_values(table if table is not None else self.discover_table, row)
+        if not v.get("blocks"):
+            self.status.emit("that row does not name a configuration this can rebuild")
+            return
+        nodes = self.nodes
+        self.status.emit(f"rebuilding {v['blocks']} {v.get('method', 'umap')} / "
+                         f"{v.get('algorithm', 'hdbscan')} -- the map that scored "
+                         f"{v.get('score', '?')}")
+
+        def job(p):
+            coords, genes, labels, features = rebuild(nodes, v, log=p)
+            return coords, features, genes, labels
+
+        self._run(job, self._search_row_built, name=f"rebuild discovery row ({v['blocks']})")
+
     def _search_tab(self):
         w = QtWidgets.QWidget()
         v = QtWidgets.QVBoxLayout(w)
