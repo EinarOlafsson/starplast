@@ -623,19 +623,31 @@ starplast-discover --read bigA_00_guilt_compartment_best
 
 ## 4. Known problems — real, unfixed, and worth attention
 
-1. **Yield rewards fragmentation.** `discovery.yield_score` sums over findings, so more clusters =
-   more chances at a claim; the `lopit_unified` climb reached its best score with 224 clusters. BH
-   correction across more tests pushes back but not all the way. Consider normalising by cluster
-   count, or a per-gene rather than per-finding yield.
+1. **Yield rewards fragmentation -- OR the map is resolving crossed factors, and nobody has yet
+   measured which.** `discovery.yield_score` sums over findings, so more clusters = more chances at
+   a claim; the winning clusterings ran 60, 224, 488, 573 clusters. Two readings, and the second was
+   raised after this was first written: a cluster need not correspond to one category of one layer,
+   and golgi-in-the-tachyzoite and golgi-in-the-bradyzoite are plausibly two real groups. If the
+   clusters are cells of a stage x compartment grid then fine clustering is resolution, not
+   inflation. Measured evidence so far is mixed: correlation between score and cluster count across
+   one whole run is only 0.04, but the top two configurations of that run were DBSCAN at 573 and 514
+   clusters against 38.6 for the best kmeans-at-60. **See `instructions/open/33_crossed_factors.md`**
+   -- it specifies the diagnostic that settles it, and this entry should be rewritten as a defect or
+   as a feature once that number exists.
 2. **One cluster, several categories.** A cluster comes back enriched for both ER and golgi and
    offers the same unlabelled genes to both. `interpret.caveats` now says they are alternatives; the
    *score* still counts them as separate findings.
-3. **`trustworthiness` is never computed in the optimiser path.** `metrics.report` takes `X` and
+3. **The GPU is barely used: 16% utilisation on the large run.** `clustering.cluster` returns from
+   the kmeans / DBSCAN / agglomerative branches *before* the GPU block, which only ever handled
+   HDBSCAN, and t-SNE has no GPU path at all -- so every winning configuration so far (all kmeans or
+   DBSCAN) clustered on one CPU core while the card idled. See
+   `instructions/open/32_gpu_acceleration.md`.
+4. **`trustworthiness` is never computed in the optimiser path.** `metrics.report` takes `X` and
    `optimize.evaluator` does not pass it, so the column is always NaN in results tables. Easy fix,
    not done.
-4. **The first large run was killed** (exit 137, user force-quit) after 2 of 10 tasks. That is why
+5. **The first large run was killed** (exit 137, user force-quit) after 2 of 10 tasks. That is why
    the per-task process split and the resume-by-skip exist. Not a bug, but the reason for the shape.
-5. **Cluster labels are stored, coordinates are not.** If `rebuild` ever stops being deterministic,
+6. **Cluster labels are stored, coordinates are not.** If `rebuild` ever stops being deterministic,
    a reloaded search's map and its labels will disagree and nothing will notice.
 
 ## 5. Not done yet
@@ -653,7 +665,10 @@ starplast-discover --read bigA_00_guilt_compartment_best
   cell diagram was never checked for organism-agnosticism (`celldiagram.py` — the apicomplexan
   average is claimed to suit both; unverified).
 * **Instructions 30 and 31** in `instructions/open/` are still open.
-* The ten-task headless run was still in flight when this was written. Results land in
+* **Instructions 32, 33 and 34 are open and assigned elsewhere.** A parallel Codex session is
+  taking the GPU acceleration (32), the crossed-factor claim shape (33) and the three metric defects
+  (34). Do not start those here without checking.
+* The ten-task headless run was stopped at 7 of 10 by request, to free the GPU for that work. Results land in
   `~/.cache/starplast/searches/bigA_*` … `bigE_*`; read them with `starplast-discover --read NAME`.
 
 ## 6. Conventions this session confirmed

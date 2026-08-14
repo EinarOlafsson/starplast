@@ -159,3 +159,28 @@ def test_the_command_does_not_import_a_gui_toolkit(table):
                           cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     assert done.returncode == 0, done.stderr
     assert done.stdout.strip().endswith("CLEAN"), done.stdout
+
+
+def test_progress_is_flushed_so_a_piped_run_does_not_look_stalled(table, tmp_path):
+    """Python block-buffers stdout through a pipe, which is how every long headless run is watched.
+    Unbuffered, the per-task summaries sit in the buffer for the length of the batch."""
+    nodes, out = table
+    log = tmp_path / "piped.log"
+    proc = subprocess.Popen(
+        [sys.executable, "-c",
+         "from starplast import discover; discover.main(['--task','guilt:compartment',"
+         "'--budget','40','--restarts','2','--nodes',%r,'--out',%r,'--name','slow'])" % (nodes, out)],
+        stdout=open(log, "w"), stderr=subprocess.STDOUT,
+        cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    try:
+        deadline, seen = __import__("time").time() + 60, ""
+        while __import__("time").time() < deadline:
+            seen = log.read_text()
+            if "genes," in seen:            # the first line, printed before any searching
+                break
+            __import__("time").sleep(0.25)
+        assert "genes," in seen, f"nothing reached the log while the run was in flight: {seen!r}"
+        assert proc.poll() is None or proc.returncode == 0
+    finally:
+        proc.terminate()
+        proc.wait(timeout=30)

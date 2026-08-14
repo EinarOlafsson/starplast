@@ -124,6 +124,17 @@ def _summary(run) -> str:
     return ", ".join(bits)
 
 
+def _say(*bits) -> None:
+    """Print and FLUSH.
+
+    Python block-buffers stdout when it is a pipe, which is how every long headless run is watched:
+    `starplast-discover ... | tee run.log`, or a log file read from another window. Without the
+    flush the per-task summaries sit in the buffer for the length of the batch and the run looks
+    stalled -- and the one thing a batch job has to do is say where it has got to.
+    """
+    print(*bits, flush=True)
+
+
 def main(argv=None) -> int:
     """`starplast-discover`. Returns a process exit code."""
     p = argparse.ArgumentParser(
@@ -157,9 +168,9 @@ def main(argv=None) -> int:
     if args.list:
         rows = store.list()
         if not rows:
-            print("no saved searches")
+            _say("no saved searches")
         for name, manifest in rows:
-            print(f"{name}  ·  {manifest.get('mode', '?')} / {manifest.get('layer', '?')}"
+            _say(f"{name}  ·  {manifest.get('mode', '?')} / {manifest.get('layer', '?')}"
                   f"  ·  {manifest.get('configs', '?')} configs"
                   f"  ·  {manifest.get('created', '')}")
         return 0
@@ -169,7 +180,7 @@ def main(argv=None) -> int:
         if run.configs.empty:
             print(f"no search called {args.read!r}", file=sys.stderr)
             return 1
-        print(run.report(load_nodes(args.nodes or None), index=args.config, top=args.top))
+        _say(run.report(load_nodes(args.nodes or None), index=args.config, top=args.top))
         return 0
 
     if not args.task:
@@ -181,8 +192,8 @@ def main(argv=None) -> int:
         return 2
 
     nodes = load_nodes(args.nodes or None)
-    log = (lambda *_a, **_k: None) if args.quiet else print
-    print(f"{len(nodes):,} genes, {nodes.shape[1]} columns")
+    log = (lambda *_a, **_k: None) if args.quiet else _say
+    _say(f"{len(nodes):,} genes, {nodes.shape[1]} columns")
     failed = 0
     for i, task in enumerate(tasks):
         name = args.name if (args.name and len(tasks) == 1) else \
@@ -201,7 +212,7 @@ def main(argv=None) -> int:
             failed += 1
             continue
         if run is not None:
-            print(f"{run.name}: {_summary(run)}")
+            _say(f"{run.name}: {_summary(run)}")
     return 1 if failed else 0
 
 
