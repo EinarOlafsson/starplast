@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 # cannot install two dependency sets, and a -cpu package that depended on a GPU-carrying starplast
 # would still drag the CUDA wheels in.
 name = "starplast-core"
-version = "0.28.0"
+version = "0.29.0"
 description = "A 3D browser for the Toxoplasma gondii knowledge map (the code; install starplast)"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -48,6 +48,9 @@ gpu = [
 
 [project.scripts]
 starplast = "starplast.app:main"
+# A search is a batch job that happens to have a GUI, not a GUI feature. On a server with no
+# display the window is not merely unnecessary, it cannot be imported.
+starplast-discover = "starplast.discover:main"
 # Detection belongs here rather than in the installer: a wheel's dependencies are fixed when it is
 # built, and there is no environment marker for "this machine has an NVIDIA card". See install_gpu.
 starplast-install-gpu = "starplast.install_gpu:main"

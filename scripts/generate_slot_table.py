@@ -233,6 +233,100 @@ REFERENCES = {
 #: (slot, axis, context, unit, columns/edges that fill it, suggested policy, candidates)
 #: `columns` are prefixes or exact names; `edges` name a relation in graph.npz. A slot with neither
 #: is empty, which is the point of listing it.
+#: The organisms a slot can be about, and how to ask PubMed for one.
+#:
+#: The prefix is what makes two tables one table. `Toxo_fitness · in vivo brain` and
+#: `Pf_fitness · in vivo brain` are different questions with the same shape -- cerebral malaria and
+#: cerebral toxoplasmosis are not the same disease -- and a map that averaged them would be a map
+#: of neither. Prefixed, they can sit in one table, be filled independently, and be combined only
+#: where a reader asks for it.
+ORGANISMS = {
+    "Toxo": {
+        "species": "Toxoplasma gondii",
+        "query": "(Toxoplasma[Title/Abstract] OR gondii[Title/Abstract])",
+        "stages": "tachyzoite, bradyzoite, oocyst, merozoite",
+    },
+    "Pf": {
+        "species": "Plasmodium falciparum",
+        # berghei and vivax included on purpose: the fitness and liver-stage data that exist at
+        # genome scale are largely berghei, and a slot that only accepted falciparum would be
+        # permanently empty for reasons of laboratory convenience rather than biology.
+        "query": ("(Plasmodium[Title/Abstract] OR falciparum[Title/Abstract] "
+                  "OR berghei[Title/Abstract] OR malaria[Title/Abstract])"),
+        "stages": "ring, trophozoite, schizont, gametocyte, sporozoite, liver",
+    },
+}
+
+#: How to ask for the assay behind an axis. Queries are BUILT from the slot definition rather than
+#: written per slot, so a reader can see exactly why a paper was proposed and re-run the same
+#: question later -- a hand-typed query is a claim nobody can check.
+ASSAY_TERMS = {
+    "transcription": "(RNA-seq OR transcriptome OR transcriptomic OR microarray OR scRNA-seq)",
+    "translation": "(ribosome profiling OR Ribo-seq OR translatome OR polysome)",
+    "protein abundance": "(proteome OR proteomic OR mass spectrometry OR quantitative proteomics)",
+    "PTM": "(phosphoproteome OR acetylome OR ubiquitinome OR glycoproteome OR palmitoylome "
+           "OR post-translational)",
+    "fitness": "(CRISPR screen OR knockout screen OR essentiality OR fitness score "
+               "OR piggyBac OR PlasmoGEM OR barcoded)",
+    "regulation": "(ChIP-seq OR ATAC-seq OR chromatin OR histone OR Hi-C OR m6A OR splicing)",
+    "localization": "(hyperLOPIT OR spatial proteome OR subcellular localization OR GFP tagging "
+                    "OR exportome OR secretome)",
+    "relation": "(interactome OR interaction OR co-immunoprecipitation OR BioID OR TurboID "
+                "OR crosslinking mass spectrometry OR yeast two-hybrid)",
+    "host effect": "(host response OR host transcriptome OR effector OR host-pathogen)",
+    "sequence": "(genome OR domain OR ortholog OR paralog OR AlphaFold OR structure prediction)",
+    "metabolism": "(metabolome OR metabolomic OR lipidome OR lipidomic OR flux)",
+    "chemistry": "(chemogenomic OR drug sensitivity OR resistome OR IC50 OR compound screen)",
+    "immunity": "(antigen OR seroreactivity OR epitope OR immunogenic OR vaccine candidate)",
+    "phenotype": "(invasion OR egress OR motility OR plaque OR growth rate OR high-content)",
+    "NEVER a feature": "",
+}
+
+#: Slots that are new in this pass, and apply to BOTH organisms. Each is a question the 71 existing
+#: slots cannot express, and each is one somebody has actually measured at genome scale.
+NEW_SHARED = [
+    ("metabolite levels", "metabolism", "steady state", "gene", [], "separate"),
+    ("metabolic flux", "metabolism", "labelled precursor", "gene", [], "separate"),
+    ("lipid composition", "metabolism", "membrane lipids", "gene", [], "separate"),
+    ("drug sensitivity per gene", "chemistry", "compound panel", "gene", [], "separate"),
+    ("resistance-conferring mutation", "chemistry", "in vitro evolution", "gene", [], "separate"),
+    ("target engagement / thermal shift", "chemistry", "thermal proteome", "gene", [], "average"),
+    ("RNA-binding protein targets", "relation", "CLIP / RIP", "gene", [], "separate"),
+    ("noncoding and antisense transcription", "transcription", "lncRNA", "gene", [], "separate"),
+    ("codon usage / translation efficiency", "translation", "sequence-derived", "gene", [], "one"),
+    ("predicted complex membership", "relation", "AlphaFold-Multimer", "gene", [], "separate"),
+    ("seroreactivity / antigenicity", "immunity", "human or animal sera", "gene", [], "separate"),
+    ("T-cell epitope content", "immunity", "predicted and measured", "gene", [], "average"),
+    ("invasion and egress phenotype", "phenotype", "high-content imaging", "gene", [], "separate"),
+    ("essentiality in a second background", "fitness", "second strain", "gene", [], "separate"),
+]
+
+#: Malaria-specific slots: questions with no Toxoplasma counterpart, kept out of the shared list so
+#: the shared list stays a statement about apicomplexan biology rather than a union of two lists.
+NEW_PLASMODIUM = [
+    ("transcription · liver stage", "transcription", "hepatocyte", "gene", [], "one"),
+    ("transcription · mosquito stages", "transcription", "ookinete, oocyst, sporozoite", "gene",
+     [], "separate"),
+    ("transcription · gametocyte", "transcription", "gametocyte I-V", "gene", [], "average"),
+    ("transcription · dormancy / recrudescence", "transcription", "artemisinin quiescence",
+     "gene", [], "separate"),
+    ("fitness · liver stage", "fitness", "hepatocyte", "gene", [], "one"),
+    ("fitness · transmission", "fitness", "mosquito", "gene", [], "separate"),
+    ("antigenic variation family expression", "regulation", "var / rif / stevor", "gene", [],
+     "separate"),
+    ("export / PEXEL trafficking", "localization", "erythrocyte cytosol", "gene", [], "one"),
+    ("host receptor binding", "host effect", "endothelium, erythrocyte", "gene", [], "separate"),
+    ("field variation and resistance markers", "sequence", "clinical isolates", "gene", [], "one"),
+]
+
+#: Toxoplasma-specific slots, for the same reason in the other direction.
+NEW_TOXOPLASMA = [
+    ("transcription · in vivo enteric", "transcription", "feline enterocyte", "gene", [], "one"),
+    ("fitness · in vivo gut", "fitness", "enteric, sexual cycle", "gene", [], "separate"),
+    ("cyst wall composition", "localization", "bradyzoite cyst wall", "gene", [], "separate"),
+]
+
+
 SLOTS = [
     # ---------------------------------------------------------------- transcription
     ("transcription · tachyzoite", "transcription", "tachyzoite, in vitro", "gene",
