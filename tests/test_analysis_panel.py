@@ -2198,3 +2198,81 @@ def test_a_discovery_row_rebuilds_the_map_it_scored(panel, sync, monkeypatch):
     panel.show_discovery_row(0)
     assert asked.get("blocks") == "expression_summary"
     assert asked.get("method") == "tsne"
+
+
+def test_a_finished_climb_is_written_to_disk_without_being_asked(panel, tmp_path):
+    """A run is expensive and its result is a hundred maps. The run a reader wants to go back to is
+    never the one they thought to save, so it is saved as it finishes."""
+    import numpy as np
+    panel._discovery_done(pd.DataFrame([{"score": 3.0, "n_findings": 0, "algorithm": "kmeans",
+                                         "_findings": pd.DataFrame(),
+                                         "_labels": np.zeros(len(panel.nodes), int)}]))
+    saved = panel.search_store().list()
+    assert saved, "a finished search left nothing on disk"
+    name, manifest = saved[0]
+    assert manifest["mode"] == panel.discover_mode.currentText()
+    assert manifest["layer"] == panel.discover_layer.currentText()
+    assert manifest["fingerprint"]["n_genes"] == len(panel.nodes)
+    assert panel.saved_searches.count() >= 1
+
+
+def test_a_saved_search_comes_back_with_everything_it_found(panel):
+    import numpy as np
+    findings = pd.DataFrame([{
+        "kind": "guilt", "layer": "compartment", "layer_kind": "discrete", "cluster": 2,
+        "category": "IMC", "n_cluster": 30, "n_known": 20, "n_hits": 18, "purity": 0.9,
+        "background": 0.05, "lift": 18.0, "p": 1e-15, "q": 1e-13, "n_predicted": 6,
+        "circular": False, "genes": list(panel.nodes.gene_id[:6])}])
+    panel._discovery_done(pd.DataFrame([{"score": 9.5, "n_findings": 1, "n_clusters": 30,
+                                         "_findings": findings,
+                                         "_labels": np.zeros(len(panel.nodes), int)}]))
+    panel._start_table(panel.discover_table, [])
+    panel._search = None
+    panel.read_button.setEnabled(False)
+    panel.saved_searches.setCurrentIndex(0)
+    panel.load_search()
+    assert panel.discover_table.rowCount() == 1
+    assert panel.read_button.isEnabled()
+    panel.read_discovery()
+    assert "IMC" in panel.discover_report.toPlainText()
+
+
+def test_loading_nothing_does_nothing(panel):
+    panel.saved_searches.clear()
+    panel.load_search()
+    assert panel._search is None or panel._search.configs.empty
+
+
+def test_a_search_loaded_against_another_table_says_so(panel, sync):
+    import numpy as np
+    said = []
+    panel.status.connect(said.append)
+    panel._discovery_done(pd.DataFrame([{"score": 1.0, "n_findings": 0,
+                                         "_findings": pd.DataFrame(),
+                                         "_labels": np.zeros(3, int)}]))
+    was, panel.nodes = panel.nodes, panel.nodes.head(20)
+    try:
+        panel.saved_searches.setCurrentIndex(0)
+        panel.load_search()
+        assert any("DIFFERENT node table" in s for s in said)
+    finally:
+        panel.nodes = was
+
+
+def test_a_search_that_cannot_be_written_is_still_a_search(panel, monkeypatch):
+    """Losing a finished run because the disk is full would be a worse failure than the one being
+    reported."""
+    import numpy as np
+    import starplast.searches as SS
+    said = []
+    panel.status.connect(said.append)
+
+    def refuse(self, search, name=None):
+        raise OSError("no space left on device")
+
+    monkeypatch.setattr(SS.SearchStore, "save", refuse)
+    panel._discovery_done(pd.DataFrame([{"score": 2.0, "n_findings": 0,
+                                         "_findings": pd.DataFrame(),
+                                         "_labels": np.zeros(3, int)}]))
+    assert panel.read_button.isEnabled(), "the run was thrown away because it could not be saved"
+    assert any("could not save" in s for s in said)

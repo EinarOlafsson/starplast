@@ -17,6 +17,8 @@ from there is a crash waiting for a slow machine.
 """
 from __future__ import annotations
 
+import os
+
 import numpy as np
 import pandas as pd
 from PyQt6 import QtCore, QtWidgets
@@ -716,6 +718,29 @@ class AnalysisPanel(QtWidgets.QWidget):
         run.addWidget(self.stop_button())
         v.addLayout(run)
 
+        # Saved runs. A climb is expensive and its result is not one map but a hundred, so it is
+        # written to disk as it finishes rather than on request: the run a reader wants to go back
+        # to is never the one they thought to save.
+        back = QtWidgets.QHBoxLayout()
+        self.saved_searches = QtWidgets.QComboBox()
+        self.saved_searches.setMinimumWidth(280)
+        self.saved_searches.setToolTip(
+            "Every search this window has run, newest first, kept on disk with its configurations, "
+            "its findings and the clustering each one produced.\n\n"
+            "Loading one puts its table back and lets it be read again. What is NOT stored is the "
+            "coordinates -- a recipe and a seed rebuild those exactly, and they are an order of "
+            "magnitude the largest part. The labels are stored, because two versions of a "
+            "clustering library do not always agree and a clustering that came back different on "
+            "reload would silently change every claim built on it.")
+        load = QtWidgets.QPushButton("load")
+        load.setToolTip("Put this saved search back on screen, with everything it found.")
+        load.clicked.connect(self.load_search)
+        back.addWidget(QtWidgets.QLabel("saved searches"))
+        back.addWidget(self.saved_searches, 1)
+        back.addWidget(load)
+        v.addLayout(back)
+        self._refresh_searches()
+
         self.discover_table = self.results_table(
             QtWidgets.QTableWidget(), self.show_discovery_row, "discovery")
         v.addWidget(self.discover_table, 1)
@@ -723,8 +748,45 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.discover_report.setOpenExternalLinks(True)
         self.discover_report.setMinimumHeight(180)
         v.addWidget(self.discover_report, 1)
-        self._discovered = None
+        self._search = None
         return w
+
+    def search_store(self):
+        """Where searches are kept: beside the embeddings, under the same cache root."""
+        from .searches import SearchStore
+        from . import paths
+        root = (os.path.join(os.path.dirname(self.store.root), "searches")
+                if getattr(self, "store", None) is not None and getattr(self.store, "root", None)
+                else os.path.join(paths.user_cache_dir(), "searches"))
+        return SearchStore(root)
+
+    def _refresh_searches(self):
+        """Re-read the list of saved searches, keeping whatever was selected where possible."""
+        was = self.saved_searches.currentText()
+        self.saved_searches.clear()
+        for name, manifest in self.search_store().list():
+            label = (f"{name}  ·  {manifest.get('mode', '?')} / {manifest.get('layer', '?')}"
+                     f"  ·  {manifest.get('configs', '?')} configs")
+            self.saved_searches.addItem(label, name)
+        if was:
+            i = self.saved_searches.findText(was)
+            if i >= 0:
+                self.saved_searches.setCurrentIndex(i)
+
+    def load_search(self):
+        """Put a saved search back on screen, with everything it found."""
+        name = self.saved_searches.currentData()
+        if not name:
+            return
+        run = self.search_store().load(name)
+        self._search = run
+        self._start_table(self.discover_table, [])
+        for _, row in run.configs.iterrows():
+            self._append(self.discover_table, row.to_dict())
+        self.read_button.setEnabled(not run.configs.empty)
+        self.discover_report.setPlainText("")
+        note = "" if run.matches(self.nodes) else "  -- against a DIFFERENT node table"
+        self.status.emit(f"loaded {run.describe()}{note}")
 
     def run_discovery(self):
         """Climb, streaming each configuration into the table as it finishes."""
@@ -757,21 +819,36 @@ class AnalysisPanel(QtWidgets.QWidget):
         self._append(self.discover_table, {k: v for k, v in row.items() if not k.startswith("_")})
 
     def _discovery_done(self, result):
-        self._discovered = result
+        """Keep the run, and write it to disk before anything else can go wrong with it."""
+        from .searches import from_climb
         got = result is not None and not result.empty
+        self._search = from_climb(
+            result, self.nodes, mode=self.discover_mode.currentText(),
+            layer=self.discover_layer.currentText(),
+            against=self.discover_against.currentText(),
+            configs=int(len(result)) if got else 0, seed=int(self.seed.value()))
         self.read_button.setEnabled(bool(got))
-        if got:
-            best = result.iloc[0]
-            self.status.emit(f"best {best.score:.3f} from {len(result)} configurations "
-                             f"({int(best.get('n_findings', 0))} findings)")
+        if not got:
+            return
+        best = result.iloc[0]
+        where = ""
+        try:
+            where = self.search_store().save(self._search)
+            self._refresh_searches()
+        except OSError as exc:
+            # A run that cannot be written is still a run. Losing the whole result because a disk
+            # is full would be a worse failure than the one being reported.
+            self.status.emit(f"could not save this search ({exc.__class__.__name__}); "
+                             f"it is still on screen")
+        self.status.emit(f"best {best.score:.3f} from {len(result)} configurations "
+                         f"({int(best.get('n_findings', 0))} findings)"
+                         + (f" -- saved as {os.path.basename(where)}" if where else ""))
 
     def read_discovery(self):
         """Write the winning configuration's findings back as ranked claims."""
-        from . import interpret
-        if self._discovered is None or self._discovered.empty:
+        if self._search is None or self._search.configs.empty:
             return
-        findings = self._discovered.iloc[0].get("_findings")
-        self.discover_report.setMarkdown(interpret.report(findings, self.nodes, top=8))
+        self.discover_report.setMarkdown(self._search.report(self.nodes, index=0, top=8))
 
     def show_discovery_row(self, row: int, table=None):
         """Rebuild the configuration on one row and put it on screen with its clustering.
