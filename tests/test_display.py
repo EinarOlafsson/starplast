@@ -616,6 +616,34 @@ def test_a_source_with_nothing_to_follow_lights_from_the_front(qapp):
         assert len(lit) == 1 and lit[0]["pos"][2] > 0
 
 
+def test_the_orbiting_lights_stay_on_a_shell_outside_the_cloud(qapp):
+    """Reported as "the orbit looks strange -- it lights things up and it moves, but it looks
+    strange". The path was a Lissajous taken as a POSITION, which ranges over the whole cube it is
+    inscribed in: the lights swung between 0.2 and 1.7 times the radius and dived through the cloud
+    on about 4% of frames. The map pulsed, and every so often a light surfaced among the genes.
+
+    A light that changes direction while keeping its distance is the thing that was wanted, and the
+    guard has to be on the distance rather than on "it moved" -- the broken version moved too."""
+    radius, seen = 90.0, []
+    for t in np.arange(0.0, 60.0, 0.25):
+        for light in L.lights(float(t), 3, 0.35, radius=radius):
+            seen.append(float(np.linalg.norm(light["pos"])))
+    seen = np.array(seen)
+    assert np.allclose(seen, radius), f"distance ranged {seen.min():.1f}-{seen.max():.1f}"
+    # And still moving: a fixed distance must not have frozen the direction as well.
+    first = L.lights(0.0, 3, 0.35, radius=radius)
+    later = L.lights(4.0, 3, 0.35, radius=radius)
+    assert not np.allclose(first[0]["pos"], later[0]["pos"]), "the lights stopped orbiting"
+
+
+def test_the_orbit_never_lands_on_the_origin(qapp):
+    """All three sines cross zero together at t=0 for the first light, and a direction of zero
+    length has no direction to normalise."""
+    for light in L.lights(0.0, 6, 0.35, radius=50.0):
+        assert np.isfinite(light["pos"]).all()
+        assert abs(float(np.linalg.norm(light["pos"])) - 50.0) < 1e-9
+
+
 def test_a_finish_changes_a_large_share_of_the_cloud_not_two_points(qapp):
     """Reported as "the points always look matt", and the first version of this really was matt in
     every practical sense: a textbook Phong lobe of 48 is about four degrees wide, and four degrees

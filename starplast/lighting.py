@@ -88,6 +88,13 @@ def lights(t: float, n: int = DEFAULT_LIGHTS, speed: float = DEFAULT_SPEED, radi
     formation -- three lights orbiting in step read as one light, and the point of several is that
     the shading changes as they pass each other. Position is a function of the clock for the same
     reason the blobs are: any frame can be drawn at any time, and a dropped frame costs nothing.
+
+    The curve gives the DIRECTION and the radius is fixed, which it was not at first. Taken as a
+    position, a Lissajous figure ranges over the whole cube it is inscribed in: measured, the lights
+    swung between 0.2 and 1.7 times the intended radius and spent about 4% of frames inside the
+    cloud itself. That reads as the map pulsing -- overall brightness pumping up and down, and every
+    so often a light surfacing among the genes to blow out its neighbours and leave the rest dark.
+    Which is what "the orbit looks strange" was describing. On a shell, only the direction changes.
     """
     n = int(min(max(n, LIGHT_RANGE[0]), LIGHT_RANGE[1]))
     colors = colors or [(1.0, 0.95, 0.85), (0.75, 0.85, 1.0), (1.0, 0.8, 0.9),
@@ -97,10 +104,16 @@ def lights(t: float, n: int = DEFAULT_LIGHTS, speed: float = DEFAULT_SPEED, radi
         a, b, c = 1.0 + 0.31 * i, 1.37 + 0.19 * i, 0.71 + 0.23 * i
         phase = 2.0 * math.pi * i / n
         tt = t * speed
+        where = np.array([math.sin(a * tt + phase),
+                          math.sin(b * tt + phase * 1.3),
+                          math.cos(c * tt + phase * 0.7)], dtype=float)
+        length = float(np.linalg.norm(where))
+        # Near the origin the direction is ill-conditioned rather than undefined -- the three sines
+        # are all crossing zero at once. Straight up is as good an answer as any and happens for an
+        # instant in passing.
+        where = where / length if length > 1e-6 else np.array([0.0, 0.0, 1.0])
         out.append({
-            "pos": np.array([radius * math.sin(a * tt + phase),
-                             radius * math.sin(b * tt + phase * 1.3),
-                             radius * math.cos(c * tt + phase * 0.7)], dtype=float),
+            "pos": where * radius,
             "color": np.array(colors[i % len(colors)], dtype=float),
         })
     return out
