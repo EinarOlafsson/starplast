@@ -358,6 +358,13 @@ class Map3D(gl.GLViewWidget):
         self.pickable = None
         #: The pointer, as a direction in this widget's frame. None until the mouse has been in it.
         self.pointer = None
+        # Without this, Qt delivers a move event only while a BUTTON IS HELD. So the light that
+        # follows the pointer -- the default source -- moved only while the map was being dragged,
+        # and the drag is also what orbits the camera: the light appeared to be stuck to the cloud
+        # rather than to the pointer, and sat frozen the rest of the time. Reported as "I can't see
+        # the mouse light". pyqtgraph's own handler tests ev.buttons() and ignores a hover, so
+        # tracking costs nothing beyond the events.
+        self.setMouseTracking(True)
         self.mode = "navigate"
         self.axis = "free"
         self.gate_shape = GATE_SHAPES[0]
@@ -612,7 +619,11 @@ class Map3D(gl.GLViewWidget):
         # anything moves, which reads as the light being broken.
         pos = ev.position()
         w, h = max(self.width(), 1), max(self.height(), 1)
-        self.pointer = (2.0 * pos.x() / w - 1.0, 1.0 - 2.0 * pos.y() / h, 1.0)
+        # Clamped to the widget, because a drag that leaves it keeps delivering moves: without this
+        # the pointer reads several widths out, and the light it places goes with it -- off the side
+        # of the map, lighting nothing, until the mouse comes back.
+        clamp = lambda v: float(min(max(v, -1.0), 1.0))
+        self.pointer = (clamp(2.0 * pos.x() / w - 1.0), clamp(1.0 - 2.0 * pos.y() / h), 1.0)
         if self.mode == "select" and self._gate:
             p = ev.position()
             self.extend_gate(p.x(), p.y())

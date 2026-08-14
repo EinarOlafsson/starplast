@@ -52,13 +52,30 @@ MODES = ("off", "lit")
 #: The diffuse gains stay near 1. Dropping diffuse as gloss rises is what a physical shader does --
 #: energy that bounces off did not scatter -- but here it cancelled the effect exactly: glossy lost
 #: as much broad light as its highlight added, so the mean barely moved and the finish was invisible.
-#: These finishes differ by what they ADD, which is the part a reader can see.
+#:
+#: `ambient` is the multiplier on the floor, and it is what makes the finishes tell apart at a
+#: glance. Highlights alone will not do it, and the measurement is the argument: with the floor held
+#: equal, the MEDIAN point differed between matt and glossy by 1 to 3 values out of 255, which is
+#: nothing -- a highlight, however bright, lands on the small share of a scatter whose normal
+#: happens to face the light, and everything else is unchanged. What separates chalk from a bead is
+#: contrast: chalk is flat and evenly lit everywhere, a bead is dark over most of its body with a
+#: few bright places. So matt gets a RAISED floor and the shiny finishes a lowered one, which moves
+#: every point in the cloud rather than the lucky ones.
 FINISHES = {
-    "matt": {"diffuse": 1.0, "specular": 0.0, "shininess": 1.0, "rim": 0.0, "tint": 0.0},
-    "satin": {"diffuse": 1.0, "specular": 0.45, "shininess": 5.0, "rim": 0.18, "tint": 0.0},
-    "glossy": {"diffuse": 0.95, "specular": 1.1, "shininess": 12.0, "rim": 0.45, "tint": 0.0},
-    "metallic": {"diffuse": 0.55, "specular": 1.3, "shininess": 7.0, "rim": 0.70, "tint": 1.0},
+    "matt": {"ambient": 1.35, "diffuse": 1.0, "specular": 0.0, "shininess": 1.0,
+             "rim": 0.0, "tint": 0.0},
+    "satin": {"ambient": 1.0, "diffuse": 1.0, "specular": 0.9, "shininess": 6.0,
+              "rim": 0.35, "tint": 0.0},
+    "glossy": {"ambient": 0.72, "diffuse": 0.95, "specular": 2.2, "shininess": 14.0,
+               "rim": 0.85, "tint": 0.0},
+    "metallic": {"ambient": 0.62, "diffuse": 0.6, "specular": 2.8, "shininess": 9.0,
+                 "rim": 1.2, "tint": 1.0},
 }
+
+#: However dark a finish is allowed to make the body of the cloud. A metal that reads properly as
+#: metal is nearly black away from its highlights, and a gene that is nearly black is a gene the
+#: reader cannot find -- this is a data display first, so the floor stops there.
+MIN_AMBIENT = 0.2
 DEFAULT_FINISH = "satin"
 
 #: Where the light comes from. The default follows the pointer, because the thing a person does with
@@ -180,6 +197,8 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
     spec_gain = f["specular"] if f else 1.0
     rim_gain = f["rim"] if f else 0.0
     tint = f["tint"] if f else 0.0
+    if f is not None:
+        ambient = max(ambient * f["ambient"], MIN_AMBIENT)
 
     # Diffuse and specular are kept APART, and this is not a detail. Multiplying the point's colour
     # by everything -- which is what this did first -- means a highlight can never whiten a coloured

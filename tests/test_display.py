@@ -581,9 +581,12 @@ def test_matt_has_no_highlight_and_glossy_has_a_tight_one(qapp):
     matt = L.shade(xyz, flat, lit, finish="matt")[:, :3]
     glossy = L.shade(xyz, flat, lit, finish="glossy")[:, :3]
     assert glossy.max() > matt.max(), "glossy did not add a highlight"
-    # Tight means CONCENTRATED: fewer points near the top of the range, not a brighter map overall.
-    bright = lambda a: float((a.max(axis=1) > 0.9 * a.max()).mean())
-    assert bright(glossy) < bright(matt), "the highlight is spread over the whole cloud"
+    # Tight means the peak stands FURTHER ABOVE THE BODY, which is the thing that reads as gloss.
+    # Counting points near the top of the range instead -- which this did -- measures the shape of
+    # the range rather than the highlight, and it moves whenever the floor moves, so it broke as
+    # soon as the finishes started separating on contrast as well.
+    stands_out = lambda a: float(a.max() / max(np.median(a), 1e-9))
+    assert stands_out(glossy) > stands_out(matt), "the highlight does not rise above the body"
 
 
 def test_metallic_takes_its_highlight_from_the_point_not_the_light(qapp):
@@ -644,22 +647,53 @@ def test_the_orbit_never_lands_on_the_origin(qapp):
         assert abs(float(np.linalg.norm(light["pos"])) - 50.0) < 1e-9
 
 
-def test_a_finish_changes_a_large_share_of_the_cloud_not_two_points(qapp):
-    """Reported as "the points always look matt", and the first version of this really was matt in
-    every practical sense: a textbook Phong lobe of 48 is about four degrees wide, and four degrees
-    on a sparse scatter of radial pseudo-normals lands on one or two points out of thousands. The
-    maths was right and nothing was visible. Broad lobes plus a rim term is what reads here, so the
-    guard is on how MUCH of the cloud a finish moves, not on whether the arithmetic ran."""
+def test_a_finish_moves_the_median_point_by_something_a_person_can_see(qapp):
+    """Reported twice as "the points always look matt", and the second time it was this test's
+    fault: the first version asked whether a finish moved a point by more than 2 values out of 255,
+    which is not a visible difference, and it passed while nothing on screen changed.
+
+    Measured in 8-bit steps at the MEDIAN, because that is the ordinary point rather than the lucky
+    one. A highlight, however bright, lands only on the share of a scatter whose normal happens to
+    face the light; what tells chalk from a bead across a whole cloud is contrast."""
     rng = np.random.default_rng(11)
     xyz = rng.normal(size=(2000, 3)) * 20
     flat = np.full((2000, 4), 0.5)
     lit = L.lights(0.0, 2)
     matt = L.shade(xyz, flat, lit, finish="matt")[:, :3]
-    moved = lambda name: float((np.abs(L.shade(xyz, flat, lit, finish=name)[:, :3] - matt)
-                                .max(axis=1) > 2 / 255).mean())
+    steps = lambda name: np.abs(L.shade(xyz, flat, lit, finish=name)[:, :3] - matt).max(axis=1) * 255
     for name in ("satin", "glossy", "metallic"):
-        assert moved(name) > 0.15, f"{name} changed {moved(name):.1%} of the cloud -- invisible"
-    assert moved("glossy") > moved("satin"), "satin is doing more than glossy"
+        d = steps(name)
+        assert np.median(d) > 8, f"{name} moves the median point {np.median(d):.1f}/255 -- invisible"
+    # Satin is deliberately the quiet one -- it sits between chalk and a bead, and a satin that
+    # shouted would leave nothing for glossy to be. The two loud ones have to carry the cloud.
+    for name in ("glossy", "metallic"):
+        d = steps(name)
+        assert float((d > 12).mean()) > 0.5, f"{name} leaves {1 - (d > 12).mean():.0%} unchanged"
+    assert np.median(steps("glossy")) > np.median(steps("satin")), "satin outdoes glossy"
+
+
+def test_a_shiny_finish_is_darker_in_the_body_and_brighter_at_the_peaks(qapp):
+    """The SHAPE of the difference, not just its size. Chalk is evenly lit all over; a bead is dark
+    across most of itself with a few bright places. Both directions have to hold, or "glossy" is
+    just "brighter", which is what a gamma slider is for."""
+    rng = np.random.default_rng(12)
+    xyz = rng.normal(size=(1500, 3)) * 20
+    flat = np.full((1500, 4), 0.6)
+    lit = L.lights(0.0, 2)
+    matt = L.shade(xyz, flat, lit, finish="matt")[:, :3]
+    glossy = L.shade(xyz, flat, lit, finish="glossy")[:, :3]
+    assert np.median(glossy) < np.median(matt), "the glossy body is no darker than chalk"
+    assert glossy.max() > matt.max(), "the glossy peaks are no brighter than chalk"
+
+
+def test_no_finish_can_take_a_gene_below_the_floor(qapp):
+    """A metal reading properly as metal is nearly black away from its highlights, and a gene that
+    is nearly black is a gene nobody can find. A data display before it is a rendering."""
+    xyz = np.random.default_rng(13).normal(size=(300, 3)) * 20
+    flat = np.full((300, 4), 1.0)
+    for name in L.FINISHES:
+        out = L.shade(xyz, flat, [], finish=name)[:, :3]       # nothing but the floor
+        assert out.min() >= L.MIN_AMBIENT - 1e-9, f"{name} bottomed out at {out.min():.3f}"
 
 
 def test_the_rim_lights_the_silhouette_and_not_the_dark_side(qapp):
@@ -681,11 +715,59 @@ def test_the_rim_lights_the_silhouette_and_not_the_dark_side(qapp):
     # them thirty radii out instead and distance falloff swamps every finish, which measures the
     # falloff rather than the rim.
     behind = [{"pos": np.array([0.0, 0.0, 40.0]), "color": np.array([1.0, 1.0, 1.0])}]
-    matt = L.shade(xyz, flat, behind, finish="matt", eye=eye)[:, :3].max(axis=1)
-    glossy = L.shade(xyz, flat, behind, finish="glossy", eye=eye)[:, :3].max(axis=1)
-    gained = glossy - matt
+    # Against the SAME finish with the rim switched off, rather than against matt. Matt is not a
+    # rimless glossy -- it also sits on a raised floor, so a matt-vs-glossy difference is the floor
+    # and the rim together and says nothing about either.
+    lit_with = L.shade(xyz, flat, behind, finish="glossy", eye=eye)[:, :3].max(axis=1)
+    was = L.FINISHES["glossy"]["rim"]
+    try:
+        L.FINISHES["glossy"]["rim"] = 0.0
+        lit_without = L.shade(xyz, flat, behind, finish="glossy", eye=eye)[:, :3].max(axis=1)
+    finally:
+        L.FINISHES["glossy"]["rim"] = was
+    gained = lit_with - lit_without
     assert gained[1] > 0.02, f"the silhouette gained nothing ({gained[1]:.4f})"
     assert gained[2] < 0.005, f"the dark side lit itself ({gained[2]:.4f})"
+
+
+def test_the_pointer_is_followed_without_a_button_held(win):
+    """Qt delivers a move event only while a button is down unless the widget asks for tracking. The
+    default light source follows the pointer, and the drag that used to be the only way to move it
+    is also what orbits the camera -- so the light looked stuck to the cloud, and the rest of the
+    time it did not move at all. This is the whole of "I can't see the mouse light"."""
+    from PyQt6 import QtCore, QtGui
+    assert win.view.hasMouseTracking(), "hover events are not being delivered at all"
+    seen = []
+    for x in (0.2, 0.8):
+        at = QtCore.QPointF(win.view.width() * x, win.view.height() * 0.5)
+        win.view.mouseMoveEvent(QtGui.QMouseEvent(
+            QtCore.QEvent.Type.MouseMove, at, at, QtCore.Qt.MouseButton.NoButton,
+            QtCore.Qt.MouseButton.NoButton, QtCore.Qt.KeyboardModifier.NoModifier))
+        seen.append(win.view.pointer)
+    assert seen[0] is not None and seen[0][0] < seen[1][0], f"the pointer did not move: {seen}"
+
+
+def test_a_drag_off_the_edge_does_not_throw_the_light_off_the_map(win):
+    """A drag that leaves the widget keeps delivering moves, with coordinates outside it. Unclamped,
+    the pointer read several widths out and took its light with it."""
+    from PyQt6 import QtCore, QtGui
+    # A left button held is the whole point -- that is what a drag is -- and it means pyqtgraph
+    # orbits the camera by the same event. The window is shared with every other test in this file,
+    # and the corner lights are placed in the camera's frame, so leaving the view spun round quietly
+    # breaks a test three functions further down. Put it back.
+    # The options dict rather than setCameraParams: that setter refuses to be given rotation and
+    # elevation together, and cameraParams() hands back both.
+    was = dict(win.view.opts)
+    try:
+        at = QtCore.QPointF(win.view.width() * 12.0, -400.0)
+        win.view.mouseMoveEvent(QtGui.QMouseEvent(
+            QtCore.QEvent.Type.MouseMove, at, at, QtCore.Qt.MouseButton.LeftButton,
+            QtCore.Qt.MouseButton.LeftButton, QtCore.Qt.KeyboardModifier.NoModifier))
+        x, y, _ = win.view.pointer
+        assert -1.0 <= x <= 1.0 and -1.0 <= y <= 1.0, f"pointer left the widget: {(x, y)}"
+    finally:
+        win.view.opts.update(was)
+        win.view.update()
 
 
 def test_a_corner_light_keeps_its_corner_when_the_map_is_turned(qapp):
@@ -720,10 +802,12 @@ def test_the_highlight_lands_where_the_viewer_actually_is(qapp):
     xyz = np.random.default_rng(6).normal(size=(500, 3)) * 15
     flat = np.full((500, 4), 0.5)
     lit = [{"pos": np.array([80.0, 0.0, 0.0]), "color": np.array([1.0, 1.0, 1.0])}]
-    front = L.shade(xyz, flat, lit, finish="glossy", eye=np.array([0.0, 0.0, 200.0]))
-    side = L.shade(xyz, flat, lit, finish="glossy", eye=np.array([200.0, 0.0, 0.0]))
-    assert not np.allclose(front[:, :3], side[:, :3]), "the highlight ignored the camera"
-    assert side[:, :3].max() > front[:, :3].max(), "looking down the light, nothing glinted back"
+    # Satin, and measured at a percentile rather than at the maximum: glossy's gain saturates, so
+    # both views peg a point at pure white and comparing the maxima compares two clipped numbers.
+    front = L.shade(xyz, flat, lit, finish="satin", eye=np.array([0.0, 0.0, 200.0]))[:, :3]
+    side = L.shade(xyz, flat, lit, finish="satin", eye=np.array([200.0, 0.0, 0.0]))[:, :3]
+    assert not np.allclose(front, side), "the highlight ignored the camera"
+    assert np.percentile(side, 99) > np.percentile(front, 99), "looking down the light, no glint"
 
 
 def test_lighting_a_gene_lights_the_gene(qapp):
