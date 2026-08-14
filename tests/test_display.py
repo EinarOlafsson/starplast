@@ -730,6 +730,93 @@ def test_the_rim_lights_the_silhouette_and_not_the_dark_side(qapp):
     assert gained[2] < 0.005, f"the dark side lit itself ({gained[2]:.4f})"
 
 
+def test_rays_off_lets_every_light_through_everything(win):
+    """The old behaviour, kept as a choice. Shadows cost a grid lookup per gene per light per frame,
+    and a reader comparing colours across clusters may not want the map's own shape in the way."""
+    win._lighting["rays"] = "none"
+    lit = [{"pos": np.zeros(3), "color": np.ones(3)}]
+    assert win.cast_rays(lit) is lit
+
+
+def test_a_gene_behind_a_cluster_gets_less_light_than_one_in_front_of_it(win):
+    """What "if nothing is between the mouse and the datapoint" means, measured on the real map:
+    take the light's own line to every gene and compare the genes it can see with the genes it
+    cannot."""
+    win._lighting["rays"] = "shadows"
+    try:
+        lamp = win.xyz.mean(axis=0) + np.array([0.0, 0.0, float(np.abs(win.xyz).max()) * 2.0])
+        lit = win.cast_rays([{"pos": lamp, "color": np.ones(3)}])
+        seen = lit[0]["shadow"][:, 0]
+        assert seen.max() > 0.9, "nothing at all had a clear line to the light"
+        assert seen.min() < 0.6, "nothing at all was blocked -- every gene saw the light"
+        # And what is blocked is what has the map in front of it: genes far from the lamp along its
+        # own axis are the ones behind everything else.
+        along = win.xyz[:, 2]
+        assert seen[along < np.percentile(along, 10)].mean() < \
+            seen[along > np.percentile(along, 90)].mean()
+    finally:
+        win._lighting["rays"] = "none"
+
+
+def test_a_bounce_puts_a_new_light_where_a_ray_landed(win):
+    """The second thing asked for: rays leave the light, and the first thing each lands on glows."""
+    win._lighting["rays"] = "bounce"
+    try:
+        lamp = win.xyz.mean(axis=0) + np.array([0.0, 0.0, float(np.abs(win.xyz).max()) * 2.0])
+        lit = win.cast_rays([{"pos": lamp, "color": np.ones(3)}])
+        assert len(lit) > 1, "every ray missed a map it was aimed into"
+        for extra in lit[1:]:
+            assert extra["local"] and extra["gain"] < 1.0, "a bounce is not dimmer than its source"
+            assert "shadow" in extra, "a bounce lights through walls"
+            near = np.linalg.norm(win.xyz - extra["pos"], axis=1).min()
+            assert near < float(np.abs(win.xyz).max()), "a bounce landed nowhere near the map"
+    finally:
+        win._lighting["rays"] = "none"
+
+
+def test_the_light_is_drawn_where_it_is_only_when_asked_for(win):
+    """Every other mode shows a light only by what it does to the map, which leaves the reader
+    working backwards from the shading to where it must be."""
+    win.set_lighting("lit")
+    try:
+        win._lighting["rays"] = "none"
+        win._light_tick()
+        assert win.emitter_item is None or not win.emitter_item.visible()
+        win._lighting["rays"] = "emitter"
+        win._light_tick()
+        assert win.emitter_item is not None and win.emitter_item.visible()
+        assert len(win.emitter_item.pos) == len(win.frame_lights())
+        # Moved rather than rebuilt on the next frame: a new GL item per frame leaks one per frame.
+        made = win.emitter_item
+        win._lighting["source"] = "orbiting"
+        win._light_tick()
+        assert win.emitter_item is made and win.emitter_item.visible()
+        win.set_lighting("off")
+        win._lighting["rays"] = "emitter"
+        win._draw_emitter(win.frame_lights())
+        assert not win.emitter_item.visible(), "the light is drawn with the lighting switched off"
+    finally:
+        win._lighting["rays"] = "none"
+        win.set_lighting("off")
+
+
+def test_the_occupancy_grid_is_built_once_for_a_cloud_that_has_not_moved(win):
+    """Rebuilding this every frame costs more than the shading it informs."""
+    first = win.occupancy()
+    assert win.occupancy() is first
+    was = win.xyz
+    try:
+        win.xyz = np.array(win.xyz, copy=True)
+        assert win.occupancy() is not first, "a new cloud reused the old map's shape"
+    finally:
+        win.xyz = was
+
+
+def test_an_unknown_ray_mode_is_refused_rather_than_drawn(win):
+    win.set_lighting_option("rays", "path traced")
+    assert win._lighting["rays"] in L.RAY_MODES
+
+
 def test_pointing_into_the_map_lights_what_is_deep_rather_than_the_near_face(win):
     """Reported as "it only works on the side facing towards me", and that was exactly right: a
     light placed outside the cloud on the viewer's side is BEHIND everything, so it can only ever

@@ -101,7 +101,7 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
   found by looking at a real machine rather than by a failing test.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.25.0).
+- Bump the version for feature work (currently 0.26.0).
 
 ## Where things are
 

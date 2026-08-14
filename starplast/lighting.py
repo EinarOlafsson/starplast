@@ -92,6 +92,22 @@ SOURCES = ("mouse", "orbiting", "top left", "top right", "bottom left", "bottom 
            "selected gene", "selected gene and its edges")
 DEFAULT_SOURCE = "mouse"
 
+#: What the light does about whatever is in its way.
+#:
+#: none -- it reaches everything, however much of the map is in front. The old behaviour, and the
+#: reason a lit cloud can read as a painted one: the far side of a cluster is as bright as its face.
+#: shadows -- a gene lights up when the line between it and the light is clear, and stays dark when
+#: a cluster is in the way. See `rays` for what this is and is not.
+#: emitter -- shadows, and the light drawn where it is, so you can see the thing casting them.
+#: bounce -- rays leave the light, and the first thing each one lands on glows in its own right.
+RAY_MODES = ("none", "shadows", "emitter", "bounce")
+DEFAULT_RAYS = "shadows"
+
+#: How many rays a bounce fires, and how brightly what they land on glows. A bounce is dimmer than
+#: the source it came from -- light does not gain energy by hitting a cluster.
+BOUNCE_RAYS = 7
+BOUNCE_GAIN = 0.55
+
 #: How many lights, and how fast they travel, at the defaults.
 LIGHT_RANGE = (1, 6)
 SPEED_RANGE = (0.05, 2.0)
@@ -103,8 +119,10 @@ DEFAULT_SPEED = 0.35
 #: cluster and it lights up" once the cluster is deep in the map. Both numbers were measured rather
 #: than picked: a wide pool (0.5) lifts the entire cloud and reads as the map getting brighter --
 #: the neighbourhood came out only 1.3x the rest -- while 0.3 gives 6.8x, which reads as a light
-#: with somewhere to be.
-LOCAL_GLOW = 2.6
+#: with somewhere to be. Turned back DOWN from 2.6 once shadows arrived: with nothing blocking it,
+#: a pool had to be bright to be found, and a light that can be blocked reads from the contrast
+#: between what it reaches and what it does not.
+LOCAL_GLOW = 1.8
 LOCAL_WIDTH = 0.3
 
 #: How much of a point's own colour survives where no light reaches it. Not zero: an unlit half of
@@ -247,6 +265,10 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
         dist = np.linalg.norm(to_light, axis=1, keepdims=True)
         direction = np.divide(to_light, np.where(dist > 1e-9, dist, 1.0))
         falloff = 1.0 / (1.0 + dist / (2.0 * scale))
+        # How much of this light survives the trip -- 1 where the line to the gene is clear, less
+        # where the map is in the way. Attached by whoever built the light (see `rays`), because
+        # working it out needs the whole cloud binned and this function shades one frame.
+        falloff = falloff * light.get("shadow", 1.0)
         diffuse = np.clip((normal * direction).sum(axis=1, keepdims=True), 0.0, None)
         total += (diffuse * falloff * diffuse_gain) * light["color"]
         if light.get("local"):
@@ -257,7 +279,8 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
             # Measured, pointing into a far cluster left it DIMMER than the near face of the map.
             # Physically this is a lamp in a scattering medium rather than a lamp in a vacuum, which
             # is the better model for a cloud of points that have no surfaces anyway.
-            total += (LOCAL_GLOW / (1.0 + (dist / (LOCAL_WIDTH * scale)) ** 2)) * light["color"]
+            glow = LOCAL_GLOW * light.get("gain", 1.0) / (1.0 + (dist / (LOCAL_WIDTH * scale)) ** 2)
+            total += (glow * light.get("shadow", 1.0)) * light["color"]
         if specular:
             half = direction + view
             half /= np.maximum(np.linalg.norm(half, axis=1, keepdims=True), 1e-9)

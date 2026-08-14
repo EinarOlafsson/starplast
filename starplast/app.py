@@ -737,6 +737,7 @@ class Window(QtWidgets.QMainWindow):
             "speed": float(s.value("display/light_speed", _lighting.DEFAULT_SPEED, type=float)),
             "source": str(s.value("display/light_source", _lighting.DEFAULT_SOURCE)),
             "finish": str(s.value("display/light_finish", _lighting.DEFAULT_FINISH)),
+            "rays": str(s.value("display/light_rays", _lighting.DEFAULT_RAYS)),
         }
         #: How opaque the panels are over the drifting background. 1.0 is the old look.
         self._container_opacity = float(s.value("display/container_opacity", 1.0, type=float))
@@ -752,6 +753,8 @@ class Window(QtWidgets.QMainWindow):
         self._base_font = QtGui.QFont(app.font()) if app is not None else QtGui.QFont()
         self._base_colors = self._base_sizes = None
         self._sprite_state = None             # (finish, light direction) the sprite was built for
+        self._grid = None                     # where the map is solid, for shadows and bounces
+        self._grid_for = None                 # the coordinates that grid was built from
         self._light_timer = QtCore.QTimer(self)
         self._light_timer.timeout.connect(self._light_tick)
         self.runs = RunStore(os.path.join(paths.user_cache_dir(), "runs"))
@@ -810,6 +813,7 @@ class Window(QtWidgets.QMainWindow):
         self.view.addItem(self.scatter)
         self.centroid_item = None
         self.halo_item = None
+        self.emitter_item = None
         self.grid_item = None
         self._depth_ctx = None
         self.edge_items = []
@@ -1770,6 +1774,24 @@ class Window(QtWidgets.QMainWindow):
             "light's -- the difference between a copper bead and a white-glinting plastic one.")
         self.light_finish.currentTextChanged.connect(lambda v: self.set_lighting_option("finish", v))
 
+        self.light_rays = QtWidgets.QComboBox()
+        self.light_rays.addItems(list(lighting.RAY_MODES))
+        self.light_rays.setCurrentText(self._lighting["rays"])
+        self.light_rays.setToolTip(
+            "What the light does about whatever is in its way.\n\n"
+            "none lets it through everything, so the back of a cluster is as bright as its face -- "
+            "which is what makes a lit cloud read as a painted one. shadows means a gene lights up "
+            "only when the line between it and the light is clear, and the nearer the light the "
+            "more it lights: point into the map and what you are pointing at comes forward while "
+            "what is behind it stays dark. emitter adds the light itself, drawn where it is, so "
+            "you can see the thing casting the shadows. bounce fires rays out of it and lets the "
+            "first thing each one lands on glow in its own right.\n\n"
+            "None of this is ray tracing, and it is not pretending to be. The map is binned into a "
+            "coarse box of densities once, and a shadow is how much light survives a dozen samples "
+            "along the line -- the way a volume renderer draws smoke, which is the honest model "
+            "for a cloud of points that have no surfaces to intersect in the first place.")
+        self.light_rays.currentTextChanged.connect(lambda v: self.set_lighting_option("rays", v))
+
         self.container_opacity = QtWidgets.QDoubleSpinBox()
         self.container_opacity.setRange(0.35, 1.0)
         self.container_opacity.setSingleStep(0.05)
@@ -1815,6 +1837,7 @@ class Window(QtWidgets.QMainWindow):
         form.addRow("3D lighting", self.light_box)
         form.addRow("light source", self.light_source)
         form.addRow("surface finish", self.light_finish)
+        form.addRow("rays", self.light_rays)
         form.addRow("lights", self.light_count)
         form.addRow("light speed", self.light_speed)
         return w
@@ -1911,17 +1934,21 @@ class Window(QtWidgets.QMainWindow):
 
     def set_lighting_option(self, key: str, value) -> str:
         """One of source, finish, lights or speed. Remembered like the mode, and applied at once."""
-        from .lighting import FINISHES, SOURCES
+        from .lighting import FINISHES, RAY_MODES, SOURCES
         if key == "source":
             value = value if value in SOURCES else self._lighting["source"]
         elif key == "finish":
             value = value if value in FINISHES else self._lighting["finish"]
-        self._lighting[key] = (value if key in ("source", "finish")
+        elif key == "rays":
+            value = value if value in RAY_MODES else self._lighting["rays"]
+        self._lighting[key] = (value if key in ("source", "finish", "rays")
                                else float(value) if key == "speed" else int(value))
         QtCore.QSettings("starplast", "starplast").setValue(f"display/light_{key}",
                                                             self._lighting[key])
         if key == "finish":
             self._refresh_sprite()
+        if key == "rays":
+            self.redraw()
         if self._lighting["mode"] != "off":
             self._light_tick()
         return str(self._lighting[key])
@@ -1959,14 +1986,14 @@ class Window(QtWidgets.QMainWindow):
             basis = self.view.camera_basis()
         except Exception:                       # no GL context yet -- offscreen, or mid-startup
             basis = None
-        return light_at(self.xyz, self._lighting["source"], self._light_t,
+        return self.cast_rays(light_at(self.xyz, self._lighting["source"], self._light_t,
                         self._lighting["lights"], self._lighting["speed"], self._light_radius(),
                         pointer=getattr(self.view, "pointer", None), basis=basis, selected=self.sel,
                         anchor=(self.view.under_pointer()
                                 if self._lighting["source"] == "mouse" else None),
                         neighbours=(self.edge_neighbours(self.sel)
                                     if self.sel is not None
-                                    and self._lighting["source"].endswith("edges") else None))
+                                    and self._lighting["source"].endswith("edges") else None)))
 
     def _refresh_sprite(self, lit=None) -> bool:
         """Rebuild the ball each gene is drawn as, if the finish or the light has moved.
@@ -2005,6 +2032,72 @@ class Window(QtWidgets.QMainWindow):
             return self.view.camera_basis()[0]
         except Exception:
             return None
+
+    def occupancy(self):
+        """The map binned into a coarse box, for asking what is in the way of what.
+
+        Cached against the coordinates themselves: switching embedding or filtering genes changes
+        the cloud, and everything else -- orbiting, relighting, sixty frames a second -- does not.
+        """
+        from . import rays
+        if self._grid is None or self._grid_for is not self.xyz:
+            self._grid = rays.build(self.xyz)
+            self._grid_for = self.xyz
+        return self._grid
+
+    def cast_rays(self, lit: list) -> list:
+        """Work out what each light can actually see, and add whatever its rays bounce off.
+
+        This is where "a gene lights up when nothing is between it and the light" is decided. With
+        rays off, every light reaches everything -- which is the old behaviour and the honest
+        default, since shadows cost a grid lookup per gene per light per frame.
+        """
+        from . import rays
+        from .lighting import BOUNCE_GAIN, BOUNCE_RAYS
+        how = self._lighting["rays"]
+        if how == "none" or not lit or not len(self.xyz):
+            return lit
+        grid = self.occupancy()
+        out = [dict(light, shadow=grid.transmittance(self.xyz, light["pos"])) for light in lit]
+        if how == "bounce":
+            # Rays leave the light, and the first thing each one meets becomes a small light of its
+            # own. Aimed into the map from the light, since that is the direction the reader is
+            # pointing along -- a fan aimed anywhere else bounces off whatever is behind them.
+            reach = float(np.linalg.norm(self.xyz.max(axis=0) - self.xyz.min(axis=0))) * 1.2
+            for light in lit[:1]:
+                aim = self.xyz.mean(axis=0) - np.asarray(light["pos"], dtype=float)
+                for spot in grid.first_hit(light["pos"], rays.cone(aim, BOUNCE_RAYS),
+                                           reach):
+                    out.append({"pos": np.asarray(spot, dtype=float),
+                                "color": np.asarray(light["color"], dtype=float),
+                                "local": True, "gain": BOUNCE_GAIN,
+                                "shadow": grid.transmittance(self.xyz, spot)})
+        return out
+
+    def _draw_emitter(self, lit: list) -> None:
+        """The light itself, as something you can see.
+
+        Every other mode shows a light only by what it does to the map, which leaves the reader
+        working backwards from the shading to where it must be. Drawn additively, so it reads as
+        something glowing rather than as one more gene.
+        """
+        show = self._lighting["rays"] in ("emitter", "bounce") and self._lighting["mode"] != "off"
+        if not show or not lit:
+            if self.emitter_item is not None:
+                self.emitter_item.setVisible(False)
+            return
+        pos = np.array([np.asarray(x["pos"], dtype=float) for x in lit], dtype=float)
+        col = np.array([list(np.asarray(x["color"], dtype=float)) + [0.95] for x in lit],
+                       dtype=float)
+        size = np.full(len(pos), 34.0, np.float32)
+        size[1:] = 16.0                                     # bounces are smaller than the source
+        if self.emitter_item is None:
+            self.emitter_item = gl.GLScatterPlotItem(pos=pos, color=col, size=size, pxMode=True)
+            self.emitter_item.setGLOptions("additive")
+            self.view.addItem(self.emitter_item)
+        else:
+            self.emitter_item.setData(pos=pos, color=col, size=size)
+        self.emitter_item.setVisible(True)
 
     def _light_radius(self) -> float:
         """How far out the lights orbit: outside the cloud, so they light it rather than sit in it."""
@@ -2058,6 +2151,7 @@ class Window(QtWidgets.QMainWindow):
                        eye=self._eye())
         self.scatter.setData(pos=self.xyz, color=colors, size=self._base_sizes)
         self._refresh_sprite(lit)
+        self._draw_emitter(lit)
         self._light_ground(lit)
 
     def open_preferences(self):
@@ -3135,6 +3229,7 @@ class Window(QtWidgets.QMainWindow):
         # The ball each gene is drawn as. A display setting rather than a lighting one, so it is
         # built on every redraw and shows whether the moving lights are running or not.
         self._refresh_sprite(lit)
+        self._draw_emitter(lit)
         self.scatter.setData(pos=self.xyz, color=colors, size=sizes)
         self._draw_ground()
         if self._lighting["mode"] != "off":
