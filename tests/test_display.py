@@ -730,6 +730,128 @@ def test_the_rim_lights_the_silhouette_and_not_the_dark_side(qapp):
     assert gained[2] < 0.005, f"the dark side lit itself ({gained[2]:.4f})"
 
 
+def test_pointing_into_the_map_lights_what_is_deep_rather_than_the_near_face(win):
+    """Reported as "it only works on the side facing towards me", and that was exactly right: a
+    light placed outside the cloud on the viewer's side is BEHIND everything, so it can only ever
+    light the front. Anchored on the gene under the pointer, it stands at that gene's depth."""
+    from PyQt6 import QtCore, QtGui
+    win.set_lighting("lit")
+    win._lighting["source"] = "mouse"
+    try:
+        eye = win._eye()
+        axis = win.xyz.mean(axis=0) - eye
+        axis = axis / np.linalg.norm(axis)
+        depth = (win.xyz - eye) @ axis
+        sx, sy = win.view.project()
+        on = np.isfinite(sx) & np.isfinite(sy)
+        far = [i for i in np.argsort(depth) if on[i]][-1]
+        at = QtCore.QPointF(float(sx[far]), float(sy[far]))
+        win.view.mouseMoveEvent(QtGui.QMouseEvent(
+            QtCore.QEvent.Type.MouseMove, at, at, QtCore.Qt.MouseButton.NoButton,
+            QtCore.Qt.MouseButton.NoButton, QtCore.Qt.KeyboardModifier.NoModifier))
+        anchor = win.view.under_pointer()
+        assert anchor is not None, "nothing found under the pointer"
+        lit = win.frame_lights()
+        assert len(lit) == 1 and lit[0].get("local"), "the pointer light is still outside the cloud"
+        # It stands between the gene and the viewer, and much nearer the gene than the near face.
+        to_light = np.linalg.norm(lit[0]["pos"] - win.xyz[far])
+        assert to_light < np.linalg.norm(np.asarray(eye) - win.xyz[far]) * 0.5
+
+        colors = L.shade(win.xyz, win._base_colors, lit, finish="satin", eye=eye)[:, :3].max(axis=1)
+        to_far = np.linalg.norm(win.xyz - win.xyz[far], axis=1)
+        around = to_far < np.percentile(to_far, 3)
+        near_face = depth < np.percentile(depth, 20)
+        assert colors[around].mean() > colors[near_face].mean() * 1.2, (
+            f"the deep cluster is {colors[around].mean():.3f} and the near face "
+            f"{colors[near_face].mean():.3f} -- the light is still on the front")
+    finally:
+        win.set_lighting("off")
+
+
+def test_a_torch_lights_the_same_pool_whatever_the_zoom(win):
+    """The pool is a fraction of the map's own radius, not of the camera's distance, so leaning in
+    does not turn a light into a spotlight or a floodlight."""
+    basis = win.view.camera_basis()
+    anchor = win.xyz[10]
+    close = L.torch(anchor, basis, win._light_radius())
+    far_basis = (np.asarray(basis[0]) * 4.0,) + tuple(basis[1:])
+    stepped_back = L.torch(anchor, far_basis, win._light_radius())
+    assert np.linalg.norm(close[0]["pos"] - anchor) == pytest.approx(
+        np.linalg.norm(stepped_back[0]["pos"] - anchor), rel=1e-6)
+
+
+def test_a_light_inside_the_cloud_lifts_what_is_near_it_whichever_way_it_faces(qapp):
+    """The reason a torch works at all here. These normals are radial -- a gene on the far side has
+    one pointing away from the viewer -- so a light between the viewer and that gene lands on its
+    back and lights nothing. Measured before this term existed, pointing into a far cluster left it
+    DIMMER than the near face of the map."""
+    xyz = np.random.default_rng(21).normal(size=(800, 3)) * 20
+    flat = np.full((800, 4), 0.5)
+    target = xyz[0]
+    facing_away = {"pos": target - np.array([0.0, 0.0, 6.0]), "color": np.ones(3), "local": True}
+    distant = dict(facing_away, local=False)
+    near = np.linalg.norm(xyz - target, axis=1) < 12.0
+    with_glow = L.shade(xyz, flat, [facing_away])[:, :3].max(axis=1)
+    without = L.shade(xyz, flat, [distant])[:, :3].max(axis=1)
+    assert with_glow[near].mean() > without[near].mean() * 1.3
+    # And it stays local: the far side of the map is not lifted with it.
+    far = np.linalg.norm(xyz - target, axis=1) > 40.0
+    assert with_glow[far].mean() < with_glow[near].mean() * 0.8
+
+
+def test_nothing_under_the_pointer_is_not_an_anchor(win):
+    """Empty space beside the map. The light falls back to hanging off the pointer's direction
+    rather than anchoring on whichever gene happened to be least far away."""
+    win.view.pointer_px = (-5000.0, -5000.0)
+    assert win.view.under_pointer() is None
+    win.view.pointer_px = None
+    assert win.view.under_pointer() is None
+
+
+def test_the_sprite_is_rebuilt_when_the_finish_changes_and_not_otherwise(win):
+    """It runs on the light timer, so "has anything actually moved" is the whole of its cost."""
+    win.set_lighting("off")
+    win._lighting["finish"] = "glossy"
+    assert win._refresh_sprite() is True
+    assert win._refresh_sprite() is False, "rebuilt a sprite nothing had changed"
+    assert win._sprite_state[0] == "glossy"
+    win._lighting["finish"] = "2D"
+    assert win._refresh_sprite() is True
+
+
+def test_the_ball_is_lit_from_above_left_when_there_is_no_camera_yet(win, monkeypatch):
+    """During startup, and for the whole of an offscreen render, there is no camera to convert a
+    world light into a screen direction. Above and to the left is where every reader assumes light
+    comes from, and it reads as convex -- a ball lit from below reads as a hollow."""
+    from starplast import sprite as SP
+
+    def no_camera():
+        raise RuntimeError("no GL context")
+    monkeypatch.setattr(win.view, "camera_basis", no_camera)
+    win._sprite_state = None
+    assert win._refresh_sprite() is True
+    assert win._sprite_state[1] == SP.DEFAULT_LIGHT
+
+
+def test_the_ball_is_lit_from_where_the_light_is(win):
+    """The sprite's highlight and the cloud's shading have to agree about where the light is, or the
+    balls are lit from the top left while the map is lit from the right."""
+    from starplast import sprite as SP
+    win.set_lighting("lit")
+    win._lighting["source"] = "top right"
+    try:
+        win._sprite_state = None
+        win._refresh_sprite()
+        finish, where = win._sprite_state
+        basis = win.view.camera_basis()
+        lit = win.frame_lights()
+        expected = SP.to_screen(np.asarray(lit[0]["pos"]) - win.xyz.mean(axis=0), basis)
+        assert where == pytest.approx(expected)
+        assert where[0] > 0 and where[1] > 0, f"a top-right light came out at {where}"
+    finally:
+        win.set_lighting("off")
+
+
 def test_the_pointer_is_followed_without_a_button_held(win):
     """Qt delivers a move event only while a button is down unless the widget asks for tracking. The
     default light source follows the pointer, and the drag that used to be the only way to move it

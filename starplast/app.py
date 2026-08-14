@@ -358,6 +358,7 @@ class Map3D(gl.GLViewWidget):
         self.pickable = None
         #: The pointer, as a direction in this widget's frame. None until the mouse has been in it.
         self.pointer = None
+        self.pointer_px = None
         # Without this, Qt delivers a move event only while a BUTTON IS HELD. So the light that
         # follows the pointer -- the default source -- moved only while the map was being dragged,
         # and the drag is also what orbits the camera: the light appeared to be stuck to the cloud
@@ -587,6 +588,18 @@ class Map3D(gl.GLViewWidget):
         i = int(np.nanargmin(d))
         return i if d[i] < within else None
 
+    def under_pointer(self):
+        """Where the gene under the pointer IS, in world coordinates, or None.
+
+        Deliberately the nearest gene on screen rather than the nearest along a ray: what a reader
+        means by "that cluster" is the one they can see under the cursor, and the two answers differ
+        only where a nearer gene projects closer to the pointer than the one being looked at.
+        """
+        if self.pointer_px is None or not len(self.xyz):
+            return None
+        i = self.nearest(*self.pointer_px, within=max(self.width(), self.height()) * 0.25)
+        return None if i is None else np.asarray(self.xyz[i], dtype=float)
+
     # ------------------------------------------------------------------ mouse
     def mousePressEvent(self, ev):
         if self.mode == "select" and ev.button() == QtCore.Qt.MouseButton.LeftButton:
@@ -624,6 +637,10 @@ class Map3D(gl.GLViewWidget):
         # of the map, lighting nothing, until the mouse comes back.
         clamp = lambda v: float(min(max(v, -1.0), 1.0))
         self.pointer = (clamp(2.0 * pos.x() / w - 1.0), clamp(1.0 - 2.0 * pos.y() / h), 1.0)
+        # And in pixels, because the gene under the pointer is found by projecting the map onto the
+        # widget: the light that follows the pointer needs the DEPTH of what is being pointed at,
+        # and normalised coordinates have thrown that away.
+        self.pointer_px = (float(pos.x()), float(pos.y()))
         if self.mode == "select" and self._gate:
             p = ev.position()
             self.extend_gate(p.x(), p.y())
@@ -734,6 +751,7 @@ class Window(QtWidgets.QMainWindow):
         app = QtWidgets.QApplication.instance()
         self._base_font = QtGui.QFont(app.font()) if app is not None else QtGui.QFont()
         self._base_colors = self._base_sizes = None
+        self._sprite_state = None             # (finish, light direction) the sprite was built for
         self._light_timer = QtCore.QTimer(self)
         self._light_timer.timeout.connect(self._light_tick)
         self.runs = RunStore(os.path.join(paths.user_cache_dir(), "runs"))
@@ -782,7 +800,8 @@ class Window(QtWidgets.QMainWindow):
         self.view = Map3D(self.xyz)
         self.view.picked.connect(self.on_pick)
         self.view.gated.connect(self.on_gated)
-        self.scatter = gl.GLScatterPlotItem(pos=self.xyz, size=5.0, pxMode=True)
+        from . import sprite as SP
+        self.scatter = SP.ShadedScatter(pos=self.xyz, size=5.0, pxMode=True)
         # GLScatterPlotItem blends additively by default, which sums the colors of overlapping points.
         # With 8,140 genes in dense UMAP clusters every mode rendered as one white blob and the color
         # encoding -- the thing the map is for -- was invisible. Translucent blending with depth testing
@@ -1742,11 +1761,13 @@ class Window(QtWidgets.QMainWindow):
         self.light_finish.addItems(list(lighting.FINISHES))
         self.light_finish.setCurrentText(self._lighting["finish"])
         self.light_finish.setToolTip(
-            "What the points are made of.\n\n"
-            "matt scatters everything and glints at nothing -- chalk. satin and glossy add a "
-            "highlight, tighter as it goes. metallic tints the highlight with the point's OWN "
-            "colour rather than the light's, which is the difference between a copper bead and a "
-            "white-glinting plastic one, and it darkens the diffuse half the way a metal does.")
+            "What the genes are made of.\n\n"
+            "2D draws each gene as a flat disc of its own colour -- the plain scatter, and the "
+            "clearest way to compare colours across clusters. Every other finish draws it as a "
+            "lit sphere: matt scatters everything and glints at nothing, chalk. satin and glossy "
+            "add a highlight, tighter as it goes. metallic is dark over most of its face with a "
+            "bright rim, and tints its highlight with the gene's OWN colour rather than the "
+            "light's -- the difference between a copper bead and a white-glinting plastic one.")
         self.light_finish.currentTextChanged.connect(lambda v: self.set_lighting_option("finish", v))
 
         self.container_opacity = QtWidgets.QDoubleSpinBox()
@@ -1882,6 +1903,7 @@ class Window(QtWidgets.QMainWindow):
                                                             self._lighting["mode"])
         if self._lighting["mode"] == "off":
             self._light_timer.stop()
+            self._refresh_sprite()
             self.redraw()
         else:
             self._light_timer.start(60)
@@ -1898,6 +1920,8 @@ class Window(QtWidgets.QMainWindow):
                                else float(value) if key == "speed" else int(value))
         QtCore.QSettings("starplast", "starplast").setValue(f"display/light_{key}",
                                                             self._lighting[key])
+        if key == "finish":
+            self._refresh_sprite()
         if self._lighting["mode"] != "off":
             self._light_tick()
         return str(self._lighting[key])
@@ -1938,9 +1962,42 @@ class Window(QtWidgets.QMainWindow):
         return light_at(self.xyz, self._lighting["source"], self._light_t,
                         self._lighting["lights"], self._lighting["speed"], self._light_radius(),
                         pointer=getattr(self.view, "pointer", None), basis=basis, selected=self.sel,
+                        anchor=(self.view.under_pointer()
+                                if self._lighting["source"] == "mouse" else None),
                         neighbours=(self.edge_neighbours(self.sel)
                                     if self.sel is not None
                                     and self._lighting["source"].endswith("edges") else None))
+
+    def _refresh_sprite(self, lit=None) -> bool:
+        """Rebuild the ball each gene is drawn as, if the finish or the light has moved.
+
+        The sprite is where a gene stops being a disc of colour and becomes a lit sphere, so the
+        highlight on it has to come from the same direction as the light on the cloud -- otherwise
+        every ball is lit from the top left while the map is lit from the right, and the eye reads
+        the two as different scenes. Rebuilt only when the direction has actually moved, because
+        this runs on the light timer: a 64x64 array is cheap and an upload every frame for a light
+        that has turned by a thousandth of a degree is still waste.
+        """
+        from . import sprite as SP
+        finish = self._lighting["finish"]
+        where = SP.DEFAULT_LIGHT
+        try:
+            basis = self.view.camera_basis()
+        except Exception:
+            basis = None
+        lit = self.frame_lights() if lit is None and self._lighting["mode"] != "off" else lit
+        if basis is not None and lit:
+            centre = self.xyz.mean(axis=0) if len(self.xyz) else np.zeros(3)
+            where = SP.to_screen(np.asarray(lit[0]["pos"], dtype=float) - centre, basis)
+        was = self._sprite_state
+        moved = was is None or was[0] != finish or float(np.dot(
+            np.asarray(where) / max(float(np.linalg.norm(where)), 1e-9),
+            np.asarray(was[1]) / max(float(np.linalg.norm(was[1])), 1e-9))) < 0.995
+        if not moved:
+            return False
+        self._sprite_state = (finish, where)
+        self.scatter.set_sprite(SP.texture(finish, where))
+        return True
 
     def _eye(self):
         """Where the camera is, in world coordinates, or None before there is one."""
@@ -2000,6 +2057,7 @@ class Window(QtWidgets.QMainWindow):
         colors = shade(self.xyz, self._base_colors, lit, finish=self._lighting["finish"],
                        eye=self._eye())
         self.scatter.setData(pos=self.xyz, color=colors, size=self._base_sizes)
+        self._refresh_sprite(lit)
         self._light_ground(lit)
 
     def open_preferences(self):
@@ -3068,11 +3126,15 @@ class Window(QtWidgets.QMainWindow):
         # shading an already-shaded array would darken the map a little more on each pass until the
         # whole thing went black.
         self._base_colors, self._base_sizes = colors, sizes
+        lit = None
         if self._lighting["mode"] != "off":
             from .lighting import shade
             lit = self.frame_lights()
             colors = shade(self.xyz, colors, lit, finish=self._lighting["finish"],
                            eye=self._eye())
+        # The ball each gene is drawn as. A display setting rather than a lighting one, so it is
+        # built on every redraw and shows whether the moving lights are running or not.
+        self._refresh_sprite(lit)
         self.scatter.setData(pos=self.xyz, color=colors, size=sizes)
         self._draw_ground()
         if self._lighting["mode"] != "off":

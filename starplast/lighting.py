@@ -61,7 +61,14 @@ MODES = ("off", "lit")
 #: contrast: chalk is flat and evenly lit everywhere, a bead is dark over most of its body with a
 #: few bright places. So matt gets a RAISED floor and the shiny finishes a lowered one, which moves
 #: every point in the cloud rather than the lucky ones.
+#: "2D" is the flat disc this map has always drawn -- no sphere, no highlight, the point's own
+#: colour and nothing else. It is a choice rather than a leftover: shading costs contrast, and a
+#: reader comparing colours across clusters is better served by a flat scatter than by a lit one.
+#: Every other finish draws each gene as a sphere; there is no separate "3D" entry because they are
+#: all 3D, and two names for the same picture is a menu that answers a question nobody asked.
 FINISHES = {
+    "2D": {"ambient": 1.15, "diffuse": 1.0, "specular": 0.0, "shininess": 1.0,
+           "rim": 0.0, "tint": 0.0},
     "matt": {"ambient": 1.35, "diffuse": 1.0, "specular": 0.0, "shininess": 1.0,
              "rim": 0.0, "tint": 0.0},
     "satin": {"ambient": 1.0, "diffuse": 1.0, "specular": 0.9, "shininess": 6.0,
@@ -90,6 +97,15 @@ LIGHT_RANGE = (1, 6)
 SPEED_RANGE = (0.05, 2.0)
 DEFAULT_LIGHTS = 3
 DEFAULT_SPEED = 0.35
+
+#: How brightly a light standing IN the cloud lifts what is around it, regardless of facing, and
+#: how wide that pool is as a fraction of the map's own radius. This is the whole of "point at a
+#: cluster and it lights up" once the cluster is deep in the map. Both numbers were measured rather
+#: than picked: a wide pool (0.5) lifts the entire cloud and reads as the map getting brighter --
+#: the neighbourhood came out only 1.3x the rest -- while 0.3 gives 6.8x, which reads as a light
+#: with somewhere to be.
+LOCAL_GLOW = 2.6
+LOCAL_WIDTH = 0.3
 
 #: How much of a point's own colour survives where no light reaches it. Not zero: an unlit half of
 #: the map that went black would hide half the genes, and this is a data display before it is a
@@ -233,6 +249,15 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
         falloff = 1.0 / (1.0 + dist / (2.0 * scale))
         diffuse = np.clip((normal * direction).sum(axis=1, keepdims=True), 0.0, None)
         total += (diffuse * falloff * diffuse_gain) * light["color"]
+        if light.get("local"):
+            # A light INSIDE the cloud also brightens whatever is near it, whichever way that point
+            # is facing. Without this a torch cannot light the far side of the map at all: the
+            # pseudo-normal there points away from the viewer, the light hangs between the viewer
+            # and the cluster, and so it lands on the back of every gene it is meant to be lighting.
+            # Measured, pointing into a far cluster left it DIMMER than the near face of the map.
+            # Physically this is a lamp in a scattering medium rather than a lamp in a vacuum, which
+            # is the better model for a cloud of points that have no surfaces anyway.
+            total += (LOCAL_GLOW / (1.0 + (dist / (LOCAL_WIDTH * scale)) ** 2)) * light["color"]
         if specular:
             half = direction + view
             half /= np.maximum(np.linalg.norm(half, axis=1, keepdims=True), 1e-9)
@@ -268,12 +293,36 @@ def on_screen(where, basis, centre, radius: float, color=(1.0, 0.97, 0.92)) -> l
              "color": np.array(color, dtype=float)}]
 
 
+def torch(anchor, basis, radius: float, color=(1.0, 0.97, 0.92), stand_off: float = 0.08) -> list:
+    """A light hanging just in front of a given gene, between it and the viewer.
+
+    This is what "point at it and it lights up" has to mean once the map has depth. A light placed
+    outside the cloud on the viewer's side can only ever light the near face -- it is behind
+    everything else -- so pointing into a cluster deep in the map lit the front of the map instead,
+    which is what was reported. Anchored on the gene under the pointer, the light is IN the cloud at
+    that depth and its falloff does the rest: the genes around it are lit whether they are at the
+    front or the back.
+
+    Held off the gene rather than sitting on it, because a light exactly on a point makes that point
+    a white dot and its neighbours a hard black shell. The stand-off is a fraction of the map's own
+    radius, so the pool of light stays the same size relative to the data at any zoom.
+    """
+    anchor = np.asarray(anchor, dtype=float)
+    eye = np.asarray(basis[0], dtype=float)
+    away = eye - anchor
+    n = float(np.linalg.norm(away))
+    away = away / n if n > 1e-9 else -np.asarray(basis[3], dtype=float)
+    return [{"pos": anchor + away * radius * stand_off,
+             "color": np.array(color, dtype=float), "local": True}]
+
+
 def light_at(coords, source: str, t: float, n: int, speed: float, radius: float,
-             pointer=None, basis=None, selected=None, neighbours=None) -> list:
+             pointer=None, basis=None, selected=None, neighbours=None, anchor=None) -> list:
     """The lights for one frame, for whichever source was chosen.
 
     The screen-relative sources need `basis` -- the camera's own axes -- because "top left" and
-    "where the pointer is" are statements about the picture, not about the data.
+    "where the pointer is" are statements about the picture, not about the data. `anchor` is the
+    gene under the pointer, when there is one: see `torch`.
     """
     coords = np.asarray(coords, dtype=float)
     centre = coords.mean(axis=0) if len(coords) else np.zeros(3)
@@ -286,6 +335,8 @@ def light_at(coords, source: str, t: float, n: int, speed: float, radius: float,
     if basis is not None:
         if source in CORNERS:
             return on_screen(CORNERS[source], basis, centre, radius)
+        if source == "mouse" and anchor is not None:
+            return torch(anchor, basis, radius)
         if source == "mouse" and pointer is not None:
             # Pushed forward of the screen plane so the light is between the viewer and the cloud
             # rather than in it: at z=0 half the map is behind the light and goes dark.
