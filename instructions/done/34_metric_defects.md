@@ -1,7 +1,10 @@
 # 34 — Two metric columns that are wrong, and one summary line that misleads
 
-**Status: open. Not started.** Small, independent, and each one currently prints a number nobody
-should trust. Written 2026-08-14.
+**Status: complete (v0.31.0, 2026-08-14).** Numeric truth now produces NaN categorical ranking
+metrics, evaluator caching retains the feature matrix so trustworthiness is computed, and CLI output
+reports winner findings separately from the run-wide total.
+
+Written 2026-08-14 from three result columns that previously printed numbers nobody should trust.
 
 ## 1. `mean_auprc` is nonsense for a continuous layer
 

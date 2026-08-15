@@ -12,13 +12,17 @@ git pull && pip install -e .
 QT_QPA_PLATFORM=offscreen PYQTGRAPH_QT_LIB=PyQt6 python -m pytest tests/ -q
 ```
 
-Expect ~2,042 passing, 4 skipped, and roughly four minutes. Anything red is from the last session,
+Expect 2,318 passing, 5 skipped, and roughly four minutes. Anything red is from the last session,
 not from you.
 
-## The list is clear
+## The current list
 
-Every task in `INDEX.md` has landed (2026-08-13, v0.17.1). What a fresh session should know before
-adding to it:
+Tasks 30–34 landed in v0.31.0, task 35 in v0.32.0, and the GPU PBR renderer in v0.33.0 on
+2026-08-14. Tasks 37–38 are now open: the continuous flashlight/material comparison requested after
+hands-on GPU testing, and a provenance-first pan-Apicomplexan source archive for future versions.
+Task 35 replaced the old ray/finish controls with soft or volumetric ray-traced lighting and three
+distinct point modes; its fixed-render evidence is in `results/lighting_2026_08_14/`. What a fresh
+session should know before changing any of it:
 
 - **`search.search` streams.** `on_run` gets a `RunStep` per embedding — its best clustering under
   the objective in force, its per-category scores, its coordinates and its labels. `walk_umap_iter`
@@ -91,7 +95,7 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
 - **Results tables go through `AnalysisPanel.results_table`**, which gives them a row action (click a
   row, see the map it is about) and a right-click menu (save as CSV, copy rows). A table wired by
   hand is a table that silently lacks both.
-- **Coverage is 100% on every module** (7,389 statements, 1,849 tests) and stays there. The way to
+- **Coverage is 100% on every module** (9,983 statements, 2,285 tests) and stays there. The way to
   cover a Qt-thread body is to call it directly, never a pragma; genuinely unreachable branches get
   deleted. Two functions were deleted rather than covered in the last pass, and writing one of the
   missing tests found a real defect in `objectives.adjusted`.
@@ -101,7 +105,7 @@ to see a structure or easier to believe a cluster, it is wrong however well it w
   found by looking at a real machine rather than by a failing test.
 - Commit messages explain the reasoning and admit what was got wrong. Write them to a file and use
   `git commit -F` -- backticks in `-m` have twice executed shell commands here.
-- Bump the version for feature work (currently 0.29.0).
+- Bump the version for feature work (currently 0.33.0).
 
 ## Where things are
 

@@ -680,6 +680,36 @@ def test_joined_dataset_columns_reach_the_node_table(monkeypatch, tmp_path):
     assert pd.isna(n.crispr_thing.iloc[2]), "untested is missing, never zero"
 
 
+def test_interaction_corpus_membership_reaches_counts_and_audit_tables(monkeypatch, tmp_path):
+    base, ds, out, genes = _upstream(tmp_path)
+    members = pd.DataFrame({"pmid": ["1", "2", "3"],
+                            "gene_id": [genes[0], genes[0], genes[1]],
+                            "method": ["BioID", "BioID", "IPMS"]})
+    studies = pd.DataFrame({"pmid": ["1", "2", "3"], "title": ["A", "B", "C"]})
+    monkeypatch.setattr(BG, "BASE", str(base))
+    monkeypatch.setattr(BG, "DS", str(ds))
+    monkeypatch.setattr(BG, "OUT", str(out))
+    monkeypatch.setattr(BG, "log", lambda *a, **k: None)
+    monkeypatch.setattr(BG.localization, "lopit_labels", lambda ds, n, log=None: n.assign(
+        compartment="unassigned"))
+    monkeypatch.setattr(BG.screens, "crispr_screens", lambda *a, **k: pd.DataFrame())
+    monkeypatch.setattr(BG.screens, "proteomics", lambda *a, **k: pd.DataFrame())
+    monkeypatch.setattr(BG.screens, "host_transcription_signatures",
+                        lambda *a, **k: pd.DataFrame())
+    monkeypatch.setattr(BG.expression, "load_all", lambda *a, **k: pd.DataFrame())
+    monkeypatch.setattr(BG.cellcycle, "add_all", lambda base, n, **k: n)
+    monkeypatch.setattr(BG.interaction_studies, "parse_studies",
+                        lambda *a, **k: (members, studies))
+    monkeypatch.setattr(BG.interaction_studies, "guess_baits",
+                        lambda frame, *a, **k: frame.assign(bait_gene=None,
+                                                            bait_confidence=""))
+    n = BG.load_nodes()
+    assert n.n_bioid_studies.tolist()[:2] == [2, 0]
+    assert n.n_ipms_studies.tolist()[:2] == [0, 1]
+    assert (out / "interaction_studies.parquet").exists()
+    assert (out / "interaction_study_members.parquet").exists()
+
+
 # --------------------------------------------------------------------------- the whole build
 def test_main_writes_a_cache_the_application_can_open(monkeypatch, tmp_path):
     """The contract at the end of the build: nodes.parquet plus graph.npz, with every edge type flat."""

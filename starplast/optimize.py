@@ -234,7 +234,7 @@ def _finish(rows, log) -> pd.DataFrame:
 #: What an optimiser may be told to climb. The first three measure yield -- how much the map says
 #: about genes nobody has measured -- and the rest measure quality, which is a different question
 #: with a different answer, and the gap between them is worth looking at rather than averaging away.
-MODES = ("guilt", "disagreement", "both", "recovery", "auprc", "auroc", "knn")
+MODES = ("guilt", "disagreement", "conjunction", "both", "recovery", "auprc", "auroc", "knn")
 
 
 def evaluator(nodes: pd.DataFrame, mode: str = "guilt", layers=(), against=(), seed: int = 42,
@@ -246,6 +246,8 @@ def evaluator(nodes: pd.DataFrame, mode: str = "guilt", layers=(), against=(), s
     mode "guilt" -- how much the map predicts about genes nobody has measured (`discovery.guilt`).
     mode "disagreement" -- how many categories the map splits along a second measurement
     (`discovery.disagreement`). `against` names the second layers.
+    mode "conjunction" -- combinations of two categorical layers that the map resolves beyond
+    either margin alone (`discovery.conjunction`). `against` names the second layers.
     mode "auprc" / "auroc" / "knn" -- the ranking metrics from `metrics`. These ask "how good a
     shortlist would this map give me for each category", which is the question guilt by association
     actually asks, and unlike the partition scores they cannot be won by merging everything into one
@@ -267,14 +269,16 @@ def evaluator(nodes: pd.DataFrame, mode: str = "guilt", layers=(), against=(), s
         k = tuple(sorted((c, tuple(v) if isinstance(v, (list, tuple)) else v)
                          for c, v in config.items() if c in EMBEDDING_KEYS))
         if k not in cache:
-            cache[k] = embed(nodes, spec, log=lambda *_a, **_k: None)
+            cache[k] = embed(nodes, spec, log=lambda *_a, **_k: None, return_matrix=True)
         return cache[k], spec
 
     def evaluate(config):
-        (coords, names, rows), spec = coords_for(config)
+        (coords, names, rows, X), spec = coords_for(config)
         labels = cluster(coords, algorithm=config.get("algorithm", "hdbscan"),
                          **cluster_kw(config))
-        used = set(names)
+        # Slot policies may collapse several raw assays into one matrix column. Circularity is about
+        # every measurement that contributed, not the derived column's display name.
+        used = {column for columns in columns_for(nodes, spec).values() for column in columns}
         sub = nodes.loc[rows] if rows is not None and len(rows) == len(coords) else nodes
         found = []
         if mode in ("guilt", "both"):
@@ -286,10 +290,16 @@ def evaluator(nodes: pd.DataFrame, mode: str = "guilt", layers=(), against=(), s
                     if other != layer:
                         found.append(discovery.disagreement(sub, labels, layer, other,
                                                             used_columns=used))
+        if mode == "conjunction":
+            for layer in layers:
+                for other in against:
+                    if other != layer:
+                        found.append(discovery.conjunction(sub, labels, layer, other,
+                                                           used_columns=used))
         truth = sub[layers[0]] if layers and layers[0] in sub.columns else None
         # Every metric, every time. A run optimised for yield that turns out to have poor AUPRC is
         # a run worth knowing about, and computing it later means embedding everything again.
-        scored = (metrics.report(labels, truth, coords) if truth is not None
+        scored = (metrics.report(labels, truth, coords, X=X) if truth is not None
                   else {})
         if mode == "recovery":
             # (summary, per-label table), and the summary is empty when too few genes were both
@@ -317,4 +327,6 @@ def evaluator(nodes: pd.DataFrame, mode: str = "guilt", layers=(), against=(), s
 
 def block_pool(nodes: pd.DataFrame) -> list:
     """Which feature blocks this table can actually offer, in a stable order."""
-    return [b for b in BLOCKS if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b)]
+    from .embedding import SLOT_BLOCKS
+    slots = [b for b in SLOT_BLOCKS if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b)]
+    return slots or [b for b in BLOCKS if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b)]

@@ -198,6 +198,30 @@ def test_the_same_quantity_measured_another_way_is_excluded():
     assert "lit_tier" not in ex, "a different quantity stays in"
 
 
+def test_target_family_holdout_crosses_assay_branches_but_keeps_sequence_predictors():
+    d = _leaky_nodes()
+    d["ortholopit_accuracy"] = 0.9
+    d["tm_len_mean"] = np.random.default_rng(91).normal(size=len(d))
+    ex = S.excluded_for(d, "compartment", scope="target_family")
+    assert "ortholopit_accuracy" in ex
+    assert "tm_len_mean" not in ex, "sequence topology is a predictor, not a copied location label"
+
+
+def test_a_broader_biology_holdout_can_remove_localization_related_sequence_data():
+    d = _leaky_nodes()
+    d["tm_len_mean"] = np.random.default_rng(92).normal(size=len(d))
+    ex = S.excluded_for(d, "compartment", scope="biology")
+    assert "tm_len_mean" in ex
+
+
+def test_an_evidence_branch_can_be_omitted_without_naming_each_slot():
+    d = _leaky_nodes()
+    d["lopit_prob_map"] = np.arange(len(d), dtype=float)
+    d["tm_len_mean"] = np.random.default_rng(93).normal(size=len(d))
+    ex = S.excluded_group(d, "evidence", ("molecular measurements", "spatial biology"))
+    assert "lopit_prob_map" in ex and "tm_len_mean" not in ex
+
+
 def test_a_second_tiering_of_attention_is_excluded_from_the_control():
     rng = np.random.default_rng(10)
     d = _leaky_nodes()
@@ -251,6 +275,17 @@ def test_a_declared_derivation_is_excluded_even_when_no_single_source_is_associa
 def test_declared_sources_of_an_ordinary_target_are_empty():
     from starplast import datasets
     assert datasets.derived_sources("compartment") == ()
+
+
+def test_a_derived_summary_excludes_the_raw_experiment_behind_it():
+    """Exposing raw GSE columns must not reopen the derived stage-label circularity leak."""
+    from starplast import datasets, paths
+
+    nodes = pd.read_parquet(paths.cache_file("nodes.parquet"))
+    banned = S.excluded_for(nodes, "stage_enriched_derived")
+    for key in ("gse108740", "gse206344"):
+        raw = {c for c in datasets.get(key).columns if c in nodes.columns}
+        assert raw <= banned, f"{key} can feed the experiment behind the held-out stage label"
 
 
 def test_a_spec_drops_blocks_that_would_leak():

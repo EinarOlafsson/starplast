@@ -731,13 +731,31 @@ class Window(QtWidgets.QMainWindow):
                                      type=float)),
         }
         self._ambient_widget = None
+        old_mode = str(s.value("display/lighting", "off"))
+        mode = "soft" if old_mode == "lit" else old_mode
+        old_points = s.value("display/light_point_mode",
+                             s.value("display/light_finish", _lighting.DEFAULT_POINT_MODE))
         self._lighting = {
-            "mode": str(s.value("display/lighting", "off")),
-            "lights": int(s.value("display/light_lights", _lighting.DEFAULT_LIGHTS, type=int)),
-            "speed": float(s.value("display/light_speed", _lighting.DEFAULT_SPEED, type=float)),
-            "source": str(s.value("display/light_source", _lighting.DEFAULT_SOURCE)),
-            "finish": str(s.value("display/light_finish", _lighting.DEFAULT_FINISH)),
-            "rays": str(s.value("display/light_rays", _lighting.DEFAULT_RAYS)),
+            "mode": mode if mode in _lighting.MODES else "off",
+            "source": _lighting.normalize_source(s.value("display/light_source",
+                                                          _lighting.DEFAULT_SOURCE)),
+            "point_mode": _lighting.normalize_point_mode(old_points),
+            "mood": (str(s.value("display/light_mood", _lighting.DEFAULT_MOOD))
+                     if str(s.value("display/light_mood", _lighting.DEFAULT_MOOD))
+                     in _lighting.LIGHT_MOODS else _lighting.DEFAULT_MOOD),
+            "pointer_mode": (str(s.value("display/light_pointer_mode",
+                                         _lighting.DEFAULT_POINTER_MODE))
+                             if str(s.value("display/light_pointer_mode",
+                                            _lighting.DEFAULT_POINTER_MODE))
+                             in _lighting.POINTER_MODES else _lighting.DEFAULT_POINTER_MODE),
+            "response": (str(s.value("display/light_response", _lighting.DEFAULT_RESPONSE))
+                         if str(s.value("display/light_response", _lighting.DEFAULT_RESPONSE))
+                         in _lighting.RESPONSES else _lighting.DEFAULT_RESPONSE),
+            "target_marker": (str(s.value("display/light_target_marker",
+                                          _lighting.DEFAULT_TARGET_MARKER))
+                              if str(s.value("display/light_target_marker",
+                                             _lighting.DEFAULT_TARGET_MARKER))
+                              in _lighting.TARGET_MARKERS else _lighting.DEFAULT_TARGET_MARKER),
         }
         #: How opaque the panels are over the drifting background. 1.0 is the old look.
         self._container_opacity = float(s.value("display/container_opacity", 1.0, type=float))
@@ -752,9 +770,10 @@ class Window(QtWidgets.QMainWindow):
         app = QtWidgets.QApplication.instance()
         self._base_font = QtGui.QFont(app.font()) if app is not None else QtGui.QFont()
         self._base_colors = self._base_sizes = None
-        self._sprite_state = None             # (finish, light direction) the sprite was built for
+        self._sprite_state = None          # (point render mode, light direction) for the sprite
         self._grid = None                     # where the map is solid, for shadows and bounces
         self._grid_for = None                 # the coordinates that grid was built from
+        self._smoothed_pointer = None         # continuous screen ray, eased without gene snapping
         self._light_timer = QtCore.QTimer(self)
         self._light_timer.timeout.connect(self._light_tick)
         self.runs = RunStore(os.path.join(paths.user_cache_dir(), "runs"))
@@ -1733,64 +1752,72 @@ class Window(QtWidgets.QMainWindow):
         self.light_box.addItems(list(lighting.MODES))
         self.light_box.setCurrentText(self._lighting["mode"])
         self.light_box.setToolTip(
-            "Lights that move around the map, with every gene shaded by how much light reaches it "
-            "from their direction. It is per-point shading, not ray tracing: a point cloud has no "
-            "surfaces to cast shadows onto, and this renders through pyqtgraph's GL scatter. What "
-            "it buys is DIRECTION -- the side of the cloud facing a light is bright and the far "
-            "side is dim, so the shape of the map reads as a body rather than as a flat field.")
+            "How light reaches the points.\n\n"
+            "soft uses broad fill. ray traced lets dense clusters shadow genes behind them. In "
+            "glossy and metallic modes, an OpenGL vertex shader marches GPU-accelerated rays "
+            "through a 3D density texture; flat mode and old drivers use the CPU fallback. These "
+            "are volumetric density rays—not Vulkan/path tracing or ray-core triangle tracing.")
         self.light_box.currentTextChanged.connect(self.set_lighting)
-
-        self.light_count = QtWidgets.QSpinBox()
-        self.light_count.setRange(*lighting.LIGHT_RANGE)
-        self.light_count.setValue(self._lighting["lights"])
-        self.light_count.valueChanged.connect(lambda v: self.set_lighting_option("lights", v))
-        self.light_speed = slider(lighting.SPEED_RANGE, self._lighting["speed"])
-        self.light_speed.valueChanged.connect(lambda v: self.set_lighting_option("speed", v))
 
         self.light_source = QtWidgets.QComboBox()
         self.light_source.addItems(list(lighting.SOURCES))
         self.light_source.setCurrentText(self._lighting["source"])
         self.light_source.setToolTip(
-            "Where the light comes from.\n\n"
-            "mouse follows the pointer, which is the default because the thing people do with this "
-            "map is lean into a cluster -- a light arriving from where they are looking lights the "
-            "points they are looking at rather than the ones behind them. The four corners are "
-            "fixed. 'selected gene' puts the light ON the gene you clicked, and 'selected gene and "
-            "its edges' lights it and everything it is joined to by an edge type that is currently "
-            "DRAWN -- not merely present, since a light on a relationship you cannot see answers a "
-            "question you did not ask.")
+            "What interaction positions the light.\n\n"
+            "mouse flashlight casts continuously from the camera through the cursor—it never snaps "
+            "to a gene or changes depth when overlapping points cross. selected gene emits from the "
+            "clicked point. selected gene and its edges adds emitters at visible-edge neighbors.")
         self.light_source.currentTextChanged.connect(lambda v: self.set_lighting_option("source", v))
 
-        self.light_finish = QtWidgets.QComboBox()
-        self.light_finish.addItems(list(lighting.FINISHES))
-        self.light_finish.setCurrentText(self._lighting["finish"])
-        self.light_finish.setToolTip(
-            "What the genes are made of.\n\n"
-            "2D draws each gene as a flat disc of its own colour -- the plain scatter, and the "
-            "clearest way to compare colours across clusters. Every other finish draws it as a "
-            "lit sphere: matt scatters everything and glints at nothing, chalk. satin and glossy "
-            "add a highlight, tighter as it goes. metallic is dark over most of its face with a "
-            "bright rim, and tints its highlight with the gene's OWN colour rather than the "
-            "light's -- the difference between a copper bead and a white-glinting plastic one.")
-        self.light_finish.currentTextChanged.connect(lambda v: self.set_lighting_option("finish", v))
+        self.pointer_mode = QtWidgets.QComboBox()
+        self.pointer_mode.addItems(list(lighting.POINTER_MODES))
+        self.pointer_mode.setCurrentText(self._lighting["pointer_mode"])
+        self.pointer_mode.setToolTip(
+            "The mouse beam shape. Broad, focused and soft flashlights differ in cone width and "
+            "edge softness; parallel wash behaves like a distant studio lamp. This affects mouse "
+            "targeting only—clicked-gene lights always emanate from the clicked coordinates.")
+        self.pointer_mode.currentTextChanged.connect(
+            lambda v: self.set_lighting_option("pointer_mode", v))
 
-        self.light_rays = QtWidgets.QComboBox()
-        self.light_rays.addItems(list(lighting.RAY_MODES))
-        self.light_rays.setCurrentText(self._lighting["rays"])
-        self.light_rays.setToolTip(
-            "What the light does about whatever is in its way.\n\n"
-            "none lets it through everything, so the back of a cluster is as bright as its face -- "
-            "which is what makes a lit cloud read as a painted one. shadows means a gene lights up "
-            "only when the line between it and the light is clear, and the nearer the light the "
-            "more it lights: point into the map and what you are pointing at comes forward while "
-            "what is behind it stays dark. emitter adds the light itself, drawn where it is, so "
-            "you can see the thing casting the shadows. bounce fires rays out of it and lets the "
-            "first thing each one lands on glow in its own right.\n\n"
-            "None of this is ray tracing, and it is not pretending to be. The map is binned into a "
-            "coarse box of densities once, and a shadow is how much light survives a dozen samples "
-            "along the line -- the way a volume renderer draws smoke, which is the honest model "
-            "for a cloud of points that have no surfaces to intersect in the first place.")
-        self.light_rays.currentTextChanged.connect(lambda v: self.set_lighting_option("rays", v))
+        self.light_response = QtWidgets.QComboBox()
+        self.light_response.addItems(list(lighting.RESPONSES))
+        self.light_response.setCurrentText(self._lighting["response"])
+        self.light_response.setToolTip(
+            "How quickly the flashlight follows the cursor. Direct is immediate; smooth removes "
+            "small hand motion; cinematic trails slowly. All are continuous screen rays and none "
+            "selects a data point.")
+        self.light_response.currentTextChanged.connect(
+            lambda v: self.set_lighting_option("response", v))
+
+        self.target_marker = QtWidgets.QComboBox()
+        self.target_marker.addItems(list(lighting.TARGET_MARKERS))
+        self.target_marker.setCurrentText(self._lighting["target_marker"])
+        self.target_marker.setToolTip(
+            "A purely visual marker showing where the light is aimed. None draws nothing; halo, "
+            "beacon and pulse are comparison candidates and never encode genes or enter analysis.")
+        self.target_marker.currentTextChanged.connect(
+            lambda v: self.set_lighting_option("target_marker", v))
+
+        self.light_mood = QtWidgets.QComboBox()
+        self.light_mood.addItems(list(lighting.LIGHT_MOODS))
+        self.light_mood.setCurrentText(self._lighting["mood"])
+        self.light_mood.setToolTip(
+            "The soft light's color temperature. Neutral preserves category colors most directly; "
+            "cool blue and warm are visibly colored fills whose peak intensity is capped so they "
+            "do not turn dense regions white.")
+        self.light_mood.currentTextChanged.connect(lambda v: self.set_lighting_option("mood", v))
+
+        self.point_render = QtWidgets.QComboBox()
+        self.point_render.addItems(list(lighting.POINT_MODES))
+        self.point_render.setCurrentText(self._lighting["point_mode"])
+        self.point_render.setToolTip(
+            "How each gene is drawn. flat is a simple data-color disc with gentle diffuse light "
+            "but no spherical highlight. glossy 3D reconstructs a sphere normal for every fragment, "
+            "uses a GGX highlight, and writes the curved surface depth. metallic 3D reflects a soft "
+            "studio environment with its data color, a darker body, and a strong Fresnel rim. These "
+            "are OpenGL material shaders, not renamed textures; an old driver falls back safely.")
+        self.point_render.currentTextChanged.connect(
+            lambda v: self.set_lighting_option("point_mode", v))
 
         self.container_opacity = QtWidgets.QDoubleSpinBox()
         self.container_opacity.setRange(0.35, 1.0)
@@ -1834,12 +1861,13 @@ class Window(QtWidgets.QMainWindow):
         form.addRow("blob density", self.ambient_density)
         form.addRow("panel opacity", self.container_opacity)
         form.addRow(QtWidgets.QLabel(""))
-        form.addRow("3D lighting", self.light_box)
-        form.addRow("light source", self.light_source)
-        form.addRow("surface finish", self.light_finish)
-        form.addRow("rays", self.light_rays)
-        form.addRow("lights", self.light_count)
-        form.addRow("light speed", self.light_speed)
+        form.addRow("light render mode", self.light_box)
+        form.addRow("light target", self.light_source)
+        form.addRow("pointer beam", self.pointer_mode)
+        form.addRow("pointer response", self.light_response)
+        form.addRow("target marker", self.target_marker)
+        form.addRow("light mood", self.light_mood)
+        form.addRow("point render mode", self.point_render)
         return w
 
     def set_ui_scale(self, scale: float) -> float:
@@ -1919,8 +1947,9 @@ class Window(QtWidgets.QMainWindow):
         return super().eventFilter(obj, ev)
 
     def set_lighting(self, mode: str) -> str:
-        """Switch the moving lights on or off; "off" restores the flat colours."""
+        """Choose off, soft illumination, or one of the density-ray shadow depths."""
         from .lighting import MODES
+        mode = "soft" if mode == "lit" else mode       # migrate old recipes/settings
         self._lighting["mode"] = mode if mode in MODES else "off"
         QtCore.QSettings("starplast", "starplast").setValue("display/lighting",
                                                             self._lighting["mode"])
@@ -1933,22 +1962,31 @@ class Window(QtWidgets.QMainWindow):
         return self._lighting["mode"]
 
     def set_lighting_option(self, key: str, value) -> str:
-        """One of source, finish, lights or speed. Remembered like the mode, and applied at once."""
-        from .lighting import FINISHES, RAY_MODES, SOURCES
+        """Set the interaction target, light mood, or point render mode and apply it now."""
+        from .lighting import (LIGHT_MOODS, POINTER_MODES, POINT_MODES, RESPONSES, SOURCES,
+                               TARGET_MARKERS, normalize_point_mode, normalize_source)
+        key = "point_mode" if key == "finish" else key   # public compatibility, not a UI control
         if key == "source":
-            value = value if value in SOURCES else self._lighting["source"]
-        elif key == "finish":
-            value = value if value in FINISHES else self._lighting["finish"]
-        elif key == "rays":
-            value = value if value in RAY_MODES else self._lighting["rays"]
-        self._lighting[key] = (value if key in ("source", "finish", "rays")
-                               else float(value) if key == "speed" else int(value))
+            value = (normalize_source(value) if str(value) in (*SOURCES, "mouse")
+                     else self._lighting["source"])
+        elif key == "point_mode":
+            known = str(value) in (*POINT_MODES, "2D", "matt", "satin", "glossy", "metallic")
+            value = normalize_point_mode(value) if known else self._lighting["point_mode"]
+        elif key == "mood":
+            value = value if value in LIGHT_MOODS else self._lighting["mood"]
+        elif key == "pointer_mode":
+            value = value if value in POINTER_MODES else self._lighting["pointer_mode"]
+        elif key == "response":
+            value = value if value in RESPONSES else self._lighting["response"]
+        elif key == "target_marker":
+            value = value if value in TARGET_MARKERS else self._lighting["target_marker"]
+        else:
+            return ""
+        self._lighting[key] = value
         QtCore.QSettings("starplast", "starplast").setValue(f"display/light_{key}",
                                                             self._lighting[key])
-        if key == "finish":
+        if key == "point_mode":
             self._refresh_sprite()
-        if key == "rays":
-            self.redraw()
         if self._lighting["mode"] != "off":
             self._light_tick()
         return str(self._lighting[key])
@@ -1981,19 +2019,39 @@ class Window(QtWidgets.QMainWindow):
 
     def frame_lights(self) -> list:
         """The lights for this frame, from whichever source is chosen."""
-        from .lighting import light_at
+        from .lighting import RESPONSES, light_at, mood_color
         try:
             basis = self.view.camera_basis()
         except Exception:                       # no GL context yet -- offscreen, or mid-startup
             basis = None
-        return self.cast_rays(light_at(self.xyz, self._lighting["source"], self._light_t,
-                        self._lighting["lights"], self._lighting["speed"], self._light_radius(),
-                        pointer=getattr(self.view, "pointer", None), basis=basis, selected=self.sel,
-                        anchor=(self.view.under_pointer()
-                                if self._lighting["source"] == "mouse" else None),
+        mood = mood_color(self._lighting["mood"])
+        pointer = getattr(self.view, "pointer", None)
+        if self._lighting["source"] == "mouse flashlight":
+            target = np.asarray(pointer or (0.0, 0.0, 1.0), dtype=float)
+            response = float(RESPONSES[self._lighting["response"]])
+            if self._smoothed_pointer is None:
+                self._smoothed_pointer = target
+            else:
+                self._smoothed_pointer += response * (target - self._smoothed_pointer)
+            pointer = tuple(self._smoothed_pointer)
+        else:
+            self._smoothed_pointer = None
+        lit = light_at(self.xyz, self._lighting["source"], self._light_t,
+                        1, 0.0, self._light_radius(),
+                        pointer=pointer, basis=basis, selected=self.sel,
                         neighbours=(self.edge_neighbours(self.sel)
                                     if self.sel is not None
-                                    and self._lighting["source"].endswith("edges") else None)))
+                                    and self._lighting["source"].endswith("edges") else None),
+                        color=mood, pointer_mode=self._lighting["pointer_mode"],
+                        fov=float(self.view.opts.get("fov", 60.0)),
+                        aspect=max(float(self.view.width()), 1.0) /
+                               max(float(self.view.height()), 1.0))
+
+        ray_mode = "ray traced" in self._lighting["mode"]
+        grid = self.occupancy() if ray_mode else None
+        absorb = 0.86 if self._lighting["mode"] == "deep ray traced" else 0.44
+        gpu_rays = self.scatter.set_scene(self._lighting["point_mode"], lit, mood, grid, absorb)
+        return lit if gpu_rays else self.cast_rays(lit)
 
     def _refresh_sprite(self, lit=None) -> bool:
         """Rebuild the ball each gene is drawn as, if the finish or the light has moved.
@@ -2006,14 +2064,21 @@ class Window(QtWidgets.QMainWindow):
         that has turned by a thousandth of a degree is still waste.
         """
         from . import sprite as SP
-        finish = self._lighting["finish"]
+        finish = self._lighting["point_mode"]
         where = SP.DEFAULT_LIGHT
         try:
             basis = self.view.camera_basis()
         except Exception:
             basis = None
         lit = self.frame_lights() if lit is None and self._lighting["mode"] != "off" else lit
-        if basis is not None and lit:
+        if lit is None:
+            from .lighting import mood_color
+            self.scatter.set_scene(finish, [], mood_color(self._lighting["mood"]), None)
+        # The GPU shader receives world-space lights every frame; rebuilding and uploading a CPU
+        # texture as they move is both wasted work and a source of one-frame highlight jumps. Only
+        # the old-context fallback bakes the light direction into a texture.
+        gpu_material = self.scatter.gpu_material_enabled(finish)
+        if not gpu_material and basis is not None and lit:
             centre = self.xyz.mean(axis=0) if len(self.xyz) else np.zeros(3)
             where = SP.to_screen(np.asarray(lit[0]["pos"], dtype=float) - centre, basis)
         was = self._sprite_state
@@ -2046,58 +2111,45 @@ class Window(QtWidgets.QMainWindow):
         return self._grid
 
     def cast_rays(self, lit: list) -> list:
-        """Work out what each light can actually see, and add whatever its rays bounce off.
+        """Trace volumetric shadow rays when the explicit ray-traced mode is selected.
 
-        This is where "a gene lights up when nothing is between it and the light" is decided. With
-        rays off, every light reaches everything -- which is the old behaviour and the honest
-        default, since shadows cost a grid lookup per gene per light per frame.
+        Each output light carries one transmittance per gene, computed by marching the segment from
+        that gene to the light through the cached density volume. Soft mode deliberately skips this
+        cost and cannot cast shadows.
         """
-        from . import rays
-        from .lighting import BOUNCE_GAIN, BOUNCE_RAYS
-        how = self._lighting["rays"]
-        if how == "none" or not lit or not len(self.xyz):
+        if "ray traced" not in self._lighting["mode"] or not lit or not len(self.xyz):
             return lit
         grid = self.occupancy()
-        out = [dict(light, shadow=grid.transmittance(self.xyz, light["pos"])) for light in lit]
-        if how == "bounce":
-            # Rays leave the light, and the first thing each one meets becomes a small light of its
-            # own. Aimed into the map from the light, since that is the direction the reader is
-            # pointing along -- a fan aimed anywhere else bounces off whatever is behind them.
-            reach = float(np.linalg.norm(self.xyz.max(axis=0) - self.xyz.min(axis=0))) * 1.2
-            for light in lit[:1]:
-                aim = self.xyz.mean(axis=0) - np.asarray(light["pos"], dtype=float)
-                for spot in grid.first_hit(light["pos"], rays.cone(aim, BOUNCE_RAYS),
-                                           reach):
-                    out.append({"pos": np.asarray(spot, dtype=float),
-                                "color": np.asarray(light["color"], dtype=float),
-                                "local": True, "gain": BOUNCE_GAIN,
-                                "shadow": grid.transmittance(self.xyz, spot)})
-        return out
+        strength = 0.86 if self._lighting["mode"] == "deep ray traced" else 0.44
+        return [dict(light, shadow=np.power(grid.transmittance(self.xyz, light["pos"]),
+                                            strength / 0.55)) for light in lit]
 
     def _draw_emitter(self, lit: list) -> None:
-        """The light itself, as something you can see.
-
-        Every other mode shows a light only by what it does to the map, which leaves the reader
-        working backwards from the shading to where it must be. Drawn additively, so it reads as
-        something glowing rather than as one more gene.
-        """
-        show = self._lighting["rays"] in ("emitter", "bounce") and self._lighting["mode"] != "off"
-        if not show or not lit:
+        """Draw the selected experimental target marker without encoding data."""
+        marker = self._lighting["target_marker"]
+        if marker == "none" or not lit:
             if self.emitter_item is not None:
                 self.emitter_item.setVisible(False)
             return
-        pos = np.array([np.asarray(x["pos"], dtype=float) for x in lit], dtype=float)
-        col = np.array([list(np.asarray(x["color"], dtype=float)) + [0.95] for x in lit],
-                       dtype=float)
-        size = np.full(len(pos), 34.0, np.float32)
-        size[1:] = 16.0                                     # bounces are smaller than the source
+        targets = [np.asarray(light.get("target", light["pos"]), dtype=np.float32)
+                   for light in lit]
+        if not targets:
+            return
+        pos = np.asarray(targets, dtype=np.float32)
+        phase = 0.5 + 0.5 * np.sin(self._light_t * 2.4)
+        size = {"halo": 15.0, "beacon": 10.0, "pulse": 12.0 + 12.0 * phase}[marker]
+        alpha = {"halo": 0.34, "beacon": 0.72, "pulse": 0.28 + 0.38 * phase}[marker]
+        if marker == "beacon":
+            lifted = pos + np.array([0.0, 0.0, self._light_radius() * 0.08], np.float32)
+            pos = np.concatenate((pos, lifted), axis=0)
+        color = np.tile(np.array([1.0, 0.86, 0.42, alpha], np.float32), (len(pos), 1))
         if self.emitter_item is None:
-            self.emitter_item = gl.GLScatterPlotItem(pos=pos, color=col, size=size, pxMode=True)
-            self.emitter_item.setGLOptions("additive")
+            self.emitter_item = gl.GLScatterPlotItem(pos=pos, color=color, size=size, pxMode=True)
+            self.emitter_item.setGLOptions("translucent")
             self.view.addItem(self.emitter_item)
         else:
-            self.emitter_item.setData(pos=pos, color=col, size=size)
-        self.emitter_item.setVisible(True)
+            self.emitter_item.setData(pos=pos, color=color, size=size, pxMode=True)
+            self.emitter_item.setVisible(True)
 
     def _light_radius(self) -> float:
         """How far out the lights orbit: outside the cloud, so they light it rather than sit in it."""
@@ -2123,18 +2175,22 @@ class Window(QtWidgets.QMainWindow):
         probe = np.array([centre[0], centre[1], float(self.xyz[:, 2].min()) - r * 0.08])
         up = np.array([0.0, 0.0, 1.0])
 
-        total = 0.35                                   # the same ambient floor the points get
+        # Accumulate RGB rather than one brightness scalar. Otherwise a warm/cool light changes
+        # the genes but leaves the horizon neutral, which makes the two look like separate scenes.
+        total = np.full(3, 0.35, dtype=float)
         for light in lit:
             to_light = np.asarray(light["pos"], dtype=float) - probe
             dist = float(np.linalg.norm(to_light)) or 1.0
-            total += max(float(np.dot(up, to_light / dist)), 0.0) / (1.0 + dist / (2.0 * r))
-        rgb = np.clip(base * min(total, 2.0) * 1.5, 0.0, 1.0)
+            strength = max(float(np.dot(up, to_light / dist)), 0.0) / (1.0 + dist / (2.0 * r))
+            total += strength * np.asarray(light.get("color", np.ones(3)), dtype=float)
+        rgb = np.clip(base * np.minimum(total, 2.0) * 1.5, 0.0, 1.0)
         # The grid is drawn faint, so colour alone is not visible: the light moves its ALPHA too,
         # between the theme's own value and about three times it. That is what makes a lit horizon
         # read as lit rather than as a slightly different grey.
         flat = 70 if TH.is_light(p) else 40
+        brightness = float(np.mean(total))
         self.grid_item.setColor((int(rgb[0] * 255), int(rgb[1] * 255), int(rgb[2] * 255),
-                                 int(np.clip(flat * min(total, 2.2), 15, 210))))
+                                 int(np.clip(flat * min(brightness, 2.2), 15, 210))))
 
     def _light_tick(self) -> None:
         """One frame of moving light: reshade the points from the flat colours redraw computed.
@@ -2142,14 +2198,20 @@ class Window(QtWidgets.QMainWindow):
         From `_base_colors` rather than from whatever is on screen, because shading an
         already-shaded array darkens it a little more every frame until the map goes black.
         """
-        from .lighting import shade
+        from .lighting import POINT_MODES, shade
         if self._lighting["mode"] == "off" or self._base_colors is None:
             return
         self._light_t += 0.06
         lit = self.frame_lights()
-        colors = shade(self.xyz, self._base_colors, lit, finish=self._lighting["finish"],
-                       eye=self._eye())
-        self.scatter.setData(pos=self.xyz, color=colors, size=self._base_sizes)
+        if self.scatter.gpu_material_enabled(self._lighting["point_mode"]):
+            # The fragment shader needs the unlit category color as its albedo. Feeding it the old
+            # CPU highlight made every sphere reflect an already-white point and washed the map out.
+            colors = np.array(self._base_colors, copy=True)
+        else:
+            colors = shade(self.xyz, self._base_colors, lit,
+                           point_mode=self._lighting["point_mode"], eye=self._eye())
+        size_scale = POINT_MODES[self._lighting["point_mode"]]["size"]
+        self.scatter.setData(pos=self.xyz, color=colors, size=self._base_sizes * size_scale)
         self._refresh_sprite(lit)
         self._draw_emitter(lit)
         self._light_ground(lit)
@@ -3224,13 +3286,18 @@ class Window(QtWidgets.QMainWindow):
         if self._lighting["mode"] != "off":
             from .lighting import shade
             lit = self.frame_lights()
-            colors = shade(self.xyz, colors, lit, finish=self._lighting["finish"],
-                           eye=self._eye())
+            if self.scatter.gpu_material_enabled(self._lighting["point_mode"]):
+                colors = np.array(colors, copy=True)
+            else:
+                colors = shade(self.xyz, colors, lit,
+                               point_mode=self._lighting["point_mode"], eye=self._eye())
         # The ball each gene is drawn as. A display setting rather than a lighting one, so it is
         # built on every redraw and shows whether the moving lights are running or not.
         self._refresh_sprite(lit)
         self._draw_emitter(lit)
-        self.scatter.setData(pos=self.xyz, color=colors, size=sizes)
+        from .lighting import POINT_MODES
+        render_sizes = sizes * POINT_MODES[self._lighting["point_mode"]]["size"]
+        self.scatter.setData(pos=self.xyz, color=colors, size=render_sizes)
         self._draw_ground()
         if self._lighting["mode"] != "off":
             # After `_draw_ground`, which builds a new grid item with the flat theme colour: lighting

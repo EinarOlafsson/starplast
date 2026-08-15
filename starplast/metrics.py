@@ -166,6 +166,14 @@ def ranking(labels: np.ndarray, truth: pd.Series, coords: np.ndarray = None, k: 
     between them is diagnostic. A map with good neighbourhood numbers and poor cluster numbers has
     the structure and lost it in the clustering, which is a different problem with a different fix.
     """
+    if pd.api.types.is_numeric_dtype(truth):
+        # A continuous measurement has no classes to rank. Treating each repeated float as a class
+        # produced tiny but plausible-looking AUPRC values in saved searches; those numbers answer
+        # no biological question. Keep the table shape stable and mark why it is empty so
+        # `summarise` can distinguish this from a categorical layer with too little coverage.
+        out = pd.DataFrame(columns=["category", "n", "auroc", "auprc", "lift", "prevalence"])
+        out.attrs["continuous_truth"] = True
+        return out
     clean, categories = _classes(truth, min_count)
     known = clean.notna().to_numpy()
     rows = []
@@ -177,6 +185,9 @@ def ranking(labels: np.ndarray, truth: pd.Series, coords: np.ndarray = None, k: 
             by_nn = curve_scores(neighbour_scores(coords, clean, category, k)[known], hit)
             row.update({f"nn_{a}": b for a, b in by_nn.items() if a != "prevalence"})
         rows.append(row)
+    columns = ["category", "n", "auroc", "auprc", "lift", "prevalence"]
+    if not rows:
+        return pd.DataFrame(columns=columns)
     return pd.DataFrame(rows).sort_values("auprc", ascending=False).reset_index(drop=True)
 
 
@@ -188,6 +199,9 @@ def summarise(table: pd.DataFrame) -> dict:
     what a reader looking for somewhere to work wants. The weighted mean is a statement about GENES,
     and is dominated by whichever two categories are largest.
     """
+    if table is not None and table.empty and table.attrs.get("continuous_truth"):
+        return {"mean_auprc": np.nan, "mean_auroc": np.nan, "mean_lift": np.nan,
+                "weighted_auprc": np.nan, "n_categories": 0}
     if table is None or table.empty:
         return {"mean_auprc": 0.0, "mean_auroc": 0.0, "mean_lift": 0.0,
                 "weighted_auprc": 0.0, "n_categories": 0}

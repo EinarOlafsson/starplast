@@ -13,3 +13,5 @@ program never reads.
 | `full_proteome_2026_08_12/` | all four targets over all 8,140 genes; the subsample turned out to be flattering |
 | `predictions_2026_08_12/` | what the winning cell-cycle structure predicts: nothing clears the 80% purity bar |
 | `full_proteome_2026_08_13_provenance/` | the full-proteome battery re-run after three leaks were found in the circularity guard — every number identical, which is the result |
+| `lighting_2026_08_14/` | fixed-camera OpenGL comparisons for point modes, light moods and volumetric ray-traced shadows, plus renderer-labelled frame timings |
+| `pbr_lighting_2026_08_14/` | GPU PBR sphere-impostor comparisons, GPU-vs-CPU density-ray timings, visual pixel differences, and repeated-frame stability hashes |

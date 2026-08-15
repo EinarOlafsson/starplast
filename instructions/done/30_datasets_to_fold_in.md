@@ -1,5 +1,9 @@
 # Datasets left to fold in — the Toxoplasma map
 
+**Status: complete (v0.31.0, 2026-08-14).** The data already present on this machine are now
+registered, assigned to slots and rebuilt into the shipped cache. Section 3 remains the accession
+survey feeding empty-slot candidates; it is not a claim that unacquired raw studies were ingested.
+
 Written 2026-08-13, from three sources: an audit of the shipped cache, the raw dataset tree on this
 machine, and a survey of **24,679 PubMed records** with *Toxoplasma* or *gondii* in the title or
 abstract (every one NCBI holds; the query has to be sliced by year because PubMed will not return
@@ -14,32 +18,41 @@ The *Plasmodium* map is shelved by decision; see the note at the end.
 
 ---
 
-## 1. Already in the cache, and no map can see it
+## 1. Already in the cache, and no map could see it — landed 2026-08-14
 
-**82 of the 149 numeric columns in the shipped cache match no feature block.** They are built,
-committed, and unreachable from every embedding the program can make:
+The six assay families below account for 70 numeric columns that were built and committed but
+unreachable from every embedding the program could make. They now have explicit registry entries
+and condition-specific feature blocks, and the slot table assigns the brain series to transcription
+rather than fitness (the values are FPKM, not screen scores):
 
 | family | columns | genes measured | what it is |
 |---|---|---|---|
 | `morc_` | 18 | 7,841 | MORC depletion series |
 | `stress_` | 10 | 7,880 | stress / bradyzoite conversion |
-| `invivo_` | 14 | 7,663 | in vivo screen replicates |
+| `invivo_` | 14 | 7,663 | acute/chronic brain-stage transcript abundance (FPKM) |
 | `proteome_` | 15 | 3,005 | a proteome **four times larger** than the 748-protein one the registry documents |
 | `oocyst_` | 8 | 2,079 | oocyst iTRAQ |
 | `phospho_` | 5 | 1,603 | phosphosite up/down ratios |
 
-None of them has a registry entry either, so `search.excluded_for` cannot reason about them — and
-provenance gaps are exactly where the circularity guard leaked on 2026-08-13. **Nothing to download.
-This is block regexes and registry entries, and it is the largest gain per hour available.**
+The remaining numeric columns outside a selectable feature block are identifiers, derived labels,
+quality flags, or per-gene summaries of pairwise layers; they are not another hidden assay family.
+Registry provenance now covers every column in the six families, so `search.excluded_for` can reason
+about shared experiments instead of leaving the same gap that caused the 2026-08-13 circularity leak.
 
-## 2. Downloaded, not ingested
+## 2. Downloaded corpus — landed 2026-08-14
 
-- **Dual perturb-seq (PMID 37827122, `GSE229505`).** In the cache as two columns for 252 genes:
-  `hosttx_T2` and `hosttx_padj`. What is missing is the per-effector host transcriptional
-  signature — the only host-side readout this project could have, and the only way to ask which
-  effectors do the same thing to the host cell.
-- **The BioID corpus**: 44 studies, 127 files, on disk under `datasets/post_translation/BioID/`.
-- **The IP-MS corpus**: 55 studies, 140 files. The map currently carries **64** `ip_ms` pairs.
+- **Dual perturb-seq (PMID 37827122, `GSE229505`).** The official 737,726-row differential-expression
+  table resolves 22 parasite effectors across 33,531 host genes. It now ships as 20 PCA coordinates,
+  an L2 norm and a substantial-DE count alongside the original 252-gene T2 screen.
+- **BioID/IP-MS corpus:** 97 studies and 267 files produce 68,085 auditable `(study, gene)`
+  memberships over 7,912 genes. Node columns count BioID and IP-MS study membership separately;
+  `interaction_studies.parquet` and `interaction_study_members.parquet` preserve the underlying rows.
+  Membership is deliberately not promoted to an interaction edge because the supplements include
+  complete backgrounds and controls. The curated 64 `ip_ms` pairs remain the interaction layer.
+
+The rebuilt cache carries 193 columns. Missingness was measured for every newly selectable source in
+`results/data_ingestion_2026_08_14.csv`; partial proteome blocks have large centroid gaps, and the
+22-effector host signature is explicitly marked below the 30-measured-gene diagnostic floor.
 
 ## 3. The survey: what to add, grouped by the axis it opens
 

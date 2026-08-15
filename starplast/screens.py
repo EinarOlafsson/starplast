@@ -158,6 +158,26 @@ def crispr_screens(base: str, log=print, resolve=None) -> pd.DataFrame:
         out.append(t.groupby("gene_id").mean())
         log(f"screens: in vivo platform (targeted) -> {len(out[-1]):,} genes")
 
+    # --- hyperLOPIT-unassigned library: targeted in-vivo screen, GSE253884
+    hyperlopit = []
+    for accession, library in (("GSE253884", 1), ("GSE253885", 2)):
+        acquired = os.path.join(base, "datasets", "toxoplasma_acquisition_2026_08_14",
+                                f"{accession}_unassigned_{library}_summary.xlsx")
+        d = _read(acquired, sheet_name="Summary")
+        if d is None or not {"ME49_ID", "In vivo fitness score"} <= set(d.columns):
+            continue
+        library_frame = pd.DataFrame({
+            "gene_id": _acc(d["ME49_ID"]),
+            f"fit_hyperlopit_unassigned_invivo_lib{library}": pd.to_numeric(
+                d["In vivo fitness score"], errors="coerce"),
+        }).dropna(subset=["gene_id"]).groupby("gene_id").mean()
+        hyperlopit.append(library_frame)
+    if hyperlopit:
+        t = pd.concat(hyperlopit, axis=1)
+        out.append(t.groupby(level=0).mean())
+        log(f"screens: hyperLOPIT-unassigned in vivo (GSE253884/5) -> "
+            f"{len(out[-1]):,} genes")
+
     # --- host-transcription effectors: Target -> gene via the sgRNA map the paper ships
     gmap = _read(_find(D, "hosttx_effectors_PMC12033024_D3_sgRNA_gene_map.xlsx"))
     if gmap is not None:
@@ -195,6 +215,62 @@ def crispr_screens(base: str, log=print, resolve=None) -> pd.DataFrame:
         log("screens: none found")
         return pd.DataFrame()
     return pd.concat(out, axis=1)
+
+
+def host_transcription_signatures(base: str, resolve=None, components: int = 20,
+                                  log=print) -> pd.DataFrame:
+    """Per-effector host-response signatures from the dual perturb-seq differential expression.
+
+    The published table contains 33,531 host genes for each significant parasite effector. Putting
+    thirty-three thousand mostly redundant columns into the node table would make the assay dominate
+    by width, so the centered log-fold-change matrix is represented by its reproducible principal
+    components plus the number and norm of substantial host effects. The parasite target still goes
+    through the identity layer; symbols and the historical numeric target are not guessed as ME49 ids.
+    """
+    root = os.path.join(base, "datasets", "DNA", "CRISPR_screen", "37827122")
+    path = os.path.join(root, "hosttx_effectors_DE_host_genes.csv")
+    mapping_path = os.path.join(root, "hosttx_effectors_PMC12033024_D3_sgRNA_gene_map.xlsx")
+    if not os.path.exists(path) or not os.path.exists(mapping_path):
+        log("screens: full dual perturb-seq host signatures absent")
+        return pd.DataFrame()
+    data = pd.read_csv(path)
+    required = {"target", "gene", "avg_log2FC", "p_val_bh"}
+    if not required <= set(data.columns):
+        log("screens: dual perturb-seq signature table has unexpected columns")
+        return pd.DataFrame()
+    mapping = pd.read_excel(mapping_path).rename(columns=lambda column: str(column).strip())
+    lookup = {}
+    for row in mapping.itertuples(index=False):
+        name = str(getattr(row, "Gene_Name", "")).strip().upper()
+        accession = str(getattr(row, "Gene_ID_Updated", "")).strip()
+        if name and accession and accession.lower() != "nan":
+            lookup[name] = accession
+
+    def target_gene(value):
+        text = str(value).strip()
+        accession = lookup.get(text.upper(), text if text.upper().startswith("TG") else "")
+        return resolve(accession) if resolve and accession else accession or None
+
+    data["gene_id"] = data.target.map(target_gene)
+    data["avg_log2FC"] = pd.to_numeric(data.avg_log2FC, errors="coerce")
+    data["p_val_bh"] = pd.to_numeric(data.p_val_bh, errors="coerce")
+    data = data.dropna(subset=["gene_id", "gene", "avg_log2FC"])
+    if data.empty:
+        return pd.DataFrame()
+    matrix = data.pivot_table(index="gene_id", columns="gene", values="avg_log2FC",
+                              aggfunc="mean", fill_value=0.0)
+    from sklearn.decomposition import PCA
+    n = int(min(max(components, 1), max(min(matrix.shape) - 1, 1)))
+    scores = PCA(n_components=n, random_state=42).fit_transform(matrix.to_numpy(dtype=float))
+    out = pd.DataFrame(scores, index=matrix.index,
+                       columns=[f"hosttx_signature_pc{i + 1:02d}" for i in range(n)])
+    out["hosttx_signature_norm"] = np.sqrt(np.square(matrix.to_numpy(dtype=float)).sum(axis=1))
+    substantial = data[(data.p_val_bh <= 0.05) & (data.avg_log2FC.abs() >= 0.5)]
+    out["hosttx_signature_n_de"] = substantial.groupby("gene_id").gene.nunique().reindex(
+        out.index, fill_value=0).astype(float)
+    log(f"screens: full host-response signatures -> {len(out)} effectors x {matrix.shape[1]:,} "
+        f"host genes, represented by {n} PCs")
+    return out
 
 
 def proteomics(base: str, log=print, resolve=None) -> pd.DataFrame:

@@ -48,7 +48,7 @@ let one read as another.
 THE DATA MODEL — TWO SHAPES, AND PEOPLE CONFUSE THEM
 --------------------------------------------------------------------------------
 
-    data/nodes.parquet       one row per GENE       8,140 x 165 columns
+    data/nodes.parquet       one row per GENE       8,140 x 193 columns
     data/graph.npz           one row per GENE PAIR  12 edge types, ~296k edges
     data/mentions.parquet    gene x document        which paper named which gene
     data/crosslink_models.parquet   one crosslinked pair, its residues + models
@@ -59,7 +59,7 @@ A crosslink is inherently pairwise -- "GRA7 residue 124 joins GRA2 residue 102"
 structural similarity and IP-MS. Asking "is the crosslink data in the table"
 gets the answer "only as a summary".
 
-The cache is 11 MB, committed, and self-contained: the application needs no
+The cache is 17 MB, committed, and self-contained: the application needs no
 network, no dataset and no build step. Only 3D coordinates for structures are
 fetched on demand.
 
@@ -68,7 +68,7 @@ fetched on demand.
 THE MODULES, IN THE ORDER DATA FLOWS
 --------------------------------------------------------------------------------
 
-    datasets.py       the provenance registry -- 26 datasets, machine-readable.
+    datasets.py       the provenance registry -- 36 datasets, machine-readable.
                       datasets.unresolved() lists citations still unconfirmed.
     identity.py       every string the literature uses for a gene -> one
                       canonical accession, tagged by confidence
@@ -226,9 +226,7 @@ RECOVERY, once absence labels are excluded from scoring (see done/10):
 OPEN — IN THE ORDER TO DO THEM
 ================================================================================
 
-    (nothing open)
-
-Every task written into this folder has been finished.
+    No numbered implementation tasks remain as of 2026-08-14.
 
     ONE THING NEEDS THE AUTHOR, not a session: GitHub Pages is not enabled on
     the repository, so the API-reference workflow builds green and uploads an
@@ -288,6 +286,16 @@ DONE
     done/10_search_more_targets.txt    THE NEGATIVE CONTROL FAILED -- read it
     done/11_readme_and_api_reference.txt README narrowed, API page, tooltips
     done/12_test_every_aspect.txt      52% -> 100%, and 19 silent bugs
+    done/35_distinct_soft_lighting_and_point_rendering.md
+                                      soft light, 3 distinct point modes,
+                                      volumetric shadow-ray tracing
+    done/36_gpu_pbr_points_and_stable_rays.md
+    open/37_lighting_material_lab.md
+                                      continuous cursor flashlight, metallic repair, render matrix
+    open/38_pan_apicomplexan_dataset_archive.md
+                                      provenance-first future dataset archive across Apicomplexa
+                                      OpenGL GGX spheres, curved depth,
+                                      stable GPU density rays
 
 
 ================================================================================

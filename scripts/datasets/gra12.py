@@ -4,7 +4,7 @@
 Median L2FC in vitro and in vivo, DISCO score; two screens
 
     level / kind : DNA / CRISPR_screen
-    provides     : crispr_gra12s1_l2fc_invivo, crispr_gra12s2_l2fc_invivo
+    provides     : crispr_gra12s1_l2fc_invitro, crispr_gra12s1_l2fc_invivo, crispr_gra12s1_disco, crispr_gra12s2_l2fc_invitro, crispr_gra12s2_l2fc_invivo, crispr_gra12s2_disco
     coverage     : 236 / 232
     citation     : GRA12 is a common virulence factor across Toxoplasma gondii strains and mouse subspecies
     PMID         : 40240328

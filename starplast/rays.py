@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Light that can be blocked, and light that bounces -- without a ray tracer.
+"""CPU fallback for volumetric shadow-ray tracing through a point-density field.
 
 ## What this does
 
@@ -9,11 +9,13 @@ its front, so nothing occludes anything and the eye gets no depth from the light
 means by "point at it and it lights up" is the other thing -- a gene lights up when there is a clear
 line between it and the light, and stays dark when the cluster in front of it is in the way.
 
-The honest way to get that is a shadow ray per gene per light. The expensive way to answer a shadow
-ray is to intersect it against the scene, which for 8,140 unconnected points means either a spatial
-structure and a per-ray walk, or a GPU pipeline this renderer does not have.
+The primary glossy/metallic renderer uploads this grid as a 3D texture and marches the rays in its
+OpenGL vertex shader. This NumPy implementation remains for flat points, headless validation, and
+drivers that reject the shader. Both paths send one shadow ray per gene toward the active light.
+Because genes are point sprites rather than triangle surfaces, those rays integrate a density
+volume; claiming mirror reflection, refraction, hardware path tracing or Vulkan RT would be false.
 
-## What it actually is
+## Transport model
 
 **Voxel occupancy plus fixed-step marching.** The cloud is binned once into a coarse grid -- how
 much of each cell is occupied -- and a shadow ray is answered by sampling that grid at a dozen
@@ -27,11 +29,9 @@ barely shadowed, and one behind a dense cluster goes properly dark, with no hard
 between. It cannot tell you which gene did the blocking. And it is coarse -- at 48 cells across, two
 genes in the same cell cannot shadow each other at all.
 
-**Bounce** is the same grid read the other way. A ray leaves the light, marches until it meets an
-occupied cell, and that cell becomes a small light of its own. One bounce, no recursion, and the
-"colour" it bounces is the light's own -- there is no radiosity here, and nothing here is solving
-the rendering equation. What it buys is the thing that was asked for: a light you can aim into the
-map that lands somewhere and makes THAT place glow.
+The older experimental bounce helpers remain private implementation utilities for reproducibility,
+but the display no longer exposes emitters or bounce/ray controls. The only ray option is the
+understandable one: traced volumetric shadows on or off through the light-render-mode control.
 """
 from __future__ import annotations
 

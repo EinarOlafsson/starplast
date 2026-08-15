@@ -40,7 +40,7 @@ import numpy as np
 import pandas as pd
 
 from .clustering import NOISE, _association_with_inputs, cluster
-from .embedding import BLOCKS, EmbeddingSpec, build_matrix, columns_for
+from .embedding import BLOCKS, SLOT_BLOCKS, EmbeddingSpec, build_matrix, columns_for
 
 DEFAULT_SEED = 42
 
@@ -132,7 +132,23 @@ SAME_QUANTITY = {
 }
 
 
-def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8) -> set:
+def excluded_group(nodes: pd.DataFrame, hierarchy: str, path, organism="Toxo") -> set:
+    """Every declared column below a hierarchy branch.
+
+    This is the class-level operation the slot catalogue previously promised but did not implement.
+    ``hierarchy='evidence'`` omits an assay/data class, ``'biology'`` omits everything about a
+    biological subject, and ``'context'`` omits a system or stage.  Dependencies are closed in both
+    directions by :func:`excluded_for` when a target is supplied.
+    """
+    from . import slots
+    out = set()
+    for slot in slots.slots_in_group(path, organism=organism, hierarchy=hierarchy):
+        out.update(slots.declared_columns(nodes, slot))
+    return out
+
+
+def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8,
+                 scope="target_family") -> set:
     """The target, everything that restates it, and everything the same experiment produced.
 
     Three mechanisms, because each is blind to what the others catch and this guard has now leaked
@@ -147,8 +163,31 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8) -> set:
       shows 0.56-0.66 against each of them separately, so no pairwise statistic can see it;
     * **shared provenance**, for the same experiment's OTHER outputs, which is neither of the above.
     """
+    if scope not in ("direct", "target_family", "evidence", "biology", "context"):
+        raise ValueError("scope must be direct, target_family, evidence, biology or context")
     assoc = _association_with_inputs(nodes, {target})
     out = {target} | {c for c, v in assoc.items() if v >= threshold}
+
+    # The generated hierarchy is the primary declaration.  A target family is the narrow,
+    # leakage-safe default (all direct estimates of the same quantity).  Broader scopes are explicit
+    # sensitivity analyses: omit the whole assay class, biological subject or context branch.
+    from . import slots
+    matched = slots.target_slots(target)
+    if scope != "direct" and matched:
+        if scope == "target_family":
+            selected = {s.key: s for seed in matched
+                        for s in slots.family_slots(seed.target_family)}.values()
+        else:
+            selected = {}
+            for seed in matched:
+                path = getattr(seed, f"{scope}_path")
+                # The final component is assay-specific.  Its parent is the useful class-level
+                # holdout (e.g. all spatial-localisation evidence, not only hyperLOPIT posterior 1).
+                selected.update({s.key: s for s in
+                                 slots.slots_in_group(path[:-1] or path, hierarchy=scope)})
+            selected = selected.values()
+        for slot in selected:
+            out.update(slots.declared_columns(nodes, slot))
 
     # Shared provenance. `lopit_prob_map` is the posterior of hyperLOPIT's own assignment: not a
     # restatement of the compartment (association 0.29, far under any workable threshold), and not a
@@ -186,11 +225,27 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8) -> set:
     from . import datasets
     declared = set(datasets.derived_sources(target))
     if declared:
+        # A declared source may itself be a summary of a registered experiment.  Now that the raw
+        # GSE columns are selectable, excluding expr_cyst while leaving the twelve measurements it
+        # summarizes would put the same quantity straight back into the map by a longer route.
+        # Provenance closes that route without guessing from column-name prefixes.
+        for source in declared:
+            origin = datasets.provenance(source)
+            if origin is not None:
+                out |= {c for c in origin.columns if c in nodes.columns}
         for block in BLOCKS:
             cols = set(columns_for(nodes, EmbeddingSpec(blocks=(block,))).get(block, []))
             if cols & declared:
                 out |= cols
         out |= declared
+
+    # And the reverse direction: a summary or label computed from anything already banned is also
+    # banned.  Repeat to a fixed point because a derived output can itself feed another derivation.
+    changed = True
+    while changed:
+        before = len(out)
+        out |= {c for c in datasets.derived_dependents(out) if c in nodes.columns}
+        changed = len(out) != before
     return out
 
 
@@ -313,17 +368,22 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
     log(f"  excluded from every embedding ({len(banned)}): {', '.join(sorted(banned))}")
 
     if block_sets is None:
-        # Six blocks, not the nine that exist: `localization` and `literature` are deliberately out
-        # of the default sweep, the first because it is the localization experiment's own output and
-        # the second because it counts study effort. The interface sweeps every block instead, which
-        # is why a leak that could never reach this default reached the Search tab -- so the base is
-        # NAMED in the log rather than counted. "41 combinations from 6 blocks" does not let a
-        # reader tell which six, and that difference is the whole story of 3f-2 in HANDOFF.md.
-        base = ["expression_summary", "expression_raw", "fitness_screens",
-                "published_screens", "protein_features", "interactions"]
+        # Six biological questions, not six file families. Localization remains held out by default
+        # because it is commonly the target; literature attention is never a feature.
+        base = ["Toxo_transcription_tachyzoite", "Toxo_transcription_bradyzoite_tissue_cyst",
+                "Toxo_transcription_oocyst_sporozoite", "Toxo_fitness_hff_in_vitro",
+                "Toxo_protein_abundance_tachyzoite", "Toxo_fold_confidence_disorder"]
         base = [b for b in base if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b)]
+        # A minimal/imported table may predate the slot catalogue and carry only a legacy family
+        # such as ``fit_*``. Keep that table searchable; saved recipes retain their old block name.
+        if not base:
+            legacy = ["expression_summary", "expression_raw", "fitness_screens",
+                      "published_screens", "protein_features", "interactions"]
+            base = [b for b in legacy if columns_for(
+                nodes, EmbeddingSpec(blocks=(b,))).get(b)]
         block_sets = [tuple(c) for r in (1, 2, 3) for c in itertools.combinations(base, r)]
-        left_out = [b for b in BLOCKS if b not in base and columns_for(
+        catalog = SLOT_BLOCKS if any(b in SLOT_BLOCKS for b in base) else BLOCKS
+        left_out = [b for b in catalog if b not in base and columns_for(
             nodes, EmbeddingSpec(blocks=(b,))).get(b)]
         log(f"  {len(block_sets)} dataset combinations from {len(base)} blocks: "
             + ", ".join(base)

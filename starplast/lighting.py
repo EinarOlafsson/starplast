@@ -1,30 +1,17 @@
 #!/usr/bin/env python3
-"""Moving lights, and points shaded by where the light is coming from.
+"""Soft interactive lighting and ray-marched shadows for a point cloud.
 
 ## What this is, and what it is not
 
-It is **per-point shading**: a few lights move on their own paths, and every gene's colour is its
-own colour modulated by how much light reaches it from those directions. Diffuse, specular and
-distance falloff, computed for all 8,140 points as array arithmetic on every frame.
+``soft`` uses broad diffuse/specular illumination while ``ray traced`` additionally marches one
+shadow ray from every gene to the active light through the point-density volume. This is real
+volumetric shadow-ray tracing: occluding clusters attenuate the ray. It is deliberately not called
+hardware path tracing--there are no triangle surfaces, reflections or Vulkan renderer here.
 
-It is **not ray tracing**, and the difference is not a detail. Ray tracing answers "what does this
-pixel see, following the light backwards through the scene" -- which buys reflections, refraction,
-and shadows cast by one object onto another. None of those exist here, because there are no
-surfaces: a point cloud has no geometry to occlude anything. Even given surfaces, this renders
-through pyqtgraph's GL scatter, which draws sprites through a fixed pipeline; a ray tracer would
-mean replacing the renderer with OptiX or a Vulkan RT pipeline, not adding an option to this one.
-
-**Light Propagation Volumes and Voxel Cone Tracing** are the same answer twice. Both approximate
-indirect light by voxelising the scene into a grid and propagating or cone-sampling radiance through
-it. Both need geometry to voxelise and a compute pipeline to propagate; a scatter of unconnected
-points voxelises to a sparse cloud of isolated cells, and what came back would be a blur of each
-point's own colour -- an expensive way to reproduce the ambient term already in the equation below.
-
-So what is offered is what actually changes the picture: direction. A point on the side of the map
-facing a light is bright, one facing away is dim, and as the lights move the shape of the cloud
-reads in a way that a flat colour per gene does not show. The normal is the direction from the
-centre of the map outward, which is the standard trick for a point cloud with no surface -- it
-shades the cloud as though it were a solid body, which is exactly the shape a reader is trying to see.
+The controls describe independent questions: which interaction places the light, which color mood
+it has, how points themselves are drawn, and whether shadow rays are traced. The point modes are
+few because a rendering choice that cannot be distinguished on the fixed comparison scene is not a
+choice worth presenting.
 """
 from __future__ import annotations
 
@@ -32,9 +19,8 @@ import math
 
 import numpy as np
 
-#: On or off. What KIND of lit is `FINISHES`, and where the light comes from is `SOURCES` -- three
-#: separate questions that used to be one dropdown reading "lit + specular".
-MODES = ("off", "lit")
+#: Ray tracing is a light-transport mode, not a pretend graphics backend.
+MODES = ("off", "soft", "ray traced", "deep ray traced")
 
 #: How a point's surface answers the light. The parameters are what separate a mineral from a
 #: billiard ball: how much of the light scatters (diffuse), how much bounces (specular), how tightly
@@ -66,47 +52,80 @@ MODES = ("off", "lit")
 #: reader comparing colours across clusters is better served by a flat scatter than by a lit one.
 #: Every other finish draws each gene as a sphere; there is no separate "3D" entry because they are
 #: all 3D, and two names for the same picture is a menu that answers a question nobody asked.
-FINISHES = {
-    "2D": {"ambient": 1.15, "diffuse": 1.0, "specular": 0.0, "shininess": 1.0,
-           "rim": 0.0, "tint": 0.0},
-    "matt": {"ambient": 1.35, "diffuse": 1.0, "specular": 0.0, "shininess": 1.0,
-             "rim": 0.0, "tint": 0.0},
-    "satin": {"ambient": 1.0, "diffuse": 1.0, "specular": 0.9, "shininess": 6.0,
-              "rim": 0.35, "tint": 0.0},
-    "glossy": {"ambient": 0.72, "diffuse": 0.95, "specular": 2.2, "shininess": 14.0,
-               "rim": 0.85, "tint": 0.0},
-    "metallic": {"ambient": 0.62, "diffuse": 0.6, "specular": 2.8, "shininess": 9.0,
-                 "rim": 1.2, "tint": 1.0},
+#: Three visibly different point renderings. ``flat`` keeps data colors nearly unmodified;
+#: ``glossy 3D`` uses a white broad glint; ``metallic 3D`` has a darker body, colored reflection
+#: and stronger rim. These names also drive the GPU PBR sphere shader in :mod:`starplast.sprite`;
+#: these coefficients remain the CPU fallback's per-point response.
+POINT_MODES = {
+    "flat": {"ambient": 1.20, "diffuse": 0.25, "specular": 0.0, "shininess": 1.0,
+             "rim": 0.0, "tint": 0.0, "size": 1.0},
+    "glossy 3D": {"ambient": 0.88, "diffuse": 0.68, "specular": 1.00,
+                  "shininess": 7.0, "rim": 0.30, "tint": 0.0, "size": 1.30},
+    "metallic 3D": {"ambient": 0.70, "diffuse": 0.38, "specular": 1.45,
+                    "shininess": 11.0, "rim": 0.82, "tint": 1.0, "size": 1.35},
+    "brushed metal 3D": {"ambient": 0.76, "diffuse": 0.42, "specular": 1.20,
+                         "shininess": 7.0, "rim": 0.65, "tint": 0.85, "size": 1.35},
+    "silver 3D": {"ambient": 0.72, "diffuse": 0.28, "specular": 1.65,
+                  "shininess": 16.0, "rim": 0.92, "tint": 0.35, "size": 1.35},
+    "pearl 3D": {"ambient": 0.84, "diffuse": 0.62, "specular": 1.10,
+                 "shininess": 10.0, "rim": 0.48, "tint": 0.20, "size": 1.32},
+    "glass 3D": {"ambient": 0.78, "diffuse": 0.34, "specular": 1.45,
+                 "shininess": 18.0, "rim": 1.05, "tint": 0.05, "size": 1.38},
+    "velvet 3D": {"ambient": 0.92, "diffuse": 0.72, "specular": 0.28,
+                  "shininess": 3.0, "rim": 0.72, "tint": 0.30, "size": 1.32},
+}
+
+# Kept as a code-level alias for callers written before the UI rename. It contains only the new
+# modes; old saved values go through ``normalize_point_mode`` below.
+FINISHES = POINT_MODES
+LEGACY_POINT_MODES = {
+    "2D": "flat", "matt": "flat", "satin": "glossy 3D",
+    "glossy": "glossy 3D", "metallic": "metallic 3D",
 }
 
 #: However dark a finish is allowed to make the body of the cloud. A metal that reads properly as
 #: metal is nearly black away from its highlights, and a gene that is nearly black is a gene the
 #: reader cannot find -- this is a data display first, so the floor stops there.
-MIN_AMBIENT = 0.2
-DEFAULT_FINISH = "satin"
+MIN_AMBIENT = 0.32
+DEFAULT_POINT_MODE = "glossy 3D"
+DEFAULT_FINISH = DEFAULT_POINT_MODE
 
 #: Where the light comes from. The default follows the pointer, because the thing a person does with
 #: this map is lean into a cluster -- and a light that arrives from wherever they are looking lights
 #: the points they are looking at rather than the ones behind them.
-SOURCES = ("mouse", "orbiting", "top left", "top right", "bottom left", "bottom right",
-           "selected gene", "selected gene and its edges")
-DEFAULT_SOURCE = "mouse"
+SOURCES = ("mouse flashlight", "selected gene", "selected gene and its edges")
+DEFAULT_SOURCE = "mouse flashlight"
 
-#: What the light does about whatever is in its way.
-#:
-#: none -- it reaches everything, however much of the map is in front. The old behaviour, and the
-#: reason a lit cloud can read as a painted one: the far side of a cluster is as bright as its face.
-#: shadows -- a gene lights up when the line between it and the light is clear, and stays dark when
-#: a cluster is in the way. See `rays` for what this is and is not.
-#: emitter -- shadows, and the light drawn where it is, so you can see the thing casting them.
-#: bounce -- rays leave the light, and the first thing each one lands on glows in its own right.
-RAY_MODES = ("none", "shadows", "emitter", "bounce")
-DEFAULT_RAYS = "shadows"
+# Temporary comparison controls for task 37.  They intentionally cover visibly different optical
+# models; after direct use the weak ones can be removed without changing the source semantics.
+POINTER_MODES = {
+    "broad flashlight": {"inner": 18.0, "outer": 34.0, "gain": 1.00},
+    "focused flashlight": {"inner": 7.0, "outer": 17.0, "gain": 1.28},
+    "soft flashlight": {"inner": 28.0, "outer": 52.0, "gain": 0.78},
+    "parallel wash": None,
+}
+DEFAULT_POINTER_MODE = "broad flashlight"
 
-#: How many rays a bounce fires, and how brightly what they land on glows. A bounce is dimmer than
-#: the source it came from -- light does not gain energy by hitting a cluster.
-BOUNCE_RAYS = 7
-BOUNCE_GAIN = 0.55
+RESPONSES = {"direct": 1.0, "smooth": 0.24, "cinematic": 0.09}
+DEFAULT_RESPONSE = "smooth"
+
+TARGET_MARKERS = ("none", "halo", "beacon", "pulse")
+DEFAULT_TARGET_MARKER = "none"
+
+#: Soft color temperatures. Values are intentionally below pure white so specular light cannot
+#: bleach categorical colors. The differences survive multiplication by saturated data colors.
+LIGHT_MOODS = {
+    "neutral": (0.92, 0.92, 0.90),
+    "cool blue": (0.66, 0.82, 1.00),
+    "warm": (1.00, 0.70, 0.46),
+    "daylight": (0.82, 0.90, 1.00),
+    "moonlight": (0.42, 0.58, 1.00),
+    "gold": (1.00, 0.82, 0.32),
+    "rose": (1.00, 0.54, 0.68),
+    "violet": (0.72, 0.52, 1.00),
+    "laboratory green": (0.50, 1.00, 0.72),
+}
+DEFAULT_MOOD = "neutral"
 
 #: How many lights, and how fast they travel, at the defaults.
 LIGHT_RANGE = (1, 6)
@@ -122,13 +141,30 @@ DEFAULT_SPEED = 0.35
 #: with somewhere to be. Turned back DOWN from 2.6 once shadows arrived: with nothing blocking it,
 #: a pool had to be bright to be found, and a light that can be blocked reads from the contrast
 #: between what it reaches and what it does not.
-LOCAL_GLOW = 1.8
-LOCAL_WIDTH = 0.3
+LOCAL_GLOW = 0.62
+LOCAL_WIDTH = 0.46
 
 #: How much of a point's own colour survives where no light reaches it. Not zero: an unlit half of
 #: the map that went black would hide half the genes, and this is a data display before it is a
 #: rendering. 0.35 keeps every point identifiable while still showing the direction of the light.
-AMBIENT = 0.35
+AMBIENT = 0.55
+
+
+def normalize_point_mode(value: str | None) -> str:
+    """Translate old saved finish names and refuse unknown render modes safely."""
+    value = LEGACY_POINT_MODES.get(str(value), str(value))
+    return value if value in POINT_MODES else DEFAULT_POINT_MODE
+
+
+def normalize_source(value: str | None) -> str:
+    """Translate the old ``mouse`` label and discard removed orbit/corner sources."""
+    value = "mouse flashlight" if str(value) in ("mouse", "mouse proximity") else str(value)
+    return value if value in SOURCES else DEFAULT_SOURCE
+
+
+def mood_color(mood: str | None) -> np.ndarray:
+    """The RGB illumination for a named mood, with neutral as the safe fallback."""
+    return np.asarray(LIGHT_MOODS.get(str(mood), LIGHT_MOODS[DEFAULT_MOOD]), dtype=float)
 
 
 def lights(t: float, n: int = DEFAULT_LIGHTS, speed: float = DEFAULT_SPEED, radius: float = 90.0,
@@ -206,7 +242,8 @@ def at_points(coords, indices, radius: float, color=(1.0, 0.95, 0.85)) -> list:
 
 
 def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
-          shininess: float = 24.0, finish: str = None, eye=None) -> np.ndarray:
+          shininess: float = 24.0, finish: str = None, point_mode: str = None,
+          eye=None) -> np.ndarray:
     """Point colours under a set of lights. Returns RGBA in the shape it was given.
 
     The normal is the outward direction from the centre of the cloud, because a point has no surface
@@ -224,7 +261,9 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
     normal = np.divide(normal, np.where(length > 1e-9, length, 1.0))
     scale = float(np.percentile(length, 95)) or 1.0
 
-    f = FINISHES.get(finish or "", None)
+    requested = point_mode if point_mode is not None else finish
+    normalized = normalize_point_mode(requested) if requested is not None else None
+    f = POINT_MODES.get(normalized, None) if normalized is not None else None
     if f is not None:
         specular, shininess = f["specular"] > 0, f["shininess"]
     diffuse_gain = f["diffuse"] if f else 1.0
@@ -243,7 +282,16 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
     # separate diffuse colour and tint the bounce itself -- which is the whole difference between a
     # copper bead and a white-glinting plastic one.
     own = np.clip(rgba[:, :3], 0.0, 1.0)
-    total = np.full((len(coords), 3), ambient, dtype=float)
+    # The mood is a broad fill, not just the few points whose pseudo-normal faces the lamp. With a
+    # neutral ambient floor, cool/warm changed only the small highlight share and measured 1.5/255
+    # at the median -- a setting that existed in the menu but not in the picture. Tinting the fill
+    # preserves the data hue (it still multiplies `own`) while making the temperature readable.
+    if lit:
+        fill_source = np.mean([np.asarray(light["color"], dtype=float) for light in lit], axis=0)
+        fill_color = 0.55 + 0.45 * np.clip(fill_source, 0.0, 1.0)
+    else:
+        fill_color = np.ones(3)
+    total = np.tile(ambient * fill_color, (len(coords), 1))
     highlight = np.zeros((len(coords), 3), dtype=float)
     # The viewer is treated as far away on +Z. A specular term that tracked the real camera would
     # move the highlight when the map is rotated, which reads as the data changing rather than the
@@ -265,6 +313,16 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
         dist = np.linalg.norm(to_light, axis=1, keepdims=True)
         direction = np.divide(to_light, np.where(dist > 1e-9, dist, 1.0))
         falloff = 1.0 / (1.0 + dist / (2.0 * scale))
+        if light.get("spot"):
+            from_light = -direction
+            axis = np.asarray(light["direction"], dtype=float)
+            axis /= max(float(np.linalg.norm(axis)), 1e-9)
+            cosine = (from_light * axis).sum(axis=1, keepdims=True)
+            inner = math.cos(math.radians(float(light["inner"])))
+            outer = math.cos(math.radians(float(light["outer"])))
+            blend = np.clip((cosine - outer) / max(inner - outer, 1e-6), 0.0, 1.0)
+            beam = blend * blend * (3.0 - 2.0 * blend)
+            falloff *= beam * float(light.get("gain", 1.0))
         # How much of this light survives the trip -- 1 where the line to the gene is clear, less
         # where the map is in the way. Attached by whoever built the light (see `rays`), because
         # working it out needs the whole cloud binned and this function shades one frame.
@@ -339,33 +397,56 @@ def torch(anchor, basis, radius: float, color=(1.0, 0.97, 0.92), stand_off: floa
              "color": np.array(color, dtype=float), "local": True}]
 
 
+def flashlight(pointer, basis, centre, radius: float, cone: dict,
+               color=(1.0, 0.97, 0.92), fov: float = 60.0, aspect: float = 1.0) -> list:
+    """A camera-origin spotlight following continuous screen coordinates.
+
+    No gene is queried here.  The cursor defines one ray through the camera frustum, so crossing two
+    overlapping points at different depths does not change either the origin or direction.  The
+    light target is the intersection with the plane through the cloud center, used only for drawing
+    an optional marker.
+    """
+    eye, right, up, forward = (np.asarray(v, dtype=float) for v in basis)
+    x, y, _ = pointer if pointer is not None else (0.0, 0.0, 1.0)
+    spread = math.tan(math.radians(float(fov)) * 0.5)
+    direction = forward + right * float(x) * spread + up * float(y) * spread / max(aspect, 1e-6)
+    direction /= max(float(np.linalg.norm(direction)), 1e-9)
+    depth = float(np.dot(np.asarray(centre, dtype=float) - eye, forward))
+    target = eye + direction * depth / max(float(np.dot(direction, forward)), 1e-6)
+    return [{"pos": eye, "color": np.array(color, dtype=float), "spot": True,
+             "direction": direction, "inner": float(cone["inner"]),
+             "outer": float(cone["outer"]), "gain": float(cone["gain"]),
+             "target": target}]
+
+
 def light_at(coords, source: str, t: float, n: int, speed: float, radius: float,
-             pointer=None, basis=None, selected=None, neighbours=None, anchor=None) -> list:
+             pointer=None, basis=None, selected=None, neighbours=None, anchor=None,
+             color=None, pointer_mode: str = DEFAULT_POINTER_MODE, fov: float = 60.0,
+             aspect: float = 1.0) -> list:
     """The lights for one frame, for whichever source was chosen.
 
     The screen-relative sources need `basis` -- the camera's own axes -- because "top left" and
     "where the pointer is" are statements about the picture, not about the data. `anchor` is the
-    gene under the pointer, when there is one: see `torch`.
+    ``anchor`` remains accepted for saved callers but is deliberately ignored: mouse illumination
+    is a continuous camera ray, never the identity or depth of the nearest gene.
     """
     coords = np.asarray(coords, dtype=float)
+    source = normalize_source(source)
+    color = mood_color(DEFAULT_MOOD) if color is None else np.asarray(color, dtype=float)
     centre = coords.mean(axis=0) if len(coords) else np.zeros(3)
-    if source == "orbiting":
-        return lights(t, n, speed, radius=radius)
     if source == "selected gene" and selected is not None:
-        return at_points(coords, [selected], radius)
+        return at_points(coords, [selected], radius, color=color)
     if source == "selected gene and its edges" and selected is not None:
-        return at_points(coords, [selected] + list(neighbours or []), radius)
+        return at_points(coords, [selected] + list(neighbours or []), radius, color=color)
     if basis is not None:
-        if source in CORNERS:
-            return on_screen(CORNERS[source], basis, centre, radius)
-        if source == "mouse" and anchor is not None:
-            return torch(anchor, basis, radius)
-        if source == "mouse" and pointer is not None:
-            # Pushed forward of the screen plane so the light is between the viewer and the cloud
-            # rather than in it: at z=0 half the map is behind the light and goes dark.
-            x, y, _ = pointer
-            return on_screen((x * 1.4, y * 1.4, 1.0), basis, centre, radius)
-        return on_screen((0.0, 0.0, 1.0), basis, centre, radius)
+        if source == "mouse flashlight":
+            cone = POINTER_MODES.get(str(pointer_mode), POINTER_MODES[DEFAULT_POINTER_MODE])
+            if cone is not None:
+                return flashlight(pointer, basis, centre, radius, cone, color=color,
+                                  fov=fov, aspect=aspect)
+            x, y, _ = pointer if pointer is not None else (0.0, 0.0, 1.0)
+            return on_screen((x * 1.2, y * 1.2, 1.0), basis, centre, radius, color=color)
+        return on_screen((0.0, 0.0, 1.0), basis, centre, radius, color=color)
     # No camera to speak of -- offscreen, or before the first frame. A light from +Z lights what is
     # facing the reader, which is the honest default rather than a guess.
-    return fixed((0.0, 0.0, 1.0), radius)
+    return fixed((0.0, 0.0, 1.0), radius, color=color)

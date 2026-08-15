@@ -4,7 +4,7 @@
 Count of phosphosites per protein, no positions
 
     level / kind : post_translation / phosphoproteomics
-    provides     : n_phosphosites
+    provides     : n_phosphosites, has_phospho
     coverage     : 1,175 (14.4%)
     citation     : Treeck M et al. 2011 -- CONFIRM against the file on disk
     url          : https://ars.els-cdn.com/content/image/1-s2.0-S1931312811002885-mmc2.xls

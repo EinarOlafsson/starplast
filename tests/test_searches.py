@@ -54,6 +54,7 @@ def test_a_climb_becomes_a_table_and_its_artefacts():
     assert len(run.findings) == 3 and set(run.findings.config) == {0, 1, 2}
     assert set(run.labels) == {0, 1, 2}
     assert run.manifest["version"] and run.manifest["created"]
+    assert set(("umap", "tsne", "hdbscan", "kmeans", "dbscan")) <= set(run.manifest["backend"])
 
 
 def test_a_configuration_can_be_asked_for_by_rank():

@@ -55,6 +55,16 @@ def split_row(**kw):
     return row
 
 
+def conjunction_row(**kw):
+    row = {"kind": "conjunction", "layer": "compartment", "other": "stage",
+           "cluster": 41, "category": "golgi", "other_category": "bradyzoite",
+           "purity": 0.78, "joint_lift": 6.2, "interaction_ratio": 3.1,
+           "q": 2e-9, "n_predicted": 9, "n_known": 32, "circular": False,
+           "genes": [f"TGME49_{i:06d}" for i in range(9)]}
+    row.update(kw)
+    return row
+
+
 # --------------------------------------------------------------------------- ranking
 def test_a_useful_finding_outranks_a_stronger_one_about_nothing():
     """The whole job. Statistical strength alone puts the giant obvious cluster first every time,
@@ -126,6 +136,12 @@ def test_a_categorical_disagreement_lists_the_groups_it_split_into():
     text = I.sentence(pd.Series(row), nodes())
     assert "G1 (19)" in text and "S/M (14)" in text
     assert "disagrees" in text
+
+
+def test_a_conjunction_names_both_layers_without_stating_causation():
+    text = I.sentence(pd.Series(conjunction_row()), nodes())
+    assert "golgi" in text and "bradyzoite" in text and "3.1x" in text
+    assert "hypothesis" in text and "proof" in text
 
 
 def test_a_product_name_is_used_where_there_is_one():

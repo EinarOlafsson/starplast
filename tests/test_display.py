@@ -144,7 +144,8 @@ def test_nothing_is_ever_lit_to_invisibility():
     xyz = rng.normal(size=(300, 3)) * 20
     flat = np.full((300, 4), 0.6)
     out = L.shade(xyz, flat, L.lights(0.0, 3))
-    assert out[:, :3].min() >= 0.6 * L.AMBIENT * 0.99
+    # A colored fill may lower one channel slightly, but never enough to hide the point.
+    assert out[:, :3].min() >= 0.6 * L.AMBIENT * 0.90
 
 
 def test_transparency_is_never_touched():
@@ -195,7 +196,9 @@ def test_an_unknown_background_is_refused_rather_than_drawn(win):
 
 
 def test_lighting_runs_a_timer_only_while_it_is_on(win):
-    assert win.set_lighting("lit") == "lit"
+    assert win.set_lighting("soft") == "soft"
+    assert win._light_timer.isActive()
+    assert win.set_lighting("ray traced") == "ray traced"
     assert win._light_timer.isActive()
     assert win.set_lighting("off") == "off"
     assert not win._light_timer.isActive()
@@ -206,7 +209,7 @@ def test_shading_never_compounds(win):
     """Every frame shades the FLAT colours, not what is on screen. Shading an already-shaded array
     darkens it a little more each frame until the map goes black -- which looks like a slow fade and
     reads as the data changing."""
-    win.set_lighting("lit")
+    win.set_lighting("soft")
     win.redraw()
     first = np.array(win._base_colors, copy=True)
     win._light_tick()
@@ -287,19 +290,23 @@ def test_the_settings_are_remembered_across_a_restart(qapp, tmp_path, monkeypatc
     s.setValue("display/ambient", "blobs")
     s.setValue("display/ambient_density", 2.0)
     s.setValue("display/lighting", "lit")
-    s.setValue("display/light_lights", 5)
+    s.setValue("display/light_finish", "metallic")
+    s.setValue("display/light_source", "mouse")
     s.sync()
     try:
         w = Window()
         assert w._ambient_mode == "blobs" and w._ambient_widget is not None
         assert w._ambient["density"] == 2.0
-        assert w._lighting["mode"] == "lit" and w._lighting["lights"] == 5
+        assert w._lighting == {"mode": "soft", "source": "mouse flashlight",
+                               "point_mode": "metallic 3D", "mood": "neutral",
+                               "pointer_mode": "broad flashlight", "response": "smooth",
+                               "target_marker": "none"}
         assert w._light_timer.isActive(), "the lights were remembered but not started"
         w.set_lighting("off")
         w.close()
     finally:
         for key in ("display/ambient", "display/ambient_density", "display/lighting",
-                    "display/light_lights"):
+                    "display/light_finish", "display/light_source"):
             s.remove(key)
         s.sync()
 
@@ -317,11 +324,32 @@ def test_the_background_follows_the_window_when_it_is_resized(win):
 
 def test_light_options_are_remembered(win):
     from PyQt6 import QtCore
-    win.set_lighting_option("lights", 4)
-    win.set_lighting_option("speed", 1.25)
-    assert win._lighting["lights"] == 4 and win._lighting["speed"] == 1.25
+    win.set_lighting_option("source", "selected gene")
+    win.set_lighting_option("point_mode", "flat")
+    win.set_lighting_option("mood", "warm")
+    assert win._lighting["source"] == "selected gene"
+    assert win._lighting["point_mode"] == "flat" and win._lighting["mood"] == "warm"
     s = QtCore.QSettings("starplast", "starplast")
-    assert int(s.value("display/light_lights")) == 4
+    assert s.value("display/light_source") == "selected gene"
+    assert s.value("display/light_point_mode") == "flat"
+    assert s.value("display/light_mood") == "warm"
+
+
+def test_preferences_offer_only_distinct_understandable_render_controls(win):
+    from starplast import lighting as light
+    dialog = win.build_preferences()
+    try:
+        choices = lambda box: [box.itemText(i) for i in range(box.count())]
+        assert choices(win.light_box) == list(light.MODES)
+        assert choices(win.light_source) == list(light.SOURCES)
+        assert choices(win.light_mood) == list(light.LIGHT_MOODS)
+        assert choices(win.point_render) == list(light.POINT_MODES)
+        for removed in ("light_rays", "light_finish", "light_count", "light_speed"):
+            assert not hasattr(win, removed), f"obsolete control {removed} returned"
+        assert "GPU" in win.light_box.toolTip() and "volumetric" in win.light_box.toolTip()
+        assert "Vulkan" in win.light_box.toolTip() and "path tracing" in win.light_box.toolTip()
+    finally:
+        dialog.close()
 
 
 def test_a_tick_with_the_lights_off_does_nothing(win):
@@ -558,35 +586,35 @@ def test_a_widget_destroyed_mid_walk_is_skipped(qapp):
 
 
 # --------------------------------------------------------------------------- finishes and sources
-def test_every_finish_changes_the_surface_rather_than_the_data(qapp):
-    """A finish is how a point answers the light. Four of them have to look different, and none may
+def test_every_point_mode_changes_the_surface_rather_than_the_data(qapp):
+    """A point mode is how a point answers the light. All have to look different, and none may
     move a point or touch its alpha -- the map's shape and its filter are not a rendering choice."""
     rng = np.random.default_rng(0)
     xyz = rng.normal(size=(400, 3)) * 15
     flat = np.column_stack([np.full(400, 0.5)] * 3 + [rng.random(400)])
     lit = L.lights(0.0, 2)
     seen = {}
-    for name in L.FINISHES:
-        out = L.shade(xyz, flat, lit, finish=name)
+    for name in L.POINT_MODES:
+        out = L.shade(xyz, flat, lit, point_mode=name)
         assert np.array_equal(out[:, 3], flat[:, 3]), f"{name} touched alpha"
         seen[name] = round(float(out[:, :3].mean()), 4)
-    assert len(set(seen.values())) == len(seen), f"two finishes render identically: {seen}"
+    assert len(set(seen.values())) == len(seen), f"two point modes render identically: {seen}"
 
 
-def test_matt_has_no_highlight_and_glossy_has_a_tight_one(qapp):
+def test_flat_has_no_highlight_and_glossy_has_a_tight_one(qapp):
     rng = np.random.default_rng(1)
     xyz = rng.normal(size=(600, 3)) * 15
     flat = np.full((600, 4), 0.5)
     lit = L.lights(0.0, 1)
-    matt = L.shade(xyz, flat, lit, finish="matt")[:, :3]
-    glossy = L.shade(xyz, flat, lit, finish="glossy")[:, :3]
-    assert glossy.max() > matt.max(), "glossy did not add a highlight"
+    plain = L.shade(xyz, flat, lit, point_mode="flat")[:, :3]
+    glossy = L.shade(xyz, flat, lit, point_mode="glossy 3D")[:, :3]
+    assert glossy.max() > plain.max(), "glossy did not add a highlight"
     # Tight means the peak stands FURTHER ABOVE THE BODY, which is the thing that reads as gloss.
     # Counting points near the top of the range instead -- which this did -- measures the shape of
     # the range rather than the highlight, and it moves whenever the floor moves, so it broke as
     # soon as the finishes started separating on contrast as well.
     stands_out = lambda a: float(a.max() / max(np.median(a), 1e-9))
-    assert stands_out(glossy) > stands_out(matt), "the highlight does not rise above the body"
+    assert stands_out(glossy) > stands_out(plain), "the highlight does not rise above the body"
 
 
 def test_metallic_takes_its_highlight_from_the_point_not_the_light(qapp):
@@ -594,13 +622,42 @@ def test_metallic_takes_its_highlight_from_the_point_not_the_light(qapp):
     xyz = np.array([[0.0, 0.0, 10.0], [0.0, 0.0, -10.0]])
     red = np.array([[1.0, 0.0, 0.0, 1.0], [1.0, 0.0, 0.0, 1.0]])
     lit = [{"pos": np.array([0.0, 0.0, 60.0]), "color": np.array([1.0, 1.0, 1.0])}]
-    metal = L.shade(xyz, red, lit, finish="metallic")
-    plastic = L.shade(xyz, red, lit, finish="glossy")
+    metal = L.shade(xyz, red, lit, point_mode="metallic 3D")
+    plastic = L.shade(xyz, red, lit, point_mode="glossy 3D")
     # A white light on a red point: the plastic highlight whitens the green channel, the metal's
     # stays red. This only works because specular is ADDED rather than multiplied into the colour --
     # multiplied, a pure red point has no green to raise and every finish looks identical on it.
     assert plastic[0, 1] > metal[0, 1] + 0.05, (plastic[0], metal[0])
     assert metal[0, 0] > metal[0, 1], "the metal highlight lost the point's own colour"
+
+
+def test_light_moods_are_visibly_different_without_touching_alpha(qapp):
+    rng = np.random.default_rng(22)
+    xyz = rng.normal(size=(800, 3)) * 15
+    colors = np.tile(np.array([[0.75, 0.22, 0.12, 0.8], [0.12, 0.35, 0.80, 0.6]]), (400, 1))
+    rendered = {}
+    for mood in L.LIGHT_MOODS:
+        lit = L.fixed((0.4, 0.6, 1.0), 40.0, color=L.mood_color(mood))
+        rendered[mood] = L.shade(xyz, colors, lit, point_mode="glossy 3D")
+        assert np.array_equal(rendered[mood][:, 3], colors[:, 3])
+    for a, b in (("neutral", "cool blue"), ("neutral", "warm"), ("cool blue", "warm")):
+        steps = np.abs(rendered[a][:, :3] - rendered[b][:, :3]).max(axis=1) * 255
+        assert np.median(steps) > 8, f"{a}/{b} mood difference is invisible"
+
+
+def test_3d_points_are_large_enough_for_the_sphere_texture_to_survive_downsampling(win):
+    old = win._lighting["point_mode"]
+    try:
+        win.set_lighting("off")
+        win.set_lighting_option("point_mode", "flat")
+        win.redraw()
+        flat = np.asarray(win.scatter.size, dtype=float)
+        win.set_lighting_option("point_mode", "glossy 3D")
+        win.redraw()
+        glossy = np.asarray(win.scatter.size, dtype=float)
+        assert np.median(glossy) == pytest.approx(np.median(flat) * 1.30)
+    finally:
+        win.set_lighting_option("point_mode", old)
 
 
 @pytest.mark.parametrize("source", L.SOURCES)
@@ -614,7 +671,7 @@ def test_every_source_produces_at_least_one_light(qapp, source):
 def test_a_source_with_nothing_to_follow_lights_from_the_front(qapp):
     """No pointer in the view yet, nothing selected. Guessing would put the light behind the map."""
     xyz = np.random.default_rng(3).normal(size=(20, 3))
-    for source in ("mouse", "selected gene", "selected gene and its edges"):
+    for source in L.SOURCES:
         lit = L.light_at(xyz, source, 0.0, 3, 0.3, 20.0)
         assert len(lit) == 1 and lit[0]["pos"][2] > 0
 
@@ -647,29 +704,18 @@ def test_the_orbit_never_lands_on_the_origin(qapp):
         assert abs(float(np.linalg.norm(light["pos"])) - 50.0) < 1e-9
 
 
-def test_a_finish_moves_the_median_point_by_something_a_person_can_see(qapp):
-    """Reported twice as "the points always look matt", and the second time it was this test's
-    fault: the first version asked whether a finish moved a point by more than 2 values out of 255,
-    which is not a visible difference, and it passed while nothing on screen changed.
-
-    Measured in 8-bit steps at the MEDIAN, because that is the ordinary point rather than the lucky
-    one. A highlight, however bright, lands only on the share of a scatter whose normal happens to
-    face the light; what tells chalk from a bead across a whole cloud is contrast."""
+def test_point_modes_move_the_median_point_by_something_a_person_can_see(qapp):
+    """The reduced menu is justified by visible, whole-cloud differences, not tiny glints."""
     rng = np.random.default_rng(11)
     xyz = rng.normal(size=(2000, 3)) * 20
     flat = np.full((2000, 4), 0.5)
     lit = L.lights(0.0, 2)
-    matt = L.shade(xyz, flat, lit, finish="matt")[:, :3]
-    steps = lambda name: np.abs(L.shade(xyz, flat, lit, finish=name)[:, :3] - matt).max(axis=1) * 255
-    for name in ("satin", "glossy", "metallic"):
-        d = steps(name)
-        assert np.median(d) > 8, f"{name} moves the median point {np.median(d):.1f}/255 -- invisible"
-    # Satin is deliberately the quiet one -- it sits between chalk and a bead, and a satin that
-    # shouted would leave nothing for glossy to be. The two loud ones have to carry the cloud.
-    for name in ("glossy", "metallic"):
-        d = steps(name)
-        assert float((d > 12).mean()) > 0.5, f"{name} leaves {1 - (d > 12).mean():.0%} unchanged"
-    assert np.median(steps("glossy")) > np.median(steps("satin")), "satin outdoes glossy"
+    rendered = {name: L.shade(xyz, flat, lit, point_mode=name)[:, :3]
+                for name in L.POINT_MODES}
+    for a, b in (("flat", "glossy 3D"), ("flat", "metallic 3D"),
+                 ("glossy 3D", "metallic 3D")):
+        steps = np.abs(rendered[a] - rendered[b]).max(axis=1) * 255
+        assert np.median(steps) > 8, f"{a}/{b} differ only {np.median(steps):.1f}/255"
 
 
 def test_a_shiny_finish_is_darker_in_the_body_and_brighter_at_the_peaks(qapp):
@@ -680,10 +726,10 @@ def test_a_shiny_finish_is_darker_in_the_body_and_brighter_at_the_peaks(qapp):
     xyz = rng.normal(size=(1500, 3)) * 20
     flat = np.full((1500, 4), 0.6)
     lit = L.lights(0.0, 2)
-    matt = L.shade(xyz, flat, lit, finish="matt")[:, :3]
-    glossy = L.shade(xyz, flat, lit, finish="glossy")[:, :3]
-    assert np.median(glossy) < np.median(matt), "the glossy body is no darker than chalk"
-    assert glossy.max() > matt.max(), "the glossy peaks are no brighter than chalk"
+    plain = L.shade(xyz, flat, lit, point_mode="flat")[:, :3]
+    glossy = L.shade(xyz, flat, lit, point_mode="glossy 3D")[:, :3]
+    assert np.median(glossy) < np.median(plain), "the glossy body is no darker than flat"
+    assert glossy.max() > plain.max(), "the glossy peaks are no brighter than flat"
 
 
 def test_no_finish_can_take_a_gene_below_the_floor(qapp):
@@ -691,8 +737,8 @@ def test_no_finish_can_take_a_gene_below_the_floor(qapp):
     is nearly black is a gene nobody can find. A data display before it is a rendering."""
     xyz = np.random.default_rng(13).normal(size=(300, 3)) * 20
     flat = np.full((300, 4), 1.0)
-    for name in L.FINISHES:
-        out = L.shade(xyz, flat, [], finish=name)[:, :3]       # nothing but the floor
+    for name in L.POINT_MODES:
+        out = L.shade(xyz, flat, [], point_mode=name)[:, :3]  # nothing but the floor
         assert out.min() >= L.MIN_AMBIENT - 1e-9, f"{name} bottomed out at {out.min():.3f}"
 
 
@@ -718,22 +764,21 @@ def test_the_rim_lights_the_silhouette_and_not_the_dark_side(qapp):
     # Against the SAME finish with the rim switched off, rather than against matt. Matt is not a
     # rimless glossy -- it also sits on a raised floor, so a matt-vs-glossy difference is the floor
     # and the rim together and says nothing about either.
-    lit_with = L.shade(xyz, flat, behind, finish="glossy", eye=eye)[:, :3].max(axis=1)
-    was = L.FINISHES["glossy"]["rim"]
+    lit_with = L.shade(xyz, flat, behind, point_mode="glossy 3D", eye=eye)[:, :3].max(axis=1)
+    was = L.POINT_MODES["glossy 3D"]["rim"]
     try:
-        L.FINISHES["glossy"]["rim"] = 0.0
-        lit_without = L.shade(xyz, flat, behind, finish="glossy", eye=eye)[:, :3].max(axis=1)
+        L.POINT_MODES["glossy 3D"]["rim"] = 0.0
+        lit_without = L.shade(xyz, flat, behind, point_mode="glossy 3D", eye=eye)[:, :3].max(axis=1)
     finally:
-        L.FINISHES["glossy"]["rim"] = was
+        L.POINT_MODES["glossy 3D"]["rim"] = was
     gained = lit_with - lit_without
     assert gained[1] > 0.02, f"the silhouette gained nothing ({gained[1]:.4f})"
     assert gained[2] < 0.005, f"the dark side lit itself ({gained[2]:.4f})"
 
 
-def test_rays_off_lets_every_light_through_everything(win):
-    """The old behaviour, kept as a choice. Shadows cost a grid lookup per gene per light per frame,
-    and a reader comparing colours across clusters may not want the map's own shape in the way."""
-    win._lighting["rays"] = "none"
+def test_soft_light_lets_every_light_through_everything(win):
+    """Soft mode deliberately avoids the ray-tracing cost and the cloud cannot shadow itself."""
+    win._lighting["mode"] = "soft"
     lit = [{"pos": np.zeros(3), "color": np.ones(3)}]
     assert win.cast_rays(lit) is lit
 
@@ -742,7 +787,7 @@ def test_a_gene_behind_a_cluster_gets_less_light_than_one_in_front_of_it(win):
     """What "if nothing is between the mouse and the datapoint" means, measured on the real map:
     take the light's own line to every gene and compare the genes it can see with the genes it
     cannot."""
-    win._lighting["rays"] = "shadows"
+    win._lighting["mode"] = "ray traced"
     try:
         lamp = win.xyz.mean(axis=0) + np.array([0.0, 0.0, float(np.abs(win.xyz).max()) * 2.0])
         lit = win.cast_rays([{"pos": lamp, "color": np.ones(3)}])
@@ -755,48 +800,17 @@ def test_a_gene_behind_a_cluster_gets_less_light_than_one_in_front_of_it(win):
         assert seen[along < np.percentile(along, 10)].mean() < \
             seen[along > np.percentile(along, 90)].mean()
     finally:
-        win._lighting["rays"] = "none"
+        win._lighting["mode"] = "soft"
 
 
-def test_a_bounce_puts_a_new_light_where_a_ray_landed(win):
-    """The second thing asked for: rays leave the light, and the first thing each lands on glows."""
-    win._lighting["rays"] = "bounce"
+def test_no_decorative_emitter_is_drawn_in_either_light_mode(win):
+    """Ray tracing changes transport; it does not add confusing glowing ray ornaments."""
     try:
-        lamp = win.xyz.mean(axis=0) + np.array([0.0, 0.0, float(np.abs(win.xyz).max()) * 2.0])
-        lit = win.cast_rays([{"pos": lamp, "color": np.ones(3)}])
-        assert len(lit) > 1, "every ray missed a map it was aimed into"
-        for extra in lit[1:]:
-            assert extra["local"] and extra["gain"] < 1.0, "a bounce is not dimmer than its source"
-            assert "shadow" in extra, "a bounce lights through walls"
-            near = np.linalg.norm(win.xyz - extra["pos"], axis=1).min()
-            assert near < float(np.abs(win.xyz).max()), "a bounce landed nowhere near the map"
+        for mode in ("soft", "ray traced"):
+            win.set_lighting(mode)
+            win._light_tick()
+            assert win.emitter_item is None or not win.emitter_item.visible()
     finally:
-        win._lighting["rays"] = "none"
-
-
-def test_the_light_is_drawn_where_it_is_only_when_asked_for(win):
-    """Every other mode shows a light only by what it does to the map, which leaves the reader
-    working backwards from the shading to where it must be."""
-    win.set_lighting("lit")
-    try:
-        win._lighting["rays"] = "none"
-        win._light_tick()
-        assert win.emitter_item is None or not win.emitter_item.visible()
-        win._lighting["rays"] = "emitter"
-        win._light_tick()
-        assert win.emitter_item is not None and win.emitter_item.visible()
-        assert len(win.emitter_item.pos) == len(win.frame_lights())
-        # Moved rather than rebuilt on the next frame: a new GL item per frame leaks one per frame.
-        made = win.emitter_item
-        win._lighting["source"] = "orbiting"
-        win._light_tick()
-        assert win.emitter_item is made and win.emitter_item.visible()
-        win.set_lighting("off")
-        win._lighting["rays"] = "emitter"
-        win._draw_emitter(win.frame_lights())
-        assert not win.emitter_item.visible(), "the light is drawn with the lighting switched off"
-    finally:
-        win._lighting["rays"] = "none"
         win.set_lighting("off")
 
 
@@ -812,45 +826,28 @@ def test_the_occupancy_grid_is_built_once_for_a_cloud_that_has_not_moved(win):
         win.xyz = was
 
 
-def test_an_unknown_ray_mode_is_refused_rather_than_drawn(win):
-    win.set_lighting_option("rays", "path traced")
-    assert win._lighting["rays"] in L.RAY_MODES
+def test_an_unknown_light_transport_is_refused_rather_than_mislabelled(win):
+    assert win.set_lighting("path traced") == "off"
+    assert win.set_lighting("ray traced") == "ray traced"
+    win.set_lighting("off")
 
 
-def test_pointing_into_the_map_lights_what_is_deep_rather_than_the_near_face(win):
-    """Reported as "it only works on the side facing towards me", and that was exactly right: a
-    light placed outside the cloud on the viewer's side is BEHIND everything, so it can only ever
-    light the front. Anchored on the gene under the pointer, it stands at that gene's depth."""
+def test_mouse_light_is_a_camera_flashlight_not_the_gene_under_the_pointer(win, monkeypatch):
+    """Overlapping depth planes must not change the illumination source discontinuously."""
     from PyQt6 import QtCore, QtGui
-    win.set_lighting("lit")
-    win._lighting["source"] = "mouse"
+    win.set_lighting("soft")
+    win._lighting["source"] = "mouse flashlight"
     try:
-        eye = win._eye()
-        axis = win.xyz.mean(axis=0) - eye
-        axis = axis / np.linalg.norm(axis)
-        depth = (win.xyz - eye) @ axis
-        sx, sy = win.view.project()
-        on = np.isfinite(sx) & np.isfinite(sy)
-        far = [i for i in np.argsort(depth) if on[i]][-1]
-        at = QtCore.QPointF(float(sx[far]), float(sy[far]))
+        monkeypatch.setattr(win.view, "under_pointer",
+                            lambda: pytest.fail("flashlight queried the nearest gene"))
+        at = QtCore.QPointF(win.view.width() * 0.7, win.view.height() * 0.35)
         win.view.mouseMoveEvent(QtGui.QMouseEvent(
             QtCore.QEvent.Type.MouseMove, at, at, QtCore.Qt.MouseButton.NoButton,
             QtCore.Qt.MouseButton.NoButton, QtCore.Qt.KeyboardModifier.NoModifier))
-        anchor = win.view.under_pointer()
-        assert anchor is not None, "nothing found under the pointer"
         lit = win.frame_lights()
-        assert len(lit) == 1 and lit[0].get("local"), "the pointer light is still outside the cloud"
-        # It stands between the gene and the viewer, and much nearer the gene than the near face.
-        to_light = np.linalg.norm(lit[0]["pos"] - win.xyz[far])
-        assert to_light < np.linalg.norm(np.asarray(eye) - win.xyz[far]) * 0.5
-
-        colors = L.shade(win.xyz, win._base_colors, lit, finish="satin", eye=eye)[:, :3].max(axis=1)
-        to_far = np.linalg.norm(win.xyz - win.xyz[far], axis=1)
-        around = to_far < np.percentile(to_far, 3)
-        near_face = depth < np.percentile(depth, 20)
-        assert colors[around].mean() > colors[near_face].mean() * 1.2, (
-            f"the deep cluster is {colors[around].mean():.3f} and the near face "
-            f"{colors[near_face].mean():.3f} -- the light is still on the front")
+        assert len(lit) == 1 and lit[0].get("spot") and not lit[0].get("local")
+        assert np.allclose(lit[0]["pos"], win._eye()), "flashlight did not originate at camera"
+        assert np.isfinite(lit[0]["target"]).all()
     finally:
         win.set_lighting("off")
 
@@ -895,14 +892,14 @@ def test_nothing_under_the_pointer_is_not_an_anchor(win):
     assert win.view.under_pointer() is None
 
 
-def test_the_sprite_is_rebuilt_when_the_finish_changes_and_not_otherwise(win):
+def test_the_sprite_is_rebuilt_when_the_point_mode_changes_and_not_otherwise(win):
     """It runs on the light timer, so "has anything actually moved" is the whole of its cost."""
     win.set_lighting("off")
-    win._lighting["finish"] = "glossy"
+    win._lighting["point_mode"] = "glossy 3D"
     assert win._refresh_sprite() is True
     assert win._refresh_sprite() is False, "rebuilt a sprite nothing had changed"
-    assert win._sprite_state[0] == "glossy"
-    win._lighting["finish"] = "2D"
+    assert win._sprite_state[0] == "glossy 3D"
+    win._lighting["point_mode"] = "flat"
     assert win._refresh_sprite() is True
 
 
@@ -921,12 +918,14 @@ def test_the_ball_is_lit_from_above_left_when_there_is_no_camera_yet(win, monkey
 
 
 def test_the_ball_is_lit_from_where_the_light_is(win):
-    """The sprite's highlight and the cloud's shading have to agree about where the light is, or the
-    balls are lit from the top left while the map is lit from the right."""
+    """The CPU fallback highlight agrees with the scene light on old OpenGL contexts."""
     from starplast import sprite as SP
-    win.set_lighting("lit")
-    win._lighting["source"] = "top right"
+    old_sel, old_source, failed = win.sel, win._lighting["source"], win.scatter._gpu_failed
+    win.set_lighting("soft")
+    win._lighting["source"] = "selected gene"
+    win.sel = 3
     try:
+        win.scatter._gpu_failed = True
         win._sprite_state = None
         win._refresh_sprite()
         finish, where = win._sprite_state
@@ -934,9 +933,32 @@ def test_the_ball_is_lit_from_where_the_light_is(win):
         lit = win.frame_lights()
         expected = SP.to_screen(np.asarray(lit[0]["pos"]) - win.xyz.mean(axis=0), basis)
         assert where == pytest.approx(expected)
-        assert where[0] > 0 and where[1] > 0, f"a top-right light came out at {where}"
+        assert np.linalg.norm(where) > 0, f"the selected-gene light had no direction: {where}"
     finally:
+        win.scatter._gpu_failed = failed
+        win.sel, win._lighting["source"] = old_sel, old_source
         win.set_lighting("off")
+
+
+def test_mouse_ray_direction_eases_continuously_without_moving_its_origin(win):
+    """Smoothing applies to cursor coordinates; the light origin remains the camera."""
+    old_source, old_mode = win._lighting["source"], win._lighting["mode"]
+    try:
+        win._lighting["source"] = "mouse flashlight"
+        win._lighting["mode"] = "soft"
+        win._lighting["response"] = "smooth"
+        win._smoothed_pointer = None
+        win.view.pointer = (-1.0, 0.0, 1.0)
+        first = win.frame_lights()[0]
+        win.view.pointer = (1.0, 0.0, 1.0)
+        second = win.frame_lights()[0]
+        assert np.allclose(first["pos"], second["pos"])
+        right = win.view.camera_basis()[1]
+        first_x, second_x = float(first["direction"] @ right), float(second["direction"] @ right)
+        assert first_x < second_x < 0.0, "beam jumped to cursor"
+    finally:
+        win._lighting["source"], win._lighting["mode"] = old_source, old_mode
+        win._smoothed_pointer = None
 
 
 def test_the_pointer_is_followed_without_a_button_held(win):
@@ -1002,7 +1024,8 @@ def test_the_pointer_light_follows_the_pointer(qapp):
              np.array([0.0, 1.0, 0.0]), np.array([0.0, 0.0, -1.0]))
     left = L.light_at(xyz, "mouse", 0.0, 1, 0.3, 30.0, pointer=(-0.9, 0.5, 0.0), basis=basis)
     right = L.light_at(xyz, "mouse", 0.0, 1, 0.3, 30.0, pointer=(0.9, 0.5, 0.0), basis=basis)
-    assert left[0]["pos"][0] < right[0]["pos"][0], "the light ignored the pointer"
+    assert left[0]["direction"][0] < right[0]["direction"][0], "the light ignored the pointer"
+    assert np.allclose(left[0]["pos"], right[0]["pos"]), "flashlight origin left the camera"
 
 
 def test_the_highlight_lands_where_the_viewer_actually_is(qapp):
@@ -1058,7 +1081,7 @@ def test_lighting_still_draws_when_there_is_no_camera_to_ask(win, monkeypatch):
     def no_camera():
         raise RuntimeError("no GL context")
     monkeypatch.setattr(win.view, "camera_basis", no_camera)
-    win._lighting["source"] = "top left"
+    win._lighting["source"] = "mouse flashlight"
     assert win._eye() is None
     lit = win.frame_lights()
     assert len(lit) == 1 and lit[0]["pos"][2] > 0, "no camera left the map unlit"
@@ -1072,8 +1095,9 @@ def test_the_grid_is_lit_by_the_same_lights_as_the_points(win):
     win.redraw()
     assert win.grid_item is not None
     before = win.grid_item.color().getRgb()
-    win.set_lighting("lit")
-    win._lighting["source"] = "top left"
+    win.set_lighting("soft")
+    win._lighting["source"] = "mouse flashlight"
+    win._lighting["mood"] = "neutral"
     win._light_tick()
     after = win.grid_item.color().getRgb()
     assert after[:3] != before[:3], "the grid ignored the light"
@@ -1085,15 +1109,12 @@ def test_the_grid_is_lit_by_the_same_lights_as_the_points(win):
     assert after[3] != before[3], "the grid's alpha ignored the light"
     assert 15 <= after[3] <= 210, "the lit grid left the theme's range"
 
-    # A light BELOW the floor leaves it darker than one above: the sign of the thing is what makes
-    # it read as lighting rather than as a flicker.
-    win._lighting["source"] = "bottom left"
+    # The floor shares the mood as well as the brightness; otherwise warm genes would float above
+    # a neutral horizon and read as a separate composited layer.
+    win._lighting["mood"] = "warm"
     win._light_tick()
-    below = win.grid_item.color().getRgb()
-    win._lighting["source"] = "top left"
-    win._light_tick()
-    above = win.grid_item.color().getRgb()
-    assert sum(below[:3]) < sum(above[:3]), "the grid was as bright from below as from above"
+    warm = win.grid_item.color().getRgb()
+    assert warm[:3] != after[:3], "the grid ignored the light mood"
     win.set_lighting("off")
 
 
@@ -1118,23 +1139,28 @@ def test_panel_opacity_lets_the_background_through_but_not_the_fields(win):
     win.set_container_opacity(1.0)
 
 
-def test_a_source_or_finish_that_does_not_exist_is_refused(win):
+def test_a_source_or_point_mode_that_does_not_exist_is_refused(win):
     """A settings file written by a later version, or a typo in one written by hand."""
-    win.set_lighting_option("source", "top right")
-    assert win.set_lighting_option("source", "from behind the sofa") == "top right"
-    win.set_lighting_option("finish", "matt")
-    assert win.set_lighting_option("finish", "velvet") == "matt"
+    win.set_lighting_option("source", "selected gene")
+    assert win.set_lighting_option("source", "from behind the sofa") == "selected gene"
+    win.set_lighting_option("point_mode", "glossy 3D")
+    assert win.set_lighting_option("point_mode", "velvet") == "glossy 3D"
 
 
 def test_changing_a_light_setting_shows_at_once_while_lit(win):
     """Turning a knob and seeing nothing until the next frame reads as the knob doing nothing."""
-    win.set_lighting("lit")
+    win.set_lighting("soft")
     win.redraw()
     before = np.array(win.scatter.color if hasattr(win.scatter, "color") else [], copy=True)
-    win.set_lighting_option("source", "bottom left")
-    assert win._lighting["source"] == "bottom left"
+    win.set_lighting_option("mood", "cool blue")
+    assert win._lighting["mood"] == "cool blue"
+    after = np.array(win.scatter.color if hasattr(win.scatter, "color") else [], copy=True)
+    if win.scatter.gpu_material_enabled(win._lighting["point_mode"]):
+        assert np.allclose(win.scatter._scene["mood"], L.mood_color("cool blue"))
+        assert np.array_equal(after, before), "the GPU material rewrote its data-color albedo"
+    else:
+        assert not np.array_equal(after, before), "the visible points did not update immediately"
     win.set_lighting("off")
-    del before
 
 
 def test_the_grid_is_left_alone_when_there_is_none(win):

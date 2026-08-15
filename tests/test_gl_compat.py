@@ -86,7 +86,8 @@ def _view_with(signature: str):
             view.calls.append((region, viewport))
             return _Matrix()
     else:                                        # a C extension exposing no signature
-        projectionMatrix = print                 # builtins refuse inspect.signature
+        import sys
+        projectionMatrix = sys.getsizeof         # this builtin refuses inspect.signature
 
     view.projectionMatrix = projectionMatrix
     view.viewMatrix = lambda: _Matrix()

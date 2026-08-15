@@ -152,6 +152,19 @@ def test_the_recipe_and_the_clustering_arguments_come_apart_cleanly():
         "min_cluster_size", "min_samples", "cluster_selection_epsilon",
         "cluster_selection_method"}
     assert O.cluster_kw(config(algorithm="dbscan")) == {"eps": 0.5, "min_samples": None}
+    assert "conjunction" in O.MODES
+
+
+def test_evaluator_computes_trustworthiness_from_the_matrix(monkeypatch):
+    coords, nodes, _labels = biology(n_per=15)
+    nodes["expr_fixture"] = coords[:, 0]
+    monkeypatch.setattr("starplast.embedding.embed",
+                        lambda *_a, **_k: (coords, ["expr_fixture"],
+                                          np.ones(len(nodes), dtype=bool), coords.copy()))
+    monkeypatch.setattr("starplast.optimize.cluster", lambda X, **_k: np.arange(len(X)) % 4)
+    _score, extras = O.evaluator(nodes, mode="auprc", layers=("compartment",),
+                                 log=lambda *_a: None)(config())
+    assert np.isfinite(extras["trustworthiness"])
 
 
 # ------------------------------------------------------- is uphill the direction of the biology

@@ -39,19 +39,20 @@ One file per task. This index is the status table; the files carry the reasoning
 | 25b | The identifier rename — job 2 of the spelling task |
 | 28 | Every module at 100% coverage |
 | 29 | Three more leaks in the circularity guard |
+| 30 | Fold in datasets already present and expand missing biological axes |
+| 31 | Replace file-shaped feature blocks with biological question slots |
+| 32 | GPU paths for k-means, DBSCAN and t-SNE |
+| 33 | Crossed-factor findings and fragmentation diagnostic |
+| 34 | Repair two metric columns and the CLI finding count |
+| 35 | Simplify lighting, make point modes distinct, and add volumetric ray tracing |
+| 36 | GPU PBR sphere points and stable GPU density-ray tracing |
 
 ## Open
 
-**Nothing.** Every task written down here has landed (2026-08-12, v0.16.0).
-
-One thing is known and deliberately not on this list, so that "open" stays a list of work someone
-asked for rather than a list of everything imaginable:
-
-- **The Cryptosporidium VEuPathDB fetch**, which downloaded nothing and reported success. It is
-  recorded in `../HANDOFF.md` under "Known outstanding bug", where it belongs: it is a data-fetch
-  defect rather than a piece of application work.
-
-The identifier rename that stood here landed on 2026-08-12 — see `done/25b_identifier_rename.md`.
+| # | Task |
+|---|---|
+| 37 | Continuous flashlight, material lab, and ray-rendering comparison |
+| 38 | Build a provenance-first pan-Apicomplexan dataset archive |
 
 ## The one ordering constraint that is not negotiable — now satisfied
 

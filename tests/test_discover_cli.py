@@ -147,6 +147,14 @@ def test_the_summary_line_survives_a_search_that_found_nothing():
     assert D._summary(Search()) == "nothing evaluated"
 
 
+def test_the_summary_counts_the_winners_findings_separately():
+    from starplast.searches import Search
+    run = Search(configs=pd.DataFrame({"score": [3.0, 2.0], "config": [0, 1]}),
+                 findings=pd.DataFrame({"config": [0, 0, 1, 1, 1]}))
+    text = D._summary(run)
+    assert "2 findings (5 across all configs)" in text
+
+
 # --------------------------------------------------------------------------- and no window
 def test_the_command_does_not_import_a_gui_toolkit(table):
     """The whole point. Checked in a fresh interpreter, because this test session has Qt loaded

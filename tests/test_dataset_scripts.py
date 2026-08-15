@@ -121,8 +121,8 @@ def test_the_slot_table_regenerates_identically(tmp_path, monkeypatch):
     import runpy
     import shutil
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    csv_path = os.path.join(root, "instructions", "open", "31_slots.csv")
-    md_path = os.path.join(root, "instructions", "open", "31_slots.md")
+    csv_path = os.path.join(root, "instructions", "done", "31_slots.csv")
+    md_path = os.path.join(root, "instructions", "done", "31_slots.md")
     if not os.path.exists(csv_path):
         pytest.skip("the slot table has not been generated on this machine")
     before = {p: open(p, encoding="utf8").read() for p in (csv_path, md_path)}
@@ -140,7 +140,7 @@ def test_every_slot_that_claims_coverage_has_columns_behind_it():
     """A slot graded A with nothing filling it would be a promise the cache does not keep."""
     import csv as _csv
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    path = os.path.join(root, "instructions", "open", "31_slots.csv")
+    path = os.path.join(root, "instructions", "done", "31_slots.csv")
     if not os.path.exists(path):
         pytest.skip("the slot table has not been generated on this machine")
     rows = list(_csv.DictReader(open(path, encoding="utf8")))
@@ -153,13 +153,33 @@ def test_every_slot_that_claims_coverage_has_columns_behind_it():
             assert not r["filled_by"], f"{r['slot']} is graded empty but names {r['filled_by']}"
 
 
+def test_brain_fpkm_is_assigned_to_transcription_never_fitness():
+    """The mixed transcriptome/proteome source was mislabeled as an in-vivo fitness screen.
+
+    Its cache columns are FPKM expression measurements. Keeping the semantic assertion beside the
+    generated table prevents a later regeneration from moving them back under fitness by prefix.
+    """
+    import csv as _csv
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    rows = list(_csv.DictReader(open(os.path.join(root, "instructions", "done", "31_slots.csv"),
+                                     encoding="utf8")))
+    carrying = [r for r in rows
+                if any(token.strip().startswith("invivo_")
+                       for token in r["filled_by"].split(","))]
+    assert carrying
+    assert all(r["axis"] == "transcription" for r in carrying)
+    assert not [r for r in rows if r["axis"] == "fitness"
+                and any(token.strip().startswith("invivo_")
+                        for token in r["filled_by"].split(","))]
+
+
 def test_every_cited_study_carries_its_title():
     """A proposal that names a PMID and nothing else asks the reader to go and look up what is being
     proposed, which is most of the work of reading a list like this."""
     import csv as _csv
     import re
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    path = os.path.join(root, "instructions", "open", "31_slots.csv")
+    path = os.path.join(root, "instructions", "done", "31_slots.csv")
     if not os.path.exists(path):
         pytest.skip("the slot table has not been generated on this machine")
     sys.path.insert(0, os.path.join(root, "scripts"))
@@ -174,3 +194,12 @@ def test_every_cited_study_carries_its_title():
     # And nothing mangled by the line wrapping that keeps the reference block readable.
     for _, _, title in G.REFERENCES.values():
         assert not [w for w in title.split() if len(w) > 34], f"a wrapped title lost a space: {title}"
+
+
+def test_candidate_queries_are_derived_from_slot_and_organism():
+    import propose_datasets as P
+    row = next(r for r in __import__("generate_slot_table").all_slots("Toxo")
+               if r["axis"] == "translation")
+    query = P.query_for(row)
+    assert "Toxoplasma" in query and "ribosome profiling" in query
+    assert all(word in query for word in ("tachyzoite", "vitro"))

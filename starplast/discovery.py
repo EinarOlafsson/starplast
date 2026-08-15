@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Two questions worth optimising a map for, and the instances of each that it finds.
+"""Three questions worth optimising a map for, and the instances of each that it finds.
 
 Everything else in this project scores a structure by how well it RECOVERS something already known:
 hold out the localisation labels, cluster, see how many come back. That is the right way to decide
@@ -325,6 +325,171 @@ def disagreement(nodes: pd.DataFrame, labels: np.ndarray, layer_a: str, layer_b:
     out["q"] = _bh(out["p"].to_numpy())
     out["circular"] = _touches(layer_a, used_columns) or _touches(layer_b, used_columns)
     return out.sort_values("q").reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- crossed factors
+def conjunction(nodes: pd.DataFrame, labels: np.ndarray, layer_a: str, layer_b: str,
+                min_cluster: int = MIN_CLUSTER, min_category: int = MIN_CATEGORY,
+                min_interaction: float = 1.25, max_share: float = MAX_SHARE,
+                used_columns=()) -> pd.DataFrame:
+    """Clusters enriched for a combination of two categorical layers.
+
+    ``joint_lift`` says how enriched the pair is over its proteome-wide prevalence. The qualifying
+    ``interaction_ratio`` divides that by the stronger single-layer lift: values above one mean the
+    pair says more than either margin alone. ``product_ratio`` also records the stricter literal
+    joint/(A-lift x B-lift) diagnostic; in a balanced, perfectly resolved A x B grid it is exactly
+    one by construction, so using it as the discovery threshold would paradoxically reject the
+    canonical crossed-factor fixture.
+    """
+    labels = np.asarray(labels)
+    if (layer_a not in nodes.columns or layer_b not in nodes.columns or len(labels) != len(nodes)
+            or pd.api.types.is_numeric_dtype(nodes[layer_a])
+            or pd.api.types.is_numeric_dtype(nodes[layer_b])):
+        return pd.DataFrame()
+    a, b = _clean(nodes[layer_a]), _clean(nodes[layer_b])
+    known = a.notna().to_numpy() & b.notna().to_numpy()
+    total = int(known.sum())
+    if total < min_cluster:
+        return pd.DataFrame()
+    genes = (nodes["gene_id"] if "gene_id" in nodes.columns
+             else pd.Series(nodes.index.to_numpy(), index=nodes.index))
+    a_counts, b_counts = a[known].value_counts(), b[known].value_counts()
+    joint_counts = pd.DataFrame({"a": a[known], "b": b[known]}).value_counts()
+    rows = []
+    for cluster in sorted({int(x) for x in labels if int(x) != NOISE}):
+        here = labels == cluster
+        known_here = here & known
+        draws = int(known_here.sum())
+        if here.sum() < min_cluster or here.sum() > max_share * len(labels) or draws < min_category:
+            continue
+        pairs = pd.DataFrame({"a": a[known_here], "b": b[known_here]}).value_counts()
+        for (category_a, category_b), hits in pairs.items():
+            if hits < min_category:
+                continue
+            success = int(joint_counts.get((category_a, category_b), 0))
+            p_joint_here = hits / draws
+            p_a_here = float((a[known_here] == category_a).mean())
+            p_b_here = float((b[known_here] == category_b).mean())
+            p_a = float(a_counts.get(category_a, 0) / total)
+            p_b = float(b_counts.get(category_b, 0) / total)
+            p_joint = success / total
+            lift_a = p_a_here / max(p_a, 1e-12)
+            lift_b = p_b_here / max(p_b, 1e-12)
+            joint_lift = p_joint_here / max(p_joint, 1e-12)
+            interaction = joint_lift / max(lift_a, lift_b, 1e-12)
+            product_ratio = joint_lift / max(lift_a * lift_b, 1e-12)
+            unmeasured = here & ~known
+            rows.append({
+                "kind": "conjunction", "layer": layer_a, "layer_kind": DISCRETE,
+                "other": layer_b, "other_kind": DISCRETE, "cluster": cluster,
+                "category": str(category_a), "other_category": str(category_b),
+                "n_cluster": int(here.sum()), "n_known": draws, "n_hits": int(hits),
+                "purity": p_joint_here, "background": p_joint, "lift_a": lift_a,
+                "lift_b": lift_b, "joint_lift": joint_lift,
+                "interaction_ratio": interaction, "product_ratio": product_ratio,
+                "lift": interaction,
+                "p": _hypergeom(int(hits), draws, success, total),
+                "n_predicted": int(unmeasured.sum()),
+                "genes": list(genes[unmeasured].astype(str)[:60]),
+            })
+    out = pd.DataFrame(rows)
+    if out.empty:
+        return out
+    # Correct before filtering: every cluster x A x B cell inspected belongs to the family.
+    out["q"] = _bh(out["p"].to_numpy())
+    out["circular"] = (_touches(layer_a, used_columns)
+                       or _touches(layer_b, used_columns))
+    out = out[(out.interaction_ratio >= float(min_interaction))
+              & (out.joint_lift >= MIN_LIFT) & (out.purity >= MIN_PURITY)]
+    return out.sort_values("q").reset_index(drop=True)
+
+
+def _mean_pairwise_distance(matrix: np.ndarray) -> float:
+    """Mean total-variation distance between rows, or zero with fewer than two rows."""
+    matrix = np.asarray(matrix, dtype=float)
+    if len(matrix) < 2:
+        return 0.0
+    return float(np.mean([0.5 * np.abs(matrix[i] - matrix[j]).sum()
+                          for i in range(len(matrix)) for j in range(i + 1, len(matrix))]))
+
+
+def explains_fragmentation(nodes: pd.DataFrame, labels: np.ndarray, layer_a: str, layer_b: str,
+                           permutations: int = 200, seed: int = 42,
+                           min_cluster: int = MIN_CLUSTER,
+                           min_category: int = MIN_CATEGORY) -> pd.DataFrame:
+    """Do sibling clusters enriched for the same A category separate on categorical layer B?
+
+    Returns one row per A category with at least two enriched sibling clusters and a final
+    ``__run__`` row. Distances are total-variation distances between B-composition vectors. The
+    null shuffles B within the A category, preserving both margins while breaking its assignment to
+    sibling clusters.
+    """
+    labels = np.asarray(labels)
+    if (layer_a not in nodes.columns or layer_b not in nodes.columns or len(labels) != len(nodes)
+            or pd.api.types.is_numeric_dtype(nodes[layer_a])
+            or pd.api.types.is_numeric_dtype(nodes[layer_b])):
+        return pd.DataFrame()
+    a, b = _clean(nodes[layer_a]), _clean(nodes[layer_b])
+    a_known = a.notna().to_numpy()
+    total = int(a_known.sum())
+    rng, rows = np.random.default_rng(seed), []
+    for category, background_count in a[a_known].value_counts().items():
+        background = float(background_count / max(total, 1))
+        siblings = []
+        for cluster in sorted({int(x) for x in labels if int(x) != NOISE}):
+            here = labels == cluster
+            measured = here & a_known
+            hits = int((measured & (a == category).to_numpy()).sum())
+            if (here.sum() >= min_cluster and here.sum() <= MAX_SHARE * len(labels)
+                    and hits >= min_category):
+                purity = hits / max(int(measured.sum()), 1)
+                if purity >= MIN_PURITY and purity / max(background, 1e-12) >= MIN_LIFT:
+                    siblings.append(cluster)
+        if len(siblings) < 2:
+            continue
+        eligible = (a == category).to_numpy() & b.notna().to_numpy()
+        categories_b = [value for value, count in b[eligible].value_counts().items()
+                        if count >= min_category]
+        if len(categories_b) < 2:
+            continue
+
+        def composition(values):
+            return np.array([[np.mean(values[eligible & (labels == cluster)] == value)
+                              if np.any(eligible & (labels == cluster)) else 0.0
+                              for value in categories_b] for cluster in siblings])
+
+        observed = _mean_pairwise_distance(composition(b.to_numpy(dtype=object)))
+        null = []
+        base = b.to_numpy(dtype=object).copy()
+        where = np.flatnonzero(eligible)
+        for _ in range(max(int(permutations), 1)):
+            shuffled = base.copy()
+            shuffled[where] = rng.permutation(shuffled[where])
+            null.append(_mean_pairwise_distance(composition(shuffled)))
+        p = (1.0 + sum(value >= observed for value in null)) / (len(null) + 1.0)
+        rows.append({"category": str(category), "n_sibling_clusters": len(siblings),
+                     "sibling_clusters": siblings, "observed_distance": observed,
+                     "null_mean": float(np.mean(null)), "excess": observed - float(np.mean(null)),
+                     "p": p})
+    out = pd.DataFrame(rows)
+    if out.empty:
+        return out
+    out["q"] = _bh(out.p.to_numpy())
+    explained = out.q <= 0.05
+    n_siblings = int(out.n_sibling_clusters.sum())
+    n_explained = int(out.loc[explained, "n_sibling_clusters"].sum())
+    run = pd.DataFrame([{"category": "__run__", "n_sibling_clusters": n_siblings,
+                         "sibling_clusters": [],
+                         "observed_distance": float(np.average(
+                             out.observed_distance, weights=out.n_sibling_clusters)),
+                         "null_mean": float(np.average(out.null_mean,
+                                                       weights=out.n_sibling_clusters)),
+                         "excess": float(np.average(out.excess,
+                                                    weights=out.n_sibling_clusters)),
+                         "p": float(out.p.min()), "q": float(out.q.min()),
+                         "n_explained_clusters": n_explained,
+                         "fraction_explained": n_explained / max(n_siblings, 1)}])
+    return pd.concat([out, run], ignore_index=True)
 
 
 def _touches(layer: str, used_columns) -> bool:

@@ -1,7 +1,12 @@
 # 33 — Crossed factors: is fragmentation a defect or a result?
 
-**Status: open. Not started.** Written 2026-08-14 from an observation made during the first large
-search. This one changes what a number means, so read the argument before touching the code.
+**Status: complete (v0.31.0, 2026-08-14).** `conjunction`, the fragmentation permutation diagnostic,
+optimizer/CLI wiring and claim wording now ship with synthetic crossed and independent controls.
+
+The four saved winners settle the motivating question against `compartment_best × cellcycle_phase`:
+the three big-A runs explain 0/40, 0/40 and 0/31 sibling clusters; big-B explains 18/97 (18.6%,
+q=0.035). Fragmentation is therefore predominantly score inflation, not resolved crossed biology.
+The HANDOFF defect has been rewritten accordingly.
 
 ## The observation
 
@@ -97,7 +102,7 @@ localisations, and the wording must not blur that.
 localisation x fitness.
 
 **What would make the real claim testable:** stage-resolved localisation — a bradyzoite hyperLOPIT.
-That is a slot with no dataset in it. See `instructions/open/31_slots.md`; this instruction is the
+That is a slot with no dataset in it. See `instructions/done/31_slots.md`; this instruction is the
 best argument yet for filling that slot, and it should be recorded there as the reason.
 
 ## Acceptance

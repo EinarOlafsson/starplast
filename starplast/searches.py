@@ -128,6 +128,9 @@ def from_climb(result: pd.DataFrame, nodes: pd.DataFrame = None, **manifest) -> 
         lab = row.get("_labels") if "_labels" in result.columns else None
         if lab is not None:
             labels[int(i)] = np.asarray(lab)
+    if "backend" not in manifest:
+        from . import gpu
+        manifest["backend"] = gpu.backend()
     return Search(
         manifest={"created": datetime.datetime.now().isoformat(timespec="seconds"),
                   "version": __version__, "fingerprint": fingerprint(nodes), **manifest},

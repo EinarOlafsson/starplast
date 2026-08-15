@@ -1,0 +1,5087 @@
+[
+  {
+    "organism": "Toxo",
+    "name": "transcription · tachyzoite",
+    "axis": "transcription",
+    "context": "tachyzoite, in vitro",
+    "unit": "gene",
+    "patterns": [
+      "expr_tachy",
+      "rna108740_Tachyzoites",
+      "invivo_TZ_",
+      "rna22258_tachyzoite",
+      "rna99395_intracellular_",
+      "rna129869_",
+      "rna51780_tachy_"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "transcription_tachyzoite",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · bradyzoite / tissue cyst",
+    "axis": "transcription",
+    "context": "bradyzoite",
+    "unit": "gene",
+    "patterns": [
+      "expr_cyst",
+      "rna108740_Tissue_cysts",
+      "rna108740_Day",
+      "rna22258_bradyzoite"
+    ],
+    "policy": "average",
+    "candidates": [
+      [
+        "41580398",
+        "GSE311669",
+        "bradyzoite subtypes, 2026"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "bradyzoite"
+    ],
+    "target_family": "transcription_bradyzoite_tissue_cyst",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · oocyst / sporozoite",
+    "axis": "transcription",
+    "context": "oocyst, sporulation",
+    "unit": "gene",
+    "patterns": [
+      "rna206344_",
+      "expr_sporulated"
+    ],
+    "policy": "average",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "oocyst"
+    ],
+    "target_family": "transcription_oocyst_sporozoite",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · merozoite",
+    "axis": "transcription",
+    "context": "merozoite",
+    "unit": "gene",
+    "patterns": [
+      "rna51780_mero_"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "24885521",
+        "GSE51780",
+        "measured feline merozoites"
+      ],
+      [
+        "25757795",
+        "PRJEB7935",
+        "asexual expansion, distinct from tachyzoite"
+      ],
+      [
+        "38647704",
+        "PXD045061",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39245231",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40823841",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "merozoite"
+    ],
+    "target_family": "transcription_merozoite",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · sexual stages",
+    "axis": "transcription",
+    "context": "feline gut, sexual",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "38093015",
+        "GSE222819",
+        "in vitro pre-sexual stages"
+      ],
+      [
+        "42020723",
+        "",
+        "single-cell atlas of sexual development, 2026"
+      ],
+      [
+        "41929010",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41965856",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42020723",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vivo",
+      "sexual"
+    ],
+    "target_family": "transcription_sexual_stages",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · per cell-cycle phase",
+    "axis": "transcription",
+    "context": "cell cycle",
+    "unit": "gene",
+    "patterns": [
+      "cellcycle19092_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "20865045",
+        "GSE19092",
+        "synchronized tachyzoite time course"
+      ],
+      [
+        "32065584",
+        "",
+        "the study behind cellcycle_phase, re-ingested as VALUES not a call"
+      ],
+      [
+        "42501054",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42565651",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42587734",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_per_cell_cycle_phase",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · in naive macrophage",
+    "axis": "transcription",
+    "context": "host: naive macrophage",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "40630957",
+        "GSE295224",
+        "dual single-cell and bulk, host-parasite"
+      ],
+      [
+        "42322816",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42357722",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42587734",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_in_naive_macrophage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · in IFN-gamma macrophage",
+    "axis": "transcription",
+    "context": "host: IFN-g macrophage",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "42322816",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42357722",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42587734",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_in_ifn_gamma_macrophage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · in vivo brain, acute",
+    "axis": "transcription",
+    "context": "mouse brain, acute",
+    "unit": "gene",
+    "patterns": [
+      "invivo_WholeBrain_Acute"
+    ],
+    "policy": "average",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_in_vivo_brain_acute",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · in vivo brain, chronic",
+    "axis": "transcription",
+    "context": "mouse brain, chronic",
+    "unit": "gene",
+    "patterns": [
+      "invivo_WholeBrain_Chronic"
+    ],
+    "policy": "average",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_in_vivo_brain_chronic",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · purified bradyzoite in vivo",
+    "axis": "transcription",
+    "context": "mouse brain, purified bradyzoite",
+    "unit": "gene",
+    "patterns": [
+      "invivo_BZ_"
+    ],
+    "policy": "average",
+    "candidates": [
+      [
+        "41278634",
+        "",
+        "single-cell brain-derived bradyzoites, 2025"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vivo",
+      "bradyzoite"
+    ],
+    "target_family": "transcription_purified_bradyzoite_in_vivo",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · primary brain-cell differentiation time course",
+    "axis": "transcription",
+    "context": "infected primary brain cells, day 1-14",
+    "unit": "gene",
+    "patterns": [
+      "brain168465_"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_primary_brain_cell_differentiation_time_course",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · under stress / conversion",
+    "axis": "transcription",
+    "context": "alkaline, stress",
+    "unit": "gene",
+    "patterns": [
+      "stress_"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_under_stress_conversion",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · extracellular lytic stress",
+    "axis": "transcription",
+    "context": "extracellular tachyzoite",
+    "unit": "gene",
+    "patterns": [
+      "rna99395_extracellular_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "29228904",
+        "GSE99395",
+        "matched RNA for extracellular ribosome profiling"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "transcription_extracellular_lytic_stress",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · under TF or chromatin perturbation",
+    "axis": "transcription",
+    "context": "perturbation",
+    "unit": "gene",
+    "patterns": [
+      "morc_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "39774584",
+        "PRJNA1134678",
+        "ApiAP2 cascade"
+      ],
+      [
+        "40920096",
+        "PRJNA1281009",
+        "AP2X-7"
+      ],
+      [
+        "41193469",
+        "GSE287537",
+        "SWI/SNF"
+      ],
+      [
+        "40879678",
+        "GSE286088",
+        "GCN5a"
+      ],
+      [
+        "40593611",
+        "GSE268652",
+        "SNF2L"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_under_tf_or_chromatin_perturbation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · under RNA-processing perturbation",
+    "axis": "transcription",
+    "context": "CPSF4 depletion, tachyzoite",
+    "unit": "gene",
+    "patterns": [
+      "cpsf4rna168155_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "34263725",
+        "GSE168155",
+        "CPSF4/m6A-reader depletion RNA-seq"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "transcription_under_rna_processing_perturbation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · bradyzoite checkpoint perturbation",
+    "axis": "transcription",
+    "context": "tachyzoite and bradyzoite cyclin perturbation",
+    "unit": "gene",
+    "patterns": [
+      "restriction200962_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "",
+        "GSE200962",
+        "processed count matrix; GEO has no linked publication"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "transcription_bradyzoite_checkpoint_perturbation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · maximum observed across stages",
+    "axis": "transcription",
+    "context": "cross-stage summary",
+    "unit": "gene",
+    "patterns": [
+      "expr_max"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_maximum_observed_across_stages",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "cell-cycle timing label",
+    "axis": "transcription",
+    "context": "single-parasite atlas",
+    "unit": "gene",
+    "patterns": [
+      "cellcycle_pseudotime"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "cell-cycle timing",
+    "target_columns": [
+      "cellcycle_phase",
+      "cellcycle_pseudotime"
+    ],
+    "role": "target"
+  },
+  {
+    "organism": "Toxo",
+    "name": "life-cycle stage label (derived)",
+    "axis": "transcription",
+    "context": "cross-stage derived target",
+    "unit": "gene",
+    "patterns": [
+      "stage_margin_derived"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "metadata and derived outputs",
+      "derived target labels",
+      "life-cycle stage"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "life-cycle stage",
+    "target_columns": [
+      "stage_enriched_derived",
+      "stage_margin_derived"
+    ],
+    "role": "target"
+  },
+  {
+    "organism": "Toxo",
+    "name": "translation · tachyzoite",
+    "axis": "translation",
+    "context": "tachyzoite, in vitro",
+    "unit": "gene",
+    "patterns": [
+      "rpf99395_intracellular_",
+      "rpf129869_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "29228904",
+        "GSE99395",
+        "comparative ribosome profiling"
+      ],
+      [
+        "31167946",
+        "GSE129869",
+        "infected confluent/subconfluent HFFs"
+      ],
+      [
+        "38782906",
+        "GSE245775",
+        "eIF1.2 and stage conversion"
+      ],
+      [
+        "33057814",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "37961607",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "38782906",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "translation_tachyzoite",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "translation · bradyzoite",
+    "axis": "translation",
+    "context": "bradyzoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "38782906",
+        "GSE245775",
+        "eIF1.2 and stage conversion"
+      ],
+      [
+        "37961607",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "38782906",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "bradyzoite"
+    ],
+    "target_family": "translation_bradyzoite",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "translation · per cell-cycle phase",
+    "axis": "translation",
+    "context": "cell cycle",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "33057814",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "34099078",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42357722",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "translation_per_cell_cycle_phase",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "translation · under stress",
+    "axis": "translation",
+    "context": "extracellular stress or iron",
+    "unit": "gene",
+    "patterns": [
+      "rpf99395_extracellular_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "29228904",
+        "GSE99395",
+        "extracellular versus intracellular parasites"
+      ],
+      [
+        "41925342",
+        "",
+        "translational remodelling under iron starvation, 2026"
+      ],
+      [
+        "37961607",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "38782906",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42357722",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "translation_under_stress",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "translation efficiency · tachyzoite",
+    "axis": "translation",
+    "context": "tachyzoite, in vitro",
+    "unit": "gene",
+    "patterns": [
+      "te99395_intracellular_",
+      "te129869_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "29228904",
+        "GSE99395",
+        "RPF relative to matched RNA"
+      ],
+      [
+        "31167946",
+        "GSE129869",
+        "RPF relative to matched RNA"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "translation_efficiency_tachyzoite",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "translation efficiency · extracellular stress",
+    "axis": "translation",
+    "context": "extracellular stress",
+    "unit": "gene",
+    "patterns": [
+      "te99395_extracellular_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "29228904",
+        "GSE99395",
+        "RPF relative to matched RNA"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "translation_efficiency_extracellular_stress",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "protein abundance · tachyzoite",
+    "axis": "protein abundance",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [
+      "proteome_",
+      "protein_ibaq_log2"
+    ],
+    "policy": "fill",
+    "candidates": [
+      [
+        "40716488",
+        "PXD063409",
+        "cytoskeleton proteome"
+      ],
+      [
+        "25867681",
+        "PXD000297",
+        "proteogenomics"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "protein_abundance_tachyzoite",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "protein abundance · other life stages",
+    "axis": "protein abundance",
+    "context": "stages",
+    "unit": "gene",
+    "patterns": [
+      "oocyst_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "28626452",
+        "PXD003765",
+        "iTRAQ across developmental stages"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "protein_abundance_other_life_stages",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "protein turnover / stability",
+    "axis": "protein abundance",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "35976251",
+        "PXD033642",
+        "temporal and thermal proteome profiling"
+      ],
+      [
+        "41726999",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41898773",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42098088",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "protein_turnover_stability",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "phosphorylation · site count",
+    "axis": "PTM",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [
+      "n_phosphosites",
+      "has_phospho"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "phosphorylation_site_count",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "phosphorylation · quantitative",
+    "axis": "PTM",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [
+      "phospho_"
+    ],
+    "policy": "average",
+    "candidates": [
+      [
+        "33363051",
+        "PXD020655",
+        "iTRAQ phosphoproteome"
+      ],
+      [
+        "31508380",
+        "PXD007777",
+        "type I vs type II"
+      ],
+      [
+        "40901993",
+        "PXD064226",
+        "PP2A-2 during cytokinesis"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "phosphorylation_quantitative",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "phosphorylation · kinase-substrate",
+    "axis": "PTM",
+    "context": "perturbation",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "37933960",
+        "PXD019677",
+        "CDPK1 substrates"
+      ],
+      [
+        "33635921",
+        "PXD019655",
+        "CDPK7"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "phosphorylation_kinase_substrate",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "acetylation",
+    "axis": "PTM",
+    "context": "life stages",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "37562054",
+        "PXD040368",
+        "lysine acetylation across stages"
+      ],
+      [
+        "39901670",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40819990",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42459433",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "acetylation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "lactylation",
+    "axis": "PTM",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "36216028",
+        "PXD022700",
+        "protein lactylation"
+      ],
+      [
+        "38091362",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39255306",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40901993",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "lactylation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "S-nitrosylation",
+    "axis": "PTM",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "37959749",
+        "PXD046083",
+        "proteome-wide cysteine S-nitrosylation"
+      ],
+      [
+        "38091362",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39255306",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40901993",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "s_nitrosylation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "ubiquitination / SUMOylation",
+    "axis": "PTM",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "40348811",
+        "PXD045018",
+        "TgUAE1"
+      ],
+      [
+        "40590555",
+        "PXD054719",
+        "endodyogeny"
+      ],
+      [
+        "38091362",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39255306",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40901993",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "ubiquitination_sumoylation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "glycosylation",
+    "axis": "PTM",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "39912628",
+        "PXD056853",
+        "nucleocytoplasmic O-fucose"
+      ],
+      [
+        "38091362",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39255306",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40901993",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "glycosylation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "palmitoylation",
+    "axis": "PTM",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "38091362",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39255306",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40901993",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "palmitoylation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · HFF in vitro",
+    "axis": "fitness",
+    "context": "HFF",
+    "unit": "gene",
+    "patterns": [
+      "fit_invitro_hff"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_hff_in_vitro",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · naive macrophage",
+    "axis": "fitness",
+    "context": "naive BMDM",
+    "unit": "gene",
+    "patterns": [
+      "fit_naive_bmdm"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_naive_macrophage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · IFN-gamma macrophage",
+    "axis": "fitness",
+    "context": "IFN-g BMDM",
+    "unit": "gene",
+    "patterns": [
+      "fit_ifng"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "36916910",
+        "",
+        "a second IFN-gamma screen"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_ifn_gamma_macrophage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · in vivo peritoneum",
+    "axis": "fitness",
+    "context": "mouse peritoneum",
+    "unit": "gene",
+    "patterns": [
+      "fit_invivo_PE"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_in_vivo_peritoneum",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · in vivo lung",
+    "axis": "fitness",
+    "context": "mouse lung",
+    "unit": "gene",
+    "patterns": [
+      "fit_invivo_lung"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_in_vivo_lung",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · in vivo liver",
+    "axis": "fitness",
+    "context": "mouse liver",
+    "unit": "gene",
+    "patterns": [
+      "fit_invivo_liver"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_in_vivo_liver",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · in vivo spleen",
+    "axis": "fitness",
+    "context": "mouse spleen",
+    "unit": "gene",
+    "patterns": [
+      "fit_invivo_spleen"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_in_vivo_spleen",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · oxidative stress",
+    "axis": "fitness",
+    "context": "oxidant",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "34163449",
+        "PRJNA707360",
+        "genome-wide oxidative-stress screen"
+      ],
+      [
+        "34163449",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_oxidative_stress",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · hyperLOPIT-unassigned proteins",
+    "axis": "fitness",
+    "context": "in vivo virulence",
+    "unit": "gene",
+    "patterns": [
+      "fit_hyperlopit_unassigned_invivo_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "39082802",
+        "GSE253884",
+        "aimed at this map's largest gap"
+      ],
+      [
+        "41407671",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41935076",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42329082",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_hyperlopit_unassigned_proteins",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · targeted in vivo (Young 2019)",
+    "axis": "fitness",
+    "context": "mouse, targeted libraries",
+    "unit": "gene",
+    "patterns": [
+      "fit_invivo_young2019",
+      "crispr_invivo_platform_lfc"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_targeted_in_vivo_young_2019",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "genetic interaction · delta-GRA17",
+    "axis": "fitness",
+    "context": "GRA17 background",
+    "unit": "gene",
+    "patterns": [
+      "crispr_gra17"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "genetic_interaction_delta_gra17",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · GRA12 screen 1 in vitro",
+    "axis": "fitness",
+    "context": "GRA12 screen 1, in vitro",
+    "unit": "gene",
+    "patterns": [
+      "crispr_gra12s1_l2fc_invitro"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_gra12_screen_1_in_vitro",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · GRA12 screen 1 in vivo",
+    "axis": "fitness",
+    "context": "GRA12 screen 1, mouse",
+    "unit": "gene",
+    "patterns": [
+      "crispr_gra12s1_l2fc_invivo"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_gra12_screen_1_in_vivo",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · GRA12 screen 1 differential",
+    "axis": "fitness",
+    "context": "GRA12 screen 1, in vivo vs in vitro",
+    "unit": "gene",
+    "patterns": [
+      "crispr_gra12s1_disco"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_gra12_screen_1_differential",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · GRA12 screen 2 in vitro",
+    "axis": "fitness",
+    "context": "GRA12 screen 2, in vitro",
+    "unit": "gene",
+    "patterns": [
+      "crispr_gra12s2_l2fc_invitro"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_gra12_screen_2_in_vitro",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · GRA12 screen 2 in vivo",
+    "axis": "fitness",
+    "context": "GRA12 screen 2, mouse",
+    "unit": "gene",
+    "patterns": [
+      "crispr_gra12s2_l2fc_invivo"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_gra12_screen_2_in_vivo",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · GRA12 screen 2 differential",
+    "axis": "fitness",
+    "context": "GRA12 screen 2, in vivo vs in vitro",
+    "unit": "gene",
+    "patterns": [
+      "crispr_gra12s2_disco"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_gra12_screen_2_differential",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "stage-conversion phenotype",
+    "axis": "fitness",
+    "context": "bradyzoite conversion",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "41726999",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42098088",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42586428",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "bradyzoite"
+    ],
+    "target_family": "stage_conversion_phenotype",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "drug sensitivity",
+    "axis": "fitness",
+    "context": "compound",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "34859122",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "36945434",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "38977907",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "drug_sensitivity",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "TF binding · per factor",
+    "axis": "regulation",
+    "context": "ChIP / CUT&RUN",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "29788176",
+        "GSE106864",
+        "ApiAP2 cooperative binding"
+      ],
+      [
+        "37350586",
+        "GSE228853",
+        "BDP1 bromodomain"
+      ],
+      [
+        "38987795",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39994736",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40597375",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "regulation",
+      "chromatin and RNA regulation"
+    ],
+    "biology_path": [
+      "gene regulation"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "tf_binding_per_factor",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "chromatin state · histone marks",
+    "axis": "regulation",
+    "context": "tachyzoite / bradyzoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "fill",
+    "candidates": [
+      [
+        "35164683",
+        "GSE104347",
+        "histone variants genome-wide"
+      ],
+      [
+        "21179246",
+        "GSE22100",
+        "GCN5-A under alkaline stress"
+      ],
+      [
+        "41485651",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41925158",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42087241",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "regulation",
+      "chromatin and RNA regulation"
+    ],
+    "biology_path": [
+      "gene regulation"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "chromatin_state_histone_marks",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "chromatin accessibility",
+    "axis": "regulation",
+    "context": "stages",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "38093015",
+        "PRJNA921935",
+        "pre-sexual stages"
+      ],
+      [
+        "40823841",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40879678",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40886497",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "regulation",
+      "chromatin and RNA regulation"
+    ],
+    "biology_path": [
+      "gene regulation"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "chromatin_accessibility",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "RNA modification · m6A / 5mC",
+    "axis": "regulation",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "34263725",
+        "GSE168155",
+        "m6A reader and polyadenylation"
+      ],
+      [
+        "40830525",
+        "GSE294543",
+        "5mC methylome across lineages"
+      ],
+      [
+        "41193469",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41246354",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41485651",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "regulation",
+      "chromatin and RNA regulation"
+    ],
+    "biology_path": [
+      "gene regulation"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "rna_modification_m6a_5mc",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "splicing / isoform use",
+    "axis": "regulation",
+    "context": "stages",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "33688018",
+        "PRJNA606986",
+        "nanopore isoform landscape"
+      ],
+      [
+        "40823841",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40879678",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40886497",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "regulation",
+      "chromatin and RNA regulation"
+    ],
+    "biology_path": [
+      "gene regulation"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "splicing_isoform_use",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "RNA stability / half-life",
+    "axis": "regulation",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "39899594",
+        "PRJEB67890",
+        "iron-mediated post-transcriptional regulation"
+      ],
+      [
+        "41193469",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41246354",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41485651",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "regulation",
+      "chromatin and RNA regulation"
+    ],
+    "biology_path": [
+      "gene regulation"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "rna_stability_half_life",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "localization · measured",
+    "axis": "localization",
+    "context": "hyperLOPIT",
+    "unit": "gene",
+    "patterns": [
+      "compartment",
+      "compartment_source",
+      "lopit_prob",
+      "lopit_methods_agree",
+      "lopit_confident"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "spatial biology",
+      "localization"
+    ],
+    "biology_path": [
+      "cell organization",
+      "localization and topology"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "subcellular localization",
+    "target_columns": [
+      "compartment",
+      "lopit_map",
+      "lopit_mcmc",
+      "lopit_unified"
+    ],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "localization · transferred",
+    "axis": "localization",
+    "context": "orthoLOPIT",
+    "unit": "gene",
+    "patterns": [
+      "ortholopit_",
+      "compartment_best"
+    ],
+    "policy": "fill",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "orthology-derived",
+      "localization transfer"
+    ],
+    "biology_path": [
+      "cell organization",
+      "localization and topology"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "subcellular localization",
+    "target_columns": [
+      "compartment_best",
+      "ortholopit_label",
+      "ortholopit_accepted"
+    ],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "membrane topology",
+    "axis": "localization",
+    "context": "sequence",
+    "unit": "gene",
+    "patterns": [
+      "dtm_class",
+      "n_tm",
+      "has_signal_peptide",
+      "is_tm",
+      "tm_kd_",
+      "tm_len_mean"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence-derived",
+      "membrane topology"
+    ],
+    "biology_path": [
+      "cell organization",
+      "localization and topology"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "membrane topology",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "exposure to host cytosol",
+    "axis": "localization",
+    "context": "PVM, export",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "fill",
+    "candidates": [
+      [
+        "38747635",
+        "",
+        "TurboID exportome of secreted disordered proteins"
+      ],
+      [
+        "29615509",
+        "GSE109830",
+        "MYR1-dependent effectors"
+      ],
+      [
+        "31366709",
+        "GSE122786",
+        "translocation across the PVM"
+      ],
+      [
+        "26828945",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "38747635",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41582196",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "spatial biology",
+      "localization"
+    ],
+    "biology_path": [
+      "cell organization",
+      "localization and topology"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "subcellular localization",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "secretome / excreted",
+    "axis": "localization",
+    "context": "ESA",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "41137792",
+        "PXD028969",
+        "secretome and transcriptome"
+      ],
+      [
+        "42022803",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42102995",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42459433",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "spatial biology",
+      "localization"
+    ],
+    "biology_path": [
+      "cell organization",
+      "localization and topology"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "subcellular localization",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "co-transcription",
+    "axis": "relation",
+    "context": "stage series",
+    "unit": "pair",
+    "patterns": [
+      "edge:coexpression"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "co_transcription",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "co-translation",
+    "axis": "relation",
+    "context": "ribosome profiling",
+    "unit": "pair",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42075221",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42322816",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42465465",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "co_translation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "co-fitness",
+    "axis": "relation",
+    "context": "seven screens",
+    "unit": "pair",
+    "patterns": [
+      "edge:cofitness"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "co_fitness",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "interaction · crosslink MS",
+    "axis": "relation",
+    "context": "measured contact",
+    "unit": "pair",
+    "patterns": [
+      "edge:xlms"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "interaction_crosslink_ms",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "interaction · IP-MS, parasite-parasite",
+    "axis": "relation",
+    "context": "pulldown",
+    "unit": "pair",
+    "patterns": [
+      "edge:ip_ms"
+    ],
+    "policy": "fill",
+    "candidates": [
+      [
+        "",
+        "",
+        "55 IP-MS studies already downloaded and not curated"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "interaction_ip_ms_parasite_parasite",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "interaction · proximity labelling",
+    "axis": "relation",
+    "context": "BioID / TurboID",
+    "unit": "pair",
+    "patterns": [],
+    "policy": "fill",
+    "candidates": [
+      [
+        "",
+        "",
+        "44 BioID studies already downloaded"
+      ],
+      [
+        "36214684",
+        "PXD032102",
+        "calmodulin proximal interactors"
+      ],
+      [
+        "39864696",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39912677",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41358875",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "interaction_proximity_labelling",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "interaction · structural similarity",
+    "axis": "relation",
+    "context": "Foldseek",
+    "unit": "pair",
+    "patterns": [
+      "edge:struct"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "interaction_structural_similarity",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "interaction · with host proteins",
+    "axis": "relation",
+    "context": "host IP-MS",
+    "unit": "pair",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "32075880",
+        "PXD016383",
+        "MYR1 co-IP"
+      ],
+      [
+        "38747635",
+        "",
+        "exportome TurboID"
+      ],
+      [
+        "42554470",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42555613",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42586428",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "interaction_with_host_proteins",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "shared compartment",
+    "axis": "relation",
+    "context": "hyperLOPIT",
+    "unit": "pair",
+    "patterns": [
+      "edge:compartment"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "subcellular localization",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "shared orthogroup",
+    "axis": "relation",
+    "context": "OrthoMCL",
+    "unit": "pair",
+    "patterns": [
+      "edge:orthogroup"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "shared_orthogroup",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "shared domain",
+    "axis": "relation",
+    "context": "InterPro",
+    "unit": "pair",
+    "patterns": [
+      "edge:domain"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "shared_domain",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "interaction degree · crosslink MS",
+    "axis": "relation",
+    "context": "measured contact",
+    "unit": "gene",
+    "patterns": [
+      "n_xlink_partners",
+      "best_model_agreement"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "interaction_degree_crosslink_ms",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "interaction degree · IP-MS",
+    "axis": "relation",
+    "context": "curated pulldown",
+    "unit": "gene",
+    "patterns": [
+      "n_ipms_partners"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "interaction_degree_ip_ms",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "interaction degree · structural similarity",
+    "axis": "relation",
+    "context": "Foldseek",
+    "unit": "gene",
+    "patterns": [
+      "n_struct_similar"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "interaction_degree_structural_similarity",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "host interaction degree",
+    "axis": "host effect",
+    "context": "curated parasite-host interactions",
+    "unit": "gene",
+    "patterns": [
+      "n_host_targets"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "parasite-host",
+      "host effect"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-host"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "host_interaction_degree",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "downloaded-study membership",
+    "axis": "NEVER a feature",
+    "context": "BioID / IP-MS corpus coverage",
+    "unit": "gene",
+    "patterns": [
+      "n_bioid_studies",
+      "n_ipms_studies"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "metadata and derived outputs",
+      "excluded from embeddings"
+    ],
+    "biology_path": [
+      "provenance and analysis metadata"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "downloaded_study_membership",
+    "target_columns": [],
+    "role": "metadata"
+  },
+  {
+    "organism": "Toxo",
+    "name": "analysis-derived structural holes",
+    "axis": "NEVER a feature",
+    "context": "coexpression + cofitness - literature",
+    "unit": "gene",
+    "patterns": [
+      "n_holes"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "metadata and derived outputs",
+      "excluded from embeddings"
+    ],
+    "biology_path": [
+      "provenance and analysis metadata"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "analysis_derived_structural_holes",
+    "target_columns": [],
+    "role": "never"
+  },
+  {
+    "organism": "Toxo",
+    "name": "assay confidence and significance",
+    "axis": "NEVER a feature",
+    "context": "target evidence metadata",
+    "unit": "gene",
+    "patterns": [
+      "hosttx_padj"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "metadata and derived outputs",
+      "excluded from embeddings"
+    ],
+    "biology_path": [
+      "provenance and analysis metadata"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "assay_confidence_and_significance",
+    "target_columns": [],
+    "role": "metadata"
+  },
+  {
+    "organism": "Toxo",
+    "name": "host transcriptional effect per effector",
+    "axis": "host effect",
+    "context": "dual perturb-seq",
+    "unit": "gene",
+    "patterns": [
+      "hosttx_T2",
+      "hosttx_signature_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "37827122",
+        "GSE229505",
+        "the per-effector host signature, not just its p-value"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "parasite-host",
+      "host effect"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-host"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "host_transcriptional_effect_per_effector",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "domain content",
+    "axis": "sequence",
+    "context": "InterPro",
+    "unit": "gene",
+    "patterns": [
+      "n_interpro",
+      "has_domain",
+      "interpro_id",
+      "interpro_desc",
+      "pfam_id"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes"
+    ],
+    "biology_path": [
+      "intrinsic properties",
+      "sequence structure and evolution"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "domain_content",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fold confidence / disorder",
+    "axis": "sequence",
+    "context": "AlphaFold",
+    "unit": "gene",
+    "patterns": [
+      "mean_plddt",
+      "has_structure"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes"
+    ],
+    "biology_path": [
+      "intrinsic properties",
+      "sequence structure and evolution"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "fold_confidence_disorder",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "conservation breadth",
+    "axis": "sequence",
+    "context": "OrthoMCL",
+    "unit": "gene",
+    "patterns": [
+      "has_pf_ortholog",
+      "has_cp_ortholog",
+      "lineage_specific",
+      "orthogroup"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes"
+    ],
+    "biology_path": [
+      "intrinsic properties",
+      "sequence structure and evolution"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "conservation_breadth",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "paralogy",
+    "axis": "sequence",
+    "context": "OrthoMCL",
+    "unit": "gene",
+    "patterns": [
+      "paralog_number"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes"
+    ],
+    "biology_path": [
+      "intrinsic properties",
+      "sequence structure and evolution"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "paralogy",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "sequence basics",
+    "axis": "sequence",
+    "context": "protein",
+    "unit": "gene",
+    "patterns": [
+      "length",
+      "sequence"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes"
+    ],
+    "biology_path": [
+      "intrinsic properties",
+      "sequence structure and evolution"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "sequence_basics",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "strain variation",
+    "axis": "sequence",
+    "context": "population",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "42330015",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42338490",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42347660",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes"
+    ],
+    "biology_path": [
+      "intrinsic properties",
+      "sequence structure and evolution"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "strain_variation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "literature attention",
+    "axis": "NEVER a feature",
+    "context": "PubMed / PMC",
+    "unit": "gene",
+    "patterns": [
+      "n_publications",
+      "n_fulltext",
+      "n_papers_",
+      "attention_depth",
+      "lit_tier"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "metadata and derived outputs",
+      "excluded from embeddings"
+    ],
+    "biology_path": [
+      "provenance and analysis metadata"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "literature attention",
+    "target_columns": [
+      "attention_depth",
+      "lit_tier"
+    ],
+    "role": "never"
+  },
+  {
+    "organism": "Toxo",
+    "name": "gene identity and annotation",
+    "axis": "NEVER a feature",
+    "context": "ToxoDB",
+    "unit": "gene",
+    "patterns": [
+      "gene_id",
+      "product"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "metadata and derived outputs",
+      "excluded from embeddings"
+    ],
+    "biology_path": [
+      "provenance and analysis metadata"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "gene_identity_and_annotation",
+    "target_columns": [],
+    "role": "metadata"
+  },
+  {
+    "organism": "Toxo",
+    "name": "metabolite levels",
+    "axis": "metabolism",
+    "context": "steady state",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "28720125",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "37808860",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "metabolism",
+      "metabolite or flux"
+    ],
+    "biology_path": [
+      "metabolism"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "metabolite_levels",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "metabolic flux",
+    "axis": "metabolism",
+    "context": "labelled precursor",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "35039477",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "37651449",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "38589375",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "metabolism",
+      "metabolite or flux"
+    ],
+    "biology_path": [
+      "metabolism"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "metabolic_flux",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "lipid composition",
+    "axis": "metabolism",
+    "context": "membrane lipids",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42124602",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42523219",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42538958",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "metabolism",
+      "metabolite or flux"
+    ],
+    "biology_path": [
+      "metabolism"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "lipid_composition",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "drug sensitivity per gene",
+    "axis": "chemistry",
+    "context": "compound panel",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42363834",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42367977",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42458149",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "chemical",
+      "response or engagement"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "chemical response"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "drug_sensitivity_per_gene",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "resistance-conferring mutation",
+    "axis": "chemistry",
+    "context": "in vitro evolution",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42458149",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42519565",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42572489",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "chemical",
+      "response or engagement"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "chemical response"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "resistance_conferring_mutation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "target engagement / thermal shift",
+    "axis": "chemistry",
+    "context": "thermal proteome",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "average",
+    "candidates": [
+      [
+        "39201756",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39859508",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41897346",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "chemical",
+      "response or engagement"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "chemical response"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "target_engagement_thermal_shift",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "RNA-binding protein targets",
+    "axis": "relation",
+    "context": "CLIP / RIP",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "rna_binding_protein_targets",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "noncoding and antisense transcription",
+    "axis": "transcription",
+    "context": "lncRNA",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "35012632",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "36252729",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39533086",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "noncoding_and_antisense_transcription",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "codon usage / translation efficiency",
+    "axis": "translation",
+    "context": "sequence-derived",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "codon_usage_translation_efficiency",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "predicted complex membership",
+    "axis": "relation",
+    "context": "AlphaFold-Multimer",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "predicted_complex_membership",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "seroreactivity / antigenicity",
+    "axis": "immunity",
+    "context": "human or animal sera",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42486511",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42565419",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42565651",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "host immunity",
+      "recognition"
+    ],
+    "biology_path": [
+      "host recognition"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "seroreactivity_antigenicity",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "T-cell epitope content",
+    "axis": "immunity",
+    "context": "predicted and measured",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "average",
+    "candidates": [
+      [
+        "42459443",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42565419",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42565651",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "host immunity",
+      "recognition"
+    ],
+    "biology_path": [
+      "host recognition"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "t_cell_epitope_content",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "invasion and egress phenotype",
+    "axis": "phenotype",
+    "context": "high-content imaging",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42094507",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42516582",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42584966",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "cell phenotype",
+      "imaging phenotype"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "cellular process"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "invasion_and_egress_phenotype",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "essentiality in a second background",
+    "axis": "fitness",
+    "context": "second strain",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "essentiality_in_a_second_background",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "transcription · in vivo enteric",
+    "axis": "transcription",
+    "context": "feline enterocyte",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "41929010",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41965856",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42020723",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_in_vivo_enteric",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "fitness · in vivo gut",
+    "axis": "fitness",
+    "context": "enteric, sexual cycle",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "40152591",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40172222",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42586428",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "sexual"
+    ],
+    "target_family": "fitness_in_vivo_gut",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Toxo",
+    "name": "cyst wall composition",
+    "axis": "localization",
+    "context": "bradyzoite cyst wall",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "40941387",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41102957",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41975467",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "spatial biology",
+      "localization"
+    ],
+    "biology_path": [
+      "cell organization",
+      "localization and topology"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "bradyzoite"
+    ],
+    "target_family": "subcellular localization",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "metabolite levels",
+    "axis": "metabolism",
+    "context": "steady state",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "38928131",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41419483",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42300800",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "metabolism",
+      "metabolite or flux"
+    ],
+    "biology_path": [
+      "metabolism"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "metabolite_levels",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "metabolic flux",
+    "axis": "metabolism",
+    "context": "labelled precursor",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "35064153",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "38519039",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "39062495",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "metabolism",
+      "metabolite or flux"
+    ],
+    "biology_path": [
+      "metabolism"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "metabolic_flux",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "lipid composition",
+    "axis": "metabolism",
+    "context": "membrane lipids",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "41964222",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42203171",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42262128",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "metabolism",
+      "metabolite or flux"
+    ],
+    "biology_path": [
+      "metabolism"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "lipid_composition",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "drug sensitivity per gene",
+    "axis": "chemistry",
+    "context": "compound panel",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42556269",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42586491",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42597946",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "chemical",
+      "response or engagement"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "chemical response"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "drug_sensitivity_per_gene",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "resistance-conferring mutation",
+    "axis": "chemistry",
+    "context": "in vitro evolution",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42569447",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42596018",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42598511",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "chemical",
+      "response or engagement"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "chemical response"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "resistance_conferring_mutation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "target engagement / thermal shift",
+    "axis": "chemistry",
+    "context": "thermal proteome",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "average",
+    "candidates": [
+      [
+        "42451739",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42486375",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42537965",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "chemical",
+      "response or engagement"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "chemical response"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "target_engagement_thermal_shift",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "RNA-binding protein targets",
+    "axis": "relation",
+    "context": "CLIP / RIP",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "33207342",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "37461554",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "37703846",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "rna_binding_protein_targets",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "noncoding and antisense transcription",
+    "axis": "transcription",
+    "context": "lncRNA",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "40394474",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "40855856",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41673015",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "noncoding_and_antisense_transcription",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "codon usage / translation efficiency",
+    "axis": "translation",
+    "context": "sequence-derived",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "codon_usage_translation_efficiency",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "predicted complex membership",
+    "axis": "relation",
+    "context": "AlphaFold-Multimer",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite"
+    ],
+    "context_path": [
+      "reference or computational",
+      "stage-unspecified"
+    ],
+    "target_family": "predicted_complex_membership",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "seroreactivity / antigenicity",
+    "axis": "immunity",
+    "context": "human or animal sera",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42560026",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42571463",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42574721",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "host immunity",
+      "recognition"
+    ],
+    "biology_path": [
+      "host recognition"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "seroreactivity_antigenicity",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "T-cell epitope content",
+    "axis": "immunity",
+    "context": "predicted and measured",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "average",
+    "candidates": [
+      [
+        "42507702",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42550035",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42571463",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "host immunity",
+      "recognition"
+    ],
+    "biology_path": [
+      "host recognition"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "t_cell_epitope_content",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "invasion and egress phenotype",
+    "axis": "phenotype",
+    "context": "high-content imaging",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42427796",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42478859",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42516582",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "cell phenotype",
+      "imaging phenotype"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "cellular process"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "invasion_and_egress_phenotype",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "essentiality in a second background",
+    "axis": "fitness",
+    "context": "second strain",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "41686849",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42017676",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42074580",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "essentiality_in_a_second_background",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "transcription · liver stage",
+    "axis": "transcription",
+    "context": "hepatocyte",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "38657074",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "38832798",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41428747",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_liver_stage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "transcription · mosquito stages",
+    "axis": "transcription",
+    "context": "ookinete, oocyst, sporozoite",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "41510253",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42120403",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42466832",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "oocyst"
+    ],
+    "target_family": "transcription_mosquito_stages",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "transcription · gametocyte",
+    "axis": "transcription",
+    "context": "gametocyte I-V",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "average",
+    "candidates": [
+      [
+        "42264951",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42294623",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42409029",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "gametocyte"
+    ],
+    "target_family": "transcription_gametocyte",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "transcription · dormancy / recrudescence",
+    "axis": "transcription",
+    "context": "artemisinin quiescence",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42374402",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42575702",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42582255",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "transcription_dormancy_recrudescence",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "fitness · liver stage",
+    "axis": "fitness",
+    "context": "hepatocyte",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "39714137",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42149978",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42393261",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_liver_stage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "fitness · transmission",
+    "axis": "fitness",
+    "context": "mosquito",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42457405",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42461315",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42472253",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_transmission",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "antigenic variation family expression",
+    "axis": "regulation",
+    "context": "var / rif / stevor",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "34389510",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "35460670",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "35493110",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "regulation",
+      "chromatin and RNA regulation"
+    ],
+    "biology_path": [
+      "gene regulation"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "antigenic_variation_family_expression",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "export / PEXEL trafficking",
+    "axis": "localization",
+    "context": "erythrocyte cytosol",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "41205844",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "41792842",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42390622",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "spatial biology",
+      "localization"
+    ],
+    "biology_path": [
+      "cell organization",
+      "localization and topology"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "export_pexel_trafficking",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "host receptor binding",
+    "axis": "host effect",
+    "context": "endothelium, erythrocyte",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42291314",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42341059",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42390622",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "parasite-host",
+      "host effect"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-host"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "stage-unspecified"
+    ],
+    "target_family": "host_receptor_binding",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "field variation and resistance markers",
+    "axis": "sequence",
+    "context": "clinical isolates",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [
+      [
+        "42557356",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42561758",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ],
+      [
+        "42596018",
+        "",
+        "automatically proposed; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes"
+    ],
+    "biology_path": [
+      "intrinsic properties",
+      "sequence structure and evolution"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "field_variation_and_resistance_markers",
+    "target_columns": [],
+    "role": "feature"
+  }
+]

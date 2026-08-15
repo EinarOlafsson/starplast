@@ -92,6 +92,13 @@ def test_a_previous_accession_resolves_forward(tmp_path):
     assert hit[0] == "TGME49_200010" and hit[1] == "accession_prev"
 
 
+def test_a_legacy_toxogenechip_model_resolves_for_structured_dataset_joins(tmp_path):
+    p = _identity_tsv(tmp_path, [{"gene_id": "TGME49_200010", "gene_name": "",
+                                  "previous_ids": "1.m00014", "product": ""}])
+    ix = ID.build_index(["TGME49_200010"], p, log=lambda *_: None)
+    assert ix.lookup[ID.norm("1.m00014")] == ("TGME49_200010", "accession_prev")
+
+
 def test_a_symbol_resolves_and_is_tagged_as_a_symbol(tmp_path):
     p = _identity_tsv(tmp_path, [{"gene_id": "TGME49_200010", "gene_name": "GRA16",
                                   "previous_ids": "", "product": ""}])

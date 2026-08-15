@@ -168,6 +168,76 @@ def test_two_categorical_layers_disagree_by_splitting():
     assert sorted(row.counts) == [20, 20]
 
 
+# --------------------------------------------------------------------------- crossed factors
+def crossed(n_per=50, independent=False, seed=9):
+    """Four clusters built as the 2 x 2 of compartment and stage."""
+    rows, labels = [], []
+    for cluster, (compartment, stage) in enumerate(
+            (("A", "X"), ("A", "Y"), ("B", "X"), ("B", "Y"))):
+        for i in range(n_per):
+            rows.append({"gene_id": f"G{cluster}_{i}", "comp": compartment, "stage": stage,
+                         "n_publications": 0})
+            labels.append(cluster)
+    nodes = pd.DataFrame(rows)
+    if independent:
+        labels = np.random.default_rng(seed).permutation(labels)
+    return nodes, np.asarray(labels)
+
+
+def test_conjunction_recovers_the_four_cells_of_a_crossed_design():
+    nodes, labels = crossed()
+    found = D.conjunction(nodes, labels, "comp", "stage", max_share=0.3)
+    assert len(found) == 4, found.to_string()
+    assert set(zip(found.category, found.other_category)) == {
+        ("A", "X"), ("A", "Y"), ("B", "X"), ("B", "Y")}
+    assert (found.interaction_ratio > 1.5).all()
+    missing = np.tile(np.arange(50) < 6, 4)
+    assert len(set(D.guilt(nodes.assign(comp=nodes.comp.mask(missing)),
+                           labels, "comp", max_share=0.3).category)) == 2
+
+
+def test_independent_layers_do_not_make_a_conjunction():
+    nodes, labels = crossed(independent=True)
+    assert D.conjunction(nodes, labels, "comp", "stage", max_share=0.3).empty
+
+
+def test_fragmentation_is_explained_when_siblings_separate_on_the_second_layer():
+    nodes, labels = crossed()
+    out = D.explains_fragmentation(nodes, labels, "comp", "stage", permutations=49,
+                                   min_cluster=10)
+    run = out[out.category == "__run__"].iloc[0]
+    assert run.n_sibling_clusters == 4
+    assert run.fraction_explained == pytest.approx(1.0)
+    assert run.observed_distance > run.null_mean
+
+
+def test_crossed_factor_functions_decline_bad_inputs():
+    nodes, labels = crossed()
+    nodes["numeric"] = np.arange(len(nodes), dtype=float)
+    assert D.conjunction(nodes, labels[:-1], "comp", "stage").empty
+    assert D.conjunction(nodes, labels, "numeric", "stage").empty
+    assert D.explains_fragmentation(nodes, labels, "comp", "numeric").empty
+
+
+def test_crossed_factor_guards_decline_underpowered_tables_and_cells():
+    nodes, labels = crossed()
+    assert D.conjunction(nodes.iloc[:5], labels[:5], "comp", "stage").empty
+    assert D.conjunction(nodes, labels, "comp", "stage", min_cluster=60).empty
+    # The cluster has enough jointly measured genes, but no individual A x B cell reaches this floor.
+    independent_nodes, independent_labels = crossed(independent=True)
+    assert D.conjunction(independent_nodes, independent_labels, "comp", "stage",
+                         min_category=20, max_share=0.3).empty
+    assert D._mean_pairwise_distance(np.ones((1, 2))) == 0.0
+
+
+def test_fragmentation_needs_siblings_and_two_second_layer_categories():
+    nodes, labels = crossed()
+    assert D.explains_fragmentation(nodes, np.zeros_like(labels), "comp", "stage").empty
+    one_stage = nodes.assign(stage="X")
+    assert D.explains_fragmentation(one_stage, labels, "comp", "stage",
+                                    min_cluster=10).empty
+
+
 # --------------------------------------------------------------------------- guards and scoring
 def test_a_finding_about_a_layer_that_built_the_map_is_marked_circular():
     """A cluster enriched for localisation in a map built from localisation is arithmetic."""

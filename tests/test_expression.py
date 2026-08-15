@@ -16,6 +16,9 @@ from __future__ import annotations
 
 import os
 import sys
+import gzip
+import io
+import tarfile
 
 import numpy as np
 import pandas as pd
@@ -132,6 +135,30 @@ def test_non_numeric_columns_are_not_treated_as_samples(tmp_path):
 
 def test_a_missing_stress_file_yields_nothing(tmp_path):
     assert EX.stress_induction(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_gse22258_uses_accession_keyed_stage_values(tmp_path):
+    d = tmp_path / "datasets"
+    d.mkdir()
+    pd.DataFrame({"ID_REF": ["TGME49_200010", "TGME49_200020"],
+                  "GSM554066": [10.0, 11.0], "GSM554067": [12.0, 13.0]}).to_csv(
+        d / "stagetranscriptome_GSE22258_series_matrix.txt.gz", sep="\t", index=False,
+        compression="gzip")
+    out = EX.gse22258_stage(str(tmp_path), log=lambda *_: None)
+    assert list(out) == ["rna22258_tachyzoite", "rna22258_bradyzoite"]
+    assert set(out.index) == {"TGME49_200010", "TGME49_200020"}
+
+
+def test_gse168465_keeps_measurements_but_not_p_values(tmp_path):
+    d = tmp_path / "datasets"
+    d.mkdir()
+    with pd.ExcelWriter(d / "stagetranscriptome_GSE168465_DESeq2-Toxo-all-time-points.xlsx") as w:
+        pd.DataFrame({"gene": ["TGME49_200010"], "baseMean": [100.0],
+                      "log2FoldChange": [2.0], "pvalue": [0.001], "padj": [0.01]}).to_excel(
+            w, sheet_name="1d", index=False)
+    out = EX.neuronal_differentiation(str(tmp_path), log=lambda *_: None)
+    assert list(out) == ["brain168465_1d_base_mean", "brain168465_1d_lfc"]
+    assert not any("pvalue" in c or "padj" in c for c in out)
 
 
 # --------------------------------------------------------------------------- MORC
@@ -333,3 +360,100 @@ def test_the_itraq_loader_falls_back_to_the_numeric_block_when_no_column_names_a
     monkeypatch.setattr(EX, "_libreoffice_xlsx", lambda p, log=print: str(conv))
     out = EX.oocyst_itraq(str(tmp_path), log=lambda *_: None)
     assert len(out.columns) == 4, "the first four numeric columns are annotation, not measurements"
+
+
+# --------------------------------------------------------------------------- 2026 GEO acquisition
+def _acquired(tmp_path):
+    path = tmp_path / "datasets" / "toxoplasma_acquisition_2026_08_14"
+    path.mkdir(parents=True)
+    return path
+
+
+def test_gse99395_keeps_rna_rpf_and_relative_translation_separate(tmp_path):
+    path = _acquired(tmp_path)
+    frame = pd.DataFrame({
+        "gene": ["TGME49_200010", "TGME49_200020"],
+        "Extracellular_Digested_1": [8, 16], "Extracellular_Digested_2": [4, 8],
+        "Intracellular_Digested_1": [16, 8], "Intracellular_Digested_2": [8, 4],
+        "Extracellular_Total_1": [4, 8], "Extracellular_Total_2": [2, 4],
+        "Intracellular_Total_1": [8, 4], "Intracellular_Total_2": [4, 2],
+    })
+    frame.to_csv(path / "GSE99395_Raw_counts.txt.gz", sep="\t", index=False,
+                 compression="gzip")
+    out = EX.gse99395_ribosome_profiling(str(tmp_path), log=lambda *_: None)
+    assert out.shape == (2, 12)
+    assert {"rpf99395_extracellular_r1", "rna99395_extracellular_r1",
+            "te99395_extracellular_r1"} <= set(out)
+    assert np.allclose(out.te99395_extracellular_r1,
+                       out.rpf99395_extracellular_r1 - out.rna99395_extracellular_r1)
+
+
+def test_gse129869_reads_each_archived_assay_without_extracting_it(tmp_path):
+    path = _acquired(tmp_path)
+    archive_path = path / "GSE129869_RAW.tar"
+    with tarfile.open(archive_path, "w") as archive:
+        for condition in ("c", "s"):
+            for assay in ("RFP", "RNA"):
+                for replicate in (1, 2, 3):
+                    payload = gzip.compress(b"TGME49_200010\t8\nTGME49_200020\t4\n")
+                    info = tarfile.TarInfo(f"sample_{condition}{assay}.RH{replicate}_count.tab.gz")
+                    info.size = len(payload)
+                    archive.addfile(info, io.BytesIO(payload))
+    out = EX.gse129869_host_context_ribosome_profiling(
+        str(tmp_path), log=lambda *_: None)
+    assert out.shape == (2, 18)
+    assert {"rpf129869_confluent_r1", "rna129869_subconfluent_r3",
+            "te129869_confluent_r2"} <= set(out)
+
+
+def _write_geo_matrix(path, filename, titles):
+    matrix = ["!Sample_title\t" + "\t".join(f'\"{title}\"' for title in titles),
+              "!series_matrix_table_begin",
+              '"ID_REF"\t' + "\t".join(f'\"GSM{i}\"' for i in range(len(titles))),
+              '"probe1"\t' + "\t".join(str(i + 1) for i in range(len(titles))),
+              "!series_matrix_table_end"]
+    with gzip.open(path / filename, "wt") as handle:
+        handle.write("\n".join(matrix) + "\n")
+    platform = ["!platform_table_begin", "ID\tToxoDB", "probe1\t1.m00014",
+                "!platform_table_end"]
+    with gzip.open(path / "GPL7186_family.soft.gz", "wt") as handle:
+        handle.write("\n".join(platform) + "\n")
+
+
+def test_legacy_geo_arrays_resolve_probes_and_preserve_conditions(tmp_path):
+    path = _acquired(tmp_path)
+    resolve = lambda value: {"1.m00014": "TGME49_200010"}.get(value)
+    _write_geo_matrix(path, "GSE19092_series_matrix.txt.gz",
+                      ["asynchronous - 1", "1 hour release - 2"])
+    cellcycle = EX.gse19092_cell_cycle(str(tmp_path), resolve=resolve,
+                                      log=lambda *_: None)
+    assert list(cellcycle) == ["cellcycle19092_async_r1", "cellcycle19092_1h_r2"]
+    _write_geo_matrix(path, "GSE51780_series_matrix.txt.gz",
+                      ["tachyzoite", "merozoite"])
+    merozoite = EX.gse51780_merozoite(str(tmp_path), resolve=resolve,
+                                     log=lambda *_: None)
+    assert list(merozoite) == ["rna51780_tachy_r1", "rna51780_mero_r2"]
+
+
+def test_gse168155_is_named_as_a_perturbation_not_direct_m6a(tmp_path):
+    path = _acquired(tmp_path)
+    frame = pd.DataFrame({"Name": ["TGME49_200010"],
+                          "UT-1 - linear total RPKM": [4.0],
+                          "IAA_7h-1 - linear total RPKM": [8.0],
+                          "a statistic": [0.01]})
+    frame.to_excel(path / "GSE168155_Matrix_table_processed_data.xlsx",
+                   sheet_name="RPKM", index=False)
+    out = EX.gse168155_rna_processing_perturbation(str(tmp_path), log=lambda *_: None)
+    assert list(out) == ["cpsf4rna168155_ut_1", "cpsf4rna168155_iaa_7h_1"]
+    assert not any("m6a" in column for column in out)
+
+
+def test_gse200962_keeps_every_counted_condition(tmp_path):
+    path = _acquired(tmp_path)
+    pd.DataFrame({"gene": ["TGME49_200010", "TGME49_200020"],
+                  "P2 with pH 8": [2, 4], "P5 without pH 8": [8, 16]}).to_csv(
+        path / "GSE200962_gene_count_matrix_geo.csv.gz", index=False,
+        compression="gzip")
+    out = EX.gse200962_restriction_checkpoint(str(tmp_path), log=lambda *_: None)
+    assert list(out) == ["restriction200962_p2_with_ph_8",
+                         "restriction200962_p5_without_ph_8"]

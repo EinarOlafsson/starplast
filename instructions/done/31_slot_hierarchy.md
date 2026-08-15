@@ -1,0 +1,427 @@
+# Slot relationship hierarchy
+
+Slots are the leaves of three independent trees. A single tree would create false relationships: for example, membrane topology is sequence evidence about localization, and a stage RNA-seq experiment also has an in-vivo or in-vitro context.
+
+- **Evidence** controls assay/data-class holdouts: what kind of observation was made.
+- **Biology** groups the subject being inferred or interpreted.
+- **Context** groups the experimental system and stage.
+- **Provenance and derivation are a graph, not a tree.** Dataset registry entries and `derived_from` edges provide the closure used by leakage exclusion.
+
+## Toxoplasma — evidence
+
+- molecular measurements
+  - RNA
+    - transcript abundance
+      - Toxo_transcription_tachyzoite
+      - Toxo_transcription_bradyzoite_tissue_cyst
+      - Toxo_transcription_oocyst_sporozoite
+      - Toxo_transcription_merozoite
+      - Toxo_transcription_sexual_stages
+      - Toxo_transcription_per_cell_cycle_phase
+      - Toxo_transcription_in_naive_macrophage
+      - Toxo_transcription_in_ifn_gamma_macrophage
+      - Toxo_transcription_in_vivo_brain_acute
+      - Toxo_transcription_in_vivo_brain_chronic
+      - Toxo_transcription_purified_bradyzoite_in_vivo
+      - Toxo_transcription_primary_brain_cell_differentiation_time_course
+      - Toxo_transcription_under_stress_conversion
+      - Toxo_transcription_extracellular_lytic_stress
+      - Toxo_transcription_under_tf_or_chromatin_perturbation
+      - Toxo_transcription_under_rna_processing_perturbation
+      - Toxo_transcription_bradyzoite_checkpoint_perturbation
+      - Toxo_transcription_maximum_observed_across_stages
+      - Toxo_cell_cycle_timing_label
+      - Toxo_noncoding_and_antisense_transcription
+      - Toxo_transcription_in_vivo_enteric
+  - translation
+    - ribosome occupancy
+      - Toxo_translation_tachyzoite
+      - Toxo_translation_bradyzoite
+      - Toxo_translation_per_cell_cycle_phase
+      - Toxo_translation_under_stress
+      - Toxo_translation_efficiency_tachyzoite
+      - Toxo_translation_efficiency_extracellular_stress
+      - Toxo_codon_usage_translation_efficiency
+  - protein
+    - abundance
+      - Toxo_protein_abundance_tachyzoite
+      - Toxo_protein_abundance_other_life_stages
+      - Toxo_protein_turnover_stability
+    - post-translational state
+      - Toxo_phosphorylation_site_count
+      - Toxo_phosphorylation_quantitative
+      - Toxo_phosphorylation_kinase_substrate
+      - Toxo_acetylation
+      - Toxo_lactylation
+      - Toxo_s_nitrosylation
+      - Toxo_ubiquitination_sumoylation
+      - Toxo_glycosylation
+      - Toxo_palmitoylation
+  - regulation
+    - chromatin and RNA regulation
+      - Toxo_tf_binding_per_factor
+      - Toxo_chromatin_state_histone_marks
+      - Toxo_chromatin_accessibility
+      - Toxo_rna_modification_m6a_5mc
+      - Toxo_splicing_isoform_use
+      - Toxo_rna_stability_half_life
+  - spatial biology
+    - localization
+      - Toxo_localization_measured
+      - Toxo_exposure_to_host_cytosol
+      - Toxo_secretome_excreted
+      - Toxo_cyst_wall_composition
+  - metabolism
+    - metabolite or flux
+      - Toxo_metabolite_levels
+      - Toxo_metabolic_flux
+      - Toxo_lipid_composition
+- metadata and derived outputs
+  - derived target labels
+    - life-cycle stage
+      - Toxo_life_cycle_stage_label_derived
+  - excluded from embeddings
+    - Toxo_downloaded_study_membership
+    - Toxo_analysis_derived_structural_holes
+    - Toxo_assay_confidence_and_significance
+    - Toxo_literature_attention
+    - Toxo_gene_identity_and_annotation
+- perturbational measurements
+  - genetic screens
+    - fitness
+      - Toxo_fitness_hff_in_vitro
+      - Toxo_fitness_naive_macrophage
+      - Toxo_fitness_ifn_gamma_macrophage
+      - Toxo_fitness_in_vivo_peritoneum
+      - Toxo_fitness_in_vivo_lung
+      - Toxo_fitness_in_vivo_liver
+      - Toxo_fitness_in_vivo_spleen
+      - Toxo_fitness_oxidative_stress
+      - Toxo_fitness_hyperlopit_unassigned_proteins
+      - Toxo_fitness_targeted_in_vivo_young_2019
+      - Toxo_genetic_interaction_delta_gra17
+      - Toxo_fitness_gra12_screen_1_in_vitro
+      - Toxo_fitness_gra12_screen_1_in_vivo
+      - Toxo_fitness_gra12_screen_1_differential
+      - Toxo_fitness_gra12_screen_2_in_vitro
+      - Toxo_fitness_gra12_screen_2_in_vivo
+      - Toxo_fitness_gra12_screen_2_differential
+      - Toxo_stage_conversion_phenotype
+      - Toxo_drug_sensitivity
+      - Toxo_essentiality_in_a_second_background
+      - Toxo_fitness_in_vivo_gut
+  - chemical
+    - response or engagement
+      - Toxo_drug_sensitivity_per_gene
+      - Toxo_resistance_conferring_mutation
+      - Toxo_target_engagement_thermal_shift
+  - cell phenotype
+    - imaging phenotype
+      - Toxo_invasion_and_egress_phenotype
+- intrinsic and reference
+  - orthology-derived
+    - localization transfer
+      - Toxo_localization_transferred
+  - sequence-derived
+    - membrane topology
+      - Toxo_membrane_topology
+  - sequence and evolution
+    - gene attributes
+      - Toxo_domain_content
+      - Toxo_fold_confidence_disorder
+      - Toxo_conservation_breadth
+      - Toxo_paralogy
+      - Toxo_sequence_basics
+      - Toxo_strain_variation
+- relational measurements
+  - gene-gene
+    - association or interaction
+      - Toxo_co_transcription
+      - Toxo_co_translation
+      - Toxo_co_fitness
+      - Toxo_interaction_crosslink_ms
+      - Toxo_interaction_ip_ms_parasite_parasite
+      - Toxo_interaction_proximity_labelling
+      - Toxo_interaction_structural_similarity
+      - Toxo_interaction_with_host_proteins
+      - Toxo_shared_compartment
+      - Toxo_shared_orthogroup
+      - Toxo_shared_domain
+      - Toxo_interaction_degree_crosslink_ms
+      - Toxo_interaction_degree_ip_ms
+      - Toxo_interaction_degree_structural_similarity
+      - Toxo_rna_binding_protein_targets
+      - Toxo_predicted_complex_membership
+  - parasite-host
+    - host effect
+      - Toxo_host_interaction_degree
+      - Toxo_host_transcriptional_effect_per_effector
+  - host immunity
+    - recognition
+      - Toxo_seroreactivity_antigenicity
+      - Toxo_t_cell_epitope_content
+
+## Toxoplasma — biology
+
+- gene expression
+  - RNA abundance
+    - Toxo_transcription_tachyzoite
+    - Toxo_transcription_bradyzoite_tissue_cyst
+    - Toxo_transcription_oocyst_sporozoite
+    - Toxo_transcription_merozoite
+    - Toxo_transcription_sexual_stages
+    - Toxo_transcription_per_cell_cycle_phase
+    - Toxo_transcription_in_naive_macrophage
+    - Toxo_transcription_in_ifn_gamma_macrophage
+    - Toxo_transcription_in_vivo_brain_acute
+    - Toxo_transcription_in_vivo_brain_chronic
+    - Toxo_transcription_purified_bradyzoite_in_vivo
+    - Toxo_transcription_primary_brain_cell_differentiation_time_course
+    - Toxo_transcription_under_stress_conversion
+    - Toxo_transcription_extracellular_lytic_stress
+    - Toxo_transcription_under_tf_or_chromatin_perturbation
+    - Toxo_transcription_under_rna_processing_perturbation
+    - Toxo_transcription_bradyzoite_checkpoint_perturbation
+    - Toxo_transcription_maximum_observed_across_stages
+    - Toxo_cell_cycle_timing_label
+    - Toxo_life_cycle_stage_label_derived
+    - Toxo_noncoding_and_antisense_transcription
+    - Toxo_transcription_in_vivo_enteric
+  - protein synthesis
+    - Toxo_translation_tachyzoite
+    - Toxo_translation_bradyzoite
+    - Toxo_translation_per_cell_cycle_phase
+    - Toxo_translation_under_stress
+    - Toxo_translation_efficiency_tachyzoite
+    - Toxo_translation_efficiency_extracellular_stress
+    - Toxo_codon_usage_translation_efficiency
+  - protein abundance
+    - Toxo_protein_abundance_tachyzoite
+    - Toxo_protein_abundance_other_life_stages
+    - Toxo_protein_turnover_stability
+- protein state
+  - post-translational modification
+    - Toxo_phosphorylation_site_count
+    - Toxo_phosphorylation_quantitative
+    - Toxo_phosphorylation_kinase_substrate
+    - Toxo_acetylation
+    - Toxo_lactylation
+    - Toxo_s_nitrosylation
+    - Toxo_ubiquitination_sumoylation
+    - Toxo_glycosylation
+    - Toxo_palmitoylation
+- parasite phenotype
+  - fitness and essentiality
+    - Toxo_fitness_hff_in_vitro
+    - Toxo_fitness_naive_macrophage
+    - Toxo_fitness_ifn_gamma_macrophage
+    - Toxo_fitness_in_vivo_peritoneum
+    - Toxo_fitness_in_vivo_lung
+    - Toxo_fitness_in_vivo_liver
+    - Toxo_fitness_in_vivo_spleen
+    - Toxo_fitness_oxidative_stress
+    - Toxo_fitness_hyperlopit_unassigned_proteins
+    - Toxo_fitness_targeted_in_vivo_young_2019
+    - Toxo_genetic_interaction_delta_gra17
+    - Toxo_fitness_gra12_screen_1_in_vitro
+    - Toxo_fitness_gra12_screen_1_in_vivo
+    - Toxo_fitness_gra12_screen_1_differential
+    - Toxo_fitness_gra12_screen_2_in_vitro
+    - Toxo_fitness_gra12_screen_2_in_vivo
+    - Toxo_fitness_gra12_screen_2_differential
+    - Toxo_stage_conversion_phenotype
+    - Toxo_drug_sensitivity
+    - Toxo_essentiality_in_a_second_background
+    - Toxo_fitness_in_vivo_gut
+  - chemical response
+    - Toxo_drug_sensitivity_per_gene
+    - Toxo_resistance_conferring_mutation
+    - Toxo_target_engagement_thermal_shift
+  - cellular process
+    - Toxo_invasion_and_egress_phenotype
+- gene regulation
+  - Toxo_tf_binding_per_factor
+  - Toxo_chromatin_state_histone_marks
+  - Toxo_chromatin_accessibility
+  - Toxo_rna_modification_m6a_5mc
+  - Toxo_splicing_isoform_use
+  - Toxo_rna_stability_half_life
+- cell organization
+  - localization and topology
+    - Toxo_localization_measured
+    - Toxo_localization_transferred
+    - Toxo_membrane_topology
+    - Toxo_exposure_to_host_cytosol
+    - Toxo_secretome_excreted
+    - Toxo_cyst_wall_composition
+- molecular relationships
+  - parasite-parasite
+    - Toxo_co_transcription
+    - Toxo_co_translation
+    - Toxo_co_fitness
+    - Toxo_interaction_crosslink_ms
+    - Toxo_interaction_ip_ms_parasite_parasite
+    - Toxo_interaction_proximity_labelling
+    - Toxo_interaction_structural_similarity
+    - Toxo_interaction_with_host_proteins
+    - Toxo_shared_compartment
+    - Toxo_shared_orthogroup
+    - Toxo_shared_domain
+    - Toxo_interaction_degree_crosslink_ms
+    - Toxo_interaction_degree_ip_ms
+    - Toxo_interaction_degree_structural_similarity
+    - Toxo_rna_binding_protein_targets
+    - Toxo_predicted_complex_membership
+  - parasite-host
+    - Toxo_host_interaction_degree
+    - Toxo_host_transcriptional_effect_per_effector
+- provenance and analysis metadata
+  - Toxo_downloaded_study_membership
+  - Toxo_analysis_derived_structural_holes
+  - Toxo_assay_confidence_and_significance
+  - Toxo_literature_attention
+  - Toxo_gene_identity_and_annotation
+- intrinsic properties
+  - sequence structure and evolution
+    - Toxo_domain_content
+    - Toxo_fold_confidence_disorder
+    - Toxo_conservation_breadth
+    - Toxo_paralogy
+    - Toxo_sequence_basics
+    - Toxo_strain_variation
+- metabolism
+  - Toxo_metabolite_levels
+  - Toxo_metabolic_flux
+  - Toxo_lipid_composition
+- host recognition
+  - Toxo_seroreactivity_antigenicity
+  - Toxo_t_cell_epitope_content
+
+## Toxoplasma — context
+
+- in vitro or assay-defined
+  - tachyzoite
+    - Toxo_transcription_tachyzoite
+    - Toxo_transcription_extracellular_lytic_stress
+    - Toxo_transcription_under_rna_processing_perturbation
+    - Toxo_transcription_bradyzoite_checkpoint_perturbation
+    - Toxo_translation_tachyzoite
+    - Toxo_translation_efficiency_tachyzoite
+    - Toxo_protein_abundance_tachyzoite
+    - Toxo_protein_turnover_stability
+    - Toxo_phosphorylation_site_count
+    - Toxo_phosphorylation_quantitative
+    - Toxo_lactylation
+    - Toxo_s_nitrosylation
+    - Toxo_ubiquitination_sumoylation
+    - Toxo_glycosylation
+    - Toxo_palmitoylation
+    - Toxo_chromatin_state_histone_marks
+    - Toxo_rna_modification_m6a_5mc
+    - Toxo_rna_stability_half_life
+  - bradyzoite
+    - Toxo_transcription_bradyzoite_tissue_cyst
+    - Toxo_translation_bradyzoite
+    - Toxo_stage_conversion_phenotype
+    - Toxo_cyst_wall_composition
+  - oocyst
+    - Toxo_transcription_oocyst_sporozoite
+  - merozoite
+    - Toxo_transcription_merozoite
+  - stage-unspecified
+    - Toxo_transcription_per_cell_cycle_phase
+    - Toxo_transcription_under_stress_conversion
+    - Toxo_transcription_under_tf_or_chromatin_perturbation
+    - Toxo_transcription_maximum_observed_across_stages
+    - Toxo_cell_cycle_timing_label
+    - Toxo_life_cycle_stage_label_derived
+    - Toxo_translation_per_cell_cycle_phase
+    - Toxo_translation_under_stress
+    - Toxo_translation_efficiency_extracellular_stress
+    - Toxo_protein_abundance_other_life_stages
+    - Toxo_phosphorylation_kinase_substrate
+    - Toxo_acetylation
+    - Toxo_fitness_naive_macrophage
+    - Toxo_fitness_ifn_gamma_macrophage
+    - Toxo_fitness_oxidative_stress
+    - Toxo_genetic_interaction_delta_gra17
+    - Toxo_fitness_gra12_screen_1_in_vitro
+    - Toxo_fitness_gra12_screen_2_in_vitro
+    - Toxo_drug_sensitivity
+    - Toxo_tf_binding_per_factor
+    - Toxo_chromatin_accessibility
+    - Toxo_splicing_isoform_use
+    - Toxo_localization_measured
+    - Toxo_localization_transferred
+    - Toxo_exposure_to_host_cytosol
+    - Toxo_secretome_excreted
+    - Toxo_co_transcription
+    - Toxo_co_translation
+    - Toxo_co_fitness
+    - Toxo_interaction_crosslink_ms
+    - Toxo_interaction_ip_ms_parasite_parasite
+    - Toxo_interaction_proximity_labelling
+    - Toxo_shared_compartment
+    - Toxo_interaction_degree_crosslink_ms
+    - Toxo_interaction_degree_ip_ms
+    - Toxo_downloaded_study_membership
+    - Toxo_analysis_derived_structural_holes
+    - Toxo_assay_confidence_and_significance
+    - Toxo_host_transcriptional_effect_per_effector
+    - Toxo_strain_variation
+    - Toxo_literature_attention
+    - Toxo_gene_identity_and_annotation
+    - Toxo_metabolite_levels
+    - Toxo_metabolic_flux
+    - Toxo_lipid_composition
+    - Toxo_drug_sensitivity_per_gene
+    - Toxo_resistance_conferring_mutation
+    - Toxo_target_engagement_thermal_shift
+    - Toxo_rna_binding_protein_targets
+    - Toxo_noncoding_and_antisense_transcription
+    - Toxo_t_cell_epitope_content
+    - Toxo_invasion_and_egress_phenotype
+    - Toxo_essentiality_in_a_second_background
+- in vivo
+  - sexual
+    - Toxo_transcription_sexual_stages
+    - Toxo_fitness_in_vivo_gut
+  - stage-unspecified
+    - Toxo_transcription_in_vivo_brain_acute
+    - Toxo_transcription_in_vivo_brain_chronic
+    - Toxo_transcription_primary_brain_cell_differentiation_time_course
+    - Toxo_fitness_in_vivo_peritoneum
+    - Toxo_fitness_in_vivo_lung
+    - Toxo_fitness_in_vivo_liver
+    - Toxo_fitness_in_vivo_spleen
+    - Toxo_fitness_hyperlopit_unassigned_proteins
+    - Toxo_fitness_targeted_in_vivo_young_2019
+    - Toxo_fitness_gra12_screen_1_in_vivo
+    - Toxo_fitness_gra12_screen_1_differential
+    - Toxo_fitness_gra12_screen_2_in_vivo
+    - Toxo_fitness_gra12_screen_2_differential
+    - Toxo_transcription_in_vivo_enteric
+  - bradyzoite
+    - Toxo_transcription_purified_bradyzoite_in_vivo
+- host-cell or host-derived
+  - stage-unspecified
+    - Toxo_transcription_in_naive_macrophage
+    - Toxo_transcription_in_ifn_gamma_macrophage
+    - Toxo_fitness_hff_in_vitro
+    - Toxo_interaction_with_host_proteins
+    - Toxo_host_interaction_degree
+    - Toxo_seroreactivity_antigenicity
+- reference or computational
+  - stage-unspecified
+    - Toxo_membrane_topology
+    - Toxo_interaction_structural_similarity
+    - Toxo_shared_orthogroup
+    - Toxo_shared_domain
+    - Toxo_interaction_degree_structural_similarity
+    - Toxo_domain_content
+    - Toxo_fold_confidence_disorder
+    - Toxo_conservation_breadth
+    - Toxo_paralogy
+    - Toxo_sequence_basics
+    - Toxo_codon_usage_translation_efficiency
+    - Toxo_predicted_complex_membership

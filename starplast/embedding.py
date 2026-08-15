@@ -65,15 +65,33 @@ METHODS = ("umap", "tsne", "pca")
 BLOCKS = {
     "expression_summary": r"^expr_",
     "expression_raw": r"^rna\d+_",
+    # These six assay families already ship in nodes.parquet.  Keeping each biological question in
+    # its own block is the first executable part of the slot model: an in-vivo brain transcriptome
+    # is not averaged with an alkaline-stress series merely because both arrived through
+    # expression.py.  The two invivo patterns are split again because tissue-culture tachyzoites and
+    # infected brain are different conditions and therefore different slots.
+    "transcription_tachyzoite_comparator": r"^invivo_TZ_",
+    "transcription_in_vivo_brain": r"^invivo_(?:WholeBrain|BZ_)",
+    "transcription_stress_conversion": r"^stress_",
+    "transcription_tf_chromatin_perturbation": r"^morc_",
     "fitness_screens": r"^fit_",
     "published_screens": r"^(crispr_|hosttx_)",
     "localization": r"^(lopit_prob|lopit_methods_agree)",
+    "protein_abundance_perturbation": r"^proteome_",
+    "protein_abundance_oocyst": r"^oocyst_",
+    "phosphorylation_quantitative": r"^phospho_",
     "protein_features": r"^(mean_plddt|paralog_number|n_interpro|n_phosphosites|n_tm|length"
                         r"|tm_kd_|has_domain|has_signal_peptide|is_tm|lineage_specific"
                         r"|protein_ibaq_log2)",
     "literature": r"^(n_publications|n_fulltext|n_papers_)",
     "interactions": r"^(n_xlink_partners|n_struct_similar|n_ipms_partners|n_holes)",
 }
+# Biological-question slots are the primary blocks for new maps. The regex blocks above remain as
+# recipe compatibility for maps saved before v0.31; they are no longer what the optimiser offers.
+from .slots import all_slots as _all_slots
+SLOT_BLOCKS = {slot.key: slot for slot in _all_slots("Toxo")
+               if slot.unit == "gene" and slot.patterns and slot.role == "feature"}
+BLOCKS.update({key: "" for key in SLOT_BLOCKS})
 #: Blocks that have been renamed: the spelling a recipe may carry -> what it is called now. A recipe
 #: is a promise that a run can be rebuilt, and the embeddings saved before the rename name their
 #: blocks as they were spelled when they were computed. An unrecognised block does not fail loudly --
@@ -136,6 +154,12 @@ def columns_for(nodes: pd.DataFrame, spec: EmbeddingSpec) -> dict:
     """block -> the node-table columns it contributes, in this table."""
     out = {}
     for b in spec.blocks:
+        if b in SLOT_BLOCKS:
+            from .slots import source_columns
+            cols = list(source_columns(nodes, SLOT_BLOCKS[b]))
+            if cols:
+                out[b] = cols
+            continue
         pat = BLOCKS.get(b)
         if not pat:
             continue
@@ -203,8 +227,14 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
     ind_mats, ind_names = [], []
     raw_for_drop = []          # pre-imputation copies, for the drop_genes policy
     for block, cols in per_block.items():
-        M = nodes[cols].to_numpy(dtype=float)
-        keep = list(cols)
+        if block in SLOT_BLOCKS:
+            from .slots import resolve
+            resolved = resolve(nodes, SLOT_BLOCKS[block])
+            M = resolved.values.to_numpy(dtype=float)
+            keep = list(resolved.values.columns)
+        else:
+            M = nodes[cols].to_numpy(dtype=float)
+            keep = list(cols)
 
         if spec.na_policy == "drop_columns":
             frac = np.isnan(M).mean(axis=0)
@@ -328,8 +358,13 @@ def normalize(Y, scale: float = 50.0) -> np.ndarray:
     return (Y * scale).astype(np.float32)
 
 
-def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
-    """Build the matrix and run UMAP. Returns (coords, feature_names, kept_rows)."""
+def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print, return_matrix: bool = False):
+    """Build and project a matrix.
+
+    Returns ``(coords, feature_names, kept_rows)`` by default. With ``return_matrix=True`` the
+    exact pre-projection matrix is appended, allowing callers to compute trustworthiness without
+    rebuilding and potentially drifting from the matrix that actually produced the map.
+    """
     from .logging_util import get_logger
     # The full recipe, at INFO. A map with no record of what produced it cannot be compared with
     # another or reported in a methods section, and the recipe is small next to the run.
@@ -342,19 +377,37 @@ def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
         # ends the whole run over one configuration that was never going to work.
         k = int(max(min(spec.n_components, min(np.shape(X))), 1))
         log(f"PCA: {k} components -- the baseline, not a map to read biology off")
-        return normalize(PCA(n_components=k, random_state=spec.random_state)
-                         .fit_transform(np.nan_to_num(X))), names, rows
+        out = (normalize(PCA(n_components=k, random_state=spec.random_state)
+                         .fit_transform(np.nan_to_num(X))), names, rows)
+        return (*out, X) if return_matrix else out
     if spec.method == "tsne":
-        from sklearn.manifold import TSNE
         # Perplexity has to stay under a third of the sample or the neighbourhoods it builds cover
         # the whole set; sklearn raises rather than clamping, which would end a sweep mid-run.
         perplexity = float(min(spec.perplexity, max((len(X) - 1) / 3.0, 2.0)))
+        from . import gpu
+        on_gpu = gpu.tsne_class()
+        if on_gpu is not None and len(X) >= 1000 and spec.n_components == 2:
+            try:
+                log(f"t-SNE: {gpu.backend()['tsne']} on the GPU, perplexity {perplexity:g} -- a "
+                    "different map from scikit-learn, not the same map faster")
+                Y = on_gpu(n_components=2, perplexity=perplexity,
+                           early_exaggeration=spec.early_exaggeration,
+                           random_state=spec.random_state).fit_transform(X)
+                out = (normalize(np.asarray(Y)), names, rows)
+                return (*out, X) if return_matrix else out
+            except Exception as exc:
+                log(f"cuml t-SNE failed, using scikit-learn: {type(exc).__name__}: {exc}")
+        elif on_gpu is not None and spec.n_components != 2:
+            log(f"t-SNE: cuml supports 2 components here; using scikit-learn for "
+                f"{spec.n_components} components")
+        from sklearn.manifold import TSNE
         log(f"t-SNE: scikit-learn, perplexity {perplexity:g} -- neighbourhoods are meaningful, "
             f"distances between clusters are NOT")
         Y = TSNE(n_components=spec.n_components, perplexity=perplexity,
                  early_exaggeration=spec.early_exaggeration, metric=spec.metric,
                  init="pca", random_state=spec.random_state).fit_transform(np.nan_to_num(X))
-        return normalize(np.asarray(Y)), names, rows
+        out = (normalize(np.asarray(Y)), names, rows)
+        return (*out, X) if return_matrix else out
     try:
         from . import gpu
         on_gpu = gpu.umap_class()
@@ -366,7 +419,8 @@ def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
                 f"not the same map faster")
             Y = on_gpu(n_components=spec.n_components, n_neighbors=spec.n_neighbors,
                        min_dist=spec.min_dist, random_state=spec.random_state).fit_transform(X)
-            return normalize(np.asarray(Y)), names, rows
+            out = (normalize(np.asarray(Y)), names, rows)
+            return (*out, X) if return_matrix else out
         import umap
         # Named on the CPU path too. "No message" is not an answer to "which library ran": a user
         # who has just turned the switch on needs to see that it did nothing here and why.
@@ -380,7 +434,8 @@ def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
         from sklearn.decomposition import PCA
         Y = PCA(n_components=spec.n_components,
                 random_state=spec.random_state).fit_transform(np.nan_to_num(X))
-    return normalize(Y), names, rows
+    out = (normalize(Y), names, rows)
+    return (*out, X) if return_matrix else out
 
 
 # --------------------------------------------------------------------------- diagnostics

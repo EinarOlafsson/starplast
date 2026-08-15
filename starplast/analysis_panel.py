@@ -23,7 +23,8 @@ import numpy as np
 import pandas as pd
 from PyQt6 import QtCore, QtWidgets
 
-from .embedding import BLOCKS, EmbeddingSpec, NA_POLICIES, SCALINGS, columns_for, variance_share
+from .embedding import (BLOCKS, SLOT_BLOCKS, EmbeddingSpec, NA_POLICIES, SCALINGS, columns_for,
+                        variance_share)
 from .theme import CMAPS, POINT_MODES, POINT_STYLES, THEMES, cmaps_of, kind_for_column
 
 
@@ -387,11 +388,13 @@ class AnalysisPanel(QtWidgets.QWidget):
         box = QtWidgets.QGroupBox("feature blocks")
         bl = QtWidgets.QVBoxLayout(box)
         self.block_cb = {}
-        for b in BLOCKS:
+        defaults = {"Toxo_transcription_tachyzoite", "Toxo_fitness_hff_in_vitro",
+                    "Toxo_fold_confidence_disorder"}
+        for b in SLOT_BLOCKS:
             cols = columns_for(self.nodes, EmbeddingSpec(blocks=(b,))).get(b, [])
             cb = QtWidgets.QCheckBox(f"{b}  ({len(cols)} columns)")
             cb.setEnabled(bool(cols))
-            cb.setChecked(b in ("expression_summary", "fitness_screens", "protein_features"))
+            cb.setChecked(b in defaults)
             self.block_cb[b] = cb
             bl.addWidget(cb)
         # Imported columns get their own block, added when something is imported: a block that is
@@ -804,12 +807,17 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.discover_report.setPlainText("")
 
         def job(p):
-            evaluate = optimize.evaluator(self.nodes, mode=mode, layers=(layer,),
-                                          against=(against,), seed=seed, log=p)
-            return optimize.climb(evaluate, start, block_pool=pool, restarts=restarts,
-                                  max_evaluations=budget, seed=seed,
-                                  on_step=lambda row, cfg, extras: self.discovery_step.emit(row),
-                                  should_stop=getattr(p, "stopped", None), log=p)
+            from . import gpu
+            with gpu.pinned() as backend:
+                result = optimize.climb(
+                    optimize.evaluator(self.nodes, mode=mode, layers=(layer,),
+                                       against=(against,), seed=seed, log=p),
+                    start, block_pool=pool, restarts=restarts,
+                    max_evaluations=budget, seed=seed,
+                    on_step=lambda row, cfg, extras: self.discovery_step.emit(row),
+                    should_stop=getattr(p, "stopped", None), log=p)
+                result.attrs["backend"] = backend
+                return result
 
         self._run(job, self._discovery_done, name=f"discovery ({mode}, {layer})")
 
@@ -826,7 +834,8 @@ class AnalysisPanel(QtWidgets.QWidget):
             result, self.nodes, mode=self.discover_mode.currentText(),
             layer=self.discover_layer.currentText(),
             against=self.discover_against.currentText(),
-            configs=int(len(result)) if got else 0, seed=int(self.seed.value()))
+            configs=int(len(result)) if got else 0, seed=int(self.seed.value()),
+            backend=(result.attrs.get("backend") if result is not None else None))
         self.read_button.setEnabled(bool(got))
         if not got:
             return

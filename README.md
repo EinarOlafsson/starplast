@@ -48,19 +48,6 @@ crosslink complexes are gigabytes, so they are fetched when you click a gene and
 `~/.cache/starplast`. Everything needed to *decide* something is already on disk; only the picture is
 downloaded.
 
-## API reference
-
-Every module's docstring carries the reasoning behind it, not just its signature, so the generated
-reference is genuinely the documentation. Build it locally with:
-
-```bash
-pip install pdoc
-python -m pdoc --output-directory docs/api --no-search --docformat markdown starplast
-```
-
-It is rebuilt and published on every push to `main`; it is never committed, because a checked-in copy
-drifts from the docstrings it came from.
-
 ## What you see
 
 | dark | light |
@@ -95,6 +82,7 @@ Settings live in the menu bar; the panel keeps only what is used continuously.
 | filter by | any categorical column — compartment, cell-cycle phase, attention depth, and others |
 | double-click a value | fly to that class's centroid |
 | **View** | level of detail, color by, point size, spin, theme, preferences |
+| **Preferences ▸ lighting** | soft or GPU volumetric ray-traced shadows; mouse/selection target; neutral, cool, or warm light; flat discs or OpenGL GGX glossy/metallic spheres |
 | **Edges** | the twelve relation types, "draw all active edges", attention correction, and why they are never combined |
 | **File** | export the image, the visible genes as CSV, or the active graph as GraphML |
 | **Tools** | console, running jobs, the walk gallery, and an assistant that is told what is on screen |
@@ -133,10 +121,11 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 |---|---|---|---|
 | GRA12 strains and mouse subspecies | Median L2FC in vitro and in vivo, DISCO score; two screens | 236 / 232 | GRA12 is a common virulence factor across Toxoplasma gondii strains and mouse subspecies; PMID [40240328](https://pubmed.ncbi.nlm.nih.gov/40240328/) |
 | GRA17 synthetic-lethal screen | RH and RH-delta-gra17 phenotype by passage; MAGeCK p-values | 7,553 (genome-wide) | Genome-wide CRISPR screen identifies genes synthetically lethal with GRA17, a nutrient channel encoding gene in Toxoplasma; PMID [37498952](https://pubmed.ncbi.nlm.nih.gov/37498952/) |
-| Host-transcription effector screen | Hotelling T2 statistic per effector, adjusted p | 252 | High-throughput identification of Toxoplasma gondii effector proteins that target host cell transcription; PMID [37827122](https://pubmed.ncbi.nlm.nih.gov/37827122/) |
+| Host-transcription effector screen | Hotelling T2 plus full per-effector host-response signature | 252 screened / 22 full signatures | High-throughput identification of Toxoplasma gondii effector proteins that target host cell transcription; PMID [37827122](https://pubmed.ncbi.nlm.nih.gov/37827122/) |
 | In vitro CRISPR fitness (HFF) | Competitive growth in fibroblasts | 7,325 (90.0%) | A Genome-wide CRISPR Screen in Toxoplasma Identifies Essential Apicomplexan Genes (Sidik et al. 2016); PMID [27594426](https://pubmed.ncbi.nlm.nih.gov/27594426/) |
 | In vivo CRISPR composite scores | Peritoneum, lung, liver, spleen composite scores | 7,395 (90.8%) | PMID [31481656](https://pubmed.ncbi.nlm.nih.gov/31481656/); `ToxoDB tgonGt1CrisprFunc*` |
 | In vivo CRISPR platform | Mean log fold-change across replicates | 168 | A CRISPR platform for targeted in vivo screens identifies Toxoplasma gondii virulence factors in mice; PMID [31481656](https://pubmed.ncbi.nlm.nih.gov/31481656/) |
+| In-vivo fitness of hyperLOPIT-unassigned proteins | Two targeted libraries tested during mouse infection | measured at build time | Tachibana Y et al., CRISPR screens identify genes essential for in vivo virulence among proteins of hyperLOPIT-unassigned localization. mBio 2024; PMID [39082802](https://pubmed.ncbi.nlm.nih.gov/39082802/); `GSE253884;GSE253885` |
 | Macrophage CRISPR screens | Naive BMDM and IFN-gamma survival | 7,402 (90.9%) | Wang Y et al., Genome-wide screens identify Toxoplasma gondii determinants of parasite fitness in IFN-gamma-activated murine macrophages. Nat Commun 2020;11:5258; PMID [33067458](https://pubmed.ncbi.nlm.nih.gov/33067458/) |
 | Young 2019 in vivo screen | In vivo fitness | 115 | Young J et al., A CRISPR platform for targeted in vivo screens identifies Toxoplasma gondii virulence factors in mice. Nat Commun 2019;10:3963; PMID [31481656](https://pubmed.ncbi.nlm.nih.gov/31481656/) |
 
@@ -144,24 +133,40 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 
 | Dataset | Type of data | Coverage | Reference |
 |---|---|---|---|
+| Alkaline-stress differentiation transcriptome | Unstressed tachyzoites and alkaline-stressed bradyzoites | 7,880 (96.8%) | Waldman BS et al., Identification of a Master Regulator of Differentiation in Toxoplasma. Cell 2020;180:359-372.e16; PMID [31955846](https://pubmed.ncbi.nlm.nih.gov/31955846/); `GSE132248` |
+| Bradyzoite restriction-checkpoint transcriptome | Cyclin perturbations in tachyzoite and bradyzoite conditions | measured at build time | `GSE200962` |
+| CPSF4 RNA-processing perturbation transcriptome | RNA response at 7, 24 and 48 hours after CPSF4 depletion | measured at build time | Farhat DC et al., A plant-like mechanism coupling m6A reading to polyadenylation safeguards transcriptome integrity. eLife 2021;10:e68312; PMID [34263725](https://pubmed.ncbi.nlm.nih.gov/34263725/); `GSE168155` |
+| Feline merozoite transcriptome | Merozoite expression with matched tachyzoite comparators | measured at build time | Behnke MS et al., Toxoplasma gondii merozoite gene expression analysis with comparison to the life cycle. BMC Genomics 2014;15:350; PMID [24885521](https://pubmed.ncbi.nlm.nih.gov/24885521/); `GSE51780` |
+| In vivo brain-stage transcriptome | Tachyzoites, acute/chronic whole brain, and purified bradyzoites | 7,663 (94.1%) | Garfoot AL et al., Proteomic and transcriptomic analyses of early and late-chronic Toxoplasma gondii infection shows novel and stage specific transcripts. BMC Genomics 2019;20:859; PMID [31726967](https://pubmed.ncbi.nlm.nih.gov/31726967/) |
 | Life-cycle stage enrichment (DERIVED) | Which stage a gene's own expression is highest in | 1,911 of 8,140 genes called | *citation not yet confirmed* |
+| MORC depletion and BFD1 perturbation transcriptome | MORC knockdown, BFD1 knockout and BFD1 stabilization series | 7,841 (96.3%) | `PXD058095` |
 | Oocyst sporulation series | Unsporulated / sporulating / sporulated, 2 replicates (6 columns) | 7,974 (98.0%) | `GSE206344` |
+| Primary brain-cell parasite differentiation time course | Parasite base mean and log2 fold-change at days 1, 2, 4, 7 and 14 | measured at build time | Mouveaux T et al., Primary brain cell infection by Toxoplasma gondii reveals spontaneous bradyzoite differentiation and modification of neuron biology; PMID [34610266](https://pubmed.ncbi.nlm.nih.gov/34610266/); `GSE168465` |
+| Pru tachyzoite / 72-hour bradyzoite stage array | Matched tachyzoite and alkaline-induced bradyzoite expression | 7,253 genes | `GSE22258` |
 | Single-parasite transcriptional atlas (cell cycle) | Measured cell-cycle phase per gene, and pseudotime cluster | 873 genes phased, 7,499 clustered | Xue Y et al. eLife 2020;9:e54129; PMID [32065584](https://pubmed.ncbi.nlm.nih.gov/32065584/) |
 | Stage transcriptome | Tachyzoite, day 3/5/7, in vivo tissue cyst (12 columns) | 7,739 (95.1%) | `GSE108740` |
+| Synchronized tachyzoite cell-cycle transcriptome | Two replicates across blocked, asynchronous and hourly release states | measured at build time | Behnke MS et al., Coordinated progression through two subtranscriptomes underlies the tachyzoite cycle of Toxoplasma gondii. PLoS ONE 2010;5:e12354; PMID [20865045](https://pubmed.ncbi.nlm.nih.gov/20865045/); `GSE19092` |
 
 ### Translation — protein abundance
 
 | Dataset | Type of data | Coverage | Reference |
 |---|---|---|---|
+| AP2XII-1/AP2XI-2 perturbation total proteome | Replicate abundance and log2 fold-change during pre-sexual conversion | 3,005 (36.9%) | Antunes AV et al., In vitro production of cat-restricted Toxoplasma pre-sexual stages. Nature 2024;625:366-376; PMID [38093015](https://pubmed.ncbi.nlm.nih.gov/38093015/); `PXD039400, PXD042658` |
+| Host-context parasite ribosome profiling | Parasite ribosome footprints, RNA and translation efficiency in two HFF states | measured at build time | Holmes MJ et al., Simultaneous Ribosome Profiling of Human Host Cells Infected with Toxoplasma gondii. mSphere 2019;4:e00292-19; PMID [31167946](https://pubmed.ncbi.nlm.nih.gov/31167946/); `GSE129869` |
+| Intracellular/extracellular ribosome profiling | Ribosome footprints, matched RNA and relative translation efficiency | measured at build time | Hassan MA et al., Comparative ribosome profiling uncovers a dominant role for translational control in Toxoplasma gondii. BMC Genomics 2017;18:961; PMID [29228904](https://pubmed.ncbi.nlm.nih.gov/29228904/); `GSE99395` |
+| Oocyst developmental-stage iTRAQ proteome | iTRAQ abundance ratios across oocyst developmental stages | 2,079 (25.5%) | Possenti A et al., Proteomic Differences between Developmental Stages of Toxoplasma gondii Revealed by iTRAQ-Based Quantitative Proteomics. Front Microbiol 2017;8:1732; PMID [28626452](https://pubmed.ncbi.nlm.nih.gov/28626452/); `PXD003765` |
 | Pru proteome and IP abundance | Median log2 iBAQ across replicates | 748 (9.2%) | `PXD043808, PXD065585` |
 
 ### Post-translation — properties of the folded protein
 
 | Dataset | Type of data | Coverage | Reference |
 |---|---|---|---|
+| BioID/TurboID supplement membership corpus | Number of downloaded proximity-labeling studies whose supplement names each gene | measured at build time | *citation not yet confirmed* |
 | C. parvum hyperLOPIT | Donor labels for orthoLOPIT transfer | 1,107 usable | Guerin et al. 2023 |
 | Foldseek structural similarity | TM-align over Toxoplasma AlphaFold models, TM >= 0.7 | 11,684 pairs / 2,338 genes | *citation not yet confirmed* |
 | IP-MS of tagged baits | Replicated pulldown vs untagged control | 64 pairs / 48 genes | `PXD043808, PXD065585` |
+| IP-MS supplement membership corpus | Number of downloaded pulldown studies whose supplement names each gene | measured at build time | *citation not yet confirmed* |
+| Oocyst-versus-tachyzoite phosphoproteome | Measured-site counts and strongest up/down phosphosite ratios | 1,603 (19.7%) | Wang Z-X et al., Comparative Phosphoproteomic Analysis of Sporulated Oocysts and Tachyzoites of Toxoplasma gondii Reveals Stage-Specific Patterns. Molecules 2022;27:1109; PMID [35164288](https://pubmed.ncbi.nlm.nih.gov/35164288/); `PXD017032` |
 | P. falciparum LOPIT | Donor labels for orthoLOPIT transfer | 1,646 usable | Chisholm SA et al., The spatial proteome of the Plasmodium falciparum schizont. Nat Commun 2026;17:6192 -- CONFIRM against the file on disk; PMID [42218142](https://pubmed.ncbi.nlm.nih.gov/42218142/) |
 | Phosphosite counts | Count of phosphosites per protein, no positions | 1,175 (14.4%) | Treeck M et al. 2011 -- CONFIRM against the file on disk |
 | Proximity-labeling corpus | 42 BioID/TurboID/APEX studies with a tagged Toxoplasma protein | 28 studies with data, 127 files | *citation not yet confirmed* |

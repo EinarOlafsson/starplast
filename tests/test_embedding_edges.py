@@ -74,6 +74,34 @@ def test_a_non_numeric_extra_column_is_refused():
     assert columns_for(d, EmbeddingSpec(blocks=(), extra_columns=("label",))) == {}
 
 
+def test_every_assay_family_already_in_the_cache_has_its_own_feature_block():
+    """Seventy shipped measurements were once unreachable because no BLOCKS regex matched them.
+
+    Pin both halves of the repair: every registered column in each newly exposed assay is selected
+    by exactly its biological block, and every selected column belongs to that dataset rather than
+    having inherited the block merely because of a broad expression.py prefix.
+    """
+    from starplast import datasets, paths
+
+    nodes = pd.read_parquet(paths.cache_file("nodes.parquet"))
+    expected = {
+        "invivo_brain_transcriptome": (
+            "transcription_tachyzoite_comparator", "transcription_in_vivo_brain"),
+        "gse132248_stress": ("transcription_stress_conversion",),
+        "morc_depletion": ("transcription_tf_chromatin_perturbation",),
+        "proteome_total": ("protein_abundance_perturbation",),
+        "oocyst_itraq": ("protein_abundance_oocyst",),
+        "phospho_quantitative": ("phosphorylation_quantitative",),
+    }
+    for key, blocks in expected.items():
+        registered = {c for c in datasets.get(key).columns if c in nodes.columns}
+        selected = set()
+        for block in blocks:
+            selected.update(columns_for(nodes, EmbeddingSpec(blocks=(block,)))[block])
+        assert selected == registered, f"{key}: slot block and registry disagree"
+    assert sum(len(datasets.get(key).columns) for key in expected) == 70
+
+
 # --------------------------------------------------------------------------- building the matrix
 def test_selecting_no_features_is_an_explicit_error():
     """Silently returning an empty matrix would produce a UMAP of nothing that looks like a result."""
@@ -411,6 +439,67 @@ def test_a_read_only_embedding_is_copied_rather_than_scaled_in_place():
     Y.flags.writeable = False
     out = normalize(Y)
     assert out.shape == (20, 3) and not Y.flags.writeable
+
+
+def test_two_dimensional_tsne_uses_cuml_when_available(monkeypatch):
+    seen = {}
+
+    class FakeTSNE:
+        def __init__(self, **kw):
+            seen.update(kw)
+
+        def fit_transform(self, X):
+            return np.asarray(X[:, :2])
+
+    monkeypatch.setattr("starplast.gpu.tsne_class", lambda: FakeTSNE)
+    monkeypatch.setattr("starplast.gpu.backend", lambda: {"tsne": "fake GPU"})
+    out = embed(_nodes(1000), EmbeddingSpec(blocks=("fitness_screens",), method="tsne",
+                                            n_components=2), log=lambda *_: None)
+    assert out[0].shape == (1000, 2) and seen["n_components"] == 2
+
+
+def test_three_dimensional_tsne_falls_back_to_sklearn(monkeypatch):
+    seen = []
+
+    class CPU:
+        def __init__(self, **kw):
+            seen.append(kw)
+
+        def fit_transform(self, X):
+            return np.asarray(X[:, :3])
+
+    monkeypatch.setattr("starplast.gpu.tsne_class", lambda: object)
+    monkeypatch.setattr("sklearn.manifold.TSNE", CPU)
+    messages = []
+    out = embed(_nodes(1000), EmbeddingSpec(blocks=("fitness_screens",), method="tsne",
+                                            n_components=3), log=messages.append)
+    assert out[0].shape == (1000, 3) and seen
+    assert any("supports 2 components" in message for message in messages)
+
+
+def test_a_failing_gpu_tsne_falls_back_loudly(monkeypatch):
+    class GPU:
+        def __init__(self, **_kw):
+            pass
+
+        def fit_transform(self, _X):
+            raise RuntimeError("fixture device failure")
+
+    class CPU:
+        def __init__(self, **_kw):
+            pass
+
+        def fit_transform(self, X):
+            return np.asarray(X[:, :2])
+
+    monkeypatch.setattr("starplast.gpu.tsne_class", lambda: GPU)
+    monkeypatch.setattr("starplast.gpu.backend", lambda: {"tsne": "fake GPU"})
+    monkeypatch.setattr("sklearn.manifold.TSNE", CPU)
+    messages = []
+    out = embed(_nodes(1000), EmbeddingSpec(blocks=("fitness_screens",), method="tsne",
+                                            n_components=2), log=messages.append)
+    assert out[0].shape == (1000, 2)
+    assert any("failed" in message and "fixture device failure" in message for message in messages)
 
 
 # --------------------------------------------------------------------------- a renamed block

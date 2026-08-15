@@ -4,7 +4,7 @@
 Tachyzoite, day 3/5/7, in vivo tissue cyst (12 columns)
 
     level / kind : transcription / RNAseq
-    provides     : expr_tachy, expr_cyst, expr_max
+    provides     : expr_tachy, expr_cyst, expr_max, rna108740_Tachyzoites_T2_FPKM, rna108740_Tachyzoites_T4_FPKM, rna108740_Tissue_cysts_A_FPKM, rna108740_Tissue_cysts_B_FPKM, rna108740_Day3_CS4_FPKM, rna108740_Day3_CS5_FPKM, rna108740_Day3_CS6_FPKM, rna108740_Day5_CS2_FPKM, rna108740_Day5_K4_14_FPKM, rna108740_Day7_CS7_FPKM, rna108740_Day7_CS8_FPKM, rna108740_Day7_CS9_FPKM
     coverage     : 7,739 (95.1%)
     accession    : GSE108740
     url          : https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE108740

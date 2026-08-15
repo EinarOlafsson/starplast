@@ -44,6 +44,17 @@ def test_it_is_off_unless_it_is_both_wanted_and_possible(monkeypatch):
     assert gpu.enabled() is False
 
 
+def test_a_search_pins_the_backend_even_if_the_preference_changes(monkeypatch):
+    monkeypatch.setattr(gpu, "available", lambda: {
+        "cuml": False, "cupy": True, "torch": False, "device": "fixture"})
+    monkeypatch.setenv(gpu.ENV_GPU, "1")
+    with gpu.pinned() as snapshot:
+        assert snapshot["gpu"] is True
+        monkeypatch.setenv(gpu.ENV_GPU, "0")
+        assert gpu.enabled() is True
+    assert gpu.enabled() is False
+
+
 def test_the_description_says_what_would_happen():
     """A switch that silently does nothing is worse than no switch."""
     text = gpu.describe()
@@ -353,7 +364,7 @@ def test_the_description_names_the_gain_not_just_the_backend(monkeypatch):
     assert "array work only" in gpu.describe()
     monkeypatch.setattr(gpu, "available", lambda: {"cuml": True, "cupy": False, "torch": True,
                                                    "device": "RTX 3090"})
-    assert "UMAP and HDBSCAN move to the GPU" in gpu.describe()
+    assert "UMAP, t-SNE, HDBSCAN, k-means and DBSCAN move to the GPU" in gpu.describe()
 
 
 def test_a_real_cupy_reports_its_device_count(monkeypatch):
@@ -454,3 +465,23 @@ def test_without_umap_the_record_says_what_will_actually_build_the_map(monkeypat
     assert b["umap"].startswith("pca")
     assert "scikit-learn" in b["cluster"]
     assert "pca" in gpu.backend_id()
+
+
+def test_every_cuml_algorithm_has_a_resolver(monkeypatch):
+    import sys
+    import types
+    fake = types.ModuleType("cuml")
+    fake.cluster = types.ModuleType("cuml.cluster")
+    fake.manifold = types.ModuleType("cuml.manifold")
+    for name in ("HDBSCAN", "KMeans", "DBSCAN"):
+        setattr(fake.cluster, name, type(name, (), {}))
+    for name in ("UMAP", "TSNE"):
+        setattr(fake.manifold, name, type(name, (), {}))
+    monkeypatch.setitem(sys.modules, "cuml", fake)
+    monkeypatch.setitem(sys.modules, "cuml.cluster", fake.cluster)
+    monkeypatch.setitem(sys.modules, "cuml.manifold", fake.manifold)
+    monkeypatch.setenv(gpu.ENV_GPU, "1")
+    monkeypatch.setattr(gpu, "available", lambda: {"cuml": True, "cupy": False, "torch": False,
+                                                    "device": "fake"})
+    assert all(f() is not None for f in (gpu.umap_class, gpu.hdbscan_class, gpu.kmeans_class,
+                                         gpu.dbscan_class, gpu.tsne_class))

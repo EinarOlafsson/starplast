@@ -29,9 +29,12 @@ and the columns are named for their dataset so nothing downstream can mistake an
 from __future__ import annotations
 
 import glob
+import gzip
+import io
 import os
 import re
 import subprocess
+import tarfile
 import tempfile
 import warnings
 
@@ -89,6 +92,59 @@ def _libreoffice_xlsx(path: str, log=print) -> str | None:
     return hits[0] if hits else None
 
 
+def _acquired(base: str, filename: str) -> str:
+    """Path for the dated, literature-audited acquisition batch."""
+    return os.path.join(base, "datasets", "toxoplasma_acquisition_2026_08_14", filename)
+
+
+def _geo_series_matrix(path: str) -> tuple[pd.DataFrame, list[str]]:
+    """Read a GEO series matrix and its sample titles without relying on fixed header rows."""
+    titles = []
+    lines = []
+    in_table = False
+    with gzip.open(path, "rt", errors="replace") as fh:
+        for line in fh:
+            if line.startswith("!Sample_title"):
+                titles = [value.strip().strip('"') for value in line.rstrip().split("\t")[1:]]
+            elif line.startswith("!series_matrix_table_begin"):
+                in_table = True
+            elif line.startswith("!series_matrix_table_end"):
+                break
+            elif in_table:
+                lines.append(line)
+    if not lines:
+        return pd.DataFrame(), titles
+    return pd.read_csv(io.StringIO("".join(lines)), sep="\t"), titles
+
+
+def _gpl7186_gene_map(path: str, resolve=None) -> dict:
+    """Map legacy ToxoGeneChip probe ids through ToxoDB's previous-id index."""
+    out = {}
+    in_table = False
+    header = []
+    with gzip.open(path, "rt", errors="replace") as fh:
+        for line in fh:
+            if line.startswith("!platform_table_begin"):
+                in_table = True
+                header = next(fh).rstrip("\n").split("\t")
+                continue
+            if line.startswith("!platform_table_end"):
+                break
+            if not in_table:
+                continue
+            fields = line.rstrip("\n").split("\t")
+            row = dict(zip(header, fields))
+            probe, old_id = row.get("ID", ""), row.get("ToxoDB", "")
+            gene = resolve(old_id) if resolve and old_id else old_id
+            if probe and gene:
+                out[probe] = gene
+    return out
+
+
+def _safe_name(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", str(value).lower()).strip("_")
+
+
 # --------------------------------------------------------------------------- per-dataset loaders
 def invivo_brain(base: str, resolve=None, log=print) -> pd.DataFrame:
     """PMID 31726967: tachyzoite, whole brain acute and chronic, bradyzoite 28 DPI."""
@@ -122,6 +178,201 @@ def stress_induction(base: str, resolve=None, log=print) -> pd.DataFrame:
     strip_gsm = re.compile(r"^GSM\d+_")     # a GSM prefix is the sample id, not the condition
     X.columns = ["stress_" + strip_gsm.sub("", str(c)) for c in X.columns]
     log(f"stress induction (GSE132248): {X.shape[1]} columns, {len(X):,} genes")
+    return X
+
+
+def gse22258_stage(base: str, resolve=None, log=print) -> pd.DataFrame:
+    """GSE22258: matched Pru tachyzoite and 72-hour alkaline-induced bradyzoite array.
+
+    Unlike the two older ToxoGeneChip files beside it, this series matrix is already keyed by
+    TGME49 accessions, so no external platform annotation or uncertain probe conversion is needed.
+    """
+    p = os.path.join(base, "datasets", "stagetranscriptome_GSE22258_series_matrix.txt.gz")
+    if not os.path.exists(p):
+        return pd.DataFrame()
+    d = pd.read_csv(p, sep="\t", comment="!", compression="gzip")
+    if d.shape[1] < 3:
+        return pd.DataFrame()
+    genes = _resolve(d.iloc[:, 0].astype(str).str.strip('"'), resolve)
+    values = d.iloc[:, 1:3].apply(pd.to_numeric, errors="coerce")
+    X = _collapse(values, genes)
+    X = normalize(X, "log_intensity", log=lambda *a: None)
+    X.columns = ("rna22258_tachyzoite", "rna22258_bradyzoite")
+    log(f"stage array (GSE22258): {X.shape[1]} columns, {len(X):,} genes")
+    return X
+
+
+def neuronal_differentiation(base: str, resolve=None, log=print) -> pd.DataFrame:
+    """GSE168465: parasite RNA changes over 1--14 days in infected primary brain cells.
+
+    Each workbook sheet is one time point against the tachyzoite comparator.  Base means and log2
+    fold changes are measurements; p-values are inferential confidence and stay in the source file.
+    """
+    p = os.path.join(base, "datasets", "stagetranscriptome_GSE168465_DESeq2-Toxo-all-time-points.xlsx")
+    if not os.path.exists(p):
+        return pd.DataFrame()
+    parts = []
+    for sheet in pd.ExcelFile(p).sheet_names:
+        d = pd.read_excel(p, sheet_name=sheet)
+        if d.empty or "log2FoldChange" not in d.columns:
+            continue
+        genes = _resolve(d.iloc[:, 0], resolve)
+        t = pd.DataFrame(index=d.index)
+        if "baseMean" in d:
+            t[f"brain168465_{sheet}_base_mean"] = pd.to_numeric(d["baseMean"], errors="coerce")
+        t[f"brain168465_{sheet}_lfc"] = pd.to_numeric(d["log2FoldChange"], errors="coerce")
+        X = _collapse(t, genes)
+        base_cols = [c for c in X if c.endswith("_base_mean")]
+        if base_cols:
+            X[base_cols] = normalize(X[base_cols], "counts", log=lambda *a: None)
+        parts.append(X)
+    if not parts:
+        return pd.DataFrame()
+    X = pd.concat(parts, axis=1)
+    log(f"primary-brain differentiation (GSE168465): {X.shape[1]} columns, {len(X):,} genes")
+    return X
+
+
+def gse99395_ribosome_profiling(base: str, resolve=None, log=print) -> pd.DataFrame:
+    """GSE99395: matched ribosome-footprint and RNA counts, intra- and extracellular."""
+    p = _acquired(base, "GSE99395_Raw_counts.txt.gz")
+    if not os.path.exists(p):
+        return pd.DataFrame()
+    d = pd.read_csv(p, sep="\t")
+    genes = _resolve(d.iloc[:, 0], resolve)
+    raw = d.iloc[:, 1:].apply(pd.to_numeric, errors="coerce")
+    X = _collapse(raw, genes)
+    X = normalize(X, "counts", log=lambda *a: None)
+    rename = {}
+    for i, column in enumerate(raw.columns):
+        assay = "rpf" if "digested" in column.lower() else "rna"
+        context = "extracellular" if "extracellular" in column.lower() else "intracellular"
+        rep = 1 + sum(1 for previous in raw.columns[:i]
+                      if assay in (("rpf" if "digested" in previous.lower() else "rna"),)
+                      and context in previous.lower())
+        rename[column] = f"{assay}99395_{context}_r{rep}"
+    X = X.rename(columns=rename)
+    for context in ("extracellular", "intracellular"):
+        for rep in (1, 2):
+            rpf, rna = f"rpf99395_{context}_r{rep}", f"rna99395_{context}_r{rep}"
+            if rpf in X and rna in X:
+                X[f"te99395_{context}_r{rep}"] = X[rpf] - X[rna]
+    log(f"ribosome profiling (GSE99395): {X.shape[1]} columns, {len(X):,} genes")
+    return X
+
+
+def gse129869_host_context_ribosome_profiling(base: str, resolve=None,
+                                               log=print) -> pd.DataFrame:
+    """GSE129869: parasite RPF/RNA counts in confluent and subconfluent infected HFFs."""
+    p = _acquired(base, "GSE129869_RAW.tar")
+    if not os.path.exists(p):
+        return pd.DataFrame()
+    series = []
+    with tarfile.open(p) as archive:
+        names = [name for name in archive.getnames()
+                 if re.search(r"_[cs](?:RFP|RNA)\.RH\d+_count\.tab\.gz$", name)]
+        for name in names:
+            member = archive.extractfile(name)
+            if member is None:
+                continue
+            with gzip.GzipFile(fileobj=io.BytesIO(member.read())) as fh:
+                d = pd.read_csv(fh, sep="\t", header=None, names=("gene", "count"))
+            match = re.search(r"_([cs])(RFP|RNA)\.RH(\d+)_", name)
+            if not match:
+                continue
+            context = "confluent" if match.group(1) == "c" else "subconfluent"
+            assay = "rpf" if match.group(2) == "RFP" else "rna"
+            column = f"{assay}129869_{context}_r{match.group(3)}"
+            t = _collapse(pd.DataFrame({column: pd.to_numeric(d["count"], errors="coerce")}),
+                          _resolve(d["gene"], resolve))
+            series.append(t)
+    if not series:
+        return pd.DataFrame()
+    X = normalize(pd.concat(series, axis=1), "counts", log=lambda *a: None)
+    for context in ("confluent", "subconfluent"):
+        for rep in (1, 2, 3):
+            rpf, rna = f"rpf129869_{context}_r{rep}", f"rna129869_{context}_r{rep}"
+            if rpf in X and rna in X:
+                X[f"te129869_{context}_r{rep}"] = X[rpf] - X[rna]
+    log(f"host-context ribosome profiling (GSE129869): {X.shape[1]} columns, "
+        f"{len(X):,} genes")
+    return X
+
+
+def gse19092_cell_cycle(base: str, resolve=None, log=print) -> pd.DataFrame:
+    """GSE19092: synchronized tachyzoite cell-cycle microarray, two replicates."""
+    matrix = _acquired(base, "GSE19092_series_matrix.txt.gz")
+    platform = _acquired(base, "GPL7186_family.soft.gz")
+    if not os.path.exists(matrix) or not os.path.exists(platform):
+        return pd.DataFrame()
+    d, titles = _geo_series_matrix(matrix)
+    if d.empty:
+        return pd.DataFrame()
+    mapping = _gpl7186_gene_map(platform, resolve)
+    genes = d.iloc[:, 0].astype(str).str.strip('"').map(mapping)
+    values = d.iloc[:, 1:].apply(pd.to_numeric, errors="coerce")
+    names = []
+    for title in titles:
+        condition = "async" if "asynchronous" in title else (
+            "blocked" if "blocked" in title else
+            re.search(r"(\d+) hour release", title).group(1) + "h")
+        rep = re.search(r"- (\d+)$", title).group(1)
+        names.append(f"cellcycle19092_{condition}_r{rep}")
+    values.columns = names or list(values.columns)
+    X = normalize(_collapse(values, genes), "log_intensity", log=lambda *a: None)
+    log(f"cell-cycle array (GSE19092): {X.shape[1]} columns, {len(X):,} genes")
+    return X
+
+
+def gse51780_merozoite(base: str, resolve=None, log=print) -> pd.DataFrame:
+    """GSE51780: tachyzoite comparator and feline merozoite expression."""
+    matrix = _acquired(base, "GSE51780_series_matrix.txt.gz")
+    platform = _acquired(base, "GPL7186_family.soft.gz")
+    if not os.path.exists(matrix) or not os.path.exists(platform):
+        return pd.DataFrame()
+    d, titles = _geo_series_matrix(matrix)
+    if d.empty:
+        return pd.DataFrame()
+    genes = d.iloc[:, 0].astype(str).str.strip('"').map(_gpl7186_gene_map(platform, resolve))
+    values = d.iloc[:, 1:].apply(pd.to_numeric, errors="coerce")
+    names = []
+    for i, title in enumerate(titles):
+        names.append(f"rna51780_{'tachy' if 'tachy' in title.lower() else 'mero'}_r{i + 1}")
+    values.columns = names or list(values.columns)
+    X = normalize(_collapse(values, genes), "log_intensity", log=lambda *a: None)
+    log(f"merozoite array (GSE51780): {X.shape[1]} columns, {len(X):,} genes")
+    return X
+
+
+def gse168155_rna_processing_perturbation(base: str, resolve=None, log=print) -> pd.DataFrame:
+    """GSE168155: CPSF4 depletion transcriptome; not a direct per-gene m6A measurement."""
+    p = _acquired(base, "GSE168155_Matrix_table_processed_data.xlsx")
+    if not os.path.exists(p):
+        return pd.DataFrame()
+    d = pd.read_excel(p, sheet_name="RPKM")
+    sample = [c for c in d.columns
+              if "linear total RPKM" in str(c)
+              and re.fullmatch(r"(?:UT|IAA_\d+h)-[12]", str(c).split(" - ")[0])]
+    values = d[sample].apply(pd.to_numeric, errors="coerce")
+    values.columns = [f"cpsf4rna168155_{_safe_name(str(c).split(' - ')[0])}" for c in sample]
+    X = normalize(_collapse(values, _resolve(d["Name"], resolve)), "fpkm",
+                  log=lambda *a: None)
+    log(f"CPSF4 perturbation RNA-seq (GSE168155): {X.shape[1]} columns, {len(X):,} genes")
+    return X
+
+
+def gse200962_restriction_checkpoint(base: str, resolve=None, log=print) -> pd.DataFrame:
+    """GSE200962: tachyzoite/bradyzoite checkpoint and cyclin perturbation RNA counts."""
+    p = _acquired(base, "GSE200962_gene_count_matrix_geo.csv.gz")
+    if not os.path.exists(p):
+        return pd.DataFrame()
+    d = pd.read_csv(p)
+    values = d.iloc[:, 1:].apply(pd.to_numeric, errors="coerce")
+    values.columns = [f"restriction200962_{_safe_name(c)}" for c in values.columns]
+    X = normalize(_collapse(values, _resolve(d.iloc[:, 0], resolve)), "counts",
+                  log=lambda *a: None)
+    log(f"restriction-checkpoint RNA-seq (GSE200962): {X.shape[1]} columns, "
+        f"{len(X):,} genes")
     return X
 
 
@@ -248,8 +499,11 @@ def oocyst_itraq(base: str, resolve=None, log=print) -> pd.DataFrame:
     return X
 
 
-LOADERS = (invivo_brain, stress_induction, morc_depletion,
-           total_proteome, phosphosites, oocyst_itraq)
+LOADERS = (invivo_brain, stress_induction, gse22258_stage, neuronal_differentiation,
+           gse99395_ribosome_profiling, gse129869_host_context_ribosome_profiling,
+           gse19092_cell_cycle, gse51780_merozoite,
+           gse168155_rna_processing_perturbation, gse200962_restriction_checkpoint,
+           morc_depletion, total_proteome, phosphosites, oocyst_itraq)
 
 
 def load_all(base: str, resolve=None, log=print) -> pd.DataFrame:

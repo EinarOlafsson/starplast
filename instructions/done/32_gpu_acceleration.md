@@ -1,6 +1,12 @@
 # 32 — Finish the GPU path: kmeans, DBSCAN, t-SNE
 
-**Status: open. Not started.** Written 2026-08-14 for whoever picks it up.
+**Status: complete (v0.31.0, 2026-08-14).** cuML resolvers and GPU-first dispatch now cover k-means,
+DBSCAN and 2-D t-SNE; 3-D t-SNE and failures fall back loudly. A search pins its backend for its
+whole lifetime and records the snapshot in its manifest.
+
+Measured on the RTX 3090 for 100 identical clusterings of 8,140 three-dimensional points: k-means
+fell from 37.7670 s on scikit-learn to 13.2551 s on cuML (2.85x; 73% peak utilization), and DBSCAN
+from 3.7874 s to 0.3644 s (10.40x; 29% peak utilization). Both paths therefore remain shipped.
 
 ## The evidence
 

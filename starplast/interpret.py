@@ -111,6 +111,14 @@ def sentence(row, nodes: pd.DataFrame) -> str:
     cluster = int(row.get("cluster", -1))
     genes = row.get("genes") or []
 
+    if row.get("kind") == "conjunction":
+        return (
+            f"**Cluster {cluster} is {row['purity']:.0%} {row['category']} by {row['layer']} AND "
+            f"{row['other_category']} by {row['other']}** ({row['joint_lift']:.1f}x joint "
+            f"enrichment, {row['interaction_ratio']:.1f}x beyond either margin alone, {stat}). "
+            f"The crossed structure is a hypothesis generated from two measurements, not proof "
+            f"that either state causes the other. Unmeasured members: {_names(nodes, genes)}.")
+
     if row.get("kind") == "guilt" and row.get("layer_kind") == "discrete":
         return (
             f"**Cluster {cluster}: {row['n_hits']} of {row['n_known']} labelled genes are "
@@ -200,7 +208,7 @@ def report(findings: pd.DataFrame, nodes: pd.DataFrame, top: int = 8, alpha: flo
     if kinds:
         lines.append("")
         lines.append("  ".join(
-            f"**{'guilt by association' if k == 'guilt' else 'layer disagreement'}**: {v}"
+            f"**{ {'guilt': 'guilt by association', 'disagreement': 'layer disagreement', 'conjunction': 'crossed factors'}.get(k, k)}**: {v}"
             for k, v in kinds.items()))
     for i, (_, row) in enumerate(live.head(top).iterrows(), 1):
         lines += ["", f"### {i}. {sentence(row, nodes)}", ""]

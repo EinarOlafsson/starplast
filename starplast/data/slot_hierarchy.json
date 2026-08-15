@@ -1,0 +1,680 @@
+{
+  "Toxo": {
+    "evidence": {
+      "molecular measurements": {
+        "RNA": {
+          "transcript abundance": {
+            "Toxo_transcription_tachyzoite": {},
+            "Toxo_transcription_bradyzoite_tissue_cyst": {},
+            "Toxo_transcription_oocyst_sporozoite": {},
+            "Toxo_transcription_merozoite": {},
+            "Toxo_transcription_sexual_stages": {},
+            "Toxo_transcription_per_cell_cycle_phase": {},
+            "Toxo_transcription_in_naive_macrophage": {},
+            "Toxo_transcription_in_ifn_gamma_macrophage": {},
+            "Toxo_transcription_in_vivo_brain_acute": {},
+            "Toxo_transcription_in_vivo_brain_chronic": {},
+            "Toxo_transcription_purified_bradyzoite_in_vivo": {},
+            "Toxo_transcription_primary_brain_cell_differentiation_time_course": {},
+            "Toxo_transcription_under_stress_conversion": {},
+            "Toxo_transcription_extracellular_lytic_stress": {},
+            "Toxo_transcription_under_tf_or_chromatin_perturbation": {},
+            "Toxo_transcription_under_rna_processing_perturbation": {},
+            "Toxo_transcription_bradyzoite_checkpoint_perturbation": {},
+            "Toxo_transcription_maximum_observed_across_stages": {},
+            "Toxo_cell_cycle_timing_label": {},
+            "Toxo_noncoding_and_antisense_transcription": {},
+            "Toxo_transcription_in_vivo_enteric": {}
+          }
+        },
+        "translation": {
+          "ribosome occupancy": {
+            "Toxo_translation_tachyzoite": {},
+            "Toxo_translation_bradyzoite": {},
+            "Toxo_translation_per_cell_cycle_phase": {},
+            "Toxo_translation_under_stress": {},
+            "Toxo_translation_efficiency_tachyzoite": {},
+            "Toxo_translation_efficiency_extracellular_stress": {},
+            "Toxo_codon_usage_translation_efficiency": {}
+          }
+        },
+        "protein": {
+          "abundance": {
+            "Toxo_protein_abundance_tachyzoite": {},
+            "Toxo_protein_abundance_other_life_stages": {},
+            "Toxo_protein_turnover_stability": {}
+          },
+          "post-translational state": {
+            "Toxo_phosphorylation_site_count": {},
+            "Toxo_phosphorylation_quantitative": {},
+            "Toxo_phosphorylation_kinase_substrate": {},
+            "Toxo_acetylation": {},
+            "Toxo_lactylation": {},
+            "Toxo_s_nitrosylation": {},
+            "Toxo_ubiquitination_sumoylation": {},
+            "Toxo_glycosylation": {},
+            "Toxo_palmitoylation": {}
+          }
+        },
+        "regulation": {
+          "chromatin and RNA regulation": {
+            "Toxo_tf_binding_per_factor": {},
+            "Toxo_chromatin_state_histone_marks": {},
+            "Toxo_chromatin_accessibility": {},
+            "Toxo_rna_modification_m6a_5mc": {},
+            "Toxo_splicing_isoform_use": {},
+            "Toxo_rna_stability_half_life": {}
+          }
+        },
+        "spatial biology": {
+          "localization": {
+            "Toxo_localization_measured": {},
+            "Toxo_exposure_to_host_cytosol": {},
+            "Toxo_secretome_excreted": {},
+            "Toxo_cyst_wall_composition": {}
+          }
+        },
+        "metabolism": {
+          "metabolite or flux": {
+            "Toxo_metabolite_levels": {},
+            "Toxo_metabolic_flux": {},
+            "Toxo_lipid_composition": {}
+          }
+        }
+      },
+      "metadata and derived outputs": {
+        "derived target labels": {
+          "life-cycle stage": {
+            "Toxo_life_cycle_stage_label_derived": {}
+          }
+        },
+        "excluded from embeddings": {
+          "Toxo_downloaded_study_membership": {},
+          "Toxo_analysis_derived_structural_holes": {},
+          "Toxo_assay_confidence_and_significance": {},
+          "Toxo_literature_attention": {},
+          "Toxo_gene_identity_and_annotation": {}
+        }
+      },
+      "perturbational measurements": {
+        "genetic screens": {
+          "fitness": {
+            "Toxo_fitness_hff_in_vitro": {},
+            "Toxo_fitness_naive_macrophage": {},
+            "Toxo_fitness_ifn_gamma_macrophage": {},
+            "Toxo_fitness_in_vivo_peritoneum": {},
+            "Toxo_fitness_in_vivo_lung": {},
+            "Toxo_fitness_in_vivo_liver": {},
+            "Toxo_fitness_in_vivo_spleen": {},
+            "Toxo_fitness_oxidative_stress": {},
+            "Toxo_fitness_hyperlopit_unassigned_proteins": {},
+            "Toxo_fitness_targeted_in_vivo_young_2019": {},
+            "Toxo_genetic_interaction_delta_gra17": {},
+            "Toxo_fitness_gra12_screen_1_in_vitro": {},
+            "Toxo_fitness_gra12_screen_1_in_vivo": {},
+            "Toxo_fitness_gra12_screen_1_differential": {},
+            "Toxo_fitness_gra12_screen_2_in_vitro": {},
+            "Toxo_fitness_gra12_screen_2_in_vivo": {},
+            "Toxo_fitness_gra12_screen_2_differential": {},
+            "Toxo_stage_conversion_phenotype": {},
+            "Toxo_drug_sensitivity": {},
+            "Toxo_essentiality_in_a_second_background": {},
+            "Toxo_fitness_in_vivo_gut": {}
+          }
+        },
+        "chemical": {
+          "response or engagement": {
+            "Toxo_drug_sensitivity_per_gene": {},
+            "Toxo_resistance_conferring_mutation": {},
+            "Toxo_target_engagement_thermal_shift": {}
+          }
+        },
+        "cell phenotype": {
+          "imaging phenotype": {
+            "Toxo_invasion_and_egress_phenotype": {}
+          }
+        }
+      },
+      "intrinsic and reference": {
+        "orthology-derived": {
+          "localization transfer": {
+            "Toxo_localization_transferred": {}
+          }
+        },
+        "sequence-derived": {
+          "membrane topology": {
+            "Toxo_membrane_topology": {}
+          }
+        },
+        "sequence and evolution": {
+          "gene attributes": {
+            "Toxo_domain_content": {},
+            "Toxo_fold_confidence_disorder": {},
+            "Toxo_conservation_breadth": {},
+            "Toxo_paralogy": {},
+            "Toxo_sequence_basics": {},
+            "Toxo_strain_variation": {}
+          }
+        }
+      },
+      "relational measurements": {
+        "gene-gene": {
+          "association or interaction": {
+            "Toxo_co_transcription": {},
+            "Toxo_co_translation": {},
+            "Toxo_co_fitness": {},
+            "Toxo_interaction_crosslink_ms": {},
+            "Toxo_interaction_ip_ms_parasite_parasite": {},
+            "Toxo_interaction_proximity_labelling": {},
+            "Toxo_interaction_structural_similarity": {},
+            "Toxo_interaction_with_host_proteins": {},
+            "Toxo_shared_compartment": {},
+            "Toxo_shared_orthogroup": {},
+            "Toxo_shared_domain": {},
+            "Toxo_interaction_degree_crosslink_ms": {},
+            "Toxo_interaction_degree_ip_ms": {},
+            "Toxo_interaction_degree_structural_similarity": {},
+            "Toxo_rna_binding_protein_targets": {},
+            "Toxo_predicted_complex_membership": {}
+          }
+        },
+        "parasite-host": {
+          "host effect": {
+            "Toxo_host_interaction_degree": {},
+            "Toxo_host_transcriptional_effect_per_effector": {}
+          }
+        },
+        "host immunity": {
+          "recognition": {
+            "Toxo_seroreactivity_antigenicity": {},
+            "Toxo_t_cell_epitope_content": {}
+          }
+        }
+      }
+    },
+    "biology": {
+      "gene expression": {
+        "RNA abundance": {
+          "Toxo_transcription_tachyzoite": {},
+          "Toxo_transcription_bradyzoite_tissue_cyst": {},
+          "Toxo_transcription_oocyst_sporozoite": {},
+          "Toxo_transcription_merozoite": {},
+          "Toxo_transcription_sexual_stages": {},
+          "Toxo_transcription_per_cell_cycle_phase": {},
+          "Toxo_transcription_in_naive_macrophage": {},
+          "Toxo_transcription_in_ifn_gamma_macrophage": {},
+          "Toxo_transcription_in_vivo_brain_acute": {},
+          "Toxo_transcription_in_vivo_brain_chronic": {},
+          "Toxo_transcription_purified_bradyzoite_in_vivo": {},
+          "Toxo_transcription_primary_brain_cell_differentiation_time_course": {},
+          "Toxo_transcription_under_stress_conversion": {},
+          "Toxo_transcription_extracellular_lytic_stress": {},
+          "Toxo_transcription_under_tf_or_chromatin_perturbation": {},
+          "Toxo_transcription_under_rna_processing_perturbation": {},
+          "Toxo_transcription_bradyzoite_checkpoint_perturbation": {},
+          "Toxo_transcription_maximum_observed_across_stages": {},
+          "Toxo_cell_cycle_timing_label": {},
+          "Toxo_life_cycle_stage_label_derived": {},
+          "Toxo_noncoding_and_antisense_transcription": {},
+          "Toxo_transcription_in_vivo_enteric": {}
+        },
+        "protein synthesis": {
+          "Toxo_translation_tachyzoite": {},
+          "Toxo_translation_bradyzoite": {},
+          "Toxo_translation_per_cell_cycle_phase": {},
+          "Toxo_translation_under_stress": {},
+          "Toxo_translation_efficiency_tachyzoite": {},
+          "Toxo_translation_efficiency_extracellular_stress": {},
+          "Toxo_codon_usage_translation_efficiency": {}
+        },
+        "protein abundance": {
+          "Toxo_protein_abundance_tachyzoite": {},
+          "Toxo_protein_abundance_other_life_stages": {},
+          "Toxo_protein_turnover_stability": {}
+        }
+      },
+      "protein state": {
+        "post-translational modification": {
+          "Toxo_phosphorylation_site_count": {},
+          "Toxo_phosphorylation_quantitative": {},
+          "Toxo_phosphorylation_kinase_substrate": {},
+          "Toxo_acetylation": {},
+          "Toxo_lactylation": {},
+          "Toxo_s_nitrosylation": {},
+          "Toxo_ubiquitination_sumoylation": {},
+          "Toxo_glycosylation": {},
+          "Toxo_palmitoylation": {}
+        }
+      },
+      "parasite phenotype": {
+        "fitness and essentiality": {
+          "Toxo_fitness_hff_in_vitro": {},
+          "Toxo_fitness_naive_macrophage": {},
+          "Toxo_fitness_ifn_gamma_macrophage": {},
+          "Toxo_fitness_in_vivo_peritoneum": {},
+          "Toxo_fitness_in_vivo_lung": {},
+          "Toxo_fitness_in_vivo_liver": {},
+          "Toxo_fitness_in_vivo_spleen": {},
+          "Toxo_fitness_oxidative_stress": {},
+          "Toxo_fitness_hyperlopit_unassigned_proteins": {},
+          "Toxo_fitness_targeted_in_vivo_young_2019": {},
+          "Toxo_genetic_interaction_delta_gra17": {},
+          "Toxo_fitness_gra12_screen_1_in_vitro": {},
+          "Toxo_fitness_gra12_screen_1_in_vivo": {},
+          "Toxo_fitness_gra12_screen_1_differential": {},
+          "Toxo_fitness_gra12_screen_2_in_vitro": {},
+          "Toxo_fitness_gra12_screen_2_in_vivo": {},
+          "Toxo_fitness_gra12_screen_2_differential": {},
+          "Toxo_stage_conversion_phenotype": {},
+          "Toxo_drug_sensitivity": {},
+          "Toxo_essentiality_in_a_second_background": {},
+          "Toxo_fitness_in_vivo_gut": {}
+        },
+        "chemical response": {
+          "Toxo_drug_sensitivity_per_gene": {},
+          "Toxo_resistance_conferring_mutation": {},
+          "Toxo_target_engagement_thermal_shift": {}
+        },
+        "cellular process": {
+          "Toxo_invasion_and_egress_phenotype": {}
+        }
+      },
+      "gene regulation": {
+        "Toxo_tf_binding_per_factor": {},
+        "Toxo_chromatin_state_histone_marks": {},
+        "Toxo_chromatin_accessibility": {},
+        "Toxo_rna_modification_m6a_5mc": {},
+        "Toxo_splicing_isoform_use": {},
+        "Toxo_rna_stability_half_life": {}
+      },
+      "cell organization": {
+        "localization and topology": {
+          "Toxo_localization_measured": {},
+          "Toxo_localization_transferred": {},
+          "Toxo_membrane_topology": {},
+          "Toxo_exposure_to_host_cytosol": {},
+          "Toxo_secretome_excreted": {},
+          "Toxo_cyst_wall_composition": {}
+        }
+      },
+      "molecular relationships": {
+        "parasite-parasite": {
+          "Toxo_co_transcription": {},
+          "Toxo_co_translation": {},
+          "Toxo_co_fitness": {},
+          "Toxo_interaction_crosslink_ms": {},
+          "Toxo_interaction_ip_ms_parasite_parasite": {},
+          "Toxo_interaction_proximity_labelling": {},
+          "Toxo_interaction_structural_similarity": {},
+          "Toxo_interaction_with_host_proteins": {},
+          "Toxo_shared_compartment": {},
+          "Toxo_shared_orthogroup": {},
+          "Toxo_shared_domain": {},
+          "Toxo_interaction_degree_crosslink_ms": {},
+          "Toxo_interaction_degree_ip_ms": {},
+          "Toxo_interaction_degree_structural_similarity": {},
+          "Toxo_rna_binding_protein_targets": {},
+          "Toxo_predicted_complex_membership": {}
+        },
+        "parasite-host": {
+          "Toxo_host_interaction_degree": {},
+          "Toxo_host_transcriptional_effect_per_effector": {}
+        }
+      },
+      "provenance and analysis metadata": {
+        "Toxo_downloaded_study_membership": {},
+        "Toxo_analysis_derived_structural_holes": {},
+        "Toxo_assay_confidence_and_significance": {},
+        "Toxo_literature_attention": {},
+        "Toxo_gene_identity_and_annotation": {}
+      },
+      "intrinsic properties": {
+        "sequence structure and evolution": {
+          "Toxo_domain_content": {},
+          "Toxo_fold_confidence_disorder": {},
+          "Toxo_conservation_breadth": {},
+          "Toxo_paralogy": {},
+          "Toxo_sequence_basics": {},
+          "Toxo_strain_variation": {}
+        }
+      },
+      "metabolism": {
+        "Toxo_metabolite_levels": {},
+        "Toxo_metabolic_flux": {},
+        "Toxo_lipid_composition": {}
+      },
+      "host recognition": {
+        "Toxo_seroreactivity_antigenicity": {},
+        "Toxo_t_cell_epitope_content": {}
+      }
+    },
+    "context": {
+      "in vitro or assay-defined": {
+        "tachyzoite": {
+          "Toxo_transcription_tachyzoite": {},
+          "Toxo_transcription_extracellular_lytic_stress": {},
+          "Toxo_transcription_under_rna_processing_perturbation": {},
+          "Toxo_transcription_bradyzoite_checkpoint_perturbation": {},
+          "Toxo_translation_tachyzoite": {},
+          "Toxo_translation_efficiency_tachyzoite": {},
+          "Toxo_protein_abundance_tachyzoite": {},
+          "Toxo_protein_turnover_stability": {},
+          "Toxo_phosphorylation_site_count": {},
+          "Toxo_phosphorylation_quantitative": {},
+          "Toxo_lactylation": {},
+          "Toxo_s_nitrosylation": {},
+          "Toxo_ubiquitination_sumoylation": {},
+          "Toxo_glycosylation": {},
+          "Toxo_palmitoylation": {},
+          "Toxo_chromatin_state_histone_marks": {},
+          "Toxo_rna_modification_m6a_5mc": {},
+          "Toxo_rna_stability_half_life": {}
+        },
+        "bradyzoite": {
+          "Toxo_transcription_bradyzoite_tissue_cyst": {},
+          "Toxo_translation_bradyzoite": {},
+          "Toxo_stage_conversion_phenotype": {},
+          "Toxo_cyst_wall_composition": {}
+        },
+        "oocyst": {
+          "Toxo_transcription_oocyst_sporozoite": {}
+        },
+        "merozoite": {
+          "Toxo_transcription_merozoite": {}
+        },
+        "stage-unspecified": {
+          "Toxo_transcription_per_cell_cycle_phase": {},
+          "Toxo_transcription_under_stress_conversion": {},
+          "Toxo_transcription_under_tf_or_chromatin_perturbation": {},
+          "Toxo_transcription_maximum_observed_across_stages": {},
+          "Toxo_cell_cycle_timing_label": {},
+          "Toxo_life_cycle_stage_label_derived": {},
+          "Toxo_translation_per_cell_cycle_phase": {},
+          "Toxo_translation_under_stress": {},
+          "Toxo_translation_efficiency_extracellular_stress": {},
+          "Toxo_protein_abundance_other_life_stages": {},
+          "Toxo_phosphorylation_kinase_substrate": {},
+          "Toxo_acetylation": {},
+          "Toxo_fitness_naive_macrophage": {},
+          "Toxo_fitness_ifn_gamma_macrophage": {},
+          "Toxo_fitness_oxidative_stress": {},
+          "Toxo_genetic_interaction_delta_gra17": {},
+          "Toxo_fitness_gra12_screen_1_in_vitro": {},
+          "Toxo_fitness_gra12_screen_2_in_vitro": {},
+          "Toxo_drug_sensitivity": {},
+          "Toxo_tf_binding_per_factor": {},
+          "Toxo_chromatin_accessibility": {},
+          "Toxo_splicing_isoform_use": {},
+          "Toxo_localization_measured": {},
+          "Toxo_localization_transferred": {},
+          "Toxo_exposure_to_host_cytosol": {},
+          "Toxo_secretome_excreted": {},
+          "Toxo_co_transcription": {},
+          "Toxo_co_translation": {},
+          "Toxo_co_fitness": {},
+          "Toxo_interaction_crosslink_ms": {},
+          "Toxo_interaction_ip_ms_parasite_parasite": {},
+          "Toxo_interaction_proximity_labelling": {},
+          "Toxo_shared_compartment": {},
+          "Toxo_interaction_degree_crosslink_ms": {},
+          "Toxo_interaction_degree_ip_ms": {},
+          "Toxo_downloaded_study_membership": {},
+          "Toxo_analysis_derived_structural_holes": {},
+          "Toxo_assay_confidence_and_significance": {},
+          "Toxo_host_transcriptional_effect_per_effector": {},
+          "Toxo_strain_variation": {},
+          "Toxo_literature_attention": {},
+          "Toxo_gene_identity_and_annotation": {},
+          "Toxo_metabolite_levels": {},
+          "Toxo_metabolic_flux": {},
+          "Toxo_lipid_composition": {},
+          "Toxo_drug_sensitivity_per_gene": {},
+          "Toxo_resistance_conferring_mutation": {},
+          "Toxo_target_engagement_thermal_shift": {},
+          "Toxo_rna_binding_protein_targets": {},
+          "Toxo_noncoding_and_antisense_transcription": {},
+          "Toxo_t_cell_epitope_content": {},
+          "Toxo_invasion_and_egress_phenotype": {},
+          "Toxo_essentiality_in_a_second_background": {}
+        }
+      },
+      "in vivo": {
+        "sexual": {
+          "Toxo_transcription_sexual_stages": {},
+          "Toxo_fitness_in_vivo_gut": {}
+        },
+        "stage-unspecified": {
+          "Toxo_transcription_in_vivo_brain_acute": {},
+          "Toxo_transcription_in_vivo_brain_chronic": {},
+          "Toxo_transcription_primary_brain_cell_differentiation_time_course": {},
+          "Toxo_fitness_in_vivo_peritoneum": {},
+          "Toxo_fitness_in_vivo_lung": {},
+          "Toxo_fitness_in_vivo_liver": {},
+          "Toxo_fitness_in_vivo_spleen": {},
+          "Toxo_fitness_hyperlopit_unassigned_proteins": {},
+          "Toxo_fitness_targeted_in_vivo_young_2019": {},
+          "Toxo_fitness_gra12_screen_1_in_vivo": {},
+          "Toxo_fitness_gra12_screen_1_differential": {},
+          "Toxo_fitness_gra12_screen_2_in_vivo": {},
+          "Toxo_fitness_gra12_screen_2_differential": {},
+          "Toxo_transcription_in_vivo_enteric": {}
+        },
+        "bradyzoite": {
+          "Toxo_transcription_purified_bradyzoite_in_vivo": {}
+        }
+      },
+      "host-cell or host-derived": {
+        "stage-unspecified": {
+          "Toxo_transcription_in_naive_macrophage": {},
+          "Toxo_transcription_in_ifn_gamma_macrophage": {},
+          "Toxo_fitness_hff_in_vitro": {},
+          "Toxo_interaction_with_host_proteins": {},
+          "Toxo_host_interaction_degree": {},
+          "Toxo_seroreactivity_antigenicity": {}
+        }
+      },
+      "reference or computational": {
+        "stage-unspecified": {
+          "Toxo_membrane_topology": {},
+          "Toxo_interaction_structural_similarity": {},
+          "Toxo_shared_orthogroup": {},
+          "Toxo_shared_domain": {},
+          "Toxo_interaction_degree_structural_similarity": {},
+          "Toxo_domain_content": {},
+          "Toxo_fold_confidence_disorder": {},
+          "Toxo_conservation_breadth": {},
+          "Toxo_paralogy": {},
+          "Toxo_sequence_basics": {},
+          "Toxo_codon_usage_translation_efficiency": {},
+          "Toxo_predicted_complex_membership": {}
+        }
+      }
+    }
+  },
+  "Pf": {
+    "evidence": {
+      "molecular measurements": {
+        "metabolism": {
+          "metabolite or flux": {
+            "Pf_metabolite_levels": {},
+            "Pf_metabolic_flux": {},
+            "Pf_lipid_composition": {}
+          }
+        },
+        "RNA": {
+          "transcript abundance": {
+            "Pf_noncoding_and_antisense_transcription": {},
+            "Pf_transcription_liver_stage": {},
+            "Pf_transcription_mosquito_stages": {},
+            "Pf_transcription_gametocyte": {},
+            "Pf_transcription_dormancy_recrudescence": {}
+          }
+        },
+        "translation": {
+          "ribosome occupancy": {
+            "Pf_codon_usage_translation_efficiency": {}
+          }
+        },
+        "regulation": {
+          "chromatin and RNA regulation": {
+            "Pf_antigenic_variation_family_expression": {}
+          }
+        },
+        "spatial biology": {
+          "localization": {
+            "Pf_export_pexel_trafficking": {}
+          }
+        }
+      },
+      "perturbational measurements": {
+        "chemical": {
+          "response or engagement": {
+            "Pf_drug_sensitivity_per_gene": {},
+            "Pf_resistance_conferring_mutation": {},
+            "Pf_target_engagement_thermal_shift": {}
+          }
+        },
+        "cell phenotype": {
+          "imaging phenotype": {
+            "Pf_invasion_and_egress_phenotype": {}
+          }
+        },
+        "genetic screens": {
+          "fitness": {
+            "Pf_essentiality_in_a_second_background": {},
+            "Pf_fitness_liver_stage": {},
+            "Pf_fitness_transmission": {}
+          }
+        }
+      },
+      "relational measurements": {
+        "gene-gene": {
+          "association or interaction": {
+            "Pf_rna_binding_protein_targets": {},
+            "Pf_predicted_complex_membership": {}
+          }
+        },
+        "host immunity": {
+          "recognition": {
+            "Pf_seroreactivity_antigenicity": {},
+            "Pf_t_cell_epitope_content": {}
+          }
+        },
+        "parasite-host": {
+          "host effect": {
+            "Pf_host_receptor_binding": {}
+          }
+        }
+      },
+      "intrinsic and reference": {
+        "sequence and evolution": {
+          "gene attributes": {
+            "Pf_field_variation_and_resistance_markers": {}
+          }
+        }
+      }
+    },
+    "biology": {
+      "metabolism": {
+        "Pf_metabolite_levels": {},
+        "Pf_metabolic_flux": {},
+        "Pf_lipid_composition": {}
+      },
+      "parasite phenotype": {
+        "chemical response": {
+          "Pf_drug_sensitivity_per_gene": {},
+          "Pf_resistance_conferring_mutation": {},
+          "Pf_target_engagement_thermal_shift": {}
+        },
+        "cellular process": {
+          "Pf_invasion_and_egress_phenotype": {}
+        },
+        "fitness and essentiality": {
+          "Pf_essentiality_in_a_second_background": {},
+          "Pf_fitness_liver_stage": {},
+          "Pf_fitness_transmission": {}
+        }
+      },
+      "molecular relationships": {
+        "parasite-parasite": {
+          "Pf_rna_binding_protein_targets": {},
+          "Pf_predicted_complex_membership": {}
+        },
+        "parasite-host": {
+          "Pf_host_receptor_binding": {}
+        }
+      },
+      "gene expression": {
+        "RNA abundance": {
+          "Pf_noncoding_and_antisense_transcription": {},
+          "Pf_transcription_liver_stage": {},
+          "Pf_transcription_mosquito_stages": {},
+          "Pf_transcription_gametocyte": {},
+          "Pf_transcription_dormancy_recrudescence": {}
+        },
+        "protein synthesis": {
+          "Pf_codon_usage_translation_efficiency": {}
+        }
+      },
+      "host recognition": {
+        "Pf_seroreactivity_antigenicity": {},
+        "Pf_t_cell_epitope_content": {}
+      },
+      "gene regulation": {
+        "Pf_antigenic_variation_family_expression": {}
+      },
+      "cell organization": {
+        "localization and topology": {
+          "Pf_export_pexel_trafficking": {}
+        }
+      },
+      "intrinsic properties": {
+        "sequence structure and evolution": {
+          "Pf_field_variation_and_resistance_markers": {}
+        }
+      }
+    },
+    "context": {
+      "in vitro or assay-defined": {
+        "stage-unspecified": {
+          "Pf_metabolite_levels": {},
+          "Pf_metabolic_flux": {},
+          "Pf_lipid_composition": {},
+          "Pf_drug_sensitivity_per_gene": {},
+          "Pf_resistance_conferring_mutation": {},
+          "Pf_target_engagement_thermal_shift": {},
+          "Pf_rna_binding_protein_targets": {},
+          "Pf_noncoding_and_antisense_transcription": {},
+          "Pf_t_cell_epitope_content": {},
+          "Pf_invasion_and_egress_phenotype": {},
+          "Pf_essentiality_in_a_second_background": {},
+          "Pf_transcription_dormancy_recrudescence": {},
+          "Pf_fitness_transmission": {},
+          "Pf_antigenic_variation_family_expression": {},
+          "Pf_field_variation_and_resistance_markers": {}
+        },
+        "oocyst": {
+          "Pf_transcription_mosquito_stages": {}
+        },
+        "gametocyte": {
+          "Pf_transcription_gametocyte": {}
+        }
+      },
+      "reference or computational": {
+        "stage-unspecified": {
+          "Pf_codon_usage_translation_efficiency": {},
+          "Pf_predicted_complex_membership": {}
+        }
+      },
+      "host-cell or host-derived": {
+        "stage-unspecified": {
+          "Pf_seroreactivity_antigenicity": {},
+          "Pf_transcription_liver_stage": {},
+          "Pf_fitness_liver_stage": {},
+          "Pf_export_pexel_trafficking": {},
+          "Pf_host_receptor_binding": {}
+        }
+      }
+    }
+  }
+}

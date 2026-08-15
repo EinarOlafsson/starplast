@@ -23,7 +23,7 @@ pip install -e ".[gpu]"     # optional: cuML and CuPy, for CUDA 12 -- see below
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min)
 starplast                   # launch
-pytest tests/ -q            # 1,849 tests, headless, no network, ~3 min
+pytest tests/ -q            # 2,285 tests, headless, no network, ~4 min
 pytest tests/ -q -m slow    # the real build and the pdoc pass, ~2 min
 ```
 
@@ -144,7 +144,7 @@ are dense-granule proteins, which are disordered, so this is expected rather tha
 > suffix rule that works for GT1 and VEG (decision 2b) is wrong here and would silently mis-assign.
 
 **3e. Standalone means every measurement ships; coordinates are the one exception.** (Added v1.3.) The
-cache is 17 MB and carries 169 columns for all 8,140 genes, and lives INSIDE the package
+cache is 23 MB and carries 295 columns for all 8,140 genes, and lives INSIDE the package
 (`starplast/data/`) so a wheel carries it and `paths.py` resolves it with no configuration. An earlier `keep` allowlist silently shipped
 3 of 18 RNA columns and 7 of 8 fitness screens; the build now ships every column that survives, with an
 explicit drop list. Structures resolve on demand (`structures.py`) because 6,538 AlphaFold models plus
@@ -361,7 +361,7 @@ Read `.claude/skills/toxoplasma-scientist/SKILL.md` before interpreting anything
 `instructions/` tracks unfinished work across sessions: `START_HERE.md` orients a cold start,
 `INDEX.md` is the status table, `open/` holds one file per unfinished task, and `done/` records what
 was finished and how it was verified. Read `START_HERE.md` first — it carries the traps that cost
-real time to find. **`open/` is currently empty**: every task anyone has written down has landed.
+real time to find. Tasks 30–34 landed together in v0.31.0.
 
 `skills/` holds reusable techniques worked out here, also installed under `.claude/skills/`.
 
@@ -369,8 +369,8 @@ real time to find. **`open/` is currently empty**: every task anyone has written
 
 ```
 Read /mnt/firecuda2/Claude/repo/starplast/instructions/START_HERE.md and HANDOFF.md, then
-continue starplast. Everything through v0.17.1 is pushed to github.com/EinarOlafsson/starplast
-(private); 1,849 tests pass headless with every module at 100%. Do not re-derive the design
+continue starplast. The working tree is v0.31.0; 2,285 tests pass headless with every module at
+100% coverage. Check `git status` before assuming it has been published. Do not re-derive the design
 decisions in that file.
 Next: <state what you want — e.g. "v2 species switching", "search a new target", or
 "curate hit lists from the 65 PDF-only interaction studies">.
@@ -378,10 +378,10 @@ Next: <state what you want — e.g. "v2 species switching", "search a new target
 
 Fill the `Next:` line in before sending — leaving the placeholder just costs a round trip.
 
-## State of the application — verified 2026-08-13 (v0.17.1)
+## State of the application — verified 2026-08-14 (v0.31.0)
 
-**1,849 tests pass headless** (`pytest tests/ -q`, ~3 min) and **every module is at 100% coverage**
-(7,389 statements). No `pragma: no cover` anywhere: a Qt-thread body is covered by calling it
+**2,285 tests pass headless** (`pytest tests/ -q`, ~4 min) and **every module is at 100% coverage**
+(9,983 statements). No `pragma: no cover` anywhere: a Qt-thread body is covered by calling it
 directly, and a branch that genuinely cannot run is deleted. Two functions were deleted in the last
 pass on that rule, and writing one of the missing tests found a real defect in `objectives.adjusted`.
 
@@ -559,6 +559,26 @@ first-hit marching for bounces. Four settings under **rays**: `none / shadows / 
 Not ray tracing and says so in its own docstring: it is volume sampling of a density grid, the
 trick a volume renderer uses for smoke, which is the honest model for points with no surfaces.
 
+**Lighting simplification (0.32.0, supersedes the 0.24–0.26 UI).** The four old ray choices, corner/
+orbit sources, light count/speed, and five look-alike finishes are no longer exposed. Preferences
+now has `off / soft / ray traced`, exactly three interaction targets, three color moods, and
+`flat / glossy 3D / metallic 3D`. The later explicit request for ray tracing is implemented as one
+honestly named volumetric shadow-ray mode: one segment per gene through the density grid. It is not
+Vulkan/path tracing and the UI says so. Bounces and emitter ornaments are gone. Fixed full-map GL
+comparisons and llvmpipe frame timings live in `results/lighting_2026_08_14/`; regenerate them with
+`scripts/benchmark_lighting.py`.
+
+**GPU PBR renderer (0.33.0, supersedes the 0.32 point surface implementation).** Glossy and metallic
+are now GLSL sphere impostors, not CPU-lit textures: per-fragment hemisphere normals, GGX BRDF,
+procedural studio reflection, Fresnel, and curved `gl_FragDepth`. The 48³ density grid uploads once
+as an `R32F` 3D texture and the vertex shader marches 24 shadow samples per gene/light. A static
+ray-traced scene produced one framebuffer hash over 12 paints. Mouse light positions are low-pass
+eased because the gene under a 2D cursor is discrete; this removes the shadow-field teleport at the
+boundary between overlapping points. On llvmpipe, GPU rays take 7.7–7.8 ms for all 8,140 genes versus
+15.3 ms for the NumPy fallback. The shader bridge covers pyqtgraph 0.13's fixed-function scatter and
+0.14's VBO renderer; never restore a lookup of the private `pointSprite` shader name, which 0.14
+removed. Evidence: `results/pbr_lighting_2026_08_14/`.
+
 **Discovery stack (0.27.0)** — five new modules, all at 100% coverage:
 
 | module | what it is |
@@ -621,53 +641,29 @@ starplast-discover --read bigA_00_guilt_compartment_best
 * **`_split` standardised by within-cluster spread** made a cluster whose values were all −3.0±0.05
   look like a dramatic subdivision. It uses the layer's spread across the whole map now.
 
-## 4. Known problems — real, unfixed, and worth attention
+## 4. Known limitations — measured, not pending implementation
 
-1. **Yield rewards fragmentation -- OR the map is resolving crossed factors, and nobody has yet
-   measured which.** `discovery.yield_score` sums over findings, so more clusters = more chances at
-   a claim; the winning clusterings ran 60, 224, 488, 573 clusters. Two readings, and the second was
-   raised after this was first written: a cluster need not correspond to one category of one layer,
-   and golgi-in-the-tachyzoite and golgi-in-the-bradyzoite are plausibly two real groups. If the
-   clusters are cells of a stage x compartment grid then fine clustering is resolution, not
-   inflation. Measured evidence so far is mixed: correlation between score and cluster count across
-   one whole run is only 0.04, but the top two configurations of that run were DBSCAN at 573 and 514
-   clusters against 38.6 for the best kmeans-at-60. **See `instructions/open/33_crossed_factors.md`**
-   -- it specifies the diagnostic that settles it, and this entry should be rewritten as a defect or
-   as a feature once that number exists.
-2. **One cluster, several categories.** A cluster comes back enriched for both ER and golgi and
-   offers the same unlabelled genes to both. `interpret.caveats` now says they are alternatives; the
-   *score* still counts them as separate findings.
-3. **The GPU is barely used: 16% utilisation on the large run.** `clustering.cluster` returns from
-   the kmeans / DBSCAN / agglomerative branches *before* the GPU block, which only ever handled
-   HDBSCAN, and t-SNE has no GPU path at all -- so every winning configuration so far (all kmeans or
-   DBSCAN) clustered on one CPU core while the card idled. See
-   `instructions/open/32_gpu_acceleration.md`.
-4. **`trustworthiness` is never computed in the optimiser path.** `metrics.report` takes `X` and
-   `optimize.evaluator` does not pass it, so the column is always NaN in results tables. Easy fix,
-   not done.
+1. **Yield predominantly rewards fragmentation.** The crossed-factor diagnostic is now implemented.
+   On the four saved winners, `compartment_best × cellcycle_phase` explains 0/40, 0/40, 0/31 and
+   18/97 sibling clusters; only the final run clears the permutation null (18.6%, q=0.035). Fine
+   clustering can resolve real conjunctions, and `discovery.conjunction` reports those explicitly,
+   but it does not explain most of the 60–573-cluster solutions. Treat raw yield as inflated until it
+   is normalized by reach rather than finding count.
+2. **One cluster, several categories of one layer.** Those remain competing alternatives. Categories
+   from different layers are now conjunction candidates instead, so the wording no longer blurs the
+   two cases.
 5. **The first large run was killed** (exit 137, user force-quit) after 2 of 10 tasks. That is why
    the per-task process split and the resume-by-skip exist. Not a bug, but the reason for the shape.
 6. **Cluster labels are stored, coordinates are not.** If `rebuild` ever stops being deterministic,
    a reloaded search's map and its labels will disagree and nothing will notice.
 
-## 5. Not done yet
+## 5. Future scope, not an open numbered task
 
-* **Slots** (`scripts/generate_slot_table.py`): the organism dimension, `Toxo_`/`Pf_` prefixes and
-  27 new slots (14 shared, 10 Plasmodium-only, 3 Toxoplasma-only) are **written but not wired** —
-  `all_slots()`, the prefixing and the three-table output do not exist yet, and the generator still
-  emits the old 71-row Toxoplasma table. `ASSAY_TERMS` and `ORGANISMS[*]["query"]` are there to
-  build PubMed queries from slot definitions.
-* **Candidate datasets are not resolved.** The plan is `scripts/propose_datasets.py`: build a query
-  per slot from `ASSAY_TERMS` + context + organism, hit E-utilities (network works — verified),
-  prefer abstracts carrying an accession, write `instructions/open/31_candidates.json`, and have the
-  generator merge it. **Do not hand-type PMIDs into that table** — every one in it now resolves.
-* **Malaria is not wired at all.** No `Pf` node table, no build path, no combined-organism mode. The
-  cell diagram was never checked for organism-agnosticism (`celldiagram.py` — the apicomplexan
-  average is claimed to suit both; unverified).
-* **Instructions 30 and 31** in `instructions/open/` are still open.
-* **Instructions 32, 33 and 34 are open and assigned elsewhere.** A parallel Codex session is
-  taking the GPU acceleration (32), the crossed-factor claim shape (33) and the three metric defects
-  (34). Do not start those here without checking.
+* **The malaria map remains separate.** The authoritative 24-slot Pf catalogue and its cached
+  candidates now exist, and processed source files were acquired under
+  `datasets/plasmodium_acquisition_2026_08_14/`. There is deliberately no Pf node table or
+  combined-organism view: the Toxoplasma application must not attach malaria measurements to
+  Toxoplasma genes through sparse orthology. Building that second map is a future product task.
 * The ten-task headless run was stopped at 7 of 10 by request, to free the GPU for that work. Results land in
   `~/.cache/starplast/searches/bigA_*` … `bigE_*`; read them with `starplast-discover --read NAME`.
 

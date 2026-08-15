@@ -41,6 +41,12 @@ SPECIALS: dict[str, dict] = {
     "lopit_cpar": {"by": "localization.lopit_labels()"},
     "gse108740": {"by": "expression.load_all()"},
     "gse206344": {"by": "expression.load_all()", "sheet": "1"},
+    "invivo_brain_transcriptome": {"by": "expression.load_all()"},
+    "gse132248_stress": {"by": "expression.load_all()"},
+    "morc_depletion": {"by": "expression.load_all()"},
+    "proteome_total": {"by": "expression.load_all()"},
+    "phospho_quantitative": {"by": "expression.load_all()"},
+    "oocyst_itraq": {"by": "expression.load_all()"},
     "proteome_pru": {"by": "screens.proteomics()"},
     "phosphosites": {"by": "screens.proteomics()"},
 }
@@ -48,6 +54,9 @@ SPECIALS: dict[str, dict] = {
 for _k in ("crispr_invitro", "crispr_invivo_composite", "crispr_macrophage", "crispr_young2019",
            "gra17_synthlethal", "invivo_platform", "gra12", "hosttx_effectors"):
     SPECIALS.setdefault(_k, {})["by"] = "screens.crispr_screens()"
+SPECIALS["hosttx_effectors"]["by"] = "screens.crispr_screens() + screens.host_transcription_signatures()"
+SPECIALS["bioid_corpus_membership"] = {"by": "interaction_studies.parse_studies()"}
+SPECIALS["ipms_corpus_membership"] = {"by": "interaction_studies.parse_studies()"}
 
 TEMPLATE = '''#!/usr/bin/env python3
 """{name}

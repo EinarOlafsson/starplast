@@ -110,12 +110,30 @@ def load_nodes() -> pd.DataFrame:
 
     for tbl in (screens.crispr_screens(BASE, log=log, resolve=resolve),
                 screens.proteomics(BASE, log=log, resolve=resolve),
+                screens.host_transcription_signatures(BASE, log=log, resolve=resolve),
                 expression.load_all(BASE, resolve=resolve, log=log)):
         if tbl is not None and not tbl.empty:
             for c in tbl.columns:
                 n[c] = n.gene_id.map(tbl[c])
 
     n = cellcycle.add_all(BASE, n, resolve=resolve, log=log)
+
+    # The downloaded BioID/IP-MS corpus is ingested as auditable study membership, not promoted to
+    # interaction edges. Most supplements contain complete quantification backgrounds; treating every
+    # named protein as enriched would manufacture tens of thousands of bindings. Curated edges remain
+    # separate, while the parsed rows and failures now ship for later per-paper curation.
+    study_root = os.path.join(BASE, "datasets", "post_translation")
+    members, studies = interaction_studies.parse_studies(study_root, resolve=resolve, log=log)
+    if not studies.empty:
+        studies = interaction_studies.guess_baits(
+            studies, {key: value[0] for key, value in ix.lookup.items()}, log=log)
+        studies.to_parquet(os.path.join(OUT, "interaction_studies.parquet"), index=False)
+    if not members.empty:
+        members.to_parquet(os.path.join(OUT, "interaction_study_members.parquet"), index=False)
+    for method, column in (("BioID", "n_bioid_studies"), ("IPMS", "n_ipms_studies")):
+        subset = members[members.method == method] if not members.empty else pd.DataFrame()
+        counts = (subset.groupby("gene_id").pmid.nunique() if not subset.empty else pd.Series(dtype=int))
+        n[column] = n.gene_id.map(counts).fillna(0).astype(int)
 
     n["has_domain"] = n.get("has_domain", pd.Series(False, index=n.index)) \
         .astype("boolean").fillna(False).astype(int)

@@ -171,6 +171,23 @@ def test_trustworthiness_prefers_a_projection_that_kept_the_neighbourhoods():
     assert 0.0 <= M.trustworthiness(coords, kept, k=10, sample=50) <= 1.0
 
 
+def test_continuous_truth_does_not_fabricate_ranking_classes():
+    truth = pd.Series(np.repeat(np.linspace(-2.0, 2.0, 20), 10))
+    labels = np.repeat(np.arange(10), 20)
+    table = M.ranking(labels, truth)
+    report = M.report(labels, truth)
+    assert table.empty and table.attrs["continuous_truth"]
+    assert np.isnan(report["mean_auprc"])
+    assert np.isnan(report["mean_auroc"])
+
+
+def test_too_few_examples_of_every_category_returns_a_shaped_empty_ranking():
+    truth = pd.Series([f"class{i}" for i in range(12)])
+    out = M.ranking(np.arange(12) % 2, truth)
+    assert out.empty
+    assert list(out) == ["category", "n", "auroc", "auprc", "lift", "prevalence"]
+
+
 def test_the_whole_report_is_one_flat_dict_a_results_table_can_hold():
     coords, truth = world()
     perfect = pd.factorize(truth)[0]

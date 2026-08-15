@@ -4,7 +4,7 @@
 Unsporulated / sporulating / sporulated, 2 replicates (6 columns)
 
     level / kind : transcription / RNAseq
-    provides     : expr_sporulated
+    provides     : expr_sporulated, rna206344_Unsporulated_R1, rna206344_Unsporulated_R2, rna206344_Sporulating_R1, rna206344_Sporulating_R2, rna206344_Sporulated_R1, rna206344_Sporulated_R2
     coverage     : 7,974 (98.0%)
     accession    : GSE206344
     url          : https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE206344

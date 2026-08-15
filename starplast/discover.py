@@ -30,7 +30,7 @@ import sys
 #: A task is `mode:layer` or `mode:layer:against`, which is enough to name every search this
 #: application can run and short enough to type twice.
 TASK_HELP = ("what to search for, as mode:layer or mode:layer:against -- "
-             "e.g. guilt:compartment_best, disagreement:compartment_best:fit_invitro_hff. "
+             "e.g. guilt:compartment_best, conjunction:compartment_best:cellcycle_phase. "
              "Repeatable; each is saved separately as it finishes.")
 
 
@@ -72,7 +72,7 @@ def store_for(root: str = None):
 def run_task(nodes, task: dict, budget: int = 100, restarts: int = 3, seed: int = 42,
              blocks=None, exclude=(), name: str = "", store=None, log=print) -> object:
     """One search, saved under `name`. Returns the `Search`, or None if it was already done."""
-    from . import optimize, searches
+    from . import gpu, optimize, searches
     store = store if store is not None else store_for()
     name = name or f"{task['mode']}_{task['layer']}"
     if any(existing == name for existing, _manifest in store.list()):
@@ -96,13 +96,14 @@ def run_task(nodes, task: dict, budget: int = 100, restarts: int = 3, seed: int 
     log(f"{name}: {task['mode']} on {task['layer']}"
         + (f" against {task['against']}" if task["against"] else "")
         + f", up to {budget} configurations over {len(pool)} blocks ({', '.join(pool)})")
-    evaluate = optimize.evaluator(nodes, mode=task["mode"], layers=(task["layer"],),
-                                  against=(task["against"],) if task["against"] else (),
-                                  seed=seed, log=log)
-    result = optimize.climb(evaluate, start, block_pool=pool, restarts=restarts,
-                            max_evaluations=budget, seed=seed, log=log)
+    with gpu.pinned() as backend:
+        evaluate = optimize.evaluator(nodes, mode=task["mode"], layers=(task["layer"],),
+                                      against=(task["against"],) if task["against"] else (),
+                                      seed=seed, log=log)
+        result = optimize.climb(evaluate, start, block_pool=pool, restarts=restarts,
+                                max_evaluations=budget, seed=seed, log=log)
     run = searches.from_climb(result, nodes, name=name, configs=int(len(result)), seed=seed,
-                              **task)
+                              backend=backend, **task)
     where = store.save(run)
     log(f"{name}: saved to {where}")
     return run
@@ -113,8 +114,12 @@ def _summary(run) -> str:
     if run is None or run.configs.empty:
         return "nothing evaluated"
     b = run.best
-    bits = [f"best {float(b.score):.2f}", f"{len(run.configs)} configs",
-            f"{len(run.findings)} findings"]
+    winner_count = len(run.for_config(0)[1])
+    total_count = len(run.findings)
+    finding_text = f"{winner_count} findings"
+    if total_count != winner_count:
+        finding_text += f" ({total_count} across all configs)"
+    bits = [f"best {float(b.score):.2f}", f"{len(run.configs)} configs", finding_text]
     for column, label in (("n_clusters", "clusters"), ("mean_auprc", "auprc"),
                           ("mean_lift", "lift"), ("algorithm", ""), ("method", "")):
         if column in run.configs.columns:

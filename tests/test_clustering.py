@@ -113,6 +113,55 @@ def test_cluster_defaults_to_hdbscan():
     assert len(set(lab[lab != NOISE])) >= 2
 
 
+@pytest.mark.parametrize("algorithm,resolver,kwargs", [
+    ("kmeans", "kmeans_class", {"n_clusters": 3}),
+    ("dbscan", "dbscan_class", {"eps": 1.0, "min_samples": 5}),
+])
+def test_large_clusterings_try_the_gpu_first(monkeypatch, algorithm, resolver, kwargs):
+    seen = {}
+
+    class Fake:
+        def __init__(self, **options):
+            seen.update(options)
+
+        def fit_predict(self, X):
+            return np.arange(len(X)) % 3
+
+    monkeypatch.setattr(f"starplast.gpu.{resolver}", lambda: Fake)
+    monkeypatch.setattr("starplast.gpu.backend", lambda: {algorithm: "fake GPU"})
+    labels = CL.cluster(np.zeros((1000, 3)), algorithm=algorithm, **kwargs)
+    assert len(labels) == 1000 and len(set(labels)) == 3 and seen
+
+
+@pytest.mark.parametrize("algorithm,resolver", [("kmeans", "kmeans_class"),
+                                                  ("dbscan", "dbscan_class")])
+def test_failed_gpu_clusterings_fall_back_to_cpu(monkeypatch, algorithm, resolver):
+    class Broken:
+        def __init__(self, **_kw):
+            pass
+
+        def fit_predict(self, _X):
+            raise RuntimeError("device full")
+
+    monkeypatch.setattr(f"starplast.gpu.{resolver}", lambda: Broken)
+    messages = []
+
+    class Log:
+        def debug(self, *_a, **_k):
+            pass
+
+        def info(self, *_a, **_k):
+            pass
+
+        def warning(self, message, *args):
+            messages.append(message % args)
+
+    monkeypatch.setattr("starplast.logging_util.get_logger", lambda _name: Log())
+    labels = CL.cluster(_blobs(1000), algorithm=algorithm, n_clusters=2, eps=1.0)
+    assert len(labels) == 1000
+    assert any("using the CPU" in message for message in messages)
+
+
 # --------------------------------------------------------------------------- multiple testing
 def test_benjamini_hochberg_is_monotone_and_bounded():
     p = np.array([0.001, 0.01, 0.02, 0.5, 0.9])

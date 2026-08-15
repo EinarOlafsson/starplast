@@ -190,10 +190,13 @@ def build_index(node_ids, identity_tsv: str, log=print) -> GeneIndex:
             continue
         for p in str(row.previous_ids).split(";"):
             p = p.replace("Previous IDs:", "").strip()
-            # Only accession-shaped previous ids are useful; the rest are gene-model names
-            # (TgTwinScan_2352, 1923.t000910) that no paper cites.
+            # Current/previous accessions serve literature matching.  The old ``12.m00123``
+            # ToxoGeneChip models are also registered for structured dataset joins (GPL7186); the
+            # free-text matcher cannot mistake them for prose because its token regex does not span
+            # the leading number and dot. Other historical gene-model systems remain excluded.
             m = re.fullmatch(r"TG[A-Z0-9]{2,6}_(\d{5,6})[A-Za-z]?", p, re.I)
-            if m and norm(p) != norm(gid):
+            old_chip = re.fullmatch(r"\d+\.m\d+", p, re.I)
+            if (m or old_chip) and norm(p) != norm(gid):
                 ix._add(p, gid, "accession_prev")
                 n_prev += 1
         sym = str(row.gene_name).strip()

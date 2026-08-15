@@ -125,6 +125,43 @@ def cluster(X: np.ndarray, algorithm="hdbscan", **kw) -> np.ndarray:
     # The parameters, at DEBUG. A clustering is half of every claim this application makes, and
     # "which min_cluster_size produced that figure" is asked long after the window has closed.
     get_logger(__name__).debug("clustering %d points: %s %s", len(X), algorithm, kw)
+    if algorithm == "agglomerative":
+        from sklearn.cluster import AgglomerativeClustering
+        n = int(min(max(int(kw.get("n_clusters", 20)), 2), max(len(X) - 1, 2)))
+        linkage = str(kw.get("linkage", "ward"))
+        return AgglomerativeClustering(n_clusters=n, linkage=linkage).fit_predict(X)
+    from . import gpu
+    resolver = {"hdbscan": gpu.hdbscan_class, "kmeans": gpu.kmeans_class,
+                "dbscan": gpu.dbscan_class}.get(algorithm)
+    on_gpu = resolver() if resolver else None
+    if on_gpu is not None and len(X) >= 1000:
+        # cuml below a thousand points is slower than sklearn once the copy is counted, and this is
+        # called on subsamples as small as 200.
+        try:
+            if algorithm == "kmeans":
+                n = int(min(max(int(kw.get("n_clusters", 20)), 2), max(len(X) - 1, 2)))
+                model = on_gpu(n_clusters=n, n_init=10,
+                               random_state=int(kw.get("random_state", 42)))
+            elif algorithm == "dbscan":
+                model = on_gpu(eps=float(kw.get("eps", 0.5)),
+                               min_samples=int(kw.get("min_samples") or 10))
+            else:
+                model = on_gpu(
+                    min_cluster_size=int(kw.get("min_cluster_size", 25)),
+                    min_samples=(int(kw["min_samples"]) if kw.get("min_samples") else None),
+                    cluster_selection_epsilon=float(kw.get("cluster_selection_epsilon", 0.0)),
+                    cluster_selection_method=str(kw.get("cluster_selection_method", "eom")))
+            lab = model.fit_predict(X)
+            title = {"hdbscan": "HDBSCAN", "kmeans": "k-means", "dbscan": "DBSCAN"}[algorithm]
+            get_logger(__name__).info(
+                "%s: %s on the GPU, %d points -- a different implementation, not the CPU result faster",
+                title, gpu.backend()[algorithm], len(X))
+            return np.asarray(lab, dtype=int)
+        except Exception as exc:
+            # A GPU that refuses is a slower run, not a failed one. Loudly, because a silent
+            # fallback is how "the GPU switch does nothing" becomes impossible to diagnose.
+            get_logger(__name__).warning("cuml %s failed, using the CPU: %s: %s",
+                                         algorithm, type(exc).__name__, exc)
     if algorithm == "dbscan":
         from sklearn.cluster import DBSCAN
         return DBSCAN(eps=kw.get("eps", 0.5),
@@ -134,26 +171,6 @@ def cluster(X: np.ndarray, algorithm="hdbscan", **kw) -> np.ndarray:
         n = int(min(max(int(kw.get("n_clusters", 20)), 2), max(len(X) - 1, 2)))
         return KMeans(n_clusters=n, n_init=10,
                       random_state=int(kw.get("random_state", 42))).fit_predict(X)
-    if algorithm == "agglomerative":
-        from sklearn.cluster import AgglomerativeClustering
-        n = int(min(max(int(kw.get("n_clusters", 20)), 2), max(len(X) - 1, 2)))
-        linkage = str(kw.get("linkage", "ward"))
-        return AgglomerativeClustering(n_clusters=n, linkage=linkage).fit_predict(X)
-    from . import gpu
-    on_gpu = gpu.hdbscan_class()
-    if on_gpu is not None and len(X) >= 1000:
-        # cuml below a thousand points is slower than sklearn once the copy is counted, and this is
-        # called on subsamples as small as 200.
-        try:
-            lab = on_gpu(min_cluster_size=int(kw.get("min_cluster_size", 25))).fit_predict(X)
-            get_logger(__name__).info("HDBSCAN: %s on the GPU, %d points",
-                                      gpu.backend()["cluster"], len(X))
-            return np.asarray(lab, dtype=int)
-        except Exception as exc:
-            # A GPU that refuses is a slower run, not a failed one. Loudly, because a silent
-            # fallback is how "the GPU switch does nothing" becomes impossible to diagnose.
-            get_logger(__name__).warning("cuml HDBSCAN failed, using the CPU: %s: %s",
-                                         type(exc).__name__, exc)
     try:
         from sklearn.cluster import HDBSCAN
         import sklearn

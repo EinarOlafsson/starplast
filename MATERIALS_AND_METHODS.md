@@ -12,12 +12,21 @@ Figures were read from the built cache at commit `29b0bd9`.
 
 starplast is a desktop application written in Python 3.10 using PyQt6 (6.7.1) and pyqtgraph (0.13.7) for
 OpenGL rendering, with pandas, NumPy, scikit-learn and umap-learn for data processing. It is distributed
-with a precomputed cache (17 MB) containing all 169 per-gene columns for 8,140 genes and all 12 relation
+with a precomputed cache (23 MB) containing all 295 columns for 8,140 genes and all 12 relation
 types (296,412 edges), so the application requires neither a network connection nor any source dataset at
 runtime. The cache is installed inside the package, so it is present in a wheel and resolves without
 configuration. Source
 code, the cache, and a notebook that reproduces every download are available at
 **[repository URL]** under **[license]**.
+
+Genes are rendered either as flat point discs or as glossy/metallic OpenGL sphere impostors. For
+each fragment, the shader reconstructs a hemisphere normal from point coordinates, evaluates a GGX
+microfacet response against up to eight active lights and a procedural studio environment, and
+writes the curved sphere surface to the depth buffer. Scene illumination can optionally upload a
+48³ point-density volume as an `R32F` texture and march 24 shadow samples per gene in the vertex
+shader. This provides soft cluster occlusion rather than triangle-surface reflection or hardware
+path tracing. Rendering comparisons, static-frame hashes, and full-map timings are retained under
+`results/pbr_lighting_2026_08_14/` with the active OpenGL renderer recorded alongside each benchmark.
 
 A machine-readable registry of every input dataset — its provenance, accession, the node-table columns it
 produces, its coverage, and its known limitations — is included as `starplast/datasets.py` and is the
@@ -76,11 +85,17 @@ protein abundance and the unassigned set is therefore biased toward low-abundanc
 
 Stage-resolved transcriptomes were taken from GEO accessions GSE108740 (tachyzoite, day 3/5/7 and in vivo
 tissue cyst; 12 columns; 7,739 genes) and GSE206344 (oocyst sporulation series; 6 columns; 7,974 genes).
-All 18 raw FPKM columns are distributed; summary variables are log2(mean FPKM + 1).
+All 18 raw FPKM columns are distributed; summary variables are log2(mean FPKM + 1). Three additional
+transcriptional series already present in the shipped cache were retained as their own biological
+slots rather than pooled: acute and chronic mouse-brain infection with purified bradyzoites
+(PMID 31726967; 14 columns; 7,663 genes), alkaline-stress differentiation (GSE132248; 10 columns;
+7,880 genes), and MORC/BFD1 perturbation (PXD058095 supplementary RNA-seq workbook; 18 columns;
+7,841 genes). The first of these is FPKM transcript abundance despite residing in a mixed
+transcriptome/proteome source directory; it is never treated as a fitness screen.
 
 Eight CRISPR fitness screens were incorporated: a genome-wide in vitro screen in human foreskin
 fibroblasts (Sidik et al. 2016; PMID 27594426), four in vivo composite scores (peritoneum, lung, liver,
-spleen) obtained from ToxoDB, naive bone-marrow-derived macrophage and IFN-γ screens (PMID 25867017),
+spleen) obtained from ToxoDB, naive bone-marrow-derived macrophage and IFN-γ screens (PMID 33067458),
 and a further in vivo screen covering 115 genes.
 
 Two of those eight carry no confirmed citation and are marked as such in the registry rather than
@@ -104,11 +119,19 @@ targeted library are represented as missing rather than as null effect.
 
 Protein abundance is represented by the median log2 iBAQ across replicates from two immunoprecipitation
 experiments (PRIDE PXD043808 and PXD065585), covering 748 genes (9.2%). **This is enrichment, not a deep
-proteome**, and should not be described as proteome-wide. Phosphosite counts, without positions, were
-available for 1,175 genes (14.4%); this column is inherited from the upstream node table and its
+proteome**, and should not be described as proteome-wide. A distinct total-proteome series from
+AP2XII-1/AP2XI-2 perturbation (PXD039400/PXD042658) contributes 12 replicate-abundance and three
+log2-fold-change variables for 3,005 genes; abundance and fold-change were normalized separately.
+Oocyst developmental-stage protein abundance is represented by eight iTRAQ ratios from PXD003765
+(2,079 genes), retained as ratios rather than re-centered.
+
+Phosphosite counts, without positions, were available for 1,175 genes (14.4%); this column is inherited
+from the upstream node table and its
 originating publication is not recorded, so it is listed by `datasets.unresolved()` and must be
 confirmed before citing. (A separate phosphosite dataset with positions and ratios, PXD017032, is
-incorporated below and is distinct from this count.) Per-gene AlphaFold model confidence (mean pLDDT) was
+represented in the gene table by five variables: measured-site counts and median up/down ratios over
+1,603 genes. Residue positions remain in the source workbooks because they are not a per-gene
+quantity.) Per-gene AlphaFold model confidence (mean pLDDT) was
 available for 6,480 genes (79.6%); coordinates are not distributed but are retrieved on demand from the
 AlphaFold Database and cached locally.
 

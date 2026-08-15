@@ -216,6 +216,21 @@ def test_a_sheet_with_no_lfc_column_is_skipped(tmp_path):
     assert out.empty or "crispr_invivo_platform_lfc" not in out.columns
 
 
+def test_hyperlopit_unassigned_libraries_remain_separate_and_missing_is_unknown(tmp_path):
+    acquired = tmp_path / "datasets" / "toxoplasma_acquisition_2026_08_14"
+    acquired.mkdir(parents=True)
+    pd.DataFrame({"ME49_ID": ["TGME49_200010", "TGME49_200020"],
+                  "In vivo fitness score": [1.0, 2.0]}).to_excel(
+        acquired / "GSE253884_unassigned_1_summary.xlsx", sheet_name="Summary", index=False)
+    pd.DataFrame({"ME49_ID": ["TGME49_200010"],
+                  "In vivo fitness score": [-1.0]}).to_excel(
+        acquired / "GSE253885_unassigned_2_summary.xlsx", sheet_name="Summary", index=False)
+    out = SC.crispr_screens(str(tmp_path), log=lambda *_: None)
+    assert out.loc["TGME49_200010", "fit_hyperlopit_unassigned_invivo_lib1"] == 1.0
+    assert out.loc["TGME49_200010", "fit_hyperlopit_unassigned_invivo_lib2"] == -1.0
+    assert pd.isna(out.loc["TGME49_200020", "fit_hyperlopit_unassigned_invivo_lib2"])
+
+
 # --------------------------------------------------------------------------- host-transcription
 def test_a_target_named_by_symbol_is_mapped_through_the_papers_own_sgrna_table(tmp_path):
     """The statistic tables name targets by gene NAME, not accession. Without the map the whole screen
@@ -272,6 +287,54 @@ def test_a_gene_map_without_any_id_column_yields_no_lookup(tmp_path):
         d / "hosttx_effectors_PMC12033024_D4A_T2_statistic.xlsx", index=False)
     out = SC.crispr_screens(str(tmp_path), log=lambda *_: None)
     assert out.empty or "hosttx_T2" not in out.columns
+
+
+def test_full_host_response_signatures_are_reduced_per_parasite_effector(tmp_path):
+    d = _tree(tmp_path) / "37827122"
+    d.mkdir()
+    pd.DataFrame({"Gene_Name": ["GRA16", "GRA24", "OTHER"],
+                  "Gene_ID_Updated": ["TGME49_208830", "TGME49_230180", np.nan]}).to_excel(
+        d / "hosttx_effectors_PMC12033024_D3_sgRNA_gene_map.xlsx", index=False)
+    rows = []
+    for target, shift in (("GRA16", 1.0), ("GRA24", -1.0), ("TGME49_200010", 0.25)):
+        for i in range(5):
+            rows.append({"target": target, "gene": f"HOST{i}",
+                         "avg_log2FC": shift * (i + 1),
+                         "p_val_bh": 0.01 if i < 3 else 0.5})
+    pd.DataFrame(rows).to_csv(d / "hosttx_effectors_DE_host_genes.csv", index=False)
+    resolve = lambda accession: accession if str(accession).startswith("TGME49_") else None
+    out = SC.host_transcription_signatures(str(tmp_path), resolve=resolve, components=2,
+                                           log=lambda *_: None)
+    assert out.shape == (3, 4)
+    assert set(out.index) == {"TGME49_208830", "TGME49_230180", "TGME49_200010"}
+    assert out.loc["TGME49_208830", "hosttx_signature_n_de"] == 3
+    assert np.isfinite(out.filter(like="_pc").to_numpy()).all()
+
+
+def test_full_host_response_signature_absence_and_bad_schema_are_explicit(tmp_path):
+    msgs = []
+    assert SC.host_transcription_signatures(str(tmp_path), log=msgs.append).empty
+    assert "absent" in msgs[-1]
+    d = _tree(tmp_path) / "37827122"
+    d.mkdir()
+    pd.DataFrame({"Gene_Name": ["GRA16"], "Gene_ID_Updated": ["TGME49_208830"]}).to_excel(
+        d / "hosttx_effectors_PMC12033024_D3_sgRNA_gene_map.xlsx", index=False)
+    pd.DataFrame({"wrong": [1]}).to_csv(d / "hosttx_effectors_DE_host_genes.csv", index=False)
+    msgs = []
+    assert SC.host_transcription_signatures(str(tmp_path), log=msgs.append).empty
+    assert "unexpected columns" in msgs[-1]
+
+
+def test_full_host_response_drops_targets_that_cannot_be_resolved(tmp_path):
+    d = _tree(tmp_path) / "37827122"
+    d.mkdir()
+    pd.DataFrame({"Gene_Name": ["UNKNOWN"], "Gene_ID_Updated": [np.nan]}).to_excel(
+        d / "hosttx_effectors_PMC12033024_D3_sgRNA_gene_map.xlsx", index=False)
+    pd.DataFrame({"target": ["UNKNOWN"], "gene": ["HOST1"], "avg_log2FC": [1.0],
+                  "p_val_bh": [0.01]}).to_csv(
+        d / "hosttx_effectors_DE_host_genes.csv", index=False)
+    assert SC.host_transcription_signatures(
+        str(tmp_path), resolve=lambda _a: None, log=lambda *_: None).empty
 
 
 # --------------------------------------------------------------------------- proteomics

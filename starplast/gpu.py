@@ -3,7 +3,7 @@
 
 Three backends, in the order they are preferred, because they cover different parts of the work:
 
-    cuml    UMAP and HDBSCAN themselves -- the two things this program spends its minutes on
+    cuml    UMAP, t-SNE, HDBSCAN, k-means and DBSCAN themselves
     cupy    array work: scaling, ranking, pairwise distances
     torch   the same array work, and far more likely to be installed already
 
@@ -29,6 +29,8 @@ Ranking is exact either way: it is a permutation, and a permutation has no preci
 """
 from __future__ import annotations
 
+import contextlib
+import contextvars
 import os
 
 import numpy as np
@@ -36,6 +38,10 @@ import numpy as np
 #: The environment variable that forces the answer, for tests and for a machine where the driver is
 #: present but broken. "0" disables, "1" allows what is importable.
 ENV_GPU = "STARPLAST_GPU"
+
+# Per job rather than process-global: the GUI can run work in a worker thread while its preference
+# window remains responsive. A setting changed mid-sweep applies to the next sweep, never row 47.
+_PINNED = contextvars.ContextVar("starplast_gpu_pinned", default=None)
 
 #: How large an array has to be before the copy to the device is worth it, measured on an RTX 3090
 #: against SciPy for the distance matrix -- the only array job that survived measurement:
@@ -90,8 +96,11 @@ def enabled() -> bool:
     An explicit choice always wins, in both directions, and survives a restart. Read on every call
     rather than cached: someone who installs cuml while the program is open should get it.
     """
-    forced = _forced()
     have = any(available()[k] for k in ("cuml", "cupy", "torch"))
+    pinned = _PINNED.get()
+    if pinned is not None:
+        return bool(pinned) and have
+    forced = _forced()
     if forced is not None:
         return forced and have
     try:
@@ -103,6 +112,20 @@ def enabled() -> bool:
     return bool(want) and have
 
 
+@contextlib.contextmanager
+def pinned():
+    """Hold the selected CPU/GPU implementation fixed for one complete search.
+
+    The Preferences switch remains usable, but a change affects the next search. The yielded backend
+    snapshot is the exact record to put in that search's manifest.
+    """
+    token = _PINNED.set(enabled())
+    try:
+        yield backend()
+    finally:
+        _PINNED.reset(token)
+
+
 def backend() -> dict:
     """Which library will do each job, with its version -- the record a run has to carry.
 
@@ -110,14 +133,17 @@ def backend() -> dict:
     by two implementations would be a comparison of the libraries wearing the look of a comparison
     of settings. Every saved run and every results row records this.
     """
-    out = {"umap": "", "cluster": "", "gpu": enabled()}
+    out = {"umap": "", "tsne": "", "hdbscan": "", "kmeans": "", "dbscan": "",
+           "cluster": "", "gpu": enabled()}
     if enabled() and available()["cuml"]:
         import cuml
         # getattr, not cuml.__version__: a build without that attribute used to raise here and fall
         # through to the CPU branch, so the log said "umap-learn 0.5.12 on the GPU" while cuml was
         # doing the work. A version nobody can read is a gap in the record; the wrong library name
         # is a false one.
-        out["umap"] = out["cluster"] = f"cuml {getattr(cuml, '__version__', 'version unknown')}"
+        name = f"cuml {getattr(cuml, '__version__', 'version unknown')}"
+        for job in ("umap", "tsne", "hdbscan", "kmeans", "dbscan", "cluster"):
+            out[job] = name
         return out
     try:
         import umap
@@ -126,7 +152,9 @@ def backend() -> dict:
         out["umap"] = "pca (umap-learn not installed)"
     try:
         import sklearn
-        out["cluster"] = f"scikit-learn {sklearn.__version__}"
+        name = f"scikit-learn {sklearn.__version__}"
+        out["tsne"] = out["hdbscan"] = out["kmeans"] = out["dbscan"] = name
+        out["cluster"] = name
     except Exception:                           # pragma: no cover - sklearn is a hard dependency
         out["cluster"] = "unknown"
     return out
@@ -151,7 +179,7 @@ def describe() -> str:
     # is, there, is telling them what they are looking at.
     state = "on" if enabled() else "off"
     # What it will actually buy, because "GPU: torch" reads as a promise about UMAP and is not one.
-    gain = ("UMAP and HDBSCAN move to the GPU" if have["cuml"] else
+    gain = ("UMAP, t-SNE, HDBSCAN, k-means and DBSCAN move to the GPU" if have["cuml"] else
             'array work only, about 1.5x on large distance matrices -- pip install starplast-gpu '
             '(or pip install -e ".[gpu]") to move UMAP and HDBSCAN themselves')
     return f"GPU {state}: {', '.join(parts)}{where}. {gain}."
@@ -217,3 +245,27 @@ def hdbscan_class():
         return None
     from cuml.cluster import HDBSCAN
     return HDBSCAN
+
+
+def kmeans_class():
+    """cuml's k-means when it is there and wanted, else None."""
+    if not enabled() or not available()["cuml"]:
+        return None
+    from cuml.cluster import KMeans
+    return KMeans
+
+
+def dbscan_class():
+    """cuml's DBSCAN when it is there and wanted, else None."""
+    if not enabled() or not available()["cuml"]:
+        return None
+    from cuml.cluster import DBSCAN
+    return DBSCAN
+
+
+def tsne_class():
+    """cuml's t-SNE when it is there and wanted, else None."""
+    if not enabled() or not available()["cuml"]:
+        return None
+    from cuml.manifold import TSNE
+    return TSNE

@@ -64,6 +64,119 @@ EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/supplementaryFi
 TOXODB = ("https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon"
           "/reports/attributesTabular")
 
+# Exact shipped columns for multi-column assays.  These are deliberately explicit rather than
+# prefixes: provenance is a statement about which measurements a dataset produced, and a future
+# column that happens to share a prefix must not silently inherit the wrong paper.  The same tuples
+# are used by the slot/embedding audit, so adding a column to the cache without assigning its source
+# becomes visible immediately.
+GSE108740_COLUMNS = (
+    "expr_tachy", "expr_cyst", "expr_max",
+    "rna108740_Tachyzoites_T2_FPKM", "rna108740_Tachyzoites_T4_FPKM",
+    "rna108740_Tissue_cysts_A_FPKM", "rna108740_Tissue_cysts_B_FPKM",
+    "rna108740_Day3_CS4_FPKM", "rna108740_Day3_CS5_FPKM", "rna108740_Day3_CS6_FPKM",
+    "rna108740_Day5_CS2_FPKM", "rna108740_Day5_K4_14_FPKM",
+    "rna108740_Day7_CS7_FPKM", "rna108740_Day7_CS8_FPKM", "rna108740_Day7_CS9_FPKM",
+)
+GSE206344_COLUMNS = (
+    "expr_sporulated", "rna206344_Unsporulated_R1", "rna206344_Unsporulated_R2",
+    "rna206344_Sporulating_R1", "rna206344_Sporulating_R2",
+    "rna206344_Sporulated_R1", "rna206344_Sporulated_R2",
+)
+GSE22258_COLUMNS = ("rna22258_tachyzoite", "rna22258_bradyzoite")
+GSE168465_COLUMNS = tuple(
+    f"brain168465_{day}_{measure}"
+    for day in ("1d", "2d", "4d", "7d", "14d")
+    for measure in ("base_mean", "lfc")
+)
+GSE99395_COLUMNS = tuple(
+    f"{assay}99395_{context}_r{rep}"
+    for assay in ("rpf", "rna", "te")
+    for context in ("extracellular", "intracellular")
+    for rep in (1, 2)
+)
+GSE129869_COLUMNS = tuple(
+    f"{assay}129869_{context}_r{rep}"
+    for assay in ("rpf", "rna", "te")
+    for context in ("confluent", "subconfluent")
+    for rep in (1, 2, 3)
+)
+GSE19092_COLUMNS = tuple(
+    f"cellcycle19092_{condition}_r{rep}"
+    for condition in ("async", "blocked", *(f"{hour}h" for hour in range(1, 13)))
+    for rep in (1, 2)
+)
+GSE51780_COLUMNS = tuple(
+    [f"rna51780_tachy_r{rep}" for rep in (1, 2)]
+    + [f"rna51780_mero_r{rep}" for rep in (3, 4, 5, 6)]
+)
+GSE168155_COLUMNS = tuple(
+    f"cpsf4rna168155_{condition}"
+    for condition in ("ut_1", "ut_2", "iaa_7h_1", "iaa_7h_2",
+                      "iaa_24h_1", "iaa_24h_2", "iaa_48h_1", "iaa_48h_2")
+)
+GSE200962_COLUMNS = tuple(f"restriction200962_{name}" for name in (
+    "7th_gt_2_kk31_kim_s1_l001", "7th_gt_20_kk27_kim_s14_l001",
+    "7th_gt_22_kk29_kim_s15_l001", "7th_gt_4_kk32_kim_s2_l001",
+    "kk17_p2wo_ph8_2_s5", "kk18_p2wo_ph8_2_s1", "kk19_p2w_ph8_2_s22",
+    "kk20_p2w_ph8_2_s16", "kk21_p5wo_ph8_2_s13", "kk22_p5wo_ph8_2_s15",
+    "kk23_p5w_ph8_2_s12", "kk24_p5w_ph8_2_s11", "kk5_p2wo_ph7_4_s6",
+    "kk6_p2wo_ph7_4_s19", "kk7_p2w_ph7_4_s14", "kk8_p2w_ph7_4_s23",
+))
+GSE25388_COLUMNS = ("fit_hyperlopit_unassigned_invivo_lib1",
+                    "fit_hyperlopit_unassigned_invivo_lib2")
+INVIVO_BRAIN_COLUMNS = (
+    "invivo_TZ_1", "invivo_TZ_2",
+    "invivo_WholeBrain_Acute_1", "invivo_WholeBrain_Acute_2", "invivo_WholeBrain_Acute_3",
+    "invivo_WholeBrain_Chronic_1", "invivo_WholeBrain_Chronic_2",
+    "invivo_WholeBrain_Chronic_3", "invivo_BZ_28DPI_1", "invivo_BZ_28DPI_3",
+    "invivo_BZ_90DPI_1", "invivo_BZ_90DPI_2", "invivo_BZ_120DPI_2",
+    "invivo_BZ_120DPI_3",
+)
+HOST_SIGNATURE_COLUMNS = tuple(f"hosttx_signature_pc{i:02d}" for i in range(1, 21)) + (
+    "hosttx_signature_norm", "hosttx_signature_n_de")
+STRESS_COLUMNS = (
+    "stress_5-1_unstress_red_24", "stress_5-2_unstress_red_24",
+    "stress_5-24_stress_green_48", "stress_5-27_stress_green_48",
+    "stress_6-1_unstress_red_24", "stress_6-4_unstress_red_24",
+    "stress_6-16_stress_green_48", "stress_6-18_stress_green_48",
+    "stress_7-1_unstress_red_24", "stress_7-18_stress_green_48",
+)
+MORC_COLUMNS = (
+    "morc_MORC_UT1", "morc_MORC_UT2", "morc_MORC_UT3",
+    "morc_MORC_IAA1", "morc_MORC_IAA2", "morc_MORC_IAA3",
+    "morc_MORC-KD-BFD1-KO_UT1", "morc_MORC-KD-BFD1-KO_UT2",
+    "morc_MORC-KD-BFD1-KO_UT3", "morc_MORC-KD-BFD1-KO_IAA1",
+    "morc_MORC-KD-BFD1-KO_IAA2", "morc_MORC-KD-BFD1-KO_IAA3",
+    "morc_DD-BFD1-Ty_UT1", "morc_DD-BFD1-Ty_UT2", "morc_DD-BFD1-Ty_UT3",
+    "morc_DD-BFD1-Ty_Shield1", "morc_DD-BFD1-Ty_Shield2", "morc_DD-BFD1-Ty_Shield3",
+)
+TOTAL_PROTEOME_COLUMNS = (
+    "proteome_log2_normalized_and_imputated_abundances_UT_R1",
+    "proteome_log2_normalized_and_imputated_abundances_UT_R2",
+    "proteome_log2_normalized_and_imputated_abundances_UT_R3",
+    "proteome_log2_normalized_and_imputated_abundances_T_24h_R1",
+    "proteome_log2_normalized_and_imputated_abundances_T_24h_R2",
+    "proteome_log2_normalized_and_imputated_abundances_T_24h_R3",
+    "proteome_log2_normalized_and_imputated_abundances_T_32h_R1",
+    "proteome_log2_normalized_and_imputated_abundances_T_32h_R2",
+    "proteome_log2_normalized_and_imputated_abundances_T_32h_R3",
+    "proteome_log2_normalized_and_imputated_abundances_T_48h_R1",
+    "proteome_log2_normalized_and_imputated_abundances_T_48h_R2",
+    "proteome_log2_normalized_and_imputated_abundances_T_48h_R3",
+    "proteome_lfc_UT_Vs_T_24h_log2_fold_change",
+    "proteome_lfc_UT_Vs_T_32h_log2_fold_change_1",
+    "proteome_lfc_UT_Vs_T_48h_log2_fold_change_2",
+)
+QUANTITATIVE_PHOSPHO_COLUMNS = (
+    "phospho_up_sites", "phospho_up_ratio", "phospho_down_sites",
+    "phospho_down_ratio", "phospho_sites_measured",
+)
+OOCYST_ITRAQ_COLUMNS = (
+    "oocyst_itraq_115_113", "oocyst_itraq_116_113", "oocyst_itraq_115_114",
+    "oocyst_itraq_116_114", "oocyst_itraq_115_113_1", "oocyst_itraq_116_113_1",
+    "oocyst_itraq_115_114_1", "oocyst_itraq_116_114_1",
+)
+
 REGISTRY = [
     # ------------------------------------------------------------------ transcription
     Dataset("xue_singlecell", "Single-parasite transcriptional atlas (cell cycle)", "transcription",
@@ -170,12 +283,120 @@ REGISTRY = [
     # ------------------------------------------------------------------ transcription
     Dataset("gse108740", "Stage transcriptome", "transcription", "RNAseq",
             "Tachyzoite, day 3/5/7, in vivo tissue cyst (12 columns)",
-            ("expr_tachy", "expr_cyst", "expr_max"), "7,739 (95.1%)", accession="GSE108740",
+            GSE108740_COLUMNS, "7,739 (95.1%)", accession="GSE108740",
             url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE108740"),
     Dataset("gse206344", "Oocyst sporulation series", "transcription", "RNAseq",
             "Unsporulated / sporulating / sporulated, 2 replicates (6 columns)",
-            ("expr_sporulated",), "7,974 (98.0%)", accession="GSE206344",
+            GSE206344_COLUMNS, "7,974 (98.0%)", accession="GSE206344",
             url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE206344"),
+    Dataset("gse22258", "Pru tachyzoite / 72-hour bradyzoite stage array", "transcription",
+            "microarray", "Matched tachyzoite and alkaline-induced bradyzoite expression",
+            GSE22258_COLUMNS, "7,253 genes", accession="GSE22258",
+            url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE22258",
+            path="datasets/stagetranscriptome_GSE22258_series_matrix.txt.gz",
+            note="Already keyed by TGME49 accessions. Kept separate from the newer RNA-seq stage "
+                 "series; it is not averaged as though microarray intensity were FPKM."),
+    Dataset("gse168465", "Primary brain-cell parasite differentiation time course",
+            "transcription", "RNAseq",
+            "Parasite base mean and log2 fold-change at days 1, 2, 4, 7 and 14",
+            GSE168465_COLUMNS, "measured at build time", pmid="34610266", accession="GSE168465",
+            citation="Mouveaux T et al., Primary brain cell infection by Toxoplasma gondii reveals "
+                     "spontaneous bradyzoite differentiation and modification of neuron biology",
+            url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168465",
+            path="datasets/stagetranscriptome_GSE168465_DESeq2-Toxo-all-time-points.xlsx",
+            note="Dual host-parasite RNA-seq; only the workbook explicitly containing Toxoplasma "
+                 "gene results enters this map. p-values remain evidence metadata, not features."),
+    Dataset("gse99395", "Intracellular/extracellular ribosome profiling", "translation",
+            "Ribo-seq", "Ribosome footprints, matched RNA and relative translation efficiency",
+            GSE99395_COLUMNS, "measured at build time", pmid="29228904", accession="GSE99395",
+            citation="Hassan MA et al., Comparative ribosome profiling uncovers a dominant role "
+                     "for translational control in Toxoplasma gondii. BMC Genomics 2017;18:961",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE99nnn/GSE99395/suppl/"
+                "GSE99395_Raw_counts.txt.gz",
+            path="datasets/toxoplasma_acquisition_2026_08_14/GSE99395_Raw_counts.txt.gz"),
+    Dataset("gse129869", "Host-context parasite ribosome profiling", "translation", "Ribo-seq",
+            "Parasite ribosome footprints, RNA and translation efficiency in two HFF states",
+            GSE129869_COLUMNS, "measured at build time", pmid="31167946", accession="GSE129869",
+            citation="Holmes MJ et al., Simultaneous Ribosome Profiling of Human Host Cells "
+                     "Infected with Toxoplasma gondii. mSphere 2019;4:e00292-19",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE129nnn/GSE129869/suppl/"
+                "GSE129869_RAW.tar",
+            path="datasets/toxoplasma_acquisition_2026_08_14/GSE129869_RAW.tar"),
+    Dataset("gse19092", "Synchronized tachyzoite cell-cycle transcriptome", "transcription",
+            "microarray", "Two replicates across blocked, asynchronous and hourly release states",
+            GSE19092_COLUMNS, "measured at build time", pmid="20865045", accession="GSE19092",
+            citation="Behnke MS et al., Coordinated progression through two subtranscriptomes "
+                     "underlies the tachyzoite cycle of Toxoplasma gondii. PLoS ONE 2010;5:e12354",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE19nnn/GSE19092/matrix/"
+                "GSE19092_series_matrix.txt.gz",
+            path="datasets/toxoplasma_acquisition_2026_08_14/GSE19092_series_matrix.txt.gz",
+            note="Legacy GPL7186 probes are mapped through the platform ToxoDB field and the "
+                 "project's previous-ID resolver."),
+    Dataset("gse51780", "Feline merozoite transcriptome", "transcription", "microarray",
+            "Merozoite expression with matched tachyzoite comparators", GSE51780_COLUMNS,
+            "measured at build time", pmid="24885521", accession="GSE51780",
+            citation="Behnke MS et al., Toxoplasma gondii merozoite gene expression analysis with "
+                     "comparison to the life cycle. BMC Genomics 2014;15:350",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE51nnn/GSE51780/matrix/"
+                "GSE51780_series_matrix.txt.gz",
+            path="datasets/toxoplasma_acquisition_2026_08_14/GSE51780_series_matrix.txt.gz"),
+    Dataset("gse168155", "CPSF4 RNA-processing perturbation transcriptome", "transcription",
+            "RNAseq", "RNA response at 7, 24 and 48 hours after CPSF4 depletion",
+            GSE168155_COLUMNS, "measured at build time", pmid="34263725", accession="GSE168155",
+            citation="Farhat DC et al., A plant-like mechanism coupling m6A reading to "
+                     "polyadenylation safeguards transcriptome integrity. eLife 2021;10:e68312",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE168nnn/GSE168155/suppl/"
+                "GSE168155_Matrix_table_processed_data.xlsx",
+            path="datasets/toxoplasma_acquisition_2026_08_14/"
+                 "GSE168155_Matrix_table_processed_data.xlsx",
+            note="This is a perturbation-response transcriptome, not a direct gene-wise m6A map."),
+    Dataset("gse200962", "Bradyzoite restriction-checkpoint transcriptome", "transcription",
+            "RNAseq", "Cyclin perturbations in tachyzoite and bradyzoite conditions",
+            GSE200962_COLUMNS, "measured at build time", accession="GSE200962",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE200nnn/GSE200962/suppl/"
+                "GSE200962_gene_count_matrix_geo.csv.gz",
+            path="datasets/toxoplasma_acquisition_2026_08_14/"
+                 "GSE200962_gene_count_matrix_geo.csv.gz",
+            note="No publication is linked from GEO; raw sample identifiers are retained verbatim "
+                 "in column names rather than assigned conditions by guesswork."),
+    Dataset("gse253884_5", "In-vivo fitness of hyperLOPIT-unassigned proteins", "DNA",
+            "CRISPR_screen", "Two targeted libraries tested during mouse infection",
+            GSE25388_COLUMNS, "measured at build time", pmid="39082802", accession="GSE253884;GSE253885",
+            citation="Tachibana Y et al., CRISPR screens identify genes essential for in vivo "
+                     "virulence among proteins of hyperLOPIT-unassigned localization. mBio 2024",
+            url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE253884",
+            path="datasets/toxoplasma_acquisition_2026_08_14/",
+            note="Only the newly measured in-vivo fitness values enter; copied comparator columns "
+                 "in the summary workbook are not duplicated."),
+    Dataset("invivo_brain_transcriptome", "In vivo brain-stage transcriptome", "transcription",
+            "RNAseq", "Tachyzoites, acute/chronic whole brain, and purified bradyzoites",
+            INVIVO_BRAIN_COLUMNS, "7,663 (94.1%)", pmid="31726967",
+            citation="Garfoot AL et al., Proteomic and transcriptomic analyses of early and "
+                     "late-chronic Toxoplasma gondii infection shows novel and stage specific "
+                     "transcripts. BMC Genomics 2019;20:859",
+            url=SPRINGER.format(doi="s12864-019-6213-0",
+                                f="12864_2019_6213_MOESM4_ESM.csv"),
+            path="datasets/translation/proteomics/31726967/12864_2019_6213_MOESM4_ESM.csv",
+            note="These columns are FPKM-derived transcript abundance, despite the mixed "
+                 "transcriptome/proteome paper and the legacy proteomics directory. They belong "
+                 "to transcription slots, never fitness."),
+    Dataset("gse132248_stress", "Alkaline-stress differentiation transcriptome", "transcription",
+            "RNAseq", "Unstressed tachyzoites and alkaline-stressed bradyzoites",
+            STRESS_COLUMNS, "7,880 (96.8%)", pmid="31955846", accession="GSE132248",
+            citation="Waldman BS et al., Identification of a Master Regulator of Differentiation "
+                     "in Toxoplasma. Cell 2020;180:359-372.e16",
+            url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE132248",
+            path="toxo_stage_atlas/data/transcriptomics/GSE132248_STAR_counts_matrix.tsv"),
+    Dataset("morc_depletion", "MORC depletion and BFD1 perturbation transcriptome",
+            "transcription", "RNAseq",
+            "MORC knockdown, BFD1 knockout and BFD1 stabilization series", MORC_COLUMNS,
+            "7,841 (96.3%)", accession="PXD058095",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD058095",
+            path="toxo_stage_atlas/data/proteomics/"
+                 "PXD058095_supp_DatasetEV1_MORC_RNAseq_counts_TPM.xlsx",
+            note="The accession and file location sit in a proteomics collection, but the shipped "
+                 "workbook is explicitly RNA-seq counts/TPM and is normalized as transcription. "
+                 "The originating publication still needs confirmation before citation."),
 
     # ------------------------------------------------------------------ genetic screens
     Dataset("crispr_invitro", "In vitro CRISPR fitness (HFF)", "DNA", "CRISPR_screen",
@@ -238,7 +459,9 @@ REGISTRY = [
             note="Cites pre-2012 TGME49_0xxxxx accessions for every gene; must go through identity.py."),
     Dataset("gra12", "GRA12 strains and mouse subspecies", "DNA", "CRISPR_screen",
             "Median L2FC in vitro and in vivo, DISCO score; two screens",
-            ("crispr_gra12s1_l2fc_invivo", "crispr_gra12s2_l2fc_invivo"), "236 / 232",
+            ("crispr_gra12s1_l2fc_invitro", "crispr_gra12s1_l2fc_invivo",
+             "crispr_gra12s1_disco", "crispr_gra12s2_l2fc_invitro",
+             "crispr_gra12s2_l2fc_invivo", "crispr_gra12s2_disco"), "236 / 232",
             pmid="40240328",
             citation="GRA12 is a common virulence factor across Toxoplasma gondii strains and "
                      "mouse subspecies",
@@ -246,12 +469,31 @@ REGISTRY = [
             path="datasets/DNA/CRISPR_screen/40240328/",
             note="The two screens are NOT replicates: in-vivo L2FC correlate at r = 0.41."),
     Dataset("hosttx_effectors", "Host-transcription effector screen", "DNA", "CRISPR_screen",
-            "Hotelling T2 statistic per effector, adjusted p", ("hosttx_T2", "hosttx_padj"), "252",
+            "Hotelling T2 plus full per-effector host-response signature",
+            ("hosttx_T2", "hosttx_padj") + HOST_SIGNATURE_COLUMNS, "252 screened / 22 full signatures",
             pmid="37827122",
             citation="High-throughput identification of Toxoplasma gondii effector proteins that "
                      "target host cell transcription",
             url=EPMC.format(pmcid="PMC12033024"),
-            path="datasets/DNA/CRISPR_screen/37827122/"),
+            path="datasets/DNA/CRISPR_screen/37827122/",
+            note="The 737,726-row host differential-expression table is represented by 20 PCA "
+                 "coordinates, its L2 norm and substantial-DE count; PCA is a dimensional summary, "
+                 "not a host-gene measurement."),
+
+    Dataset("bioid_corpus_membership", "BioID/TurboID supplement membership corpus",
+            "post_translation", "proximity_labelling",
+            "Number of downloaded proximity-labeling studies whose supplement names each gene",
+            ("n_bioid_studies",), "measured at build time",
+            url=EPMC.format(pmcid="{pmcid}"),
+            path="datasets/post_translation/BioID/",
+            note="Membership is not enrichment and is never converted to an interaction edge."),
+    Dataset("ipms_corpus_membership", "IP-MS supplement membership corpus",
+            "post_translation", "IP-MS",
+            "Number of downloaded pulldown studies whose supplement names each gene",
+            ("n_ipms_studies",), "measured at build time",
+            url=EPMC.format(pmcid="{pmcid}"),
+            path="datasets/post_translation/IPMS/",
+            note="Membership is not enrichment and is never converted to an interaction edge."),
 
     # ------------------------------------------------------------------ protein level
     Dataset("proteome_pru", "Pru proteome and IP abundance", "translation", "proteomics",
@@ -261,14 +503,53 @@ REGISTRY = [
             path="toxo_stage_atlas/data/proteomics/",
             note="Immunoprecipitation experiments of 424 and 594 proteins. Enrichment, NOT a deep "
                  "proteome; do not report as proteome-wide."),
+    Dataset("proteome_total", "AP2XII-1/AP2XI-2 perturbation total proteome", "translation",
+            "proteomics", "Replicate abundance and log2 fold-change during pre-sexual conversion",
+            TOTAL_PROTEOME_COLUMNS, "3,005 (36.9%)", pmid="38093015",
+            accession="PXD039400, PXD042658",
+            citation="Antunes AV et al., In vitro production of cat-restricted Toxoplasma "
+                     "pre-sexual stages. Nature 2024;625:366-376",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD039400",
+            path="toxo_stage_atlas/data/proteomics/"
+                 "PXD039400_PXD042658_supp_SupplTable3_total_proteome.xlsx",
+            note="An actual total proteome, not IP enrichment. The abundance and fold-change "
+                 "columns are distinct quantification types and expression.total_proteome "
+                 "normalizes them separately before they enter the cache."),
     Dataset("phosphosites", "Phosphosite counts", "post_translation", "phosphoproteomics",
-            "Count of phosphosites per protein, no positions", ("n_phosphosites",), "1,175 (14.4%)",
+            "Count of phosphosites per protein, no positions", ("n_phosphosites", "has_phospho"),
+            "1,175 (14.4%)",
             citation="Treeck M et al. 2011 -- CONFIRM against the file on disk",
             url="https://ars.els-cdn.com/content/image/1-s2.0-S1931312811002885-mmc2.xls",
             note="The URL downloads a real phosphoproteomics table, but that it is the source of "
                  "THIS column is inference rather than verification; confirm before citing. "
                  "Missing for 85.6% of genes; effectively an indicator of having been in a "
                  "phosphoproteomics experiment."),
+    Dataset("phospho_quantitative", "Oocyst-versus-tachyzoite phosphoproteome",
+            "post_translation", "phosphoproteomics",
+            "Measured-site counts and strongest up/down phosphosite ratios",
+            QUANTITATIVE_PHOSPHO_COLUMNS, "1,603 (19.7%)", pmid="35164288",
+            accession="PXD017032",
+            citation="Wang Z-X et al., Comparative Phosphoproteomic Analysis of Sporulated "
+                     "Oocysts and Tachyzoites of Toxoplasma gondii Reveals Stage-Specific "
+                     "Patterns. Molecules 2022;27:1109",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD017032",
+            path="toxo_stage_atlas/data/proteomics/"
+                 "PXD017032_supp_TableS1_upregulated_phosphosites_oocyst_vs_tachy.xlsx",
+            note="A per-gene cache cannot retain residue positions. It carries how many sites were "
+                 "measured, how many moved each way and the median ratios; the source workbooks "
+                 "remain the residue-level record."),
+    Dataset("oocyst_itraq", "Oocyst developmental-stage iTRAQ proteome", "translation",
+            "proteomics", "iTRAQ abundance ratios across oocyst developmental stages",
+            OOCYST_ITRAQ_COLUMNS, "2,079 (25.5%)", pmid="28626452", accession="PXD003765",
+            citation="Possenti A et al., Proteomic Differences between Developmental Stages of "
+                     "Toxoplasma gondii Revealed by iTRAQ-Based Quantitative Proteomics. Front "
+                     "Microbiol 2017;8:1732",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD003765",
+            path="toxo_stage_atlas/data/proteomics/"
+                 "PXD003765_supp_mmc2_iTRAQ_ratios_2095proteins.xls",
+            note="The legacy XLS needs conversion before pandas can read it. Ratios are retained as "
+                 "ratios rather than logged or centered, because moving their reference changes "
+                 "the measurement."),
 
     # ------------------------------------------------------------------ interactions
     Dataset("starpath_xlms", "StarPath crosslink MS", "post_translation", "XLMS",
@@ -377,6 +658,26 @@ def derived_sources(column: str) -> tuple:
         if column in d.columns and d.derived_from:
             return tuple(d.derived_from)
     return ()
+
+
+def derived_dependents(columns) -> tuple:
+    """Transitive derived outputs that depend on any supplied column.
+
+    Leakage travels both directions in the dependency graph: holding out a derived target removes its
+    raw inputs, while holding out a raw measurement must also remove every summary or label computed
+    from it.  The registry is small, so an explicit fixed-point walk is clearer than a cached graph.
+    """
+    seen = set(columns if not isinstance(columns, str) else (columns,))
+    changed = True
+    while changed:
+        changed = False
+        for dataset in REGISTRY:
+            if dataset.derived_from and set(dataset.derived_from) & seen:
+                new = set(dataset.columns) - seen
+                if new:
+                    seen.update(new)
+                    changed = True
+    return tuple(sorted(seen - set(columns if not isinstance(columns, str) else (columns,))))
 
 
 def unresolved() -> list:
