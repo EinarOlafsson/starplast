@@ -494,39 +494,136 @@
   "Pf": {
     "evidence": {
       "molecular measurements": {
+        "RNA": {
+          "transcript abundance": {
+            "Pf_transcription_asexual_blood_stage": {},
+            "Pf_transcription_ring": {},
+            "Pf_transcription_trophozoite": {},
+            "Pf_transcription_schizont": {},
+            "Pf_transcription_gametocyte": {},
+            "Pf_transcription_ookinete": {},
+            "Pf_transcription_oocyst": {},
+            "Pf_transcription_sporozoite": {},
+            "Pf_transcription_liver_stage": {},
+            "Pf_transcription_per_cell_cycle_phase": {},
+            "Pf_transcription_under_stress_conversion": {},
+            "Pf_transcription_under_tf_or_chromatin_perturbation": {},
+            "Pf_transcription_maximum_observed_across_stages": {},
+            "Pf_cell_cycle_timing_label": {},
+            "Pf_noncoding_and_antisense_transcription": {},
+            "Pf_transcription_mosquito_stages": {},
+            "Pf_transcription_dormancy_recrudescence": {}
+          }
+        },
+        "translation": {
+          "ribosome occupancy": {
+            "Pf_translation_asexual_blood_stage": {},
+            "Pf_translation_per_cell_cycle_phase": {},
+            "Pf_translation_under_stress": {},
+            "Pf_translation_efficiency_asexual_blood_stage": {},
+            "Pf_translation_efficiency_extracellular_stress": {},
+            "Pf_codon_usage_translation_efficiency": {}
+          }
+        },
+        "protein": {
+          "abundance": {
+            "Pf_protein_abundance_asexual_blood_stage": {},
+            "Pf_protein_abundance_other_life_stages": {},
+            "Pf_protein_turnover_stability_asexual_blood_stage": {}
+          },
+          "post-translational state": {
+            "Pf_phosphorylation_asexual_blood_stage": {},
+            "Pf_phosphorylation_kinase_substrate": {},
+            "Pf_acetylation": {},
+            "Pf_lactylation_asexual_blood_stage": {},
+            "Pf_s_nitrosylation_asexual_blood_stage": {},
+            "Pf_ubiquitination_sumoylation_asexual_blood_stage": {},
+            "Pf_glycosylation_asexual_blood_stage": {},
+            "Pf_palmitoylation_asexual_blood_stage": {}
+          }
+        },
+        "regulation": {
+          "chromatin and RNA regulation": {
+            "Pf_tf_binding_per_factor": {},
+            "Pf_chromatin_state_asexual_blood_stage": {},
+            "Pf_chromatin_accessibility": {},
+            "Pf_rna_modification_asexual_blood_stage": {},
+            "Pf_splicing_isoform_use": {},
+            "Pf_rna_stability_half_life_asexual_blood_stage": {},
+            "Pf_antigenic_variation_family_expression": {}
+          }
+        },
+        "spatial biology": {
+          "localization": {
+            "Pf_localization_measured": {},
+            "Pf_exposure_to_host_cytosol": {},
+            "Pf_secretome_excreted": {},
+            "Pf_export_pexel_trafficking": {}
+          }
+        },
         "metabolism": {
           "metabolite or flux": {
             "Pf_metabolite_levels": {},
             "Pf_metabolic_flux": {},
             "Pf_lipid_composition": {}
           }
-        },
-        "RNA": {
-          "transcript abundance": {
-            "Pf_noncoding_and_antisense_transcription": {},
-            "Pf_transcription_liver_stage": {},
-            "Pf_transcription_mosquito_stages": {},
-            "Pf_transcription_gametocyte": {},
-            "Pf_transcription_dormancy_recrudescence": {}
+        }
+      },
+      "metadata and derived outputs": {
+        "derived target labels": {
+          "life-cycle stage": {
+            "Pf_life_cycle_stage_label_derived": {}
           }
         },
-        "translation": {
-          "ribosome occupancy": {
-            "Pf_codon_usage_translation_efficiency": {}
-          }
-        },
-        "regulation": {
-          "chromatin and RNA regulation": {
-            "Pf_antigenic_variation_family_expression": {}
-          }
-        },
-        "spatial biology": {
-          "localization": {
-            "Pf_export_pexel_trafficking": {}
-          }
+        "excluded from embeddings": {
+          "Pf_downloaded_study_membership": {},
+          "Pf_analysis_derived_structural_holes": {},
+          "Pf_assay_confidence_and_significance": {},
+          "Pf_literature_attention": {},
+          "Pf_gene_identity_and_annotation": {}
         }
       },
       "perturbational measurements": {
+        "genetic screens": {
+          "fitness": {
+            "Pf_fitness_hff_in_vitro": {},
+            "Pf_fitness_asexual_blood_stage": {},
+            "Pf_fitness_ring": {},
+            "Pf_fitness_trophozoite": {},
+            "Pf_fitness_schizont": {},
+            "Pf_fitness_gametocyte": {},
+            "Pf_fitness_ookinete": {},
+            "Pf_fitness_oocyst": {},
+            "Pf_fitness_sporozoite": {},
+            "Pf_fitness_liver_stage": {},
+            "Pf_fitness_in_vivo_peritoneum": {},
+            "Pf_fitness_in_vivo_lung": {},
+            "Pf_fitness_in_vivo_liver": {},
+            "Pf_fitness_in_vivo_spleen": {},
+            "Pf_fitness_oxidative_stress": {},
+            "Pf_fitness_hyperlopit_unassigned_proteins": {},
+            "Pf_fitness_targeted_in_vivo_young_2019": {},
+            "Pf_genetic_interaction_delta_gra17": {},
+            "Pf_fitness_gra12_screen_1_in_vitro": {},
+            "Pf_fitness_gra12_screen_1_in_vivo": {},
+            "Pf_fitness_gra12_screen_1_differential": {},
+            "Pf_fitness_gra12_screen_2_in_vitro": {},
+            "Pf_fitness_gra12_screen_2_in_vivo": {},
+            "Pf_fitness_gra12_screen_2_differential": {},
+            "Pf_stage_conversion_phenotype_asexual_blood_stage": {},
+            "Pf_stage_conversion_phenotype_ring": {},
+            "Pf_stage_conversion_phenotype_trophozoite": {},
+            "Pf_stage_conversion_phenotype_schizont": {},
+            "Pf_stage_conversion_phenotype_gametocyte": {},
+            "Pf_stage_conversion_phenotype_ookinete": {},
+            "Pf_stage_conversion_phenotype_oocyst": {},
+            "Pf_stage_conversion_phenotype_sporozoite": {},
+            "Pf_stage_conversion_phenotype_liver_stage": {},
+            "Pf_drug_sensitivity": {},
+            "Pf_essentiality_in_a_second_background": {},
+            "Pf_fitness_transmission": {}
+          }
+        },
         "chemical": {
           "response or engagement": {
             "Pf_drug_sensitivity_per_gene": {},
@@ -538,20 +635,57 @@
           "imaging phenotype": {
             "Pf_invasion_and_egress_phenotype": {}
           }
+        }
+      },
+      "intrinsic and reference": {
+        "orthology-derived": {
+          "localization transfer": {
+            "Pf_localization_transferred": {}
+          }
         },
-        "genetic screens": {
-          "fitness": {
-            "Pf_essentiality_in_a_second_background": {},
-            "Pf_fitness_liver_stage": {},
-            "Pf_fitness_transmission": {}
+        "sequence-derived": {
+          "membrane topology": {
+            "Pf_membrane_topology": {}
+          }
+        },
+        "sequence and evolution": {
+          "gene attributes": {
+            "Pf_domain_content": {},
+            "Pf_fold_confidence_disorder": {},
+            "Pf_conservation_breadth": {},
+            "Pf_paralogy": {},
+            "Pf_sequence_basics": {},
+            "Pf_strain_variation": {},
+            "Pf_field_variation_and_resistance_markers": {}
           }
         }
       },
       "relational measurements": {
         "gene-gene": {
           "association or interaction": {
+            "Pf_co_transcription": {},
+            "Pf_co_translation": {},
+            "Pf_co_fitness": {},
+            "Pf_interaction_crosslink_ms": {},
+            "Pf_interaction_ip_ms_parasite_parasite": {},
+            "Pf_interaction_proximity_labelling": {},
+            "Pf_interaction_structural_similarity": {},
+            "Pf_interaction_with_host_proteins": {},
+            "Pf_shared_compartment": {},
+            "Pf_shared_orthogroup": {},
+            "Pf_shared_domain": {},
+            "Pf_interaction_degree_crosslink_ms": {},
+            "Pf_interaction_degree_ip_ms": {},
+            "Pf_interaction_degree_structural_similarity": {},
             "Pf_rna_binding_protein_targets": {},
             "Pf_predicted_complex_membership": {}
+          }
+        },
+        "parasite-host": {
+          "host effect": {
+            "Pf_host_interaction_degree": {},
+            "Pf_host_transcriptional_effect_per_effector": {},
+            "Pf_host_receptor_binding": {}
           }
         },
         "host immunity": {
@@ -559,28 +693,96 @@
             "Pf_seroreactivity_antigenicity": {},
             "Pf_t_cell_epitope_content": {}
           }
-        },
-        "parasite-host": {
-          "host effect": {
-            "Pf_host_receptor_binding": {}
-          }
-        }
-      },
-      "intrinsic and reference": {
-        "sequence and evolution": {
-          "gene attributes": {
-            "Pf_field_variation_and_resistance_markers": {}
-          }
         }
       }
     },
     "biology": {
-      "metabolism": {
-        "Pf_metabolite_levels": {},
-        "Pf_metabolic_flux": {},
-        "Pf_lipid_composition": {}
+      "gene expression": {
+        "RNA abundance": {
+          "Pf_transcription_asexual_blood_stage": {},
+          "Pf_transcription_ring": {},
+          "Pf_transcription_trophozoite": {},
+          "Pf_transcription_schizont": {},
+          "Pf_transcription_gametocyte": {},
+          "Pf_transcription_ookinete": {},
+          "Pf_transcription_oocyst": {},
+          "Pf_transcription_sporozoite": {},
+          "Pf_transcription_liver_stage": {},
+          "Pf_transcription_per_cell_cycle_phase": {},
+          "Pf_transcription_under_stress_conversion": {},
+          "Pf_transcription_under_tf_or_chromatin_perturbation": {},
+          "Pf_transcription_maximum_observed_across_stages": {},
+          "Pf_cell_cycle_timing_label": {},
+          "Pf_life_cycle_stage_label_derived": {},
+          "Pf_noncoding_and_antisense_transcription": {},
+          "Pf_transcription_mosquito_stages": {},
+          "Pf_transcription_dormancy_recrudescence": {}
+        },
+        "protein synthesis": {
+          "Pf_translation_asexual_blood_stage": {},
+          "Pf_translation_per_cell_cycle_phase": {},
+          "Pf_translation_under_stress": {},
+          "Pf_translation_efficiency_asexual_blood_stage": {},
+          "Pf_translation_efficiency_extracellular_stress": {},
+          "Pf_codon_usage_translation_efficiency": {}
+        },
+        "protein abundance": {
+          "Pf_protein_abundance_asexual_blood_stage": {},
+          "Pf_protein_abundance_other_life_stages": {},
+          "Pf_protein_turnover_stability_asexual_blood_stage": {}
+        }
+      },
+      "protein state": {
+        "post-translational modification": {
+          "Pf_phosphorylation_asexual_blood_stage": {},
+          "Pf_phosphorylation_kinase_substrate": {},
+          "Pf_acetylation": {},
+          "Pf_lactylation_asexual_blood_stage": {},
+          "Pf_s_nitrosylation_asexual_blood_stage": {},
+          "Pf_ubiquitination_sumoylation_asexual_blood_stage": {},
+          "Pf_glycosylation_asexual_blood_stage": {},
+          "Pf_palmitoylation_asexual_blood_stage": {}
+        }
       },
       "parasite phenotype": {
+        "fitness and essentiality": {
+          "Pf_fitness_hff_in_vitro": {},
+          "Pf_fitness_asexual_blood_stage": {},
+          "Pf_fitness_ring": {},
+          "Pf_fitness_trophozoite": {},
+          "Pf_fitness_schizont": {},
+          "Pf_fitness_gametocyte": {},
+          "Pf_fitness_ookinete": {},
+          "Pf_fitness_oocyst": {},
+          "Pf_fitness_sporozoite": {},
+          "Pf_fitness_liver_stage": {},
+          "Pf_fitness_in_vivo_peritoneum": {},
+          "Pf_fitness_in_vivo_lung": {},
+          "Pf_fitness_in_vivo_liver": {},
+          "Pf_fitness_in_vivo_spleen": {},
+          "Pf_fitness_oxidative_stress": {},
+          "Pf_fitness_hyperlopit_unassigned_proteins": {},
+          "Pf_fitness_targeted_in_vivo_young_2019": {},
+          "Pf_genetic_interaction_delta_gra17": {},
+          "Pf_fitness_gra12_screen_1_in_vitro": {},
+          "Pf_fitness_gra12_screen_1_in_vivo": {},
+          "Pf_fitness_gra12_screen_1_differential": {},
+          "Pf_fitness_gra12_screen_2_in_vitro": {},
+          "Pf_fitness_gra12_screen_2_in_vivo": {},
+          "Pf_fitness_gra12_screen_2_differential": {},
+          "Pf_stage_conversion_phenotype_asexual_blood_stage": {},
+          "Pf_stage_conversion_phenotype_ring": {},
+          "Pf_stage_conversion_phenotype_trophozoite": {},
+          "Pf_stage_conversion_phenotype_schizont": {},
+          "Pf_stage_conversion_phenotype_gametocyte": {},
+          "Pf_stage_conversion_phenotype_ookinete": {},
+          "Pf_stage_conversion_phenotype_oocyst": {},
+          "Pf_stage_conversion_phenotype_sporozoite": {},
+          "Pf_stage_conversion_phenotype_liver_stage": {},
+          "Pf_drug_sensitivity": {},
+          "Pf_essentiality_in_a_second_background": {},
+          "Pf_fitness_transmission": {}
+        },
         "chemical response": {
           "Pf_drug_sensitivity_per_gene": {},
           "Pf_resistance_conferring_mutation": {},
@@ -588,55 +790,153 @@
         },
         "cellular process": {
           "Pf_invasion_and_egress_phenotype": {}
-        },
-        "fitness and essentiality": {
-          "Pf_essentiality_in_a_second_background": {},
-          "Pf_fitness_liver_stage": {},
-          "Pf_fitness_transmission": {}
         }
-      },
-      "molecular relationships": {
-        "parasite-parasite": {
-          "Pf_rna_binding_protein_targets": {},
-          "Pf_predicted_complex_membership": {}
-        },
-        "parasite-host": {
-          "Pf_host_receptor_binding": {}
-        }
-      },
-      "gene expression": {
-        "RNA abundance": {
-          "Pf_noncoding_and_antisense_transcription": {},
-          "Pf_transcription_liver_stage": {},
-          "Pf_transcription_mosquito_stages": {},
-          "Pf_transcription_gametocyte": {},
-          "Pf_transcription_dormancy_recrudescence": {}
-        },
-        "protein synthesis": {
-          "Pf_codon_usage_translation_efficiency": {}
-        }
-      },
-      "host recognition": {
-        "Pf_seroreactivity_antigenicity": {},
-        "Pf_t_cell_epitope_content": {}
       },
       "gene regulation": {
+        "Pf_tf_binding_per_factor": {},
+        "Pf_chromatin_state_asexual_blood_stage": {},
+        "Pf_chromatin_accessibility": {},
+        "Pf_rna_modification_asexual_blood_stage": {},
+        "Pf_splicing_isoform_use": {},
+        "Pf_rna_stability_half_life_asexual_blood_stage": {},
         "Pf_antigenic_variation_family_expression": {}
       },
       "cell organization": {
         "localization and topology": {
+          "Pf_localization_measured": {},
+          "Pf_localization_transferred": {},
+          "Pf_membrane_topology": {},
+          "Pf_exposure_to_host_cytosol": {},
+          "Pf_secretome_excreted": {},
           "Pf_export_pexel_trafficking": {}
         }
       },
+      "molecular relationships": {
+        "parasite-parasite": {
+          "Pf_co_transcription": {},
+          "Pf_co_translation": {},
+          "Pf_co_fitness": {},
+          "Pf_interaction_crosslink_ms": {},
+          "Pf_interaction_ip_ms_parasite_parasite": {},
+          "Pf_interaction_proximity_labelling": {},
+          "Pf_interaction_structural_similarity": {},
+          "Pf_interaction_with_host_proteins": {},
+          "Pf_shared_compartment": {},
+          "Pf_shared_orthogroup": {},
+          "Pf_shared_domain": {},
+          "Pf_interaction_degree_crosslink_ms": {},
+          "Pf_interaction_degree_ip_ms": {},
+          "Pf_interaction_degree_structural_similarity": {},
+          "Pf_rna_binding_protein_targets": {},
+          "Pf_predicted_complex_membership": {}
+        },
+        "parasite-host": {
+          "Pf_host_interaction_degree": {},
+          "Pf_host_transcriptional_effect_per_effector": {},
+          "Pf_host_receptor_binding": {}
+        }
+      },
+      "provenance and analysis metadata": {
+        "Pf_downloaded_study_membership": {},
+        "Pf_analysis_derived_structural_holes": {},
+        "Pf_assay_confidence_and_significance": {},
+        "Pf_literature_attention": {},
+        "Pf_gene_identity_and_annotation": {}
+      },
       "intrinsic properties": {
         "sequence structure and evolution": {
+          "Pf_domain_content": {},
+          "Pf_fold_confidence_disorder": {},
+          "Pf_conservation_breadth": {},
+          "Pf_paralogy": {},
+          "Pf_sequence_basics": {},
+          "Pf_strain_variation": {},
           "Pf_field_variation_and_resistance_markers": {}
         }
+      },
+      "metabolism": {
+        "Pf_metabolite_levels": {},
+        "Pf_metabolic_flux": {},
+        "Pf_lipid_composition": {}
+      },
+      "host recognition": {
+        "Pf_seroreactivity_antigenicity": {},
+        "Pf_t_cell_epitope_content": {}
       }
     },
     "context": {
       "in vitro or assay-defined": {
+        "sexual": {
+          "Pf_transcription_asexual_blood_stage": {},
+          "Pf_translation_asexual_blood_stage": {},
+          "Pf_translation_efficiency_asexual_blood_stage": {},
+          "Pf_protein_abundance_asexual_blood_stage": {},
+          "Pf_protein_turnover_stability_asexual_blood_stage": {},
+          "Pf_phosphorylation_asexual_blood_stage": {},
+          "Pf_lactylation_asexual_blood_stage": {},
+          "Pf_s_nitrosylation_asexual_blood_stage": {},
+          "Pf_ubiquitination_sumoylation_asexual_blood_stage": {},
+          "Pf_glycosylation_asexual_blood_stage": {},
+          "Pf_palmitoylation_asexual_blood_stage": {},
+          "Pf_fitness_asexual_blood_stage": {},
+          "Pf_stage_conversion_phenotype_asexual_blood_stage": {},
+          "Pf_chromatin_state_asexual_blood_stage": {},
+          "Pf_rna_modification_asexual_blood_stage": {},
+          "Pf_rna_stability_half_life_asexual_blood_stage": {}
+        },
         "stage-unspecified": {
+          "Pf_transcription_ring": {},
+          "Pf_transcription_trophozoite": {},
+          "Pf_transcription_schizont": {},
+          "Pf_transcription_ookinete": {},
+          "Pf_transcription_per_cell_cycle_phase": {},
+          "Pf_transcription_under_stress_conversion": {},
+          "Pf_transcription_under_tf_or_chromatin_perturbation": {},
+          "Pf_transcription_maximum_observed_across_stages": {},
+          "Pf_cell_cycle_timing_label": {},
+          "Pf_life_cycle_stage_label_derived": {},
+          "Pf_translation_per_cell_cycle_phase": {},
+          "Pf_translation_under_stress": {},
+          "Pf_translation_efficiency_extracellular_stress": {},
+          "Pf_protein_abundance_other_life_stages": {},
+          "Pf_phosphorylation_kinase_substrate": {},
+          "Pf_acetylation": {},
+          "Pf_fitness_ring": {},
+          "Pf_fitness_trophozoite": {},
+          "Pf_fitness_schizont": {},
+          "Pf_fitness_ookinete": {},
+          "Pf_fitness_oxidative_stress": {},
+          "Pf_genetic_interaction_delta_gra17": {},
+          "Pf_fitness_gra12_screen_1_in_vitro": {},
+          "Pf_fitness_gra12_screen_2_in_vitro": {},
+          "Pf_stage_conversion_phenotype_ring": {},
+          "Pf_stage_conversion_phenotype_trophozoite": {},
+          "Pf_stage_conversion_phenotype_schizont": {},
+          "Pf_stage_conversion_phenotype_ookinete": {},
+          "Pf_drug_sensitivity": {},
+          "Pf_tf_binding_per_factor": {},
+          "Pf_chromatin_accessibility": {},
+          "Pf_splicing_isoform_use": {},
+          "Pf_localization_measured": {},
+          "Pf_localization_transferred": {},
+          "Pf_exposure_to_host_cytosol": {},
+          "Pf_secretome_excreted": {},
+          "Pf_co_transcription": {},
+          "Pf_co_translation": {},
+          "Pf_co_fitness": {},
+          "Pf_interaction_crosslink_ms": {},
+          "Pf_interaction_ip_ms_parasite_parasite": {},
+          "Pf_interaction_proximity_labelling": {},
+          "Pf_shared_compartment": {},
+          "Pf_interaction_degree_crosslink_ms": {},
+          "Pf_interaction_degree_ip_ms": {},
+          "Pf_downloaded_study_membership": {},
+          "Pf_analysis_derived_structural_holes": {},
+          "Pf_assay_confidence_and_significance": {},
+          "Pf_host_transcriptional_effect_per_effector": {},
+          "Pf_strain_variation": {},
+          "Pf_literature_attention": {},
+          "Pf_gene_identity_and_annotation": {},
           "Pf_metabolite_levels": {},
           "Pf_metabolic_flux": {},
           "Pf_lipid_composition": {},
@@ -653,26 +953,68 @@
           "Pf_antigenic_variation_family_expression": {},
           "Pf_field_variation_and_resistance_markers": {}
         },
+        "gametocyte": {
+          "Pf_transcription_gametocyte": {},
+          "Pf_fitness_gametocyte": {},
+          "Pf_stage_conversion_phenotype_gametocyte": {}
+        },
         "oocyst": {
+          "Pf_transcription_oocyst": {},
+          "Pf_fitness_oocyst": {},
+          "Pf_stage_conversion_phenotype_oocyst": {},
           "Pf_transcription_mosquito_stages": {}
         },
-        "gametocyte": {
-          "Pf_transcription_gametocyte": {}
-        }
-      },
-      "reference or computational": {
-        "stage-unspecified": {
-          "Pf_codon_usage_translation_efficiency": {},
-          "Pf_predicted_complex_membership": {}
+        "sporozoite": {
+          "Pf_transcription_sporozoite": {},
+          "Pf_fitness_sporozoite": {},
+          "Pf_stage_conversion_phenotype_sporozoite": {}
+        },
+        "liver stage": {
+          "Pf_transcription_liver_stage": {},
+          "Pf_fitness_liver_stage": {},
+          "Pf_stage_conversion_phenotype_liver_stage": {}
         }
       },
       "host-cell or host-derived": {
         "stage-unspecified": {
+          "Pf_fitness_hff_in_vitro": {},
+          "Pf_interaction_with_host_proteins": {},
+          "Pf_host_interaction_degree": {},
           "Pf_seroreactivity_antigenicity": {},
           "Pf_transcription_liver_stage": {},
           "Pf_fitness_liver_stage": {},
           "Pf_export_pexel_trafficking": {},
           "Pf_host_receptor_binding": {}
+        }
+      },
+      "in vivo": {
+        "stage-unspecified": {
+          "Pf_fitness_in_vivo_peritoneum": {},
+          "Pf_fitness_in_vivo_lung": {},
+          "Pf_fitness_in_vivo_liver": {},
+          "Pf_fitness_in_vivo_spleen": {},
+          "Pf_fitness_hyperlopit_unassigned_proteins": {},
+          "Pf_fitness_targeted_in_vivo_young_2019": {},
+          "Pf_fitness_gra12_screen_1_in_vivo": {},
+          "Pf_fitness_gra12_screen_1_differential": {},
+          "Pf_fitness_gra12_screen_2_in_vivo": {},
+          "Pf_fitness_gra12_screen_2_differential": {}
+        }
+      },
+      "reference or computational": {
+        "stage-unspecified": {
+          "Pf_membrane_topology": {},
+          "Pf_interaction_structural_similarity": {},
+          "Pf_shared_orthogroup": {},
+          "Pf_shared_domain": {},
+          "Pf_interaction_degree_structural_similarity": {},
+          "Pf_domain_content": {},
+          "Pf_fold_confidence_disorder": {},
+          "Pf_conservation_breadth": {},
+          "Pf_paralogy": {},
+          "Pf_sequence_basics": {},
+          "Pf_codon_usage_translation_efficiency": {},
+          "Pf_predicted_complex_membership": {}
         }
       }
     }

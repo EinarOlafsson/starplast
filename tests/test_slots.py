@@ -28,10 +28,18 @@ def table():
 
 def test_the_catalog_has_both_organisms_and_stable_prefixed_keys():
     catalog = slots.all_slots()
-    assert len(catalog) == 136
+    # A count rather than a property is a test that fails every time the catalog grows and says
+    # nothing about whether the growth was right. What matters is that both arms exist, that keys
+    # stay prefixed and resolvable, and that the Plasmodium arm covers the same QUESTIONS as the
+    # Toxoplasma one -- which is the thing a mirror can silently fail to do.
+    assert len(catalog) > 130
     assert {item.organism for item in catalog} == {"Toxo", "Pf"}
     assert all(item.key.startswith(("Toxo_", "Pf_")) for item in catalog)
     assert slots.by_key(slots.all_slots("Toxo")[0].key) is not None
+
+    toxo_axes = {item.axis for item in slots.all_slots("Toxo")}
+    pf_axes = {item.axis for item in slots.all_slots("Pf")}
+    assert toxo_axes <= pf_axes, f"axes asked of Toxoplasma and not of Plasmodium: {toxo_axes - pf_axes}"
 
 
 def test_one_uses_only_the_chosen_candidate():

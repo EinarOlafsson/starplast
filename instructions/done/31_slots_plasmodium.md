@@ -59,7 +59,180 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**24 slots: 0 covered well, 0 partly, 0 thinly, 24 empty.**
+**127 slots: 0 covered well, 0 partly, 0 thinly, 127 empty.**
+
+### transcription
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_transcription · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_transcription · ring | ring | **-** |  |  | `` | one | — |
+| Pf_transcription · trophozoite | trophozoite | **-** |  |  | `` | one | — |
+| Pf_transcription · schizont | schizont | **-** |  |  | `` | one | — |
+| Pf_transcription · gametocyte | gametocyte | **-** |  |  | `` | one | **[Role of protein palmitoylation modification in the proliferation and gametogenesis of Plasmodium falciparum].** (Zhongguo xue xi chong bing fang zhi za zhi = Chinese journal of schistosomiasis control 2026) [42264951](https://pubmed.ncbi.nlm.nih.gov/42264951/)<br>verify assay and parasite-gene shape)<br>**Plasmodium falciparum leucine-rich repeat 5 disruption alters the transcription progression during asexual and sexual stage development.** (mSphere 2026) [42294623](https://pubmed.ncbi.nlm.nih.gov/42294623/)<br>verify assay and parasite-gene shape)<br>**Single-Cell Transcriptomics and Development of Gametocyte-Specific Molecular Markers for Avian Malaria Parasites.** (Molecular ecology resources 2026) [42409029](https://pubmed.ncbi.nlm.nih.gov/42409029/)<br>verify assay and parasite-gene shape) |
+| Pf_transcription · ookinete | ookinete | **-** |  |  | `` | one | — |
+| Pf_transcription · oocyst | oocyst | **-** |  |  | `` | one | — |
+| Pf_transcription · sporozoite | sporozoite | **-** |  |  | `` | one | — |
+| Pf_transcription · liver stage | liver stage | **-** |  |  | `` | one | **Autonomous circadian rhythms in the human hepatocyte regulate hepatic drug metabolism and inflammatory responses.** (Science advances 2024) [38657074](https://pubmed.ncbi.nlm.nih.gov/38657074/)<br>verify assay and parasite-gene shape)<br>**The novel Plasmodium berghei protein S14 is essential for sporozoite gliding motility and infectivity.** (Journal of cell science 2024) [38832798](https://pubmed.ncbi.nlm.nih.gov/38832798/)<br>verify assay and parasite-gene shape)<br>**Inhibition of Wnt signaling in primary human hepatocytes promotes Plasmodium falciparum liver stage development.** (PLoS pathogens 2025) [41428747](https://pubmed.ncbi.nlm.nih.gov/41428747/)<br>verify assay and parasite-gene shape) |
+| Pf_transcription · per cell-cycle phase | cell cycle | **-** |  |  | `` | separate | — |
+| Pf_transcription · under stress / conversion | alkaline, stress | **-** |  |  | `` | separate | — |
+| Pf_transcription · under TF or chromatin perturbation | perturbation | **-** |  |  | `` | separate | — |
+| Pf_transcription · maximum observed across stages | cross-stage summary | **-** |  |  | `` | one | — |
+| Pf_cell-cycle timing label | single-parasite atlas | **-** |  |  | `` | one | — |
+| Pf_life-cycle stage label (derived) | cross-stage derived target | **-** |  |  | `` | one | — |
+| Pf_noncoding and antisense transcription | lncRNA | **-** |  |  | `` | separate | **Genome-wide cataloging and orthology analysis of long noncoding RNA expression in three species of Anopheles mosquito.** (BMC genomics 2025) [40394474](https://pubmed.ncbi.nlm.nih.gov/40394474/)<br>verify assay and parasite-gene shape)<br>**Identification of long noncoding RNAs (lncRNAs) and co-transcriptional analysis of mRNAs and lncRNAs in transcriptomes of Anopheles gambiae.** (Frontiers in RNA research 2025) [40855856](https://pubmed.ncbi.nlm.nih.gov/40855856/)<br>verify assay and parasite-gene shape)<br>**Genome-wide discovery and phenotyping of non-coding transcripts in A. fumigatus reveals lncRNAs with a role in antifungal drug sensitivity.** (Nature communications 2026) [41673015](https://pubmed.ncbi.nlm.nih.gov/41673015/)<br>verify assay and parasite-gene shape) |
+| Pf_transcription · liver stage | hepatocyte | **-** |  |  | `` | one | **Autonomous circadian rhythms in the human hepatocyte regulate hepatic drug metabolism and inflammatory responses.** (Science advances 2024) [38657074](https://pubmed.ncbi.nlm.nih.gov/38657074/)<br>verify assay and parasite-gene shape)<br>**The novel Plasmodium berghei protein S14 is essential for sporozoite gliding motility and infectivity.** (Journal of cell science 2024) [38832798](https://pubmed.ncbi.nlm.nih.gov/38832798/)<br>verify assay and parasite-gene shape)<br>**Inhibition of Wnt signaling in primary human hepatocytes promotes Plasmodium falciparum liver stage development.** (PLoS pathogens 2025) [41428747](https://pubmed.ncbi.nlm.nih.gov/41428747/)<br>verify assay and parasite-gene shape) |
+| Pf_transcription · mosquito stages | ookinete, oocyst, sporozoite | **-** |  |  | `` | separate | **A divergent Plasmodium NEK4 acts as a key regulator driving the early events of meiosis.** (Research square 2025) [41510253](https://pubmed.ncbi.nlm.nih.gov/41510253/)<br>verify assay and parasite-gene shape)<br>**A divergent Plasmodium NEK4 acts as a key regulator driving the early events of meiosis.** (Nature communications 2026) [42120403](https://pubmed.ncbi.nlm.nih.gov/42120403/)<br>verify assay and parasite-gene shape)<br>**Transcriptome profiles of Plasmodium vivax and Anopheles dirus (Diptera: Culicidae) genes in sporozoite stage.** (Medical and veterinary entomology 2026) [42466832](https://pubmed.ncbi.nlm.nih.gov/42466832/)<br>verify assay and parasite-gene shape) |
+| Pf_transcription · gametocyte | gametocyte I-V | **-** |  |  | `` | average | **[Role of protein palmitoylation modification in the proliferation and gametogenesis of Plasmodium falciparum].** (Zhongguo xue xi chong bing fang zhi za zhi = Chinese journal of schistosomiasis control 2026) [42264951](https://pubmed.ncbi.nlm.nih.gov/42264951/)<br>verify assay and parasite-gene shape)<br>**Plasmodium falciparum leucine-rich repeat 5 disruption alters the transcription progression during asexual and sexual stage development.** (mSphere 2026) [42294623](https://pubmed.ncbi.nlm.nih.gov/42294623/)<br>verify assay and parasite-gene shape)<br>**Single-Cell Transcriptomics and Development of Gametocyte-Specific Molecular Markers for Avian Malaria Parasites.** (Molecular ecology resources 2026) [42409029](https://pubmed.ncbi.nlm.nih.gov/42409029/)<br>verify assay and parasite-gene shape) |
+| Pf_transcription · dormancy / recrudescence | artemisinin quiescence | **-** |  |  | `` | separate | **Mapping the intellectual landscape of malaria drug repurposing: a systematic analysis of the 51 most cited studies.** (Malaria journal 2026) [42374402](https://pubmed.ncbi.nlm.nih.gov/42374402/)<br>verify assay and parasite-gene shape)<br>**Sense-Antisense RNA duplexes mediate stress-responsive translational control in Plasmodium falciparum.** (RNA (New York, N.Y.) 2026) [42575702](https://pubmed.ncbi.nlm.nih.gov/42575702/)<br>verify assay and parasite-gene shape)<br>**Single-cell transcriptional changes of artemisinin-sensitive K13C580 and artemisinin-resistant K13580Y Plasmodium falciparum upon dihydroartemisinin exposure.** (Frontiers in cellular and infection microbiology 2026) [42582255](https://pubmed.ncbi.nlm.nih.gov/42582255/)<br>verify assay and parasite-gene shape) |
+
+### translation
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_translation · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
+| Pf_translation · per cell-cycle phase | cell cycle | **-** |  |  | `` | one | — |
+| Pf_translation · under stress | extracellular stress or iron | **-** |  |  | `` | separate | — |
+| Pf_translation efficiency · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
+| Pf_translation efficiency · extracellular stress | extracellular stress | **-** |  |  | `` | separate | — |
+| Pf_codon usage / translation efficiency | sequence-derived | **-** |  |  | `` | one | — |
+
+### protein abundance
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_protein abundance · asexual blood stage | asexual blood stage | **-** |  |  | `` | fill | — |
+| Pf_protein abundance · other life stages | stages | **-** |  |  | `` | separate | — |
+| Pf_protein turnover / stability · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+
+### PTM
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_phosphorylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_phosphorylation · kinase-substrate | perturbation | **-** |  |  | `` | separate | — |
+| Pf_acetylation | life stages | **-** |  |  | `` | one | — |
+| Pf_lactylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_S-nitrosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_ubiquitination / SUMOylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_glycosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_palmitoylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+
+### fitness
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_fitness · HFF in vitro | HFF | **-** |  |  | `` | one | — |
+| Pf_fitness · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_fitness · ring | ring | **-** |  |  | `` | one | — |
+| Pf_fitness · trophozoite | trophozoite | **-** |  |  | `` | one | — |
+| Pf_fitness · schizont | schizont | **-** |  |  | `` | one | — |
+| Pf_fitness · gametocyte | gametocyte | **-** |  |  | `` | one | — |
+| Pf_fitness · ookinete | ookinete | **-** |  |  | `` | one | — |
+| Pf_fitness · oocyst | oocyst | **-** |  |  | `` | one | — |
+| Pf_fitness · sporozoite | sporozoite | **-** |  |  | `` | one | — |
+| Pf_fitness · liver stage | liver stage | **-** |  |  | `` | one | **Autophagy protein Atg7 is essential for maintaining malaria parasite cellular homeostasis and organelle biogenesis.** (mBio 2025) [39714137](https://pubmed.ncbi.nlm.nih.gov/39714137/)<br>verify assay and parasite-gene shape)<br>**Cas9-expressing HC-04 hepatocytes facilitate CRISPR-based analysis of Plasmodium falciparum sporozoite-host interactions.** (PLoS genetics 2026) [42149978](https://pubmed.ncbi.nlm.nih.gov/42149978/)<br>verify assay and parasite-gene shape)<br>**Molecular and cellular characterization of Plasmodium berghei PPM9 phosphatase, an enzyme dispensable during both asexual and sexual life cycle stages.** (Scientific reports 2026) [42393261](https://pubmed.ncbi.nlm.nih.gov/42393261/)<br>verify assay and parasite-gene shape) |
+| Pf_fitness · in vivo peritoneum | mouse peritoneum | **-** |  |  | `` | one | — |
+| Pf_fitness · in vivo lung | mouse lung | **-** |  |  | `` | one | — |
+| Pf_fitness · in vivo liver | mouse liver | **-** |  |  | `` | one | — |
+| Pf_fitness · in vivo spleen | mouse spleen | **-** |  |  | `` | one | — |
+| Pf_fitness · oxidative stress | oxidant | **-** |  |  | `` | one | — |
+| Pf_fitness · hyperLOPIT-unassigned proteins | in vivo virulence | **-** |  |  | `` | separate | — |
+| Pf_fitness · targeted in vivo (Young 2019) | mouse, targeted libraries | **-** |  |  | `` | separate | — |
+| Pf_genetic interaction · delta-GRA17 | GRA17 background | **-** |  |  | `` | one | — |
+| Pf_fitness · GRA12 screen 1 in vitro | GRA12 screen 1, in vitro | **-** |  |  | `` | one | — |
+| Pf_fitness · GRA12 screen 1 in vivo | GRA12 screen 1, mouse | **-** |  |  | `` | one | — |
+| Pf_fitness · GRA12 screen 1 differential | GRA12 screen 1, in vivo vs in vitro | **-** |  |  | `` | one | — |
+| Pf_fitness · GRA12 screen 2 in vitro | GRA12 screen 2, in vitro | **-** |  |  | `` | one | — |
+| Pf_fitness · GRA12 screen 2 in vivo | GRA12 screen 2, mouse | **-** |  |  | `` | one | — |
+| Pf_fitness · GRA12 screen 2 differential | GRA12 screen 2, in vivo vs in vitro | **-** |  |  | `` | one | — |
+| Pf_stage-conversion phenotype · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_stage-conversion phenotype · ring | ring | **-** |  |  | `` | one | — |
+| Pf_stage-conversion phenotype · trophozoite | trophozoite | **-** |  |  | `` | one | — |
+| Pf_stage-conversion phenotype · schizont | schizont | **-** |  |  | `` | one | — |
+| Pf_stage-conversion phenotype · gametocyte | gametocyte | **-** |  |  | `` | one | — |
+| Pf_stage-conversion phenotype · ookinete | ookinete | **-** |  |  | `` | one | — |
+| Pf_stage-conversion phenotype · oocyst | oocyst | **-** |  |  | `` | one | — |
+| Pf_stage-conversion phenotype · sporozoite | sporozoite | **-** |  |  | `` | one | — |
+| Pf_stage-conversion phenotype · liver stage | liver stage | **-** |  |  | `` | one | — |
+| Pf_drug sensitivity | compound | **-** |  |  | `` | separate | — |
+| Pf_essentiality in a second background | second strain | **-** |  |  | `` | separate | **LAMP-coupled CRISPR-Cas12a assays: A promising new tool for molecular diagnosis of leishmaniasis.** (PLoS neglected tropical diseases 2026) [41686849](https://pubmed.ncbi.nlm.nih.gov/41686849/)<br>verify assay and parasite-gene shape)<br>**Pyrophosphate homeostasis in multiple subcellular compartments is essential in Plasmodium falciparum.** (mBio 2026) [42017676](https://pubmed.ncbi.nlm.nih.gov/42017676/)<br>verify assay and parasite-gene shape)<br>**A CRISPR-Based Mutagenesis Strategy for Examining CLAG3 Helix 44 Contribution to Malaria Parasite Nutrient Uptake Channels.** (Genes 2026) [42074580](https://pubmed.ncbi.nlm.nih.gov/42074580/)<br>verify assay and parasite-gene shape) |
+| Pf_fitness · liver stage | hepatocyte | **-** |  |  | `` | one | **Autophagy protein Atg7 is essential for maintaining malaria parasite cellular homeostasis and organelle biogenesis.** (mBio 2025) [39714137](https://pubmed.ncbi.nlm.nih.gov/39714137/)<br>verify assay and parasite-gene shape)<br>**Cas9-expressing HC-04 hepatocytes facilitate CRISPR-based analysis of Plasmodium falciparum sporozoite-host interactions.** (PLoS genetics 2026) [42149978](https://pubmed.ncbi.nlm.nih.gov/42149978/)<br>verify assay and parasite-gene shape)<br>**Molecular and cellular characterization of Plasmodium berghei PPM9 phosphatase, an enzyme dispensable during both asexual and sexual life cycle stages.** (Scientific reports 2026) [42393261](https://pubmed.ncbi.nlm.nih.gov/42393261/)<br>verify assay and parasite-gene shape) |
+| Pf_fitness · transmission | mosquito | **-** |  |  | `` | separate | **Engineered promoter system enables high-efficiency transgenic CRISPR editing in Malaria transmitting mosquito Anopheles sinensis.** (Zoological research 2026) [42457405](https://pubmed.ncbi.nlm.nih.gov/42457405/)<br>verify assay and parasite-gene shape)<br>**Molecular Characterization of Mosquito Species and Confirmation of First Record of Aedes aegypti in Buraydah City, Kingdom of Saudi Arabia.** (Vector borne and zoonotic diseases (Larchmont, N.Y.) 2026) [42461315](https://pubmed.ncbi.nlm.nih.gov/42461315/)<br>verify assay and parasite-gene shape)<br>**Pathogen diversity in mosquitoes (Diptera: Culicidae) from the Republic of Kosovo: a two-year cross-sectional study.** (New microbes and new infections 2026) [42472253](https://pubmed.ncbi.nlm.nih.gov/42472253/)<br>verify assay and parasite-gene shape) |
+
+### regulation
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_TF binding · per factor | ChIP / CUT&RUN | **-** |  |  | `` | separate | — |
+| Pf_chromatin state · asexual blood stage | asexual blood stage | **-** |  |  | `` | fill | — |
+| Pf_chromatin accessibility | stages | **-** |  |  | `` | one | — |
+| Pf_RNA modification · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
+| Pf_splicing / isoform use | stages | **-** |  |  | `` | one | — |
+| Pf_RNA stability / half-life · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_antigenic variation family expression | var / rif / stevor | **-** |  |  | `` | separate | **Plasmodium falciparum SET2 domain is allosterically regulated by its PHD-like domain to methylate at H3K36.** (Biochimica et biophysica acta. Gene regulatory mechanisms 2021) [34389510](https://pubmed.ncbi.nlm.nih.gov/34389510/)<br>verify assay and parasite-gene shape)<br>**Chromodomain Protein Interacts with H3K9me3 and Controls RBC Rosette Formation by Regulating the Expression of a Subset of RIFINs in the Malaria Parasite.** (Journal of molecular biology 2022) [35460670](https://pubmed.ncbi.nlm.nih.gov/35460670/)<br>verify assay and parasite-gene shape)<br>**The Putative Bromodomain Protein PfBDP7 of the Human Malaria Parasite Plasmodium Falciparum Cooperates With PfBDP1 in the Silencing of Variant Surface Antigen Expression.** (Frontiers in cell and developmental biology 2022) [35493110](https://pubmed.ncbi.nlm.nih.gov/35493110/)<br>verify assay and parasite-gene shape) |
+
+### localization
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_localization · measured | hyperLOPIT | **-** |  |  | `` | one | — |
+| Pf_localization · transferred | orthoLOPIT | **-** |  |  | `` | fill | — |
+| Pf_membrane topology | sequence | **-** |  |  | `` | one | — |
+| Pf_exposure to host cytosol | PVM, export | **-** |  |  | `` | fill | — |
+| Pf_secretome / excreted | ESA | **-** |  |  | `` | one | — |
+| Pf_export / PEXEL trafficking | erythrocyte cytosol | **-** |  |  | `` | one | **Plasmodium vivax cysteine-rich protective antigen (PvCyRPA), an important element for vaccine strategies targeting P. vivax, interacts with human erythrocyte surface.** (Acta tropica 2025) [41205844](https://pubmed.ncbi.nlm.nih.gov/41205844/)<br>verify assay and parasite-gene shape)<br>**RALP1 is essential for schizont maturation and erythrocyte invasion in Plasmodium falciparum.** (Parasites & vectors 2026) [41792842](https://pubmed.ncbi.nlm.nih.gov/41792842/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
+
+### relation
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_co-transcription | stage series | **-** |  |  | `` | separate | — |
+| Pf_co-translation | ribosome profiling | **-** |  |  | `` | separate | — |
+| Pf_co-fitness | seven screens | **-** |  |  | `` | separate | — |
+| Pf_interaction · crosslink MS | measured contact | **-** |  |  | `` | one | — |
+| Pf_interaction · IP-MS, parasite-parasite | pulldown | **-** |  |  | `` | fill | — |
+| Pf_interaction · proximity labelling | BioID / TurboID | **-** |  |  | `` | fill | — |
+| Pf_interaction · structural similarity | Foldseek | **-** |  |  | `` | one | — |
+| Pf_interaction · with host proteins | host IP-MS | **-** |  |  | `` | separate | — |
+| Pf_shared compartment | hyperLOPIT | **-** |  |  | `` | one | — |
+| Pf_shared orthogroup | OrthoMCL | **-** |  |  | `` | one | — |
+| Pf_shared domain | InterPro | **-** |  |  | `` | one | — |
+| Pf_interaction degree · crosslink MS | measured contact | **-** |  |  | `` | separate | — |
+| Pf_interaction degree · IP-MS | curated pulldown | **-** |  |  | `` | one | — |
+| Pf_interaction degree · structural similarity | Foldseek | **-** |  |  | `` | one | — |
+| Pf_RNA-binding protein targets | CLIP / RIP | **-** |  |  | `` | separate | **The Route of Infection Influences the Contribution of Key Immunity Genes to Antibacterial Defense in Anopheles gambiae.** (Journal of innate immunity 2021) [33207342](https://pubmed.ncbi.nlm.nih.gov/33207342/)<br>verify assay and parasite-gene shape)<br>**CLIPB4 is a central node in the protease network that regulates humoral immunity in Anopheles gambiae mosquitoes.** (bioRxiv : the preprint server for biology 2023) [37461554](https://pubmed.ncbi.nlm.nih.gov/37461554/)<br>verify assay and parasite-gene shape)<br>**CLIPB4 Is a Central Node in the Protease Network that Regulates Humoral Immunity in Anopheles gambiae Mosquitoes.** (Journal of innate immunity 2023) [37703846](https://pubmed.ncbi.nlm.nih.gov/37703846/)<br>verify assay and parasite-gene shape) |
+| Pf_predicted complex membership | AlphaFold-Multimer | **-** |  |  | `` | separate | — |
+
+### host effect
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_host interaction degree | curated parasite-host interactions | **-** |  |  | `` | one | — |
+| Pf_host transcriptional effect per effector | dual perturb-seq | **-** |  |  | `` | separate | — |
+| Pf_host receptor binding | endothelium, erythrocyte | **-** |  |  | `` | separate | **MAHRP2 is required for tether formation and cytoadherence in Plasmodium falciparum infected red blood cells.** (Frontiers in cellular and infection microbiology 2026) [42291314](https://pubmed.ncbi.nlm.nih.gov/42291314/)<br>verify assay and parasite-gene shape)<br>**Predictive value of PfEMP1 antibody profiles for the course of controlled human malaria infections.** (PLoS pathogens 2026) [42341059](https://pubmed.ncbi.nlm.nih.gov/42341059/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
+
+### NEVER a feature
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_downloaded-study membership | BioID / IP-MS corpus coverage | **-** |  |  | `` | separate | — |
+| Pf_analysis-derived structural holes | coexpression + cofitness - literature | **-** |  |  | `` | one | — |
+| Pf_assay confidence and significance | target evidence metadata | **-** |  |  | `` | one | — |
+| Pf_literature attention | PubMed / PMC | **-** |  |  | `` | one | — |
+| Pf_gene identity and annotation | ToxoDB | **-** |  |  | `` | one | — |
+
+### sequence
+
+| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
+|---|---|---|---|---|---|---|---|
+| Pf_domain content | InterPro | **-** |  |  | `` | one | — |
+| Pf_fold confidence / disorder | AlphaFold | **-** |  |  | `` | one | — |
+| Pf_conservation breadth | OrthoMCL | **-** |  |  | `` | one | — |
+| Pf_paralogy | OrthoMCL | **-** |  |  | `` | one | — |
+| Pf_sequence basics | protein | **-** |  |  | `` | one | — |
+| Pf_strain variation | population | **-** |  |  | `` | one | — |
+| Pf_field variation and resistance markers | clinical isolates | **-** |  |  | `` | one | **Genomic surveillance reveals co-occurrence of Plasmodium falciparum drug resistance variants across diverse transmission settings in Ethiopia.** (Nature microbiology 2026) [42557356](https://pubmed.ncbi.nlm.nih.gov/42557356/)<br>verify assay and parasite-gene shape)<br>**Evolutionary diversity of the pfmdr1 hinge region and association with antimalarial drug resistance mutations post ACT introduction.** (International journal for parasitology. Drugs and drug resistance 2026) [42561758](https://pubmed.ncbi.nlm.nih.gov/42561758/)<br>verify assay and parasite-gene shape)<br>**Phytochemical synergy in artemisia annua herbal tea against malaria: a systematic review of its efficacy and safety in the context of emerging Pfkelch13 resistance.** (Infectious diseases of poverty 2026) [42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/)<br>verify assay and parasite-gene shape) |
 
 ### metabolism
 
@@ -77,29 +250,6 @@ quantity were approximating on 2026-08-13.
 | Pf_resistance-conferring mutation | in vitro evolution | **-** |  |  | `` | separate | **Secondary Metabolite Profiling, In Vitro Antimicrobial Activity Evaluation, and In Vivo Acute Toxicity Assessment of Osyris quadripartita and Toddalia asiatica Leaves and Stem Bark Extracts.** (Journal of tropical medicine 2026) [42569447](https://pubmed.ncbi.nlm.nih.gov/42569447/)<br>verify assay and parasite-gene shape)<br>**Phytochemical synergy in artemisia annua herbal tea against malaria: a systematic review of its efficacy and safety in the context of emerging Pfkelch13 resistance.** (Infectious diseases of poverty 2026) [42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/)<br>verify assay and parasite-gene shape)<br>**Silybum marianum and Trigonella foenum-graecum Exhibit Moderate In Vitro Antimalarial Properties against Plasmodium knowlesi.** (Iranian journal of parasitology 2026) [42598511](https://pubmed.ncbi.nlm.nih.gov/42598511/)<br>verify assay and parasite-gene shape) |
 | Pf_target engagement / thermal shift | thermal proteome | **-** |  |  | `` | average | **Essential Oil of Symplocos chinensis (Lour.) Druce: Chemical Composition, Antioxidant Activity, and Inhibitory Effects on Acetylcholinesterase and β-Lactamase.** (Molecules (Basel, Switzerland) 2026) [42451739](https://pubmed.ncbi.nlm.nih.gov/42451739/)<br>verify assay and parasite-gene shape)<br>**Conversion of artemisinin into novel unprotected N-alkylamine-11-azaartemisinins with enhanced antimalarial activity.** (Bioorganic & medicinal chemistry letters 2026) [42486375](https://pubmed.ncbi.nlm.nih.gov/42486375/)<br>verify assay and parasite-gene shape)<br>**The biophysical characterization of recombinant glutathione transferase from Plasmodium berghei, a murine model of human malaria: Insights from empirical and computational methods.** (International journal of biological macromolecules 2026) [42537965](https://pubmed.ncbi.nlm.nih.gov/42537965/)<br>verify assay and parasite-gene shape) |
 
-### relation
-
-| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
-|---|---|---|---|---|---|---|---|
-| Pf_RNA-binding protein targets | CLIP / RIP | **-** |  |  | `` | separate | **The Route of Infection Influences the Contribution of Key Immunity Genes to Antibacterial Defense in Anopheles gambiae.** (Journal of innate immunity 2021) [33207342](https://pubmed.ncbi.nlm.nih.gov/33207342/)<br>verify assay and parasite-gene shape)<br>**CLIPB4 is a central node in the protease network that regulates humoral immunity in Anopheles gambiae mosquitoes.** (bioRxiv : the preprint server for biology 2023) [37461554](https://pubmed.ncbi.nlm.nih.gov/37461554/)<br>verify assay and parasite-gene shape)<br>**CLIPB4 Is a Central Node in the Protease Network that Regulates Humoral Immunity in Anopheles gambiae Mosquitoes.** (Journal of innate immunity 2023) [37703846](https://pubmed.ncbi.nlm.nih.gov/37703846/)<br>verify assay and parasite-gene shape) |
-| Pf_predicted complex membership | AlphaFold-Multimer | **-** |  |  | `` | separate | — |
-
-### transcription
-
-| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
-|---|---|---|---|---|---|---|---|
-| Pf_noncoding and antisense transcription | lncRNA | **-** |  |  | `` | separate | **Genome-wide cataloging and orthology analysis of long noncoding RNA expression in three species of Anopheles mosquito.** (BMC genomics 2025) [40394474](https://pubmed.ncbi.nlm.nih.gov/40394474/)<br>verify assay and parasite-gene shape)<br>**Identification of long noncoding RNAs (lncRNAs) and co-transcriptional analysis of mRNAs and lncRNAs in transcriptomes of Anopheles gambiae.** (Frontiers in RNA research 2025) [40855856](https://pubmed.ncbi.nlm.nih.gov/40855856/)<br>verify assay and parasite-gene shape)<br>**Genome-wide discovery and phenotyping of non-coding transcripts in A. fumigatus reveals lncRNAs with a role in antifungal drug sensitivity.** (Nature communications 2026) [41673015](https://pubmed.ncbi.nlm.nih.gov/41673015/)<br>verify assay and parasite-gene shape) |
-| Pf_transcription · liver stage | hepatocyte | **-** |  |  | `` | one | **Autonomous circadian rhythms in the human hepatocyte regulate hepatic drug metabolism and inflammatory responses.** (Science advances 2024) [38657074](https://pubmed.ncbi.nlm.nih.gov/38657074/)<br>verify assay and parasite-gene shape)<br>**The novel Plasmodium berghei protein S14 is essential for sporozoite gliding motility and infectivity.** (Journal of cell science 2024) [38832798](https://pubmed.ncbi.nlm.nih.gov/38832798/)<br>verify assay and parasite-gene shape)<br>**Inhibition of Wnt signaling in primary human hepatocytes promotes Plasmodium falciparum liver stage development.** (PLoS pathogens 2025) [41428747](https://pubmed.ncbi.nlm.nih.gov/41428747/)<br>verify assay and parasite-gene shape) |
-| Pf_transcription · mosquito stages | ookinete, oocyst, sporozoite | **-** |  |  | `` | separate | **A divergent Plasmodium NEK4 acts as a key regulator driving the early events of meiosis.** (Research square 2025) [41510253](https://pubmed.ncbi.nlm.nih.gov/41510253/)<br>verify assay and parasite-gene shape)<br>**A divergent Plasmodium NEK4 acts as a key regulator driving the early events of meiosis.** (Nature communications 2026) [42120403](https://pubmed.ncbi.nlm.nih.gov/42120403/)<br>verify assay and parasite-gene shape)<br>**Transcriptome profiles of Plasmodium vivax and Anopheles dirus (Diptera: Culicidae) genes in sporozoite stage.** (Medical and veterinary entomology 2026) [42466832](https://pubmed.ncbi.nlm.nih.gov/42466832/)<br>verify assay and parasite-gene shape) |
-| Pf_transcription · gametocyte | gametocyte I-V | **-** |  |  | `` | average | **[Role of protein palmitoylation modification in the proliferation and gametogenesis of Plasmodium falciparum].** (Zhongguo xue xi chong bing fang zhi za zhi = Chinese journal of schistosomiasis control 2026) [42264951](https://pubmed.ncbi.nlm.nih.gov/42264951/)<br>verify assay and parasite-gene shape)<br>**Plasmodium falciparum leucine-rich repeat 5 disruption alters the transcription progression during asexual and sexual stage development.** (mSphere 2026) [42294623](https://pubmed.ncbi.nlm.nih.gov/42294623/)<br>verify assay and parasite-gene shape)<br>**Single-Cell Transcriptomics and Development of Gametocyte-Specific Molecular Markers for Avian Malaria Parasites.** (Molecular ecology resources 2026) [42409029](https://pubmed.ncbi.nlm.nih.gov/42409029/)<br>verify assay and parasite-gene shape) |
-| Pf_transcription · dormancy / recrudescence | artemisinin quiescence | **-** |  |  | `` | separate | **Mapping the intellectual landscape of malaria drug repurposing: a systematic analysis of the 51 most cited studies.** (Malaria journal 2026) [42374402](https://pubmed.ncbi.nlm.nih.gov/42374402/)<br>verify assay and parasite-gene shape)<br>**Sense-Antisense RNA duplexes mediate stress-responsive translational control in Plasmodium falciparum.** (RNA (New York, N.Y.) 2026) [42575702](https://pubmed.ncbi.nlm.nih.gov/42575702/)<br>verify assay and parasite-gene shape)<br>**Single-cell transcriptional changes of artemisinin-sensitive K13C580 and artemisinin-resistant K13580Y Plasmodium falciparum upon dihydroartemisinin exposure.** (Frontiers in cellular and infection microbiology 2026) [42582255](https://pubmed.ncbi.nlm.nih.gov/42582255/)<br>verify assay and parasite-gene shape) |
-
-### translation
-
-| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
-|---|---|---|---|---|---|---|---|
-| Pf_codon usage / translation efficiency | sequence-derived | **-** |  |  | `` | one | — |
-
 ### immunity
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
@@ -113,44 +263,21 @@ quantity were approximating on 2026-08-13.
 |---|---|---|---|---|---|---|---|
 | Pf_invasion and egress phenotype | high-content imaging | **-** |  |  | `` | separate | **Data selection choices influence the inferred movement patterns of Plasmodium sporozoites in skin.** (bioRxiv : the preprint server for biology 2026) [42427796](https://pubmed.ncbi.nlm.nih.gov/42427796/)<br>verify assay and parasite-gene shape)<br>**VAMP3 vesicles support host protein recruitment and Plasmodium liver stage development.** (mBio 2026) [42478859](https://pubmed.ncbi.nlm.nih.gov/42478859/)<br>verify assay and parasite-gene shape)<br>**Separating Chromera velia Zoospores From Culture and Estimating Their Average Motility Speed and Lifespan.** (Bio-protocol 2026) [42516582](https://pubmed.ncbi.nlm.nih.gov/42516582/)<br>verify assay and parasite-gene shape) |
 
-### fitness
-
-| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
-|---|---|---|---|---|---|---|---|
-| Pf_essentiality in a second background | second strain | **-** |  |  | `` | separate | **LAMP-coupled CRISPR-Cas12a assays: A promising new tool for molecular diagnosis of leishmaniasis.** (PLoS neglected tropical diseases 2026) [41686849](https://pubmed.ncbi.nlm.nih.gov/41686849/)<br>verify assay and parasite-gene shape)<br>**Pyrophosphate homeostasis in multiple subcellular compartments is essential in Plasmodium falciparum.** (mBio 2026) [42017676](https://pubmed.ncbi.nlm.nih.gov/42017676/)<br>verify assay and parasite-gene shape)<br>**A CRISPR-Based Mutagenesis Strategy for Examining CLAG3 Helix 44 Contribution to Malaria Parasite Nutrient Uptake Channels.** (Genes 2026) [42074580](https://pubmed.ncbi.nlm.nih.gov/42074580/)<br>verify assay and parasite-gene shape) |
-| Pf_fitness · liver stage | hepatocyte | **-** |  |  | `` | one | **Autophagy protein Atg7 is essential for maintaining malaria parasite cellular homeostasis and organelle biogenesis.** (mBio 2025) [39714137](https://pubmed.ncbi.nlm.nih.gov/39714137/)<br>verify assay and parasite-gene shape)<br>**Cas9-expressing HC-04 hepatocytes facilitate CRISPR-based analysis of Plasmodium falciparum sporozoite-host interactions.** (PLoS genetics 2026) [42149978](https://pubmed.ncbi.nlm.nih.gov/42149978/)<br>verify assay and parasite-gene shape)<br>**Molecular and cellular characterization of Plasmodium berghei PPM9 phosphatase, an enzyme dispensable during both asexual and sexual life cycle stages.** (Scientific reports 2026) [42393261](https://pubmed.ncbi.nlm.nih.gov/42393261/)<br>verify assay and parasite-gene shape) |
-| Pf_fitness · transmission | mosquito | **-** |  |  | `` | separate | **Engineered promoter system enables high-efficiency transgenic CRISPR editing in Malaria transmitting mosquito Anopheles sinensis.** (Zoological research 2026) [42457405](https://pubmed.ncbi.nlm.nih.gov/42457405/)<br>verify assay and parasite-gene shape)<br>**Molecular Characterization of Mosquito Species and Confirmation of First Record of Aedes aegypti in Buraydah City, Kingdom of Saudi Arabia.** (Vector borne and zoonotic diseases (Larchmont, N.Y.) 2026) [42461315](https://pubmed.ncbi.nlm.nih.gov/42461315/)<br>verify assay and parasite-gene shape)<br>**Pathogen diversity in mosquitoes (Diptera: Culicidae) from the Republic of Kosovo: a two-year cross-sectional study.** (New microbes and new infections 2026) [42472253](https://pubmed.ncbi.nlm.nih.gov/42472253/)<br>verify assay and parasite-gene shape) |
-
-### regulation
-
-| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
-|---|---|---|---|---|---|---|---|
-| Pf_antigenic variation family expression | var / rif / stevor | **-** |  |  | `` | separate | **Plasmodium falciparum SET2 domain is allosterically regulated by its PHD-like domain to methylate at H3K36.** (Biochimica et biophysica acta. Gene regulatory mechanisms 2021) [34389510](https://pubmed.ncbi.nlm.nih.gov/34389510/)<br>verify assay and parasite-gene shape)<br>**Chromodomain Protein Interacts with H3K9me3 and Controls RBC Rosette Formation by Regulating the Expression of a Subset of RIFINs in the Malaria Parasite.** (Journal of molecular biology 2022) [35460670](https://pubmed.ncbi.nlm.nih.gov/35460670/)<br>verify assay and parasite-gene shape)<br>**The Putative Bromodomain Protein PfBDP7 of the Human Malaria Parasite Plasmodium Falciparum Cooperates With PfBDP1 in the Silencing of Variant Surface Antigen Expression.** (Frontiers in cell and developmental biology 2022) [35493110](https://pubmed.ncbi.nlm.nih.gov/35493110/)<br>verify assay and parasite-gene shape) |
-
-### localization
-
-| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
-|---|---|---|---|---|---|---|---|
-| Pf_export / PEXEL trafficking | erythrocyte cytosol | **-** |  |  | `` | one | **Plasmodium vivax cysteine-rich protective antigen (PvCyRPA), an important element for vaccine strategies targeting P. vivax, interacts with human erythrocyte surface.** (Acta tropica 2025) [41205844](https://pubmed.ncbi.nlm.nih.gov/41205844/)<br>verify assay and parasite-gene shape)<br>**RALP1 is essential for schizont maturation and erythrocyte invasion in Plasmodium falciparum.** (Parasites & vectors 2026) [41792842](https://pubmed.ncbi.nlm.nih.gov/41792842/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
-
-### host effect
-
-| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
-|---|---|---|---|---|---|---|---|
-| Pf_host receptor binding | endothelium, erythrocyte | **-** |  |  | `` | separate | **MAHRP2 is required for tether formation and cytoadherence in Plasmodium falciparum infected red blood cells.** (Frontiers in cellular and infection microbiology 2026) [42291314](https://pubmed.ncbi.nlm.nih.gov/42291314/)<br>verify assay and parasite-gene shape)<br>**Predictive value of PfEMP1 antibody profiles for the course of controlled human malaria infections.** (PLoS pathogens 2026) [42341059](https://pubmed.ncbi.nlm.nih.gov/42341059/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
-
-### sequence
-
-| slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
-|---|---|---|---|---|---|---|---|
-| Pf_field variation and resistance markers | clinical isolates | **-** |  |  | `` | one | **Genomic surveillance reveals co-occurrence of Plasmodium falciparum drug resistance variants across diverse transmission settings in Ethiopia.** (Nature microbiology 2026) [42557356](https://pubmed.ncbi.nlm.nih.gov/42557356/)<br>verify assay and parasite-gene shape)<br>**Evolutionary diversity of the pfmdr1 hinge region and association with antimalarial drug resistance mutations post ACT introduction.** (International journal for parasitology. Drugs and drug resistance 2026) [42561758](https://pubmed.ncbi.nlm.nih.gov/42561758/)<br>verify assay and parasite-gene shape)<br>**Phytochemical synergy in artemisia annua herbal tea against malaria: a systematic review of its efficacy and safety in the context of emerging Pfkelch13 resistance.** (Infectious diseases of poverty 2026) [42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/)<br>verify assay and parasite-gene shape) |
-
 ### One dataset, several slots
 
 Read off the table above: this is the many-to-many the mechanism has to carry, not a special case.
 
 | dataset or column family | slots it fills |
 |---|---|
+| [PMID 42264951](https://pubmed.ncbi.nlm.nih.gov/42264951/) | Pf_transcription · gametocyte |
+| [PMID 42294623](https://pubmed.ncbi.nlm.nih.gov/42294623/) | Pf_transcription · gametocyte |
+| [PMID 42409029](https://pubmed.ncbi.nlm.nih.gov/42409029/) | Pf_transcription · gametocyte |
+| [PMID 38657074](https://pubmed.ncbi.nlm.nih.gov/38657074/) | Pf_transcription · liver stage |
+| [PMID 38832798](https://pubmed.ncbi.nlm.nih.gov/38832798/) | Pf_transcription · liver stage |
+| [PMID 41428747](https://pubmed.ncbi.nlm.nih.gov/41428747/) | Pf_transcription · liver stage |
+| [PMID 39714137](https://pubmed.ncbi.nlm.nih.gov/39714137/) | Pf_fitness · liver stage |
+| [PMID 42149978](https://pubmed.ncbi.nlm.nih.gov/42149978/) | Pf_fitness · liver stage |
+| [PMID 42393261](https://pubmed.ncbi.nlm.nih.gov/42393261/) | Pf_fitness · liver stage |
 | [PMID 42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/) | Pf_field variation and resistance markers; Pf_resistance-conferring mutation |
 | [PMID 42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/) | Pf_T-cell epitope content; Pf_seroreactivity / antigenicity |
 | [PMID 42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/) | Pf_export / PEXEL trafficking; Pf_host receptor binding |

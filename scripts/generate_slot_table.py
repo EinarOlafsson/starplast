@@ -349,6 +349,54 @@ NEW_SHARED = [
     ("essentiality in a second background", "fitness", "second strain", "gene", [], "separate"),
 ]
 
+#: The life-cycle stages a Plasmodium question can be asked in. Used to MIRROR the stage-bearing
+#: Toxoplasma slots rather than to translate them, which is the only honest way to do it: a
+#: bradyzoite is not a gametocyte and a tissue cyst is not a hypnozoite, so a slot called
+#: "Pf_transcription · bradyzoite" would be a false equivalence with a plausible name. The question
+#: shape carries across ("transcription, in one stage, in this host") and the stage list does not.
+PF_STAGES = ("asexual blood stage", "ring", "trophozoite", "schizont", "gametocyte",
+             "ookinete", "oocyst", "sporozoite", "liver stage")
+
+#: Which axes are asked once per stage, and which are asked once with a default stage. Transcription
+#: and fitness are stage-resolved because that is where the data is and where the biology differs;
+#: a phosphoproteome is one question about a modification, asked in whichever stage was assayed.
+PF_STAGED_AXES = ("transcription", "fitness")
+PF_DEFAULT_STAGE = "asexual blood stage"
+
+#: Toxoplasma questions with no Plasmodium counterpart at all. Listed rather than pattern-matched,
+#: because "has no counterpart" is a judgement about biology and should be reviewable as one.
+TOXO_ONLY_CONTEXTS = ("feline", "enteric", "cyst wall", "bradyzoite checkpoint", "brain")
+
+
+def _pf_mirror(rows):
+    """The base Toxoplasma questions, asked of Plasmodium.
+
+    Generic questions are mirrored one for one. Stage-bearing ones on a stage-resolved axis are
+    re-asked once per Plasmodium stage; stage-bearing ones on any other axis are asked once, in the
+    default stage. Nothing is auto-translated -- see `PF_STAGES`.
+    """
+    stage_words = re.compile(
+        r"tachyzoite|bradyzoite|oocyst|sporozoite|merozoite|sexual|cyst|feline|enteric|brain"
+        r"|macrophage", re.I)
+    out, seen = [], set()
+    for name, axis, context, unit, patterns, policy, candidates in rows:
+        text = f"{name} {context}"
+        if any(word in text.lower() for word in TOXO_ONLY_CONTEXTS):
+            continue
+        if not stage_words.search(text):
+            out.append((name, axis, context, unit, [], policy, []))
+            continue
+        question = name.split(" · ")[0]
+        stages = PF_STAGES if axis in PF_STAGED_AXES else (PF_DEFAULT_STAGE,)
+        for stage in stages:
+            mirrored = f"{question} · {stage}"
+            if mirrored in seen:
+                continue
+            seen.add(mirrored)
+            out.append((mirrored, axis, stage, unit, [], policy, []))
+    return out
+
+
 #: Malaria-specific slots: questions with no Toxoplasma counterpart, kept out of the shared list so
 #: the shared list stays a statement about apicomplexan biology rather than a union of two lists.
 NEW_PLASMODIUM = [
@@ -740,7 +788,8 @@ def all_slots(organism: str | None = None) -> list:
     """The Toxoplasma, Plasmodium, or combined catalog with organism prefixes explicit."""
     toxo = ([_definition(row, "Toxo") for row in SLOTS]
             + [_definition(row, "Toxo") for row in NEW_SHARED + NEW_TOXOPLASMA])
-    pf = ([_definition(row, "Pf") for row in NEW_SHARED]
+    pf = ([_definition(row, "Pf") for row in _pf_mirror(SLOTS)]
+          + [_definition(row, "Pf") for row in NEW_SHARED]
           + [_definition(row, "Pf") for row in NEW_PLASMODIUM])
     out = toxo + pf
     if organism:
