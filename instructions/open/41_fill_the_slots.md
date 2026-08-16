@@ -373,3 +373,40 @@ proteome under its first framing, PXD017032 (already in the map under another na
 GSE302108 MPRA (keyed on synthetic sequences, not genes). **Four candidates were the wrong organism**
 — *Dictyostelium*, *Cryptosporidium*, *Theileria*, and *Cryptosporidium* again — each found by
 opening the file rather than by reading the title.
+
+### The seven that remain, after a second and third search pass
+
+The audit above was written after one pass and was wrong within the hour: m6A fell to a paper
+supplement. So the remaining seven were searched again, and this records what the later passes
+added rather than repeating the earlier table.
+
+| slot | second/third pass | still absent because |
+|---|---|---|
+| transcription · in IFN-gamma macrophage | PubMed all-fields, GEO organism-filtered | every hit is HOST response. The parasite's own transcriptome in an activated macrophage has not been sequenced |
+| translation · per cell-cycle phase | PubMed for polysome/ribosome + cell cycle | the 2024 single-cell atlas (PMC11358496) gives RNA peak time and ATAC per phase, and no translation |
+| protein turnover | PubMed for proteasome/degradation proteomes | the 2026 iron paper (PMC13170339) is translational remodelling, not turnover rates |
+| drug sensitivity | GEO, PRIDE, PMC | still no genome-wide chemogenomic screen |
+| resistance-conferring mutation | PubMed for in vitro evolution + sequencing | single-gene selections only (ROP1, PRELID, auranofin) |
+| invasion and egress phenotype | GEO organism-filtered, PubMed for phenotypic/secondary screens | the splitCas9 phenotypic screen (PMID 35538310) has no PMC record and no accessible table |
+| fitness · in vivo gut | GEO, PubMed | the in vivo screens are mouse; PMC13230962 is a real 309-gene in vivo screen but mouse and reference-strain, so it is a second dataset for a filled slot rather than this one |
+
+**Two of these are one dataset away and worth watching**: a splitCas9 phenotypic screen exists for
+invasion/egress but is not deposited anywhere reachable, and the in vivo screens would answer the gut
+slot if anyone ran one in a cat.
+
+**Two are unlikely to move**: no genome-wide chemogenomic screen and no pulse-SILAC proteome has been
+published for this organism at all.
+
+### What the campaign changed about the catalog itself
+
+Five slots were re-specified rather than filled, and each was a defect the emptiness had been hiding:
+
+* three metabolism slots asked gene-indexed questions about metabolites (`unit=metabolite` now);
+* `predicted complex membership` was written around AlphaFold-Multimer, a method with no Toxoplasma
+  dataset, when the question has a measured answer;
+* `protein turnover / stability` bundled two different properties behind a slash;
+* `drug sensitivity per gene` and `drug sensitivity` were one question on two axes;
+* and two new PTM categories — arginine methylation, N-myristoylation — plus thermal stability were
+  missing from the tree entirely while their data sat published.
+
+A slot that stays empty is worth re-reading as a question about the SLOT, not only about the data.
