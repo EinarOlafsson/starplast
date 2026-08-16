@@ -347,9 +347,20 @@ ASSAY_TERMS = {
 #: Slots that are new in this pass, and apply to BOTH organisms. Each is a question the 71 existing
 #: slots cannot express, and each is one somebody has actually measured at genome scale.
 NEW_SHARED = [
-    ("metabolite levels", "metabolism", "steady state", "gene", [], "separate"),
-    ("metabolic flux", "metabolism", "labelled precursor", "gene", [], "separate"),
-    ("lipid composition", "metabolism", "membrane lipids", "gene", [], "separate"),
+    # unit=metabolite, not gene, and this is a correction rather than a downgrade. A metabolite is
+    # not a gene. Nothing measures the concentration of a compound "for" a gene, and getting from one
+    # to the other needs a metabolic model to say which enzyme controls which pool -- a modelling
+    # choice that would be invented here and would produce numbers that look like measurements. So
+    # these three belong to a metabolite table that does not exist yet, exactly as the host-parasite
+    # slots belong to host tables (see 39). Counting them as empty GENE slots was overstating what
+    # was missing: they were never fillable from a table whose rows are genes.
+    #
+    # `enzyme classification` below is the metabolism question that IS gene-indexed, and it is
+    # filled.
+    ("metabolite levels", "metabolism", "steady state", "metabolite", [], "separate"),
+    ("metabolic flux", "metabolism", "labelled precursor", "metabolite", [], "separate"),
+    ("lipid composition", "metabolism", "membrane lipids", "metabolite", [], "separate"),
+    ("enzyme classification", "metabolism", "annotation", "gene", ["ec_number", "has_ec"], "one"),
     ("drug sensitivity per gene", "chemistry", "compound panel", "gene", [], "separate"),
     ("resistance-conferring mutation", "chemistry", "in vitro evolution", "gene", [], "separate"),
     ("target engagement / thermal shift", "chemistry", "thermal proteome", "gene", [], "average"),

@@ -133,7 +133,11 @@ def test_a_slot_that_is_not_measured_per_gene_cannot_be_resolved_against_the_nod
         with pytest.raises(ValueError, match="cannot be resolved"):
             slots.resolve(table(), replace(gene_slot, unit=unit))
     assert slots.RESOLVABLE_UNIT == "gene"
-    assert set(slots.UNITS) == {"gene", "host_gene", "pair", "ortholog_group"}
+    # `metabolite` joined the list when the three metabolism slots were corrected: a metabolite is
+    # not a gene, nothing measures a compound's concentration "for" a gene, and getting from one to
+    # the other needs a metabolic model. They belong to a metabolite table that does not exist yet,
+    # exactly as the host slots belong to host tables.
+    assert set(slots.UNITS) == {"gene", "host_gene", "pair", "ortholog_group", "metabolite"}
 
 
 def test_every_slot_in_the_catalog_declares_a_unit_the_code_knows():

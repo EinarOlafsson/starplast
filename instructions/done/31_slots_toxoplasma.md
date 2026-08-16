@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**116 slots: 58 covered well, 10 partly, 20 thinly, 28 empty.**
+**117 slots: 59 covered well, 10 partly, 20 thinly, 28 empty.**
 
 ### transcription
 
@@ -230,6 +230,7 @@ quantity were approximating on 2026-08-13.
 | Tg_metabolite levels | steady state | **-** |  |  | `` | separate | — |
 | Tg_metabolic flux | labelled precursor | **-** |  |  | `` | separate | — |
 | Tg_lipid composition | membrane lipids | **-** |  |  | `` | separate | — |
+| Tg_enzyme classification | annotation | **A** | 8140 | 100.0% | `ec_number, has_ec` | one | — |
 
 ### chemistry
 

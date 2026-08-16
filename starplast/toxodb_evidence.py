@@ -85,6 +85,40 @@ SOURCES = (
 )
 
 
+def enzyme_classification(base: str, resolve=None, log=print) -> pd.DataFrame:
+    """EC number per gene, and whether it has one at all.
+
+    An annotation rather than a measurement, and treated as one -- the same standing as InterPro
+    domains, which fill `domain content` on the sequence axis. What makes it worth a metabolism slot
+    is that it is the ONLY gene-indexed metabolic datum there is: every other metabolism question in
+    the catalog is about metabolites, and a metabolite is not a gene. See `slots.py` on why those
+    three slots are `unit=metabolite`.
+
+    `has_ec` is 0 for genes ToxoDB reports without an EC number, not missing: the whole proteome was
+    asked, so "no EC assigned" is an answer about the gene.
+    """
+    path = os.path.join(base, "starplast", "data", "toxodb_ec_numbers.tsv")
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    d = pd.read_csv(path, sep="\t")
+    if d.shape[1] < 2:
+        return pd.DataFrame()
+    genes = d[d.columns[0]].astype(str)
+    if resolve is not None:
+        genes = genes.map(lambda g: resolve(g) or g)
+    raw = d[d.columns[1]].astype(str).str.strip()
+    text = raw.where(~raw.isin(("N/A", "nan", "")), None)
+    out = pd.DataFrame({"ec_number": text.to_numpy(),
+                        "has_ec": text.notna().astype(float).to_numpy()},
+                       index=pd.Index(genes.to_numpy(), name="gene_id"))
+    # A gene listed twice keeps the row that HAS an annotation.
+    out = out.sort_values("has_ec", ascending=False)
+    out = out[~out.index.duplicated()]
+    log(f"enzyme classification: {int(out['has_ec'].sum()):,} of {len(out):,} genes carry an EC "
+        f"number")
+    return out
+
+
 def evidence(base: str, resolve=None, log=print) -> pd.DataFrame:
     """Every downloaded ToxoDB search report as one column each.
 

@@ -761,6 +761,20 @@ REGISTRY = [
                  "measurement in a different host context, with nothing to declare in derived_from. "
                  "It is written down here so that nobody counts the two as independent evidence when "
                  "they agree, which they mostly will."),
+    Dataset("toxodb_ec_numbers", "Enzyme classification (ToxoDB)", "reference", "annotation",
+            "EC number per gene, and whether it has one", ("ec_number", "has_ec"),
+            "1,313 enzymes of 8,140 genes", accession="ToxoDB ME49",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon"
+                "/reports/attributesTabular",
+            path="starplast/data/toxodb_ec_numbers.tsv",
+            note="An annotation rather than a measurement, with the same standing as the InterPro "
+                 "domains that fill `domain content`. It matters because it is the ONLY gene-indexed "
+                 "metabolic datum there is -- every other metabolism question in the catalog is "
+                 "about metabolites, and a metabolite is not a gene. Verified against conservation: "
+                 "enzymes have a Plasmodium ortholog 59.6% of the time against 30.4% for other "
+                 "genes (odds 3.39, p = 8e-88), are lineage-specific a third as often, and are more "
+                 "costly to lose in vitro. `has_ec` is 0 and not missing where ToxoDB reports no EC: "
+                 "the whole proteome was asked, so no assignment is an answer about the gene."),
     Dataset("toxodb_arginine_methylation", "Monomethylarginine proteome (via ToxoDB)",
             "post_translation", "proteomics",
             "Monomethylarginine sites reported per gene", ("n_arginine_methylation_sites",),

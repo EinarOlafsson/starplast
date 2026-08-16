@@ -98,9 +98,10 @@ Tg,Tg_sequence basics,sequence,protein,gene,A,8140,100.0%,"length, sequence",2 c
 Tg,Tg_strain variation,sequence,population,gene,A,8140,100.0%,snp_,5 columns,one,PMID  ToxoDB HTS SNPs (SNPs per gene across every sequenced strain),SNPs per gene across every sequenced strain
 Tg,Tg_literature attention,NEVER a feature,PubMed / PMC,gene,A,8140,100.0%,"n_publications, n_fulltext, n_papers_, attention_depth, lit_tier",7 columns,one,,
 Tg,Tg_gene identity and annotation,NEVER a feature,ToxoDB,gene,A,8140,100.0%,"gene_id, product",2 columns,one,,
-Tg,Tg_metabolite levels,metabolism,steady state,gene,-,0,,,,separate,,
-Tg,Tg_metabolic flux,metabolism,labelled precursor,gene,-,0,,,,separate,,
-Tg,Tg_lipid composition,metabolism,membrane lipids,gene,-,0,,,,separate,,
+Tg,Tg_metabolite levels,metabolism,steady state,metabolite,-,0,,,,separate,,
+Tg,Tg_metabolic flux,metabolism,labelled precursor,metabolite,-,0,,,,separate,,
+Tg,Tg_lipid composition,metabolism,membrane lipids,metabolite,-,0,,,,separate,,
+Tg,Tg_enzyme classification,metabolism,annotation,gene,A,8140,100.0%,"ec_number, has_ec",2 columns,one,,
 Tg,Tg_drug sensitivity per gene,chemistry,compound panel,gene,-,0,,,,separate,,
 Tg,Tg_resistance-conferring mutation,chemistry,in vitro evolution,gene,-,0,,,,separate,,
 Tg,Tg_target engagement / thermal shift,chemistry,thermal proteome,gene,-,0,,,,average,,

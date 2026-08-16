@@ -206,3 +206,60 @@ def test_arginine_methylation_lands_on_rna_binding_proteins():
     odds, p = fisher_exact([[(methylated & binding).sum(), (methylated & ~binding).sum()],
                             [((~methylated) & binding).sum(), ((~methylated) & ~binding).sum()]])
     assert odds > 2.0 and p < 0.01, f"odds {odds:.2f}, p {p:.2e}"
+
+
+def test_enzyme_classification_reads_the_report(tmp_path):
+    data = tmp_path / "starplast" / "data"
+    data.mkdir(parents=True)
+    (data / "toxodb_ec_numbers.tsv").write_text(
+        "Gene ID\tEC numbers\nTGME49_200010\t3.4.21.105 (Rhomboid)\nTGME49_200020\tN/A\n")
+    out = TE.enzyme_classification(str(tmp_path), log=lambda *_: None)
+    assert out.loc["TGME49_200010", "has_ec"] == 1
+    assert out.loc["TGME49_200020", "has_ec"] == 0
+    assert pd.isna(out.loc["TGME49_200020", "ec_number"])
+
+
+def test_a_gene_listed_twice_keeps_the_annotated_row(tmp_path):
+    data = tmp_path / "starplast" / "data"
+    data.mkdir(parents=True)
+    (data / "toxodb_ec_numbers.tsv").write_text(
+        "Gene ID\tEC numbers\nTGME49_200010\tN/A\nTGME49_200010\t1.1.1.1\n")
+    out = TE.enzyme_classification(str(tmp_path), log=lambda *_: None)
+    assert out.loc["TGME49_200010", "has_ec"] == 1
+
+
+def test_enzyme_accessions_go_through_the_identity_layer(tmp_path):
+    data = tmp_path / "starplast" / "data"
+    data.mkdir(parents=True)
+    (data / "toxodb_ec_numbers.tsv").write_text("Gene ID\tEC numbers\nTGGT1_100010\t1.1.1.1\n")
+    out = TE.enzyme_classification(str(tmp_path), log=lambda *_: None,
+                                   resolve=lambda g: {"TGGT1_100010": "TGME49_200010"}.get(g))
+    assert list(out.index) == ["TGME49_200010"]
+
+
+def test_no_ec_report_yields_nothing(tmp_path):
+    assert TE.enzyme_classification(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_a_one_column_ec_report_is_refused(tmp_path):
+    data = tmp_path / "starplast" / "data"
+    data.mkdir(parents=True)
+    (data / "toxodb_ec_numbers.tsv").write_text("Gene ID\nTGME49_200010\n")
+    assert TE.enzyme_classification(str(tmp_path), log=lambda *_: None).empty
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_enzymes_are_the_conserved_half_of_the_proteome():
+    """Metabolism is old. An EC-carrying gene should have a Plasmodium ortholog far more often than
+    a gene without one, and should be lineage-specific far less often."""
+    from scipy.stats import fisher_exact
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "has_ec" not in n.columns or "has_pf_ortholog" not in n.columns:
+        pytest.skip("EC or orthology column not present")
+    has = n["has_ec"] == 1
+    a = n.loc[has, "has_pf_ortholog"].dropna()
+    b = n.loc[~has, "has_pf_ortholog"].dropna()
+    odds, p = fisher_exact([[a.sum(), len(a) - a.sum()], [b.sum(), len(b) - b.sum()]])
+    assert odds > 2.0 and p < 1e-20, f"odds {odds:.2f}, p {p:.1e}"

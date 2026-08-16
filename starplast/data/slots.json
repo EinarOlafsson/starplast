@@ -3199,7 +3199,7 @@
     "name": "metabolite levels",
     "axis": "metabolism",
     "context": "steady state",
-    "unit": "gene",
+    "unit": "metabolite",
     "patterns": [],
     "policy": "separate",
     "candidates": [],
@@ -3224,7 +3224,7 @@
     "name": "metabolic flux",
     "axis": "metabolism",
     "context": "labelled precursor",
-    "unit": "gene",
+    "unit": "metabolite",
     "patterns": [],
     "policy": "separate",
     "candidates": [],
@@ -3249,7 +3249,7 @@
     "name": "lipid composition",
     "axis": "metabolism",
     "context": "membrane lipids",
-    "unit": "gene",
+    "unit": "metabolite",
     "patterns": [],
     "policy": "separate",
     "candidates": [],
@@ -3266,6 +3266,34 @@
       "stage-unspecified"
     ],
     "target_family": "lipid_composition",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "enzyme classification",
+    "axis": "metabolism",
+    "context": "annotation",
+    "unit": "gene",
+    "patterns": [
+      "ec_number",
+      "has_ec"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "metabolism",
+      "metabolite or flux"
+    ],
+    "biology_path": [
+      "metabolism"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "enzyme_classification",
     "target_columns": [],
     "role": "feature"
   },
@@ -5611,7 +5639,7 @@
     "name": "metabolite levels",
     "axis": "metabolism",
     "context": "steady state",
-    "unit": "gene",
+    "unit": "metabolite",
     "patterns": [],
     "policy": "separate",
     "candidates": [
@@ -5652,7 +5680,7 @@
     "name": "metabolic flux",
     "axis": "metabolism",
     "context": "labelled precursor",
-    "unit": "gene",
+    "unit": "metabolite",
     "patterns": [],
     "policy": "separate",
     "candidates": [
@@ -5693,7 +5721,7 @@
     "name": "lipid composition",
     "axis": "metabolism",
     "context": "membrane lipids",
-    "unit": "gene",
+    "unit": "metabolite",
     "patterns": [],
     "policy": "separate",
     "candidates": [
@@ -5726,6 +5754,31 @@
       "stage-unspecified"
     ],
     "target_family": "lipid_composition",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "enzyme classification",
+    "axis": "metabolism",
+    "context": "annotation",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "metabolism",
+      "metabolite or flux"
+    ],
+    "biology_path": [
+      "metabolism"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "enzyme_classification",
     "target_columns": [],
     "role": "feature"
   },

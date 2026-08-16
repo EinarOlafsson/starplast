@@ -131,7 +131,9 @@ def load_nodes() -> pd.DataFrame:
                   codons.codon_usage(BASE, resolve=resolve, log=log),
                   chromatin.chromatin_signals(BASE, resolve=resolve, log=log),
                   palmitome.palmitome(BASE, resolve=resolve, log=log),
-                  toxodb_evidence.evidence(BASE, resolve=resolve, log=log)):
+                  toxodb_evidence.evidence(BASE, resolve=resolve, log=log),
+                  toxodb_evidence.enzyme_classification(BASE, resolve=resolve,
+                                                        log=log)):
         if table.empty:
             continue
         aligned = table.reindex(pd.Index(n.gene_id.astype(str)))

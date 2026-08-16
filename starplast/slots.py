@@ -32,7 +32,7 @@ POLICIES = ("one", "average", "fill", "separate")
 #: ortholog_group -- one orthology group across parasite species. The bridge that carries a
 #:                   measurement from one species to another, and the one that must never be
 #:                   mistaken for a measurement in the receiving species.
-UNITS = ("gene", "host_gene", "pair", "ortholog_group")
+UNITS = ("gene", "host_gene", "pair", "ortholog_group", "metabolite")
 
 #: The unit whose rows are the node table's rows.
 RESOLVABLE_UNIT = "gene"

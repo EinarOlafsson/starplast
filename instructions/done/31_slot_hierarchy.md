@@ -80,6 +80,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - Tg_metabolite_levels
       - Tg_metabolic_flux
       - Tg_lipid_composition
+      - Tg_enzyme_classification
 - metadata and derived outputs
   - derived target labels
     - life-cycle stage
@@ -301,6 +302,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
   - Tg_metabolite_levels
   - Tg_metabolic_flux
   - Tg_lipid_composition
+  - Tg_enzyme_classification
 - host recognition
   - Tg_seroreactivity_antigenicity
   - Tg_t_cell_epitope_content
@@ -386,6 +388,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_metabolite_levels
     - Tg_metabolic_flux
     - Tg_lipid_composition
+    - Tg_enzyme_classification
     - Tg_drug_sensitivity_per_gene
     - Tg_resistance_conferring_mutation
     - Tg_target_engagement_thermal_shift

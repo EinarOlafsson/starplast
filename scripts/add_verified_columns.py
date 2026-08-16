@@ -58,7 +58,9 @@ def main(argv=None) -> int:
                   codons.codon_usage(args.base, resolve=resolve, log=print),
                   chromatin.chromatin_signals(args.base, resolve=resolve, log=print),
                   palmitome.palmitome(args.base, resolve=resolve, log=print),
-                  toxodb_evidence.evidence(args.base, resolve=resolve, log=print)):
+                  toxodb_evidence.evidence(args.base, resolve=resolve, log=print),
+                  toxodb_evidence.enzyme_classification(args.base, resolve=resolve,
+                                                        log=print)):
         if table.empty:
             continue
         aligned = table.reindex(pd.Index(ids))
