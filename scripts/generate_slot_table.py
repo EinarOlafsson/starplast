@@ -761,7 +761,11 @@ SLOTS = [
       ("21179246", "GSE22100", "GCN5-A under alkaline stress")]),
     ("chromatin accessibility", "regulation", "stages", "gene", ["atac_promoter_"], "one",
      [("38093015", "PRJNA921935", "pre-sexual stages")]),
-    ("RNA modification · m6A / 5mC", "regulation", "tachyzoite", "gene", [], "separate",
+    # Peaks called by the authors from MeRIP, which GEO does not carry as a processed table -- its
+    # deposit for this study is depletion RNA-seq, a different question. Found in the paper's
+    # supplement AFTER this slot had been written up as unservable.
+    ("RNA modification · m6A / 5mC", "regulation", "tachyzoite", "gene", ["n_m6a_peaks"],
+     "separate",
      [("34263725", "GSE168155", "m6A reader and polyadenylation"),
       ("40830525", "GSE294543", "5mC methylome across lineages")]),
     # Novel TALON transcript models per gene from long reads. Its power is in PRESENCE rather than

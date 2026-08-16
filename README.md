@@ -158,6 +158,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Single-parasite transcriptional atlas (cell cycle) | Measured cell-cycle phase per gene, and pseudotime cluster | 873 genes phased, 7,499 clustered | Xue Y et al. eLife 2020;9:e54129; PMID [32065584](https://pubmed.ncbi.nlm.nih.gov/32065584/) |
 | Stage transcriptome | Tachyzoite, day 3/5/7, in vivo tissue cyst (12 columns) | 7,739 (95.1%) | `GSE108740` |
 | Synchronized tachyzoite cell-cycle transcriptome | Two replicates across blocked, asynchronous and hourly release states | measured at build time | Behnke MS et al., Coordinated progression through two subtranscriptomes underlies the tachyzoite cycle of Toxoplasma gondii. PLoS ONE 2010;5:e12354; PMID [20865045](https://pubmed.ncbi.nlm.nih.gov/20865045/); `GSE19092` |
+| m6A methylome (MeRIP peaks) | How many m6A peaks the authors called on this gene in tachyzoites | 837 genes (10%) | PMID [34324585](https://pubmed.ncbi.nlm.nih.gov/34324585/); `PLoS Pathogens 1009335 Table S3A` |
 | mRNA stability after actinomycin D | Proportion of transcript remaining after five hours of transcription block | 412 genes | PMID [39899594](https://pubmed.ncbi.nlm.nih.gov/39899594/); `PLoS Pathogens 1012857 Table S12` |
 
 ### Translation — protein abundance

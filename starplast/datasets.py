@@ -995,6 +995,21 @@ REGISTRY = [
                  "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
                  "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
                  "sit below the genome median of -0.38."),
+    Dataset("m6a_peaks", "m6A methylome (MeRIP peaks)", "transcription", "MeRIP",
+            "How many m6A peaks the authors called on this gene in tachyzoites",
+            ("n_m6a_peaks",), "837 genes (10%)", pmid="34324585",
+            accession="PLoS Pathogens 1009335 Table S3A",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8354455/supplementaryFiles",
+            path="starplast/data/m6a_peaks.tsv",
+            note="GEO carries no MeRIP for Toxoplasma -- its deposit for this study is depletion "
+                 "RNA-seq, which says which transcripts DEPEND on m6A and not which CARRY it. The "
+                 "peaks are in the paper. This slot had already been written up as unservable in "
+                 "instruction 41 when the supplement turned up, and that entry is now struck "
+                 "through rather than deleted. 866 of 8,922 genes carry a peak, which is the right "
+                 "order for m6A. Verified against the paper's own second dataset: marked genes are "
+                 "enriched among those responding to METTL3 depletion, odds 1.35, p = 2e-03 -- "
+                 "modest because removing a writer has broad indirect effects, but the direction a "
+                 "writer's own substrates have to take."),
     Dataset("sexual_stages", "Sexual development in the cat (single-cell atlas)", "transcription",
             "scRNAseq", "Enrichment at 8 days post-infection, when gametogony happens",
             ("sexual_stage_8dpi_log2fc",), "4,463 genes (55%)", pmid="41929010",
