@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Add the verified mass-spectrometry columns to the cached node table.
+"""Add newly verified columns to the cached node table.
 
-`build_graph` is the proper home for this and it needs the upstream `toxonet` interim tables, which
-are not on every machine that has the cache. So this does the one merge on its own: read the node
-table, ask `proteomics.load_all` for its columns, write them back.
+`build_graph` is the proper home for these and it needs the upstream `toxonet` interim tables, which
+are not on every machine that has the cache. So this does the merge on its own: read the node table,
+ask each source for its columns, write them back. Every source here is also in `build_graph`'s own
+loader list, so a full rebuild produces the same table -- this is a shortcut, not a second pipeline.
 
 Idempotent by construction -- a column is recomputed from the deposit each time rather than appended
 -- so running it twice is running it once. It prints the coverage of every column it writes, because
@@ -19,7 +20,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from starplast import proteomics  # noqa: E402
+from starplast import expression, identity, proteomics  # noqa: E402
 
 
 def main(argv=None) -> int:
@@ -32,7 +33,30 @@ def main(argv=None) -> int:
 
     nodes = pd.read_parquet(args.nodes)
     before = nodes.shape[1]
-    columns = proteomics.load_all(args.base, nodes.gene_id.astype(str), log=print)
+    ids = nodes.gene_id.astype(str)
+    columns = proteomics.load_all(args.base, ids, log=print)
+
+    # Accessions in a deposit are whatever was current when it was submitted, so they go through the
+    # identity layer rather than being matched as strings -- the same routing build_graph uses, and
+    # the reason a table of TGGT1_ ids joins anything at all.
+    data = os.path.join(args.base, "starplast", "data")
+    ix = identity.build_index(ids, os.path.join(data, "toxodb_identity.tsv"),
+                              log=lambda *a: None)
+    identity.add_strain_accessions(
+        ix, {"GT1": os.path.join(data, "toxodb_strain_gt1.tsv"),
+             "VEG": os.path.join(data, "toxodb_strain_veg.tsv")}, log=lambda *a: None)
+
+    def resolve(acc):
+        hit = ix.lookup.get(identity.norm(acc))
+        return hit[0] if hit else None
+
+    ribo = expression.gse245775_differentiation_ribosome_profiling(
+        args.base, resolve=resolve, log=print)
+    if not ribo.empty:
+        aligned = ribo.reindex(pd.Index(ids))
+        for column in ribo.columns:
+            columns[column] = aligned[column].to_numpy()
+
     if columns.empty:
         print("no verified deposits found; nothing to add")
         return 1

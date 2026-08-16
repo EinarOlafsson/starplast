@@ -122,6 +122,12 @@ GSE200962_COLUMNS = tuple(f"restriction200962_{name}" for name in (
     "kk23_p5w_ph8_2_s12", "kk24_p5w_ph8_2_s11", "kk5_p2wo_ph7_4_s6",
     "kk6_p2wo_ph7_4_s19", "kk7_p2w_ph7_4_s14", "kk8_p2w_ph7_4_s23",
 ))
+GSE245775_COLUMNS = tuple(
+    f"{assay}245775_{context}_r{rep}"
+    for assay in ("rpf", "rna", "te")
+    for context in ("parent_tachy", "parent_prebrady", "eif12ko_tachy", "eif12ko_prebrady")
+    for rep in (1, 2, 3)
+)
 GSE25388_COLUMNS = ("fit_hyperlopit_unassigned_invivo_lib1",
                     "fit_hyperlopit_unassigned_invivo_lib2")
 INVIVO_BRAIN_COLUMNS = (
@@ -618,6 +624,21 @@ REGISTRY = [
             note="A biased subset: only what publishers deposited open access. ASSEMBLED HERE: for "
                  "each PMID in the pubmed corpus that has a PMCID, fetch the JATS from the URL "
                  "above. Machine-local by size, which is why the built cache is what ships."),
+
+    Dataset("gse245775", "Differentiation ribosome profiling (eIF1.2)", "translation", "RiboSeq",
+            "RPF and RNA counts, and their ratio, in tachyzoites and pre-bradyzoites",
+            GSE245775_COLUMNS, "7,880 genes (97%)", pmid="38782906", accession="GSE245775",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE245nnn/GSE245775/suppl/"
+                "GSE245775_RAW.tar",
+            path="datasets/quarantine/2026_08_16_unverified/Tg/stage_conversion_phenotype/",
+            note="The `prebrady` arms are 48 hours in RPMI pH 8.3 at ambient CO2, which the "
+                 "submitters label `cell type: pre-bradyzoites`. Named for that and not for "
+                 "`bradyzoite`: these are not tissue cysts. Verified by reproducing the paper's own "
+                 "result from the counts -- BFD1 rises 3.6 log2 on conversion in the parental line "
+                 "and 2.6 in the knockout, and BFD2 rises 1.4 and 0.1, so the knockout's failure to "
+                 "induce BFD2 is visible in the column itself. LDH2, BAG1 and SRS also rise on "
+                 "conversion, which is what confirms the arms are not swapped. Reached the map "
+                 "proposed for `stage-conversion phenotype`, which it is not."),
 
     # ------------------------------------------------------------------ PRIDE deposits
     # Counted from the submitters' own search output by `proteomics.deposit_counts`, never from the

@@ -31,6 +31,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - Tg_transcription_bradyzoite_checkpoint_perturbation
       - Tg_transcription_maximum_observed_across_stages
       - Tg_cell_cycle_timing_label
+      - Tg_transcription_under_initiation_factor_depletion
       - Tg_noncoding_and_antisense_transcription
       - Tg_transcription_in_vivo_enteric
   - translation
@@ -41,6 +42,8 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - Tg_translation_under_stress
       - Tg_translation_efficiency_tachyzoite
       - Tg_translation_efficiency_extracellular_stress
+      - Tg_translation_efficiency_bradyzoite
+      - Tg_translation_under_initiation_factor_depletion
       - Tg_codon_usage_translation_efficiency
   - protein
     - abundance
@@ -185,6 +188,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_transcription_maximum_observed_across_stages
     - Tg_cell_cycle_timing_label
     - Tg_life_cycle_stage_label_derived
+    - Tg_transcription_under_initiation_factor_depletion
     - Tg_noncoding_and_antisense_transcription
     - Tg_transcription_in_vivo_enteric
   - protein synthesis
@@ -194,6 +198,8 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_translation_under_stress
     - Tg_translation_efficiency_tachyzoite
     - Tg_translation_efficiency_extracellular_stress
+    - Tg_translation_efficiency_bradyzoite
+    - Tg_translation_under_initiation_factor_depletion
     - Tg_codon_usage_translation_efficiency
   - protein abundance
     - Tg_protein_abundance_tachyzoite
@@ -307,6 +313,8 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_transcription_bradyzoite_checkpoint_perturbation
     - Tg_translation_tachyzoite
     - Tg_translation_efficiency_tachyzoite
+    - Tg_translation_under_initiation_factor_depletion
+    - Tg_transcription_under_initiation_factor_depletion
     - Tg_protein_abundance_tachyzoite
     - Tg_protein_turnover_stability
     - Tg_phosphorylation_site_count
@@ -322,6 +330,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
   - bradyzoite
     - Tg_transcription_bradyzoite_tissue_cyst
     - Tg_translation_bradyzoite
+    - Tg_translation_efficiency_bradyzoite
     - Tg_stage_conversion_phenotype
     - Tg_cyst_wall_composition
   - oocyst

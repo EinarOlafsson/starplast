@@ -12,7 +12,8 @@
       "rna22258_tachyzoite",
       "rna99395_intracellular_",
       "rna129869_",
-      "rna51780_tachy_"
+      "rna51780_tachy_",
+      "rna245775_parent_tachy_"
     ],
     "policy": "one",
     "candidates": [],
@@ -397,10 +398,17 @@
     "context": "alkaline, stress",
     "unit": "gene",
     "patterns": [
-      "stress_"
+      "stress_",
+      "rna245775_parent_prebrady_"
     ],
     "policy": "separate",
-    "candidates": [],
+    "candidates": [
+      [
+        "38782906",
+        "GSE245775",
+        "RNA matched to pre-bradyzoite ribosome profiling"
+      ]
+    ],
     "evidence_path": [
       "molecular measurements",
       "RNA",
@@ -672,7 +680,8 @@
     "unit": "gene",
     "patterns": [
       "rpf99395_intracellular_",
-      "rpf129869_"
+      "rpf129869_",
+      "rpf245775_parent_tachy_"
     ],
     "policy": "separate",
     "candidates": [
@@ -713,9 +722,11 @@
     "organism": "Tg",
     "name": "translation · bradyzoite",
     "axis": "translation",
-    "context": "bradyzoite",
+    "context": "pre-bradyzoite, alkaline-induced",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "rpf245775_parent_prebrady_"
+    ],
     "policy": "one",
     "candidates": [
       [
@@ -814,7 +825,8 @@
     "unit": "gene",
     "patterns": [
       "te99395_intracellular_",
-      "te129869_"
+      "te129869_",
+      "te245775_parent_tachy_"
     ],
     "policy": "separate",
     "candidates": [
@@ -877,6 +889,109 @@
       "stage-unspecified"
     ],
     "target_family": "translation_efficiency_extracellular_stress",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "translation efficiency · bradyzoite",
+    "axis": "translation",
+    "context": "pre-bradyzoite, alkaline-induced",
+    "unit": "gene",
+    "patterns": [
+      "te245775_parent_prebrady_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "38782906",
+        "GSE245775",
+        "RPF relative to matched RNA under conversion"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "bradyzoite"
+    ],
+    "target_family": "translation_efficiency_bradyzoite",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "translation · under initiation-factor depletion",
+    "axis": "translation",
+    "context": "eIF1.2 knockout, tachyzoite and pre-bradyzoite",
+    "unit": "gene",
+    "patterns": [
+      "rpf245775_eif12ko_",
+      "te245775_eif12ko_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "38782906",
+        "GSE245775",
+        "delta-eIF1.2 ribosome profiling"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "translation_under_initiation_factor_depletion",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "transcription · under initiation-factor depletion",
+    "axis": "transcription",
+    "context": "eIF1.2 knockout, tachyzoite and pre-bradyzoite",
+    "unit": "gene",
+    "patterns": [
+      "rna245775_eif12ko_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "38782906",
+        "GSE245775",
+        "RNA matched to delta-eIF1.2 ribosome profiling"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "transcription_under_initiation_factor_depletion",
     "target_columns": [],
     "role": "feature"
   },

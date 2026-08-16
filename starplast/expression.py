@@ -502,8 +502,83 @@ def oocyst_itraq(base: str, resolve=None, log=print) -> pd.DataFrame:
     return X
 
 
+#: The four arms of GSE245775, keyed by what the SUBMITTERS called each sample. `stress` is their
+#: word for RPMI pH 8.3 at ambient CO2 for 48 hours, and the sample characteristics call those
+#: parasites `cell type: pre-bradyzoites` -- so that is what the column is named. Not `bradyzoite`:
+#: a 48-hour alkaline-induced pre-bradyzoite is not a tissue cyst, and naming it one would let the
+#: column answer a question about chronic infection that it cannot.
+GSE245775_ARMS = {
+    ("parental", "tachyzoite"): "parent_tachy",
+    ("parental", "stress"): "parent_prebrady",
+    ("eIF1-2-KO", "tachyzoite"): "eif12ko_tachy",
+    ("eIF1-2-KO", "stress"): "eif12ko_prebrady",
+}
+
+
+def gse245775_differentiation_ribosome_profiling(base: str, resolve=None,
+                                                 log=print) -> pd.DataFrame:
+    """GSE245775: RPF and RNA counts for tachyzoites and alkaline-induced pre-bradyzoites.
+
+    Both in the parental line and in an eIF1.2 knockout -- the initiation factor whose loss blocks
+    differentiation. The pre-bradyzoite RPF columns are the only ribosome profiling in the map taken
+    under conversion, which is what makes this series worth reading despite being a knockout study.
+
+    Which archive member is which sample comes from the series matrix. The file names here happen to
+    be descriptive (`GSM7848805_parent_tachy_riboseq_rep1_counts.tabular.txt.gz`) and that is exactly
+    the trap: trusting them works until a submitter abbreviates one, and the GSM accession is stated
+    outright a few lines away.
+    """
+    p = os.path.join(base, "datasets", "quarantine", "2026_08_16_unverified", "Tg",
+                     "stage_conversion_phenotype", "GSE245775_RAW.tar")
+    matrix = p.replace("_RAW.tar", "_series_matrix.txt.gz")
+    if not os.path.exists(p) or not os.path.exists(matrix):
+        return pd.DataFrame()
+    with gzip.open(matrix, "rt", errors="replace") as fh:
+        text = fh.read(500_000)
+    names = re.search(r"!Sample_title\t(.*)", text)
+    accessions = re.search(r"!Sample_geo_accession\t(.*)", text)
+    if not (names and accessions):
+        return pd.DataFrame()
+    by_gsm = dict(zip([v.strip().strip('"') for v in accessions.group(1).split("\t")],
+                      [v.strip().strip('"') for v in names.group(1).split("\t")]))
+
+    series = []
+    with tarfile.open(p) as archive:
+        for name in archive.getnames():
+            gsm = re.match(r"(GSM\d+)_", os.path.basename(name))
+            title = by_gsm.get(gsm.group(1)) if gsm else None
+            if not title:
+                continue
+            parts = re.match(r"(parental|eIF1-2-KO)_(tachyzoite|stress)_(RIBOseq|RNAseq)_rep(\d+)",
+                             title)
+            if not parts:
+                continue
+            context = GSE245775_ARMS[(parts.group(1), parts.group(2))]
+            assay = "rpf" if parts.group(3) == "RIBOseq" else "rna"
+            column = f"{assay}245775_{context}_r{parts.group(4)}"
+            member = archive.extractfile(name)
+            if member is None:
+                continue
+            with gzip.GzipFile(fileobj=io.BytesIO(member.read())) as fh:
+                d = pd.read_csv(fh, sep="\t", header=None, names=("gene", "count"))
+            series.append(_collapse(
+                pd.DataFrame({column: pd.to_numeric(d["count"], errors="coerce")}),
+                _resolve(d["gene"], resolve)))
+    if not series:
+        return pd.DataFrame()
+    X = normalize(pd.concat(series, axis=1), "counts", log=lambda *a: None)
+    for context in GSE245775_ARMS.values():
+        for rep in (1, 2, 3):
+            rpf, rna = f"rpf245775_{context}_r{rep}", f"rna245775_{context}_r{rep}"
+            if rpf in X and rna in X:
+                X[f"te245775_{context}_r{rep}"] = X[rpf] - X[rna]
+    log(f"differentiation ribosome profiling (GSE245775): {X.shape[1]} columns, {len(X):,} genes")
+    return X
+
+
 LOADERS = (invivo_brain, stress_induction, gse22258_stage, neuronal_differentiation,
            gse99395_ribosome_profiling, gse129869_host_context_ribosome_profiling,
+           gse245775_differentiation_ribosome_profiling,
            gse19092_cell_cycle, gse51780_merozoite,
            gse168155_rna_processing_perturbation, gse200962_restriction_checkpoint,
            morc_depletion, total_proteome, phosphosites, oocyst_itraq)

@@ -478,7 +478,8 @@ SLOTS = [
     # ---------------------------------------------------------------- transcription
     ("transcription · tachyzoite", "transcription", "tachyzoite, in vitro", "gene",
      ["expr_tachy", "rna108740_Tachyzoites", "invivo_TZ_", "rna22258_tachyzoite",
-      "rna99395_intracellular_", "rna129869_", "rna51780_tachy_"], "one",
+      "rna99395_intracellular_", "rna129869_", "rna51780_tachy_", "rna245775_parent_tachy_"],
+     "one",
      []),
     ("transcription · bradyzoite / tissue cyst", "transcription", "bradyzoite", "gene",
      ["expr_cyst", "rna108740_Tissue_cysts", "rna108740_Day", "rna22258_bradyzoite"], "average",
@@ -509,7 +510,8 @@ SLOTS = [
     ("transcription · primary brain-cell differentiation time course", "transcription",
      "infected primary brain cells, day 1-14", "gene", ["brain168465_"], "separate", []),
     ("transcription · under stress / conversion", "transcription", "alkaline, stress", "gene",
-     ["stress_"], "separate", []),
+     ["stress_", "rna245775_parent_prebrady_"], "separate",
+     [("38782906", "GSE245775", "RNA matched to pre-bradyzoite ribosome profiling")]),
     ("transcription · extracellular lytic stress", "transcription",
      "extracellular tachyzoite", "gene", ["rna99395_extracellular_"], "separate",
      [("29228904", "GSE99395", "matched RNA for extracellular ribosome profiling")]),
@@ -533,11 +535,16 @@ SLOTS = [
 
     # ---------------------------------------------------------------- translation
     ("translation · tachyzoite", "translation", "tachyzoite, in vitro", "gene",
-     ["rpf99395_intracellular_", "rpf129869_"], "separate",
+     ["rpf99395_intracellular_", "rpf129869_", "rpf245775_parent_tachy_"], "separate",
      [("29228904", "GSE99395", "comparative ribosome profiling"),
       ("31167946", "GSE129869", "infected confluent/subconfluent HFFs"),
       ("38782906", "GSE245775", "eIF1.2 and stage conversion")]),
-    ("translation · bradyzoite", "translation", "bradyzoite", "gene", [], "one",
+    # Filled with 48-hour alkaline-induced PRE-bradyzoites, which is the submitters' own label for
+    # these samples (`cell type: pre-bradyzoites`, RPMI pH 8.3, ambient CO2) and not a tissue cyst.
+    # It is the only ribosome profiling published under conversion; the caveat lives here so that
+    # anyone reading a result off this slot reads the caveat with it.
+    ("translation · bradyzoite", "translation", "pre-bradyzoite, alkaline-induced", "gene",
+     ["rpf245775_parent_prebrady_"], "one",
      [("38782906", "GSE245775", "eIF1.2 and stage conversion")]),
     ("translation · per cell-cycle phase", "translation", "cell cycle", "gene", [], "one", []),
     ("translation · under stress", "translation", "extracellular stress or iron", "gene",
@@ -545,12 +552,30 @@ SLOTS = [
      [("29228904", "GSE99395", "extracellular versus intracellular parasites"),
       ("41925342", "", "translational remodelling under iron starvation, 2026")]),
     ("translation efficiency · tachyzoite", "translation", "tachyzoite, in vitro", "gene",
-     ["te99395_intracellular_", "te129869_"], "separate",
+     ["te99395_intracellular_", "te129869_", "te245775_parent_tachy_"], "separate",
      [("29228904", "GSE99395", "RPF relative to matched RNA"),
       ("31167946", "GSE129869", "RPF relative to matched RNA")]),
     ("translation efficiency · extracellular stress", "translation", "extracellular stress",
      "gene", ["te99395_extracellular_"], "separate",
      [("29228904", "GSE99395", "RPF relative to matched RNA")]),
+    # Defined because the data exists to fill it and the axis was asymmetric without it: two of the
+    # three translation contexts had an efficiency counterpart and conversion did not.
+    ("translation efficiency · bradyzoite", "translation", "pre-bradyzoite, alkaline-induced",
+     "gene", ["te245775_parent_prebrady_"], "separate",
+     [("38782906", "GSE245775", "RPF relative to matched RNA under conversion")]),
+    # The knockout arm. It is a gene property -- whose translation depends on eIF1.2 -- and it is
+    # kept in its own slot rather than averaged into the parental ones, for the same reason the
+    # transcription axis keeps `under TF or chromatin perturbation` apart: a perturbed measurement
+    # answers a different question from an unperturbed one, and merging them would let a knockout
+    # effect be read as a stage effect.
+    ("translation · under initiation-factor depletion", "translation",
+     "eIF1.2 knockout, tachyzoite and pre-bradyzoite", "gene",
+     ["rpf245775_eif12ko_", "te245775_eif12ko_"], "separate",
+     [("38782906", "GSE245775", "delta-eIF1.2 ribosome profiling")]),
+    ("transcription · under initiation-factor depletion", "transcription",
+     "eIF1.2 knockout, tachyzoite and pre-bradyzoite", "gene",
+     ["rna245775_eif12ko_"], "separate",
+     [("38782906", "GSE245775", "RNA matched to delta-eIF1.2 ribosome profiling")]),
 
     # ---------------------------------------------------------------- protein level
     ("protein abundance · tachyzoite", "protein abundance", "tachyzoite", "gene",

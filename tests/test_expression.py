@@ -599,3 +599,135 @@ def test_a_workbook_sheet_without_fold_changes_is_skipped_and_an_empty_one_yield
             writer, sheet_name="legend", index=False)
         pd.DataFrame({"gene": [], "note": []}).to_excel(writer, sheet_name="blank", index=False)
     assert E.neuronal_differentiation(base, log=lambda *a, **k: None).empty
+
+
+# ------------------------------------------------------ GSE245775 differentiation ribosome profiling
+def _gse245775(tmp_path, *, matrix=True, titles=None, counts=None, gsm_prefix=True,
+               scramble_names=False):
+    """A GSE245775-shaped deposit: per-gene count tables in a tar, plus the series matrix."""
+    folder = (tmp_path / "datasets" / "quarantine" / "2026_08_16_unverified" / "Tg"
+              / "stage_conversion_phenotype")
+    folder.mkdir(parents=True, exist_ok=True)
+    if titles is None:
+        titles = [f"{strain}_{state}_{assay}_rep{rep}"
+                  for strain in ("parental", "eIF1-2-KO")
+                  for state in ("tachyzoite", "stress")
+                  for assay in ("RIBOseq", "RNAseq")
+                  for rep in (1, 2, 3)]
+    accessions = [f"GSM{7848805 + i}" for i in range(len(titles))]
+    body = counts or "TGME49_200010\t8\nTGME49_200020\t4\n"
+    with tarfile.open(folder / "GSE245775_RAW.tar", "w") as archive:
+        for i, (title, gsm) in enumerate(zip(titles, accessions)):
+            payload = gzip.compress(body.encode())
+            # Deliberately uninformative names: the mapping must come from the matrix.
+            stem = f"sample_{i}" if scramble_names else title.replace("-", "_")
+            name = (f"{gsm}_{stem}_counts.tabular.txt.gz" if gsm_prefix
+                    else f"{stem}_counts.tabular.txt.gz")
+            info = tarfile.TarInfo(name)
+            info.size = len(payload)
+            archive.addfile(info, io.BytesIO(payload))
+    if matrix:
+        with gzip.open(folder / "GSE245775_series_matrix.txt.gz", "wt") as fh:
+            fh.write("!Sample_title\t" + "\t".join(f'"{t}"' for t in titles) + "\n")
+            fh.write("!Sample_geo_accession\t" + "\t".join(f'"{a}"' for a in accessions) + "\n")
+    return folder
+
+
+def test_gse245775_yields_every_arm_and_its_efficiency(tmp_path):
+    _gse245775(tmp_path)
+    out = EX.gse245775_differentiation_ribosome_profiling(str(tmp_path), log=lambda *_: None)
+    assert out.shape == (2, 36), "four arms x three assays x three replicates"
+    assert {"rpf245775_parent_tachy_r1", "rna245775_parent_prebrady_r3",
+            "te245775_eif12ko_tachy_r2"} <= set(out)
+
+
+def test_the_stress_arm_is_named_pre_bradyzoite_not_bradyzoite(tmp_path):
+    """The submitters call these `cell type: pre-bradyzoites` -- 48h at pH 8.3, not a tissue cyst.
+
+    The column name is the only place a reader meets that distinction, so a rename to `brady` would
+    quietly let this answer questions about chronic infection that 48 hours of alkaline stress cannot.
+    """
+    _gse245775(tmp_path)
+    out = EX.gse245775_differentiation_ribosome_profiling(str(tmp_path), log=lambda *_: None)
+    assert any("prebrady" in c for c in out)
+    assert not any(c.split("245775_")[1].startswith("parent_brady") for c in out)
+
+
+def test_samples_are_identified_by_accession_not_by_file_name(tmp_path):
+    """File names here happen to be descriptive, which is exactly why they are not trusted."""
+    _gse245775(tmp_path, scramble_names=True)
+    out = EX.gse245775_differentiation_ribosome_profiling(str(tmp_path), log=lambda *_: None)
+    assert out.shape == (2, 36)
+
+
+def test_a_member_without_a_gsm_prefix_is_skipped(tmp_path):
+    _gse245775(tmp_path, gsm_prefix=False)
+    assert EX.gse245775_differentiation_ribosome_profiling(
+        str(tmp_path), log=lambda *_: None).empty
+
+
+def test_a_sample_title_of_an_unknown_shape_is_skipped(tmp_path):
+    """A fifth arm nobody planned for is left out rather than guessed into an existing one."""
+    titles = ["parental_tachyzoite_RIBOseq_rep1", "parental_tachyzoite_RNAseq_rep1",
+              "some_other_condition_entirely"]
+    _gse245775(tmp_path, titles=titles)
+    out = EX.gse245775_differentiation_ribosome_profiling(str(tmp_path), log=lambda *_: None)
+    assert set(out) == {"rpf245775_parent_tachy_r1", "rna245775_parent_tachy_r1",
+                        "te245775_parent_tachy_r1"}
+
+
+def test_efficiency_is_the_difference_of_the_logged_pair(tmp_path):
+    """TE is RPF minus RNA in log space, which is the ratio -- not a second normalisation."""
+    _gse245775(tmp_path, titles=["parental_tachyzoite_RIBOseq_rep1",
+                                 "parental_tachyzoite_RNAseq_rep1"])
+    out = EX.gse245775_differentiation_ribosome_profiling(str(tmp_path), log=lambda *_: None)
+    expected = out["rpf245775_parent_tachy_r1"] - out["rna245775_parent_tachy_r1"]
+    assert np.allclose(out["te245775_parent_tachy_r1"], expected)
+
+
+def test_a_gsm_absent_from_the_matrix_contributes_nothing(tmp_path):
+    folder = _gse245775(tmp_path)
+    with gzip.open(folder / "GSE245775_series_matrix.txt.gz", "wt") as fh:
+        fh.write('!Sample_title\t"parental_tachyzoite_RIBOseq_rep1"\n')
+        fh.write('!Sample_geo_accession\t"GSM0000000"\n')
+    assert EX.gse245775_differentiation_ribosome_profiling(
+        str(tmp_path), log=lambda *_: None).empty
+
+
+def test_no_archive_yields_nothing(tmp_path):
+    assert EX.gse245775_differentiation_ribosome_profiling(
+        str(tmp_path), log=lambda *_: None).empty
+
+
+def test_no_series_matrix_yields_nothing(tmp_path):
+    """Without the mapping there is no honest way to say which sample is which."""
+    _gse245775(tmp_path, matrix=False)
+    assert EX.gse245775_differentiation_ribosome_profiling(
+        str(tmp_path), log=lambda *_: None).empty
+
+
+def test_a_series_matrix_missing_the_accession_line_yields_nothing(tmp_path):
+    folder = _gse245775(tmp_path)
+    with gzip.open(folder / "GSE245775_series_matrix.txt.gz", "wt") as fh:
+        fh.write('!Sample_title\t"parental_tachyzoite_RIBOseq_rep1"\n')
+    assert EX.gse245775_differentiation_ribosome_profiling(
+        str(tmp_path), log=lambda *_: None).empty
+
+
+def test_accessions_are_resolved_before_joining(tmp_path):
+    _gse245775(tmp_path, titles=["parental_tachyzoite_RIBOseq_rep1"],
+               counts="TGGT1_100010\t8\nTGGT1_100020\t4\n")
+    out = EX.gse245775_differentiation_ribosome_profiling(
+        str(tmp_path), resolve=lambda a: {"TGGT1_100010": "TGME49_200010"}.get(a),
+        log=lambda *_: None)
+    assert list(out.index) == ["TGME49_200010"]
+
+
+def test_a_directory_member_is_survived(tmp_path):
+    folder = _gse245775(tmp_path)
+    with tarfile.open(folder / "GSE245775_RAW.tar", "a") as archive:
+        info = tarfile.TarInfo("GSM7848805_subdir")
+        info.type = tarfile.DIRTYPE
+        archive.addfile(info)
+    out = EX.gse245775_differentiation_ribosome_profiling(str(tmp_path), log=lambda *_: None)
+    assert out.shape == (2, 36)
