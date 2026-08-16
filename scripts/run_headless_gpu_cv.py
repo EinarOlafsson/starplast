@@ -30,7 +30,7 @@ def feature_sets(nodes: pd.DataFrame, banned: set) -> dict[str, tuple[str, ...]]
     """Independent slot collections offered to the walk, with no banned column in any slot."""
     eligible = []
     coverage = {}
-    for slot in slots.all_slots("Toxo"):
+    for slot in slots.all_slots("Tg"):
         columns = slots.source_columns(nodes, slot)
         if slot.role != "feature" or not columns or set(columns) & banned:
             continue

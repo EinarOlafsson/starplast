@@ -89,7 +89,7 @@ BLOCKS = {
 # Biological-question slots are the primary blocks for new maps. The regex blocks above remain as
 # recipe compatibility for maps saved before v0.31; they are no longer what the optimiser offers.
 from .slots import all_slots as _all_slots
-SLOT_BLOCKS = {slot.key: slot for slot in _all_slots("Toxo")
+SLOT_BLOCKS = {slot.key: slot for slot in _all_slots("Tg")
                if slot.unit == "gene" and slot.patterns and slot.role == "feature"}
 BLOCKS.update({key: "" for key in SLOT_BLOCKS})
 #: Blocks that have been renamed: the spelling a recipe may carry -> what it is called now. A recipe

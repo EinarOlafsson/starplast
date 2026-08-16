@@ -17,10 +17,11 @@ crosses it through a slot that can be inspected, held out, and disbelieved.
 `unit` already exists in the catalog and already takes `gene` and `pair`. `host_gene` and
 `ortholog_group` are new values, not new machinery.
 
-**Rename `Toxo_` to `Tg_` first — decided 2026-08-15, do it before anything else in this file.** With six parasite species and four hosts the prefix has to be an
-organism code like every other one. It is a string rename across `slots.json`, the three slot
-tables, `generate_slot_table.py` and `slots.py`; do it before anything downstream depends on the old
-strings.
+**The `Toxo_` -> `Tg_` rename is DONE (2026-08-16).** The prefix is now an organism code like every
+other one, so `Tg_transcription_tachyzoite` sits beside `Pf_transcription_asexual_blood_stage` and
+the host and species codes below can join them without one odd name out. It touched nine Python
+files, the catalog, and the three generated tables; `Toxo` survives only inside the word
+*Toxoplasma*, which is prose rather than an identifier.
 
 ## Why per-species, and why orthology is a bridge
 

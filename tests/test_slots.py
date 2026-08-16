@@ -15,7 +15,7 @@ from starplast import slots
 
 
 def slot(policy, patterns=("a_", "b_")):
-    return slots.Slot("Toxo", "fixture", "transcription", "condition", "gene",
+    return slots.Slot("Tg", "fixture", "transcription", "condition", "gene",
                       tuple(patterns), policy)
 
 
@@ -33,11 +33,11 @@ def test_the_catalog_has_both_organisms_and_stable_prefixed_keys():
     # stay prefixed and resolvable, and that the Plasmodium arm covers the same QUESTIONS as the
     # Toxoplasma one -- which is the thing a mirror can silently fail to do.
     assert len(catalog) > 130
-    assert {item.organism for item in catalog} == {"Toxo", "Pf"}
-    assert all(item.key.startswith(("Toxo_", "Pf_")) for item in catalog)
-    assert slots.by_key(slots.all_slots("Toxo")[0].key) is not None
+    assert {item.organism for item in catalog} == {"Tg", "Pf"}
+    assert all(item.key.startswith(("Tg_", "Pf_")) for item in catalog)
+    assert slots.by_key(slots.all_slots("Tg")[0].key) is not None
 
-    toxo_axes = {item.axis for item in slots.all_slots("Toxo")}
+    toxo_axes = {item.axis for item in slots.all_slots("Tg")}
     pf_axes = {item.axis for item in slots.all_slots("Pf")}
     assert toxo_axes <= pf_axes, f"axes asked of Toxoplasma and not of Plasmodium: {toxo_axes - pf_axes}"
 
@@ -96,11 +96,11 @@ def test_a_missing_or_broken_catalog_is_an_explicit_empty_catalog(monkeypatch, t
 
 
 def test_slots_are_leaves_in_three_independent_hierarchies():
-    measured = next(s for s in slots.all_slots("Toxo") if s.name == "localization · measured")
-    topology = next(s for s in slots.all_slots("Toxo") if s.name == "membrane topology")
+    measured = next(s for s in slots.all_slots("Tg") if s.name == "localization · measured")
+    topology = next(s for s in slots.all_slots("Tg") if s.name == "membrane topology")
     assert measured.biology_path == topology.biology_path
     assert measured.evidence_path != topology.evidence_path
-    assert measured.key in slots.relationship_tree("Toxo", "biology") \
+    assert measured.key in slots.relationship_tree("Tg", "biology") \
         ["cell organization"]["localization and topology"]
     assert topology in slots.slots_in_group(("intrinsic and reference", "sequence-derived"),
                                             hierarchy="evidence")
@@ -117,6 +117,6 @@ def test_an_unknown_hierarchy_is_refused_with_the_choices():
     the hierarchies are 'evidence', 'biology' and 'context', which nobody remembers exactly."""
     import pytest
     with pytest.raises(ValueError, match="unknown hierarchy"):
-        slots.hierarchy_path(slots.all_slots("Toxo")[0], "taxonomy")
+        slots.hierarchy_path(slots.all_slots("Tg")[0], "taxonomy")
     for good in slots.HIERARCHIES:
-        assert isinstance(slots.hierarchy_path(slots.all_slots("Toxo")[0], good), tuple)
+        assert isinstance(slots.hierarchy_path(slots.all_slots("Tg")[0], good), tuple)

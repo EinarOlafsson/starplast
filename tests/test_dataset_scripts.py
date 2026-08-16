@@ -198,7 +198,7 @@ def test_every_cited_study_carries_its_title():
 
 def test_candidate_queries_are_derived_from_slot_and_organism():
     import propose_datasets as P
-    row = next(r for r in __import__("generate_slot_table").all_slots("Toxo")
+    row = next(r for r in __import__("generate_slot_table").all_slots("Tg")
                if r["axis"] == "translation")
     query = P.query_for(row)
     assert "Toxoplasma" in query and "ribosome profiling" in query

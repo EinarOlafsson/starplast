@@ -21,15 +21,15 @@ from starplast import embedding, paths  # noqa: E402
 
 
 SLOTS = (
-    "Toxo_transcription_in_vivo_brain_acute",
-    "Toxo_transcription_in_vivo_brain_chronic",
-    "Toxo_transcription_purified_bradyzoite_in_vivo",
-    "Toxo_transcription_under_stress_conversion",
-    "Toxo_transcription_under_tf_or_chromatin_perturbation",
-    "Toxo_protein_abundance_tachyzoite",
-    "Toxo_protein_abundance_other_life_stages",
-    "Toxo_phosphorylation_quantitative",
-    "Toxo_host_transcriptional_effect_per_effector",
+    "Tg_transcription_in_vivo_brain_acute",
+    "Tg_transcription_in_vivo_brain_chronic",
+    "Tg_transcription_purified_bradyzoite_in_vivo",
+    "Tg_transcription_under_stress_conversion",
+    "Tg_transcription_under_tf_or_chromatin_perturbation",
+    "Tg_protein_abundance_tachyzoite",
+    "Tg_protein_abundance_other_life_stages",
+    "Tg_phosphorylation_quantitative",
+    "Tg_host_transcriptional_effect_per_effector",
 )
 
 

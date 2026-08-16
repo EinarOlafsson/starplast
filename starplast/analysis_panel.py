@@ -388,8 +388,8 @@ class AnalysisPanel(QtWidgets.QWidget):
         box = QtWidgets.QGroupBox("feature blocks")
         bl = QtWidgets.QVBoxLayout(box)
         self.block_cb = {}
-        defaults = {"Toxo_transcription_tachyzoite", "Toxo_fitness_hff_in_vitro",
-                    "Toxo_fold_confidence_disorder"}
+        defaults = {"Tg_transcription_tachyzoite", "Tg_fitness_hff_in_vitro",
+                    "Tg_fold_confidence_disorder"}
         for b in SLOT_BLOCKS:
             cols = columns_for(self.nodes, EmbeddingSpec(blocks=(b,))).get(b, [])
             cb = QtWidgets.QCheckBox(f"{b}  ({len(cols)} columns)")

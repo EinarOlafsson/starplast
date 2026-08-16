@@ -124,7 +124,7 @@ def hierarchy_path(slot: Slot, hierarchy: str) -> tuple:
     return tuple(getattr(slot, f"{hierarchy}_path")) + (slot.key,)
 
 
-def relationship_tree(organism: str = "Toxo", hierarchy: str = "evidence") -> dict:
+def relationship_tree(organism: str = "Tg", hierarchy: str = "evidence") -> dict:
     """A nested, JSON-safe tree whose leaves are slot keys.
 
     There are three trees rather than a single misleading tree.  A slot is a leaf in every facet;
@@ -139,7 +139,7 @@ def relationship_tree(organism: str = "Toxo", hierarchy: str = "evidence") -> di
     return tree
 
 
-def slots_in_group(path: tuple | list | str, organism: str = "Toxo",
+def slots_in_group(path: tuple | list | str, organism: str = "Tg",
                    hierarchy: str = "evidence") -> tuple:
     """Slots below a hierarchy path, useful for selecting or omitting a whole class."""
     wanted = (path,) if isinstance(path, str) else tuple(path)
@@ -147,12 +147,12 @@ def slots_in_group(path: tuple | list | str, organism: str = "Toxo",
                  if hierarchy_path(slot, hierarchy)[:len(wanted)] == wanted)
 
 
-def target_slots(target: str, organism: str = "Toxo") -> tuple:
+def target_slots(target: str, organism: str = "Tg") -> tuple:
     """Slots that explicitly declare ``target`` as one of their outcomes."""
     return tuple(slot for slot in all_slots(organism) if target in slot.target_columns)
 
 
-def family_slots(family: str, organism: str = "Toxo") -> tuple:
+def family_slots(family: str, organism: str = "Tg") -> tuple:
     """All slots estimating the same target quantity, across assays or transfers."""
     return tuple(slot for slot in all_slots(organism) if family and slot.target_family == family)
 

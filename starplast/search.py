@@ -132,7 +132,7 @@ SAME_QUANTITY = {
 }
 
 
-def excluded_group(nodes: pd.DataFrame, hierarchy: str, path, organism="Toxo") -> set:
+def excluded_group(nodes: pd.DataFrame, hierarchy: str, path, organism="Tg") -> set:
     """Every declared column below a hierarchy branch.
 
     This is the class-level operation the slot catalogue previously promised but did not implement.
@@ -370,9 +370,9 @@ def search(nodes: pd.DataFrame, target: str = "compartment",
     if block_sets is None:
         # Six biological questions, not six file families. Localization remains held out by default
         # because it is commonly the target; literature attention is never a feature.
-        base = ["Toxo_transcription_tachyzoite", "Toxo_transcription_bradyzoite_tissue_cyst",
-                "Toxo_transcription_oocyst_sporozoite", "Toxo_fitness_hff_in_vitro",
-                "Toxo_protein_abundance_tachyzoite", "Toxo_fold_confidence_disorder"]
+        base = ["Tg_transcription_tachyzoite", "Tg_transcription_bradyzoite_tissue_cyst",
+                "Tg_transcription_oocyst_sporozoite", "Tg_fitness_hff_in_vitro",
+                "Tg_protein_abundance_tachyzoite", "Tg_fold_confidence_disorder"]
         base = [b for b in base if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b)]
         # A minimal/imported table may predate the slot catalogue and carry only a legacy family
         # such as ``fit_*``. Keep that table searchable; saved recipes retain their old block name.

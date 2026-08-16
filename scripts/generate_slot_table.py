@@ -283,13 +283,13 @@ _merge_candidate_references()
 #: is empty, which is the point of listing it.
 #: The organisms a slot can be about, and how to ask PubMed for one.
 #:
-#: The prefix is what makes two tables one table. `Toxo_fitness · in vivo brain` and
+#: The prefix is what makes two tables one table. `Tg_fitness · in vivo brain` and
 #: `Pf_fitness · in vivo brain` are different questions with the same shape -- cerebral malaria and
 #: cerebral toxoplasmosis are not the same disease -- and a map that averaged them would be a map
 #: of neither. Prefixed, they can sit in one table, be filled independently, and be combined only
 #: where a reader asks for it.
 ORGANISMS = {
-    "Toxo": {
+    "Tg": {
         "species": "Toxoplasma gondii",
         "query": "(Toxoplasma[Title/Abstract] OR gondii[Title/Abstract])",
         "stages": "tachyzoite, bradyzoite, oocyst, merozoite",
@@ -827,8 +827,8 @@ def _definition(row, organism: str) -> dict:
 
 def all_slots(organism: str | None = None) -> list:
     """The Toxoplasma, Plasmodium, or combined catalog with organism prefixes explicit."""
-    toxo = ([_definition(row, "Toxo") for row in SLOTS]
-            + [_definition(row, "Toxo") for row in NEW_SHARED + NEW_TOXOPLASMA])
+    toxo = ([_definition(row, "Tg") for row in SLOTS]
+            + [_definition(row, "Tg") for row in NEW_SHARED + NEW_TOXOPLASMA])
     pf = ([_definition(row, "Pf") for row in _pf_mirror(SLOTS)]
           + [_definition(row, "Pf") for row in NEW_SHARED]
           + [_definition(row, "Pf") for row in NEW_PLASMODIUM])
@@ -960,7 +960,7 @@ def _rows(definitions, nodes, graph) -> list:
             covered = int(len(set(np.concatenate([graph[f"{edges[0]}__a"],
                                                    graph[f"{edges[0]}__b"]])))) if key in graph.files else 0
             detail = f"{pairs:,} pairs"
-        elif definition["organism"] == "Toxo":
+        elif definition["organism"] == "Tg":
             covered, cols = coverage(nodes, columns)
             detail = f"{len(cols)} columns" if cols else ""
         else:
@@ -1013,7 +1013,7 @@ def _tree_lines(tree: dict, depth: int = 0) -> list:
 def _write_hierarchy(definitions: list) -> None:
     trees = {organism: {facet: _nested_tree(definitions, facet, organism)
                         for facet in ("evidence", "biology", "context")}
-             for organism in ("Toxo", "Pf")}
+             for organism in ("Tg", "Pf")}
     with open(OUT_HIERARCHY_JSON, "w", encoding="utf8") as fh:
         json.dump(trees, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
@@ -1027,7 +1027,7 @@ def _write_hierarchy(definitions: list) -> None:
              "- **Provenance and derivation are a graph, not a tree.** Dataset registry entries and "
              "`derived_from` edges provide the closure used by leakage exclusion.", ""]
     for facet in ("evidence", "biology", "context"):
-        lines.extend((f"## Toxoplasma — {facet}", "", *_tree_lines(trees["Toxo"][facet]), ""))
+        lines.extend((f"## Toxoplasma — {facet}", "", *_tree_lines(trees["Tg"][facet]), ""))
     open(OUT_HIERARCHY_MD, "w", encoding="utf8").write("\n".join(lines))
 
 
@@ -1040,7 +1040,7 @@ def main() -> int:
     z = np.load(paths.cache_file("graph.npz"), allow_pickle=True)
     definitions = all_slots()
     rows = _rows(definitions, nodes, z)
-    toxo_rows = [row for row in rows if row["organism"] == "Toxo"]
+    toxo_rows = [row for row in rows if row["organism"] == "Tg"]
     pf_rows = [row for row in rows if row["organism"] == "Pf"]
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)
     for subset, csv_path, md_path in ((rows, OUT_CSV, OUT_MD),
