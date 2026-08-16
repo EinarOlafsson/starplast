@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**214 slots: 55 covered well, 10 partly, 17 thinly, 132 empty.**
+**214 slots: 56 covered well, 10 partly, 18 thinly, 130 empty.**
 
 ### transcription
 
@@ -87,7 +87,7 @@ quantity were approximating on 2026-08-13.
 | Tg_life-cycle stage label (derived) | cross-stage derived target | **B** | 1911 | 23.5% | `stage_margin_derived` | one | — |
 | Tg_transcription · under initiation-factor depletion | eIF1.2 knockout, tachyzoite and pre-bradyzoite | **A** | 7880 | 96.8% | `rna245775_eif12ko_` | separate | **Translation initiation factor eIF1.2 promotes Toxoplasma stage conversion by regulating levels of key differentiation factors.** (Nature communications 2024) [38782906](https://pubmed.ncbi.nlm.nih.gov/38782906/) `GSE245775` |
 | Tg_noncoding and antisense transcription | lncRNA | **-** |  |  | `` | separate | — |
-| Tg_transcription · in vivo enteric | feline enterocyte | **-** |  |  | `` | one | — |
+| Tg_transcription · in vivo enteric | feline enterocyte | **A** | 7739 | 95.1% | `ees_vs_tachyzoite_log2` | one | — |
 | Pf_transcription · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_transcription · ring | ring | **-** |  |  | `` | one | — |
 | Pf_transcription · trophozoite | trophozoite | **-** |  |  | `` | one | — |
@@ -339,7 +339,7 @@ quantity were approximating on 2026-08-13.
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
 | Tg_seroreactivity / antigenicity | human or animal sera | **-** |  |  | `` | separate | — |
-| Tg_T-cell epitope content | predicted and measured | **-** |  |  | `` | average | — |
+| Tg_T-cell epitope content | predicted and measured | **C** | 221 | 2.7% | `iedb_epitope_count` | average | — |
 | Pf_seroreactivity / antigenicity | human or animal sera | **-** |  |  | `` | separate | **Engineered antibodies preserve structural and functional recognition of Plasmodium falciparum circumsporozoite protein.** (Protein science : a publication of the Protein Society 2026) [42560026](https://pubmed.ncbi.nlm.nih.gov/42560026/)<br>verify assay and parasite-gene shape)<br>**Impact of FY*X homozygosity of the DARC receptor on Plasmodium knowlesi line A1-H.1 invasion.** (Current research in parasitology & vector-borne diseases 2026) [42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/)<br>verify assay and parasite-gene shape)<br>**A narrative review of the epidemiological and mechanistic associations between ABO blood groups and diseases: focusing on cardiovascular diseases, cancers, diabetes, malaria, COVID-19 and rheumatic diseases.** (Annals of medicine 2026) [42574721](https://pubmed.ncbi.nlm.nih.gov/42574721/)<br>verify assay and parasite-gene shape) |
 | Pf_T-cell epitope content | predicted and measured | **-** |  |  | `` | average | **Reconstruction of historical malaria transmission in Senegal using multiplex serocatalytic models.** (PLoS computational biology 2026) [42507702](https://pubmed.ncbi.nlm.nih.gov/42507702/)<br>verify assay and parasite-gene shape)<br>**Sero-epidemiological and functional evaluation of IgG specific for a cysteine protease inhibitor of Plasmodium falciparum, falstatin.** (Infection and immunity 2026) [42550035](https://pubmed.ncbi.nlm.nih.gov/42550035/)<br>verify assay and parasite-gene shape)<br>**Impact of FY*X homozygosity of the DARC receptor on Plasmodium knowlesi line A1-H.1 invasion.** (Current research in parasitology & vector-borne diseases 2026) [42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/)<br>verify assay and parasite-gene shape) |
 

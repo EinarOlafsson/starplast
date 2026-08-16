@@ -25,7 +25,7 @@ import numpy as np
 import pandas as pd
 
 from . import (cellcycle, chromatin, codons, corpus, expression, identity, interaction_studies,
-               interactions, palmitome,
+               interactions, palmitome, toxodb_evidence,
                literature,
                proteomics,
                localization, screens, variation)
@@ -130,7 +130,8 @@ def load_nodes() -> pd.DataFrame:
     for table in (variation.strain_snps(BASE, resolve=resolve, log=log),
                   codons.codon_usage(BASE, resolve=resolve, log=log),
                   chromatin.chromatin_signals(BASE, resolve=resolve, log=log),
-                  palmitome.palmitome(BASE, resolve=resolve, log=log)):
+                  palmitome.palmitome(BASE, resolve=resolve, log=log),
+                  toxodb_evidence.evidence(BASE, resolve=resolve, log=log)):
         if table.empty:
             continue
         aligned = table.reindex(pd.Index(n.gene_id.astype(str)))

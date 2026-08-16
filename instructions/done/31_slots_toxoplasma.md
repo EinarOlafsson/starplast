@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**115 slots: 55 covered well, 10 partly, 17 thinly, 33 empty.**
+**115 slots: 56 covered well, 10 partly, 18 thinly, 31 empty.**
 
 ### transcription
 
@@ -87,7 +87,7 @@ quantity were approximating on 2026-08-13.
 | Tg_life-cycle stage label (derived) | cross-stage derived target | **B** | 1911 | 23.5% | `stage_margin_derived` | one | — |
 | Tg_transcription · under initiation-factor depletion | eIF1.2 knockout, tachyzoite and pre-bradyzoite | **A** | 7880 | 96.8% | `rna245775_eif12ko_` | separate | **Translation initiation factor eIF1.2 promotes Toxoplasma stage conversion by regulating levels of key differentiation factors.** (Nature communications 2024) [38782906](https://pubmed.ncbi.nlm.nih.gov/38782906/) `GSE245775` |
 | Tg_noncoding and antisense transcription | lncRNA | **-** |  |  | `` | separate | — |
-| Tg_transcription · in vivo enteric | feline enterocyte | **-** |  |  | `` | one | — |
+| Tg_transcription · in vivo enteric | feline enterocyte | **A** | 7739 | 95.1% | `ees_vs_tachyzoite_log2` | one | — |
 
 ### translation
 
@@ -243,7 +243,7 @@ quantity were approximating on 2026-08-13.
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
 | Tg_seroreactivity / antigenicity | human or animal sera | **-** |  |  | `` | separate | — |
-| Tg_T-cell epitope content | predicted and measured | **-** |  |  | `` | average | — |
+| Tg_T-cell epitope content | predicted and measured | **C** | 221 | 2.7% | `iedb_epitope_count` | average | — |
 
 ### phenotype
 

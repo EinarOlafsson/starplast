@@ -139,6 +139,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Alkaline-stress differentiation transcriptome | Unstressed tachyzoites and alkaline-stressed bradyzoites | 7,880 (96.8%) | Waldman BS et al., Identification of a Master Regulator of Differentiation in Toxoplasma. Cell 2020;180:359-372.e16; PMID [31955846](https://pubmed.ncbi.nlm.nih.gov/31955846/); `GSE132248` |
 | Bradyzoite restriction-checkpoint transcriptome | Cyclin perturbations in tachyzoite and bradyzoite conditions | measured at build time | `GSE200962` |
 | CPSF4 RNA-processing perturbation transcriptome | RNA response at 7, 24 and 48 hours after CPSF4 depletion | measured at build time | Farhat DC et al., A plant-like mechanism coupling m6A reading to polyadenylation safeguards transcriptome integrity. eLife 2021;10:e68312; PMID [34263725](https://pubmed.ncbi.nlm.nih.gov/34263725/); `GSE168155` |
+| Enteroepithelial stage transcriptome (via ToxoDB) | Expression in the feline enteroepithelial stages against tachyzoites | 7,739 genes (95%) | `ToxoDB Ramakrishnan enteroepithelial` |
 | Feline merozoite transcriptome | Merozoite expression with matched tachyzoite comparators | measured at build time | Behnke MS et al., Toxoplasma gondii merozoite gene expression analysis with comparison to the life cycle. BMC Genomics 2014;15:350; PMID [24885521](https://pubmed.ncbi.nlm.nih.gov/24885521/); `GSE51780` |
 | In vivo brain-stage transcriptome | Tachyzoites, acute/chronic whole brain, and purified bradyzoites | 7,663 (94.1%) | Garfoot AL et al., Proteomic and transcriptomic analyses of early and late-chronic Toxoplasma gondii infection shows novel and stage specific transcripts. BMC Genomics 2019;20:859; PMID [31726967](https://pubmed.ncbi.nlm.nih.gov/31726967/) |
 | Life-cycle stage enrichment (DERIVED) | Which stage a gene's own expression is highest in | 1,911 of 8,140 genes called | *citation not yet confirmed* |
@@ -190,6 +191,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 |---|---|---|---|
 | AlphaFold DB | Per-gene mean pLDDT; coordinates fetched on demand | 6,480 (79.6%) | Varadi et al. 2024 NAR (database); Jumper et al. 2021 Nature (method); `UP000001529 (taxid 508771), AlphaFold DB` |
 | Codon usage bias (COMPUTED) | Effective number of codons, GC3, and codon adaptation index | 8,140 genes (100%) | `ToxoDB ME49` |
+| IEDB epitopes mapped to genes (via ToxoDB) | How many IEDB epitopes ToxoDB maps to this gene | 221 genes | `ToxoDB / IEDB` |
 | InterPro domains | Domain identity and count | 8,140 | *citation not yet confirmed* |
 | OrthoMCL orthogroups | Orthogroup assignment and cross-species bridge | 16,793 groups | `OrthoMCL release 6.21` |
 | PubMed Central open-access full texts | Sectioned JATS XML | 6,667 articles | *citation not yet confirmed* |

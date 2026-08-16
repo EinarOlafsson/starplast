@@ -359,7 +359,11 @@ NEW_SHARED = [
      ["codon_"], "one"),
     ("predicted complex membership", "relation", "AlphaFold-Multimer", "gene", [], "separate"),
     ("seroreactivity / antigenicity", "immunity", "human or animal sera", "gene", [], "separate"),
-    ("T-cell epitope content", "immunity", "predicted and measured", "gene", [], "average"),
+    # ToxoDB's join of IEDB against the ME49 proteome. The count is NOT split by epitope type --
+    # ToxoDB's integration does not expose that -- so it is every IEDB epitope mapped to the gene,
+    # T-cell and B-cell alike. The column name says iedb_ rather than t_cell_ for that reason.
+    ("T-cell epitope content", "immunity", "predicted and measured", "gene",
+     ["iedb_epitope_count"], "average"),
     ("invasion and egress phenotype", "phenotype", "high-content imaging", "gene", [], "separate"),
     ("essentiality in a second background", "fitness", "second strain", "gene", [], "separate"),
 ]
@@ -490,7 +494,8 @@ NEW_PLASMODIUM = [
 
 #: Toxoplasma-specific slots, for the same reason in the other direction.
 NEW_TOXOPLASMA = [
-    ("transcription · in vivo enteric", "transcription", "feline enterocyte", "gene", [], "one"),
+    ("transcription · in vivo enteric", "transcription", "feline enterocyte", "gene",
+     ["ees_vs_tachyzoite_log2"], "one"),
     ("fitness · in vivo gut", "fitness", "enteric, sexual cycle", "gene", [], "separate"),
     ("cyst wall composition", "localization", "bradyzoite cyst wall", "gene", [], "separate"),
 ]

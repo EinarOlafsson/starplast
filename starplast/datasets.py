@@ -720,6 +720,34 @@ REGISTRY = [
                  "and not a ratio -- -3.12 means three-fold down -- so reading it as a ratio would "
                  "have made every depleted protein NaN and dropped half the table."),
 
+    Dataset("toxodb_epitopes", "IEDB epitopes mapped to genes (via ToxoDB)", "reference",
+            "immunity", "How many IEDB epitopes ToxoDB maps to this gene",
+            ("iedb_epitope_count",), "221 genes", accession="ToxoDB / IEDB",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/"
+                "GenesWithEpitopes/reports/attributesTabular",
+            path="starplast/data/toxodb_epitopes.tsv",
+            note="ToxoDB's own join of IEDB against the ME49 proteome, at all three confidence "
+                 "levels. NOT split by epitope type -- the integration does not expose that -- so "
+                 "the count is T-cell and B-cell epitopes alike, which is why the column is named "
+                 "iedb_ and not t_cell_. Verified by what comes out on top: SRS29B (SAG1) with 45, "
+                 "then GRA6, GRA7, GRA2 and ROP18. Those are the canonical Toxoplasma serology "
+                 "antigens, in the order a serologist would put them."),
+    Dataset("toxodb_enteroepithelial", "Enteroepithelial stage transcriptome (via ToxoDB)",
+            "transcription", "RNAseq",
+            "Expression in the feline enteroepithelial stages against tachyzoites",
+            ("ees_vs_tachyzoite_log2",), "7,739 genes (95%)",
+            accession="ToxoDB Ramakrishnan enteroepithelial",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/"
+                "GenesByRNASeqtgonME49_Ramakrishnan_enteroepithelial_stages_ebi_rnaSeq_RSRC"
+                "/reports/attributesTabular",
+            path="starplast/data/toxodb_enteroepithelial.tsv",
+            note="EES1-5 averaged against tachyzoites, sense strand, no fold-change floor. The only "
+                 "life stage in the map that happens inside a cat. Verified against stage markers: "
+                 "GRA11B, which is merozoite-specific, comes out at +8.99 log2 and the family A/B/C "
+                 "merozoite antigens at +2.66, against a genome median of -0.14. ToxoDB reports a "
+                 "SIGNED fold difference, so -1257.4 means 1257-fold down and is converted rather "
+                 "than logged."),
+
     # ------------------------------------------------------------------ PRIDE deposits
     # Counted from the submitters' own search output by `proteomics.deposit_counts`, never from the
     # raw spectra. Each column is "how many sites did THIS STUDY report on this gene", which is a
