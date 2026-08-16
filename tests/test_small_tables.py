@@ -111,15 +111,19 @@ def test_the_rejected_histone_report_is_not_a_source():
 
 
 def test_every_source_records_what_was_asked_for():
-    """A search that can be asked five ways produces five different columns, so each source records
-    the query. Most name a ToxoDB search; the myristoylome names the supplementary table it is,
-    which is the same obligation met a different way."""
+    """A source that can be asked several ways produces several different columns, so each entry
+    records WHICH question this one answers.
+
+    ToxoDB sources name their search; paper sources name the file and sheet. The test asks only that
+    the record identifies a retrievable thing -- it has been widened twice already, each time because
+    a new kind of source arrived, and widening it to "some named artefact" is the honest general form
+    rather than a growing list of prefixes.
+    """
+    NAMES = ("genes", "supplementary", "table s", "data set", "sheet", "supp")
     for filename, column, _fold, query in TE.SOURCES:
         assert query and len(query) > 20, column
-        # A ToxoDB search names itself; a paper table names its file and sheet. Either is a
-        # statement of which of the several possible questions this column answers.
-        assert ("Genes" in query or "supplementary" in query.lower()
-                or "Table S" in query), f"{column} does not say where it came from"
+        assert any(k in query.lower() for k in NAMES), (
+            f"{column}: {query!r} does not name a retrievable source")
 
 
 # --------------------------------------------------------------------------- against the real map
@@ -323,3 +327,26 @@ def test_mrna_stability_covers_only_the_unstable_tail():
     values = n["mrna_remaining_5h_actinomycin"].dropna()
     assert values.max() <= 0.75, values.max()
     assert values.min() > 0, values.min()
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_the_pvm_positives_are_dense_granule_proteins():
+    """What Toxoplasma puts at the vacuole membrane is what it secretes from dense granules.
+
+    This column has real zeros, so the test can compare positives against MEASURED negatives rather
+    than against the rest of the genome -- a stronger contrast than most columns here allow.
+    """
+    from scipy.stats import fisher_exact
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "pvm_proximity_positive" not in n.columns:
+        pytest.skip("PVM column not merged")
+    measured = n[n["pvm_proximity_positive"].notna()]
+    gra = measured["product"].astype(str).str.contains("dense granule", case=False,
+                                                       na=False).to_numpy()
+    pos = (measured["pvm_proximity_positive"] == 1).to_numpy()
+    odds, p = fisher_exact([[(pos & gra).sum(), (pos & ~gra).sum()],
+                            [((~pos) & gra).sum(), ((~pos) & ~gra).sum()]])
+    assert p < 1e-20, f"odds {odds}, p {p:.1e}"
+    assert (pos & gra).sum() > 30

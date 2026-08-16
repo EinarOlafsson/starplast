@@ -745,7 +745,11 @@ SLOTS = [
      ["ortholopit_", "compartment_best"], "fill", []),
     ("membrane topology", "localization", "sequence", "gene",
      ["dtm_class", "n_tm", "has_signal_peptide", "is_tm", "tm_kd_", "tm_len_mean"], "one", []),
-    ("exposure to host cytosol", "localization", "PVM, export", "gene", [], "fill",
+    # One of the few binaries here with real zeros: the study publishes a likely-NEGATIVE list of
+    # 1,201 genes alongside its 73 positives, so absence from the positive list is a measurement
+    # rather than a gap -- for those 1,201, and only for them.
+    ("exposure to host cytosol", "localization", "PVM, export", "gene",
+     ["pvm_proximity_positive"], "fill",
      [("38747635", "", "TurboID exportome of secreted disordered proteins"),
       ("29615509", "GSE109830", "MYR1-dependent effectors"),
       ("31366709", "GSE122786", "translocation across the PVM")]),

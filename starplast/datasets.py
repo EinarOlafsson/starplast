@@ -808,6 +808,19 @@ REGISTRY = [
                  "genes (odds 3.39, p = 8e-88), are lineage-specific a third as often, and are more "
                  "costly to lose in vitro. `has_ec` is 0 and not missing where ToxoDB reports no EC: "
                  "the whole proteome was asked, so no assignment is an answer about the gene."),
+    Dataset("pvm_proximity", "PVM proximity labelling", "post_translation", "proteomics",
+            "Whether the study placed this protein at the parasitophorous vacuole membrane",
+            ("pvm_proximity_positive",), "1,274 genes (73 positive)", pmid="34749525",
+            accession="mBio 00260-21 Data Set S1",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8576527/supplementaryFiles",
+            path="starplast/data/pvm_proximity.tsv",
+            note="One of the few binaries in the map with REAL zeros: the study publishes a "
+                 "likely-negative list of 1,201 genes beside its 73 positives, so a zero here is a "
+                 "measurement and not a gap -- for those 1,201 and only for them. Everything else "
+                 "is NaN. Verified by what the positives are: 53 of 73 are dense granule proteins "
+                 "against 0 of 1,201 negatives (Fisher p = 2e-77), and dense granule proteins are "
+                 "exactly what Toxoplasma secretes into the vacuole and inserts into the membrane "
+                 "it shares with the host cytosol."),
     Dataset("cdpk1_substrates", "CDPK1 substrates (thiophosphate labelling)", "post_translation",
             "proteomics", "Thiophosphorylated peptides per gene from analog-sensitive CDPK1",
             ("cdpk1_thiophospho_peptides",), "361 genes", pmid="37933960",

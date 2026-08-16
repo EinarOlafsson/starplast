@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**118 slots: 61 covered well, 11 partly, 26 thinly, 20 empty.**
+**118 slots: 61 covered well, 11 partly, 27 thinly, 19 empty.**
 
 ### transcription
 
@@ -171,7 +171,7 @@ quantity were approximating on 2026-08-13.
 | Tg_localization · measured | hyperLOPIT | **A** | 8140 | 100.0% | `compartment, compartment_source, lopit_prob, lopit_methods_agree, lopit_confident` | one | — |
 | Tg_localization · transferred | orthoLOPIT | **A** | 8140 | 100.0% | `ortholopit_, compartment_best` | fill | — |
 | Tg_membrane topology | sequence | **A** | 8140 | 100.0% | `dtm_class, n_tm, has_signal_peptide, is_tm, tm_kd_, tm_len_mean` | one | — |
-| Tg_exposure to host cytosol | PVM, export | **-** |  |  | `` | fill | **TurboID mapping reveals the exportome of secreted intrinsically disordered proteins in the transforming parasite Theileria annulata.** (mBio 2024) [38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/)<br>**MYR1-Dependent Effectors Are the Major Drivers of a Host Cell's Early Response to Toxoplasma, Including Counteracting MYR1-Independent Effects.** (mBio 2018) [29615509](https://pubmed.ncbi.nlm.nih.gov/29615509/) `GSE109830`<br>**Translocation of Dense Granule Effectors across the Parasitophorous Vacuole Membrane in Toxoplasma-Infected Cells Requires the Activity of ROP17, a Rhoptry Protein Kinase.** (mSphere 2019) [31366709](https://pubmed.ncbi.nlm.nih.gov/31366709/) `GSE122786` |
+| Tg_exposure to host cytosol | PVM, export | **C** | 1274 | 15.7% | `pvm_proximity_positive` | fill | **TurboID mapping reveals the exportome of secreted intrinsically disordered proteins in the transforming parasite Theileria annulata.** (mBio 2024) [38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/)<br>**MYR1-Dependent Effectors Are the Major Drivers of a Host Cell's Early Response to Toxoplasma, Including Counteracting MYR1-Independent Effects.** (mBio 2018) [29615509](https://pubmed.ncbi.nlm.nih.gov/29615509/) `GSE109830`<br>**Translocation of Dense Granule Effectors across the Parasitophorous Vacuole Membrane in Toxoplasma-Infected Cells Requires the Activity of ROP17, a Rhoptry Protein Kinase.** (mSphere 2019) [31366709](https://pubmed.ncbi.nlm.nih.gov/31366709/) `GSE122786` |
 | Tg_secretome / excreted | ESA | **-** |  |  | `` | one | **Secretome and Transcriptome Analyses Reveal New Potential Virulence Factors during Cryptosporidium parvum Invasion.** (Journal of proteome research 2025) [41137792](https://pubmed.ncbi.nlm.nih.gov/41137792/) `PXD028969` |
 | Tg_cyst wall composition | bradyzoite cyst wall | **C** | 56 | 0.7% | `cyst_wall_` | separate | — |
 
