@@ -75,6 +75,67 @@ def series_metadata(accessions: list, log=print) -> dict:
     return out
 
 
+PRIDE_FILES = "https://www.ebi.ac.uk/pride/ws/archive/v2/projects/{}/files"
+
+
+def fetch_pride(accession: str, where: str, log=print, cap_mb: float = 0.0) -> dict:
+    """Download a PRIDE project's PROCESSED results, and deliberately not its raw spectra.
+
+    That distinction decides whether the download is worth making at all. A PRIDE project is mostly
+    instrument files -- six 600 MB `.raw` in one of these -- and a raw file is a spectrum, not a
+    measurement of a gene. Turning one into protein identifications takes a search engine, a
+    sequence database and a set of parameters; it is a study of its own and none of it can be
+    inferred from the deposit.
+
+    What can fill a slot is the submitter's own search output: the protein and peptide tables PRIDE
+    files under SEARCH and OTHER, three orders of magnitude smaller and already saying which protein
+    was seen. So a slot filled from PRIDE is filled from what the authors concluded rather than from
+    what their instrument recorded -- a weaker claim than reprocessing, and an honest one.
+    """
+    try:
+        listing = json.loads(_get(PRIDE_FILES.format(accession), timeout=90)
+                             .decode("utf8", "replace"))
+    except (urllib.error.URLError, urllib.error.HTTPError, ValueError) as exc:
+        log(f"  {accession}: file listing failed ({type(exc).__name__})")
+        return {"accession": accession, "status": "listing failed"}
+    wanted = []
+    for record in listing:
+        category = str(record.get("fileCategory", "")).upper()
+        name = str(record.get("fileName", ""))
+        if "RAW" in category or "PEAK" in category:
+            continue
+        if name.lower().endswith((".raw", ".wiff", ".mzml", ".mzxml")):
+            continue
+        url = next((str(p.get("value")) for p in (record.get("publicFileLocations") or [])
+                    if "FTP" in str(p.get("name", "")).upper()), "")
+        if url:
+            wanted.append((name, url, int(record.get("fileSizeBytes") or 0)))
+    if not wanted:
+        log(f"  {accession}: raw spectra only, nothing that names a protein")
+        return {"accession": accession, "status": "raw only"}
+    os.makedirs(where, exist_ok=True)
+    files = []
+    for name, url, size in wanted:
+        target = os.path.join(where, name)
+        if os.path.exists(target):
+            continue
+        if cap_mb and size > cap_mb * 1e6:
+            files.append({"file": name, "bytes": size, "status": "over cap"})
+            continue
+        try:
+            blob = _get(url.replace("ftp://", "https://"), timeout=900)
+        except (urllib.error.URLError, urllib.error.HTTPError) as exc:
+            log(f"  {name}: {getattr(exc, 'code', type(exc).__name__)}")
+            continue
+        with open(target, "wb") as fh:
+            fh.write(blob)
+        files.append({"file": name, "bytes": len(blob),
+                      "sha256": hashlib.sha256(blob).hexdigest(), "status": "ok"})
+        log(f"  {name}: {len(blob) / 1e6:.1f} MB")
+    return {"accession": accession, "url": PRIDE_FILES.format(accession), "status": "ok",
+            "fetched": time.strftime("%Y-%m-%d"), "processed_files": files}
+
+
 def matrix_url(accession: str) -> str:
     """Where GEO keeps a series matrix. The directory is the accession with its last three digits
     replaced by nnn, which is a GEO convention rather than anything derivable."""
@@ -197,14 +258,22 @@ def main(argv=None) -> int:
     if args.max_slots:
         keys = keys[:args.max_slots]
 
-    wanted = []
+    wanted, proteomics = [], []
     for key in keys:
         for paper in proposals[key][:args.per_slot]:
             for accession in [a.strip() for a in paper["accession"].split(",")]:
                 if accession.startswith("GSE"):
                     wanted.append((key, accession))
                     break
-    print(f"{len(keys)} slots, {len(wanted)} series to consider", flush=True)
+                if accession.startswith("PXD"):
+                    # A different repository with a different shape: no series matrix, no taxon
+                    # field to check an arm against, and the organism filter was applied at
+                    # proposal time instead. Kept in its own list rather than forced through the
+                    # GEO path, which would look for a matrix that does not exist.
+                    proteomics.append((key, accession))
+                    break
+    print(f"{len(keys)} slots, {len(wanted)} GEO series and {len(proteomics)} PRIDE projects",
+          flush=True)
     meta = series_metadata(sorted({a for _k, a in wanted}), log=lambda m: print(m, flush=True))
 
     manifest, misrouted = {}, []
@@ -225,6 +294,16 @@ def main(argv=None) -> int:
         if entry:
             manifest.setdefault(key, []).append({**entry, "taxon": taxon, "samples": samples,
                                                  "title": title})
+        time.sleep(0.4)
+
+    for key, accession in proteomics:
+        arm = key.split("::")[0]
+        folder = os.path.join(args.root, arm, re.sub(r"[^A-Za-z0-9]+", "_", key.split("::")[1]))
+        print(f"{key} <- {accession} (PRIDE)", flush=True)
+        entry = fetch_pride(accession, folder, log=lambda m: print(m, flush=True),
+                            cap_mb=args.cap_mb)
+        if entry:
+            manifest.setdefault(key, []).append(entry)
         time.sleep(0.4)
 
     os.makedirs(args.root, exist_ok=True)
