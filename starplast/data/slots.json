@@ -1065,7 +1065,9 @@
     "axis": "PTM",
     "context": "perturbation",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "n_kinase_substrate_sites"
+    ],
     "policy": "separate",
     "candidates": [
       [
@@ -1102,7 +1104,9 @@
     "axis": "PTM",
     "context": "life stages",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "n_acetylation_sites"
+    ],
     "policy": "one",
     "candidates": [
       [
@@ -1166,7 +1170,9 @@
     "axis": "PTM",
     "context": "tachyzoite",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "n_nitrosylation_sites"
+    ],
     "policy": "one",
     "candidates": [
       [
@@ -1198,7 +1204,9 @@
     "axis": "PTM",
     "context": "tachyzoite",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "n_ubiquitination_sites"
+    ],
     "policy": "one",
     "candidates": [
       [
@@ -2359,8 +2367,10 @@
     "name": "interaction · proximity labelling",
     "axis": "relation",
     "context": "BioID / TurboID",
-    "unit": "pair",
-    "patterns": [],
+    "unit": "gene",
+    "patterns": [
+      "n_proximity_partners"
+    ],
     "policy": "fill",
     "candidates": [
       [
@@ -4848,7 +4858,7 @@
     "name": "interaction · proximity labelling",
     "axis": "relation",
     "context": "BioID / TurboID",
-    "unit": "pair",
+    "unit": "gene",
     "patterns": [],
     "policy": "fill",
     "candidates": [],

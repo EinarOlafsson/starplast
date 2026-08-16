@@ -627,6 +627,14 @@ def test_the_node_load_composes_the_upstream_table_with_products_and_expression(
     monkeypatch.setattr(BG.localization, "lopit_labels", lambda ds, n, log=None: n.assign(
         compartment="unassigned", lopit_unified=None))
     monkeypatch.setattr(BG.screens, "crispr_screens", lambda *a, **k: pd.DataFrame())
+    # One verified mass-spec deposit, so the merge that puts site counts on genes runs here rather
+    # than only on a machine that has the downloads. The build has to carry it through to the
+    # written table, which is the claim this test is for.
+    deposit = base / BG.proteomics.QUARANTINE / "Tg" / "acetylation"
+    deposit.mkdir(parents=True, exist_ok=True)
+    (deposit / "KSites.txt").write_text(f"Proteins\n{genes[0]}\n{genes[0]}\n{genes[1]}\n")
+    monkeypatch.setattr(BG.proteomics, "DEPOSITS", (
+        ("Tg", "acetylation", "PXD079431", "n_acetylation_sites", r"KSites"),))
     monkeypatch.setattr(BG.screens, "proteomics", lambda *a, **k: pd.DataFrame())
     monkeypatch.setattr(BG.expression, "load_all", lambda *a, **k: pd.DataFrame())
     monkeypatch.setattr(BG.cellcycle, "add_all", lambda base, n, **k: n)
@@ -924,3 +932,21 @@ def test_the_embedding_is_writable_even_when_umap_returns_a_read_only_array(monk
     assert Y.shape == (n, 3)
     assert np.isfinite(Y).all()
     Y[0, 0] = 1.0                              # and the caller must be able to write to it
+
+
+def test_the_mass_spec_columns_are_merged_into_the_node_table(monkeypatch):
+    """Counts of reported modification sites are merged separately from expression, and on purpose:
+    these are site counts rather than abundances, and putting them through one loader would invite
+    them to be normalised together."""
+    import pandas as pd
+    import starplast.proteomics as PR
+    from starplast import build_graph as B
+    nodes = pd.DataFrame({"gene_id": ["TGME49_000001", "TGME49_000002"]})
+    monkeypatch.setattr(PR, "load_all",
+                        lambda base, index, log=print: pd.DataFrame(
+                            {"n_acetylation_sites": [4.0, None]}, index=pd.Index(index)))
+    columns = PR.load_all(B.BASE, nodes.gene_id.astype(str))
+    for c in columns.columns:
+        nodes[c] = columns[c].to_numpy()
+    assert nodes.loc[0, "n_acetylation_sites"] == 4.0
+    assert pd.isna(nodes.loc[1, "n_acetylation_sites"]), "an unmeasured gene was given a number"

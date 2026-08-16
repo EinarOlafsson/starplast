@@ -25,6 +25,7 @@ import numpy as np
 import pandas as pd
 
 from . import (cellcycle, corpus, expression, identity, interaction_studies, interactions, literature,
+               proteomics,
                localization, screens)
 
 from . import paths
@@ -115,6 +116,14 @@ def load_nodes() -> pd.DataFrame:
         if tbl is not None and not tbl.empty:
             for c in tbl.columns:
                 n[c] = n.gene_id.map(tbl[c])
+
+    # Mass spectrometry, from deposits that were verified by reading them rather than by trusting a
+    # metadata field. Merged here rather than inside `expression.load_all` because these are counts
+    # of reported sites, not abundances, and mixing the two under one loader would invite them to be
+    # normalised together.
+    ms = proteomics.load_all(BASE, n.gene_id.astype(str), log=log)
+    for c in ms.columns:
+        n[c] = ms[c].to_numpy()
 
     n = cellcycle.add_all(BASE, n, resolve=resolve, log=log)
 

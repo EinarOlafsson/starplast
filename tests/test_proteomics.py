@@ -164,3 +164,28 @@ def test_a_wanted_pattern_excludes_the_tables_that_do_not_match_it(tmp_path):
     assert "TGME49_000001" in ubiquitin.index and "TGME49_555555" not in ubiquitin.index
     phospho = P.deposit_counts(str(tmp_path), wants=r"Phospho")
     assert "TGME49_555555" in phospho.index and "TGME49_000001" not in phospho.index
+
+
+def test_load_all_reads_the_verified_deposits_and_says_what_it_found(tmp_path, monkeypatch):
+    """The registry of what survived verification. A deposit that is not downloaded is reported and
+    skipped rather than silently producing a column of nothing -- a column of NaN would flip its
+    slot to filled and give the map a feature nobody measured."""
+    said = []
+    index = ["TGME49_000001", "TGME49_000002", "TGME49_999999"]
+    where = tmp_path / P.QUARANTINE / "Tg" / "acetylation"
+    where.mkdir(parents=True)
+    (where / "KSites.txt").write_text(SITES)
+    monkeypatch.setattr(P, "DEPOSITS", (
+        ("Tg", "acetylation", "PXD079431", "n_acetylation_sites", r"KSites"),
+        ("Tg", "never_downloaded", "PXD000000", "n_missing_sites", r"anything"),
+    ))
+    out = P.load_all(str(tmp_path), index, log=said.append)
+    assert list(out.columns) == ["n_acetylation_sites"], "a missing deposit produced a column"
+    assert out.loc["TGME49_000001", "n_acetylation_sites"] == 2
+    assert any("PXD000000 not downloaded" in m for m in said), said
+    assert any("2 genes measured" in m for m in said), said
+
+
+def test_nothing_verified_yields_no_columns_at_all(tmp_path, monkeypatch):
+    monkeypatch.setattr(P, "DEPOSITS", ())
+    assert P.load_all(str(tmp_path), ["TGME49_000001"]).empty

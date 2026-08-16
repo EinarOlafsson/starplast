@@ -144,6 +144,43 @@ def deposit_counts(folder: str, limit_files: int = 40, wants: str = "") -> pd.Se
     return total
 
 
+#: The verified deposits, what each fills, and which tables inside measure that modification. The
+#: `wants` pattern is the difference between a slot counting its own modification and a slot
+#: counting every modification the search happened to look for.
+#:
+#: Verified here means the file itself was read and found to name Toxoplasma genes AND the
+#: modification -- not that a metadata field agreed. Of 102 datasets proposed from GEO, 8 survived
+#: that check; the rest are in the same quarantine directory and are deliberately not listed.
+DEPOSITS = (
+    ("Tg", "acetylation", "PXD079431", "n_acetylation_sites", r"acetyl|GCN5|FLAG"),
+    ("Tg", "phosphorylation_kinase_substrate", "PXD017032", "n_kinase_substrate_sites",
+     r"phospho|txt"),
+    ("Tg", "interaction_proximity_labelling", "PXD059579", "n_proximity_partners", r"mzid|Results"),
+    ("Tg", "S_nitrosylation", "PXD046083", "n_nitrosylation_sites", r"iodo ?TMT|nitrosyl|SNO"),
+    ("Tg", "ubiquitination_SUMOylation", "PXD042937", "n_ubiquitination_sites",
+     r"GlyGly|ubiquitin"),
+)
+
+#: Where the fetcher puts things. Reading from quarantine is deliberate: a deposit is not promoted
+#: by being downloaded, only by being checked, and `DEPOSITS` is the record of which were.
+QUARANTINE = os.path.join("datasets", "quarantine", "2026_08_16_pride")
+
+
+def load_all(base: str, index, log=print) -> pd.DataFrame:
+    """Every verified deposit as columns, aligned to a gene index."""
+    out = pd.DataFrame(index=pd.Index(index, dtype=object))
+    for organism, folder, accession, column, wants in DEPOSITS:
+        where = os.path.join(base, QUARANTINE, organism, folder)
+        if not os.path.isdir(where):
+            log(f"proteomics: {accession} not downloaded, {column} left out")
+            continue
+        got = column_for(where, column, out.index, wants=wants)
+        out[column] = got[column]
+        log(f"proteomics: {column} from {accession}, "
+            f"{int(got[column].notna().sum()):,} genes measured")
+    return out
+
+
 def column_for(folder: str, column: str, index, wants: str = "") -> pd.DataFrame:
     """One deposit as one column, aligned to a gene index, NaN where the study saw nothing.
 
