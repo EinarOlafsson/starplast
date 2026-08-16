@@ -90,6 +90,12 @@ def test_nothing_downloaded_yields_nothing(tmp_path):
     assert TE.evidence(str(tmp_path), log=lambda *_: None).empty
 
 
+def test_the_rejected_antisense_report_is_not_a_source():
+    """Two strain time courses of the same measurement share 12 of their top 200 genes, where
+    chance gives 28. It is measuring the run rather than the gene."""
+    assert not any("antisense" in filename for filename, *_ in TE.SOURCES)
+
+
 def test_the_rejected_vesicle_report_is_not_a_source():
     """Secreted GRA and MIC proteins come out DEPLETED from the vesicle fraction and ribosomal
     proteins enriched. Whether that is a correct measurement of something else does not matter --

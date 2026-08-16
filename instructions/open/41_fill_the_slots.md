@@ -247,3 +247,48 @@ study with no coverage. It now routes through the identity layer, as `build_grap
 
 The guard that surfaced it is `scripts/add_verified_columns.py` refusing to write when any column
 comes back empty. That refusal has now paid for itself twice; keep it.
+
+### The ToxoDB round: eight datasets, five kept, and three kinds of failure (2026-08-16)
+
+ToxoDB does not only host datasets — it runs them through its own pipelines and exposes the per-gene
+result through searches whose report can be asked for the value. That is the richest single source
+found so far, and it is the only route to several of these: the epitope mapping is ToxoDB's join of
+IEDB against the ME49 proteome; the Foe palmitome's own paper is not open access and PMC blocks
+automated download of its supplements.
+
+| dataset | slot | verdict |
+|---|---|---|
+| Foe palmitome | palmitoylation | **kept**, 470 genes |
+| IEDB epitopes | T-cell epitope content | **kept**, 221 genes |
+| Ramakrishnan enteroepithelial | transcription · in vivo enteric | **kept**, 7,739 genes |
+| Hakimi/Ali H4 acetylation | chromatin state · histone marks | **kept**, 7,515 genes |
+| Saeij 29 strains (ME49 arm) | transcription · in naive macrophage | **kept**, 8,140 genes |
+| Stuart/Ralph nanopore | splicing / isoform use | **kept**, 798 genes |
+| Einstein H3K4me1 | chromatin state · histone marks | refused — backwards |
+| Ramirez-Flores vesicles | secretome / excreted | refused — measures something else |
+| Gregory sense/antisense | noncoding and antisense | refused — does not reproduce |
+
+**The three failures are three different failures, and none is visible in metadata.**
+
+1. **Backwards.** H3K4me1's "marked" genes have LESS accessible promoters than unmarked ones
+   (−0.51 against +0.39, p = 3e-50). H4 acetylation from the same site, same assay type and same
+   query shape gives +0.43 with ATAC, which is what says the refusal is about the data.
+2. **Measures something else.** In the vesicle proteome the dense granule proteins sit at −0.85 and
+   the microneme proteins at −3.72 — depleted from the vesicle fraction — while ribosomal proteins
+   are the most enriched thing in it. Probably a correct measurement of vesicle partitioning; still
+   not an answer to what the parasite secretes.
+3. **Does not reproduce.** The sense/antisense coupling was independent of expression, which looked
+   like a good sign, and the ME49 and GT1 time courses of the same analysis share 12 of their top
+   200 genes where chance gives 28.
+
+**Every one of these was caught by comparing the candidate column against something else** — another
+column already in the map, or the same measurement computed a second way. That is the check to
+budget for; it is not expensive and nothing else substitutes for it.
+
+### A fact about the API that is worth not rediscovering
+
+`fold_change_avg` is **comp/ref**, not ref/comp, and nothing in the API says which. Established
+against a case with one possible answer: tachyzoites as reference against tissue cysts puts BAG1 at
++21.6 and LDH2 at +16.1, both bradyzoite-specific, and SAG1 at −14.3. Check it against a known
+comparison whenever a new fold-change search is added — getting it backwards raises nothing, it
+silently inverts a column.

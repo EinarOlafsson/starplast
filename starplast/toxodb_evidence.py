@@ -43,6 +43,14 @@ from .palmitome import signed_log2
 #: decile are expressed four times as highly as those in its bottom. So the H3K4me1 result is not an
 #: artefact of how these reports are read here.
 #:
+#: Also NOT here: the Gregory sense/antisense analysis, fetched for `noncoding and antisense
+#: transcription`. Its `max_FC_product` -- the strongest sense-down/antisense-up coupling across a
+#: tachyzoite time course -- is independent of expression (rho -0.13), which was encouraging, and
+#: does not reproduce. The same analysis on the ME49 and the GT1 time course agrees at rho +0.155
+#: over 1,413 shared genes, and the two top-200 lists share 12 genes where chance alone would give
+#: 28. A measurement that anti-correlates with its own replicate is measuring the run, not the gene.
+#: The report is in `datasets/quarantine/2026_08_16_toxodb/`.
+#:
 #: Also NOT here: the Ramirez-Flores self-assembled vesicle proteome, fetched for `secretome /
 #: excreted`. Taking exosomes and ectosomes against the remaining supernatant, the dense granule
 #: proteins come out at -0.85 and the microneme proteins at -3.72 -- DEPLETED from the vesicle
