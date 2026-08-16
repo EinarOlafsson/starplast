@@ -761,6 +761,23 @@ REGISTRY = [
                  "measurement in a different host context, with nothing to declare in derived_from. "
                  "It is written down here so that nobody counts the two as independent evidence when "
                  "they agree, which they mostly will."),
+    Dataset("toxodb_nanopore_isoforms", "Novel transcript models (Nanopore, via ToxoDB)",
+            "transcription", "LongRead",
+            "How many novel TALON transcript models long reads support for this gene",
+            ("novel_transcript_models",), "798 genes (10%)",
+            accession="ToxoDB Stuart/Ralph nanopore",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/"
+                "GenesByLongReadEvidence_tgonME49_Stuart_Ralph_nanopore_rnaSeqNextflow_RSRC"
+                "/reports/attributesTabular",
+            path="starplast/data/toxodb_nanopore_isoforms.tsv",
+            note="Incomplete-splice-match, novel-in-collection and novel-not-in-collection models, "
+                 "at five supporting reads or more. `Known` is excluded because the annotated model "
+                 "says nothing about isoform use, and `Genomic` because it is unspliced. Its power "
+                 "is in PRESENCE rather than magnitude -- most genes that have a novel model have "
+                 "one. Verified on that basis: genes with a novel model have a median of 6 exons "
+                 "against 4 for genes without, Mann-Whitney p = 9e-43, which is the relationship "
+                 "alternative splicing has to produce. Absent is NOT zero: a gene with no novel "
+                 "model here may simply not have been sequenced deeply enough."),
     Dataset("toxodb_enteroepithelial", "Enteroepithelial stage transcriptome (via ToxoDB)",
             "transcription", "RNAseq",
             "Expression in the feline enteroepithelial stages against tachyzoites",

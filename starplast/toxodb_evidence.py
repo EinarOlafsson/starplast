@@ -9,6 +9,17 @@ the ChIP-on-chip scores were published as array data that nobody has since re-ta
 Every column is the value the search returns, unmodified except for the sign convention below. What
 is chosen here is which comparison to ask for, and that choice is recorded per source.
 
+## Which way round a fold change points
+
+`fold_change_avg` is **comp/ref**, not ref/comp, and nothing in the API says so. It was established
+against a case with only one possible answer: asking the enteroepithelial dataset for tachyzoites as
+reference and tissue cysts as comparison puts BAG1 at +21.6 and LDH2 at +16.1 -- both
+bradyzoite-specific -- and SRS29B, which is SAG1, at -14.3. Positive is therefore higher in the
+comparison group.
+
+That check is worth repeating whenever a new fold-change search is added here. Getting it backwards
+does not raise anything; it silently inverts a column.
+
 ## The sign convention, again
 
 Like the palmitome, the RNA-seq searches report a signed fold DIFFERENCE: -1257.4 means
@@ -32,6 +43,16 @@ from .palmitome import signed_log2
 #: decile are expressed four times as highly as those in its bottom. So the H3K4me1 result is not an
 #: artefact of how these reports are read here.
 #:
+#: Also NOT here: the Ramirez-Flores self-assembled vesicle proteome, fetched for `secretome /
+#: excreted`. Taking exosomes and ectosomes against the remaining supernatant, the dense granule
+#: proteins come out at -0.85 and the microneme proteins at -3.72 -- DEPLETED from the vesicle
+#: fraction -- while ribosomal proteins, which nothing secretes, are the most enriched thing in it at
+#: +0.49. The direction was checked both ways round and the two are exact negations, so this is not
+#: an orientation mistake. The likeliest reading is that GRAs and MICs are secreted as soluble
+#: protein and stay in the supernatant, which would make the dataset a correct measurement of vesicle
+#: partitioning and still not an answer to what the parasite secretes. Correct-measurement-of-a-
+#: different-thing is not something this can distinguish from wrong, so the slot stays empty.
+#:
 #: NOT here, and deliberately: the Einstein H3K4me1 ChIP-on-chip. Its 231 "marked" genes have LESS
 #: accessible promoters than unmarked genes (-0.51 against +0.39, Mann-Whitney p = 3e-50) and its
 #: score correlates with promoter ATAC at rho = -0.37. H3K4me1 marks active and poised chromatin, so
@@ -47,6 +68,8 @@ SOURCES = (
      "GenesByChIPchip Hakimi/Ali genome-wide H4 K5-K8-K12-K16 acetylation, within 1 kb, no floor"),
     ("toxodb_macrophage.tsv", "macrophage_expression_percentile", False,
      "GenesByRNASeq Saeij 29 strains, ME49-infected murine macrophages, percentile, channel 1"),
+    ("toxodb_nanopore_isoforms.tsv", "novel_transcript_models", False,
+     "GenesByLongReadEvidence Stuart/Ralph nanopore, ISM + NIC + NNC novelty, >=5 reads"),
     ("toxodb_enteroepithelial.tsv", "ees_vs_tachyzoite_log2", True,
      "GenesByRNASeq Ramakrishnan enteroepithelial, EES1-5 against tachyzoites, sense strand"),
 )

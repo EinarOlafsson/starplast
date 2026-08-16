@@ -90,6 +90,14 @@ def test_nothing_downloaded_yields_nothing(tmp_path):
     assert TE.evidence(str(tmp_path), log=lambda *_: None).empty
 
 
+def test_the_rejected_vesicle_report_is_not_a_source():
+    """Secreted GRA and MIC proteins come out DEPLETED from the vesicle fraction and ribosomal
+    proteins enriched. Whether that is a correct measurement of something else does not matter --
+    it is not an answer to what the parasite secretes."""
+    assert not any("vesicle" in filename for filename, *_ in TE.SOURCES)
+    assert not os.path.exists(os.path.join(ROOT, "starplast", "data", "toxodb_vesicles.tsv"))
+
+
 def test_the_rejected_histone_report_is_not_a_source():
     """It stays out until somebody explains the backwards correlation, not until it looks tidy."""
     assert not any("h3k4me1" in filename for filename, *_ in TE.SOURCES)
@@ -155,3 +163,18 @@ def test_the_active_histone_mark_behaves_like_one():
         k = n[["h4_acetylation_chip_score", other]].dropna()
         rho = spearmanr(k["h4_acetylation_chip_score"], k[other]).statistic
         assert rho > floor, f"{other}: rho {rho:+.3f}"
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_novel_isoforms_land_on_the_genes_with_more_exons():
+    """More exons, more ways to splice. If the join were wrong this is what would vanish."""
+    from scipy.stats import mannwhitneyu
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "novel_transcript_models" not in n.columns or "n_exons" not in n.columns:
+        pytest.skip("isoform or exon column not present")
+    have = n.loc[n["novel_transcript_models"].notna(), "n_exons"].dropna()
+    none = n.loc[n["novel_transcript_models"].isna(), "n_exons"].dropna()
+    assert have.median() > none.median()
+    assert mannwhitneyu(have, none).pvalue < 1e-10

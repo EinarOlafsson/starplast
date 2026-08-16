@@ -146,6 +146,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | In vivo brain-stage transcriptome | Tachyzoites, acute/chronic whole brain, and purified bradyzoites | 7,663 (94.1%) | Garfoot AL et al., Proteomic and transcriptomic analyses of early and late-chronic Toxoplasma gondii infection shows novel and stage specific transcripts. BMC Genomics 2019;20:859; PMID [31726967](https://pubmed.ncbi.nlm.nih.gov/31726967/) |
 | Life-cycle stage enrichment (DERIVED) | Which stage a gene's own expression is highest in | 1,911 of 8,140 genes called | *citation not yet confirmed* |
 | MORC depletion and BFD1 perturbation transcriptome | MORC knockdown, BFD1 knockout and BFD1 stabilization series | 7,841 (96.3%) | `PXD058095` |
+| Novel transcript models (Nanopore, via ToxoDB) | How many novel TALON transcript models long reads support for this gene | 798 genes (10%) | `ToxoDB Stuart/Ralph nanopore` |
 | Oocyst sporulation series | Unsporulated / sporulating / sporulated, 2 replicates (6 columns) | 7,974 (98.0%) | `GSE206344` |
 | Primary brain-cell parasite differentiation time course | Parasite base mean and log2 fold-change at days 1, 2, 4, 7 and 14 | measured at build time | Mouveaux T et al., Primary brain cell infection by Toxoplasma gondii reveals spontaneous bradyzoite differentiation and modification of neuron biology; PMID [34610266](https://pubmed.ncbi.nlm.nih.gov/34610266/); `GSE168465` |
 | Pru tachyzoite / 72-hour bradyzoite stage array | Matched tachyzoite and alkaline-induced bradyzoite expression | 7,253 genes | `GSE22258` |

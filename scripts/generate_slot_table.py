@@ -694,7 +694,11 @@ SLOTS = [
     ("RNA modification · m6A / 5mC", "regulation", "tachyzoite", "gene", [], "separate",
      [("34263725", "GSE168155", "m6A reader and polyadenylation"),
       ("40830525", "GSE294543", "5mC methylome across lineages")]),
-    ("splicing / isoform use", "regulation", "stages", "gene", [], "one",
+    # Novel TALON transcript models per gene from long reads. Its power is in PRESENCE rather than
+    # magnitude -- most genes that have one have one -- and that is what was verified: genes with a
+    # novel model have a median of 6 exons against 4 for genes without (p = 9e-43), which is the
+    # relationship alternative splicing must produce.
+    ("splicing / isoform use", "regulation", "stages", "gene", ["novel_transcript_models"], "one",
      [("33688018", "PRJNA606986", "nanopore isoform landscape")]),
     ("RNA stability / half-life", "regulation", "tachyzoite", "gene", [], "one",
      [("39899594", "PRJEB67890", "iron-mediated post-transcriptional regulation")]),
