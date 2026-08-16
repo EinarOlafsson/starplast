@@ -103,7 +103,7 @@ def has_table(blob: bytes) -> bool:
     return sum(1 for line in body if line.strip() and not line.startswith("!")) > 1
 
 
-def supplementary(accession: str, where: str, cap_mb: float, log=print) -> list:
+def supplementary(accession: str, where: str, cap_mb: float = 0.0, log=print) -> list:
     """Fetch a series' supplementary files, which is where sequencing data actually lives."""
     stem = accession[:-3] + "nnn" if len(accession) > 6 else accession + "nnn"
     listing_url = f"{FTP}/{stem}/{accession}/suppl/"
@@ -127,10 +127,11 @@ def supplementary(accession: str, where: str, cap_mb: float, log=print) -> list:
         except (urllib.error.URLError, urllib.error.HTTPError) as exc:
             log(f"  {name}: {getattr(exc, 'code', type(exc).__name__)}")
             continue
-        if len(blob) > cap_mb * 1e6:
-            # Raw archives run to tens of gigabytes. The cap is a decision about what this machine
-            # will hold, and it is RECORDED rather than silent, so a slot left open by it can be
-            # told from a slot nobody tried.
+        if cap_mb and len(blob) > cap_mb * 1e6:
+            # NO cap by default, and that is the point. A cap silently converts "nobody has measured
+            # this" into "we chose not to fetch it", and the slot table cannot tell those apart
+            # afterwards. Twelve files were skipped by a 400 MB cap on the first run, including the
+            # 2.8 GB mosquito-stage archive that three transcription slots depend on.
             log(f"  {name}: {len(blob) / 1e6:.0f} MB, over the {cap_mb:.0f} MB cap -- skipped")
             out.append({"file": name, "bytes": len(blob), "status": "over cap"})
             continue
@@ -143,7 +144,7 @@ def supplementary(accession: str, where: str, cap_mb: float, log=print) -> list:
     return out
 
 
-def fetch(accession: str, where: str, log=print, cap_mb: float = 400.0) -> dict | None:
+def fetch(accession: str, where: str, log=print, cap_mb: float = 0.0) -> dict | None:
     """Download one series matrix. Returns its manifest entry, or None if it is not published."""
     url = matrix_url(accession)
     target = os.path.join(where, f"{accession}_series_matrix.txt.gz")
@@ -177,7 +178,14 @@ def main(argv=None) -> int:
     """`python scripts/fetch_candidates.py --root datasets/acquired --per-slot 1`."""
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     p.add_argument("--candidates", default="instructions/open/41_candidates.json")
-    p.add_argument("--root", default="datasets/acquired")
+    p.add_argument("--root", default="datasets/quarantine",
+                   help="where downloads land. The default is QUARANTINE, not the application's "
+                        "dataset folder: nothing is verified on arrival, and a directory nobody "
+                        "has checked gets trusted by whoever ingests it next. Verification moves "
+                        "a file out of here; it never lands here already trusted")
+    p.add_argument("--cap-mb", type=float, default=0.0,
+                   help="skip supplementary files above this size. 0 means no cap, which is the "
+                        "default")
     p.add_argument("--per-slot", type=int, default=1, help="candidates to fetch per slot")
     p.add_argument("--max-slots", type=int, default=0)
     p.add_argument("--arm", default="", choices=("", "Tg", "Pf"))
@@ -212,7 +220,8 @@ def main(argv=None) -> int:
             continue
         folder = os.path.join(args.root, arm, re.sub(r"[^A-Za-z0-9]+", "_", key.split("::")[1]))
         print(f"{key} <- {accession} ({taxon}, {samples} samples)", flush=True)
-        entry = fetch(accession, folder, log=lambda m: print(m, flush=True))
+        entry = fetch(accession, folder, log=lambda m: print(m, flush=True),
+                      cap_mb=args.cap_mb)
         if entry:
             manifest.setdefault(key, []).append({**entry, "taxon": taxon, "samples": samples,
                                                  "title": title})

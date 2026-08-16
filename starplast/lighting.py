@@ -93,8 +93,27 @@ DEFAULT_FINISH = DEFAULT_POINT_MODE
 #: Where the light comes from. The default follows the pointer, because the thing a person does with
 #: this map is lean into a cluster -- and a light that arrives from wherever they are looking lights
 #: the points they are looking at rather than the ones behind them.
-SOURCES = ("mouse flashlight", "selected gene", "selected gene and its edges")
+SOURCES = ("mouse flashlight", "selected gene", "selected gene and its edges",
+           "wandering light", "bouncing light")
 DEFAULT_SOURCE = "mouse flashlight"
+
+#: The two lights that live INSIDE the cloud rather than outside it, and that difference is the
+#: whole of what they are for. Every other source lights the map from somewhere a viewer stands:
+#: the pointer, a corner, a selected gene. These two travel through it, so what they light is the
+#: neighbourhood they happen to be passing, and a reader watching one cross a cluster sees the
+#: cluster's depth in a way a fixed light cannot show.
+#:
+#: Both are marked `local`, which is not decoration. These normals are radial, so a light inside the
+#: cloud faces the back of nearly everything around it and its diffuse term lands on almost nothing;
+#: the local glow is what makes an interior light light anything at all. That was measured once
+#: already, when a torch inside a far cluster came out DIMMER than the near face of the map.
+WANDER_SPEED = 0.11
+BOUNCE_SPEED = 0.19
+
+#: How far into the cloud these two are allowed, as a fraction of its extent. Kept inside 0.9 so a
+#: wandering light never sits exactly on the hull, where it would read as an ordinary outside light
+#: that had merely stopped moving.
+INTERIOR = 0.88
 
 # Temporary comparison controls for task 37.  They intentionally cover visibly different optical
 # models; after direct use the weak ones can be removed without changing the source semantics.
@@ -223,6 +242,86 @@ CORNERS = {
     "top left": (-1.0, 1.0, 0.8), "top right": (1.0, 1.0, 0.8),
     "bottom left": (-1.0, -1.0, 0.8), "bottom right": (1.0, -1.0, 0.8),
 }
+
+
+def _drift(t: float, seed: int) -> float:
+    """One axis of a smooth, unrepeating, entirely reproducible wander, in [-1, 1].
+
+    Three sines whose frequencies share no common multiple. The sum never repeats -- that is what
+    incommensurable means -- so the path looks random while remaining a function of the clock, which
+    is the property everything else in this module keeps and the reason a dropped frame costs
+    nothing here. A real random walk would accumulate state, and two machines watching the same map
+    would slowly disagree about where the light is.
+    """
+    a = 0.311 + 0.017 * seed
+    b = 0.527 + 0.023 * seed
+    c = 0.719 + 0.031 * seed
+    phase = 1.7 * seed
+    return (math.sin(a * t + phase) + math.sin(b * t + phase * 1.3)
+            + math.sin(c * t + phase * 0.7)) / 3.0
+
+
+def wandering(coords, t: float, radius: float, n: int = 1, speed: float = WANDER_SPEED,
+              color=(1.0, 0.97, 0.92)) -> list:
+    """Lights drifting through the interior of the cloud, lighting whatever they pass.
+
+    Positioned against the cloud's own extent rather than a fixed radius, so the light stays among
+    the genes at any zoom and in any embedding -- a map twice the size gets a light that wanders
+    twice as far rather than one that leaves through the side.
+    """
+    coords = np.asarray(coords, dtype=float)
+    if not len(coords):
+        return fixed((0.0, 0.0, 1.0), radius, color=color)
+    centre = coords.mean(axis=0)
+    extent = np.abs(coords - centre).max(axis=0) * INTERIOR
+    out = []
+    for i in range(max(int(n), 1)):
+        where = centre + extent * np.array([_drift(t * speed, i * 3 + axis) for axis in range(3)])
+        out.append({"pos": where, "color": np.asarray(color, dtype=float), "local": True,
+                    "target": where})
+    return out
+
+
+def _bounce_axis(x: float) -> float:
+    """A ball bouncing between two walls, in closed form, as a triangle wave over [-1, 1].
+
+    Worth doing exactly rather than by simulation. An elastic bounce in a box is separable per axis
+    and periodic, so the position at time t needs no memory of the path that got there: no state to
+    drift, no divergence between two machines, and a search that jumps the clock forward lands where
+    the light would actually be rather than where a simulation happened to have wandered.
+    """
+    return abs(((x + 1.0) % 4.0) - 2.0) - 1.0
+
+
+def bouncing(coords, t: float, radius: float, n: int = 1, speed: float = BOUNCE_SPEED,
+             color=(1.0, 0.97, 0.92)) -> list:
+    """Lights bouncing off the walls of the map's own bounding box.
+
+    Each axis runs at its own rate, and the rates share no common multiple, so the ball crosses the
+    volume on a path that does not close -- one that repeated would sweep the same corridor forever
+    and leave most of the map permanently dark.
+
+    Bouncing off the GENES themselves is not what this does, and the difference is worth stating:
+    an elastic collision with a cluster needs the path integrated forward from a start, which is the
+    state this deliberately avoids. What reads as a bounce off the data is the density shadowing
+    already in `rays` -- the ball dims as it passes behind a cluster and brightens as it clears it.
+    """
+    coords = np.asarray(coords, dtype=float)
+    if not len(coords):
+        return fixed((0.0, 0.0, 1.0), radius, color=color)
+    centre = coords.mean(axis=0)
+    extent = np.abs(coords - centre).max(axis=0) * INTERIOR
+    out = []
+    for i in range(max(int(n), 1)):
+        # Rates from an irrational-ish spread rather than round numbers: 1.0, 1.5 and 2.0 would put
+        # the ball back in the same corner every few seconds.
+        rates = np.array([1.0 + 0.37 * i, 1.31 + 0.29 * i, 1.73 + 0.19 * i])
+        offsets = np.array([0.0, 0.61, 1.27]) * (i + 1)
+        where = centre + extent * np.array(
+            [_bounce_axis(rates[axis] * t * speed + offsets[axis]) for axis in range(3)])
+        out.append({"pos": where, "color": np.asarray(color, dtype=float), "local": True,
+                    "target": where})
+    return out
 
 
 def at_points(coords, indices, radius: float, color=(1.0, 0.95, 0.85)) -> list:
@@ -434,6 +533,15 @@ def light_at(coords, source: str, t: float, n: int, speed: float, radius: float,
     source = normalize_source(source)
     color = mood_color(DEFAULT_MOOD) if color is None else np.asarray(color, dtype=float)
     centre = coords.mean(axis=0) if len(coords) else np.zeros(3)
+    # The two that travel through the map. Checked before the camera branch because neither needs a
+    # camera: where they are is a fact about the data's own extent, so they light the same genes
+    # whether the reader has orbited or not, and they work offscreen.
+    if source == "wandering light":
+        return wandering(coords, t, radius, n=n, speed=speed * WANDER_SPEED / DEFAULT_SPEED,
+                         color=color)
+    if source == "bouncing light":
+        return bouncing(coords, t, radius, n=n, speed=speed * BOUNCE_SPEED / DEFAULT_SPEED,
+                        color=color)
     if source == "selected gene" and selected is not None:
         return at_points(coords, [selected], radius, color=color)
     if source == "selected gene and its edges" and selected is not None:

@@ -8,6 +8,7 @@ the JSON into its rendered tables on the next run.
 from __future__ import annotations
 
 import argparse
+import collections
 import json
 import os
 import re
@@ -91,6 +92,69 @@ def _series(slot: dict, retmax: int = 8) -> list:
     return out
 
 
+#: Which repository actually holds each kind of measurement. GEO indexes sequencing; it does not
+#: index mass spectrometry or metabolomics, and asking it for a palmitoylome returns the nearest
+#: sequencing study instead of nothing. That is not a hypothetical: six different Plasmodium
+#: modification slots and seven Toxoplasma ones all came back pointing at one lactylation paper and
+#: one chromatin paper respectively, and 90 of 102 downloads failed verification outright.
+#:
+#: The keyword comes from the slot's NAME rather than its axis, because the name is where the
+#: measurement is written -- "acetylation" and "palmitoylation" share an axis and are not the same
+#: experiment.
+PRIDE = "https://www.ebi.ac.uk/pride/ws/archive/v2/search/projects"
+PRIDE_SPECIES = {"Tg": "Toxoplasma gondii", "Pf": "Plasmodium falciparum"}
+
+#: Slot-name fragments that mean "this is mass spectrometry", and the PRIDE keyword for each.
+MASS_SPEC = {
+    "phosphoryl": "phosphoproteome", "acetyl": "acetylation", "lactyl": "lactylation",
+    "nitrosyl": "nitrosylation", "ubiquitin": "ubiquitination", "sumoyl": "SUMOylation",
+    "glycosyl": "glycosylation", "palmitoyl": "palmitoylation",
+    "protein abundance": "proteome", "turnover": "protein turnover",
+    "crosslink ms": "crosslinking mass spectrometry", "ip-ms": "interactome",
+    "proximity labelling": "proximity labeling", "secretome": "secretome",
+    "thermal shift": "thermal proteome profiling", "with host proteins": "host interactome",
+}
+
+
+def _pride(slot: dict, retmax: int = 8) -> list:
+    """Candidates from PRIDE, for the axes GEO cannot serve.
+
+    Returned only for slots that are ABOUT mass spectrometry. A transcription slot has no business
+    here, and offering it a proteomics dataset would be the same mistake in the other direction.
+    """
+    name = str(slot["name"]).lower()
+    keyword = next((kw for fragment, kw in MASS_SPEC.items() if fragment in name), "")
+    species = PRIDE_SPECIES.get(slot["organism"], "")
+    if not keyword or not species:
+        return []
+    url = (f"{PRIDE}?keyword={urllib.parse.quote(keyword)}"
+           f"&filter=organisms=={urllib.parse.quote(species)}&pageSize={retmax}")
+    try:
+        with urllib.request.urlopen(url, timeout=60) as fh:
+            found = json.loads(fh.read().decode("utf8", "replace"))
+    except (urllib.error.URLError, urllib.error.HTTPError, ValueError):
+        return []
+    items = found if isinstance(found, list) else found.get("_embedded", {}).get("compactprojects", [])
+    # PRIDE's keyword search is full-text and loose: `acetylation` against a Toxoplasma filter
+    # returns the same top projects as a bare organism search. So the modification has to appear in
+    # the RECORD, not merely in the query -- the identical mistake to the one that put six PTM slots
+    # on a single lactylation paper, caught here instead of three steps downstream.
+    stem = keyword.split()[0].rstrip("e")
+    out = []
+    for project in items:
+        accession = str(project.get("accession", ""))
+        if not accession.startswith("PXD"):
+            continue
+        blurb = f"{project.get('title', '')} {project.get('projectDescription', '')}".lower()
+        if stem.lower() not in blurb:
+            continue
+        out.append({"pmid": "", "title": str(project.get("title", "")),
+                    "year": str(project.get("publicationDate", ""))[:4], "journal": "PRIDE",
+                    "accession": accession, "query": url,
+                    "note": "from the PRIDE index; verify the modification and the organism"})
+    return out
+
+
 def _papers(query: str, retmax: int = 8) -> list:
     search = json.loads(_get("esearch.fcgi", {"db": "pubmed", "term": query,
                                                "retmode": "json", "retmax": retmax}))
@@ -140,7 +204,8 @@ def main(argv=None) -> int:
             # Both sources: GEO's index first, because every hit there is fetchable by
             # construction, then the literature for anything GEO does not carry -- proteomics in
             # PRIDE, and the studies whose data went somewhere GEO does not index.
-            found = _series(row, args.retmax) + _papers(query, args.retmax)
+            found = (_pride(row, args.retmax) + _series(row, args.retmax)
+                     + _papers(query, args.retmax))
         except (OSError, ValueError, ET.ParseError) as exc:
             print(f"{index}/{len(definitions)} {key}: {type(exc).__name__}")
             found = []
@@ -153,9 +218,9 @@ def main(argv=None) -> int:
         found = unique
         if found:
             proposals[key] = [{**paper, "query": paper.get("query", query)} for paper in found]
-        from_geo = sum(1 for paper in found if paper.get("journal") == "GEO")
+        where = collections.Counter(paper.get("journal") or "literature" for paper in found)
         print(f"{index}/{len(definitions)} {key}: {len(found)} candidates "
-              f"({from_geo} from GEO, {len(found) - from_geo} from the literature)")
+              + ", ".join(f"{n} from {src}" for src, n in where.most_common()))
         time.sleep(max(args.delay, 0.0))
     with open(args.out, "w", encoding="utf8") as fh:
         json.dump(proposals, fh, indent=2, ensure_ascii=False)

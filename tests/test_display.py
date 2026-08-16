@@ -669,10 +669,19 @@ def test_every_source_produces_at_least_one_light(qapp, source):
 
 
 def test_a_source_with_nothing_to_follow_lights_from_the_front(qapp):
-    """No pointer in the view yet, nothing selected. Guessing would put the light behind the map."""
+    """No pointer in the view yet, nothing selected. Guessing would put the light behind the map.
+
+    The travelling lights are exempt, and not by oversight: they follow nothing, so there is nothing
+    for them to be missing. They light from wherever they have reached inside the cloud, and they
+    return as many lights as were asked for rather than one. Both have their own tests above.
+    """
     xyz = np.random.default_rng(3).normal(size=(20, 3))
+    travelling = {"wandering light", "bouncing light"}
     for source in L.SOURCES:
         lit = L.light_at(xyz, source, 0.0, 3, 0.3, 20.0)
+        if source in travelling:
+            assert len(lit) == 3, f"{source} ignored the light count"
+            continue
         assert len(lit) == 1 and lit[0]["pos"][2] > 0
 
 
@@ -1244,3 +1253,111 @@ def test_the_cpu_shading_path_runs_when_the_gpu_material_is_not_in_use(win, monk
         assert not np.allclose(cpu[:, :3], gpu_side[:, :3]), "the two paths produced one picture"
     finally:
         win.set_lighting("off")
+
+
+# --------------------------------------------------------------------------- lights that travel
+def test_a_wandering_light_stays_inside_the_cloud_and_keeps_moving(qapp):
+    """The point of this source is that it travels THROUGH the map rather than around it. A light
+    that drifted outside the hull would be an ordinary exterior light that happened to move."""
+    xyz = np.random.default_rng(3).normal(size=(600, 3)) * np.array([20.0, 8.0, 35.0])
+    centre = xyz.mean(axis=0)
+    extent = np.abs(xyz - centre).max(axis=0)
+    seen = []
+    for t in np.arange(0.0, 400.0, 7.0):
+        lit = L.wandering(xyz, float(t), radius=60.0)
+        assert len(lit) == 1 and lit[0]["local"], "an interior light that is not local lights nothing"
+        where = lit[0]["pos"]
+        assert (np.abs(where - centre) <= extent).all(), f"left the cloud at t={t}: {where}"
+        seen.append(where)
+    seen = np.array(seen)
+    # It has to actually go somewhere: a light that jitters around one spot is not wandering.
+    assert np.linalg.norm(seen.max(axis=0) - seen.min(axis=0)) > np.linalg.norm(extent) * 0.5
+
+
+def test_the_wander_is_reproducible_and_never_repeats(qapp):
+    """Deterministic because everything here is a function of the clock -- a dropped frame costs
+    nothing and two machines agree. Non-repeating because the frequencies share no common multiple,
+    so it does not settle into a loop that leaves half the map permanently dark."""
+    xyz = np.random.default_rng(4).normal(size=(200, 3)) * 15
+    assert np.allclose(L.wandering(xyz, 12.5, 40.0)[0]["pos"], L.wandering(xyz, 12.5, 40.0)[0]["pos"])
+    early = np.array([L.wandering(xyz, float(t), 40.0)[0]["pos"] for t in range(0, 60)])
+    late = np.array([L.wandering(xyz, float(t), 40.0)[0]["pos"] for t in range(600, 660)])
+    assert not np.allclose(early, late, atol=1.0), "the path closed into a loop"
+
+
+def test_a_bouncing_light_turns_around_at_the_walls(qapp):
+    """A ball in a box, in closed form. The property that matters is the turn: the path must reverse
+    at the wall rather than pass through it or wrap around to the other side."""
+    xyz = np.random.default_rng(5).normal(size=(400, 3)) * 12
+    centre = xyz.mean(axis=0)
+    extent = np.abs(xyz - centre).max(axis=0)
+    path = np.array([L.bouncing(xyz, float(t) * 0.25, 40.0)[0]["pos"] for t in range(1200)])
+    assert (np.abs(path - centre) <= extent + 1e-9).all(), "the ball left the box"
+    x = path[:, 0]
+    turns = np.sum(np.diff(np.sign(np.diff(x))) != 0)
+    assert turns > 4, f"only {turns} turns in 1,200 steps -- it is not bouncing"
+    # And it reaches the walls rather than staying safely in the middle. The walls are at
+    # INTERIOR of the extent, deliberately inside the hull -- a light sitting exactly on the hull
+    # reads as an ordinary outside light that stopped moving.
+    assert np.abs(x - centre[0]).max() > extent[0] * L.INTERIOR * 0.95
+
+
+def test_the_bounce_is_closed_form_rather_than_simulated(qapp):
+    """Asking for t=900 directly must give the same answer as arriving there frame by frame would.
+    That is what having no state buys: a search that jumps the clock lands where the light really
+    is, and two machines never diverge."""
+    xyz = np.random.default_rng(6).normal(size=(150, 3)) * 10
+    assert np.allclose(L.bouncing(xyz, 900.0, 30.0)[0]["pos"],
+                       L.bouncing(xyz, 900.0, 30.0)[0]["pos"])
+    # A triangle wave of period 4 over [-1, 1]: centre, wall, centre, other wall, centre.
+    assert L._bounce_axis(0.0) == pytest.approx(0.0)
+    assert L._bounce_axis(1.0) == pytest.approx(-1.0)
+    assert L._bounce_axis(3.0) == pytest.approx(1.0)
+    assert L._bounce_axis(4.0) == pytest.approx(0.0), "the period is not 4"
+    assert all(-1.0 <= L._bounce_axis(v) <= 1.0 for v in np.arange(-20, 20, 0.37))
+
+
+def test_both_travelling_lights_light_what_they_pass(qapp):
+    """The claim a reader makes about them: genes near the light are brighter than genes far from
+    it. Without the local glow an interior light lands on the back of everything and lights almost
+    nothing, which was measured once already with the pointer torch."""
+    xyz = np.random.default_rng(7).normal(size=(800, 3)) * 18
+    flat = np.full((800, 4), 0.55)
+    for source in (L.wandering, L.bouncing):
+        lit = source(xyz, 31.0, 45.0)
+        shaded = L.shade(xyz, flat, lit)[:, :3].max(axis=1)
+        near = np.linalg.norm(xyz - lit[0]["pos"], axis=1)
+        close, far = near < np.percentile(near, 10), near > np.percentile(near, 60)
+        assert shaded[close].mean() > shaded[far].mean() * 1.15, source.__name__
+
+
+def test_several_travelling_lights_do_not_move_as_one(qapp):
+    xyz = np.random.default_rng(8).normal(size=(300, 3)) * 14
+    for source in (L.wandering, L.bouncing):
+        lit = source(xyz, 19.0, 40.0, n=3)
+        assert len(lit) == 3
+        spread = [np.linalg.norm(a["pos"] - b["pos"]) for a in lit for b in lit if a is not b]
+        assert min(spread) > 1e-6, f"{source.__name__} lights are stacked on each other"
+
+
+def test_a_travelling_light_with_no_map_to_travel_through_lights_from_the_front(qapp):
+    for source in (L.wandering, L.bouncing):
+        lit = source(np.zeros((0, 3)), 5.0, 30.0)
+        assert len(lit) == 1 and lit[0]["pos"][2] > 0
+
+
+def test_the_travelling_lights_are_selectable_and_need_no_camera(qapp):
+    """Both are facts about the data's own extent rather than about where the reader stands, so they
+    light the same genes whether the map has been orbited or not -- and they work offscreen, where
+    every other source falls back to a light from the front."""
+    xyz = np.random.default_rng(9).normal(size=(300, 3)) * 16
+    assert "wandering light" in L.SOURCES and "bouncing light" in L.SOURCES
+    for source in ("wandering light", "bouncing light"):
+        with_camera = L.light_at(xyz, source, 21.0, 2, 0.35, 40.0,
+                                 basis=(np.array([0.0, 0.0, 90.0]), np.array([1.0, 0.0, 0.0]),
+                                        np.array([0.0, 1.0, 0.0]), np.array([0.0, 0.0, -1.0])))
+        without = L.light_at(xyz, source, 21.0, 2, 0.35, 40.0, basis=None)
+        assert len(with_camera) == 2 and len(without) == 2, source
+        assert np.allclose(with_camera[0]["pos"], without[0]["pos"]), \
+            f"{source} moved when the camera did"
+        assert all(light.get("local") for light in with_camera), source

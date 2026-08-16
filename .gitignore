@@ -23,3 +23,10 @@ starplast/data/embeddings/*
 # recipe each one carries, and a results directory is not a place to ship 67 MB of them.
 results/*/embeddings/
 results/*/run.log
+
+# Downloaded datasets. Gigabytes of GEO and PRIDE archives, and not one of them is source: they are
+# fetched by scripts/fetch_candidates.py from accessions recorded in the slot tables, so the
+# accession is the thing worth versioning and the tarball is not. A 200 MB archive committed here
+# also cannot be pushed at all -- GitHub refuses anything over 100 MB -- so this is the difference
+# between a repository that clones and one that does not.
+datasets/

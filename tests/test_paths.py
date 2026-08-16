@@ -15,6 +15,7 @@ that must always work and the raw tree that is allowed to be absent -- never get
 from __future__ import annotations
 
 import os
+import os
 import sys
 
 import pytest
@@ -258,3 +259,16 @@ def test_describe_lists_each_dataset_root_it_found(monkeypatch, tmp_path):
     out = paths.describe()
     assert str(tmp_path) in out
     assert "none found" not in out
+
+
+def test_the_dataset_root_falls_back_to_a_place_that_is_always_writable(tmp_path, monkeypatch):
+    """With no dataset root configured, the cache directory is the answer: it is the one location
+    this application can always write to. `create=True` makes it rather than handing back a path
+    that does not exist, because the caller asking to create is about to write there."""
+    from starplast import paths
+    monkeypatch.setattr(paths, "dataset_roots", lambda: [])
+    monkeypatch.setattr(paths, "user_cache_dir", lambda: str(tmp_path / "cache"))
+    where = paths.dataset_root(create=True)
+    assert where.endswith("datasets") and os.path.isdir(where)
+    monkeypatch.setattr(paths, "user_cache_dir", lambda: str(tmp_path / "absent"))
+    assert not os.path.isdir(paths.dataset_root())
