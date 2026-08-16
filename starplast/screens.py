@@ -317,6 +317,39 @@ DIFFERENTIATION_SCREEN = "GSE132237_RAW.tar"
 DIFFERENTIATION_ARMS = (("L1 mNG+ 10d", "L1 bulk brady 10d"), ("L2 mNG+ 10d", "L2 bulk brady 10d"))
 
 
+#: The mineCETSA Euclidean-distance score: how far a protein's melting curve moves when calcium is
+#: added. One number per protein, from the paper's own fit -- not recomputed from the ten temperature
+#: points beside it, which are also published.
+THERMAL_SHIFT = "PMC9436416_mineCETSA_ED_score.tsv"
+
+
+def thermal_shift(base: str, log=print, resolve=None) -> pd.DataFrame:
+    """Calcium-induced thermal-shift score per protein.
+
+    Verified against the calcium sensors: CAM1 and CAM2 sit at the 98th percentile and CAM3 at the
+    83rd. A protein whose melting curve does not move when calcium is added is not calcium-binding,
+    so those three had to be near the top or the column would be measuring something else.
+
+    Note for anyone comparing this against the paper: its headline conclusion is about PP1, and PP1
+    is unremarkable HERE. That claim comes from the zaprinast time course in the same paper, which is
+    a different experiment; this is the calcium mineCETSA sheet.
+    """
+    path = _find(base, THERMAL_SHIFT)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    d = pd.read_csv(path, sep="\t")
+    if d.shape[1] < 2:
+        return pd.DataFrame()
+    gid = d[d.columns[0]].astype(str)
+    gid = gid.map(lambda g: resolve(g) or g) if resolve is not None else _acc(gid)
+    out = pd.DataFrame({"cetsa_calcium_ed_score":
+                        pd.to_numeric(d[d.columns[1]], errors="coerce").to_numpy()})
+    out["gene_id"] = gid.to_numpy()
+    out = out.dropna(subset=["gene_id"]).groupby("gene_id").max()
+    log(f"thermal shift (PMC9436416): {len(out):,} proteins")
+    return out
+
+
 #: The cyst wall interactome table. Its bait columns are named for the protein pulled down, and
 #: everything that is not one of these nine bookkeeping columns is a bait.
 CYST_WALL = "PMC7002340_cyst_wall_interactome.tsv"

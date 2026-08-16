@@ -191,6 +191,9 @@ def load_all(base: str, index, log=print, resolve=None) -> pd.DataFrame:
     for table in (screens.differentiation_screen(
                       os.path.join(base, QUARANTINE, "Tg",
                                    "essentiality_in_a_second_background"), log=log),
+                  screens.thermal_shift(
+                      os.path.join(base, "datasets", "quarantine", "2026_08_16_unverified", "Tg",
+                                   "thermal_shift"), log=log, resolve=resolve),
                   screens.cyst_wall_interactome(
                       os.path.join(base, "datasets", "quarantine", "2026_08_16_unverified", "Tg",
                                    "cyst_wall"), log=log, resolve=resolve),

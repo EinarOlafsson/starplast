@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**218 slots: 61 covered well, 10 partly, 23 thinly, 124 empty.**
+**218 slots: 61 covered well, 11 partly, 23 thinly, 123 empty.**
 
 ### transcription
 
@@ -333,7 +333,7 @@ quantity were approximating on 2026-08-13.
 |---|---|---|---|---|---|---|---|
 | Tg_drug sensitivity per gene | compound panel | **-** |  |  | `` | separate | — |
 | Tg_resistance-conferring mutation | in vitro evolution | **-** |  |  | `` | separate | — |
-| Tg_target engagement / thermal shift | thermal proteome | **-** |  |  | `` | average | — |
+| Tg_target engagement / thermal shift | thermal proteome | **B** | 2348 | 28.8% | `cetsa_calcium_ed_score` | average | — |
 | Pf_drug sensitivity per gene | compound panel | **-** |  |  | `` | separate | **Discovery of new imidazole-Mannich bases as the PfDHFR-TS inhibitor for antimalarial potential.** (Bioorganic chemistry 2026) [42556269](https://pubmed.ncbi.nlm.nih.gov/42556269/)<br>verify assay and parasite-gene shape)<br>**Synthesis and antimalarial activity of novel C30-aminated betulin derivatives.** (Bioorganic & medicinal chemistry letters 2026) [42586491](https://pubmed.ncbi.nlm.nih.gov/42586491/)<br>verify assay and parasite-gene shape)<br>**Identification of a Novel 1,3,4-Thiadiazole-Based Scaffold as a Plasmepsin V Inhibitor.** (ACS omega 2026) [42597946](https://pubmed.ncbi.nlm.nih.gov/42597946/)<br>verify assay and parasite-gene shape) |
 | Pf_resistance-conferring mutation | in vitro evolution | **-** |  |  | `` | separate | **Secondary Metabolite Profiling, In Vitro Antimicrobial Activity Evaluation, and In Vivo Acute Toxicity Assessment of Osyris quadripartita and Toddalia asiatica Leaves and Stem Bark Extracts.** (Journal of tropical medicine 2026) [42569447](https://pubmed.ncbi.nlm.nih.gov/42569447/)<br>verify assay and parasite-gene shape)<br>**Phytochemical synergy in artemisia annua herbal tea against malaria: a systematic review of its efficacy and safety in the context of emerging Pfkelch13 resistance.** (Infectious diseases of poverty 2026) [42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/)<br>verify assay and parasite-gene shape)<br>**Silybum marianum and Trigonella foenum-graecum Exhibit Moderate In Vitro Antimalarial Properties against Plasmodium knowlesi.** (Iranian journal of parasitology 2026) [42598511](https://pubmed.ncbi.nlm.nih.gov/42598511/)<br>verify assay and parasite-gene shape) |
 | Pf_target engagement / thermal shift | thermal proteome | **-** |  |  | `` | average | **Essential Oil of Symplocos chinensis (Lour.) Druce: Chemical Composition, Antioxidant Activity, and Inhibitory Effects on Acetylcholinesterase and β-Lactamase.** (Molecules (Basel, Switzerland) 2026) [42451739](https://pubmed.ncbi.nlm.nih.gov/42451739/)<br>verify assay and parasite-gene shape)<br>**Conversion of artemisinin into novel unprotected N-alkylamine-11-azaartemisinins with enhanced antimalarial activity.** (Bioorganic & medicinal chemistry letters 2026) [42486375](https://pubmed.ncbi.nlm.nih.gov/42486375/)<br>verify assay and parasite-gene shape)<br>**The biophysical characterization of recombinant glutathione transferase from Plasmodium berghei, a murine model of human malaria: Insights from empirical and computational methods.** (International journal of biological macromolecules 2026) [42537965](https://pubmed.ncbi.nlm.nih.gov/42537965/)<br>verify assay and parasite-gene shape) |

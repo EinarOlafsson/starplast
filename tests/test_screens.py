@@ -621,3 +621,34 @@ def test_a_cyst_wall_table_without_accessions_is_refused(tmp_path):
 def test_a_cyst_wall_table_with_no_baits_is_refused(tmp_path):
     (tmp_path / SC.CYST_WALL).write_text("\t".join(SC.CYST_WALL_META) + "\n")
     assert SC.cyst_wall_interactome(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_the_thermal_shift_score_is_read_per_protein(tmp_path):
+    (tmp_path / SC.THERMAL_SHIFT).write_text("id\tEDscore\nTGGT1_100010\t0.411\n")
+    out = SC.thermal_shift(str(tmp_path), log=lambda *_: None,
+                           resolve=lambda g: "TGME49_200010")
+    assert out.loc["TGME49_200010", "cetsa_calcium_ed_score"] == pytest.approx(0.411)
+
+
+def test_a_protein_listed_twice_keeps_the_larger_shift(tmp_path):
+    (tmp_path / SC.THERMAL_SHIFT).write_text(
+        "id\tEDscore\nTGME49_200010\t0.1\nTGME49_200010\t0.4\n")
+    out = SC.thermal_shift(str(tmp_path), log=lambda *_: None, resolve=lambda g: g)
+    assert out.loc["TGME49_200010", "cetsa_calcium_ed_score"] == pytest.approx(0.4)
+
+
+def test_the_thermal_shift_falls_back_to_the_identity_layer(tmp_path):
+    """resolve=None routes through _acc, as every other loader here does."""
+    SC._RESOLVE = None
+    (tmp_path / SC.THERMAL_SHIFT).write_text("id\tEDscore\nTGME49_200010\t0.4\n")
+    out = SC.thermal_shift(str(tmp_path), log=lambda *_: None)
+    assert list(out.index) == ["TGME49_200010"]
+
+
+def test_no_thermal_shift_file_yields_nothing(tmp_path):
+    assert SC.thermal_shift(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_a_one_column_thermal_shift_file_is_refused(tmp_path):
+    (tmp_path / SC.THERMAL_SHIFT).write_text("id\nTGME49_200010\n")
+    assert SC.thermal_shift(str(tmp_path), log=lambda *_: None).empty

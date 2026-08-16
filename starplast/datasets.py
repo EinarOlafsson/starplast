@@ -929,6 +929,21 @@ REGISTRY = [
                  "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
                  "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
                  "sit below the genome median of -0.38."),
+    Dataset("thermal_shift_cetsa", "Calcium thermal-shift proteome (mineCETSA)", "post_translation",
+            "proteomics", "How far a protein's melting curve moves when calcium is added",
+            ("cetsa_calcium_ed_score",), "2,348 proteins", pmid="35976251",
+            accession="PMC9436416 Supplementary file 3",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9436416/supplementaryFiles",
+            path="datasets/quarantine/2026_08_16_unverified/Tg/thermal_shift/",
+            note="The authors' own Euclidean-distance score, not recomputed from the ten "
+                 "temperature points published beside it. Verified against the calcium sensors: "
+                 "CAM1 and CAM2 sit at the 98th percentile and CAM3 at the 83rd, and a protein "
+                 "whose melting curve does not move when calcium is added is not calcium-binding. "
+                 "One caveat for anyone comparing against the paper -- its headline conclusion is "
+                 "about PP1, and PP1 is unremarkable in THIS column. That claim comes from the "
+                 "zaprinast time course in the same paper, a different experiment; this is the "
+                 "calcium mineCETSA sheet. PXD033642, the deposit for the same study, publishes "
+                 "only identifications and could not have filled this slot."),
     Dataset("cyst_wall_interactome", "Cyst wall interactome", "post_translation", "IPMS",
             "Strongest bait signal and how many baits saw the protein",
             ("cyst_wall_max_spectral", "cyst_wall_n_baits"), "56 proteins", pmid="32019789",

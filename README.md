@@ -173,6 +173,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 |---|---|---|---|
 | BioID/TurboID supplement membership corpus | Number of downloaded proximity-labeling studies whose supplement names each gene | measured at build time | *citation not yet confirmed* |
 | C. parvum hyperLOPIT | Donor labels for orthoLOPIT transfer | 1,107 usable | Guerin et al. 2023 |
+| Calcium thermal-shift proteome (mineCETSA) | How far a protein's melting curve moves when calcium is added | 2,348 proteins | PMID [35976251](https://pubmed.ncbi.nlm.nih.gov/35976251/); `PMC9436416 Supplementary file 3` |
 | Cyst wall interactome | Strongest bait signal and how many baits saw the protein | 56 proteins | PMID [32019789](https://pubmed.ncbi.nlm.nih.gov/32019789/); `PMC7002340 Data Set S1` |
 | Foldseek structural similarity | TM-align over Toxoplasma AlphaFold models, TM >= 0.7 | 11,684 pairs / 2,338 genes | *citation not yet confirmed* |
 | IP-MS of tagged baits | Replicated pulldown vs untagged control | 64 pairs / 48 genes | `PXD043808, PXD065585` |
