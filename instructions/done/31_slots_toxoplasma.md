@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**115 slots: 53 covered well, 10 partly, 16 thinly, 36 empty.**
+**115 slots: 55 covered well, 10 partly, 16 thinly, 34 empty.**
 
 ### transcription
 
@@ -155,9 +155,9 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Tg_TF binding · per factor | ChIP / CUT&RUN | **-** |  |  | `` | separate | **Cooperative binding of ApiAP2 transcription factors is crucial for the expression of virulence genes in Toxoplasma gondii.** (Nucleic acids research 2018) [29788176](https://pubmed.ncbi.nlm.nih.gov/29788176/) `GSE106864`<br>**An apicomplexan bromodomain protein, TgBDP1, associates with diverse epigenetic factors to regulate essential transcriptional processes in Toxoplasma gondii.** (mBio 2023) [37350586](https://pubmed.ncbi.nlm.nih.gov/37350586/) `GSE228853` |
+| Tg_TF binding · per factor | ChIP / CUT&RUN | **A** | 8140 | 100.0% | `cuttag_` | separate | **Cooperative binding of ApiAP2 transcription factors is crucial for the expression of virulence genes in Toxoplasma gondii.** (Nucleic acids research 2018) [29788176](https://pubmed.ncbi.nlm.nih.gov/29788176/) `GSE106864`<br>**An apicomplexan bromodomain protein, TgBDP1, associates with diverse epigenetic factors to regulate essential transcriptional processes in Toxoplasma gondii.** (mBio 2023) [37350586](https://pubmed.ncbi.nlm.nih.gov/37350586/) `GSE228853` |
 | Tg_chromatin state · histone marks | tachyzoite / bradyzoite | **-** |  |  | `` | fill | **Genome-wide localization of histone variants in Toxoplasma gondii implicates variant exchange in stage-specific gene expression.** (BMC genomics 2022) [35164683](https://pubmed.ncbi.nlm.nih.gov/35164683/) `GSE104347`<br>**Toxoplasma gondii lysine acetyltransferase GCN5-A functions in the cellular response to alkaline stress and expression of cyst genes.** (PLoS pathogens 2010) [21179246](https://pubmed.ncbi.nlm.nih.gov/21179246/) `GSE22100` |
-| Tg_chromatin accessibility | stages | **-** |  |  | `` | one | **In vitro production of cat-restricted Toxoplasma pre-sexual stages.** (Nature 2024) [38093015](https://pubmed.ncbi.nlm.nih.gov/38093015/) `PRJNA921935` |
+| Tg_chromatin accessibility | stages | **A** | 7988 | 98.1% | `atac_promoter_` | one | **In vitro production of cat-restricted Toxoplasma pre-sexual stages.** (Nature 2024) [38093015](https://pubmed.ncbi.nlm.nih.gov/38093015/) `PRJNA921935` |
 | Tg_RNA modification · m6A / 5mC | tachyzoite | **-** |  |  | `` | separate | **A plant-like mechanism coupling m6A reading to polyadenylation safeguards transcriptome integrity and developmental gene partitioning in Toxoplasma.** (eLife 2021) [34263725](https://pubmed.ncbi.nlm.nih.gov/34263725/) `GSE168155`<br>**Cross-lineage 5-methylcytosine methylome profiling reveals methylated divergence among Toxoplasma gondii tachyzoites of the three major clonal lineages.** (Infectious diseases of poverty 2025) [40830525](https://pubmed.ncbi.nlm.nih.gov/40830525/) `GSE294543` |
 | Tg_splicing / isoform use | stages | **-** |  |  | `` | one | **Direct Nanopore Sequencing of mRNA Reveals Landscape of Transcript Isoforms in Apicomplexan Parasites.** (mSystems 2021) [33688018](https://pubmed.ncbi.nlm.nih.gov/33688018/) `PRJNA606986` |
 | Tg_RNA stability / half-life | tachyzoite | **-** |  |  | `` | one | **Iron-mediated post-transcriptional regulation in Toxoplasma gondii.** (PLoS pathogens 2025) [39899594](https://pubmed.ncbi.nlm.nih.gov/39899594/) `PRJEB67890` |

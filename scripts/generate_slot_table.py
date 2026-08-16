@@ -665,13 +665,14 @@ SLOTS = [
     ("drug sensitivity", "fitness", "compound", "gene", [], "separate", []),
 
     # ---------------------------------------------------------------- regulation
-    ("TF binding · per factor", "regulation", "ChIP / CUT&RUN", "gene", [], "separate",
+    ("TF binding · per factor", "regulation", "ChIP / CUT&RUN", "gene",
+     ["cuttag_"], "separate",
      [("29788176", "GSE106864", "ApiAP2 cooperative binding"),
       ("37350586", "GSE228853", "BDP1 bromodomain")]),
     ("chromatin state · histone marks", "regulation", "tachyzoite / bradyzoite", "gene", [], "fill",
      [("35164683", "GSE104347", "histone variants genome-wide"),
       ("21179246", "GSE22100", "GCN5-A under alkaline stress")]),
-    ("chromatin accessibility", "regulation", "stages", "gene", [], "one",
+    ("chromatin accessibility", "regulation", "stages", "gene", ["atac_promoter_"], "one",
      [("38093015", "PRJNA921935", "pre-sexual stages")]),
     ("RNA modification · m6A / 5mC", "regulation", "tachyzoite", "gene", [], "separate",
      [("34263725", "GSE168155", "m6A reader and polyadenylation"),

@@ -671,6 +671,35 @@ REGISTRY = [
                  "conversion, which is what confirms the arms are not swapped. Reached the map "
                  "proposed for `stage-conversion phenotype`, which it is not."),
 
+    Dataset("gse313048_atac", "Promoter accessibility (ATAC-seq, COMPUTED)", "DNA", "ATACseq",
+            "Mean ATAC coverage over the promoter, relative to the genome mean",
+            ("atac_promoter_ut",), "7,988 genes (98%)", accession="GSE313048",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE313nnn/GSE313048/suppl/"
+                "GSE313048_ATACseq_GCN5b-KD_UT.bw",
+            path="datasets/quarantine/2026_08_16_unverified/Tg/acetylation/",
+            note="COMPUTED here: GEO serves this as a bigWig with no peak calls and no per-gene "
+                 "table, so the summary is the mean coverage 1 kb either side of the transcription "
+                 "start, over the genome mean. No peak calling and no thresholds -- those would be "
+                 "modelling choices invented here rather than taken from the authors. Only the "
+                 "UNTREATED arm is read; the deposit is a GCN5b knockdown and the depleted arm "
+                 "answers a different question. Verified against expression: rho +0.50, and the top "
+                 "decile of expressed genes carries 2.0 log2 more promoter signal than the bottom "
+                 "decile. Correlates with fitness at rho +0.02, so it is not merely tracking "
+                 "essentiality."),
+    Dataset("gse277553_cuttag", "HDAC3 occupancy (CUT&TAG, COMPUTED)", "DNA", "CUTandTAG",
+            "Mean HDAC3 CUT&TAG coverage over the promoter, relative to the genome mean",
+            ("cuttag_hdac3_promoter_ut",), "8,140 genes (100%)", accession="GSE277553",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE277nnn/GSE277553/suppl/"
+                "GSE277553_RAW.tar",
+            path="datasets/quarantine/2026_08_16_unverified/Tg/chromatin_accessibility/",
+            note="COMPUTED the same way as the ATAC column, from the untreated arm; the deposit's "
+                 "other arm is an AP2XII-5 knockout. Two replicates and not three: "
+                 "GSM8524430_UT_2.bw begins with eight 0xFF bytes and is not a bigWig, identically "
+                 "whether taken from the series tar or fetched from GEO as a sample file, so the "
+                 "corruption is in the deposit. It is skipped with a message rather than silently, "
+                 "because a replicate dropped without saying so makes the mean smaller than the "
+                 "note beside the column claims."),
+
     # ------------------------------------------------------------------ PRIDE deposits
     # Counted from the submitters' own search output by `proteomics.deposit_counts`, never from the
     # raw spectra. Each column is "how many sites did THIS STUDY report on this gene", which is a

@@ -24,7 +24,8 @@ from collections import Counter, defaultdict
 import numpy as np
 import pandas as pd
 
-from . import (cellcycle, codons, corpus, expression, identity, interaction_studies, interactions,
+from . import (cellcycle, chromatin, codons, corpus, expression, identity, interaction_studies,
+               interactions,
                literature,
                proteomics,
                localization, screens, variation)
@@ -127,7 +128,8 @@ def load_nodes() -> pd.DataFrame:
         n[c] = ms[c].to_numpy()
 
     for table in (variation.strain_snps(BASE, resolve=resolve, log=log),
-                  codons.codon_usage(BASE, resolve=resolve, log=log)):
+                  codons.codon_usage(BASE, resolve=resolve, log=log),
+                  chromatin.chromatin_signals(BASE, resolve=resolve, log=log)):
         if table.empty:
             continue
         aligned = table.reindex(pd.Index(n.gene_id.astype(str)))

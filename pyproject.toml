@@ -30,6 +30,12 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0"]
+# Reading coverage tracks, for the two chromatin datasets GEO serves as bigWig and nothing
+# else. Build-time only: `starplast.chromatin` imports it inside the function that needs it,
+# so the shipped cache -- which already carries the computed columns -- loads without it.
+#
+#     pip install "starplast[ingest]"
+ingest = ["pyBigWig>=0.3"]
 # The GPU stack, as an extra rather than a dependency: it is ~2 GB of CUDA wheels, it only exists
 # for CUDA 12, and the program runs identically without it -- `starplast.gpu` reports what it found
 # and falls back. cuml does UMAP and HDBSCAN themselves; cupy does the array work.

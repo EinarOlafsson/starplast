@@ -20,7 +20,8 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from starplast import codons, expression, identity, proteomics, variation  # noqa: E402
+from starplast import (chromatin, codons, expression, identity, proteomics,  # noqa: E402
+                       variation)
 
 
 def main(argv=None) -> int:
@@ -54,7 +55,8 @@ def main(argv=None) -> int:
     for table in (expression.gse245775_differentiation_ribosome_profiling(
                       args.base, resolve=resolve, log=print),
                   variation.strain_snps(args.base, resolve=resolve, log=print),
-                  codons.codon_usage(args.base, resolve=resolve, log=print)):
+                  codons.codon_usage(args.base, resolve=resolve, log=print),
+                  chromatin.chromatin_signals(args.base, resolve=resolve, log=print)):
         if table.empty:
             continue
         aligned = table.reindex(pd.Index(ids))
