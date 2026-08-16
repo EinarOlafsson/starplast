@@ -90,10 +90,19 @@ def test_nothing_downloaded_yields_nothing(tmp_path):
     assert TE.evidence(str(tmp_path), log=lambda *_: None).empty
 
 
-def test_the_rejected_antisense_report_is_not_a_source():
-    """Two strain time courses of the same measurement share 12 of their top 200 genes, where
-    chance gives 28. It is measuring the run rather than the gene."""
-    assert not any("antisense" in filename for filename, *_ in TE.SOURCES)
+def test_the_rejected_antisense_change_analysis_is_not_a_source():
+    """The refused thing is the sense/antisense CHANGE, not antisense itself.
+
+    Two strain time courses of the change share 12 of their top 200 genes where chance gives 28.
+    The antisense LEVEL is a source and should be: it shares 197 of its top 500 with an independent
+    dataset where chance gives 31. The test has to tell those apart, so it names the query rather
+    than pattern-matching the word.
+    """
+    for filename, column, _fold, query in TE.SOURCES:
+        assert "max_FC_product" not in query, f"{column} is the refused change analysis"
+        assert "sense/antisense" not in query.lower(), column
+    levels = [c for f, c, _x, _q in TE.SOURCES if "antisense" in f]
+    assert levels == ["antisense_expression_percentile"], levels
 
 
 def test_the_rejected_vesicle_report_is_not_a_source():
@@ -389,3 +398,18 @@ def test_melting_temperatures_are_physical_and_not_an_abundance_proxy():
     assert 45 < tm.median() < 65, tm.median()
     j = n[["melting_temperature_tm", "expr_tachy"]].dropna()
     assert abs(spearmanr(j["melting_temperature_tm"], j["expr_tachy"]).statistic) < 0.35
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_antisense_is_not_a_restatement_of_sense_transcription():
+    """If antisense signal simply tracked expression it would be readthrough or mis-assignment, and
+    the slot would be answering the transcription axis a second time."""
+    from scipy.stats import spearmanr
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "antisense_expression_percentile" not in n.columns:
+        pytest.skip("antisense column not merged")
+    j = n[["antisense_expression_percentile", "expr_tachy"]].dropna()
+    rho = spearmanr(j["antisense_expression_percentile"], j["expr_tachy"]).statistic
+    assert abs(rho) < 0.5, f"rho {rho:+.3f}"

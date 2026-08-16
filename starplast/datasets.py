@@ -995,6 +995,22 @@ REGISTRY = [
                  "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
                  "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
                  "sit below the genome median of -0.38."),
+    Dataset("antisense_level", "Antisense transcription (via ToxoDB)", "transcription", "RNAseq",
+            "Percentile of antisense signal at this gene, across the life cycle",
+            ("antisense_expression_percentile",), "8,140 genes (100%)",
+            accession="ToxoDB full life-cycle transcriptome, Antisense",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/"
+                "GenesByRNASeqtgonME49_tgme49_spor_ocyst_rnaseq_ebi_rnaSeq_RSRCPercentile"
+                "/reports/attributesTabular",
+            path="starplast/data/antisense_level.tsv",
+            note="The LEVEL of antisense transcription and not its change. An earlier attempt at "
+                 "this slot used the sense/antisense CHANGE across a tachyzoite time course and was "
+                 "refused because two strain time courses of it shared 12 of their top 200 genes "
+                 "where chance gives 28. The level reproduces: against the independent Gregory ME49 "
+                 "series it shares 197 of its top 500 where chance gives 31, a six-fold enrichment. "
+                 "How much antisense a gene has is a property of the gene; how much it changed was a "
+                 "property of the run. Correlates with sense transcription at only rho = +0.23, so "
+                 "it is not a restatement of expression."),
     Dataset("melting_temperature", "Protein melting temperature (mineCETSA)", "post_translation",
             "proteomics", "Where this protein's melting curve sits, in degrees",
             ("melting_temperature_tm",), "3,120 proteins (38%)", pmid="35976251",

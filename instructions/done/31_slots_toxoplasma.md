@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**119 slots: 61 covered well, 12 partly, 29 thinly, 17 empty.**
+**119 slots: 62 covered well, 12 partly, 29 thinly, 16 empty.**
 
 ### transcription
 
@@ -86,7 +86,7 @@ quantity were approximating on 2026-08-13.
 | Tg_cell-cycle timing label | single-parasite atlas | **A** | 7499 | 92.1% | `cellcycle_pseudotime` | one | — |
 | Tg_life-cycle stage label (derived) | cross-stage derived target | **B** | 1911 | 23.5% | `stage_margin_derived` | one | — |
 | Tg_transcription · under initiation-factor depletion | eIF1.2 knockout, tachyzoite and pre-bradyzoite | **A** | 7880 | 96.8% | `rna245775_eif12ko_` | separate | **Translation initiation factor eIF1.2 promotes Toxoplasma stage conversion by regulating levels of key differentiation factors.** (Nature communications 2024) [38782906](https://pubmed.ncbi.nlm.nih.gov/38782906/) `GSE245775` |
-| Tg_noncoding and antisense transcription | lncRNA | **-** |  |  | `` | separate | — |
+| Tg_noncoding and antisense transcription | lncRNA | **A** | 8140 | 100.0% | `antisense_expression_percentile` | separate | — |
 | Tg_transcription · in vivo enteric | feline enterocyte | **A** | 7739 | 95.1% | `ees_vs_tachyzoite_log2` | one | — |
 
 ### translation

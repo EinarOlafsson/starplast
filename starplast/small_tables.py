@@ -46,7 +46,13 @@ from .palmitome import signed_log2
 #: decile are expressed four times as highly as those in its bottom. So the H3K4me1 result is not an
 #: artefact of how these reports are read here.
 #:
-#: Also NOT here: the Gregory sense/antisense analysis, fetched for `noncoding and antisense
+#: Also NOT here: the Gregory sense/antisense CHANGE analysis, fetched for the same slot the
+#: antisense LEVEL now fills. The distinction is the whole of it -- how much antisense a gene has is
+#: a property of the gene and reproduces across independent datasets at a top-500 overlap of 197
+#: where chance gives 31; how much its antisense CHANGED over a time course did not reproduce at all.
+#: The rejected analysis is described below.
+#:
+#: The Gregory sense/antisense analysis, fetched for `noncoding and antisense
 #: transcription`. Its `max_FC_product` -- the strongest sense-down/antisense-up coupling across a
 #: tachyzoite time course -- is independent of expression (rho -0.13), which was encouraging, and
 #: does not reproduce. The same analysis on the ME49 and the GT1 time course agrees at rho +0.155
@@ -79,6 +85,9 @@ SOURCES = (
      "GenesByChIPchip Hakimi/Ali genome-wide H4 K5-K8-K12-K16 acetylation, within 1 kb, no floor"),
     ("toxodb_macrophage.tsv", "macrophage_expression_percentile", False,
      "GenesByRNASeq Saeij 29 strains, ME49-infected murine macrophages, percentile, channel 1"),
+    ("antisense_level.tsv", "antisense_expression_percentile", False,
+     "GenesByRNASeq full life-cycle, Antisense profileset, percentile across tachyzoite, cyst and "
+     "sporulated"),
     ("melting_temperature.tsv", "melting_temperature_tm", False,
      "eLife 80336 supplementary file 3, sheet 4.5_mineCETSA_curve_fits, median Tm where R2 > 0.8"),
     ("crosslink_partners.tsv", "n_crosslink_partners", False,

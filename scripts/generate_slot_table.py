@@ -371,7 +371,12 @@ NEW_SHARED = [
      ["cetsa_calcium_ed_score"], "average"),
     ("RNA-binding protein targets", "relation", "CLIP / RIP", "gene",
      ["bfd2_rip_log2_ip_over_input"], "separate"),
-    ("noncoding and antisense transcription", "transcription", "lncRNA", "gene", [], "separate"),
+    # The LEVEL of antisense transcription, not its change. An earlier attempt used the change over
+    # a tachyzoite time course and was refused for not reproducing; the level reproduces across
+    # independent datasets, which is the difference between a property of the gene and a property of
+    # the run.
+    ("noncoding and antisense transcription", "transcription", "lncRNA", "gene",
+     ["antisense_expression_percentile"], "separate"),
     ("codon usage / translation efficiency", "translation", "sequence-derived", "gene",
      ["codon_"], "one"),
     # Re-specified, like the metabolism slots were. It asked for AlphaFold-Multimer, and no

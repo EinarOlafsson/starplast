@@ -108,7 +108,7 @@ Tg,Tg_drug sensitivity per gene,chemistry,compound panel,gene,-,0,,,,separate,,
 Tg,Tg_resistance-conferring mutation,chemistry,in vitro evolution,gene,-,0,,,,separate,,
 Tg,Tg_target engagement / thermal shift,chemistry,thermal proteome,gene,B,2348,28.8%,cetsa_calcium_ed_score,1 columns,average,,
 Tg,Tg_RNA-binding protein targets,relation,CLIP / RIP,gene,A,7463,91.7%,bfd2_rip_log2_ip_over_input,1 columns,separate,,
-Tg,Tg_noncoding and antisense transcription,transcription,lncRNA,gene,-,0,,,,separate,,
+Tg,Tg_noncoding and antisense transcription,transcription,lncRNA,gene,A,8140,100.0%,antisense_expression_percentile,1 columns,separate,,
 Tg,Tg_codon usage / translation efficiency,translation,sequence-derived,gene,A,8140,100.0%,codon_,3 columns,one,,
 Tg,Tg_complex membership,relation,crosslink MS interactome,gene,C,494,6.1%,n_crosslink_partners,1 columns,separate,PMID 40874616 mBio 02159-25 (Toxoplasma interactome by crosslinking mass spectrometry),40874616: Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and machine learning.
 Tg,Tg_seroreactivity / antigenicity,immunity,human or animal sera,gene,C,34,0.4%,n_bcell_epitopes,1 columns,separate,PMID  IEDB bcell_search (distinct antibody epitope sequences per antigen),distinct antibody epitope sequences per antigen

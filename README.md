@@ -140,6 +140,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Dataset | Type of data | Coverage | Reference |
 |---|---|---|---|
 | Alkaline-stress differentiation transcriptome | Unstressed tachyzoites and alkaline-stressed bradyzoites | 7,880 (96.8%) | Waldman BS et al., Identification of a Master Regulator of Differentiation in Toxoplasma. Cell 2020;180:359-372.e16; PMID [31955846](https://pubmed.ncbi.nlm.nih.gov/31955846/); `GSE132248` |
+| Antisense transcription (via ToxoDB) | Percentile of antisense signal at this gene, across the life cycle | 8,140 genes (100%) | `ToxoDB full life-cycle transcriptome, Antisense` |
 | BFD2-bound transcriptome (RIP-seq, COMPUTED) | Enrichment of each transcript in the BFD2 immunoprecipitation | 7,463 genes (92%) | `GSE223620` |
 | Bradyzoite restriction-checkpoint transcriptome | Cyclin perturbations in tachyzoite and bradyzoite conditions | measured at build time | `GSE200962` |
 | CPSF4 RNA-processing perturbation transcriptome | RNA response at 7, 24 and 48 hours after CPSF4 depletion | measured at build time | Farhat DC et al., A plant-like mechanism coupling m6A reading to polyadenylation safeguards transcriptome integrity. eLife 2021;10:e68312; PMID [34263725](https://pubmed.ncbi.nlm.nih.gov/34263725/); `GSE168155` |
