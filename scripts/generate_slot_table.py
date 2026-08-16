@@ -523,7 +523,12 @@ SLOTS = [
      ["cellcycle19092_"], "separate",
      [("20865045", "GSE19092", "synchronized tachyzoite time course"),
       ("32065584", "", "the study behind cellcycle_phase, re-ingested as VALUES not a call")]),
-    ("transcription · in naive macrophage", "transcription", "host: naive macrophage", "gene", [],
+    # Correlates at rho +0.89 with the fibroblast transcriptome. That is a FINDING -- the parasite's
+    # programme is largely independent of which host cell it is in -- and not a construction: this is
+    # an independent measurement in a different host context, with no derived_from to declare. Said
+    # here and in the registry so nobody counts it as independent evidence when it agrees.
+    ("transcription · in naive macrophage", "transcription", "host: naive macrophage", "gene",
+     ["macrophage_expression_percentile"],
      "one", [("40630957", "GSE295224", "dual single-cell and bulk, host-parasite")]),
     ("transcription · in IFN-gamma macrophage", "transcription", "host: IFN-g macrophage", "gene",
      [], "one", []),

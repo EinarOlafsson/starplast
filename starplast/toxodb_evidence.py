@@ -45,6 +45,8 @@ SOURCES = (
      "GenesWithEpitopes, organism=Toxoplasma gondii ME49, confidence High+Medium+Low"),
     ("toxodb_h4_acetylation.tsv", "h4_acetylation_chip_score", False,
      "GenesByChIPchip Hakimi/Ali genome-wide H4 K5-K8-K12-K16 acetylation, within 1 kb, no floor"),
+    ("toxodb_macrophage.tsv", "macrophage_expression_percentile", False,
+     "GenesByRNASeq Saeij 29 strains, ME49-infected murine macrophages, percentile, channel 1"),
     ("toxodb_enteroepithelial.tsv", "ees_vs_tachyzoite_log2", True,
      "GenesByRNASeq Ramakrishnan enteroepithelial, EES1-5 against tachyzoites, sense strand"),
 )

@@ -745,6 +745,22 @@ REGISTRY = [
                  "site, the same assay type and the same query shape does the opposite -- its marked "
                  "genes have LESS accessible promoters -- and is in quarantine. This entry is the "
                  "counter-example that says that refusal is about the data and not about the reader."),
+    Dataset("toxodb_macrophage", "Expression in infected macrophages (via ToxoDB)",
+            "transcription", "RNAseq",
+            "Expression percentile in ME49-infected murine macrophages",
+            ("macrophage_expression_percentile",), "8,140 genes (100%)",
+            accession="ToxoDB Saeij 29 strains",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/"
+                "GenesByRNASeqtgonME49_Saeij_Jeroen_strains_rnaSeq_RSRCPercentile"
+                "/reports/attributesTabular",
+            path="starplast/data/toxodb_macrophage.tsv",
+            note="The ME49 arm of a 29-strain panel, so the strain matches the rest of the map. "
+                 "Correlates at rho +0.89 with the fibroblast transcriptome (`expr_tachy`). That is "
+                 "a FINDING -- the parasite's transcriptional programme is largely independent of "
+                 "which host cell it is in -- and not a construction: it is an independent "
+                 "measurement in a different host context, with nothing to declare in derived_from. "
+                 "It is written down here so that nobody counts the two as independent evidence when "
+                 "they agree, which they mostly will."),
     Dataset("toxodb_enteroepithelial", "Enteroepithelial stage transcriptome (via ToxoDB)",
             "transcription", "RNAseq",
             "Expression in the feline enteroepithelial stages against tachyzoites",

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**115 slots: 57 covered well, 10 partly, 18 thinly, 30 empty.**
+**115 slots: 58 covered well, 10 partly, 18 thinly, 29 empty.**
 
 ### transcription
 
@@ -71,7 +71,7 @@ quantity were approximating on 2026-08-13.
 | Tg_transcription · merozoite | merozoite | **B** | 6504 | 79.9% | `rna51780_mero_` | one | **Toxoplasma gondii merozoite gene expression analysis with comparison to the life cycle discloses a unique expression state during enteric development.** (BMC Genomics 2014) [24885521](https://pubmed.ncbi.nlm.nih.gov/24885521/) `GSE51780`<br>**Asexual expansion of Toxoplasma gondii merozoites is distinct from tachyzoites and entails expression of non-overlapping gene families to attach, invade, and replicate within feline enterocytes.** (BMC genomics 2015) [25757795](https://pubmed.ncbi.nlm.nih.gov/25757795/) `PRJEB7935` |
 | Tg_transcription · sexual stages | feline gut, sexual | **-** |  |  | `` | one | **In vitro production of cat-restricted Toxoplasma pre-sexual stages.** (Nature 2024) [38093015](https://pubmed.ncbi.nlm.nih.gov/38093015/) `GSE222819`<br>**A single-cell atlas of Toxoplasma sexual development in the feline intestinal tract.** (Nature microbiology 2026) [42020723](https://pubmed.ncbi.nlm.nih.gov/42020723/) |
 | Tg_transcription · per cell-cycle phase | cell cycle | **B** | 6504 | 79.9% | `cellcycle19092_` | separate | **Coordinated progression through two subtranscriptomes underlies the tachyzoite cycle of Toxoplasma gondii.** (PLoS ONE 2010) [20865045](https://pubmed.ncbi.nlm.nih.gov/20865045/) `GSE19092`<br>**A single-parasite transcriptional atlas of Toxoplasma Gondii reveals novel control of antigen expression.** (eLife 2020) [32065584](https://pubmed.ncbi.nlm.nih.gov/32065584/) |
-| Tg_transcription · in naive macrophage | host: naive macrophage | **-** |  |  | `` | one | **Dual single-cell and bulk RNA sequencing reveal transcriptional profiles underlying heterogenous host-parasite interactions in human peripheral blood mononuclear cells.** (Frontiers in immunology 2025) [40630957](https://pubmed.ncbi.nlm.nih.gov/40630957/) `GSE295224` |
+| Tg_transcription · in naive macrophage | host: naive macrophage | **A** | 8140 | 100.0% | `macrophage_expression_percentile` | one | **Dual single-cell and bulk RNA sequencing reveal transcriptional profiles underlying heterogenous host-parasite interactions in human peripheral blood mononuclear cells.** (Frontiers in immunology 2025) [40630957](https://pubmed.ncbi.nlm.nih.gov/40630957/) `GSE295224` |
 | Tg_transcription · in IFN-gamma macrophage | host: IFN-g macrophage | **-** |  |  | `` | one | — |
 | Tg_transcription · in vivo brain, acute | mouse brain, acute | **A** | 7663 | 94.1% | `invivo_WholeBrain_Acute` | average | — |
 | Tg_transcription · in vivo brain, chronic | mouse brain, chronic | **A** | 7663 | 94.1% | `invivo_WholeBrain_Chronic` | average | — |
