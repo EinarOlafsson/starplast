@@ -231,6 +231,23 @@ REGISTRY = [
                  "genes and 2.9 for ribosomal proteins. That ordering -- what immunity sees, then "
                  "the strain-typing markers, then the conserved core -- is the check. Zero is a "
                  "measurement here, not a gap: 690 genes carry no SNP in any sequenced strain."),
+    Dataset("toxodb_codon_usage", "Codon usage bias (COMPUTED)", "reference", "sequence",
+            "Effective number of codons, GC3, and codon adaptation index",
+            ("codon_enc", "codon_gc3", "codon_cai_ribosomal"), "8,140 genes (100%)",
+            accession="ToxoDB ME49",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon"
+                "/reports/attributesTabular",
+            path="starplast/data/toxodb_cds.tsv.gz",
+            note="COMPUTED here from the coding sequences fetched 2026-08-16. ENC is Wright's "
+                 "effective number of codons and GC3 the synonymous third-position GC, both "
+                 "reference-free. CAI's reference set is the 158 ribosomal proteins, chosen by "
+                 "product annotation and NOT by this map's expression columns -- the usual choice, "
+                 "'the most highly expressed genes', would have built a sequence column out of an "
+                 "expression column and then found them correlated. Verified by the signs "
+                 "translational selection predicts: ribosomal proteins are more biased than the rest "
+                 "(ENC 46.5 against 54.0), and CAI rises with transcription (rho +0.37) and with "
+                 "protein abundance (rho +0.24) while ENC falls with both. Those correlations are a "
+                 "finding here rather than a construction."),
     Dataset("orthomcl", "OrthoMCL orthogroups", "reference", "orthology",
             "Orthogroup assignment and cross-species bridge", ("orthogroup",),
             "16,793 groups", accession="OrthoMCL release 6.21",

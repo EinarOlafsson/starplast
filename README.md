@@ -186,6 +186,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Dataset | Type of data | Coverage | Reference |
 |---|---|---|---|
 | AlphaFold DB | Per-gene mean pLDDT; coordinates fetched on demand | 6,480 (79.6%) | Varadi et al. 2024 NAR (database); Jumper et al. 2021 Nature (method); `UP000001529 (taxid 508771), AlphaFold DB` |
+| Codon usage bias (COMPUTED) | Effective number of codons, GC3, and codon adaptation index | 8,140 genes (100%) | `ToxoDB ME49` |
 | InterPro domains | Domain identity and count | 8,140 | *citation not yet confirmed* |
 | OrthoMCL orthogroups | Orthogroup assignment and cross-species bridge | 16,793 groups | `OrthoMCL release 6.21` |
 | PubMed Central open-access full texts | Sectioned JATS XML | 6,667 articles | *citation not yet confirmed* |

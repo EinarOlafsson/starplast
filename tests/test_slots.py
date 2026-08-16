@@ -178,3 +178,25 @@ def test_coverage_is_answered_in_one_place_so_two_reports_cannot_disagree():
     assert len(out["empty"]) == out["n_slots"] - out["filled"]
     # Plasmodium has no table of its own yet, so every one of its slots is empty and says so.
     assert slots.coverage("Pf", nodes, graph)["filled"] == 0
+
+
+def test_no_plasmodium_slot_claims_a_column_of_the_toxoplasma_table():
+    """The structural version of 'Plasmodium is empty', which will outlive that being true.
+
+    Every pattern written in the catalog refers to the Toxoplasma node table, because that is the
+    only table there is. A Plasmodium slot that inherits one reads as filled by data about the other
+    organism -- and `filled` is what the whole atlas is measured by. `codon_` did this the day three
+    Toxoplasma sequence columns were added, because the slot lives in `NEW_SHARED` and both arms are
+    built from that list.
+
+    When a Plasmodium node table exists this test still holds: its patterns will name ITS columns,
+    and claiming a Toxoplasma one would be the same error it is now.
+    """
+    import os
+    import pandas as pd
+    import starplast.paths as P
+    nodes = pd.read_parquet(os.path.join(P.data_dir(), "nodes.parquet"))
+    leaked = {s.name: sorted(slots.declared_columns(nodes, s))
+              for s in slots.all_slots("Pf")
+              if s.patterns and len(slots.declared_columns(nodes, s))}
+    assert not leaked, f"Plasmodium slots claiming Toxoplasma columns: {leaked}"

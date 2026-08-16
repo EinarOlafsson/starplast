@@ -351,7 +351,8 @@ NEW_SHARED = [
     ("target engagement / thermal shift", "chemistry", "thermal proteome", "gene", [], "average"),
     ("RNA-binding protein targets", "relation", "CLIP / RIP", "gene", [], "separate"),
     ("noncoding and antisense transcription", "transcription", "lncRNA", "gene", [], "separate"),
-    ("codon usage / translation efficiency", "translation", "sequence-derived", "gene", [], "one"),
+    ("codon usage / translation efficiency", "translation", "sequence-derived", "gene",
+     ["codon_"], "one"),
     ("predicted complex membership", "relation", "AlphaFold-Multimer", "gene", [], "separate"),
     ("seroreactivity / antigenicity", "immunity", "human or animal sera", "gene", [], "separate"),
     ("T-cell epitope content", "immunity", "predicted and measured", "gene", [], "average"),
@@ -401,6 +402,23 @@ TOXO_ONLY_CONTEXTS = ("feline", "enteric", "cyst wall", "bradyzoite checkpoint",
 #: is where piggyBac and PlasmoGEM data actually live.
 STUDY_SPECIFIC = ("gra1", "gra2", "delta-", "screen 1", "screen 2", "hyperlopit",
                   "ortholopit", "(young", "(sidik", "(barylyuk")
+
+
+def _no_toxoplasma_columns(row):
+    """A shared slot asked of Plasmodium, with the column patterns stripped.
+
+    `NEW_SHARED` is the list of questions both parasites have, and a pattern written there is a
+    column of the TOXOPLASMA node table -- that is the only table these patterns can refer to. Left
+    in place, the Plasmodium copy of the slot claims Toxoplasma's columns and reads as filled by data
+    about the other organism. `codon_` did exactly that: three Toxoplasma sequence columns flipped
+    the Plasmodium codon-usage slot to filled the day they were added.
+
+    `_pf_mirror` already drops patterns for the same reason. This is the same rule for the other two
+    lists that reach the Plasmodium arm.
+    """
+    row = list(row)
+    row[4] = []
+    return tuple(row)
 
 
 def _pf_mirror(rows):
@@ -870,7 +888,7 @@ def all_slots(organism: str | None = None) -> list:
     toxo = ([_definition(row, "Tg") for row in SLOTS]
             + [_definition(row, "Tg") for row in NEW_SHARED + NEW_TOXOPLASMA])
     pf = ([_definition(row, "Pf") for row in _pf_mirror(SLOTS)]
-          + [_definition(row, "Pf") for row in NEW_SHARED]
+          + [_definition(_no_toxoplasma_columns(row), "Pf") for row in NEW_SHARED]
           + [_definition(row, "Pf") for row in NEW_PLASMODIUM])
     out = toxo + pf
     if organism:

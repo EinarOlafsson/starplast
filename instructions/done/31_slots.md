@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**214 slots: 52 covered well, 10 partly, 16 thinly, 136 empty.**
+**214 slots: 53 covered well, 10 partly, 16 thinly, 135 empty.**
 
 ### transcription
 
@@ -119,7 +119,7 @@ quantity were approximating on 2026-08-13.
 | Tg_translation efficiency · extracellular stress | extracellular stress | **A** | 7437 | 91.4% | `te99395_extracellular_` | separate | **Comparative ribosome profiling uncovers a dominant role for translational control in Toxoplasma gondii.** (BMC genomics 2017) [29228904](https://pubmed.ncbi.nlm.nih.gov/29228904/) `GSE99395` |
 | Tg_translation efficiency · bradyzoite | pre-bradyzoite, alkaline-induced | **A** | 7880 | 96.8% | `te245775_parent_prebrady_` | separate | **Translation initiation factor eIF1.2 promotes Toxoplasma stage conversion by regulating levels of key differentiation factors.** (Nature communications 2024) [38782906](https://pubmed.ncbi.nlm.nih.gov/38782906/) `GSE245775` |
 | Tg_translation · under initiation-factor depletion | eIF1.2 knockout, tachyzoite and pre-bradyzoite | **A** | 7880 | 96.8% | `rpf245775_eif12ko_, te245775_eif12ko_` | separate | **Translation initiation factor eIF1.2 promotes Toxoplasma stage conversion by regulating levels of key differentiation factors.** (Nature communications 2024) [38782906](https://pubmed.ncbi.nlm.nih.gov/38782906/) `GSE245775` |
-| Tg_codon usage / translation efficiency | sequence-derived | **-** |  |  | `` | one | — |
+| Tg_codon usage / translation efficiency | sequence-derived | **A** | 8140 | 100.0% | `codon_` | one | — |
 | Pf_translation · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
 | Pf_translation · per cell-cycle phase | cell cycle | **-** |  |  | `` | one | — |
 | Pf_translation · under stress | extracellular stress or iron | **-** |  |  | `` | separate | — |
