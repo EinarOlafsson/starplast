@@ -2131,11 +2131,11 @@ class Window(QtWidgets.QMainWindow):
             if self.emitter_item is not None:
                 self.emitter_item.setVisible(False)
             return
-        targets = [np.asarray(light.get("target", light["pos"]), dtype=np.float32)
-                   for light in lit]
-        if not targets:
-            return
-        pos = np.asarray(targets, dtype=np.float32)
+        # One target per light, and `lit` is already known non-empty above, so this list is too --
+        # no guard beneath it, for the same reason the GSE129869 loader has none: a check that
+        # cannot fire tells a reader the case is handled when nothing handles it.
+        pos = np.asarray([np.asarray(light.get("target", light["pos"]), dtype=np.float32)
+                          for light in lit], dtype=np.float32)
         phase = 0.5 + 0.5 * np.sin(self._light_t * 2.4)
         size = {"halo": 15.0, "beacon": 10.0, "pulse": 12.0 + 12.0 * phase}[marker]
         alpha = {"halo": 0.34, "beacon": 0.72, "pulse": 0.28 + 0.38 * phase}[marker]

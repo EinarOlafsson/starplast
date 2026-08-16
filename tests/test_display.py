@@ -1189,3 +1189,58 @@ def test_a_pointer_mode_with_no_cone_falls_back_to_a_plain_pointer_light(qapp):
     ahead = L.light_at(xyz, "mouse flashlight", 0.0, 1, 0.3, 30.0,
                        pointer=None, basis=basis, pointer_mode=plain[0])
     assert len(ahead) == 1 and np.isfinite(ahead[0]["pos"]).all()
+
+
+# --------------------------------------------------------------------------- lighting settings
+def test_every_lighting_setting_refuses_a_value_it_does_not_know(win):
+    """Each of these reaches the map from a settings file that a newer version may have written, so
+    an unknown value is the ordinary case rather than a programming error. Refusing it keeps the
+    previous value; falling through would set the map to a mode that does not exist."""
+    for key in ("pointer_mode", "response", "target_marker", "mood"):
+        was = win._lighting[key]
+        assert win.set_lighting_option(key, "a mode from the future") == str(was)
+        assert win._lighting[key] == was, f"{key} accepted a value it does not know"
+    assert win.set_lighting_option("not_a_setting", "anything") == ""
+
+
+def test_the_target_marker_draws_and_stops_drawing(win):
+    """The marker says where the light is aimed. It is scenery -- it encodes nothing about the data
+    -- so the only claims to hold are that each shape produces points, that beacon adds a lifted
+    twin, and that switching it off hides the item rather than leaving it on screen."""
+    win.set_lighting("lit")
+    try:
+        lit = win.frame_lights()
+        counts = {}
+        for marker in ("halo", "beacon", "pulse"):
+            win._lighting["target_marker"] = marker
+            win._draw_emitter(lit)
+            assert win.emitter_item is not None and win.emitter_item.visible(), marker
+            counts[marker] = len(win.emitter_item.pos)
+        assert counts["beacon"] == 2 * counts["halo"], "the beacon lost its lifted twin"
+        win._lighting["target_marker"] = "none"
+        win._draw_emitter(lit)
+        assert not win.emitter_item.visible(), "switching the marker off left it on screen"
+        win._draw_emitter([])
+        assert not win.emitter_item.visible()
+    finally:
+        win._lighting["target_marker"] = "none"
+        win.set_lighting("off")
+
+
+def test_the_cpu_shading_path_runs_when_the_gpu_material_is_not_in_use(win, monkeypatch):
+    """Two ways a gene gets its colour: the GPU material shades per fragment and wants the flat
+    colours untouched, or the CPU shades per point. Both must draw, because the second is what runs
+    on any driver that refuses the shader -- and it is the one every headless test sees."""
+    win.set_lighting("lit")
+    try:
+        monkeypatch.setattr(win.scatter, "gpu_material_enabled", lambda mode: False)
+        win.redraw()
+        cpu = np.array(win.scatter.color, dtype=float)
+        monkeypatch.setattr(win.scatter, "gpu_material_enabled", lambda mode: True)
+        win.redraw()
+        gpu_side = np.array(win.scatter.color, dtype=float)
+        assert cpu.shape == gpu_side.shape
+        # The GPU path hands the flat colours through untouched; the CPU path has shaded them.
+        assert not np.allclose(cpu[:, :3], gpu_side[:, :3]), "the two paths produced one picture"
+    finally:
+        win.set_lighting("off")
