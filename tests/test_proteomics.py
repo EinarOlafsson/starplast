@@ -211,3 +211,38 @@ def test_the_differentiation_screen_rides_along_with_the_deposits(tmp_path, monk
 def test_no_differentiation_archive_adds_no_column(tmp_path, monkeypatch):
     monkeypatch.setattr(P, "DEPOSITS", ())
     assert P.load_all(str(tmp_path), ["TGME49_000001"], log=lambda *_: None).empty
+
+
+def test_a_deposit_keyed_on_the_type_i_strain_still_joins(tmp_path):
+    """The lactylation deposit is entirely TGGT1_ and reported 0 of its 524 genes without this.
+
+    A join that matches no rows looks exactly like a study with no coverage, which is why the merge
+    script refuses to write an empty column -- that refusal is what surfaced this.
+    """
+    folder = tmp_path / "dep"
+    folder.mkdir()
+    (folder / "La (K)Sites.txt").write_text("Proteins\nTGGT1_273760\nTGGT1_273760\n")
+    out = P.column_for(str(folder), "n_lactylation_sites", ["TGME49_200010"],
+                       wants=r"La \(K\)Sites",
+                       resolve=lambda a: {"TGGT1_273760": "TGME49_200010"}.get(a))
+    assert out.loc["TGME49_200010", "n_lactylation_sites"] == 2
+
+
+def test_two_accessions_resolving_to_one_gene_are_summed_not_dropped(tmp_path):
+    """Both strain namespaces can name the same gene in one table; the sites are the same protein's."""
+    folder = tmp_path / "dep"
+    folder.mkdir()
+    (folder / "KSites.txt").write_text("Proteins\nTGGT1_273760\nTGME49_200010\n")
+    out = P.column_for(str(folder), "n", ["TGME49_200010"], wants="KSites",
+                       resolve=lambda a: {"TGGT1_273760": "TGME49_200010"}.get(a) or a)
+    assert out.loc["TGME49_200010", "n"] == 2
+
+
+def test_an_accession_the_resolver_does_not_know_keeps_its_own_name(tmp_path):
+    """Dropping it would be worse: it would silently shrink the count the deposit reported."""
+    folder = tmp_path / "dep"
+    folder.mkdir()
+    (folder / "KSites.txt").write_text("Proteins\nTGME49_999999\n")
+    out = P.column_for(str(folder), "n", ["TGME49_999999"], wants="KSites",
+                       resolve=lambda a: None)
+    assert out.loc["TGME49_999999", "n"] == 1

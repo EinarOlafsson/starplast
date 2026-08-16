@@ -670,6 +670,16 @@ REGISTRY = [
             note="Counted only from the iodoTMT tables. Counting the whole txt folder put 90% of the "
                  "proteome in this slot, which is what a modification measured on nearly every gene "
                  "should always look like: a bug."),
+    Dataset("pride_lactylation", "Lysine lactylome", "post_translation", "proteomics",
+            "Lactylation sites reported per gene", ("n_lactylation_sites",),
+            "515 genes measured", accession="PXD031526",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD031526",
+            path="datasets/quarantine/2026_08_16_pride/Tg/lactylation/",
+            note="The second lactylation deposit tried. PXD022700 ships a RAR that bsdtar cannot "
+                 "open, and the 0 genes that produced was a fact about the reader, not about a study "
+                 "that names 537 proteins. This one reads, and its `La (K)Sites` table is MaxQuant's "
+                 "lactylation search. Keyed entirely on TGGT1_ accessions -- 515 of its 524 genes "
+                 "reach the map through the identity layer and would reach none without it."),
     Dataset("pride_ubiquitination", "Ubiquitination / SUMOylation (GlyGly)", "post_translation", "proteomics",
             "GlyGly sites reported per gene", ("n_ubiquitination_sites",),
             "128 genes measured", accession="PXD042937",

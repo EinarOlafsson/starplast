@@ -34,7 +34,6 @@ def main(argv=None) -> int:
     nodes = pd.read_parquet(args.nodes)
     before = nodes.shape[1]
     ids = nodes.gene_id.astype(str)
-    columns = proteomics.load_all(args.base, ids, log=print)
 
     # Accessions in a deposit are whatever was current when it was submitted, so they go through the
     # identity layer rather than being matched as strings -- the same routing build_graph uses, and
@@ -49,6 +48,8 @@ def main(argv=None) -> int:
     def resolve(acc):
         hit = ix.lookup.get(identity.norm(acc))
         return hit[0] if hit else None
+
+    columns = proteomics.load_all(args.base, ids, log=print, resolve=resolve)
 
     ribo = expression.gse245775_differentiation_ribosome_profiling(
         args.base, resolve=resolve, log=print)

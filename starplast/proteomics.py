@@ -163,6 +163,11 @@ DEPOSITS = (
     ("Tg", "S_nitrosylation", "PXD046083", "n_nitrosylation_sites", r"iodo ?TMT|nitrosyl|SNO"),
     ("Tg", "ubiquitination_SUMOylation", "PXD042937", "n_ubiquitination_sites",
      r"GlyGly|ubiquitin"),
+    # `La (K)Sites` is MaxQuant's name for the lactylation search. This is the SECOND lactylation
+    # deposit tried: PXD022700 ships a RAR that bsdtar cannot open, and the "0 genes" that produced
+    # was a fact about the reader rather than about the study, which names 537 proteins. Both are
+    # downloaded; this is the one that can be read.
+    ("Tg", "lactylation", "PXD031526", "n_lactylation_sites", r"La \(K\)Sites"),
 )
 
 #: Where the fetcher puts things. Reading from quarantine is deliberate: a deposit is not promoted
@@ -170,7 +175,7 @@ DEPOSITS = (
 QUARANTINE = os.path.join("datasets", "quarantine", "2026_08_16_pride")
 
 
-def load_all(base: str, index, log=print) -> pd.DataFrame:
+def load_all(base: str, index, log=print, resolve=None) -> pd.DataFrame:
     """Every verified deposit as columns, aligned to a gene index.
 
     The differentiation reporter screen rides along here rather than in `screens.crispr_screens`,
@@ -189,21 +194,30 @@ def load_all(base: str, index, log=print) -> pd.DataFrame:
         if not os.path.isdir(where):
             log(f"proteomics: {accession} not downloaded, {column} left out")
             continue
-        got = column_for(where, column, out.index, wants=wants)
+        got = column_for(where, column, out.index, wants=wants, resolve=resolve)
         out[column] = got[column]
         log(f"proteomics: {column} from {accession}, "
             f"{int(got[column].notna().sum()):,} genes measured")
     return out
 
 
-def column_for(folder: str, column: str, index, wants: str = "") -> pd.DataFrame:
+def column_for(folder: str, column: str, index, wants: str = "",
+               resolve=None) -> pd.DataFrame:
     """One deposit as one column, aligned to a gene index, NaN where the study saw nothing.
 
     NaN and not zero. A gene this deposit never reported is a gene nobody measured for this
     modification, and writing zero would state that it carries none -- a claim the data cannot make
     and one that would put thousands of unmeasured genes at the bottom of every ranking.
+
+    Accessions go through `resolve` before the join. A deposit keyed on the type I strain writes
+    `TGGT1_273760` where the node table says `TGME49_`, and matching those as strings joins nothing
+    -- silently, because a join that matches no rows looks exactly like a study with no coverage.
+    The lactylation deposit is entirely TGGT1_ and reported 0 of its 524 genes until this existed.
     """
     counts = deposit_counts(folder, wants=wants)
+    if resolve is not None and not counts.empty:
+        mapped = pd.Series([resolve(g) or g for g in counts.index], index=counts.index)
+        counts = counts.groupby(mapped.to_numpy()).sum()
     values = pd.Series(np.nan, index=pd.Index(index, dtype=object), dtype=float)
     if counts.empty:
         return values.to_frame(column)

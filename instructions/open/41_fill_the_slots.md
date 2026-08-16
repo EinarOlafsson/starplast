@@ -208,3 +208,42 @@ experiment twice.
 Filling the five PRIDE deposits and the differentiation screen into the registry is what surfaced
 this; the five had been merged into the node table without registry entries, and the acceptance rule
 requiring one exists precisely so that cannot happen quietly.
+
+### The PRIDE round, and what it cost to verify six deposits (2026-08-16)
+
+Six deposits examined for six empty Toxoplasma slots. **One was ingested.** The other five each
+failed in a different way, and the ways are worth more than the yield:
+
+| deposit | proposed for | verdict |
+|---|---|---|
+| PXD031526 | lactylation | **INGESTED**, 515 genes. `La (K)Sites.txt` inside a readable RAR |
+| PXD008574 | exposure to host cytosol | refused — label swaps do not reproduce each other |
+| PXD044588 | secretome / excreted | refused — the mzid cannot distinguish secreted from detected |
+| PXD056853 | glycosylation | refused — the deposit is ***Dictyostelium discoideum*** |
+| PXD028969 | secretome / excreted | refused — the deposit is ***Cryptosporidium*** and human |
+| PXD033642 | protein turnover | real Toxoplasma CETSA, but only identifications are published |
+
+**Two of the candidates in the Toxoplasma table are not Toxoplasma deposits at all.** The instruction
+above records 16 off-target citations in the *Plasmodium* arm and treats it as a fault in that query;
+it is not confined to that arm. Every PRIDE candidate in both tables needs its `organisms` field
+checked against the slot's organism, and that check costs one API call each.
+
+**PXD008574 is the instructive refusal.** It is a genuine N-terminomics study of WT versus ASP5
+knockout, SILAC with a proper label swap, and every metadata field says so. Orienting both swaps to
+WT/KO and correlating them gives r = +0.09 (n = 70), +0.44 (n = 342) and +0.007 (n = 53). A label
+swap that does not reproduce itself is measuring noise, and a column built from it would rank genes
+by noise while looking like a measurement. **No metadata field could have caught this — only
+computing the number and checking it against itself.**
+
+Note also that it is N-terminomics, so even had it verified it would not fill `exposure to host
+cytosol`: ASP5 cleaves in the Golgi, before export. It would have needed a new
+`proteolytic processing / N-terminome` slot on the PTM axis, which remains undefined and should be.
+
+### A silent-drop bug the refuse-if-empty guard caught
+
+`proteomics.column_for` joined deposit accessions to the node index as strings. The lactylation
+deposit is keyed entirely on `TGGT1_` and reported **0 of its 524 genes** — indistinguishable from a
+study with no coverage. It now routes through the identity layer, as `build_graph` always has.
+
+The guard that surfaced it is `scripts/add_verified_columns.py` refusing to write when any column
+comes back empty. That refusal has now paid for itself twice; keep it.
