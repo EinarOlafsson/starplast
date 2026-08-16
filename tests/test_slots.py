@@ -120,3 +120,22 @@ def test_an_unknown_hierarchy_is_refused_with_the_choices():
         slots.hierarchy_path(slots.all_slots("Tg")[0], "taxonomy")
     for good in slots.HIERARCHIES:
         assert isinstance(slots.hierarchy_path(slots.all_slots("Tg")[0], good), tuple)
+
+
+def test_a_slot_that_is_not_measured_per_gene_cannot_be_resolved_against_the_node_table():
+    """`unit` decides which table a slot belongs to, and getting that wrong fails silently in the
+    worst possible way: a host proteome resolved against parasite genes matches nothing, and
+    "matches nothing" looks exactly like "nobody has downloaded this yet". Refused instead."""
+    import pytest
+    from dataclasses import replace
+    gene_slot = slots.all_slots("Tg")[0]
+    for unit in ("host_gene", "pair", "ortholog_group"):
+        with pytest.raises(ValueError, match="cannot be resolved"):
+            slots.resolve(table(), replace(gene_slot, unit=unit))
+    assert slots.RESOLVABLE_UNIT == "gene"
+    assert set(slots.UNITS) == {"gene", "host_gene", "pair", "ortholog_group"}
+
+
+def test_every_slot_in_the_catalog_declares_a_unit_the_code_knows():
+    for item in slots.all_slots():
+        assert item.unit in slots.UNITS, f"{item.key} declares unit {item.unit!r}"

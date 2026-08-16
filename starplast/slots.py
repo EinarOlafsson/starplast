@@ -16,6 +16,26 @@ import numpy as np
 import pandas as pd
 
 POLICIES = ("one", "average", "fill", "separate")
+
+#: What a slot's rows ARE, which decides which table it can be resolved against. Not decoration: a
+#: parasite node table has one row per parasite gene, so resolving a slot of any other unit against
+#: it is a category error that would otherwise fail quietly -- a host proteome resolved against
+#: Toxoplasma genes matches nothing and returns an empty frame, which reads exactly like a dataset
+#: nobody has downloaded yet.
+#:
+#: gene           -- one parasite gene. The only unit `resolve` accepts, because the node table is
+#:                   the only table this application currently holds.
+#: host_gene      -- one HOST gene. Lives in a host table keyed by host identifiers; reaches the
+#:                   parasite map only through a pair slot, never as a feature column.
+#: pair           -- one (parasite gene, host gene) or (parasite gene, parasite gene) observation.
+#:                   The bridge between two tables, and the only thing that may cross.
+#: ortholog_group -- one orthology group across parasite species. The bridge that carries a
+#:                   measurement from one species to another, and the one that must never be
+#:                   mistaken for a measurement in the receiving species.
+UNITS = ("gene", "host_gene", "pair", "ortholog_group")
+
+#: The unit whose rows are the node table's rows.
+RESOLVABLE_UNIT = "gene"
 CATALOG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "slots.json")
 
 
@@ -189,6 +209,14 @@ def resolve(nodes: pd.DataFrame, slot: Slot | str, chosen: str | None = None) ->
         raise KeyError("unknown slot")
     if slot.policy not in POLICIES:
         raise ValueError(f"unknown slot policy {slot.policy!r}")
+    if slot.unit != RESOLVABLE_UNIT:
+        # Refused rather than returned empty. A host-gene or pair slot resolved against a table of
+        # parasite genes matches nothing, and "matches nothing" is indistinguishable from "nobody
+        # has downloaded this yet" -- so the mistake would be invisible in exactly the place the
+        # slot table exists to make visible.
+        raise ValueError(
+            f"slot {slot.key!r} is measured per {slot.unit!r} and cannot be resolved against a "
+            f"table of {RESOLVABLE_UNIT!r} rows; it reaches the map through a bridge slot")
     groups = _groups(nodes, slot)
     empty_source = pd.Series("", index=nodes.index, dtype=object, name=f"{slot.key}_source")
     if not groups:
