@@ -328,3 +328,48 @@ Two other named candidates for `phosphorylation · kinase-substrate` fail differ
 recording so nobody re-fetches them: `PXD019677` is the myristoylation study and not CDPK1
 substrates, and `PXD019655` is CDPK7 but ships only Proteome Discoverer `.pdResult` and `.msf` files
 of 3–8 GB, which nothing outside that program reads.
+
+## Where the Toxoplasma arm actually stands, slot by slot (2026-08-16, end of the campaign)
+
+**97 of 105 gene slots filled**, plus 8 of 10 pair slots and 0 of 3 metabolite slots. The eight
+empty gene slots are listed below with what was searched, because "empty" without that is
+indistinguishable from "nobody looked".
+
+| slot | searched | finding |
+|---|---|---|
+| transcription · in IFN-gamma macrophage | GEO with `"Toxoplasma gondii"[Organism]` + interferon/macrophage | **0 hits.** The one promising paper (PMID 34928716) is *Cryptosporidium* |
+| translation · per cell-cycle phase | GEO, PubMed | no cell-cycle-resolved ribosome profiling exists |
+| protein turnover | PRIDE, PubMed for pulse-SILAC / pulse-chase / half-life | none for Toxoplasma. Thermal stability is now its own slot and is filled |
+| drug sensitivity | GEO, PRIDE, PMC supplements | no genome-wide chemogenomic screen published |
+| RNA modification · m6A / 5mC | GEO | no MeRIP-seq. GSE178355 is depletion RNA-seq of METTL3/WTAP/YTH1 — which transcripts *depend on* m6A, not which *carry* it |
+| resistance-conferring mutation | PubMed, PMC supplements | only single-gene selections (ROP1, PRELID); nothing genome-wide and per-gene |
+| invasion and egress phenotype | GEO organism-filtered, PubMed | 73 GEO hits, all transcriptomes; no per-gene imaging screen with a table |
+| fitness · in vivo gut | GEO, PubMed | the in vivo screens are mouse peritoneum/lung/liver/spleen. No feline enteric screen has been run |
+
+### Two slots were removed or moved rather than left empty
+
+* `drug sensitivity per gene` (chemistry) **merged into** `drug sensitivity` (fitness). They asked
+  one question — does disrupting this gene change survival under a compound — on two axes, and
+  whichever got data first would leave the other permanently and misleadingly empty.
+* `metabolite levels`, `metabolic flux`, `lipid composition` are now `unit=metabolite`; they were
+  never answerable from a table whose rows are genes.
+
+### What worked, in the order the yield came
+
+1. **Paper supplements through EuropePMC**, once it was clear that repositories hold the evidence a
+   study was built from and not the conclusions it reached. Seven fills.
+2. **ToxoDB's own search reports** — it runs datasets through its pipelines and will return the
+   per-gene value. Six fills.
+3. **Re-reading data already on disk.** Four fills, including a screen sitting in a directory named
+   for the slot it filled.
+4. **Re-asking a refused source a better question.** Two fills: the antisense LEVEL after the
+   antisense CHANGE was refused, and the secretome PARTITION after "enriched in vesicles" was.
+
+### And the counts that say what verification is worth
+
+Of everything examined, **six sources were refused after being read**: H3K4me1 (backwards against
+ATAC), the sense/antisense change (did not reproduce), PXD008574 (label swaps disagreed), the vesicle
+proteome under its first framing, PXD017032 (already in the map under another name), and the
+GSE302108 MPRA (keyed on synthetic sequences, not genes). **Four candidates were the wrong organism**
+— *Dictyostelium*, *Cryptosporidium*, *Theileria*, and *Cryptosporidium* again — each found by
+opening the file rather than by reading the title.

@@ -365,7 +365,12 @@ NEW_SHARED = [
     ("metabolic flux", "metabolism", "labelled precursor", "metabolite", [], "separate"),
     ("lipid composition", "metabolism", "membrane lipids", "metabolite", [], "separate"),
     ("enzyme classification", "metabolism", "annotation", "gene", ["ec_number", "has_ec"], "one"),
-    ("drug sensitivity per gene", "chemistry", "compound panel", "gene", [], "separate"),
+    # `drug sensitivity per gene` used to sit here and was the same question as `drug sensitivity`
+    # on the fitness axis: for each gene, does disrupting it change survival under a compound. Two
+    # slots for one question is leakage of the plainest kind -- whichever got the data first would
+    # make the other permanently and misleadingly empty. The fitness axis keeps it, because that is
+    # what the measurement is; the chemistry axis keeps the two questions that are genuinely its
+    # own, resistance-conferring mutation and target engagement.
     ("resistance-conferring mutation", "chemistry", "in vitro evolution", "gene", [], "separate"),
     ("target engagement / thermal shift", "chemistry", "thermal proteome", "gene",
      ["cetsa_calcium_ed_score"], "average"),
@@ -740,6 +745,9 @@ SLOTS = [
     ("fitness · GRA12 screen 2 differential", "fitness", "GRA12 screen 2, in vivo vs in vitro",
      "gene", ["crispr_gra12s2_disco"], "one", []),
     ("stage-conversion phenotype", "fitness", "bradyzoite conversion", "gene", ["diff_reporter_log2_mNG_over_bulk"], "one", []),
+    # Also answers what the chemistry axis used to ask as `drug sensitivity per gene`; see the note
+    # there. Empty because no genome-wide chemogenomic screen has been published for Toxoplasma --
+    # searched in GEO, PRIDE and PubMed supplements on 2026-08-16 and none exists.
     ("drug sensitivity", "fitness", "compound", "gene", [], "separate", []),
 
     # ---------------------------------------------------------------- regulation

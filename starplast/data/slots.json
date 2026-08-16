@@ -3381,32 +3381,6 @@
   },
   {
     "organism": "Tg",
-    "name": "drug sensitivity per gene",
-    "axis": "chemistry",
-    "context": "compound panel",
-    "unit": "gene",
-    "patterns": [],
-    "policy": "separate",
-    "candidates": [],
-    "evidence_path": [
-      "perturbational measurements",
-      "chemical",
-      "response or engagement"
-    ],
-    "biology_path": [
-      "parasite phenotype",
-      "chemical response"
-    ],
-    "context_path": [
-      "in vitro or assay-defined",
-      "stage-unspecified"
-    ],
-    "target_family": "drug_sensitivity_per_gene",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Tg",
     "name": "resistance-conferring mutation",
     "axis": "chemistry",
     "context": "in vitro evolution",
@@ -5945,48 +5919,6 @@
       "stage-unspecified"
     ],
     "target_family": "enzyme_classification",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Pf",
-    "name": "drug sensitivity per gene",
-    "axis": "chemistry",
-    "context": "compound panel",
-    "unit": "gene",
-    "patterns": [],
-    "policy": "separate",
-    "candidates": [
-      [
-        "42556269",
-        "",
-        "automatically proposed; verify assay and parasite-gene shape"
-      ],
-      [
-        "42586491",
-        "",
-        "automatically proposed; verify assay and parasite-gene shape"
-      ],
-      [
-        "42597946",
-        "",
-        "automatically proposed; verify assay and parasite-gene shape"
-      ]
-    ],
-    "evidence_path": [
-      "perturbational measurements",
-      "chemical",
-      "response or engagement"
-    ],
-    "biology_path": [
-      "parasite phenotype",
-      "chemical response"
-    ],
-    "context_path": [
-      "in vitro or assay-defined",
-      "stage-unspecified"
-    ],
-    "target_family": "drug_sensitivity_per_gene",
     "target_columns": [],
     "role": "feature"
   },

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**119 slots: 62 covered well, 13 partly, 30 thinly, 14 empty.**
+**118 slots: 62 covered well, 13 partly, 30 thinly, 13 empty.**
 
 ### transcription
 
@@ -238,7 +238,6 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Tg_drug sensitivity per gene | compound panel | **-** |  |  | `` | separate | — |
 | Tg_resistance-conferring mutation | in vitro evolution | **-** |  |  | `` | separate | — |
 | Tg_target engagement / thermal shift | thermal proteome | **B** | 2348 | 28.8% | `cetsa_calcium_ed_score` | average | — |
 
