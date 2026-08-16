@@ -401,7 +401,13 @@ def _diff_archive(tmp_path, samples, *, matrix=True, matrix_body=None, plain=Fal
     accessions = {title: f"GSM{3854790 + i}" for i, title in enumerate(samples)}
     with tarfile.open(root / SC.DIFFERENTIATION_SCREEN, "w") as archive:
         # A directory member: `extractfile` returns None for it and the loop must survive that.
-        archive.addfile(_directory("subdir"))
+        # A directory whose name carries a GSM accession, so it survives the name
+        # filter and has to be skipped by extractfile returning None.
+        archive.addfile(_directory(f"{accessions[next(iter(samples))]}_subdir"))
+        # A member with no GSM in its name at all -- GEO tars sometimes carry a README.
+        readme = tarfile.TarInfo("filelist.txt")
+        readme.size = 5
+        archive.addfile(readme, io.BytesIO(b"notes"))
         for title, genes in samples.items():
             rows = "".join(f"{gene}-{n}\t{count}\n"
                            for gene, counts in genes.items()
@@ -652,3 +658,43 @@ def test_no_thermal_shift_file_yields_nothing(tmp_path):
 def test_a_one_column_thermal_shift_file_is_refused(tmp_path):
     (tmp_path / SC.THERMAL_SHIFT).write_text("id\nTGME49_200010\n")
     assert SC.thermal_shift(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_the_passage_arms_measure_ordinary_growth_not_differentiation(tmp_path):
+    """Same archive, two questions. The passage arms are p8 against the input library; reading the
+    differentiation arms here would silently answer the wrong one."""
+    # The second gene keeps the two libraries the same total size, so the ratio is the gene's own
+    # change and not a change in sequencing depth. With one gene the normalisation cancels it.
+    root = _diff_archive(tmp_path, {
+        "L1 input library": {"TGME49_200010": [100.0], "TGME49_200020": [300.0]},
+        "L1 p8": {"TGME49_200010": [25.0], "TGME49_200020": [375.0]},
+        "L2 input library": {"TGME49_200010": [100.0], "TGME49_200020": [300.0]},
+        "L2 p8": {"TGME49_200010": [25.0], "TGME49_200020": [375.0]}})
+    out = SC.second_background_fitness(str(root), log=lambda *_: None, resolve=lambda g: g)
+    assert list(out.columns) == ["crispr_reporter_strain_p8_log2"]
+    # Both libraries are the same size, so a quarter of the guides left is -2 in log2 -- to within
+    # the pseudocount, which moves it by about 2e-5 and is there so an absent guide is not infinite.
+    assert out.loc["TGME49_200010", "crispr_reporter_strain_p8_log2"] == pytest.approx(-2.0,
+                                                                                       abs=1e-3)
+
+
+def test_an_archive_without_passage_arms_reports_and_returns_empty(tmp_path):
+    root = _diff_archive(tmp_path, _two_arms())
+    said = []
+    assert SC.second_background_fitness(str(root), log=said.append).empty
+    assert any("no matching passage arms" in m for m in said), said
+
+
+def test_the_two_readouts_of_one_archive_do_not_collide(tmp_path):
+    """A gene can be required for growth and dispensable for differentiation, or the reverse."""
+    samples = _two_arms()
+    samples.update({
+        "L1 input library": {"TGME49_200010": [100.0], "TGME49_200020": [300.0]},
+        "L1 p8": {"TGME49_200010": [25.0], "TGME49_200020": [375.0]},
+        "L2 input library": {"TGME49_200010": [100.0], "TGME49_200020": [300.0]},
+        "L2 p8": {"TGME49_200010": [25.0], "TGME49_200020": [375.0]}})
+    root = _diff_archive(tmp_path, samples)
+    growth = SC.second_background_fitness(str(root), log=lambda *_: None, resolve=lambda g: g)
+    diff = SC.differentiation_screen(str(root), log=lambda *_: None, resolve=lambda g: g)
+    assert growth.columns[0] != diff.columns[0]
+    assert growth.loc["TGME49_200010", growth.columns[0]] < -1

@@ -188,7 +188,11 @@ def load_all(base: str, index, log=print, resolve=None) -> pd.DataFrame:
     """
     from . import screens
     out = pd.DataFrame(index=pd.Index(index, dtype=object))
-    for table in (screens.differentiation_screen(
+    for table in (screens.second_background_fitness(
+                      os.path.join(base, QUARANTINE, "Tg",
+                                   "essentiality_in_a_second_background"), log=log,
+                      resolve=resolve),
+                  screens.differentiation_screen(
                       os.path.join(base, QUARANTINE, "Tg",
                                    "essentiality_in_a_second_background"), log=log),
                   screens.thermal_shift(

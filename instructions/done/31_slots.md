@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**220 slots: 61 covered well, 11 partly, 28 thinly, 120 empty.**
+**220 slots: 61 covered well, 11 partly, 29 thinly, 119 empty.**
 
 ### transcription
 
@@ -187,7 +187,7 @@ quantity were approximating on 2026-08-13.
 | Tg_fitness · GRA12 screen 2 differential | GRA12 screen 2, in vivo vs in vitro | **C** | 232 | 2.9% | `crispr_gra12s2_disco` | one | — |
 | Tg_stage-conversion phenotype | bradyzoite conversion | **C** | 235 | 2.9% | `diff_reporter_log2_mNG_over_bulk` | one | — |
 | Tg_drug sensitivity | compound | **-** |  |  | `` | separate | — |
-| Tg_essentiality in a second background | second strain | **-** |  |  | `` | separate | — |
+| Tg_essentiality in a second background | second strain | **C** | 131 | 1.6% | `crispr_reporter_strain_p8_log2` | separate | [GSE132237](https://pubmed.ncbi.nlm.nih.gov/GSE132237/) |
 | Tg_fitness · in vivo gut | enteric, sexual cycle | **-** |  |  | `` | separate | — |
 | Pf_fitness · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_fitness · gametocyte | gametocyte | **-** |  |  | `` | one | — |
@@ -200,7 +200,7 @@ quantity were approximating on 2026-08-13.
 | Pf_stage-conversion phenotype · liver stage | liver stage | **-** |  |  | `` | one | — |
 | Pf_stage-conversion phenotype · gametocyte | gametocyte | **-** |  |  | `` | one | — |
 | Pf_drug sensitivity | compound | **-** |  |  | `` | separate | — |
-| Pf_essentiality in a second background | second strain | **-** |  |  | `` | separate | **LAMP-coupled CRISPR-Cas12a assays: A promising new tool for molecular diagnosis of leishmaniasis.** (PLoS neglected tropical diseases 2026) [41686849](https://pubmed.ncbi.nlm.nih.gov/41686849/)<br>verify assay and parasite-gene shape)<br>**Pyrophosphate homeostasis in multiple subcellular compartments is essential in Plasmodium falciparum.** (mBio 2026) [42017676](https://pubmed.ncbi.nlm.nih.gov/42017676/)<br>verify assay and parasite-gene shape)<br>**A CRISPR-Based Mutagenesis Strategy for Examining CLAG3 Helix 44 Contribution to Malaria Parasite Nutrient Uptake Channels.** (Genes 2026) [42074580](https://pubmed.ncbi.nlm.nih.gov/42074580/)<br>verify assay and parasite-gene shape) |
+| Pf_essentiality in a second background | second strain | **-** |  |  | `` | separate | [GSE132237](https://pubmed.ncbi.nlm.nih.gov/GSE132237/)<br>**LAMP-coupled CRISPR-Cas12a assays: A promising new tool for molecular diagnosis of leishmaniasis.** (PLoS neglected tropical diseases 2026) [41686849](https://pubmed.ncbi.nlm.nih.gov/41686849/)<br>verify assay and parasite-gene shape)<br>**Pyrophosphate homeostasis in multiple subcellular compartments is essential in Plasmodium falciparum.** (mBio 2026) [42017676](https://pubmed.ncbi.nlm.nih.gov/42017676/)<br>verify assay and parasite-gene shape)<br>**A CRISPR-Based Mutagenesis Strategy for Examining CLAG3 Helix 44 Contribution to Malaria Parasite Nutrient Uptake Channels.** (Genes 2026) [42074580](https://pubmed.ncbi.nlm.nih.gov/42074580/)<br>verify assay and parasite-gene shape) |
 | Pf_fitness · liver stage | hepatocyte | **-** |  |  | `` | one | **Autophagy protein Atg7 is essential for maintaining malaria parasite cellular homeostasis and organelle biogenesis.** (mBio 2025) [39714137](https://pubmed.ncbi.nlm.nih.gov/39714137/)<br>verify assay and parasite-gene shape)<br>**Cas9-expressing HC-04 hepatocytes facilitate CRISPR-based analysis of Plasmodium falciparum sporozoite-host interactions.** (PLoS genetics 2026) [42149978](https://pubmed.ncbi.nlm.nih.gov/42149978/)<br>verify assay and parasite-gene shape)<br>**Molecular and cellular characterization of Plasmodium berghei PPM9 phosphatase, an enzyme dispensable during both asexual and sexual life cycle stages.** (Scientific reports 2026) [42393261](https://pubmed.ncbi.nlm.nih.gov/42393261/)<br>verify assay and parasite-gene shape) |
 | Pf_fitness · transmission | mosquito | **-** |  |  | `` | separate | **Engineered promoter system enables high-efficiency transgenic CRISPR editing in Malaria transmitting mosquito Anopheles sinensis.** (Zoological research 2026) [42457405](https://pubmed.ncbi.nlm.nih.gov/42457405/)<br>verify assay and parasite-gene shape)<br>**Molecular Characterization of Mosquito Species and Confirmation of First Record of Aedes aegypti in Buraydah City, Kingdom of Saudi Arabia.** (Vector borne and zoonotic diseases (Larchmont, N.Y.) 2026) [42461315](https://pubmed.ncbi.nlm.nih.gov/42461315/)<br>verify assay and parasite-gene shape)<br>**Pathogen diversity in mosquitoes (Diptera: Culicidae) from the Republic of Kosovo: a two-year cross-sectional study.** (New microbes and new infections 2026) [42472253](https://pubmed.ncbi.nlm.nih.gov/42472253/)<br>verify assay and parasite-gene shape) |
 
@@ -371,10 +371,12 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | [PMID 38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/) | Tg_exposure to host cytosol; Tg_interaction · with host proteins |
 | [PMID 40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) | Pf_complex membership; Tg_complex membership |
 | `IEDB` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |
+| `GSE132237` | Pf_essentiality in a second background; Tg_essentiality in a second background |
 | [PMID 42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/) | Pf_field variation and resistance markers; Pf_resistance-conferring mutation |
 | [PMID 42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/) | Pf_T-cell epitope content; Pf_seroreactivity / antigenicity |
 | [PMID 42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/) | Pf_export / PEXEL trafficking; Pf_host receptor binding |
 | `ToxoDB` | Tg_arginine methylation; Tg_strain variation |
 | `IEDB` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |
+| `GSE132237` | Pf_essentiality in a second background; Tg_essentiality in a second background |
 | `compartment` | Tg_localization · measured; Tg_shared compartment |
 | `orthogroup` | Tg_conservation breadth; Tg_shared orthogroup |

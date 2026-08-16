@@ -395,7 +395,9 @@ NEW_SHARED = [
     ("T-cell epitope content", "immunity", "predicted and measured", "gene",
      ["iedb_epitope_count"], "average"),
     ("invasion and egress phenotype", "phenotype", "high-content imaging", "gene", [], "separate"),
-    ("essentiality in a second background", "fitness", "second strain", "gene", [], "separate"),
+    ("essentiality in a second background", "fitness", "second strain", "gene",
+     ["crispr_reporter_strain_p8_log2"], "separate",
+     [("", "GSE132237", "eight passages in the differentiation reporter strain")]),
 ]
 
 #: The life-cycle stages a Plasmodium question can be asked in. Used to MIRROR the stage-bearing

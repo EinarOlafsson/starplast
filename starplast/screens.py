@@ -418,6 +418,111 @@ def oxidative_stress_screen(base: str, log=print, resolve=None) -> pd.DataFrame:
     log(f"oxidative stress screen (PMC8216390): {len(out):,} genes")
     return out
 
+def _gse132237_counts(base: str) -> dict:
+    """Guide counts per gene for every sample in the differentiation-screen archive.
+
+    Shared by the two questions this deposit answers -- what happens on differentiation, and what
+    happens over eight passages of ordinary growth. Which member is which sample comes from the
+    series matrix; the file names carry the GSM accession and the submitter's own suffix, so
+    matching a title against a name is a guess about punctuation.
+    """
+    import gzip
+    import tarfile
+
+    path = _find(base, DIFFERENTIATION_SCREEN)
+    matrix = _find(base, DIFFERENTIATION_SCREEN.replace("_RAW.tar", "_series_matrix.txt.gz"))
+    if not os.path.exists(path) or not os.path.exists(matrix):
+        return {}
+    with gzip.open(matrix, "rt", errors="replace") as fh:
+        text = fh.read(400_000)
+    names = re.search(r"!Sample_title\t(.*)", text)
+    accessions = re.search(r"!Sample_geo_accession\t(.*)", text)
+    if not (names and accessions):
+        return {}
+    by_gsm = dict(zip([v.strip().strip('"') for v in accessions.group(1).split("\t")],
+                      [v.strip().strip('"') for v in names.group(1).split("\t")]))
+    out = {}
+    with tarfile.open(path) as archive:
+        for member in archive.getnames():
+            gsm = re.match(r"(GSM\d+)_", os.path.basename(member))
+            title = by_gsm.get(gsm.group(1)) if gsm else None
+            if not title:
+                continue
+            handle = archive.extractfile(member)
+            if handle is None:
+                continue
+            blob = handle.read()
+            body = gzip.decompress(blob).decode("utf8", "replace") if member.endswith(".gz") \
+                else blob.decode("utf8", "replace")
+            per_gene = {}
+            for line in body.splitlines():
+                parts = line.split("\t")
+                if len(parts) < 2 or "_" not in parts[0]:
+                    continue
+                gene = parts[0].rsplit("-", 1)[0]
+                try:
+                    per_gene[gene] = per_gene.get(gene, 0.0) + float(parts[1])
+                except ValueError:
+                    continue
+            out[title] = pd.Series(per_gene, dtype=float)
+    return out
+
+
+def _cpm(series: pd.Series) -> pd.Series:
+    """Counts as a share of their own library. Guards the empty library rather than dividing by it."""
+    total = series.sum()
+    return series / total * 1e6 if total else series
+
+
+def _ratio_arms(counts: dict, arms) -> list:
+    """log2 of one arm over another, per gene, for each pair that is present."""
+    out = []
+    for numerator, denominator in arms:
+        a, b = counts.get(numerator), counts.get(denominator)
+        if a is None or b is None:
+            continue
+        shared = a.index.intersection(b.index)
+        if not len(shared):
+            continue
+        out.append(np.log2((_cpm(a)[shared] + 1.0) / (_cpm(b)[shared] + 1.0)))
+    return out
+
+
+def _finish(ratios: list, resolve, column: str, log, what: str) -> pd.DataFrame:
+    """Average the arms, resolve accessions, drop duplicates, name the column."""
+    out = pd.concat(ratios, axis=1).mean(axis=1).to_frame(column)
+    out.index = _acc(pd.Series(out.index)) if resolve is None else \
+        pd.Index([resolve(i) or i for i in out.index])
+    out = out[~out.index.duplicated()]
+    log(f"{what} (GSE132237): {len(out):,} genes")
+    return out
+
+
+#: Eight passages of ordinary tachyzoite growth against the input library. The reporter strain is not
+#: the type I RH line the genome-wide screens use, which is what makes this a SECOND background
+#: rather than a repeat of them.
+PASSAGE_ARMS = (("L1 p8", "L1 input library"), ("L2 p8", "L2 input library"))
+
+
+def second_background_fitness(base: str, log=print, resolve=None) -> pd.DataFrame:
+    """Fitness cost of disrupting each gene over eight passages in the reporter strain.
+
+    A targeted library of nucleic-acid binding genes, so it covers 262 of them and not the genome.
+    That is its honest extent, and for those genes it answers something the genome-wide RH screens
+    cannot: whether essentiality holds in another background.
+
+    Verified by agreeing with them where it should. Against `fit_invitro_hff` it comes out at
+    rho = +0.62 over 130 shared genes -- close enough that the direction and the join are right, far
+    enough that the column is not a copy of one already here.
+    """
+    counts = _gse132237_counts(base)
+    ratios = _ratio_arms(counts, PASSAGE_ARMS) if counts else []
+    if not ratios:
+        log("second-background fitness: no matching passage arms in the archive")
+        return pd.DataFrame()
+    return _finish(ratios, resolve, "crispr_reporter_strain_p8_log2", log,
+                   "second-background fitness")
+
 
 def differentiation_screen(base: str, log=print, resolve=None) -> pd.DataFrame:
     """Per-gene differentiation phenotype from the reporter screen, as a log2 ratio.
@@ -433,71 +538,10 @@ def differentiation_screen(base: str, log=print, resolve=None) -> pd.DataFrame:
     counts and not the ratio. It is the comparison their design names, and the column is called a
     ratio rather than a phenotype so nobody mistakes it for something they reported.
     """
-    import gzip
-    import tarfile
-
-    # `_find` returns the path it looked for last whether or not it exists, so `if not path` is
-    # always false and the archive has to be checked for directly.
-    path = _find(base, DIFFERENTIATION_SCREEN)
-    if not os.path.exists(path):
-        return pd.DataFrame()
-    counts = {}
-    with tarfile.open(path) as archive:
-        for member in archive.getnames():
-            handle = archive.extractfile(member)
-            if handle is None:
-                continue
-            blob = handle.read()
-            text = gzip.decompress(blob).decode("utf8", "replace") if member.endswith(".gz") \
-                else blob.decode("utf8", "replace")
-            per_gene = {}
-            for line in text.splitlines():
-                parts = line.split("\t")
-                if len(parts) < 2 or "_" not in parts[0]:
-                    continue
-                gene = parts[0].rsplit("-", 1)[0]
-                try:
-                    per_gene[gene] = per_gene.get(gene, 0.0) + float(parts[1])
-                except ValueError:
-                    continue
-            counts[member] = pd.Series(per_gene, dtype=float)
-
-    # Which member is which sample comes from the series matrix, not from the file name. GEO names
-    # supplementary files by GSM accession and the submitter's own suffix, so matching "L1 mNG+ 10d"
-    # against `GSM3854790_L1-mNG-10d_S9_L001_R1_001_Counted.txt.gz` is a guess about punctuation.
-    # The matrix states the mapping outright.
-    titles = {}
-    matrix = _find(base, DIFFERENTIATION_SCREEN.replace("_RAW.tar", "_series_matrix.txt.gz"))
-    if os.path.exists(matrix):
-        with gzip.open(matrix, "rt", errors="replace") as fh:
-            text = fh.read(400_000)
-        names = re.search(r"!Sample_title\t(.*)", text)
-        accessions = re.search(r"!Sample_geo_accession\t(.*)", text)
-        if names and accessions:
-            titles = dict(zip(
-                [v.strip().strip('"') for v in names.group(1).split("\t")],
-                [v.strip().strip('"') for v in accessions.group(1).split("\t")]))
-
-    def arm(label: str) -> pd.Series:
-        gsm = titles.get(label, "")
-        key = next((m for m in counts if gsm and gsm in m), None)
-        series = counts.get(key, pd.Series(dtype=float))
-        total = series.sum()
-        return series / total * 1e6 if total else series
-
-    ratios = []
-    for positive, bulk in DIFFERENTIATION_ARMS:
-        a, b = arm(positive), arm(bulk)
-        shared = a.index.intersection(b.index)
-        if not len(shared):
-            continue
-        ratios.append(np.log2((a[shared] + 1.0) / (b[shared] + 1.0)))
+    counts = _gse132237_counts(base)
+    ratios = _ratio_arms(counts, DIFFERENTIATION_ARMS) if counts else []
     if not ratios:
         log("differentiation screen: no matching arms in the archive")
         return pd.DataFrame()
-    out = pd.concat(ratios, axis=1).mean(axis=1).to_frame("diff_reporter_log2_mNG_over_bulk")
-    out.index = _acc(pd.Series(out.index)) if resolve is None else \
-        pd.Index([resolve(i) or i for i in out.index])
-    out = out[~out.index.duplicated()]
-    log(f"differentiation screen (GSE132237): {len(out):,} genes")
-    return out
+    return _finish(ratios, resolve, "diff_reporter_log2_mNG_over_bulk", log,
+                   "differentiation screen")

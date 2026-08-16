@@ -120,6 +120,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Dataset | Type of data | Coverage | Reference |
 |---|---|---|---|
 | Differentiation reporter CRISPR screen (COMPUTED) | Guide enrichment in reporter-positive parasites against the bulk population | 235 genes | `GSE132237` |
+| Fitness in the reporter strain (COMPUTED) | Guide depletion over eight passages of ordinary growth | 262 genes | `GSE132237` |
 | GRA12 strains and mouse subspecies | Median L2FC in vitro and in vivo, DISCO score; two screens | 236 / 232 | GRA12 is a common virulence factor across Toxoplasma gondii strains and mouse subspecies; PMID [40240328](https://pubmed.ncbi.nlm.nih.gov/40240328/) |
 | GRA17 synthetic-lethal screen | RH and RH-delta-gra17 phenotype by passage; MAGeCK p-values | 7,553 (genome-wide) | Genome-wide CRISPR screen identifies genes synthetically lethal with GRA17, a nutrient channel encoding gene in Toxoplasma; PMID [37498952](https://pubmed.ncbi.nlm.nih.gov/37498952/) |
 | HDAC3 occupancy (CUT&TAG, COMPUTED) | Mean HDAC3 CUT&TAG coverage over the promoter, relative to the genome mean | 8,140 genes (100%) | `GSE277553` |

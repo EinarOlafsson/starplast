@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**118 slots: 61 covered well, 11 partly, 28 thinly, 18 empty.**
+**118 slots: 61 covered well, 11 partly, 29 thinly, 17 empty.**
 
 ### transcription
 
@@ -150,7 +150,7 @@ quantity were approximating on 2026-08-13.
 | Tg_fitness · GRA12 screen 2 differential | GRA12 screen 2, in vivo vs in vitro | **C** | 232 | 2.9% | `crispr_gra12s2_disco` | one | — |
 | Tg_stage-conversion phenotype | bradyzoite conversion | **C** | 235 | 2.9% | `diff_reporter_log2_mNG_over_bulk` | one | — |
 | Tg_drug sensitivity | compound | **-** |  |  | `` | separate | — |
-| Tg_essentiality in a second background | second strain | **-** |  |  | `` | separate | — |
+| Tg_essentiality in a second background | second strain | **C** | 131 | 1.6% | `crispr_reporter_strain_p8_log2` | separate | [GSE132237](https://pubmed.ncbi.nlm.nih.gov/GSE132237/) |
 | Tg_fitness · in vivo gut | enteric, sexual cycle | **-** |  |  | `` | separate | — |
 
 ### regulation

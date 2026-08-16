@@ -1024,6 +1024,22 @@ REGISTRY = [
                  "done on infected cultures and the table lists everything identified."),
 
     # ------------------------------------------------------------------ differentiation
+    Dataset("second_background_fitness", "Fitness in the reporter strain (COMPUTED)", "DNA",
+            "CRISPR_screen", "Guide depletion over eight passages of ordinary growth",
+            ("crispr_reporter_strain_p8_log2",), "262 genes", accession="GSE132237",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE132nnn/GSE132237/suppl/"
+                "GSE132237_RAW.tar",
+            path="datasets/quarantine/2026_08_16_pride/Tg/"
+                 "essentiality_in_a_second_background/",
+            note="The SAME archive as the differentiation screen, answering its other question. Its "
+                 "passage arms -- p8 against the input library -- are ordinary tachyzoite growth, "
+                 "and the reporter line is not the type I RH the genome-wide screens use, which is "
+                 "what makes this a second background rather than a repeat. A targeted library of "
+                 "nucleic-acid binding genes, so 262 genes and not the genome. Verified by agreeing "
+                 "with the RH screen where it should: rho = +0.62 against fit_invitro_hff over 130 "
+                 "shared genes, close enough that the direction and the join are right and far "
+                 "enough that it is not a copy. The deposit sat in a folder named for this slot all "
+                 "day while only its differentiation arms were read."),
     Dataset("differentiation_screen", "Differentiation reporter CRISPR screen (COMPUTED)",
             "DNA", "CRISPR_screen",
             "Guide enrichment in reporter-positive parasites against the bulk population",
