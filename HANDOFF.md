@@ -675,3 +675,21 @@ starplast-discover --read bigA_00_guilt_compartment_best
 * Every module stays at 100% coverage, no `pragma`. Tests assert **orderings** where possible
   (perfect > corrupted > shuffled), because those survive the numbers being tuned.
 * Bump the version for feature work; no `Co-Authored-By` trailer.
+
+## Standing goal, set 2026-08-15: finish every open instruction
+
+Five are open. Suggested order, cheapest-unblocking-first:
+
+1. **34 leftovers / coverage back to 100%** — it is 99% now (51 lines, worst `holdout_cv` at 94%).
+   Do this first: everything below lands on top of it, and the project rule has held since 28.
+2. **39 — species tables and host bridges.** Structural, and 40 and 41 both depend on it. Start with
+   the `Toxo_` -> `Tg_` rename while it is still only a string change.
+3. **40 — the slot tree window.** Small, and it is the thing that makes 41 auditable while it runs.
+4. **41 — fill the slots.** The long one. Fix the Plasmodium candidate query FIRST (see the file);
+   the current 16 off-target citations come from `malaria` being used as a standalone query term.
+5. **37 (lighting material lab)** and **38 (pan-apicomplexan archive)** — 38 overlaps 41's fetching;
+   read both before starting either, and fold 38's archive into 41's procedure rather than building
+   two fetchers.
+
+The atlas of all 239 slots, filled and empty, is published and regenerates from
+`scripts/generate_slot_table.py` plus `starplast/data/slots.json`.

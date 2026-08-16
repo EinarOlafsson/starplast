@@ -1,0 +1,109 @@
+# 41 — Fill as many slots as possible: Toxoplasma, Plasmodium, and host
+
+**Status: open. Requested 2026-08-15.** This is the acquisition campaign. 39 defines the tables and
+40 the window to check them in; this one puts data in.
+
+## Where it stands
+
+239 slots. Measured from the shipped node table and `slots.declared_columns`, not from the CSV:
+
+| arm | filled | candidate only | empty |
+|---|---|---|---|
+| *T. gondii* | 59 | 42 | 11 |
+| *Plasmodium* | 0 | 25 | 102 |
+| host | — | — | not yet defined (see 39) |
+
+**25 of the 25 Plasmodium candidates carry no data accession.** All 193 citations across both tables
+resolve and every claimed title matches the real one, so nothing is fabricated — but a citation
+nobody can download is not a filled slot, and the atlas deliberately refuses to let that read as
+progress.
+
+## The rules, before any of the work
+
+1. **Never type a PMID or an accession.** Resolve it, from E-utilities or the repository's own API,
+   and record what the query was. This rule has held for all 193 citations; it is the reason the
+   tables can be trusted at all.
+2. **A slot is filled when a column exists in the node table**, not when a paper is cited. `filled`
+   comes from `slots.declared_columns`; nothing else may set it.
+3. **Register every dataset** in `datasets.REGISTRY` with its columns, its accession, and
+   `derived_from` where it is a computation over other columns. The leakage closure reads that field
+   and cannot protect what is not declared.
+4. **Do not merge species.** One table per parasite species, orthology as a bridge slot — see 39,
+   including the rule that `target_family` closure spans species.
+5. **Host genes never become rows in a parasite table.**
+
+## Fix the candidate search first
+
+The Plasmodium candidate list contains 16 citations that are not about a malaria parasite —
+red-cell physiology, endothelial transporters, *Anopheles* immunity, essential-oil antimicrobial
+screens. That is a fault in the query specified in the last handoff, not in the resolver: it used
+`malaria[Title/Abstract]` as a standalone term, which sweeps in vector biology, host physiology and
+natural-product pharmacology.
+
+Replace it with a filter that requires all three:
+
+* a **parasite species term** (`Plasmodium falciparum`, `P. berghei`, `P. vivax`, `P. knowlesi`,
+  `P. yoelii`) — not the disease name;
+* an **assay term** from `ASSAY_TERMS` for that slot's axis;
+* an **accession pattern** in the abstract or the linked data availability
+  (`GSE\d+`, `PRJ[EDN][ABN]\d+`, `PXD\d+`, `E-MTAB-\d+`, `SRP\d+`, `MTBLS\d+`), or a hit in the
+  repository search rather than in PubMed at all.
+
+Then re-run it over every Plasmodium slot and replace the current candidates wholesale. Keep the
+16 off-target ones nowhere — a wrong candidate is worse than an empty slot, because an empty slot
+is honest.
+
+## Priorities
+
+**Toxoplasma — highest value first, because the tables are already there.**
+
+1. `relation` — 3 filled, **9 empty**, the weakest axis: crosslink MS, IP-MS parasite–parasite,
+   proximity labelling, structural similarity, shared-complex membership. 39 makes pair-indexed data
+   first-class, so this axis is about to carry much more weight than its coverage suggests.
+2. `regulation` — **0 filled** across six slots that all have candidates: ChIP-seq per factor,
+   histone marks, chromatin accessibility, m6A, splicing, RNA half-life. Candidates exist; nothing
+   has been ingested.
+3. The 20 citation-only slots that already carry an accession — these are the cheapest wins in the
+   whole table and need only fetching and normalising.
+4. The 11 empty slots: find candidates or record why none exists.
+
+**Plasmodium — acquisition, per 39's tiers.** *P. falciparum* (3D7) and *P. berghei* (ANKA) first;
+between them they carry nearly all the genome-scale data, and they are the pair where transfer is
+most useful. Start with the axes where genome-scale data certainly exists: transcription (IDC time
+course, single-cell atlas, gametocyte, liver stage, sporozoite), fitness (piggyBac saturation
+mutagenesis for *falciparum*, PlasmoGEM barcoded knockouts for *berghei*), protein abundance,
+phosphoproteome, chromatin. Resolve each through the repository, not from memory.
+
+**Host — per 39.** Human and mouse first, *Anopheles* named by species. Tissue references for the
+context nodes 39 lists: erythrocyte, hepatocyte, dermis, brain, fibroblast, monocyte, midgut,
+salivary gland. Sources named there (HPA, GTEx, Tabula Muris, VectorBase, PRIDE, Ensembl/UniProt).
+
+## Per-slot procedure
+
+    resolve  -> candidate with an accession, recorded with its query
+    fetch    -> raw file into the dataset archive, checksummed, release pinned
+    map      -> to the table's gene identifiers; VEuPathDB names must be RESOLVED against the
+                release index, never derived -- see the fetcher note in the skills corpus, where
+                deriving-and-hoping silently skipped organisms and still printed DONE
+    register -> datasets.REGISTRY entry: columns, accession, derived_from, note
+    verify   -> coverage recomputed from the node table; the slot flips to filled only here
+    regenerate -> scripts/generate_slot_table.py, and check the atlas
+
+## Prune before scoping
+
+The Plasmodium `fitness` axis has 33 empty slots because the stage expansion crossed 16 generic
+fitness questions with the full stage list. Some of those combinations nobody has measured or
+plausibly will — fitness in the ookinete, for one. Prune by hand before the acquisition target is
+scoped against the count, or the campaign will be measured against a denominator that is partly
+fictional.
+
+## Acceptance
+
+* Every newly filled slot has a `datasets.REGISTRY` entry and a column that
+  `slots.declared_columns` returns.
+* The column partition still holds per table: none claimed twice, none claimed by nobody.
+* Every candidate in both tables resolves, its title matches, and it names the right organism —
+  assert it in a test that can be re-run offline against a cached response.
+* No slot is marked filled from a citation.
+* Coverage back to 100% on the code, no `pragma`; it is currently 99%.
+* The atlas regenerates and its counts change in the direction the work went.
