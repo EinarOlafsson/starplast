@@ -25,7 +25,7 @@ import numpy as np
 import pandas as pd
 
 from . import (cellcycle, chromatin, codons, corpus, expression, identity, interaction_studies,
-               iedb, interactions, palmitome, toxodb_evidence,
+               iedb, interactions, palmitome, small_tables,
                literature,
                proteomics,
                localization, screens, variation)
@@ -131,8 +131,8 @@ def load_nodes() -> pd.DataFrame:
                   codons.codon_usage(BASE, resolve=resolve, log=log),
                   chromatin.chromatin_signals(BASE, resolve=resolve, log=log),
                   palmitome.palmitome(BASE, resolve=resolve, log=log),
-                  toxodb_evidence.evidence(BASE, resolve=resolve, log=log),
-                  toxodb_evidence.enzyme_classification(BASE, resolve=resolve,
+                  small_tables.evidence(BASE, resolve=resolve, log=log),
+                  small_tables.enzyme_classification(BASE, resolve=resolve,
                                                         log=log),
                   iedb.bcell_epitopes(BASE, resolve=resolve, log=log)):
         if table.empty:

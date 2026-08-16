@@ -16,7 +16,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from starplast import toxodb_evidence as TE  # noqa: E402
+from starplast import small_tables as TE  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -116,8 +116,10 @@ def test_every_source_records_what_was_asked_for():
     which is the same obligation met a different way."""
     for filename, column, _fold, query in TE.SOURCES:
         assert query and len(query) > 20, column
-        assert "Genes" in query or "supplementary file" in query.lower(), (
-            f"{column} does not say where it came from")
+        # A ToxoDB search names itself; a paper table names its file and sheet. Either is a
+        # statement of which of the several possible questions this column answers.
+        assert ("Genes" in query or "supplementary" in query.lower()
+                or "Table S" in query), f"{column} does not say where it came from"
 
 
 # --------------------------------------------------------------------------- against the real map
@@ -283,3 +285,41 @@ def test_every_myristoylated_protein_starts_with_a_glycine():
     assert (second == "G").all(), sorted(set(second[second != "G"]))
     others = n[n["myristoylation_confidence"].isna()]["sequence"].astype(str).str[1:2]
     assert (others == "G").mean() < 0.15, "the motif is not distinctive in this table"
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_cdpk1_substrates_are_the_microneme_pathway():
+    """The count tracks abundance, as phosphoproteomic counts do, so the check is the ENRICHMENT.
+
+    CDPK1 is the kinase that governs microneme secretion; if this column were abundance and nothing
+    else, micronemes would not stand out among 8,000 genes.
+    """
+    from scipy.stats import fisher_exact
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "cdpk1_thiophospho_peptides" not in n.columns:
+        pytest.skip("CDPK1 column not merged")
+    sub = n["cdpk1_thiophospho_peptides"].notna().to_numpy()
+    mic = n["product"].astype(str).str.contains("microneme protein MIC", case=False,
+                                                na=False).to_numpy()
+    odds, p = fisher_exact([[(sub & mic).sum(), (sub & ~mic).sum()],
+                            [((~sub) & mic).sum(), ((~sub) & ~mic).sum()]])
+    assert odds > 4 and p < 0.001, f"odds {odds:.2f}, p {p:.1e}"
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_mrna_stability_covers_only_the_unstable_tail():
+    """The table is the transcripts that fell below 75% remaining, so every value must be under it.
+
+    A value above 0.75 would mean the wrong column was read -- the workbook has four proportion
+    columns and two of them are the iron-treated arm.
+    """
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "mrna_remaining_5h_actinomycin" not in n.columns:
+        pytest.skip("stability column not merged")
+    values = n["mrna_remaining_5h_actinomycin"].dropna()
+    assert values.max() <= 0.75, values.max()
+    assert values.min() > 0, values.min()

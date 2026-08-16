@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**220 slots: 61 covered well, 11 partly, 24 thinly, 124 empty.**
+**220 slots: 61 covered well, 11 partly, 26 thinly, 122 empty.**
 
 ### transcription
 
@@ -144,7 +144,7 @@ quantity were approximating on 2026-08-13.
 |---|---|---|---|---|---|---|---|
 | Tg_phosphorylation · site count | tachyzoite | **A** | 8140 | 100.0% | `n_phosphosites, has_phospho` | one | — |
 | Tg_phosphorylation · quantitative | tachyzoite | **C** | 1603 | 19.7% | `phospho_` | average | **iTRAQ-Based Phosphoproteomic Analysis of Toxoplasma gondii Tachyzoites Provides Insight Into the Role of Phosphorylation for its Invasion and Egress.** (Frontiers in cellular and infection microbio 2020) [33363051](https://pubmed.ncbi.nlm.nih.gov/33363051/) `PXD020655`<br>**iTRAQ-Based Global Phosphoproteomics Reveals Novel Molecular Differences Between Toxoplasma gondii Strains of Different Genotypes.** (Frontiers in cellular and infection microbio 2019) [31508380](https://pubmed.ncbi.nlm.nih.gov/31508380/) `PXD007777`<br>**The PP2A-2 holoenzyme orchestrates daughter cell emergence during cytokinesis in Toxoplasma gondii.** (PLoS pathogens 2025) [40901993](https://pubmed.ncbi.nlm.nih.gov/40901993/) `PXD064226` |
-| Tg_phosphorylation · kinase-substrate | perturbation | **-** |  |  | `` | separate | **Analysis of CDPK1 targets identifies a trafficking adaptor complex that regulates microneme exocytosis in Toxoplasma.** (eLife 2023) [37933960](https://pubmed.ncbi.nlm.nih.gov/37933960/) `PXD019677`<br>**Protein kinase TgCDPK7 regulates vesicular trafficking and phospholipid synthesis in Toxoplasma gondii.** (PLoS pathogens 2021) [33635921](https://pubmed.ncbi.nlm.nih.gov/33635921/) `PXD019655` |
+| Tg_phosphorylation · kinase-substrate | perturbation | **C** | 361 | 4.4% | `cdpk1_thiophospho_peptides` | separate | **Analysis of CDPK1 targets identifies a trafficking adaptor complex that regulates microneme exocytosis in Toxoplasma.** (eLife 2023) [37933960](https://pubmed.ncbi.nlm.nih.gov/37933960/) `PXD019677`<br>**Protein kinase TgCDPK7 regulates vesicular trafficking and phospholipid synthesis in Toxoplasma gondii.** (PLoS pathogens 2021) [33635921](https://pubmed.ncbi.nlm.nih.gov/33635921/) `PXD019655` |
 | Tg_acetylation | life stages | **B** | 3921 | 48.2% | `n_acetylation_sites` | one | **Label-free quantitative detection and comparative analysis of lysine acetylation during the different life stages of Eimeria tenella.** (Journal of proteome research 2023) [37562054](https://pubmed.ncbi.nlm.nih.gov/37562054/) `PXD040368` |
 | Tg_N-myristoylation | tachyzoite | **C** | 65 | 0.8% | `myristoylation_confidence` | one | **Profiling of myristoylation in Toxoplasma gondii reveals an N-myristoylated protein important for host cell penetration.** (eLife 2020) [32618271](https://pubmed.ncbi.nlm.nih.gov/32618271/) `eLife 57861` |
 | Tg_arginine methylation | tachyzoite | **C** | 368 | 4.5% | `n_arginine_methylation_sites` | one | [ToxoDB](https://pubmed.ncbi.nlm.nih.gov/ToxoDB/) `Yakubu monomethylarginine proteomics` |
@@ -213,7 +213,7 @@ quantity were approximating on 2026-08-13.
 | Tg_chromatin accessibility | stages | **A** | 7988 | 98.1% | `atac_promoter_` | one | **In vitro production of cat-restricted Toxoplasma pre-sexual stages.** (Nature 2024) [38093015](https://pubmed.ncbi.nlm.nih.gov/38093015/) `PRJNA921935` |
 | Tg_RNA modification · m6A / 5mC | tachyzoite | **-** |  |  | `` | separate | **A plant-like mechanism coupling m6A reading to polyadenylation safeguards transcriptome integrity and developmental gene partitioning in Toxoplasma.** (eLife 2021) [34263725](https://pubmed.ncbi.nlm.nih.gov/34263725/) `GSE168155`<br>**Cross-lineage 5-methylcytosine methylome profiling reveals methylated divergence among Toxoplasma gondii tachyzoites of the three major clonal lineages.** (Infectious diseases of poverty 2025) [40830525](https://pubmed.ncbi.nlm.nih.gov/40830525/) `GSE294543` |
 | Tg_splicing / isoform use | stages | **C** | 798 | 9.8% | `novel_transcript_models` | one | **Direct Nanopore Sequencing of mRNA Reveals Landscape of Transcript Isoforms in Apicomplexan Parasites.** (mSystems 2021) [33688018](https://pubmed.ncbi.nlm.nih.gov/33688018/) `PRJNA606986` |
-| Tg_RNA stability / half-life | tachyzoite | **-** |  |  | `` | one | **Iron-mediated post-transcriptional regulation in Toxoplasma gondii.** (PLoS pathogens 2025) [39899594](https://pubmed.ncbi.nlm.nih.gov/39899594/) `PRJEB67890` |
+| Tg_RNA stability / half-life | tachyzoite | **C** | 412 | 5.1% | `mrna_remaining_5h_actinomycin` | one | **Iron-mediated post-transcriptional regulation in Toxoplasma gondii.** (PLoS pathogens 2025) [39899594](https://pubmed.ncbi.nlm.nih.gov/39899594/) `PRJEB67890` |
 | Pf_TF binding · per factor | ChIP / CUT&RUN | **-** |  |  | `` | separate | — |
 | Pf_chromatin state · asexual blood stage | asexual blood stage | **-** |  |  | `` | fill | — |
 | Pf_chromatin accessibility | stages | **-** |  |  | `` | one | — |

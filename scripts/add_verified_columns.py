@@ -21,7 +21,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from starplast import (chromatin, codons, expression, identity, iedb,  # noqa: E402
-                       palmitome, proteomics, toxodb_evidence, variation)
+                       palmitome, proteomics, small_tables, variation)
 
 
 def main(argv=None) -> int:
@@ -59,8 +59,8 @@ def main(argv=None) -> int:
                   codons.codon_usage(args.base, resolve=resolve, log=print),
                   chromatin.chromatin_signals(args.base, resolve=resolve, log=print),
                   palmitome.palmitome(args.base, resolve=resolve, log=print),
-                  toxodb_evidence.evidence(args.base, resolve=resolve, log=print),
-                  toxodb_evidence.enzyme_classification(args.base, resolve=resolve,
+                  small_tables.evidence(args.base, resolve=resolve, log=print),
+                  small_tables.enzyme_classification(args.base, resolve=resolve,
                                                         log=print),
                   iedb.bcell_epitopes(args.base, resolve=resolve, log=print)):
         if table.empty:

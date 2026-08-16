@@ -155,6 +155,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Single-parasite transcriptional atlas (cell cycle) | Measured cell-cycle phase per gene, and pseudotime cluster | 873 genes phased, 7,499 clustered | Xue Y et al. eLife 2020;9:e54129; PMID [32065584](https://pubmed.ncbi.nlm.nih.gov/32065584/) |
 | Stage transcriptome | Tachyzoite, day 3/5/7, in vivo tissue cyst (12 columns) | 7,739 (95.1%) | `GSE108740` |
 | Synchronized tachyzoite cell-cycle transcriptome | Two replicates across blocked, asynchronous and hourly release states | measured at build time | Behnke MS et al., Coordinated progression through two subtranscriptomes underlies the tachyzoite cycle of Toxoplasma gondii. PLoS ONE 2010;5:e12354; PMID [20865045](https://pubmed.ncbi.nlm.nih.gov/20865045/); `GSE19092` |
+| mRNA stability after actinomycin D | Proportion of transcript remaining after five hours of transcription block | 412 genes | PMID [39899594](https://pubmed.ncbi.nlm.nih.gov/39899594/); `PLoS Pathogens 1012857 Table S12` |
 
 ### Translation — protein abundance
 
@@ -173,6 +174,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 |---|---|---|---|
 | BioID/TurboID supplement membership corpus | Number of downloaded proximity-labeling studies whose supplement names each gene | measured at build time | *citation not yet confirmed* |
 | C. parvum hyperLOPIT | Donor labels for orthoLOPIT transfer | 1,107 usable | Guerin et al. 2023 |
+| CDPK1 substrates (thiophosphate labelling) | Thiophosphorylated peptides per gene from analog-sensitive CDPK1 | 361 genes | PMID [37933960](https://pubmed.ncbi.nlm.nih.gov/37933960/); `eLife 85654 supplementary file 6` |
 | Calcium thermal-shift proteome (mineCETSA) | How far a protein's melting curve moves when calcium is added | 2,348 proteins | PMID [35976251](https://pubmed.ncbi.nlm.nih.gov/35976251/); `PMC9436416 Supplementary file 3` |
 | Cyst wall interactome | Strongest bait signal and how many baits saw the protein | 56 proteins | PMID [32019789](https://pubmed.ncbi.nlm.nih.gov/32019789/); `PMC7002340 Data Set S1` |
 | Foldseek structural similarity | TM-align over Toxoplasma AlphaFold models, TM >= 0.7 | 11,684 pairs / 2,338 genes | *citation not yet confirmed* |

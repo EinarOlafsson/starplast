@@ -808,6 +808,33 @@ REGISTRY = [
                  "genes (odds 3.39, p = 8e-88), are lineage-specific a third as often, and are more "
                  "costly to lose in vitro. `has_ec` is 0 and not missing where ToxoDB reports no EC: "
                  "the whole proteome was asked, so no assignment is an answer about the gene."),
+    Dataset("cdpk1_substrates", "CDPK1 substrates (thiophosphate labelling)", "post_translation",
+            "proteomics", "Thiophosphorylated peptides per gene from analog-sensitive CDPK1",
+            ("cdpk1_thiophospho_peptides",), "361 genes", pmid="37933960",
+            accession="eLife 85654 supplementary file 6",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10629828/supplementaryFiles",
+            path="starplast/data/cdpk1_substrates.tsv",
+            note="The enriched fraction only, one gene per peptide from the master accession the "
+                 "search engine assigned -- counting every protein a shared peptide maps to would "
+                 "credit ambiguous peptides several times. The count tracks abundance, as every "
+                 "phosphoproteomic count does, and the top of it is HSP70, HSP90 and BiP. What says "
+                 "it is nonetheless CDPK1's substrate set is the enrichment: microneme proteins are "
+                 "11-fold over-represented (Fisher p = 2e-05) and CDPK1 is the kinase that governs "
+                 "microneme secretion, myosin A is in it, and so is the HOOK protein that the paper "
+                 "exists to report."),
+    Dataset("mrna_stability", "mRNA stability after actinomycin D", "transcription", "RNAseq",
+            "Proportion of transcript remaining after five hours of transcription block",
+            ("mrna_remaining_5h_actinomycin",), "412 genes", pmid="39899594",
+            accession="PLoS Pathogens 1012857 Table S12",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11801735/supplementaryFiles",
+            path="starplast/data/mrna_stability.tsv",
+            note="A direct measurement: block transcription, wait, see what is left. Untreated "
+                 "parasites at five hours, so the column is stability and not the iron response the "
+                 "paper is about. BIASED BY CONSTRUCTION and the bias is worth stating -- the table "
+                 "is the 426 transcripts that fell below 75% remaining, so it describes the unstable "
+                 "tail and a gene absent from it is stable OR was not measured, which the column "
+                 "cannot distinguish. Consistent with that: ribosomal-protein transcripts, which are "
+                 "classically stable, are under-represented among the responders at odds 0.37."),
     Dataset("myristoylome", "N-myristoylated proteome", "post_translation", "proteomics",
             "The authors' confidence that this protein is myristoylated, 3 high to 1 low",
             ("myristoylation_confidence",), "65 substrates", pmid="32618271",

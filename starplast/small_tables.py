@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"""Per-gene evidence that ToxoDB integrates and nobody else publishes as a table.
+"""Small per-gene tables: one file, two columns, one column of the map.
 
-ToxoDB does not only host datasets; it runs them through its own pipelines and exposes the result as
-searches whose report can return the per-gene value. That is the route used here, and it is the only
-route for some of these: the epitope mapping is ToxoDB's join of IEDB against the ME49 proteome, and
-the ChIP-on-chip scores were published as array data that nobody has since re-tabulated per gene.
+The shape is the point. A ToxoDB search report, a paper's supplementary table and a list extracted
+from a spreadsheet all reduce to gene-and-number, and once they do there is no reason for each to
+have its own loader. `SOURCES` is the list, and the fourth field of each entry records what was
+asked for -- which query, which sheet -- because a search that can be asked five ways produces five
+different columns and the note beside the data has to say which one this is.
 
-Every column is the value the search returns, unmodified except for the sign convention below. What
-is chosen here is which comparison to ask for, and that choice is recorded per source.
+Named `toxodb_evidence` until it held eLife supplements too, at which point the name was a claim
+about provenance that half its rows did not meet.
+
+Every column is the value the source gives, unmodified except for the sign convention below.
 
 ## Which way round a fold change points
 
@@ -76,6 +79,10 @@ SOURCES = (
      "GenesByChIPchip Hakimi/Ali genome-wide H4 K5-K8-K12-K16 acetylation, within 1 kb, no floor"),
     ("toxodb_macrophage.tsv", "macrophage_expression_percentile", False,
      "GenesByRNASeq Saeij 29 strains, ME49-infected murine macrophages, percentile, channel 1"),
+    ("cdpk1_substrates.tsv", "cdpk1_thiophospho_peptides", False,
+     "eLife 85654 supplementary file 6, sheet 6.2_ThioP_enriched, master accession per peptide"),
+    ("mrna_stability.tsv", "mrna_remaining_5h_actinomycin", False,
+     "PLoS Pathogens 1012857 supplementary Table S12, untreated parasites at 5 hours"),
     ("myristoylome.tsv", "myristoylation_confidence", False,
      "eLife 57861 supplementary file 4, Substrate List, confidence High=3 Medium=2 Low=1"),
     ("toxodb_arginine_methylation.tsv", "n_arginine_methylation_sites", False,
@@ -147,5 +154,5 @@ def evidence(base: str, resolve=None, log=print) -> pd.DataFrame:
         # for one gene are one gene measured twice, and averaging a hit with a non-hit erases it.
         series = values.groupby(level=0).max()
         out = out.join(series.to_frame(column), how="outer") if len(out) else series.to_frame(column)
-        log(f"toxodb evidence: {column}, {int(series.notna().sum()):,} genes")
+        log(f"small table: {column}, {int(series.notna().sum()):,} genes")
     return out

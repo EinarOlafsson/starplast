@@ -649,7 +649,7 @@ SLOTS = [
       ("31508380", "PXD007777", "type I vs type II"),
       ("40901993", "PXD064226", "PP2A-2 during cytokinesis")]),
     ("phosphorylation · kinase-substrate", "PTM", "perturbation", "gene",
-     [], "separate",
+     ["cdpk1_thiophospho_peptides"], "separate",
      [("37933960", "PXD019677", "CDPK1 substrates"), ("33635921", "PXD019655", "CDPK7")]),
     ("acetylation", "PTM", "life stages", "gene", ["n_acetylation_sites"], "one",
      [("37562054", "PXD040368", "lysine acetylation across stages")]),
@@ -733,7 +733,8 @@ SLOTS = [
     # relationship alternative splicing must produce.
     ("splicing / isoform use", "regulation", "stages", "gene", ["novel_transcript_models"], "one",
      [("33688018", "PRJNA606986", "nanopore isoform landscape")]),
-    ("RNA stability / half-life", "regulation", "tachyzoite", "gene", [], "one",
+    ("RNA stability / half-life", "regulation", "tachyzoite", "gene",
+     ["mrna_remaining_5h_actinomycin"], "one",
      [("39899594", "PRJEB67890", "iron-mediated post-transcriptional regulation")]),
 
     # ---------------------------------------------------------------- localisation and exposure
