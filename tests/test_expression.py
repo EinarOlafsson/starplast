@@ -457,3 +457,145 @@ def test_gse200962_keeps_every_counted_condition(tmp_path):
     out = EX.gse200962_restriction_checkpoint(str(tmp_path), log=lambda *_: None)
     assert list(out) == ["restriction200962_p2_with_ph_8",
                          "restriction200962_p5_without_ph_8"]
+
+
+# --------------------------------------------------------------------------- absent sources
+def test_every_loader_returns_nothing_when_its_file_is_absent(tmp_path):
+    """A dataset nobody has downloaded must not take the build down with it.
+
+    Each of these reads one file from the archive; the cache is assembled from whatever is present,
+    so a missing source is the ordinary case rather than the exceptional one. Returning an empty
+    frame is what lets `load_all` compose the rest -- and the slot it would have filled then reads
+    as empty, which is true.
+    """
+    import starplast.expression as E
+    base = str(tmp_path)
+    os.makedirs(os.path.join(base, "datasets"), exist_ok=True)
+    loaders = [E.gse22258_stage, E.neuronal_differentiation,
+               E.gse129869_host_context_ribosome_profiling, E.gse19092_cell_cycle,
+               E.gse51780_merozoite]
+    for loader in loaders:
+        out = loader(base, log=lambda *a, **k: None)
+        assert isinstance(out, pd.DataFrame) and out.empty, f"{loader.__name__} did not come back empty"
+
+
+def test_a_series_matrix_with_a_header_and_no_table_yields_no_rows(tmp_path):
+    """GEO series matrices carry their sample titles above the table. A file that has the titles and
+    then ends -- a truncated download, or a series with no matrix published -- must give back the
+    titles it did read and no data, rather than raising out of the csv parser."""
+    import gzip
+    import starplast.expression as E
+    path = str(tmp_path / "truncated_series_matrix.txt.gz")
+    with gzip.open(path, "wt") as fh:
+        fh.write('!Sample_title\t"tachyzoite"\t"bradyzoite"\n')
+        fh.write("!series_matrix_table_begin\n")
+        fh.write("!series_matrix_table_end\n")
+    frame, titles = E._geo_series_matrix(path)
+    assert frame.empty
+    assert titles == ["tachyzoite", "bradyzoite"], "the titles were lost with the table"
+
+
+def test_a_source_that_is_present_but_unusable_yields_nothing_rather_than_half_a_dataset(tmp_path):
+    """The other half of the ingestion contract, and the half that matters more.
+
+    A missing file is obvious. A file that downloaded but is truncated, or whose table never
+    appeared, is the one that quietly produces a column of nothing and fills a slot with it. Each of
+    these loaders checks the shape it actually needs and returns empty when it is not there -- so
+    the slot reads as empty, which is true, rather than as filled with a column of NaN.
+    """
+    import gzip
+    import starplast.expression as E
+    base = str(tmp_path)
+    # The dated acquisition batch, named by `_acquired` -- not a directory called "acquired".
+    acq = os.path.dirname(E._acquired(base, "x"))
+    os.makedirs(acq, exist_ok=True)
+    os.makedirs(os.path.join(base, "datasets"), exist_ok=True)
+
+    # Two columns where three are needed: a series matrix with one sample instead of two.
+    with gzip.open(os.path.join(base, "datasets",
+                                "stagetranscriptome_GSE22258_series_matrix.txt.gz"), "wt") as fh:
+        fh.write("ID_REF\tGSM1\n")
+        fh.write("TGME49_000001\t5.0\n")
+    assert E.gse22258_stage(base, log=lambda *a, **k: None).empty
+
+    # A series matrix whose table never begins: the header is there and the data is not.
+    empty_matrix = '!Sample_title\t"asynchronous"\n!series_matrix_table_begin\n' \
+                   "!series_matrix_table_end\n"
+    for name in ("GSE19092_series_matrix.txt.gz", "GSE51780_series_matrix.txt.gz"):
+        with gzip.open(os.path.join(acq, name), "wt") as fh:
+            fh.write(empty_matrix)
+    with gzip.open(os.path.join(acq, "GPL7186_family.soft.gz"), "wt") as fh:
+        fh.write("^PLATFORM = GPL7186\n!platform_table_begin\nID\tORF\n!platform_table_end\n")
+    assert E.gse19092_cell_cycle(base, log=lambda *a, **k: None).empty
+    assert E.gse51780_merozoite(base, log=lambda *a, **k: None).empty
+
+
+def test_an_archive_with_no_count_tables_in_it_yields_nothing(tmp_path):
+    """GSE129869 arrives as a tar of per-sample count tables, and the loader picks members by a
+    name pattern. An archive that downloaded but holds none of them -- a partial upload, or a
+    supplementary tar of something else entirely -- must produce no columns rather than an empty
+    concat."""
+    import tarfile
+    import starplast.expression as E
+    base = str(tmp_path)
+    where = E._acquired(base, "GSE129869_RAW.tar")
+    os.makedirs(os.path.dirname(where), exist_ok=True)
+    readme = tmp_path / "README.txt"
+    readme.write_text("nothing here matches the count-table pattern\n")
+    with tarfile.open(where, "w") as archive:
+        archive.add(str(readme), arcname="README.txt")
+    assert E.gse129869_host_context_ribosome_profiling(base, log=lambda *a, **k: None).empty
+
+
+def test_the_platform_map_skips_everything_before_its_table(tmp_path):
+    """A GEO platform file opens with metadata lines before the probe table begins. They are not
+    rows, and treating them as rows would map a probe id onto a licence string."""
+    import gzip
+    import starplast.expression as E
+    path = str(tmp_path / "GPL7186_family.soft.gz")
+    with gzip.open(path, "wt") as fh:
+        fh.write("^PLATFORM = GPL7186\n")
+        fh.write("!Platform_organism = Toxoplasma gondii\n")
+        fh.write("!platform_table_begin\n")
+        # The column is ToxoDB rather than ORF: the map reads a probe's PREVIOUS ToxoDB id and
+        # resolves it forward, which is what makes a 2009 array usable against today's identifiers.
+        fh.write("ID\tToxoDB\n")
+        fh.write("probe1\tTGME49_000001\n")
+        fh.write("!platform_table_end\n")
+        fh.write("!Platform_trailing = ignored\n")
+    out = E._gpl7186_gene_map(path)
+    assert out.get("probe1") == "TGME49_000001"
+    assert "^PLATFORM = GPL7186" not in out and len(out) == 1
+
+
+def test_a_directory_inside_the_archive_is_not_read_as_a_count_table(tmp_path):
+    """`extractfile` returns None for anything that is not a regular file, and a tar written by a
+    submitter can carry a directory whose name matches the pattern. Reading None would raise from
+    inside gzip rather than skipping the entry."""
+    import tarfile
+    import starplast.expression as E
+    base = str(tmp_path)
+    where = E._acquired(base, "GSE129869_RAW.tar")
+    os.makedirs(os.path.dirname(where), exist_ok=True)
+    folder = tmp_path / "GSM1_cRFP.RH1_count.tab.gz"
+    folder.mkdir()
+    with tarfile.open(where, "w") as archive:
+        archive.add(str(folder), arcname="GSM1_cRFP.RH1_count.tab.gz", recursive=False)
+    assert E.gse129869_host_context_ribosome_profiling(base, log=lambda *a, **k: None).empty
+
+
+def test_a_workbook_sheet_without_fold_changes_is_skipped_and_an_empty_one_yields_nothing(tmp_path):
+    """GSE168465 is one workbook with a sheet per time point, and submitters put other things in
+    workbooks: a legend, a methods sheet, a sheet of counts with no comparison in it. A sheet with
+    no log2FoldChange is not a time point and must be skipped rather than half-read -- and a
+    workbook made entirely of those yields nothing rather than an empty concat."""
+    import starplast.expression as E
+    base = str(tmp_path)
+    os.makedirs(os.path.join(base, "datasets"), exist_ok=True)
+    path = os.path.join(base, "datasets",
+                        "stagetranscriptome_GSE168465_DESeq2-Toxo-all-time-points.xlsx")
+    with pd.ExcelWriter(path) as writer:
+        pd.DataFrame({"gene": ["TGME49_000001"], "baseMean": [10.0]}).to_excel(
+            writer, sheet_name="legend", index=False)
+        pd.DataFrame({"gene": [], "note": []}).to_excel(writer, sheet_name="blank", index=False)
+    assert E.neuronal_differentiation(base, log=lambda *a, **k: None).empty

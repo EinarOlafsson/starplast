@@ -277,9 +277,12 @@ def gse129869_host_context_ribosome_profiling(base: str, resolve=None,
                 continue
             with gzip.GzipFile(fileobj=io.BytesIO(member.read())) as fh:
                 d = pd.read_csv(fh, sep="\t", header=None, names=("gene", "count"))
+            # No guard on this match, and deliberately: `names` above is filtered by
+            # `_[cs](?:RFP|RNA)\.RH\d+_count\.tab\.gz$`, which is strictly stronger than this
+            # pattern, so a name that reached here has already matched. The guard that used to sit
+            # here could never fire, and unreachable defensive code is worse than none -- it tells
+            # a reader the case is handled when nothing handles it.
             match = re.search(r"_([cs])(RFP|RNA)\.RH(\d+)_", name)
-            if not match:
-                continue
             context = "confluent" if match.group(1) == "c" else "subconfluent"
             assay = "rpf" if match.group(2) == "RFP" else "rna"
             column = f"{assay}129869_{context}_r{match.group(3)}"
