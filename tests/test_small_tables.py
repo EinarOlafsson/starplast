@@ -439,3 +439,22 @@ def test_the_secreted_fraction_is_led_by_micronemes():
     mic = median_for(r"microneme")
     assert mic > median_for(r"SAG-related|SRS\d"), mic
     assert mic > median_for(r"ribosomal protein"), mic
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_the_sexual_stage_column_rises_on_oocyst_wall_protein():
+    """Eight days post-infection in the cat is gametogony, and the oocyst wall is what gametogony
+    builds. Housekeeping genes should not be what rises."""
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet")).set_index("gene_id")
+    column = "sexual_stage_8dpi_log2fc"
+    if column not in n.columns:
+        pytest.skip("sexual-stage column not merged")
+    measured = n[n[column].notna()]
+    prod = measured["product"].astype(str)
+    wall = measured.loc[prod.str.contains("oocyst wall", case=False, na=False), column]
+    ribo = measured.loc[prod.str.contains("ribosomal protein", case=False, na=False), column]
+    assert len(wall) and len(ribo)
+    assert wall.median() > measured[column].quantile(0.9), wall.median()
+    assert ribo.median() < measured[column].median(), ribo.median()

@@ -86,6 +86,8 @@ SOURCES = (
      "GenesByChIPchip Hakimi/Ali genome-wide H4 K5-K8-K12-K16 acetylation, within 1 kb, no floor"),
     ("toxodb_macrophage.tsv", "macrophage_expression_percentile", False,
      "GenesByRNASeq Saeij 29 strains, ME49-infected murine macrophages, percentile, channel 1"),
+    ("sexual_stages.tsv", "sexual_stage_8dpi_log2fc", False,
+     "PMC13042011 supplementary media-2, sheet Fig2D, avg_log2FC at 8 days post-infection in the cat"),
     ("secretome_partition.tsv", "secretome_soluble_over_vesicle_log2", False,
      "GenesByProteomics Ramirez-Flores vesicles, exosome+ectosome against supernatant, sign flipped "
      "so positive is the soluble secreted fraction"),

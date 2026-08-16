@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**119 slots: 62 covered well, 12 partly, 30 thinly, 15 empty.**
+**119 slots: 62 covered well, 13 partly, 30 thinly, 14 empty.**
 
 ### transcription
 
@@ -69,7 +69,7 @@ quantity were approximating on 2026-08-13.
 | Tg_transcription · bradyzoite / tissue cyst | bradyzoite | **A** | 7865 | 96.6% | `expr_cyst, rna108740_Tissue_cysts, rna108740_Day, rna22258_bradyzoite` | average | **Bradyzoite subtypes rule the crossroads of Toxoplasma development.** (Nature communications 2026) [41580398](https://pubmed.ncbi.nlm.nih.gov/41580398/) `GSE311669` |
 | Tg_transcription · oocyst / sporozoite | oocyst, sporulation | **A** | 7974 | 98.0% | `rna206344_, expr_sporulated` | average | — |
 | Tg_transcription · merozoite | merozoite | **B** | 6504 | 79.9% | `rna51780_mero_` | one | **Toxoplasma gondii merozoite gene expression analysis with comparison to the life cycle discloses a unique expression state during enteric development.** (BMC Genomics 2014) [24885521](https://pubmed.ncbi.nlm.nih.gov/24885521/) `GSE51780`<br>**Asexual expansion of Toxoplasma gondii merozoites is distinct from tachyzoites and entails expression of non-overlapping gene families to attach, invade, and replicate within feline enterocytes.** (BMC genomics 2015) [25757795](https://pubmed.ncbi.nlm.nih.gov/25757795/) `PRJEB7935` |
-| Tg_transcription · sexual stages | feline gut, sexual | **-** |  |  | `` | one | **In vitro production of cat-restricted Toxoplasma pre-sexual stages.** (Nature 2024) [38093015](https://pubmed.ncbi.nlm.nih.gov/38093015/) `GSE222819`<br>**A single-cell atlas of Toxoplasma sexual development in the feline intestinal tract.** (Nature microbiology 2026) [42020723](https://pubmed.ncbi.nlm.nih.gov/42020723/) |
+| Tg_transcription · sexual stages | feline gut, sexual | **B** | 4463 | 54.8% | `sexual_stage_8dpi_log2fc` | one | **In vitro production of cat-restricted Toxoplasma pre-sexual stages.** (Nature 2024) [38093015](https://pubmed.ncbi.nlm.nih.gov/38093015/) `GSE222819`<br>**A single-cell atlas of Toxoplasma sexual development in the feline intestinal tract.** (Nature microbiology 2026) [42020723](https://pubmed.ncbi.nlm.nih.gov/42020723/) |
 | Tg_transcription · per cell-cycle phase | cell cycle | **B** | 6504 | 79.9% | `cellcycle19092_` | separate | **Coordinated progression through two subtranscriptomes underlies the tachyzoite cycle of Toxoplasma gondii.** (PLoS ONE 2010) [20865045](https://pubmed.ncbi.nlm.nih.gov/20865045/) `GSE19092`<br>**A single-parasite transcriptional atlas of Toxoplasma Gondii reveals novel control of antigen expression.** (eLife 2020) [32065584](https://pubmed.ncbi.nlm.nih.gov/32065584/) |
 | Tg_transcription · in naive macrophage | host: naive macrophage | **A** | 8140 | 100.0% | `macrophage_expression_percentile` | one | **Dual single-cell and bulk RNA sequencing reveal transcriptional profiles underlying heterogenous host-parasite interactions in human peripheral blood mononuclear cells.** (Frontiers in immunology 2025) [40630957](https://pubmed.ncbi.nlm.nih.gov/40630957/) `GSE295224` |
 | Tg_transcription · in IFN-gamma macrophage | host: IFN-g macrophage | **-** |  |  | `` | one | — |

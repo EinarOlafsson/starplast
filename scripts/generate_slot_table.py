@@ -554,7 +554,10 @@ SLOTS = [
     ("transcription · merozoite", "transcription", "merozoite", "gene", ["rna51780_mero_"],
      "one", [("24885521", "GSE51780", "measured feline merozoites"),
               ("25757795", "PRJEB7935", "asexual expansion, distinct from tachyzoite")]),
-    ("transcription · sexual stages", "transcription", "feline gut, sexual", "gene", [], "one",
+    # The only stage in the map that happens inside a cat AND is sexual. `transcription . in vivo
+    # enteric` holds the enteroepithelial stages that precede it; this is gametogony at 8 days.
+    ("transcription · sexual stages", "transcription", "feline gut, sexual", "gene",
+     ["sexual_stage_8dpi_log2fc"], "one",
      [("38093015", "GSE222819", "in vitro pre-sexual stages"),
       ("42020723", "", "single-cell atlas of sexual development, 2026")]),
     ("transcription · per cell-cycle phase", "transcription", "cell cycle", "gene",

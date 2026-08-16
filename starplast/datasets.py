@@ -995,6 +995,19 @@ REGISTRY = [
                  "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
                  "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
                  "sit below the genome median of -0.38."),
+    Dataset("sexual_stages", "Sexual development in the cat (single-cell atlas)", "transcription",
+            "scRNAseq", "Enrichment at 8 days post-infection, when gametogony happens",
+            ("sexual_stage_8dpi_log2fc",), "4,463 genes (55%)", pmid="41929010",
+            accession="PMC13042011 supplementary media-2",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13042011/supplementaryFiles",
+            path="starplast/data/sexual_stages.tsv",
+            note="The only stage in the map that is both inside a cat and sexual; the "
+                 "enteroepithelial column holds the asexual stages that precede it. Verified by "
+                 "what rises: oocyst wall protein sits at the 97th percentile, and the oocyst wall "
+                 "is built at the end of the sexual cycle, while ribosomal housekeeping genes sit "
+                 "at the 23rd. Accessions arrive as `DEAD/DEAHboxhelicase-TGME49-220860` -- product "
+                 "description glued to the accession with hyphens for underscores -- so they are "
+                 "extracted and normalised rather than matched."),
     Dataset("secretome_partition", "Secreted-fraction partition", "post_translation", "proteomics",
             "How a secreted protein splits between the soluble and vesicular fractions",
             ("secretome_soluble_over_vesicle_log2",), "165 proteins", pmid="40874616",
