@@ -732,6 +732,19 @@ REGISTRY = [
                  "iedb_ and not t_cell_. Verified by what comes out on top: SRS29B (SAG1) with 45, "
                  "then GRA6, GRA7, GRA2 and ROP18. Those are the canonical Toxoplasma serology "
                  "antigens, in the order a serologist would put them."),
+    Dataset("toxodb_h4_acetylation", "Histone H4 acetylation (ChIP-chip, via ToxoDB)", "DNA",
+            "ChIPchip", "Genome-wide H4 K5/K8/K12/K16 acetylation score within 1 kb of the gene",
+            ("h4_acetylation_chip_score",), "7,515 genes (92%)",
+            accession="ToxoDB Hakimi/Ali H4 acetylation",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/"
+                "GenesByChIPchiptgonME49_chipChipExper_Hakimi_Ali_RSRC/reports/attributesTabular",
+            path="starplast/data/toxodb_h4_acetylation.tsv",
+            note="Verified as an ACTIVE mark must behave: rho +0.36 with transcription, +0.43 with "
+                 "promoter ATAC, -0.02 with fitness, and genes in its top decile are expressed four "
+                 "times as highly as those in its bottom. The Einstein H3K4me1 report from the same "
+                 "site, the same assay type and the same query shape does the opposite -- its marked "
+                 "genes have LESS accessible promoters -- and is in quarantine. This entry is the "
+                 "counter-example that says that refusal is about the data and not about the reader."),
     Dataset("toxodb_enteroepithelial", "Enteroepithelial stage transcriptome (via ToxoDB)",
             "transcription", "RNAseq",
             "Expression in the feline enteroepithelial stages against tachyzoites",

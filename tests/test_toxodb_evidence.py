@@ -136,3 +136,22 @@ def test_merozoite_markers_rise_in_the_enteroepithelial_stages():
     assert len(values), "GRA11B not measured"
     assert values.median() > 4.0, f"GRA11B at {values.median():+.2f}"
     assert abs(n[column].median()) < 0.5, "the genome as a whole should not have shifted"
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_the_active_histone_mark_behaves_like_one():
+    """H4 acetylation must agree with the two independent measures of an active gene already here.
+
+    This is the test the H3K4me1 report failed, and running it against the column that replaced it
+    is what keeps that refusal honest: if this one ever drifts the same way, it goes too.
+    """
+    from scipy.stats import spearmanr
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "h4_acetylation_chip_score" not in n.columns:
+        pytest.skip("H4 acetylation column not merged")
+    for other, floor in (("expr_tachy", 0.25), ("atac_promoter_ut", 0.30)):
+        k = n[["h4_acetylation_chip_score", other]].dropna()
+        rho = spearmanr(k["h4_acetylation_chip_score"], k[other]).statistic
+        assert rho > floor, f"{other}: rho {rho:+.3f}"

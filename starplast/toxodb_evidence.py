@@ -26,6 +26,12 @@ from .palmitome import signed_log2
 #: Each downloaded report, the column it becomes, and whether its value is a signed fold difference.
 #: `query` records what was asked for, because a search that can be asked five ways produces five
 #: different columns and the note beside the data must say which one this is.
+#: The H4 acetylation ChIP is the counter-example that makes the refusal below firm. Same site, same
+#: assay type, same pipeline, same query shape -- and it behaves the way an active mark must:
+#: rho +0.36 with expression, +0.43 with promoter ATAC, -0.02 with fitness, and genes in its top
+#: decile are expressed four times as highly as those in its bottom. So the H3K4me1 result is not an
+#: artefact of how these reports are read here.
+#:
 #: NOT here, and deliberately: the Einstein H3K4me1 ChIP-on-chip. Its 231 "marked" genes have LESS
 #: accessible promoters than unmarked genes (-0.51 against +0.39, Mann-Whitney p = 3e-50) and its
 #: score correlates with promoter ATAC at rho = -0.37. H3K4me1 marks active and poised chromatin, so
@@ -37,6 +43,8 @@ from .palmitome import signed_log2
 SOURCES = (
     ("toxodb_epitopes.tsv", "iedb_epitope_count", False,
      "GenesWithEpitopes, organism=Toxoplasma gondii ME49, confidence High+Medium+Low"),
+    ("toxodb_h4_acetylation.tsv", "h4_acetylation_chip_score", False,
+     "GenesByChIPchip Hakimi/Ali genome-wide H4 K5-K8-K12-K16 acetylation, within 1 kb, no floor"),
     ("toxodb_enteroepithelial.tsv", "ees_vs_tachyzoite_log2", True,
      "GenesByRNASeq Ramakrishnan enteroepithelial, EES1-5 against tachyzoites, sense strand"),
 )
