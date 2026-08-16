@@ -1172,3 +1172,20 @@ def test_the_grid_is_left_alone_when_there_is_none(win):
     win._light_ground(win.frame_lights())          # must not raise
     win.show_ground = was
     win.redraw()
+
+
+def test_a_pointer_mode_with_no_cone_falls_back_to_a_plain_pointer_light(qapp):
+    """One of the pointer modes is not a flashlight at all -- it is the old point light that simply
+    follows the cursor. It shares the branch with the cone modes and must not try to build one."""
+    xyz = np.random.default_rng(11).normal(size=(40, 3)) * 10
+    basis = (np.array([0.0, 0.0, 90.0]), np.array([1.0, 0.0, 0.0]),
+             np.array([0.0, 1.0, 0.0]), np.array([0.0, 0.0, -1.0]))
+    plain = [name for name, cone in L.POINTER_MODES.items() if cone is None]
+    assert plain, "no coneless pointer mode exists to exercise this path"
+    lit = L.light_at(xyz, "mouse flashlight", 0.0, 1, 0.3, 30.0,
+                     pointer=(-0.8, 0.4, 0.0), basis=basis, pointer_mode=plain[0])
+    assert len(lit) == 1 and not lit[0].get("spot"), "a coneless mode produced a spotlight"
+    # And with no pointer at all it lights from the front rather than dividing by nothing.
+    ahead = L.light_at(xyz, "mouse flashlight", 0.0, 1, 0.3, 30.0,
+                       pointer=None, basis=basis, pointer_mode=plain[0])
+    assert len(ahead) == 1 and np.isfinite(ahead[0]["pos"]).all()

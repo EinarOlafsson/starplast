@@ -419,3 +419,26 @@ def test_flat_fallback_never_looks_up_the_removed_point_sprite_name(qapp, monkey
     item._stock_shader = stock
     item.paint()
     assert painted == [stock]
+
+
+def test_a_spotlight_packs_its_cone_into_the_shader_uniforms(qapp):
+    """A flashlight is a cone, and the shader needs it as cosines rather than degrees -- comparing
+    an angle to a dot product every fragment would be the same arithmetic done a million times a
+    frame instead of twice here. The plain lights share the array and must leave the cone off."""
+    item = SP.ShadedScatter(pos=np.zeros((3, 3)), size=5.0)
+    item.set_scene("glossy 3D", mood=np.ones(3), lights=[
+        {"pos": np.array([1.0, 2.0, 3.0]), "color": np.array([1.0, 0.9, 0.8]),
+         "spot": True, "direction": np.array([0.0, 0.0, -1.0]),
+         "inner": 18.0, "outer": 34.0, "gain": 1.25, "local": True},
+        {"pos": np.array([9.0, 0.0, 0.0]), "color": np.ones(3)},
+    ])
+    v = item._shader_values()
+    controls = np.asarray(v["controls"]).reshape(-1, 4)
+    assert controls[0, 0] == 1.0, "the spotlight was not flagged as one"
+    assert controls[0, 1] == pytest.approx(np.cos(np.radians(18.0)))
+    assert controls[0, 2] == pytest.approx(np.cos(np.radians(34.0)))
+    assert controls[0, 3] == pytest.approx(1.25)
+    assert controls[1, 0] == 0.0, "a plain light was given a cone"
+    assert controls[1, 3] == pytest.approx(1.0), "a light with no gain did not default to one"
+    assert np.asarray(v["positions"]).reshape(-1, 4)[0, 3] == 1.0, "local flag lost"
+    assert v["count"] == 2 and np.allclose(v["directions"][0], (0.0, 0.0, -1.0))
