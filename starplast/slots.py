@@ -117,6 +117,49 @@ def source_columns(nodes: pd.DataFrame, slot: Slot) -> tuple:
     return tuple(out)
 
 
+#: A pattern of this form names an EDGE type in the graph rather than a column in the node table.
+EDGE_PREFIX = "edge:"
+
+
+def edge_types(slot: Slot) -> tuple:
+    """The graph edge types a slot is filled by, if any."""
+    return tuple(str(p)[len(EDGE_PREFIX):] for p in (slot.patterns or ())
+                 if str(p).startswith(EDGE_PREFIX))
+
+
+def is_filled(slot: Slot, nodes: pd.DataFrame = None, graph=None) -> bool:
+    """Does this slot have data behind it -- in the node table, OR in the graph?
+
+    Both, and that is the whole reason this is a function rather than a line of whatever script
+    happens to be asking. A slot measured per PAIR -- co-expression, co-fitness, shared compartment,
+    crosslink MS -- is filled by an edge type in `graph.npz` and has no node column at all. Asking
+    `declared_columns` alone reports every one of them as empty, which is exactly what happened:
+    eight Toxoplasma slots were counted as unfilled and chased with downloads while their data was
+    already in the graph, and the coverage figure went out twice before anyone noticed.
+
+    `graph` is anything with a `files` list, which is what `numpy.load` gives back for an npz.
+    """
+    wanted = edge_types(slot)
+    if wanted:
+        if graph is None:
+            return False
+        present = {str(name).split("__")[0] for name in getattr(graph, "files", ())}
+        return all(edge in present for edge in wanted)
+    return bool(nodes is not None and declared_columns(nodes, slot))
+
+
+def coverage(organism: str = "Tg", nodes: pd.DataFrame = None, graph=None) -> dict:
+    """How many of an arm's feature slots have data, and which do not.
+
+    The single place this question is answered, so a viewer, a report and a census cannot disagree
+    about it -- which they did, before this existed.
+    """
+    feature = [s for s in all_slots(organism) if s.role == "feature"]
+    full = [s for s in feature if is_filled(s, nodes, graph)]
+    return {"organism": organism, "n_slots": len(feature), "filled": len(full),
+            "empty": tuple(s.name for s in feature if not is_filled(s, nodes, graph))}
+
+
 def declared_columns(nodes: pd.DataFrame, slot: Slot, numeric_only: bool = False) -> tuple:
     """Every column declared by a slot, including categorical targets and metadata.
 

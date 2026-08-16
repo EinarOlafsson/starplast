@@ -139,3 +139,42 @@ def test_a_slot_that_is_not_measured_per_gene_cannot_be_resolved_against_the_nod
 def test_every_slot_in_the_catalog_declares_a_unit_the_code_knows():
     for item in slots.all_slots():
         assert item.unit in slots.UNITS, f"{item.key} declares unit {item.unit!r}"
+
+
+# --------------------------------------------------------------------------- is a slot filled
+def test_a_pair_slot_is_filled_by_the_graph_and_not_by_a_column():
+    """The miscount this function exists to prevent. A slot measured per PAIR -- co-expression,
+    co-fitness, shared compartment -- lives in graph.npz and has no node column at all. Asking only
+    about columns reported eight Toxoplasma slots as empty while their data was already there, and
+    the coverage figure went out twice before anyone checked."""
+    import types
+    pair = next(s for s in slots.all_slots("Tg") if slots.edge_types(s))
+    wanted = slots.edge_types(pair)
+    assert wanted, "the fixture is not an edge-backed slot"
+    graph = types.SimpleNamespace(files=[f"{wanted[0]}__a", f"{wanted[0]}__b"])
+    assert slots.is_filled(pair, table(), graph)
+    # Columns alone can never fill it, and no graph means not filled rather than an error.
+    assert not slots.is_filled(pair, table(), None)
+    assert not slots.is_filled(pair, table(), types.SimpleNamespace(files=["something_else__a"]))
+
+
+def test_a_column_slot_is_filled_by_the_table_and_ignores_the_graph():
+    import types
+    column_slot = next(s for s in slots.all_slots("Tg")
+                       if s.patterns and not slots.edge_types(s))
+    empty = pd.DataFrame({"gene_id": ["a", "b"]})
+    assert not slots.is_filled(column_slot, empty, types.SimpleNamespace(files=["anything__a"]))
+    assert not slots.is_filled(column_slot, None, None)
+
+
+def test_coverage_is_answered_in_one_place_so_two_reports_cannot_disagree():
+    import numpy as np
+    import starplast.paths as P
+    nodes = pd.read_parquet(os.path.join(P.data_dir(), "nodes.parquet"))
+    graph = np.load(os.path.join(P.data_dir(), "graph.npz"))
+    out = slots.coverage("Tg", nodes, graph)
+    assert out["n_slots"] == len([s for s in slots.all_slots("Tg") if s.role == "feature"])
+    assert 0 < out["filled"] < out["n_slots"], out
+    assert len(out["empty"]) == out["n_slots"] - out["filled"]
+    # Plasmodium has no table of its own yet, so every one of its slots is empty and says so.
+    assert slots.coverage("Pf", nodes, graph)["filled"] == 0
