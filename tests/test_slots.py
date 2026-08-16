@@ -110,3 +110,13 @@ def test_same_target_family_crosses_evidence_branches():
     family = slots.family_slots("subcellular localization")
     assert {s.name for s in family} >= {"localization · measured", "localization · transferred"}
     assert len({s.evidence_path for s in family}) > 1
+
+
+def test_an_unknown_hierarchy_is_refused_with_the_choices():
+    """Three trees exist and a fourth name is a typo, not a request. Naming the choices matters:
+    the hierarchies are 'evidence', 'biology' and 'context', which nobody remembers exactly."""
+    import pytest
+    with pytest.raises(ValueError, match="unknown hierarchy"):
+        slots.hierarchy_path(slots.all_slots("Toxo")[0], "taxonomy")
+    for good in slots.HIERARCHIES:
+        assert isinstance(slots.hierarchy_path(slots.all_slots("Toxo")[0], good), tuple)

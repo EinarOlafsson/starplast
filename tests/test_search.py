@@ -919,3 +919,14 @@ def test_a_search_stopped_between_hyperparameters_keeps_the_earlier_ones():
                     min_cluster_sizes=(25,), should_stop=stop_on_the_third_question,
                     log=lambda *_: None)
     assert 0 < len(R) < 3
+
+
+def test_an_unknown_exclusion_scope_is_refused():
+    """The scopes decide how much of the map a hold-out removes, so a misspelt one must not quietly
+    fall through to the narrowest reading -- that is the leak this guard exists to prevent."""
+    import pandas as pd
+    import pytest
+    from starplast import search as S
+    nodes = pd.DataFrame({"compartment": ["IMC"] * 60, "expr_a": range(60)})
+    with pytest.raises(ValueError, match="scope must be"):
+        S.excluded_for(nodes, "compartment", scope="everything")
