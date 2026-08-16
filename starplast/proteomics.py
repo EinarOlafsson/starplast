@@ -188,11 +188,19 @@ def load_all(base: str, index, log=print, resolve=None) -> pd.DataFrame:
     """
     from . import screens
     out = pd.DataFrame(index=pd.Index(index, dtype=object))
-    diff = screens.differentiation_screen(
-        os.path.join(base, QUARANTINE, "Tg", "essentiality_in_a_second_background"), log=log)
-    if not diff.empty:
-        column = diff.columns[0]
-        out[column] = diff[column].reindex(out.index)
+    for table in (screens.differentiation_screen(
+                      os.path.join(base, QUARANTINE, "Tg",
+                                   "essentiality_in_a_second_background"), log=log),
+                  screens.cyst_wall_interactome(
+                      os.path.join(base, "datasets", "quarantine", "2026_08_16_unverified", "Tg",
+                                   "cyst_wall"), log=log, resolve=resolve),
+                  screens.oxidative_stress_screen(
+                      os.path.join(base, "datasets", "quarantine", "2026_08_16_unverified", "Tg",
+                                   "fitness_oxidative_stress"), log=log, resolve=resolve)):
+        if table.empty:
+            continue
+        for column in table.columns:
+            out[column] = table[column].reindex(out.index)
     for organism, folder, accession, column, wants in DEPOSITS:
         where = os.path.join(base, QUARANTINE, organism, folder)
         if not os.path.isdir(where):

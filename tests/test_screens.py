@@ -543,3 +543,81 @@ def test_a_resolver_returning_nothing_leaves_the_original_id(tmp_path):
     out = SC.differentiation_screen(str(_diff_archive(tmp_path, _two_arms())),
                                     log=lambda *_: None, resolve=lambda s: None)
     assert set(out.index) == {"TGME49_000001", "TGME49_000002"}
+
+
+# ------------------------------------------------------------- oxidative stress and cyst wall
+def test_the_oxidative_screen_reads_the_authors_own_score(tmp_path):
+    """Their score, not a recomputation from the guide counts beside it in the same workbook."""
+    (tmp_path / SC.OXIDATIVE_SCREEN).write_text(
+        "gene_id\toxidative_stress_screen_score\nTGGT1_100010\t-6.15\n")
+    out = SC.oxidative_stress_screen(str(tmp_path), log=lambda *_: None,
+                                     resolve=lambda g: "TGME49_200010")
+    assert out.loc["TGME49_200010", "oxidative_stress_screen_score"] == pytest.approx(-6.15)
+
+
+def test_a_gene_listed_twice_in_the_screen_is_averaged(tmp_path):
+    (tmp_path / SC.OXIDATIVE_SCREEN).write_text(
+        "gene_id\tscore\nTGME49_200010\t-2\nTGME49_200010\t-4\n")
+    out = SC.oxidative_stress_screen(str(tmp_path), log=lambda *_: None, resolve=lambda g: g)
+    assert out.loc["TGME49_200010", "oxidative_stress_screen_score"] == pytest.approx(-3.0)
+
+
+def test_no_oxidative_screen_file_yields_nothing(tmp_path):
+    assert SC.oxidative_stress_screen(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_a_one_column_oxidative_file_is_refused(tmp_path):
+    (tmp_path / SC.OXIDATIVE_SCREEN).write_text("gene_id\nTGME49_200010\n")
+    assert SC.oxidative_stress_screen(str(tmp_path), log=lambda *_: None).empty
+
+
+def _cyst_wall(tmp_path, rows, baits=("CST1", "MAG1")):
+    header = list(SC.CYST_WALL_META) + list(baits)
+    lines = ["\t".join(header)]
+    for acc, values in rows:
+        blank = [""] * (len(SC.CYST_WALL_META) - 5)
+        lines.append("\t".join(["1", "True", "", "protein", acc] + blank
+                               + [str(v) for v in values]))
+    (tmp_path / SC.CYST_WALL).write_text("\n".join(lines) + "\n")
+    return tmp_path
+
+
+def test_the_cyst_wall_keeps_the_strongest_bait_and_counts_them(tmp_path):
+    _cyst_wall(tmp_path, [("TGME49_270240", (0.07, 0.02))])
+    out = SC.cyst_wall_interactome(str(tmp_path), log=lambda *_: None, resolve=lambda g: g)
+    assert out.loc["TGME49_270240", "cyst_wall_max_spectral"] == pytest.approx(0.07)
+    assert out.loc["TGME49_270240", "cyst_wall_n_baits"] == 2
+
+
+def test_a_bait_that_saw_nothing_is_not_counted(tmp_path):
+    _cyst_wall(tmp_path, [("TGME49_270240", (0.07, 0.0))])
+    out = SC.cyst_wall_interactome(str(tmp_path), log=lambda *_: None, resolve=lambda g: g)
+    assert out.loc["TGME49_270240", "cyst_wall_n_baits"] == 1
+
+
+def test_host_proteins_in_the_pulldown_are_dropped(tmp_path):
+    """Most of the table is human -- the pulldowns were done on infected cultures."""
+    _cyst_wall(tmp_path, [("ACACA_HUMAN", (0.5, 0.5)), ("TGME49_270240", (0.07, 0.02))])
+    out = SC.cyst_wall_interactome(str(tmp_path), log=lambda *_: None, resolve=lambda g: g)
+    assert list(out.index) == ["TGME49_270240"]
+
+
+def test_the_type_i_namespace_is_recognised_too(tmp_path):
+    _cyst_wall(tmp_path, [("TGGT1_100010", (0.07, 0.02))])
+    out = SC.cyst_wall_interactome(str(tmp_path), log=lambda *_: None,
+                                   resolve=lambda g: "TGME49_270240")
+    assert list(out.index) == ["TGME49_270240"]
+
+
+def test_no_cyst_wall_file_yields_nothing(tmp_path):
+    assert SC.cyst_wall_interactome(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_a_cyst_wall_table_without_accessions_is_refused(tmp_path):
+    (tmp_path / SC.CYST_WALL).write_text("something\telse\n1\t2\n")
+    assert SC.cyst_wall_interactome(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_a_cyst_wall_table_with_no_baits_is_refused(tmp_path):
+    (tmp_path / SC.CYST_WALL).write_text("\t".join(SC.CYST_WALL_META) + "\n")
+    assert SC.cyst_wall_interactome(str(tmp_path), log=lambda *_: None).empty

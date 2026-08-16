@@ -515,7 +515,8 @@ NEW_TOXOPLASMA = [
     ("transcription · in vivo enteric", "transcription", "feline enterocyte", "gene",
      ["ees_vs_tachyzoite_log2"], "one"),
     ("fitness · in vivo gut", "fitness", "enteric, sexual cycle", "gene", [], "separate"),
-    ("cyst wall composition", "localization", "bradyzoite cyst wall", "gene", [], "separate"),
+    ("cyst wall composition", "localization", "bradyzoite cyst wall", "gene",
+     ["cyst_wall_"], "separate"),
 ]
 
 
@@ -679,7 +680,8 @@ SLOTS = [
     ("fitness · in vivo liver", "fitness", "mouse liver", "gene", ["fit_invivo_liver"], "one", []),
     ("fitness · in vivo spleen", "fitness", "mouse spleen", "gene", ["fit_invivo_spleen"], "one",
      []),
-    ("fitness · oxidative stress", "fitness", "oxidant", "gene", [], "one",
+    ("fitness · oxidative stress", "fitness", "oxidant", "gene",
+     ["oxidative_stress_screen_score"], "one",
      [("34163449", "PRJNA707360", "genome-wide oxidative-stress screen")]),
     ("fitness · hyperLOPIT-unassigned proteins", "fitness", "in vivo virulence", "gene",
      ["fit_hyperlopit_unassigned_invivo_"], "separate",

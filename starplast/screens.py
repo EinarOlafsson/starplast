@@ -35,6 +35,8 @@ import pandas as pd
 warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
 
 ACC = re.compile(r"(TGME49_\d{5,6})")
+#: Either strain namespace, for tables that mix them or use type I throughout.
+ACC_ANY = re.compile(r"(TGME49_\d{6}|TGGT1_\d{6})")
 
 
 _RESOLVE = None      # set by crispr_screens/proteomics; see identity.GeneIndex
@@ -313,6 +315,75 @@ DIFFERENTIATION_SCREEN = "GSE132237_RAW.tar"
 #: population at the same timepoint. Everything else in the archive -- the input library and the
 #: passages -- measures ordinary growth, which this map already has from the fitness screens.
 DIFFERENTIATION_ARMS = (("L1 mNG+ 10d", "L1 bulk brady 10d"), ("L2 mNG+ 10d", "L2 bulk brady 10d"))
+
+
+#: The cyst wall interactome table. Its bait columns are named for the protein pulled down, and
+#: everything that is not one of these nine bookkeeping columns is a bait.
+CYST_WALL = "PMC7002340_cyst_wall_interactome.tsv"
+CYST_WALL_META = ("#", "Visible?", "Starred?", "Identified Proteins (248/260)",
+                  "Accession Number", "Alternate ID", "Molecular Weight",
+                  "Protein Grouping Ambiguity", "Taxonomy")
+
+
+def cyst_wall_interactome(base: str, log=print, resolve=None) -> pd.DataFrame:
+    """What co-purifies with the cyst wall, across every bait in the study.
+
+    Two numbers per protein: the strongest normalised spectral count it reached with any bait, and
+    how many baits saw it at all. The second is the more honest of the two -- a protein found by
+    thirteen independent pulldowns is in the cyst wall in a way that a single strong hit is not.
+
+    Most rows are human: the pulldowns were done on infected cultures and the table lists everything
+    identified. Only rows naming a Toxoplasma accession are kept, which is 57 of 265.
+    """
+    path = _find(base, CYST_WALL)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    d = pd.read_csv(path, sep="\t", low_memory=False)
+    if "Accession Number" not in d.columns:
+        return pd.DataFrame()
+    baits = [c for c in d.columns if c not in CYST_WALL_META]
+    if not baits:
+        return pd.DataFrame()
+    gene = d["Accession Number"].astype(str).str.extract(ACC_ANY, expand=False)
+    if resolve is not None:
+        gene = gene.map(lambda g: (resolve(g) or g) if isinstance(g, str) else g)
+    values = d[baits].apply(pd.to_numeric, errors="coerce")
+    out = pd.DataFrame({"cyst_wall_max_spectral": values.max(axis=1),
+                        "cyst_wall_n_baits": (values > 0).sum(axis=1).astype(float)})
+    out["gene_id"] = gene.to_numpy()
+    out = out.dropna(subset=["gene_id"]).groupby("gene_id").max()
+    log(f"cyst wall interactome (PMC7002340): {len(out):,} Toxoplasma proteins")
+    return out
+
+
+#: The screen's own score column, one row per gene, from the paper's Data Sheet 1.
+OXIDATIVE_SCREEN = "PMC8216390_screening_score.tsv"
+
+
+def oxidative_stress_screen(base: str, log=print, resolve=None) -> pd.DataFrame:
+    """Per-gene score from the genome-wide CRISPR screen for defence against oxidative stress.
+
+    Read from the authors' own `Screening score` sheet rather than recomputed from the guide counts
+    beside it: they published the score, so it is theirs to define.
+
+    Negative is required -- a gene whose disruption is depleted under oxidative challenge. The check
+    that says the sign is right is catalase at -6.15, which is the extreme of the whole screen and is
+    the enzyme that disposes of hydrogen peroxide.
+    """
+    path = _find(base, OXIDATIVE_SCREEN)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    d = pd.read_csv(path, sep="\t")
+    if d.shape[1] < 2:
+        return pd.DataFrame()
+    gid = _acc(d[d.columns[0]]) if resolve is None else pd.Series(
+        [resolve(g) or g for g in d[d.columns[0]].astype(str)])
+    out = pd.DataFrame({"oxidative_stress_screen_score":
+                        pd.to_numeric(d[d.columns[1]], errors="coerce").to_numpy()})
+    out["gene_id"] = gid.to_numpy()
+    out = out.dropna(subset=["gene_id"]).groupby("gene_id").mean()
+    log(f"oxidative stress screen (PMC8216390): {len(out):,} genes")
+    return out
 
 
 def differentiation_screen(base: str, log=print, resolve=None) -> pd.DataFrame:

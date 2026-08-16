@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**218 slots: 60 covered well, 10 partly, 22 thinly, 126 empty.**
+**218 slots: 61 covered well, 10 partly, 23 thinly, 124 empty.**
 
 ### transcription
 
@@ -173,7 +173,7 @@ quantity were approximating on 2026-08-13.
 | Tg_fitness · in vivo lung | mouse lung | **A** | 7395 | 90.8% | `fit_invivo_lung` | one | — |
 | Tg_fitness · in vivo liver | mouse liver | **A** | 7395 | 90.8% | `fit_invivo_liver` | one | — |
 | Tg_fitness · in vivo spleen | mouse spleen | **A** | 7395 | 90.8% | `fit_invivo_spleen` | one | — |
-| Tg_fitness · oxidative stress | oxidant | **-** |  |  | `` | one | **Genome-Wide CRISPR/Cas9 Screen Identifies New Genes Critical for Defense Against Oxidant Stress in Toxoplasma gondii.** (Frontiers in microbiology 2021) [34163449](https://pubmed.ncbi.nlm.nih.gov/34163449/) `PRJNA707360` |
+| Tg_fitness · oxidative stress | oxidant | **A** | 7384 | 90.7% | `oxidative_stress_screen_score` | one | **Genome-Wide CRISPR/Cas9 Screen Identifies New Genes Critical for Defense Against Oxidant Stress in Toxoplasma gondii.** (Frontiers in microbiology 2021) [34163449](https://pubmed.ncbi.nlm.nih.gov/34163449/) `PRJNA707360` |
 | Tg_fitness · hyperLOPIT-unassigned proteins | in vivo virulence | **C** | 551 | 6.8% | `fit_hyperlopit_unassigned_invivo_` | separate | **CRISPR screens identify genes essential for in vivo virulence among proteins of hyperLOPIT-unassigned subcellular localization in Toxoplasma.** (mBio 2024) [39082802](https://pubmed.ncbi.nlm.nih.gov/39082802/) `GSE253884` |
 | Tg_fitness · targeted in vivo (Young 2019) | mouse, targeted libraries | **C** | 170 | 2.1% | `fit_invivo_young2019, crispr_invivo_platform_lfc` | separate | — |
 | Tg_genetic interaction · delta-GRA17 | GRA17 background | **A** | 7553 | 92.8% | `crispr_gra17` | one | — |
@@ -229,7 +229,7 @@ quantity were approximating on 2026-08-13.
 | Tg_membrane topology | sequence | **A** | 8140 | 100.0% | `dtm_class, n_tm, has_signal_peptide, is_tm, tm_kd_, tm_len_mean` | one | — |
 | Tg_exposure to host cytosol | PVM, export | **-** |  |  | `` | fill | **TurboID mapping reveals the exportome of secreted intrinsically disordered proteins in the transforming parasite Theileria annulata.** (mBio 2024) [38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/)<br>**MYR1-Dependent Effectors Are the Major Drivers of a Host Cell's Early Response to Toxoplasma, Including Counteracting MYR1-Independent Effects.** (mBio 2018) [29615509](https://pubmed.ncbi.nlm.nih.gov/29615509/) `GSE109830`<br>**Translocation of Dense Granule Effectors across the Parasitophorous Vacuole Membrane in Toxoplasma-Infected Cells Requires the Activity of ROP17, a Rhoptry Protein Kinase.** (mSphere 2019) [31366709](https://pubmed.ncbi.nlm.nih.gov/31366709/) `GSE122786` |
 | Tg_secretome / excreted | ESA | **-** |  |  | `` | one | **Secretome and Transcriptome Analyses Reveal New Potential Virulence Factors during Cryptosporidium parvum Invasion.** (Journal of proteome research 2025) [41137792](https://pubmed.ncbi.nlm.nih.gov/41137792/) `PXD028969` |
-| Tg_cyst wall composition | bradyzoite cyst wall | **-** |  |  | `` | separate | — |
+| Tg_cyst wall composition | bradyzoite cyst wall | **C** | 56 | 0.7% | `cyst_wall_` | separate | — |
 | Pf_membrane topology | sequence | **-** |  |  | `` | one | — |
 | Pf_exposure to host cytosol | PVM, export | **-** |  |  | `` | fill | — |
 | Pf_secretome / excreted | ESA | **-** |  |  | `` | one | — |

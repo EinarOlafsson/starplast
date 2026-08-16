@@ -916,6 +916,32 @@ REGISTRY = [
             url="https://www.ebi.ac.uk/pride/archive/projects/PXD042937",
             path="datasets/quarantine/2026_08_16_pride/Tg/ubiquitination_SUMOylation/"),
 
+    Dataset("oxidative_stress_screen", "Oxidative-stress CRISPR screen", "DNA", "CRISPR_screen",
+            "Screening score per gene under oxidative challenge",
+            ("oxidative_stress_screen_score",), "7,384 genes (91%)", pmid="34163449",
+            accession="PMC8216390 Data Sheet 1",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8216390/supplementaryFiles",
+            path="datasets/quarantine/2026_08_16_unverified/Tg/fitness_oxidative_stress/",
+            note="The authors' own `Screening score` sheet, not a recomputation from the guide "
+                 "counts beside it in the same workbook -- they published the score, so it is "
+                 "theirs to define. Negative is required. Verified by the sign and the extreme: "
+                 "catalase comes out at -6.15, essentially the bottom of the whole screen, and it "
+                 "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
+                 "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
+                 "sit below the genome median of -0.38."),
+    Dataset("cyst_wall_interactome", "Cyst wall interactome", "post_translation", "IPMS",
+            "Strongest bait signal and how many baits saw the protein",
+            ("cyst_wall_max_spectral", "cyst_wall_n_baits"), "56 proteins", pmid="32019789",
+            accession="PMC7002340 Data Set S1",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7002340/supplementaryFiles",
+            path="datasets/quarantine/2026_08_16_unverified/Tg/cyst_wall/",
+            note="Two numbers because the bait count is the more honest one: a protein found by "
+                 "thirteen independent pulldowns is in the cyst wall in a way a single strong hit "
+                 "is not. Verified by what comes out on top -- MAG1 and MAG2, the canonical cyst "
+                 "matrix proteins, with MCP3, MCP4 and SRS44 beside them. 57 of the table's 265 "
+                 "rows name a Toxoplasma accession; the rest are human, because the pulldowns were "
+                 "done on infected cultures and the table lists everything identified."),
+
     # ------------------------------------------------------------------ differentiation
     Dataset("differentiation_screen", "Differentiation reporter CRISPR screen (COMPUTED)",
             "DNA", "CRISPR_screen",

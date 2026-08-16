@@ -130,6 +130,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | In vivo CRISPR platform | Mean log fold-change across replicates | 168 | A CRISPR platform for targeted in vivo screens identifies Toxoplasma gondii virulence factors in mice; PMID [31481656](https://pubmed.ncbi.nlm.nih.gov/31481656/) |
 | In-vivo fitness of hyperLOPIT-unassigned proteins | Two targeted libraries tested during mouse infection | measured at build time | Tachibana Y et al., CRISPR screens identify genes essential for in vivo virulence among proteins of hyperLOPIT-unassigned localization. mBio 2024; PMID [39082802](https://pubmed.ncbi.nlm.nih.gov/39082802/); `GSE253884;GSE253885` |
 | Macrophage CRISPR screens | Naive BMDM and IFN-gamma survival | 7,402 (90.9%) | Wang Y et al., Genome-wide screens identify Toxoplasma gondii determinants of parasite fitness in IFN-gamma-activated murine macrophages. Nat Commun 2020;11:5258; PMID [33067458](https://pubmed.ncbi.nlm.nih.gov/33067458/) |
+| Oxidative-stress CRISPR screen | Screening score per gene under oxidative challenge | 7,384 genes (91%) | PMID [34163449](https://pubmed.ncbi.nlm.nih.gov/34163449/); `PMC8216390 Data Sheet 1` |
 | Promoter accessibility (ATAC-seq, COMPUTED) | Mean ATAC coverage over the promoter, relative to the genome mean | 7,988 genes (98%) | `GSE313048` |
 | Young 2019 in vivo screen | In vivo fitness | 115 | Young J et al., A CRISPR platform for targeted in vivo screens identifies Toxoplasma gondii virulence factors in mice. Nat Commun 2019;10:3963; PMID [31481656](https://pubmed.ncbi.nlm.nih.gov/31481656/) |
 
@@ -172,6 +173,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 |---|---|---|---|
 | BioID/TurboID supplement membership corpus | Number of downloaded proximity-labeling studies whose supplement names each gene | measured at build time | *citation not yet confirmed* |
 | C. parvum hyperLOPIT | Donor labels for orthoLOPIT transfer | 1,107 usable | Guerin et al. 2023 |
+| Cyst wall interactome | Strongest bait signal and how many baits saw the protein | 56 proteins | PMID [32019789](https://pubmed.ncbi.nlm.nih.gov/32019789/); `PMC7002340 Data Set S1` |
 | Foldseek structural similarity | TM-align over Toxoplasma AlphaFold models, TM >= 0.7 | 11,684 pairs / 2,338 genes | *citation not yet confirmed* |
 | IP-MS of tagged baits | Replicated pulldown vs untagged control | 64 pairs / 48 genes | `PXD043808, PXD065585` |
 | IP-MS supplement membership corpus | Number of downloaded pulldown studies whose supplement names each gene | measured at build time | *citation not yet confirmed* |
