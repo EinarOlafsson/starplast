@@ -1065,9 +1065,7 @@
     "axis": "PTM",
     "context": "perturbation",
     "unit": "gene",
-    "patterns": [
-      "n_kinase_substrate_sites"
-    ],
+    "patterns": [],
     "policy": "separate",
     "candidates": [
       [
@@ -1794,7 +1792,9 @@
     "axis": "fitness",
     "context": "bradyzoite conversion",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "diff_reporter_log2_mNG_over_bulk"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [

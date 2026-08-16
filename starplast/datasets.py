@@ -618,6 +618,60 @@ REGISTRY = [
             note="A biased subset: only what publishers deposited open access. ASSEMBLED HERE: for "
                  "each PMID in the pubmed corpus that has a PMCID, fetch the JATS from the URL "
                  "above. Machine-local by size, which is why the built cache is what ships."),
+
+    # ------------------------------------------------------------------ PRIDE deposits
+    # Counted from the submitters' own search output by `proteomics.deposit_counts`, never from the
+    # raw spectra. Each column is "how many sites did THIS STUDY report on this gene", which is a
+    # smaller claim than "how many sites does this gene have" and the only one the deposit supports.
+    # Genes the study never saw are NaN rather than zero.
+    Dataset("pride_acetylation", "Lysine acetylome (GCN5b)", "post_translation", "proteomics",
+            "Acetylation sites reported per gene", ("n_acetylation_sites",),
+            "3,921 genes measured", accession="PXD079431",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD079431",
+            path="datasets/quarantine/2026_08_16_pride/Tg/acetylation/",
+            note="Read from the deposit's own MaxQuant Sites tables. Held in quarantine rather than "
+                 "the dataset archive: a deposit is promoted by being checked, not by being "
+                 "downloaded, and the check here was reading the files and finding both Toxoplasma "
+                 "genes and the modification named."),
+    Dataset("pride_proximity", "Proximity labelling", "post_translation", "proteomics",
+            "Proximity partners reported per gene", ("n_proximity_partners",),
+            "1,734 genes measured", accession="PXD059579",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD059579",
+            path="datasets/quarantine/2026_08_16_pride/Tg/interaction_proximity_labelling/",
+            note="mzIdentML rather than MaxQuant, and shipped as a lone .gz -- which is one "
+                 "compressed file and not an archive, a distinction that read as an empty deposit "
+                 "until it was handled."),
+    Dataset("pride_nitrosylation", "S-nitrosylation (iodoTMT)", "post_translation", "proteomics",
+            "S-nitrosylation sites reported per gene", ("n_nitrosylation_sites",),
+            "660 genes measured", accession="PXD046083",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD046083",
+            path="datasets/quarantine/2026_08_16_pride/Tg/S_nitrosylation/",
+            note="Counted only from the iodoTMT tables. Counting the whole txt folder put 90% of the "
+                 "proteome in this slot, which is what a modification measured on nearly every gene "
+                 "should always look like: a bug."),
+    Dataset("pride_ubiquitination", "Ubiquitination / SUMOylation (GlyGly)", "post_translation", "proteomics",
+            "GlyGly sites reported per gene", ("n_ubiquitination_sites",),
+            "128 genes measured", accession="PXD042937",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD042937",
+            path="datasets/quarantine/2026_08_16_pride/Tg/ubiquitination_SUMOylation/"),
+
+    # ------------------------------------------------------------------ differentiation
+    Dataset("differentiation_screen", "Differentiation reporter CRISPR screen (COMPUTED)",
+            "DNA", "CRISPR_screen",
+            "Guide enrichment in reporter-positive parasites against the bulk population",
+            ("diff_reporter_log2_mNG_over_bulk",), "235 genes",
+            accession="GSE132237",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE132nnn/GSE132237/suppl/"
+                "GSE132237_RAW.tar",
+            path="datasets/quarantine/2026_08_16_pride/Tg/"
+                 "essentiality_in_a_second_background/GSE132237_RAW.tar",
+            note="COMPUTED here: the deposit publishes guide counts, not the ratio. Guides are summed "
+                 "per gene, scaled to a common library size, and log2((mNG+ + 1)/(bulk + 1)) is "
+                 "averaged over the two reporter lines at 10 days. It is the comparison the authors' "
+                 "design names, and the column says ratio rather than phenotype so nobody mistakes "
+                 "it for a number they reported. A targeted screen against nucleic-acid binding "
+                 "proteins, so 240 genes is its full extent and not a coverage failure. Which member "
+                 "is which sample comes from the series matrix, never from the file name."),
 ]
 
 _BY_KEY = {d.key: d for d in REGISTRY}

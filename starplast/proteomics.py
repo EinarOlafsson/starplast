@@ -148,13 +148,17 @@ def deposit_counts(folder: str, limit_files: int = 40, wants: str = "") -> pd.Se
 #: `wants` pattern is the difference between a slot counting its own modification and a slot
 #: counting every modification the search happened to look for.
 #:
+#: PXD017032 is deliberately NOT here. It was ingested as a kinase-substrate deposit and is neither:
+#: it is Wang 2022's sporulated-oocyst vs tachyzoite phosphoproteome, already in the registry as
+#: `phospho_quantitative` from the authors' own supplement. Counted from the raw deposit it produced
+#: a column correlating at rho = 0.729 with `phospho_sites_measured` over 1,592 shared genes -- one
+#: experiment entering the map twice, under a slot whose own citations name CDPK1 and CDPK7.
+#:
 #: Verified here means the file itself was read and found to name Toxoplasma genes AND the
 #: modification -- not that a metadata field agreed. Of 102 datasets proposed from GEO, 8 survived
 #: that check; the rest are in the same quarantine directory and are deliberately not listed.
 DEPOSITS = (
     ("Tg", "acetylation", "PXD079431", "n_acetylation_sites", r"acetyl|GCN5|FLAG"),
-    ("Tg", "phosphorylation_kinase_substrate", "PXD017032", "n_kinase_substrate_sites",
-     r"phospho|txt"),
     ("Tg", "interaction_proximity_labelling", "PXD059579", "n_proximity_partners", r"mzid|Results"),
     ("Tg", "S_nitrosylation", "PXD046083", "n_nitrosylation_sites", r"iodo ?TMT|nitrosyl|SNO"),
     ("Tg", "ubiquitination_SUMOylation", "PXD042937", "n_ubiquitination_sites",
@@ -167,8 +171,19 @@ QUARANTINE = os.path.join("datasets", "quarantine", "2026_08_16_pride")
 
 
 def load_all(base: str, index, log=print) -> pd.DataFrame:
-    """Every verified deposit as columns, aligned to a gene index."""
+    """Every verified deposit as columns, aligned to a gene index.
+
+    The differentiation reporter screen rides along here rather than in `screens.crispr_screens`,
+    which reads the published fitness tables from the dataset archive. This one is in quarantine and
+    is computed from counts, so it belongs with the other deposits that were verified by being read.
+    """
+    from . import screens
     out = pd.DataFrame(index=pd.Index(index, dtype=object))
+    diff = screens.differentiation_screen(
+        os.path.join(base, QUARANTINE, "Tg", "essentiality_in_a_second_background"), log=log)
+    if not diff.empty:
+        column = diff.columns[0]
+        out[column] = diff[column].reindex(out.index)
     for organism, folder, accession, column, wants in DEPOSITS:
         where = os.path.join(base, QUARANTINE, organism, folder)
         if not os.path.isdir(where):

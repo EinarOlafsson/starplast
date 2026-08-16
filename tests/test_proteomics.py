@@ -19,6 +19,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from starplast import proteomics as P  # noqa: E402
+from starplast import screens as SC  # noqa: E402
 
 SITES = ("Proteins\tPositions\n"
          "TGME49_000001\t12\n"
@@ -189,3 +190,24 @@ def test_load_all_reads_the_verified_deposits_and_says_what_it_found(tmp_path, m
 def test_nothing_verified_yields_no_columns_at_all(tmp_path, monkeypatch):
     monkeypatch.setattr(P, "DEPOSITS", ())
     assert P.load_all(str(tmp_path), ["TGME49_000001"]).empty
+
+
+def test_the_differentiation_screen_rides_along_with_the_deposits(tmp_path, monkeypatch):
+    """It is loaded here because it lives in quarantine and is computed rather than read. If it
+    stops arriving, `stage-conversion phenotype` silently empties and the atlas keeps saying filled.
+    """
+    monkeypatch.setattr(P, "DEPOSITS", ())
+    where = tmp_path / P.QUARANTINE / "Tg" / "essentiality_in_a_second_background"
+    where.mkdir(parents=True)
+    monkeypatch.setattr(
+        SC, "differentiation_screen",
+        lambda base, log=print: (log(f"differentiation screen: {base}") or pd.DataFrame(
+            {"diff_reporter_log2_mNG_over_bulk": [1.5]}, index=["TGME49_000001"])))
+    out = P.load_all(str(tmp_path), ["TGME49_000001", "TGME49_000002"], log=lambda *_: None)
+    assert out.loc["TGME49_000001", "diff_reporter_log2_mNG_over_bulk"] == 1.5
+    assert np.isnan(out.loc["TGME49_000002", "diff_reporter_log2_mNG_over_bulk"])
+
+
+def test_no_differentiation_archive_adds_no_column(tmp_path, monkeypatch):
+    monkeypatch.setattr(P, "DEPOSITS", ())
+    assert P.load_all(str(tmp_path), ["TGME49_000001"], log=lambda *_: None).empty

@@ -184,3 +184,27 @@ Toxoplasma data and assigns it by keyword proximity, and the keyword is nearly a
 **The fix for the next pass** is to propose from the sample titles rather than from the study
 abstract: `esummary` gives them cheaply, and "does this series contain samples of the kind this slot
 asks about" is answerable from `!Sample_title` alone in the great majority of these cases.
+
+### The registry catches a second kind of trap: the same study entering twice
+
+`PXD017032` was ingested as `n_kinase_substrate_sites` and had to be removed. It is Wang 2022's
+**sporulated-oocyst vs tachyzoite phosphoproteome**, already in the registry as `phospho_quantitative`
+from the authors' own supplement. Counted a second time from the raw deposit it produced a column
+correlating at **rho = 0.729** with `phospho_sites_measured` over 1,592 shared genes, and it sat in a
+slot whose own citations name CDPK1 and CDPK7 substrate deposits — neither of which it is.
+
+Two separate faults, and the second is the one worth the note: the first (wrong slot) is the keyword
+trap already documented above, appearing this time in work done here rather than in the resolver. The
+second is new — **a dataset already in the map arriving again through a different door**, as counts
+from the raw deposit rather than as the published table. An embedding would then weight that one
+experiment twice.
+
+`datasets.REGISTRY` is what caught it, and only because the accession was written down. So:
+
+> **Check a new accession against `{d.accession for d in datasets.REGISTRY}` before ingesting it.**
+> The registry's invariant tests do the rest — level must be one of the five on-disk names, every
+> entry needs a download URL or a declared derivation, and every entry needs a generated fetch script.
+
+Filling the five PRIDE deposits and the differentiation screen into the registry is what surfaced
+this; the five had been merged into the node table without registry entries, and the acceptance rule
+requiring one exists precisely so that cannot happen quietly.

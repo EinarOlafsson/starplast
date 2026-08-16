@@ -570,7 +570,7 @@ SLOTS = [
       ("31508380", "PXD007777", "type I vs type II"),
       ("40901993", "PXD064226", "PP2A-2 during cytokinesis")]),
     ("phosphorylation · kinase-substrate", "PTM", "perturbation", "gene",
-     ["n_kinase_substrate_sites"], "separate",
+     [], "separate",
      [("37933960", "PXD019677", "CDPK1 substrates"), ("33635921", "PXD019655", "CDPK7")]),
     ("acetylation", "PTM", "life stages", "gene", ["n_acetylation_sites"], "one",
      [("37562054", "PXD040368", "lysine acetylation across stages")]),
@@ -617,7 +617,7 @@ SLOTS = [
      ["crispr_gra12s2_l2fc_invivo"], "one", []),
     ("fitness · GRA12 screen 2 differential", "fitness", "GRA12 screen 2, in vivo vs in vitro",
      "gene", ["crispr_gra12s2_disco"], "one", []),
-    ("stage-conversion phenotype", "fitness", "bradyzoite conversion", "gene", [], "one", []),
+    ("stage-conversion phenotype", "fitness", "bradyzoite conversion", "gene", ["diff_reporter_log2_mNG_over_bulk"], "one", []),
     ("drug sensitivity", "fitness", "compound", "gene", [], "separate", []),
 
     # ---------------------------------------------------------------- regulation

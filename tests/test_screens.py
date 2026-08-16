@@ -377,3 +377,169 @@ def test_a_sheet_without_an_ibaq_column_is_skipped(tmp_path):
     pd.DataFrame({"Protein_ID": ["TGME49_200010"], "other": [1.0]}).to_excel(
         p / "PXD065585_supp_S1_Pru_proteome_and_IP_iBAQ.xlsx", sheet_name="Pru_Rep1", index=False)
     assert SC.proteomics(str(tmp_path), log=lambda *_: None).empty
+
+
+# ------------------------------------------------------- differentiation reporter screen
+def _diff_archive(tmp_path, samples, *, matrix=True, matrix_body=None, plain=False):
+    """A GSE132237-shaped deposit: guide count files in a tar, plus the series matrix.
+
+    `samples` maps sample TITLE -> {gene: [per-guide counts]}. The archive names its members by GSM
+    accession and the submitter's own suffix, exactly as GEO does, so a test that passes by matching
+    the title against the filename would be testing the wrong thing.
+    """
+    import gzip as _gz
+    import io
+    import tarfile
+
+    def _directory(name):
+        info = tarfile.TarInfo(name)
+        info.type = tarfile.DIRTYPE
+        return info
+
+    root = tmp_path / "deposit"
+    root.mkdir(exist_ok=True)
+    accessions = {title: f"GSM{3854790 + i}" for i, title in enumerate(samples)}
+    with tarfile.open(root / SC.DIFFERENTIATION_SCREEN, "w") as archive:
+        # A directory member: `extractfile` returns None for it and the loop must survive that.
+        archive.addfile(_directory("subdir"))
+        for title, genes in samples.items():
+            rows = "".join(f"{gene}-{n}\t{count}\n"
+                           for gene, counts in genes.items()
+                           for n, count in enumerate(counts))
+            rows += ("no-underscore-here\t5\n"          # a header or a control guide
+                     "malformed_row\n"                  # one column
+                     "TGME49_000001-9\tnotanumber\n")  # a count that is not a number
+            blob = rows.encode() if plain else _gz.compress(rows.encode())
+            name = f"{accessions[title]}_{title.replace(' ', '-')}_Counted.txt"
+            info = tarfile.TarInfo(name if plain else name + ".gz")
+            info.size = len(blob)
+            archive.addfile(info, io.BytesIO(blob))
+    if matrix:
+        body = matrix_body if matrix_body is not None else (
+            '!Sample_title\t' + "\t".join(f'"{t}"' for t in samples) + "\n"
+            '!Sample_geo_accession\t' + "\t".join(f'"{accessions[t]}"' for t in samples) + "\n")
+        with _gz.open(root / SC.DIFFERENTIATION_SCREEN.replace("_RAW.tar", "_series_matrix.txt.gz"),
+                      "wt") as fh:
+            fh.write(body)
+    return root
+
+
+def _two_arms(**over):
+    """Both arms of both replicates, with per-gene guide counts. Defaults give a ratio of 0."""
+    base = {"TGME49_000001": [10.0, 30.0], "TGME49_000002": [20.0, 20.0]}
+    samples = {}
+    for title in ("L1 mNG+ 10d", "L1 bulk brady 10d", "L2 mNG+ 10d", "L2 bulk brady 10d"):
+        samples[title] = over.get(title, base)
+    return samples
+
+
+def test_guides_are_summed_per_gene_before_the_ratio(tmp_path):
+    """Two guides at 10 and 30 is one gene at 40, not a gene whose ratio was averaged per guide."""
+    root = _diff_archive(tmp_path, _two_arms(**{
+        "L1 mNG+ 10d": {"TGME49_000001": [30.0, 30.0], "TGME49_000002": [20.0, 20.0]}}))
+    out = SC.differentiation_screen(str(root), log=lambda *_: None, resolve=lambda s: s)
+    # Arm 1 is 60/40 of a library of 100 vs 40/40 of a library of 80: 600000 vs 500000 CPM.
+    per_gene = out["diff_reporter_log2_mNG_over_bulk"]
+    assert per_gene["TGME49_000001"] > 0 and per_gene["TGME49_000002"] < 0
+
+
+def test_the_two_replicate_arms_are_averaged(tmp_path):
+    """L1 up and L2 down by the same amount is a gene with no phenotype, not one with L1's."""
+    root = _diff_archive(tmp_path, _two_arms(**{
+        "L1 mNG+ 10d": {"TGME49_000001": [40.0], "TGME49_000002": [10.0]},
+        "L1 bulk brady 10d": {"TGME49_000001": [10.0], "TGME49_000002": [40.0]},
+        "L2 mNG+ 10d": {"TGME49_000001": [10.0], "TGME49_000002": [40.0]},
+        "L2 bulk brady 10d": {"TGME49_000001": [40.0], "TGME49_000002": [10.0]}}))
+    out = SC.differentiation_screen(str(root), log=lambda *_: None, resolve=lambda s: s)
+    assert out["diff_reporter_log2_mNG_over_bulk"].abs().max() < 1e-9
+
+
+def test_counts_are_scaled_to_a_common_library_size(tmp_path):
+    """One arm sequenced twice as deep is not every gene enriched twofold."""
+    deep = {"TGME49_000001": [20.0], "TGME49_000002": [40.0]}
+    shallow = {"TGME49_000001": [10.0], "TGME49_000002": [20.0]}
+    out = SC.differentiation_screen(
+        str(_diff_archive(tmp_path, _two_arms(**{"L1 mNG+ 10d": deep, "L1 bulk brady 10d": shallow,
+                                                 "L2 mNG+ 10d": deep, "L2 bulk brady 10d": shallow}))),
+        log=lambda *_: None, resolve=lambda s: s)
+    assert out["diff_reporter_log2_mNG_over_bulk"].abs().max() < 0.02
+
+
+def test_the_sample_mapping_comes_from_the_series_matrix_not_the_file_name(tmp_path):
+    """Swap which GSM the titles point at and the ratio inverts -- proof the matrix is what is read."""
+    samples = _two_arms(**{
+        "L1 mNG+ 10d": {"TGME49_000001": [90.0], "TGME49_000002": [10.0]},
+        "L1 bulk brady 10d": {"TGME49_000001": [10.0], "TGME49_000002": [90.0]}})
+    root = _diff_archive(tmp_path, samples)
+    straight = SC.differentiation_screen(str(root), log=lambda *_: None, resolve=lambda s: s)
+    titles = list(samples)
+    swapped = dict(zip(titles, [f"GSM{3854790 + i}" for i in (1, 0, 2, 3)]))
+    import gzip as _gz
+    with _gz.open(root / SC.DIFFERENTIATION_SCREEN.replace("_RAW.tar", "_series_matrix.txt.gz"),
+                  "wt") as fh:
+        fh.write('!Sample_title\t' + "\t".join(f'"{t}"' for t in titles) + "\n"
+                 '!Sample_geo_accession\t' + "\t".join(f'"{swapped[t]}"' for t in titles) + "\n")
+    inverted = SC.differentiation_screen(str(root), log=lambda *_: None, resolve=lambda s: s)
+    c = "diff_reporter_log2_mNG_over_bulk"
+    assert straight[c]["TGME49_000001"] == pytest.approx(-inverted[c]["TGME49_000001"])
+
+
+def test_an_uncompressed_member_is_read_too(tmp_path):
+    """GEO does not promise every supplementary file is gzipped."""
+    out = SC.differentiation_screen(str(_diff_archive(tmp_path, _two_arms(), plain=True)),
+                                    log=lambda *_: None, resolve=lambda s: s)
+    assert len(out) == 2
+
+
+def test_no_archive_returns_empty(tmp_path):
+    assert SC.differentiation_screen(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_without_the_series_matrix_no_arm_can_be_identified(tmp_path):
+    """Refusing is right: guessing the mapping from file names is what this design exists to avoid."""
+    msgs = []
+    assert SC.differentiation_screen(str(_diff_archive(tmp_path, _two_arms(), matrix=False)),
+                                     log=msgs.append).empty
+    assert any("no matching arms" in m for m in msgs)
+
+
+def test_a_series_matrix_without_the_title_lines_is_not_used(tmp_path):
+    root = _diff_archive(tmp_path, _two_arms(), matrix_body="!Series_title\tsomething else\n")
+    assert SC.differentiation_screen(str(root), log=lambda *_: None).empty
+
+
+def test_an_empty_arm_is_not_divided_by_its_own_zero_total(tmp_path):
+    samples = _two_arms()
+    samples["L1 mNG+ 10d"] = {"TGME49_000001": [0.0], "TGME49_000002": [0.0]}
+    out = SC.differentiation_screen(str(_diff_archive(tmp_path, samples)),
+                                    log=lambda *_: None, resolve=lambda s: s)
+    assert np.isfinite(out["diff_reporter_log2_mNG_over_bulk"]).all()
+
+
+def test_arms_sharing_no_genes_are_skipped(tmp_path):
+    """L2 alone still yields a column; an arm pair with no gene in common contributes nothing."""
+    samples = _two_arms()
+    samples["L1 mNG+ 10d"] = {"TGME49_999999": [10.0]}
+    samples["L1 bulk brady 10d"] = {"TGME49_888888": [10.0]}
+    out = SC.differentiation_screen(str(_diff_archive(tmp_path, samples)),
+                                    log=lambda *_: None, resolve=lambda s: s)
+    assert set(out.index) == {"TGME49_000001", "TGME49_000002"}
+
+
+def test_accessions_are_resolved_through_the_identity_layer_by_default(tmp_path):
+    """resolve=None routes through _acc, which is how a retired id reaches its current one."""
+    SC._RESOLVE = lambda s: "TGME49_111111" if s == "TGME49_000001" else s
+    out = SC.differentiation_screen(str(_diff_archive(tmp_path, _two_arms())), log=lambda *_: None)
+    assert "TGME49_111111" in out.index
+
+
+def test_two_ids_resolving_to_one_gene_keep_a_single_row(tmp_path):
+    out = SC.differentiation_screen(str(_diff_archive(tmp_path, _two_arms())),
+                                    log=lambda *_: None, resolve=lambda s: "TGME49_111111")
+    assert list(out.index) == ["TGME49_111111"]
+
+
+def test_a_resolver_returning_nothing_leaves_the_original_id(tmp_path):
+    out = SC.differentiation_screen(str(_diff_archive(tmp_path, _two_arms())),
+                                    log=lambda *_: None, resolve=lambda s: None)
+    assert set(out.index) == {"TGME49_000001", "TGME49_000002"}
