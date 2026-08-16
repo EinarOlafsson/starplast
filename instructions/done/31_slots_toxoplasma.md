@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**115 slots: 58 covered well, 10 partly, 19 thinly, 28 empty.**
+**116 slots: 58 covered well, 10 partly, 20 thinly, 28 empty.**
 
 ### transcription
 
@@ -119,6 +119,7 @@ quantity were approximating on 2026-08-13.
 | Tg_phosphorylation · quantitative | tachyzoite | **C** | 1603 | 19.7% | `phospho_` | average | **iTRAQ-Based Phosphoproteomic Analysis of Toxoplasma gondii Tachyzoites Provides Insight Into the Role of Phosphorylation for its Invasion and Egress.** (Frontiers in cellular and infection microbio 2020) [33363051](https://pubmed.ncbi.nlm.nih.gov/33363051/) `PXD020655`<br>**iTRAQ-Based Global Phosphoproteomics Reveals Novel Molecular Differences Between Toxoplasma gondii Strains of Different Genotypes.** (Frontiers in cellular and infection microbio 2019) [31508380](https://pubmed.ncbi.nlm.nih.gov/31508380/) `PXD007777`<br>**The PP2A-2 holoenzyme orchestrates daughter cell emergence during cytokinesis in Toxoplasma gondii.** (PLoS pathogens 2025) [40901993](https://pubmed.ncbi.nlm.nih.gov/40901993/) `PXD064226` |
 | Tg_phosphorylation · kinase-substrate | perturbation | **-** |  |  | `` | separate | **Analysis of CDPK1 targets identifies a trafficking adaptor complex that regulates microneme exocytosis in Toxoplasma.** (eLife 2023) [37933960](https://pubmed.ncbi.nlm.nih.gov/37933960/) `PXD019677`<br>**Protein kinase TgCDPK7 regulates vesicular trafficking and phospholipid synthesis in Toxoplasma gondii.** (PLoS pathogens 2021) [33635921](https://pubmed.ncbi.nlm.nih.gov/33635921/) `PXD019655` |
 | Tg_acetylation | life stages | **B** | 3921 | 48.2% | `n_acetylation_sites` | one | **Label-free quantitative detection and comparative analysis of lysine acetylation during the different life stages of Eimeria tenella.** (Journal of proteome research 2023) [37562054](https://pubmed.ncbi.nlm.nih.gov/37562054/) `PXD040368` |
+| Tg_arginine methylation | tachyzoite | **C** | 368 | 4.5% | `n_arginine_methylation_sites` | one | [ToxoDB](https://pubmed.ncbi.nlm.nih.gov/ToxoDB/) `Yakubu monomethylarginine proteomics` |
 | Tg_lactylation | tachyzoite | **C** | 515 | 6.3% | `n_lactylation_sites` | one | **Protein Lactylation and Metabolic Regulation of the Zoonotic Parasite Toxoplasma gondii.** (Genomics, proteomics & bioinformatics 2023) [36216028](https://pubmed.ncbi.nlm.nih.gov/36216028/) `PXD022700`<br>[PXD031526](https://pubmed.ncbi.nlm.nih.gov/PXD031526/) |
 | Tg_S-nitrosylation | tachyzoite | **C** | 660 | 8.1% | `n_nitrosylation_sites` | one | **Global Proteome-Wide Analysis of Cysteine S-Nitrosylation in Toxoplasma gondii.** (Molecules (Basel, Switzerland) 2023) [37959749](https://pubmed.ncbi.nlm.nih.gov/37959749/) `PXD046083` |
 | Tg_ubiquitination / SUMOylation | tachyzoite | **C** | 130 | 1.6% | `n_ubiquitination_sites` | one | **Ubiquitin-activating enzyme1 (TgUAE1) acts as a key regulator of Toxoplasma gondii lytic cycle and homeostasis.** (Communications biology 2025) [40348811](https://pubmed.ncbi.nlm.nih.gov/40348811/) `PXD045018`<br>**Deciphering cell cycle organization of Toxoplasma endodyogeny.** (mBio 2025) [40590555](https://pubmed.ncbi.nlm.nih.gov/40590555/) `PXD054719` |
@@ -262,6 +263,8 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | [PMID 29228904](https://pubmed.ncbi.nlm.nih.gov/29228904/) | Tg_transcription · extracellular lytic stress; Tg_translation efficiency · extracellular stress; Tg_translation efficiency · tachyzoite; Tg_translation · tachyzoite; Tg_translation · under stress |
 | [PMID 34263725](https://pubmed.ncbi.nlm.nih.gov/34263725/) | Tg_RNA modification · m6A / 5mC; Tg_transcription · under RNA-processing perturbation |
 | [PMID 31167946](https://pubmed.ncbi.nlm.nih.gov/31167946/) | Tg_translation efficiency · tachyzoite; Tg_translation · tachyzoite |
+| `ToxoDB` | Tg_arginine methylation; Tg_strain variation |
 | [PMID 38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/) | Tg_exposure to host cytosol; Tg_interaction · with host proteins |
+| `ToxoDB` | Tg_arginine methylation; Tg_strain variation |
 | `compartment` | Tg_localization · measured; Tg_shared compartment |
 | `orthogroup` | Tg_conservation breadth; Tg_shared orthogroup |

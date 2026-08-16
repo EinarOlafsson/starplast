@@ -76,6 +76,8 @@ SOURCES = (
      "GenesByChIPchip Hakimi/Ali genome-wide H4 K5-K8-K12-K16 acetylation, within 1 kb, no floor"),
     ("toxodb_macrophage.tsv", "macrophage_expression_percentile", False,
      "GenesByRNASeq Saeij 29 strains, ME49-infected murine macrophages, percentile, channel 1"),
+    ("toxodb_arginine_methylation.tsv", "n_arginine_methylation_sites", False,
+     "GenesByPTM monomethylarginine, Yakubu et al. RH proteomics, at least one site"),
     ("toxodb_nanopore_isoforms.tsv", "novel_transcript_models", False,
      "GenesByLongReadEvidence Stuart/Ralph nanopore, ISM + NIC + NNC novelty, >=5 reads"),
     ("toxodb_enteroepithelial.tsv", "ees_vs_tachyzoite_log2", True,

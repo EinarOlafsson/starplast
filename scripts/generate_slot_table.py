@@ -631,6 +631,11 @@ SLOTS = [
      [("37933960", "PXD019677", "CDPK1 substrates"), ("33635921", "PXD019655", "CDPK7")]),
     ("acetylation", "PTM", "life stages", "gene", ["n_acetylation_sites"], "one",
      [("37562054", "PXD040368", "lysine acetylation across stages")]),
+    # A category the tree did not have. Arginine methylation is a distinct modification with its own
+    # writers (the PRMTs), its own substrate class and its own deposit, and leaving it out was a gap
+    # in the catalog rather than an absence of data -- which is exactly what criterion 2 asks for.
+    ("arginine methylation", "PTM", "tachyzoite", "gene", ["n_arginine_methylation_sites"], "one",
+     [("", "ToxoDB Yakubu monomethylarginine proteomics", "monomethylarginine sites per gene")]),
     ("lactylation", "PTM", "tachyzoite", "gene", ["n_lactylation_sites"], "one",
      [("36216028", "PXD022700", "protein lactylation"),
       ("", "PXD031526", "systematic identification of lysine lactylation")]),

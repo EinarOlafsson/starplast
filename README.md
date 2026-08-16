@@ -176,6 +176,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | IP-MS supplement membership corpus | Number of downloaded pulldown studies whose supplement names each gene | measured at build time | *citation not yet confirmed* |
 | Lysine acetylome (GCN5b) | Acetylation sites reported per gene | 3,921 genes measured | `PXD079431` |
 | Lysine lactylome | Lactylation sites reported per gene | 515 genes measured | `PXD031526` |
+| Monomethylarginine proteome (via ToxoDB) | Monomethylarginine sites reported per gene | 368 genes | `ToxoDB Yakubu monomethylarginine` |
 | Oocyst-versus-tachyzoite phosphoproteome | Measured-site counts and strongest up/down phosphosite ratios | 1,603 (19.7%) | Wang Z-X et al., Comparative Phosphoproteomic Analysis of Sporulated Oocysts and Tachyzoites of Toxoplasma gondii Reveals Stage-Specific Patterns. Molecules 2022;27:1109; PMID [35164288](https://pubmed.ncbi.nlm.nih.gov/35164288/); `PXD017032` |
 | P. falciparum LOPIT | Donor labels for orthoLOPIT transfer | 1,646 usable | Chisholm SA et al., The spatial proteome of the Plasmodium falciparum schizont. Nat Commun 2026;17:6192 -- CONFIRM against the file on disk; PMID [42218142](https://pubmed.ncbi.nlm.nih.gov/42218142/) |
 | Phosphosite counts | Count of phosphosites per protein, no positions | 1,175 (14.4%) | Treeck M et al. 2011 -- CONFIRM against the file on disk |

@@ -761,6 +761,21 @@ REGISTRY = [
                  "measurement in a different host context, with nothing to declare in derived_from. "
                  "It is written down here so that nobody counts the two as independent evidence when "
                  "they agree, which they mostly will."),
+    Dataset("toxodb_arginine_methylation", "Monomethylarginine proteome (via ToxoDB)",
+            "post_translation", "proteomics",
+            "Monomethylarginine sites reported per gene", ("n_arginine_methylation_sites",),
+            "368 genes", accession="ToxoDB Yakubu monomethylarginine",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByPTM"
+                "/reports/attributesTabular",
+            path="starplast/data/toxodb_arginine_methylation.tsv",
+            note="Yakubu et al.'s RH proteomics, through ToxoDB's PTM search. Verified by substrate "
+                 "class rather than by a metadata field: RNA-binding, RRM and helicase proteins are "
+                 "enriched 2.9-fold among the methylated (Fisher p = 0.002) and transporters and "
+                 "membrane proteins are depleted at odds 0.43. That is the PRMT substrate profile -- "
+                 "RG and RGG motifs sit in RNA-binding proteins. The slot it fills did not exist "
+                 "before: arginine methylation has its own writers, its own substrate class and its "
+                 "own deposit, and its absence from the catalog was a gap rather than a lack of "
+                 "data."),
     Dataset("toxodb_nanopore_isoforms", "Novel transcript models (Nanopore, via ToxoDB)",
             "transcription", "LongRead",
             "How many novel TALON transcript models long reads support for this gene",

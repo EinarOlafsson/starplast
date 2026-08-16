@@ -184,3 +184,25 @@ def test_novel_isoforms_land_on_the_genes_with_more_exons():
     none = n.loc[n["novel_transcript_models"].isna(), "n_exons"].dropna()
     assert have.median() > none.median()
     assert mannwhitneyu(have, none).pvalue < 1e-10
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_arginine_methylation_lands_on_rna_binding_proteins():
+    """RG and RGG motifs sit in RNA-binding proteins, so that is where the PRMTs work.
+
+    A join that went to the wrong genes would lose this and nothing else would say so -- a count
+    column looks the same either way.
+    """
+    from scipy.stats import fisher_exact
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "n_arginine_methylation_sites" not in n.columns:
+        pytest.skip("arginine methylation column not merged")
+    methylated = n["n_arginine_methylation_sites"].notna().to_numpy()
+    binding = n["product"].astype(str).str.contains(
+        r"RNA[- ]binding|RRM|helicase|ribonucleoprotein", case=False, regex=True,
+        na=False).to_numpy()
+    odds, p = fisher_exact([[(methylated & binding).sum(), (methylated & ~binding).sum()],
+                            [((~methylated) & binding).sum(), ((~methylated) & ~binding).sum()]])
+    assert odds > 2.0 and p < 0.01, f"odds {odds:.2f}, p {p:.2e}"
