@@ -3505,13 +3505,21 @@
   },
   {
     "organism": "Tg",
-    "name": "predicted complex membership",
+    "name": "complex membership",
     "axis": "relation",
-    "context": "AlphaFold-Multimer",
+    "context": "crosslink MS interactome",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "n_crosslink_partners"
+    ],
     "policy": "separate",
-    "candidates": [],
+    "candidates": [
+      [
+        "40874616",
+        "mBio 02159-25",
+        "Toxoplasma interactome by crosslinking mass spectrometry"
+      ]
+    ],
     "evidence_path": [
       "relational measurements",
       "gene-gene",
@@ -3522,10 +3530,10 @@
       "parasite-parasite"
     ],
     "context_path": [
-      "reference or computational",
+      "in vitro or assay-defined",
       "stage-unspecified"
     ],
-    "target_family": "predicted_complex_membership",
+    "target_family": "complex_membership",
     "target_columns": [],
     "role": "feature"
   },
@@ -6104,13 +6112,19 @@
   },
   {
     "organism": "Pf",
-    "name": "predicted complex membership",
+    "name": "complex membership",
     "axis": "relation",
-    "context": "AlphaFold-Multimer",
+    "context": "crosslink MS interactome",
     "unit": "gene",
     "patterns": [],
     "policy": "separate",
-    "candidates": [],
+    "candidates": [
+      [
+        "40874616",
+        "mBio 02159-25",
+        "Toxoplasma interactome by crosslinking mass spectrometry"
+      ]
+    ],
     "evidence_path": [
       "relational measurements",
       "gene-gene",
@@ -6121,10 +6135,10 @@
       "parasite-parasite"
     ],
     "context_path": [
-      "reference or computational",
+      "in vitro or assay-defined",
       "stage-unspecified"
     ],
-    "target_family": "predicted_complex_membership",
+    "target_family": "complex_membership",
     "target_columns": [],
     "role": "feature"
   },

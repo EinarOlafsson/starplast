@@ -157,7 +157,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - Tg_interaction_degree_ip_ms
       - Tg_interaction_degree_structural_similarity
       - Tg_rna_binding_protein_targets
-      - Tg_predicted_complex_membership
+      - Tg_complex_membership
   - parasite-host
     - host effect
       - Tg_host_interaction_degree
@@ -282,7 +282,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_interaction_degree_ip_ms
     - Tg_interaction_degree_structural_similarity
     - Tg_rna_binding_protein_targets
-    - Tg_predicted_complex_membership
+    - Tg_complex_membership
   - parasite-host
     - Tg_host_interaction_degree
     - Tg_host_transcriptional_effect_per_effector
@@ -397,6 +397,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_target_engagement_thermal_shift
     - Tg_rna_binding_protein_targets
     - Tg_noncoding_and_antisense_transcription
+    - Tg_complex_membership
     - Tg_t_cell_epitope_content
     - Tg_invasion_and_egress_phenotype
     - Tg_essentiality_in_a_second_background
@@ -442,4 +443,3 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_paralogy
     - Tg_sequence_basics
     - Tg_codon_usage_translation_efficiency
-    - Tg_predicted_complex_membership

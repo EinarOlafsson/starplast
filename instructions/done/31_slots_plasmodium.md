@@ -176,7 +176,7 @@ quantity were approximating on 2026-08-13.
 | Pf_interaction degree · IP-MS | curated pulldown | **-** |  |  | `` | one | — |
 | Pf_interaction degree · structural similarity | Foldseek | **-** |  |  | `` | one | — |
 | Pf_RNA-binding protein targets | CLIP / RIP | **-** |  |  | `` | separate | **The Route of Infection Influences the Contribution of Key Immunity Genes to Antibacterial Defense in Anopheles gambiae.** (Journal of innate immunity 2021) [33207342](https://pubmed.ncbi.nlm.nih.gov/33207342/)<br>verify assay and parasite-gene shape)<br>**CLIPB4 is a central node in the protease network that regulates humoral immunity in Anopheles gambiae mosquitoes.** (bioRxiv : the preprint server for biology 2023) [37461554](https://pubmed.ncbi.nlm.nih.gov/37461554/)<br>verify assay and parasite-gene shape)<br>**CLIPB4 Is a Central Node in the Protease Network that Regulates Humoral Immunity in Anopheles gambiae Mosquitoes.** (Journal of innate immunity 2023) [37703846](https://pubmed.ncbi.nlm.nih.gov/37703846/)<br>verify assay and parasite-gene shape) |
-| Pf_predicted complex membership | AlphaFold-Multimer | **-** |  |  | `` | separate | — |
+| Pf_complex membership | crosslink MS interactome | **-** |  |  | `` | separate | **Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and machine learning.** (mBio 2025) [40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) `mBio 02159-25` |
 
 ### host effect
 

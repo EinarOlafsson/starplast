@@ -79,6 +79,8 @@ SOURCES = (
      "GenesByChIPchip Hakimi/Ali genome-wide H4 K5-K8-K12-K16 acetylation, within 1 kb, no floor"),
     ("toxodb_macrophage.tsv", "macrophage_expression_percentile", False,
      "GenesByRNASeq Saeij 29 strains, ME49-infected murine macrophages, percentile, channel 1"),
+    ("crosslink_partners.tsv", "n_crosslink_partners", False,
+     "mBio 02159-25 supplementary file s0004, the high-confidence PPI table, partners per protein"),
     ("pvm_proximity.tsv", "pvm_proximity_positive", False,
      "mBio 00260-21 Data Set S1, the authors' likely-positive and likely-negative PVM lists"),
     ("cdpk1_substrates.tsv", "cdpk1_thiophospho_peptides", False,

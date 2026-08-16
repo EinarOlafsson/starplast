@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**118 slots: 61 covered well, 11 partly, 27 thinly, 19 empty.**
+**118 slots: 61 covered well, 11 partly, 28 thinly, 18 empty.**
 
 ### transcription
 
@@ -194,7 +194,7 @@ quantity were approximating on 2026-08-13.
 | Tg_interaction degree · IP-MS | curated pulldown | **A** | 8140 | 100.0% | `n_ipms_partners` | one | — |
 | Tg_interaction degree · structural similarity | Foldseek | **A** | 8140 | 100.0% | `n_struct_similar` | one | — |
 | Tg_RNA-binding protein targets | CLIP / RIP | **A** | 7463 | 91.7% | `bfd2_rip_log2_ip_over_input` | separate | — |
-| Tg_predicted complex membership | AlphaFold-Multimer | **-** |  |  | `` | separate | — |
+| Tg_complex membership | crosslink MS interactome | **C** | 494 | 6.1% | `n_crosslink_partners` | separate | **Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and machine learning.** (mBio 2025) [40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) `mBio 02159-25` |
 
 ### host effect
 

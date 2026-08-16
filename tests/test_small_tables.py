@@ -350,3 +350,21 @@ def test_the_pvm_positives_are_dense_granule_proteins():
                             [((~pos) & gra).sum(), ((~pos) & ~gra).sum()]])
     assert p < 1e-20, f"odds {odds}, p {p:.1e}"
     assert (pos & gra).sum() > 30
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_the_crosslink_interactome_finds_the_ribosome_and_the_proteasome():
+    """The two largest obligate complexes in any cell. A crosslinking experiment that misses them
+    is not detecting complexes, whatever else it reports."""
+    from scipy.stats import fisher_exact
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "n_crosslink_partners" not in n.columns:
+        pytest.skip("crosslink column not merged")
+    seen = n["n_crosslink_partners"].notna().to_numpy()
+    for pattern, floor in ((r"proteasome", 5.0), (r"ribosomal protein", 3.0)):
+        is_k = n["product"].astype(str).str.contains(pattern, case=False, na=False).to_numpy()
+        odds, p = fisher_exact([[(seen & is_k).sum(), (seen & ~is_k).sum()],
+                                [((~seen) & is_k).sum(), ((~seen) & ~is_k).sum()]])
+        assert odds > floor and p < 1e-5, f"{pattern}: odds {odds:.1f}, p {p:.1e}"

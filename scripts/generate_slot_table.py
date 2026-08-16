@@ -104,6 +104,8 @@ quantity were approximating on 2026-08-13.
 #: and because a proposal that names a PMID without its title asks the reader to go and find
 #: out what was being proposed. Titles are as PubMed gives them.
 REFERENCES = {
+    "40874616": ("2025", "mBio",
+                 "Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and machine learning."),
     "32618271": ("2020", "eLife",
                  "Profiling of myristoylation in Toxoplasma gondii reveals an N-myristoylated protein important for host cell penetration."),
     # Resolved through esummary 2026-08-16, never typed -- the rule that has held for all
@@ -372,7 +374,14 @@ NEW_SHARED = [
     ("noncoding and antisense transcription", "transcription", "lncRNA", "gene", [], "separate"),
     ("codon usage / translation efficiency", "translation", "sequence-derived", "gene",
      ["codon_"], "one"),
-    ("predicted complex membership", "relation", "AlphaFold-Multimer", "gene", [], "separate"),
+    # Re-specified, like the metabolism slots were. It asked for AlphaFold-Multimer, and no
+    # Toxoplasma Multimer screen has been published -- but the QUESTION, is this protein part of a
+    # complex, has a measured answer in a crosslinking interactome, which is better evidence than a
+    # prediction. Defining a slot around a method rather than around its question is what left this
+    # one empty while the data existed.
+    ("complex membership", "relation", "crosslink MS interactome", "gene",
+     ["n_crosslink_partners"], "separate",
+     [("40874616", "mBio 02159-25", "Toxoplasma interactome by crosslinking mass spectrometry")]),
     # From IEDB's bcell_search, NOT from the all-types count that fills `T-cell epitope content`.
     # Antigenicity is a question about antibodies, and 189 of the 221 genes in that column have no
     # antibody record at all -- so answering this slot with it would have been a different question

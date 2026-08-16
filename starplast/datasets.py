@@ -808,6 +808,17 @@ REGISTRY = [
                  "genes (odds 3.39, p = 8e-88), are lineage-specific a third as often, and are more "
                  "costly to lose in vitro. `has_ec` is 0 and not missing where ToxoDB reports no EC: "
                  "the whole proteome was asked, so no assignment is an answer about the gene."),
+    Dataset("crosslink_interactome", "Crosslinking MS interactome", "post_translation", "XLMS",
+            "How many proteins this one crosslinks to", ("n_crosslink_partners",),
+            "494 proteins", pmid="40874616", accession="mBio 02159-25 supplementary file s0004",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12505969/supplementaryFiles",
+            path="starplast/data/crosslink_partners.tsv",
+            note="395 high-confidence protein pairs, counted per protein. Verified against the two "
+                 "largest obligate complexes any cell has: 21 of 32 proteasome subunits are in the "
+                 "interactome (odds 30.8, p = 1e-18) and 57 of 158 ribosomal proteins (odds 9.7, "
+                 "p = 4e-30). Crosslinking finds stable abundant complexes, and if it did not find "
+                 "those two it would not be finding complexes. Absent is absent: a protein with no "
+                 "partner here may be in no complex or may simply not have crosslinked."),
     Dataset("pvm_proximity", "PVM proximity labelling", "post_translation", "proteomics",
             "Whether the study placed this protein at the parasitophorous vacuole membrane",
             ("pvm_proximity_positive",), "1,274 genes (73 positive)", pmid="34749525",
