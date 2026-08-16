@@ -60,15 +60,16 @@ from .palmitome import signed_log2
 #: 28. A measurement that anti-correlates with its own replicate is measuring the run, not the gene.
 #: The report is in `datasets/quarantine/2026_08_16_toxodb/`.
 #:
-#: Also NOT here: the Ramirez-Flores self-assembled vesicle proteome, fetched for `secretome /
-#: excreted`. Taking exosomes and ectosomes against the remaining supernatant, the dense granule
-#: proteins come out at -0.85 and the microneme proteins at -3.72 -- DEPLETED from the vesicle
-#: fraction -- while ribosomal proteins, which nothing secretes, are the most enriched thing in it at
-#: +0.49. The direction was checked both ways round and the two are exact negations, so this is not
-#: an orientation mistake. The likeliest reading is that GRAs and MICs are secreted as soluble
-#: protein and stay in the supernatant, which would make the dataset a correct measurement of vesicle
-#: partitioning and still not an answer to what the parasite secretes. Correct-measurement-of-a-
-#: different-thing is not something this can distinguish from wrong, so the slot stays empty.
+#: The Ramirez-Flores vesicle proteome was refused earlier and is now a source, which is worth
+#: explaining rather than quietly reversing. It was fetched asking "which proteins are enriched in
+#: secreted VESICLES", and the answer was incoherent: dense granule proteins depleted, ribosomal
+#: proteins the most enriched thing in it. The dataset compares two fractions that are BOTH secreted
+#: material, so the question it answers is how a secreted protein partitions between them -- and
+#: asked that way it behaves, with the micronemes that dominate classical excretory-secretory
+#: antigen preparations at +3.72 and the GPI-anchored surface antigens at -0.68.
+#:
+#: Its limit is that there is no negative list. 171 proteins were seen in secreted material and
+#: nothing says what was looked for and missed, so absence from this column is not evidence.
 #:
 #: NOT here, and deliberately: the Einstein H3K4me1 ChIP-on-chip. Its 231 "marked" genes have LESS
 #: accessible promoters than unmarked genes (-0.51 against +0.39, Mann-Whitney p = 3e-50) and its
@@ -85,6 +86,9 @@ SOURCES = (
      "GenesByChIPchip Hakimi/Ali genome-wide H4 K5-K8-K12-K16 acetylation, within 1 kb, no floor"),
     ("toxodb_macrophage.tsv", "macrophage_expression_percentile", False,
      "GenesByRNASeq Saeij 29 strains, ME49-infected murine macrophages, percentile, channel 1"),
+    ("secretome_partition.tsv", "secretome_soluble_over_vesicle_log2", False,
+     "GenesByProteomics Ramirez-Flores vesicles, exosome+ectosome against supernatant, sign flipped "
+     "so positive is the soluble secreted fraction"),
     ("antisense_level.tsv", "antisense_expression_percentile", False,
      "GenesByRNASeq full life-cycle, Antisense profileset, percentile across tachyzoite, cyst and "
      "sporulated"),

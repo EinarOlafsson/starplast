@@ -779,8 +779,13 @@ SLOTS = [
      [("38747635", "", "TurboID exportome of secreted disordered proteins"),
       ("29615509", "GSE109830", "MYR1-dependent effectors"),
       ("31366709", "GSE122786", "translocation across the PVM")]),
-    ("secretome / excreted", "localization", "ESA", "gene", [], "one",
-     [("41137792", "PXD028969", "secretome and transcriptome")]),
+    # PXD028969, the candidate cited here, is a CRYPTOSPORIDIUM deposit -- checked and dropped.
+    # What fills the slot instead is how a secreted protein partitions between the vesicular and
+    # soluble fractions, both of which are secreted material. 171 proteins and no negative list, so
+    # absence from the column is not evidence of not being secreted.
+    ("secretome / excreted", "localization", "ESA", "gene",
+     ["secretome_soluble_over_vesicle_log2"], "one",
+     [("40874616", "Ramirez-Flores vesicles", "soluble against vesicular secreted fractions")]),
 
     # ---------------------------------------------------------------- relations (gene pairs)
     ("co-transcription", "relation", "stage series", "pair", ["edge:coexpression"], "separate", []),

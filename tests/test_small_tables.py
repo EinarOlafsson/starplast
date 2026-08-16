@@ -413,3 +413,29 @@ def test_antisense_is_not_a_restatement_of_sense_transcription():
     j = n[["antisense_expression_percentile", "expr_tachy"]].dropna()
     rho = spearmanr(j["antisense_expression_percentile"], j["expr_tachy"]).statistic
     assert abs(rho) < 0.5, f"rho {rho:+.3f}"
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_the_secreted_fraction_is_led_by_micronemes():
+    """Micronemes dominate classical excretory-secretory antigen preparations; GPI-anchored surface
+    antigens stay with the membrane and ribosomal proteins are a cytosolic contaminant.
+
+    This is the check that decided the column: asked which proteins are enriched in VESICLES the
+    same data gave ribosomal proteins at the top, which is why that framing was refused.
+    """
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet")).set_index("gene_id")
+    column = "secretome_soluble_over_vesicle_log2"
+    if column not in n.columns:
+        pytest.skip("secretome column not merged")
+    measured = n[n[column].notna()]
+    prod = measured["product"].astype(str)
+
+    def median_for(pattern):
+        hit = prod.str.contains(pattern, case=False, regex=True, na=False)
+        return measured.loc[hit, column].median() if hit.any() else float("nan")
+
+    mic = median_for(r"microneme")
+    assert mic > median_for(r"SAG-related|SRS\d"), mic
+    assert mic > median_for(r"ribosomal protein"), mic

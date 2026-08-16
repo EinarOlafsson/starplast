@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**119 slots: 62 covered well, 12 partly, 29 thinly, 16 empty.**
+**119 slots: 62 covered well, 12 partly, 30 thinly, 15 empty.**
 
 ### transcription
 
@@ -173,7 +173,7 @@ quantity were approximating on 2026-08-13.
 | Tg_localization · transferred | orthoLOPIT | **A** | 8140 | 100.0% | `ortholopit_, compartment_best` | fill | — |
 | Tg_membrane topology | sequence | **A** | 8140 | 100.0% | `dtm_class, n_tm, has_signal_peptide, is_tm, tm_kd_, tm_len_mean` | one | — |
 | Tg_exposure to host cytosol | PVM, export | **C** | 1274 | 15.7% | `pvm_proximity_positive` | fill | **TurboID mapping reveals the exportome of secreted intrinsically disordered proteins in the transforming parasite Theileria annulata.** (mBio 2024) [38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/)<br>**MYR1-Dependent Effectors Are the Major Drivers of a Host Cell's Early Response to Toxoplasma, Including Counteracting MYR1-Independent Effects.** (mBio 2018) [29615509](https://pubmed.ncbi.nlm.nih.gov/29615509/) `GSE109830`<br>**Translocation of Dense Granule Effectors across the Parasitophorous Vacuole Membrane in Toxoplasma-Infected Cells Requires the Activity of ROP17, a Rhoptry Protein Kinase.** (mSphere 2019) [31366709](https://pubmed.ncbi.nlm.nih.gov/31366709/) `GSE122786` |
-| Tg_secretome / excreted | ESA | **-** |  |  | `` | one | **Secretome and Transcriptome Analyses Reveal New Potential Virulence Factors during Cryptosporidium parvum Invasion.** (Journal of proteome research 2025) [41137792](https://pubmed.ncbi.nlm.nih.gov/41137792/) `PXD028969` |
+| Tg_secretome / excreted | ESA | **C** | 165 | 2.0% | `secretome_soluble_over_vesicle_log2` | one | **Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and machine learning.** (mBio 2025) [40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) `Ramirez-Flores vesicles` |
 | Tg_cyst wall composition | bradyzoite cyst wall | **C** | 56 | 0.7% | `cyst_wall_` | separate | — |
 
 ### relation
@@ -269,6 +269,7 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | [PMID 35976251](https://pubmed.ncbi.nlm.nih.gov/35976251/) | Tg_protein turnover; Tg_thermal stability (melting temperature) |
 | `ToxoDB` | Tg_arginine methylation; Tg_strain variation |
 | [PMID 38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/) | Tg_exposure to host cytosol; Tg_interaction · with host proteins |
+| [PMID 40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) | Tg_complex membership; Tg_secretome / excreted |
 | `ToxoDB` | Tg_arginine methylation; Tg_strain variation |
 | `compartment` | Tg_localization · measured; Tg_shared compartment |
 | `orthogroup` | Tg_conservation breadth; Tg_shared orthogroup |
