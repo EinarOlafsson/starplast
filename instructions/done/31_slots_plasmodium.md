@@ -114,7 +114,7 @@ quantity were approximating on 2026-08-13.
 | Pf_S-nitrosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_ubiquitination / SUMOylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_glycosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
-| Pf_palmitoylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_palmitoylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
 
 ### fitness
 

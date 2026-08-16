@@ -1395,9 +1395,17 @@
     "axis": "PTM",
     "context": "tachyzoite",
     "unit": "gene",
-    "patterns": [],
-    "policy": "one",
-    "candidates": [],
+    "patterns": [
+      "palmitome_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "26468752",
+        "ToxoDB Foe palmitome",
+        "17-ODYA click chemistry, against hydroxylamine and against palmitate"
+      ]
+    ],
     "evidence_path": [
       "molecular measurements",
       "protein",
@@ -4326,7 +4334,7 @@
     "context": "asexual blood stage",
     "unit": "gene",
     "patterns": [],
-    "policy": "one",
+    "policy": "separate",
     "candidates": [],
     "evidence_path": [
       "molecular measurements",

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**214 slots: 55 covered well, 10 partly, 16 thinly, 133 empty.**
+**214 slots: 55 covered well, 10 partly, 17 thinly, 132 empty.**
 
 ### transcription
 
@@ -150,7 +150,7 @@ quantity were approximating on 2026-08-13.
 | Tg_S-nitrosylation | tachyzoite | **C** | 660 | 8.1% | `n_nitrosylation_sites` | one | **Global Proteome-Wide Analysis of Cysteine S-Nitrosylation in Toxoplasma gondii.** (Molecules (Basel, Switzerland) 2023) [37959749](https://pubmed.ncbi.nlm.nih.gov/37959749/) `PXD046083` |
 | Tg_ubiquitination / SUMOylation | tachyzoite | **C** | 130 | 1.6% | `n_ubiquitination_sites` | one | **Ubiquitin-activating enzyme1 (TgUAE1) acts as a key regulator of Toxoplasma gondii lytic cycle and homeostasis.** (Communications biology 2025) [40348811](https://pubmed.ncbi.nlm.nih.gov/40348811/) `PXD045018`<br>**Deciphering cell cycle organization of Toxoplasma endodyogeny.** (mBio 2025) [40590555](https://pubmed.ncbi.nlm.nih.gov/40590555/) `PXD054719` |
 | Tg_glycosylation | tachyzoite | **-** |  |  | `` | one | **Novel antibodies detect nucleocytoplasmic O-fucose in protist pathogens, cellular slime molds, and plants.** (mSphere 2025) [39912628](https://pubmed.ncbi.nlm.nih.gov/39912628/) `PXD056853` |
-| Tg_palmitoylation | tachyzoite | **-** |  |  | `` | one | — |
+| Tg_palmitoylation | tachyzoite | **C** | 488 | 6.0% | `palmitome_` | separate | **Global Analysis of Palmitoylated Proteins in Toxoplasma gondii.** (Cell host & microbe 2015) [26468752](https://pubmed.ncbi.nlm.nih.gov/26468752/) `ToxoDB Foe palmitome` |
 | Pf_phosphorylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_phosphorylation · kinase-substrate | perturbation | **-** |  |  | `` | separate | — |
 | Pf_acetylation | life stages | **-** |  |  | `` | one | — |
@@ -158,7 +158,7 @@ quantity were approximating on 2026-08-13.
 | Pf_S-nitrosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_ubiquitination / SUMOylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_glycosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
-| Pf_palmitoylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_palmitoylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
 
 ### fitness
 

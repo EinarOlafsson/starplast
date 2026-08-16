@@ -104,6 +104,10 @@ quantity were approximating on 2026-08-13.
 #: and because a proposal that names a PMID without its title asks the reader to go and find
 #: out what was being proposed. Titles are as PubMed gives them.
 REFERENCES = {
+    # Resolved through esummary 2026-08-16, never typed -- the rule that has held for all
+    # 193 citations in these tables.
+    "26468752": ("2015", "Cell host & microbe",
+                 "Global Analysis of Palmitoylated Proteins in Toxoplasma gondii."),
     "21179246": ("2010", "PLoS pathogens",
                "Toxoplasma gondii lysine acetyltransferase GCN5-A functions in the cellular response "
                "to alkaline stress and expression of cyst genes."),
@@ -627,7 +631,9 @@ SLOTS = [
      [("40348811", "PXD045018", "TgUAE1"), ("40590555", "PXD054719", "endodyogeny")]),
     ("glycosylation", "PTM", "tachyzoite", "gene", [], "one",
      [("39912628", "PXD056853", "nucleocytoplasmic O-fucose")]),
-    ("palmitoylation", "PTM", "tachyzoite", "gene", [], "one", []),
+    ("palmitoylation", "PTM", "tachyzoite", "gene", ["palmitome_"], "separate",
+     [("26468752", "ToxoDB Foe palmitome", "17-ODYA click chemistry, against hydroxylamine "
+       "and against palmitate")]),
 
     # ---------------------------------------------------------------- fitness
     ("fitness · HFF in vitro", "fitness", "HFF", "gene", ["fit_invitro_hff"], "one", []),

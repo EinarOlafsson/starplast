@@ -700,6 +700,26 @@ REGISTRY = [
                  "because a replicate dropped without saying so makes the mean smaller than the "
                  "note beside the column claims."),
 
+    Dataset("toxodb_palmitome", "S-palmitoylome (Foe 2015, via ToxoDB)", "post_translation",
+            "proteomics", "17-ODYA enrichment per gene, against hydroxylamine and against palmitate",
+            ("palmitome_odya_vs_hydroxylamine_log2", "palmitome_odya_vs_palmitate_log2"),
+            "470 and 488 genes", pmid="26468752", accession="ToxoDB Foe palmitome",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/"
+                "GenesByProteomicsDirecttgonGT1_quantitativeMassSpec_Foe_Lipidome_Palmitoylome_RSRC"
+                "/reports/attributesTabular",
+            path="starplast/data/toxodb_palmitome_hydroxylamine.tsv",
+            note="The paper is not open access and PMC serves its supplementary spreadsheets only "
+                 "through a download interstitial, so the numbers come from ToxoDB's own query "
+                 "service for the same dataset -- the authors' fold differences, not a re-analysis. "
+                 "Two comparisons and only one is palmitoylation: hydroxylamine cleaves thioester "
+                 "bonds, which is the bond an S-palmitoyl group makes, so that column is "
+                 "thioester-specific; the palmitate competition shows only that the label is "
+                 "fatty-acid-dependent and includes N-myristoylated proteins. Verified against known "
+                 "substrates: ROP5 +2.20, GAP45 +1.34, AMA1 +0.93, MLC1 +0.71, IMC proteins +0.34, "
+                 "against a measured-gene median of -0.17. ToxoDB reports a SIGNED fold difference "
+                 "and not a ratio -- -3.12 means three-fold down -- so reading it as a ratio would "
+                 "have made every depleted protein NaN and dropped half the table."),
+
     # ------------------------------------------------------------------ PRIDE deposits
     # Counted from the submitters' own search output by `proteomics.deposit_counts`, never from the
     # raw spectra. Each column is "how many sites did THIS STUDY report on this gene", which is a
