@@ -107,3 +107,42 @@ fictional.
 * No slot is marked filled from a citation.
 * Coverage back to 100% on the code, no `pragma`; it is currently 99%.
 * The atlas regenerates and its counts change in the direction the work went.
+
+
+## What the 2026-08-16 pass established, and the trap it found twice
+
+**Filled: 65 of 105 Toxoplasma feature slots, up from 60.** Five came from PRIDE deposits verified
+by reading the files: acetylation (3,921 genes), kinase substrates (2,575), proximity labelling
+(1,734), S-nitrosylation (660), ubiquitination (128). Eight more were never empty -- they are
+`unit=pair` slots filled by graph edges, and every census had been asking only about node columns.
+
+**Of 102 datasets proposed from GEO, 8 survived adversarial verification.** That is the number to
+plan around: a GEO query that returns a plausible hit for every slot is not finding data, it is
+finding the nearest sequencing study, and roughly nine in ten of those do not survive being read.
+
+### The trap, in its clearest form
+
+`GSE313582` was proposed for SIX Toxoplasma slots: histone marks, interaction with host proteins,
+strain variation, transcription in naive macrophage, transcription in IFN-gamma macrophage, and m6A.
+Its sample columns are `RH_GCN5_KD_UT_1 ... RH_GCN5_KD_IAA` -- an auxin-induced GCN5 knockdown
+RNA-seq in RH tachyzoites. It is none of those six. It is a chromatin-perturbation transcriptome,
+which is a slot Toxoplasma already has filled, so ingesting it would have added nothing and claimed
+six things.
+
+The same shape appeared in the Plasmodium arm, where `GSE270631` passed a first reviewer for
+"maximum observed across stages" and was refuted on reading the deposit: a PfSET10 conditional
+knockout, two separately DESeq2-normalised matrices whose column totals differ by 48%, and
+blood-stage samples only.
+
+**So: no GEO candidate is ingested without reading its sample column names.** A title and an
+organism are not enough -- both of these had the right organism and a plausible title.
+
+### Where the remaining 40 actually stand
+
+* **19 GEO-servable** (regulation 6, transcription 5, fitness 5, translation 3): candidates exist
+  and are downloaded, but the six above were all one wrong dataset. Verify sample columns first.
+* **3 metabolism** need MetaboLights, **2 immunity** need IEDB, **3 chemistry** are mostly
+  supplementary tables in papers. None of these three repositories is wired.
+* **4 PTM/abundance** (glycosylation, palmitoylation, crosslink MS, secretome) returned honestly
+  zero from PRIDE for Toxoplasma. They may have no deposit at all, and an empty slot is the correct
+  answer if so.
