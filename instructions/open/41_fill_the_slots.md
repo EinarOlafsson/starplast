@@ -146,3 +146,41 @@ organism are not enough -- both of these had the right organism and a plausible 
 * **4 PTM/abundance** (glycosylation, palmitoylation, crosslink MS, secretome) returned honestly
   zero from PRIDE for Toxoplasma. They may have no deposit at all, and an empty slot is the correct
   answer if so.
+
+
+### Every Toxoplasma GEO candidate, read by its sample titles (2026-08-16)
+
+Reading `!Sample_title` from each downloaded series matrix settles all nineteen at once, and it is
+the check that should have been run before any of them were proposed. Two datasets account for ten
+of the assignments:
+
+| dataset | what its samples actually are | slots it was proposed for |
+|---|---|---|
+| GSE313582 | `Illumina-GCN5b-KD-UT/IAA` -- GCN5b knockdown RNA-seq | m6A, RNA half-life, TF binding, histone marks, host interaction, strain variation, IFN-gamma macrophage |
+| GSE313048 | `ATACseq-GCN5b-KD-*` -- ATAC-seq of the same knockdown | glycosylation, palmitoylation, protein turnover |
+| GSE287334 | `Pru-MORC-KD-*` -- a MORC knockdown | T-cell epitope content |
+| GSE300509 | growth on different host cell types | seroreactivity |
+| GSE175919 | `DMSO` vs `MC1742` -- transcriptional response to an HDAC inhibitor | drug sensitivity per gene, resistance-conferring mutation |
+
+None of those fits the slot it was proposed for. An ATAC-seq is not a palmitoylome, and a knockdown
+transcriptome is not a measure of strain variation.
+
+**But three are real data in the wrong slot, and should be REASSIGNED rather than discarded:**
+
+* `GSE132237` -- "CRISPR-Cas9 screens to identify regulators of differentiation", samples
+  `L1 input library, L1 p4, L1 p5, L1 p6`. That is a genuine pooled screen with passages, and it was
+  proposed for `essentiality in a second background`, which is where it belongs. Verify and ingest.
+* `GSE245775` -- `parental_tachyzoite_RIBOseq_rep1...`. Ribosome profiling, proposed for
+  `stage-conversion phenotype`, which it is not. It belongs in `translation · bradyzoite` or
+  `translation · per cell-cycle phase`, both of which are empty.
+* `GSE253885` -- "In vivo CRISPR screens for hyperLOPIT-unassigned proteins", samples
+  `unassigned_2_lib, _P4, _WT_01`. A real in vivo screen, proposed for `secretome / excreted`, which
+  it is not. It belongs in a fitness slot.
+
+So of nineteen GEO-servable Toxoplasma slots, the honest yield is **three datasets, none of them in
+the slot it was proposed for**. That is the shape of the problem: the resolver finds real
+Toxoplasma data and assigns it by keyword proximity, and the keyword is nearly always wrong.
+
+**The fix for the next pass** is to propose from the sample titles rather than from the study
+abstract: `esummary` gives them cheaply, and "does this series contain samples of the kind this slot
+asks about" is answerable from `!Sample_title` alone in the great majority of these cases.
