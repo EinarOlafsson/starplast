@@ -168,6 +168,10 @@ DEPOSITS = (
     # was a fact about the reader rather than about the study, which names 537 proteins. Both are
     # downloaded; this is the one that can be read.
     ("Tg", "lactylation", "PXD031526", "n_lactylation_sites", r"La \(K\)Sites"),
+    # An AAL-lectin pulldown, so the count is peptide identifications and not sites -- named for that.
+    # The same standing as the proximity-labelling column: both are "what came down in this pulldown",
+    # which is a claim about enrichment rather than about a residue.
+    ("Tg", "glycosylation", "PXD004426", "n_o_fucosyl_peptides", r"mzid|AAL"),
 )
 
 #: Where the fetcher puts things. Reading from quarantine is deliberate: a deposit is not promoted

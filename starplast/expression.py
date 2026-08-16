@@ -576,9 +576,45 @@ def gse245775_differentiation_ribosome_profiling(base: str, resolve=None,
     return X
 
 
+#: Reads across input and IP below which a ratio is noise. 20 is deliberately low -- the point of a
+#: RIP is the enriched tail, and a stricter floor would drop exactly the genes the slot asks about.
+BFD2_RIP_FLOOR = 20
+
+
+def gse223620_bfd2_rip(base: str, resolve=None, log=print) -> pd.DataFrame:
+    """GSE223620: which transcripts the RNA-binding protein BFD2 pulls down.
+
+    IP against input, both scaled to a common library size, as a log2 ratio. The deposit publishes
+    read counts and not the ratio, so it is computed here -- the comparison its two-sample design
+    exists to make.
+
+    One column and not a set, because there is one RBP. The slot is `RNA-binding protein targets`
+    and the column name says which protein, so a second RIP would sit beside this one rather than
+    being averaged into it: two RBPs do not have a shared answer.
+    """
+    p = os.path.join(base, "datasets", "quarantine", "2026_08_16_unverified", "Tg",
+                     "rna_binding_protein_targets",
+                     "GSE223620_ProcessedDataFile_BFD2.RIPseq.xls")
+    if not os.path.exists(p):
+        return pd.DataFrame()
+    d = pd.read_excel(p)
+    if d.shape[1] < 3:
+        return pd.DataFrame()
+    genes = _resolve(d[d.columns[0]].astype(str), resolve)
+    counts = d[d.columns[1:3]].apply(pd.to_numeric, errors="coerce")
+    inp, ip = counts[counts.columns[0]], counts[counts.columns[1]]
+    keep = (inp + ip) >= BFD2_RIP_FLOOR
+    scale = lambda s: s / s.sum() * 1e6 if s.sum() else s
+    value = np.log2((scale(ip) + 1.0) / (scale(inp) + 1.0)).where(keep)
+    X = _collapse(pd.DataFrame({"bfd2_rip_log2_ip_over_input": value.to_numpy()}), genes)
+    X = X[X["bfd2_rip_log2_ip_over_input"].notna()]
+    log(f"BFD2 RIP-seq (GSE223620): {len(X):,} genes above {BFD2_RIP_FLOOR} reads")
+    return X
+
+
 LOADERS = (invivo_brain, stress_induction, gse22258_stage, neuronal_differentiation,
            gse99395_ribosome_profiling, gse129869_host_context_ribosome_profiling,
-           gse245775_differentiation_ribosome_profiling,
+           gse245775_differentiation_ribosome_profiling, gse223620_bfd2_rip,
            gse19092_cell_cycle, gse51780_merozoite,
            gse168155_rna_processing_perturbation, gse200962_restriction_checkpoint,
            morc_depletion, total_proteome, phosphosites, oocyst_itraq)

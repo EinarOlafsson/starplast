@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**218 slots: 59 covered well, 10 partly, 21 thinly, 128 empty.**
+**218 slots: 60 covered well, 10 partly, 22 thinly, 126 empty.**
 
 ### transcription
 
@@ -150,7 +150,7 @@ quantity were approximating on 2026-08-13.
 | Tg_lactylation | tachyzoite | **C** | 515 | 6.3% | `n_lactylation_sites` | one | **Protein Lactylation and Metabolic Regulation of the Zoonotic Parasite Toxoplasma gondii.** (Genomics, proteomics & bioinformatics 2023) [36216028](https://pubmed.ncbi.nlm.nih.gov/36216028/) `PXD022700`<br>[PXD031526](https://pubmed.ncbi.nlm.nih.gov/PXD031526/) |
 | Tg_S-nitrosylation | tachyzoite | **C** | 660 | 8.1% | `n_nitrosylation_sites` | one | **Global Proteome-Wide Analysis of Cysteine S-Nitrosylation in Toxoplasma gondii.** (Molecules (Basel, Switzerland) 2023) [37959749](https://pubmed.ncbi.nlm.nih.gov/37959749/) `PXD046083` |
 | Tg_ubiquitination / SUMOylation | tachyzoite | **C** | 130 | 1.6% | `n_ubiquitination_sites` | one | **Ubiquitin-activating enzyme1 (TgUAE1) acts as a key regulator of Toxoplasma gondii lytic cycle and homeostasis.** (Communications biology 2025) [40348811](https://pubmed.ncbi.nlm.nih.gov/40348811/) `PXD045018`<br>**Deciphering cell cycle organization of Toxoplasma endodyogeny.** (mBio 2025) [40590555](https://pubmed.ncbi.nlm.nih.gov/40590555/) `PXD054719` |
-| Tg_glycosylation | tachyzoite | **-** |  |  | `` | one | **Novel antibodies detect nucleocytoplasmic O-fucose in protist pathogens, cellular slime molds, and plants.** (mSphere 2025) [39912628](https://pubmed.ncbi.nlm.nih.gov/39912628/) `PXD056853` |
+| Tg_glycosylation | tachyzoite | **C** | 394 | 4.8% | `n_o_fucosyl_peptides` | one | **Novel antibodies detect nucleocytoplasmic O-fucose in protist pathogens, cellular slime molds, and plants.** (mSphere 2025) [39912628](https://pubmed.ncbi.nlm.nih.gov/39912628/) `PXD056853` |
 | Tg_palmitoylation | tachyzoite | **C** | 488 | 6.0% | `palmitome_` | separate | **Global Analysis of Palmitoylated Proteins in Toxoplasma gondii.** (Cell host & microbe 2015) [26468752](https://pubmed.ncbi.nlm.nih.gov/26468752/) `ToxoDB Foe palmitome` |
 | Pf_phosphorylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_phosphorylation · kinase-substrate | perturbation | **-** |  |  | `` | separate | — |
@@ -253,7 +253,7 @@ quantity were approximating on 2026-08-13.
 | Tg_interaction degree · crosslink MS | measured contact | **A** | 8140 | 100.0% | `n_xlink_partners, best_model_agreement` | separate | — |
 | Tg_interaction degree · IP-MS | curated pulldown | **A** | 8140 | 100.0% | `n_ipms_partners` | one | — |
 | Tg_interaction degree · structural similarity | Foldseek | **A** | 8140 | 100.0% | `n_struct_similar` | one | — |
-| Tg_RNA-binding protein targets | CLIP / RIP | **-** |  |  | `` | separate | — |
+| Tg_RNA-binding protein targets | CLIP / RIP | **A** | 7463 | 91.7% | `bfd2_rip_log2_ip_over_input` | separate | — |
 | Tg_predicted complex membership | AlphaFold-Multimer | **-** |  |  | `` | separate | — |
 | Pf_co-transcription | stage series | **-** |  |  | `` | separate | — |
 | Pf_co-translation | ribosome profiling | **-** |  |  | `` | separate | — |

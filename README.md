@@ -138,6 +138,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Dataset | Type of data | Coverage | Reference |
 |---|---|---|---|
 | Alkaline-stress differentiation transcriptome | Unstressed tachyzoites and alkaline-stressed bradyzoites | 7,880 (96.8%) | Waldman BS et al., Identification of a Master Regulator of Differentiation in Toxoplasma. Cell 2020;180:359-372.e16; PMID [31955846](https://pubmed.ncbi.nlm.nih.gov/31955846/); `GSE132248` |
+| BFD2-bound transcriptome (RIP-seq, COMPUTED) | Enrichment of each transcript in the BFD2 immunoprecipitation | 7,463 genes (92%) | `GSE223620` |
 | Bradyzoite restriction-checkpoint transcriptome | Cyclin perturbations in tachyzoite and bradyzoite conditions | measured at build time | `GSE200962` |
 | CPSF4 RNA-processing perturbation transcriptome | RNA response at 7, 24 and 48 hours after CPSF4 depletion | measured at build time | Farhat DC et al., A plant-like mechanism coupling m6A reading to polyadenylation safeguards transcriptome integrity. eLife 2021;10:e68312; PMID [34263725](https://pubmed.ncbi.nlm.nih.gov/34263725/); `GSE168155` |
 | Enteroepithelial stage transcriptome (via ToxoDB) | Expression in the feline enteroepithelial stages against tachyzoites | 7,739 genes (95%) | `ToxoDB Ramakrishnan enteroepithelial` |
@@ -177,6 +178,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Lysine acetylome (GCN5b) | Acetylation sites reported per gene | 3,921 genes measured | `PXD079431` |
 | Lysine lactylome | Lactylation sites reported per gene | 515 genes measured | `PXD031526` |
 | Monomethylarginine proteome (via ToxoDB) | Monomethylarginine sites reported per gene | 368 genes | `ToxoDB Yakubu monomethylarginine` |
+| O-fucosylated glycoproteins (AAL pulldown) | Peptide identifications in the AAL lectin pulldown, per gene | 394 genes | `PXD004426` |
 | Oocyst-versus-tachyzoite phosphoproteome | Measured-site counts and strongest up/down phosphosite ratios | 1,603 (19.7%) | Wang Z-X et al., Comparative Phosphoproteomic Analysis of Sporulated Oocysts and Tachyzoites of Toxoplasma gondii Reveals Stage-Specific Patterns. Molecules 2022;27:1109; PMID [35164288](https://pubmed.ncbi.nlm.nih.gov/35164288/); `PXD017032` |
 | P. falciparum LOPIT | Donor labels for orthoLOPIT transfer | 1,646 usable | Chisholm SA et al., The spatial proteome of the Plasmodium falciparum schizont. Nat Commun 2026;17:6192 -- CONFIRM against the file on disk; PMID [42218142](https://pubmed.ncbi.nlm.nih.gov/42218142/) |
 | Phosphosite counts | Count of phosphosites per protein, no positions | 1,175 (14.4%) | Treeck M et al. 2011 -- CONFIRM against the file on disk |

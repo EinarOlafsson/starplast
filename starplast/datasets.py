@@ -656,6 +656,22 @@ REGISTRY = [
                  "each PMID in the pubmed corpus that has a PMCID, fetch the JATS from the URL "
                  "above. Machine-local by size, which is why the built cache is what ships."),
 
+    Dataset("gse223620_bfd2_rip", "BFD2-bound transcriptome (RIP-seq, COMPUTED)", "transcription",
+            "RIPseq", "Enrichment of each transcript in the BFD2 immunoprecipitation",
+            ("bfd2_rip_log2_ip_over_input",), "7,463 genes (92%)", accession="GSE223620",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE223nnn/GSE223620/suppl/"
+                "GSE223620_ProcessedDataFile_BFD2.RIPseq.xls.gz",
+            path="datasets/quarantine/2026_08_16_unverified/Tg/rna_binding_protein_targets/",
+            note="COMPUTED: the deposit publishes read counts for the IP and the input, not the "
+                 "ratio. Both are scaled to a common library size and the log2 taken, at a floor of "
+                 "20 reads across the pair -- deliberately low, because the point of a RIP is the "
+                 "enriched tail and a stricter floor would drop the genes the slot asks about. "
+                 "Verified against the published mechanism: BFD2 binds and stabilises the BFD1 "
+                 "transcript, and BFD1 comes out at +3.52, rank 32 of 8,090, the top 0.4%. BFD2's "
+                 "own transcript is unremarkable at +0.31, which is what says the enrichment is not "
+                 "an artefact of the tagged locus. One column and not a set: the slot holds one "
+                 "protein's targets, and a second RIP would sit beside this rather than be averaged "
+                 "into it."),
     Dataset("gse245775", "Differentiation ribosome profiling (eIF1.2)", "translation", "RiboSeq",
             "RPF and RNA counts, and their ratio, in tachyzoites and pre-bradyzoites",
             GSE245775_COLUMNS, "7,880 genes (97%)", pmid="38782906", accession="GSE245775",
@@ -862,6 +878,20 @@ REGISTRY = [
             note="mzIdentML rather than MaxQuant, and shipped as a lone .gz -- which is one "
                  "compressed file and not an archive, a distinction that read as an empty deposit "
                  "until it was handled."),
+    Dataset("pride_glycosylation", "O-fucosylated glycoproteins (AAL pulldown)",
+            "post_translation", "proteomics",
+            "Peptide identifications in the AAL lectin pulldown, per gene",
+            ("n_o_fucosyl_peptides",), "394 genes", pmid=None, accession="PXD004426",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD004426",
+            path="datasets/quarantine/2026_08_16_pride/Tg/glycosylation/",
+            note="Aleuria aurantia lectin affinity purification, so the count is peptide "
+                 "IDENTIFICATIONS and not sites -- the same standing as the proximity-labelling "
+                 "column, which is also a claim about what came down rather than about a residue. "
+                 "Verified against compartment: the pulldown is enriched for nucleus-chromatin at "
+                 "odds 3.71 (p = 1.5e-22) and cytosol at 2.61, and not enriched for mitochondrion. "
+                 "O-fucosylation through SPY is a nucleocytoplasmic modification and the paper "
+                 "describes punctiform signal beside the nuclei, so that is the right answer. Keyed "
+                 "on TGGT1_ accessions throughout."),
     Dataset("pride_nitrosylation", "S-nitrosylation (iodoTMT)", "post_translation", "proteomics",
             "S-nitrosylation sites reported per gene", ("n_nitrosylation_sites",),
             "660 genes measured", accession="PXD046083",

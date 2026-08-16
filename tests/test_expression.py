@@ -731,3 +731,60 @@ def test_a_directory_member_is_survived(tmp_path):
         archive.addfile(info)
     out = EX.gse245775_differentiation_ribosome_profiling(str(tmp_path), log=lambda *_: None)
     assert out.shape == (2, 36)
+
+
+# ------------------------------------------------------------------ GSE223620 BFD2 RIP-seq
+def _bfd2(tmp_path, rows):
+    folder = (tmp_path / "datasets" / "quarantine" / "2026_08_16_unverified" / "Tg"
+              / "rna_binding_protein_targets")
+    folder.mkdir(parents=True, exist_ok=True)
+    pd.DataFrame(rows, columns=["GeneID", "HA_S_Input.ReadCount", "HA_S_IP.ReadCount"]).to_excel(
+        folder / "GSE223620_ProcessedDataFile_BFD2.RIPseq.xls", index=False)
+    return tmp_path
+
+
+def test_bfd2_rip_is_the_ratio_of_the_two_libraries(tmp_path):
+    """Equal share of each library is no enrichment, whatever the raw depths are."""
+    _bfd2(tmp_path, [("TGME49_200010", 100, 400), ("TGME49_200020", 300, 1200)])
+    out = EX.gse223620_bfd2_rip(str(tmp_path), log=lambda *_: None)
+    assert abs(out["bfd2_rip_log2_ip_over_input"]).max() < 0.05
+
+
+def test_an_enriched_transcript_is_positive(tmp_path):
+    _bfd2(tmp_path, [("TGME49_200010", 10, 990), ("TGME49_200020", 990, 10)])
+    out = EX.gse223620_bfd2_rip(str(tmp_path), log=lambda *_: None)
+    assert out.loc["TGME49_200010", "bfd2_rip_log2_ip_over_input"] > 3
+    assert out.loc["TGME49_200020", "bfd2_rip_log2_ip_over_input"] < -3
+
+
+def test_genes_below_the_read_floor_are_dropped(tmp_path):
+    """A ratio of two small numbers is noise, and a RIP is read for its tail."""
+    _bfd2(tmp_path, [("TGME49_200010", 1, 2), ("TGME49_200020", 500, 500)])
+    out = EX.gse223620_bfd2_rip(str(tmp_path), log=lambda *_: None)
+    assert list(out.index) == ["TGME49_200020"]
+
+
+def test_bfd2_accessions_are_resolved(tmp_path):
+    _bfd2(tmp_path, [("TGGT1_100010", 100, 400), ("TGME49_200020", 100, 400)])
+    out = EX.gse223620_bfd2_rip(str(tmp_path), resolve=lambda a: (
+        "TGME49_200010" if a == "TGGT1_100010" else a), log=lambda *_: None)
+    assert "TGME49_200010" in out.index
+
+
+def test_no_bfd2_file_yields_nothing(tmp_path):
+    assert EX.gse223620_bfd2_rip(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_a_bfd2_table_without_both_libraries_is_refused(tmp_path):
+    folder = (tmp_path / "datasets" / "quarantine" / "2026_08_16_unverified" / "Tg"
+              / "rna_binding_protein_targets")
+    folder.mkdir(parents=True)
+    pd.DataFrame({"GeneID": ["TGME49_200010"], "only": [1]}).to_excel(
+        folder / "GSE223620_ProcessedDataFile_BFD2.RIPseq.xls", index=False)
+    assert EX.gse223620_bfd2_rip(str(tmp_path), log=lambda *_: None).empty
+
+
+def test_an_empty_library_does_not_divide_by_zero(tmp_path):
+    _bfd2(tmp_path, [("TGME49_200010", 0, 40), ("TGME49_200020", 0, 40)])
+    out = EX.gse223620_bfd2_rip(str(tmp_path), log=lambda *_: None)
+    assert np.isfinite(out["bfd2_rip_log2_ip_over_input"]).all()

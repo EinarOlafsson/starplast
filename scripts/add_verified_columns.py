@@ -54,6 +54,7 @@ def main(argv=None) -> int:
 
     for table in (expression.gse245775_differentiation_ribosome_profiling(
                       args.base, resolve=resolve, log=print),
+                  expression.gse223620_bfd2_rip(args.base, resolve=resolve, log=print),
                   variation.strain_snps(args.base, resolve=resolve, log=print),
                   codons.codon_usage(args.base, resolve=resolve, log=print),
                   chromatin.chromatin_signals(args.base, resolve=resolve, log=print),

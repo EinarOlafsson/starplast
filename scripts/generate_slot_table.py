@@ -364,7 +364,8 @@ NEW_SHARED = [
     ("drug sensitivity per gene", "chemistry", "compound panel", "gene", [], "separate"),
     ("resistance-conferring mutation", "chemistry", "in vitro evolution", "gene", [], "separate"),
     ("target engagement / thermal shift", "chemistry", "thermal proteome", "gene", [], "average"),
-    ("RNA-binding protein targets", "relation", "CLIP / RIP", "gene", [], "separate"),
+    ("RNA-binding protein targets", "relation", "CLIP / RIP", "gene",
+     ["bfd2_rip_log2_ip_over_input"], "separate"),
     ("noncoding and antisense transcription", "transcription", "lncRNA", "gene", [], "separate"),
     ("codon usage / translation efficiency", "translation", "sequence-derived", "gene",
      ["codon_"], "one"),
@@ -661,7 +662,7 @@ SLOTS = [
     ("ubiquitination / SUMOylation", "PTM", "tachyzoite", "gene",
      ["n_ubiquitination_sites"], "one",
      [("40348811", "PXD045018", "TgUAE1"), ("40590555", "PXD054719", "endodyogeny")]),
-    ("glycosylation", "PTM", "tachyzoite", "gene", [], "one",
+    ("glycosylation", "PTM", "tachyzoite", "gene", ["n_o_fucosyl_peptides"], "one",
      [("39912628", "PXD056853", "nucleocytoplasmic O-fucose")]),
     ("palmitoylation", "PTM", "tachyzoite", "gene", ["palmitome_"], "separate",
      [("26468752", "ToxoDB Foe palmitome", "17-ODYA click chemistry, against hydroxylamine "
