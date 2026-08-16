@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**218 slots: 59 covered well, 10 partly, 20 thinly, 129 empty.**
+**218 slots: 59 covered well, 10 partly, 21 thinly, 128 empty.**
 
 ### transcription
 
@@ -342,9 +342,9 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Tg_seroreactivity / antigenicity | human or animal sera | **-** |  |  | `` | separate | — |
+| Tg_seroreactivity / antigenicity | human or animal sera | **C** | 34 | 0.4% | `n_bcell_epitopes` | separate | [IEDB](https://pubmed.ncbi.nlm.nih.gov/IEDB/) `bcell_search` |
 | Tg_T-cell epitope content | predicted and measured | **C** | 221 | 2.7% | `iedb_epitope_count` | average | — |
-| Pf_seroreactivity / antigenicity | human or animal sera | **-** |  |  | `` | separate | **Engineered antibodies preserve structural and functional recognition of Plasmodium falciparum circumsporozoite protein.** (Protein science : a publication of the Protein Society 2026) [42560026](https://pubmed.ncbi.nlm.nih.gov/42560026/)<br>verify assay and parasite-gene shape)<br>**Impact of FY*X homozygosity of the DARC receptor on Plasmodium knowlesi line A1-H.1 invasion.** (Current research in parasitology & vector-borne diseases 2026) [42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/)<br>verify assay and parasite-gene shape)<br>**A narrative review of the epidemiological and mechanistic associations between ABO blood groups and diseases: focusing on cardiovascular diseases, cancers, diabetes, malaria, COVID-19 and rheumatic diseases.** (Annals of medicine 2026) [42574721](https://pubmed.ncbi.nlm.nih.gov/42574721/)<br>verify assay and parasite-gene shape) |
+| Pf_seroreactivity / antigenicity | human or animal sera | **-** |  |  | `` | separate | [IEDB](https://pubmed.ncbi.nlm.nih.gov/IEDB/) `bcell_search`<br>**Engineered antibodies preserve structural and functional recognition of Plasmodium falciparum circumsporozoite protein.** (Protein science : a publication of the Protein Society 2026) [42560026](https://pubmed.ncbi.nlm.nih.gov/42560026/)<br>verify assay and parasite-gene shape)<br>**Impact of FY*X homozygosity of the DARC receptor on Plasmodium knowlesi line A1-H.1 invasion.** (Current research in parasitology & vector-borne diseases 2026) [42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/)<br>verify assay and parasite-gene shape)<br>**A narrative review of the epidemiological and mechanistic associations between ABO blood groups and diseases: focusing on cardiovascular diseases, cancers, diabetes, malaria, COVID-19 and rheumatic diseases.** (Annals of medicine 2026) [42574721](https://pubmed.ncbi.nlm.nih.gov/42574721/)<br>verify assay and parasite-gene shape) |
 | Pf_T-cell epitope content | predicted and measured | **-** |  |  | `` | average | **Reconstruction of historical malaria transmission in Senegal using multiplex serocatalytic models.** (PLoS computational biology 2026) [42507702](https://pubmed.ncbi.nlm.nih.gov/42507702/)<br>verify assay and parasite-gene shape)<br>**Sero-epidemiological and functional evaluation of IgG specific for a cysteine protease inhibitor of Plasmodium falciparum, falstatin.** (Infection and immunity 2026) [42550035](https://pubmed.ncbi.nlm.nih.gov/42550035/)<br>verify assay and parasite-gene shape)<br>**Impact of FY*X homozygosity of the DARC receptor on Plasmodium knowlesi line A1-H.1 invasion.** (Current research in parasitology & vector-borne diseases 2026) [42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/)<br>verify assay and parasite-gene shape) |
 
 ### phenotype
@@ -367,9 +367,11 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | [PMID 31167946](https://pubmed.ncbi.nlm.nih.gov/31167946/) | Tg_translation efficiency · tachyzoite; Tg_translation · tachyzoite |
 | `ToxoDB` | Tg_arginine methylation; Tg_strain variation |
 | [PMID 38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/) | Tg_exposure to host cytosol; Tg_interaction · with host proteins |
+| `IEDB` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |
 | [PMID 42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/) | Pf_field variation and resistance markers; Pf_resistance-conferring mutation |
 | [PMID 42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/) | Pf_T-cell epitope content; Pf_seroreactivity / antigenicity |
 | [PMID 42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/) | Pf_export / PEXEL trafficking; Pf_host receptor binding |
 | `ToxoDB` | Tg_arginine methylation; Tg_strain variation |
+| `IEDB` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |
 | `compartment` | Tg_localization · measured; Tg_shared compartment |
 | `orthogroup` | Tg_conservation breadth; Tg_shared orthogroup |

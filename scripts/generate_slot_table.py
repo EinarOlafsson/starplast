@@ -369,7 +369,13 @@ NEW_SHARED = [
     ("codon usage / translation efficiency", "translation", "sequence-derived", "gene",
      ["codon_"], "one"),
     ("predicted complex membership", "relation", "AlphaFold-Multimer", "gene", [], "separate"),
-    ("seroreactivity / antigenicity", "immunity", "human or animal sera", "gene", [], "separate"),
+    # From IEDB's bcell_search, NOT from the all-types count that fills `T-cell epitope content`.
+    # Antigenicity is a question about antibodies, and 189 of the 221 genes in that column have no
+    # antibody record at all -- so answering this slot with it would have been a different question
+    # with a plausible column.
+    ("seroreactivity / antigenicity", "immunity", "human or animal sera", "gene",
+     ["n_bcell_epitopes"], "separate",
+     [("", "IEDB bcell_search", "distinct antibody epitope sequences per antigen")]),
     # ToxoDB's join of IEDB against the ME49 proteome. The count is NOT split by epitope type --
     # ToxoDB's integration does not expose that -- so it is every IEDB epitope mapped to the gene,
     # T-cell and B-cell alike. The column name says iedb_ rather than t_cell_ for that reason.

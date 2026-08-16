@@ -20,8 +20,8 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from starplast import (chromatin, codons, expression, identity, palmitome,  # noqa: E402
-                       proteomics, toxodb_evidence, variation)
+from starplast import (chromatin, codons, expression, identity, iedb,  # noqa: E402
+                       palmitome, proteomics, toxodb_evidence, variation)
 
 
 def main(argv=None) -> int:
@@ -60,7 +60,8 @@ def main(argv=None) -> int:
                   palmitome.palmitome(args.base, resolve=resolve, log=print),
                   toxodb_evidence.evidence(args.base, resolve=resolve, log=print),
                   toxodb_evidence.enzyme_classification(args.base, resolve=resolve,
-                                                        log=print)):
+                                                        log=print),
+                  iedb.bcell_epitopes(args.base, resolve=resolve, log=print)):
         if table.empty:
             continue
         aligned = table.reindex(pd.Index(ids))

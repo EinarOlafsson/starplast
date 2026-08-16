@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**117 slots: 59 covered well, 10 partly, 20 thinly, 28 empty.**
+**117 slots: 59 covered well, 10 partly, 21 thinly, 27 empty.**
 
 ### transcription
 
@@ -244,7 +244,7 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Tg_seroreactivity / antigenicity | human or animal sera | **-** |  |  | `` | separate | — |
+| Tg_seroreactivity / antigenicity | human or animal sera | **C** | 34 | 0.4% | `n_bcell_epitopes` | separate | [IEDB](https://pubmed.ncbi.nlm.nih.gov/IEDB/) `bcell_search` |
 | Tg_T-cell epitope content | predicted and measured | **C** | 221 | 2.7% | `iedb_epitope_count` | average | — |
 
 ### phenotype

@@ -3487,9 +3487,17 @@
     "axis": "immunity",
     "context": "human or animal sera",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "n_bcell_epitopes"
+    ],
     "policy": "separate",
-    "candidates": [],
+    "candidates": [
+      [
+        "",
+        "IEDB bcell_search",
+        "distinct antibody epitope sequences per antigen"
+      ]
+    ],
     "evidence_path": [
       "relational measurements",
       "host immunity",
@@ -6053,6 +6061,11 @@
     "patterns": [],
     "policy": "separate",
     "candidates": [
+      [
+        "",
+        "IEDB bcell_search",
+        "distinct antibody epitope sequences per antigen"
+      ],
       [
         "42560026",
         "",

@@ -720,6 +720,23 @@ REGISTRY = [
                  "and not a ratio -- -3.12 means three-fold down -- so reading it as a ratio would "
                  "have made every depleted protein NaN and dropped half the table."),
 
+    Dataset("iedb_bcell", "Antibody epitopes (IEDB)", "reference", "immunity",
+            "Distinct antibody epitope sequences per gene", ("n_bcell_epitopes",),
+            "34 genes, 222 distinct epitopes", accession="IEDB bcell_search",
+            url="https://query-api.iedb.org/bcell_search"
+                "?parent_source_antigen_source_org_name=ilike.*Toxoplasma*",
+            path="starplast/data/iedb_bcell_epitopes.tsv",
+            note="From IEDB directly, NOT through ToxoDB, because ToxoDB's epitope integration is "
+                 "not split by type and antigenicity is a question about antibodies. 189 of the 221 "
+                 "genes in the ToxoDB epitope column have no antibody record at all, so the two are "
+                 "genuinely different measurements filling different slots. Distinct epitope "
+                 "SEQUENCES and not assay records: a protein studied by twenty groups accumulates "
+                 "twenty records for one peptide, and counting records would rank antigens by "
+                 "fashion. Verified by what tops it -- SRS29B (SAG1) 47, GRA6 29, GRA1 26, GRA4 20, "
+                 "GRA7 16, MIC3 11, which is the panel commercial Toxoplasma serodiagnostic kits "
+                 "are built from. Antigens are mapped by their product description, because IEDB "
+                 "names them verbatim from ToxoDB; the trailing-symbol route resolves ten fewer and "
+                 "loses SRS29B, the most studied antigen in the organism."),
     Dataset("toxodb_epitopes", "IEDB epitopes mapped to genes (via ToxoDB)", "reference",
             "immunity", "How many IEDB epitopes ToxoDB maps to this gene",
             ("iedb_epitope_count",), "221 genes", accession="ToxoDB / IEDB",
