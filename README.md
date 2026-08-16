@@ -190,6 +190,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | OrthoMCL orthogroups | Orthogroup assignment and cross-species bridge | 16,793 groups | `OrthoMCL release 6.21` |
 | PubMed Central open-access full texts | Sectioned JATS XML | 6,667 articles | *citation not yet confirmed* |
 | PubMed abstracts | Titles and abstracts for co-mention and attention | 33,924 records | *citation not yet confirmed* |
+| Strain variation (ToxoDB HTS SNPs) | SNPs per gene across every sequenced strain, split by effect | 8,140 genes (100%) | `ToxoDB ME49` |
 | ToxoDB gene identity | Symbols, previous IDs, product descriptions | 8,843 ME49 genes | `ToxoDB ME49` |
 
 ## Licence and citing

@@ -726,7 +726,8 @@ SLOTS = [
      ["has_pf_ortholog", "has_cp_ortholog", "lineage_specific", "orthogroup"], "one", []),
     ("paralogy", "sequence", "OrthoMCL", "gene", ["paralog_number"], "one", []),
     ("sequence basics", "sequence", "protein", "gene", ["length", "sequence"], "one", []),
-    ("strain variation", "sequence", "population", "gene", [], "one", []),
+    ("strain variation", "sequence", "population", "gene", ["snp_"], "one",
+     [("", "ToxoDB HTS SNPs", "SNPs per gene across every sequenced strain")]),
 
     # ---------------------------------------------------------------- not a feature
     ("literature attention", "NEVER a feature", "PubMed / PMC", "gene",

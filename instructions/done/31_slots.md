@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**214 slots: 51 covered well, 10 partly, 16 thinly, 137 empty.**
+**214 slots: 52 covered well, 10 partly, 16 thinly, 136 empty.**
 
 ### transcription
 
@@ -303,7 +303,7 @@ quantity were approximating on 2026-08-13.
 | Tg_conservation breadth | OrthoMCL | **A** | 8140 | 100.0% | `has_pf_ortholog, has_cp_ortholog, lineage_specific, orthogroup` | one | — |
 | Tg_paralogy | OrthoMCL | **A** | 8140 | 100.0% | `paralog_number` | one | — |
 | Tg_sequence basics | protein | **A** | 8140 | 100.0% | `length, sequence` | one | — |
-| Tg_strain variation | population | **-** |  |  | `` | one | — |
+| Tg_strain variation | population | **A** | 8140 | 100.0% | `snp_` | one | [ToxoDB](https://pubmed.ncbi.nlm.nih.gov/ToxoDB/) `HTS SNPs` |
 | Pf_domain content | InterPro | **-** |  |  | `` | one | — |
 | Pf_fold confidence / disorder | AlphaFold | **-** |  |  | `` | one | — |
 | Pf_conservation breadth | OrthoMCL | **-** |  |  | `` | one | — |

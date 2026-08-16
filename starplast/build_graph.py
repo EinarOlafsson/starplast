@@ -26,7 +26,7 @@ import pandas as pd
 
 from . import (cellcycle, corpus, expression, identity, interaction_studies, interactions, literature,
                proteomics,
-               localization, screens)
+               localization, screens, variation)
 
 from . import paths
 
@@ -124,6 +124,12 @@ def load_nodes() -> pd.DataFrame:
     ms = proteomics.load_all(BASE, n.gene_id.astype(str), log=log)
     for c in ms.columns:
         n[c] = ms[c].to_numpy()
+
+    snps = variation.strain_snps(BASE, resolve=resolve, log=log)
+    if not snps.empty:
+        aligned = snps.reindex(pd.Index(n.gene_id.astype(str)))
+        for column in snps.columns:
+            n[column] = aligned[column].to_numpy()
 
     n = cellcycle.add_all(BASE, n, resolve=resolve, log=log)
 

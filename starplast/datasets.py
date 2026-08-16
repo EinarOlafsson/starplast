@@ -217,6 +217,20 @@ REGISTRY = [
             "8,843 ME49 genes", accession="ToxoDB ME49", url=TOXODB,
             path="starplast/data/toxodb_identity.tsv",
             note="Retrieved 2026-08-11 via the REST API; strain tables for GT1 and VEG alongside."),
+    Dataset("toxodb_strain_snps", "Strain variation (ToxoDB HTS SNPs)", "reference", "variation",
+            "SNPs per gene across every sequenced strain, split by effect",
+            ("snp_total_all_strains", "snp_nonsynonymous", "snp_synonymous", "snp_noncoding",
+             "snp_stop_codon"), "8,140 genes (100%)", accession="ToxoDB ME49",
+            url="https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon"
+                "/reports/attributesTabular",
+            path="starplast/data/toxodb_strain_snps.tsv",
+            note="Retrieved 2026-08-16 through the same REST report as the identity table, asking "
+                 "for the five gene_hts_*_snps attributes. Verified against known biology rather "
+                 "than against a metadata field: nonsynonymous SNPs per kb come out at 112 for the "
+                 "SRS surface antigens, 55 for the ROP5/ROP18/GRA15 virulence loci, 30 across all "
+                 "genes and 2.9 for ribosomal proteins. That ordering -- what immunity sees, then "
+                 "the strain-typing markers, then the conserved core -- is the check. Zero is a "
+                 "measurement here, not a gap: 690 genes carry no SNP in any sequenced strain."),
     Dataset("orthomcl", "OrthoMCL orthogroups", "reference", "orthology",
             "Orthogroup assignment and cross-species bridge", ("orthogroup",),
             "16,793 groups", accession="OrthoMCL release 6.21",

@@ -20,7 +20,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from starplast import expression, identity, proteomics  # noqa: E402
+from starplast import expression, identity, proteomics, variation  # noqa: E402
 
 
 def main(argv=None) -> int:
@@ -51,11 +51,13 @@ def main(argv=None) -> int:
 
     columns = proteomics.load_all(args.base, ids, log=print, resolve=resolve)
 
-    ribo = expression.gse245775_differentiation_ribosome_profiling(
-        args.base, resolve=resolve, log=print)
-    if not ribo.empty:
-        aligned = ribo.reindex(pd.Index(ids))
-        for column in ribo.columns:
+    for table in (expression.gse245775_differentiation_ribosome_profiling(
+                      args.base, resolve=resolve, log=print),
+                  variation.strain_snps(args.base, resolve=resolve, log=print)):
+        if table.empty:
+            continue
+        aligned = table.reindex(pd.Index(ids))
+        for column in table.columns:
             columns[column] = aligned[column].to_numpy()
 
     if columns.empty:
