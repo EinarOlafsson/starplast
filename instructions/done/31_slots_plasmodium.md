@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**127 slots: 0 covered well, 0 partly, 0 thinly, 127 empty.**
+**99 slots: 0 covered well, 0 partly, 0 thinly, 99 empty.**
 
 ### transcription
 
@@ -69,11 +69,9 @@ quantity were approximating on 2026-08-13.
 | Pf_transcription · ring | ring | **-** |  |  | `` | one | — |
 | Pf_transcription · trophozoite | trophozoite | **-** |  |  | `` | one | — |
 | Pf_transcription · schizont | schizont | **-** |  |  | `` | one | — |
-| Pf_transcription · gametocyte | gametocyte | **-** |  |  | `` | one | **[Role of protein palmitoylation modification in the proliferation and gametogenesis of Plasmodium falciparum].** (Zhongguo xue xi chong bing fang zhi za zhi = Chinese journal of schistosomiasis control 2026) [42264951](https://pubmed.ncbi.nlm.nih.gov/42264951/)<br>verify assay and parasite-gene shape)<br>**Plasmodium falciparum leucine-rich repeat 5 disruption alters the transcription progression during asexual and sexual stage development.** (mSphere 2026) [42294623](https://pubmed.ncbi.nlm.nih.gov/42294623/)<br>verify assay and parasite-gene shape)<br>**Single-Cell Transcriptomics and Development of Gametocyte-Specific Molecular Markers for Avian Malaria Parasites.** (Molecular ecology resources 2026) [42409029](https://pubmed.ncbi.nlm.nih.gov/42409029/)<br>verify assay and parasite-gene shape) |
 | Pf_transcription · ookinete | ookinete | **-** |  |  | `` | one | — |
 | Pf_transcription · oocyst | oocyst | **-** |  |  | `` | one | — |
 | Pf_transcription · sporozoite | sporozoite | **-** |  |  | `` | one | — |
-| Pf_transcription · liver stage | liver stage | **-** |  |  | `` | one | **Autonomous circadian rhythms in the human hepatocyte regulate hepatic drug metabolism and inflammatory responses.** (Science advances 2024) [38657074](https://pubmed.ncbi.nlm.nih.gov/38657074/)<br>verify assay and parasite-gene shape)<br>**The novel Plasmodium berghei protein S14 is essential for sporozoite gliding motility and infectivity.** (Journal of cell science 2024) [38832798](https://pubmed.ncbi.nlm.nih.gov/38832798/)<br>verify assay and parasite-gene shape)<br>**Inhibition of Wnt signaling in primary human hepatocytes promotes Plasmodium falciparum liver stage development.** (PLoS pathogens 2025) [41428747](https://pubmed.ncbi.nlm.nih.gov/41428747/)<br>verify assay and parasite-gene shape) |
 | Pf_transcription · per cell-cycle phase | cell cycle | **-** |  |  | `` | separate | — |
 | Pf_transcription · under stress / conversion | alkaline, stress | **-** |  |  | `` | separate | — |
 | Pf_transcription · under TF or chromatin perturbation | perturbation | **-** |  |  | `` | separate | — |
@@ -122,39 +120,16 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Pf_fitness · HFF in vitro | HFF | **-** |  |  | `` | one | — |
 | Pf_fitness · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
-| Pf_fitness · ring | ring | **-** |  |  | `` | one | — |
-| Pf_fitness · trophozoite | trophozoite | **-** |  |  | `` | one | — |
-| Pf_fitness · schizont | schizont | **-** |  |  | `` | one | — |
 | Pf_fitness · gametocyte | gametocyte | **-** |  |  | `` | one | — |
-| Pf_fitness · ookinete | ookinete | **-** |  |  | `` | one | — |
-| Pf_fitness · oocyst | oocyst | **-** |  |  | `` | one | — |
-| Pf_fitness · sporozoite | sporozoite | **-** |  |  | `` | one | — |
-| Pf_fitness · liver stage | liver stage | **-** |  |  | `` | one | **Autophagy protein Atg7 is essential for maintaining malaria parasite cellular homeostasis and organelle biogenesis.** (mBio 2025) [39714137](https://pubmed.ncbi.nlm.nih.gov/39714137/)<br>verify assay and parasite-gene shape)<br>**Cas9-expressing HC-04 hepatocytes facilitate CRISPR-based analysis of Plasmodium falciparum sporozoite-host interactions.** (PLoS genetics 2026) [42149978](https://pubmed.ncbi.nlm.nih.gov/42149978/)<br>verify assay and parasite-gene shape)<br>**Molecular and cellular characterization of Plasmodium berghei PPM9 phosphatase, an enzyme dispensable during both asexual and sexual life cycle stages.** (Scientific reports 2026) [42393261](https://pubmed.ncbi.nlm.nih.gov/42393261/)<br>verify assay and parasite-gene shape) |
 | Pf_fitness · in vivo peritoneum | mouse peritoneum | **-** |  |  | `` | one | — |
 | Pf_fitness · in vivo lung | mouse lung | **-** |  |  | `` | one | — |
 | Pf_fitness · in vivo liver | mouse liver | **-** |  |  | `` | one | — |
 | Pf_fitness · in vivo spleen | mouse spleen | **-** |  |  | `` | one | — |
 | Pf_fitness · oxidative stress | oxidant | **-** |  |  | `` | one | — |
-| Pf_fitness · hyperLOPIT-unassigned proteins | in vivo virulence | **-** |  |  | `` | separate | — |
-| Pf_fitness · targeted in vivo (Young 2019) | mouse, targeted libraries | **-** |  |  | `` | separate | — |
-| Pf_genetic interaction · delta-GRA17 | GRA17 background | **-** |  |  | `` | one | — |
-| Pf_fitness · GRA12 screen 1 in vitro | GRA12 screen 1, in vitro | **-** |  |  | `` | one | — |
-| Pf_fitness · GRA12 screen 1 in vivo | GRA12 screen 1, mouse | **-** |  |  | `` | one | — |
-| Pf_fitness · GRA12 screen 1 differential | GRA12 screen 1, in vivo vs in vitro | **-** |  |  | `` | one | — |
-| Pf_fitness · GRA12 screen 2 in vitro | GRA12 screen 2, in vitro | **-** |  |  | `` | one | — |
-| Pf_fitness · GRA12 screen 2 in vivo | GRA12 screen 2, mouse | **-** |  |  | `` | one | — |
-| Pf_fitness · GRA12 screen 2 differential | GRA12 screen 2, in vivo vs in vitro | **-** |  |  | `` | one | — |
 | Pf_stage-conversion phenotype · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
-| Pf_stage-conversion phenotype · ring | ring | **-** |  |  | `` | one | — |
-| Pf_stage-conversion phenotype · trophozoite | trophozoite | **-** |  |  | `` | one | — |
-| Pf_stage-conversion phenotype · schizont | schizont | **-** |  |  | `` | one | — |
-| Pf_stage-conversion phenotype · gametocyte | gametocyte | **-** |  |  | `` | one | — |
-| Pf_stage-conversion phenotype · ookinete | ookinete | **-** |  |  | `` | one | — |
-| Pf_stage-conversion phenotype · oocyst | oocyst | **-** |  |  | `` | one | — |
-| Pf_stage-conversion phenotype · sporozoite | sporozoite | **-** |  |  | `` | one | — |
 | Pf_stage-conversion phenotype · liver stage | liver stage | **-** |  |  | `` | one | — |
+| Pf_stage-conversion phenotype · gametocyte | gametocyte | **-** |  |  | `` | one | — |
 | Pf_drug sensitivity | compound | **-** |  |  | `` | separate | — |
 | Pf_essentiality in a second background | second strain | **-** |  |  | `` | separate | **LAMP-coupled CRISPR-Cas12a assays: A promising new tool for molecular diagnosis of leishmaniasis.** (PLoS neglected tropical diseases 2026) [41686849](https://pubmed.ncbi.nlm.nih.gov/41686849/)<br>verify assay and parasite-gene shape)<br>**Pyrophosphate homeostasis in multiple subcellular compartments is essential in Plasmodium falciparum.** (mBio 2026) [42017676](https://pubmed.ncbi.nlm.nih.gov/42017676/)<br>verify assay and parasite-gene shape)<br>**A CRISPR-Based Mutagenesis Strategy for Examining CLAG3 Helix 44 Contribution to Malaria Parasite Nutrient Uptake Channels.** (Genes 2026) [42074580](https://pubmed.ncbi.nlm.nih.gov/42074580/)<br>verify assay and parasite-gene shape) |
 | Pf_fitness · liver stage | hepatocyte | **-** |  |  | `` | one | **Autophagy protein Atg7 is essential for maintaining malaria parasite cellular homeostasis and organelle biogenesis.** (mBio 2025) [39714137](https://pubmed.ncbi.nlm.nih.gov/39714137/)<br>verify assay and parasite-gene shape)<br>**Cas9-expressing HC-04 hepatocytes facilitate CRISPR-based analysis of Plasmodium falciparum sporozoite-host interactions.** (PLoS genetics 2026) [42149978](https://pubmed.ncbi.nlm.nih.gov/42149978/)<br>verify assay and parasite-gene shape)<br>**Molecular and cellular characterization of Plasmodium berghei PPM9 phosphatase, an enzyme dispensable during both asexual and sexual life cycle stages.** (Scientific reports 2026) [42393261](https://pubmed.ncbi.nlm.nih.gov/42393261/)<br>verify assay and parasite-gene shape) |
@@ -176,8 +151,6 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Pf_localization · measured | hyperLOPIT | **-** |  |  | `` | one | — |
-| Pf_localization · transferred | orthoLOPIT | **-** |  |  | `` | fill | — |
 | Pf_membrane topology | sequence | **-** |  |  | `` | one | — |
 | Pf_exposure to host cytosol | PVM, export | **-** |  |  | `` | fill | — |
 | Pf_secretome / excreted | ESA | **-** |  |  | `` | one | — |
@@ -195,7 +168,6 @@ quantity were approximating on 2026-08-13.
 | Pf_interaction · proximity labelling | BioID / TurboID | **-** |  |  | `` | fill | — |
 | Pf_interaction · structural similarity | Foldseek | **-** |  |  | `` | one | — |
 | Pf_interaction · with host proteins | host IP-MS | **-** |  |  | `` | separate | — |
-| Pf_shared compartment | hyperLOPIT | **-** |  |  | `` | one | — |
 | Pf_shared orthogroup | OrthoMCL | **-** |  |  | `` | one | — |
 | Pf_shared domain | InterPro | **-** |  |  | `` | one | — |
 | Pf_interaction degree · crosslink MS | measured contact | **-** |  |  | `` | separate | — |
@@ -269,15 +241,6 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 
 | dataset or column family | slots it fills |
 |---|---|
-| [PMID 42264951](https://pubmed.ncbi.nlm.nih.gov/42264951/) | Pf_transcription · gametocyte |
-| [PMID 42294623](https://pubmed.ncbi.nlm.nih.gov/42294623/) | Pf_transcription · gametocyte |
-| [PMID 42409029](https://pubmed.ncbi.nlm.nih.gov/42409029/) | Pf_transcription · gametocyte |
-| [PMID 38657074](https://pubmed.ncbi.nlm.nih.gov/38657074/) | Pf_transcription · liver stage |
-| [PMID 38832798](https://pubmed.ncbi.nlm.nih.gov/38832798/) | Pf_transcription · liver stage |
-| [PMID 41428747](https://pubmed.ncbi.nlm.nih.gov/41428747/) | Pf_transcription · liver stage |
-| [PMID 39714137](https://pubmed.ncbi.nlm.nih.gov/39714137/) | Pf_fitness · liver stage |
-| [PMID 42149978](https://pubmed.ncbi.nlm.nih.gov/42149978/) | Pf_fitness · liver stage |
-| [PMID 42393261](https://pubmed.ncbi.nlm.nih.gov/42393261/) | Pf_fitness · liver stage |
 | [PMID 42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/) | Pf_field variation and resistance markers; Pf_resistance-conferring mutation |
 | [PMID 42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/) | Pf_T-cell epitope content; Pf_seroreactivity / antigenicity |
 | [PMID 42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/) | Pf_export / PEXEL trafficking; Pf_host receptor binding |

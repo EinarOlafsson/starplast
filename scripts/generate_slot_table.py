@@ -363,9 +363,34 @@ PF_STAGES = ("asexual blood stage", "ring", "trophozoite", "schizont", "gametocy
 PF_STAGED_AXES = ("transcription", "fitness")
 PF_DEFAULT_STAGE = "asexual blood stage"
 
+#: Fitness gets a SHORTER stage list than transcription, and the difference is not tidiness. A
+#: transcriptome can be taken from any stage anyone can purify; a fitness screen needs a population
+#: that can be mutated, grown, and counted, which exists for the blood stage (piggyBac in
+#: falciparum, PlasmoGEM in berghei), the liver stage, and the gametocyte-to-mosquito transition.
+#: Crossing fitness with the full stage list gave 37 slots against Toxoplasma's 21, including
+#: "fitness in the ookinete", which nobody has measured and nobody is about to. Empty slots are
+#: information, but a slot for an experiment that cannot be done is not an empty slot -- it is a
+#: denominator that makes every coverage figure read low for no reason.
+PF_FITNESS_STAGES = ("asexual blood stage", "liver stage", "gametocyte")
+
 #: Toxoplasma questions with no Plasmodium counterpart at all. Listed rather than pattern-matched,
 #: because "has no counterpart" is a judgement about biology and should be reviewable as one.
 TOXO_ONLY_CONTEXTS = ("feline", "enteric", "cyst wall", "bradyzoite checkpoint", "brain")
+
+#: A slot that names a PARTICULAR EXPERIMENT is not a question, and must never be mirrored. The
+#: first pass got this wrong and produced `Pf_fitness · GRA12 screen 1`, `Pf_genetic interaction ·
+#: delta-GRA17` and `Pf_fitness · HFF in vitro` -- GRA12 and GRA17 are Toxoplasma dense granule
+#: proteins and an HFF is the fibroblast Toxoplasma is cultured in, so all three are questions about
+#: one organism's laboratory wearing another organism's prefix. The distinction that matters is
+#: question versus instance: "how essential is this gene in the blood stage" mirrors, "what did the
+#: GRA12 screen find" does not.
+#: HFF and BMDM are deliberately NOT here. They are cell types rather than studies -- the fibroblast
+#: and the macrophage Toxoplasma is grown in -- so they are host CONTEXTS, and the stage expansion is
+#: what handles them: "fitness in a macrophage" becomes "fitness in the asexual blood stage" rather
+#: than disappearing. Listing them here deleted the blood-stage and gametocyte fitness slots, which
+#: is where piggyBac and PlasmoGEM data actually live.
+STUDY_SPECIFIC = ("gra1", "gra2", "delta-", "screen 1", "screen 2", "hyperlopit",
+                  "ortholopit", "(young", "(sidik", "(barylyuk")
 
 
 def _pf_mirror(rows):
@@ -377,17 +402,33 @@ def _pf_mirror(rows):
     """
     stage_words = re.compile(
         r"tachyzoite|bradyzoite|oocyst|sporozoite|merozoite|sexual|cyst|feline|enteric|brain"
-        r"|macrophage", re.I)
+        # HFF is the fibroblast Toxoplasma is cultured in and Plasmodium does not grow in one, so
+        # "fitness in HFF" is a host CONTEXT to be converted, not a generic question to mirror.
+        r"|macrophage|hff|bmdm", re.I)
     out, seen = [], set()
+    # Dedup across everything the Pf arm ends up with, not just within this loop: `fitness · liver
+    # stage` arrives both from the stage expansion and from NEW_PLASMODIUM, and two rows for one
+    # question is a slot that can be half filled.
+    seen.update(row[0] for row in NEW_PLASMODIUM + NEW_SHARED)
     for name, axis, context, unit, patterns, policy, candidates in rows:
         text = f"{name} {context}"
         if any(word in text.lower() for word in TOXO_ONLY_CONTEXTS):
             continue
+        if any(word in text.lower() for word in STUDY_SPECIFIC):
+            continue
         if not stage_words.search(text):
+            if name in seen:
+                continue
+            seen.add(name)
             out.append((name, axis, context, unit, [], policy, []))
             continue
         question = name.split(" · ")[0]
-        stages = PF_STAGES if axis in PF_STAGED_AXES else (PF_DEFAULT_STAGE,)
+        if axis == "fitness":
+            stages = PF_FITNESS_STAGES
+        elif axis in PF_STAGED_AXES:
+            stages = PF_STAGES
+        else:
+            stages = (PF_DEFAULT_STAGE,)
         for stage in stages:
             mirrored = f"{question} · {stage}"
             if mirrored in seen:
