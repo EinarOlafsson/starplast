@@ -808,6 +808,21 @@ REGISTRY = [
                  "genes (odds 3.39, p = 8e-88), are lineage-specific a third as often, and are more "
                  "costly to lose in vitro. `has_ec` is 0 and not missing where ToxoDB reports no EC: "
                  "the whole proteome was asked, so no assignment is an answer about the gene."),
+    Dataset("myristoylome", "N-myristoylated proteome", "post_translation", "proteomics",
+            "The authors' confidence that this protein is myristoylated, 3 high to 1 low",
+            ("myristoylation_confidence",), "65 substrates", pmid="32618271",
+            accession="eLife 57861 supplementary file 4",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7373427/supplementaryFiles",
+            path="starplast/data/myristoylome.tsv",
+            note="A category the catalog did not have. N-myristoylation is co-translational and "
+                 "irreversible, has its own enzyme in NMT and its own drug programme, and its "
+                 "substrates are published. Verified against chemistry rather than against "
+                 "annotation: myristoylation happens on an N-terminal glycine, and all 65 of 65 "
+                 "substrates have glycine at position 2 against 5.8% of every other gene "
+                 "(Fisher p = 4e-79). No other column in the map can be checked that cleanly. "
+                 "Taken from the paper rather than from PXD019677, its PRIDE deposit, which ships "
+                 "MaxQuant archives of 250-340 MB apiece; the answer is a 65-row table in "
+                 "supplementary file 4."),
     Dataset("toxodb_arginine_methylation", "Monomethylarginine proteome (via ToxoDB)",
             "post_translation", "proteomics",
             "Monomethylarginine sites reported per gene", ("n_arginine_methylation_sites",),

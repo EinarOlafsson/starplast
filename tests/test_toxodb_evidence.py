@@ -111,10 +111,13 @@ def test_the_rejected_histone_report_is_not_a_source():
 
 
 def test_every_source_records_what_was_asked_for():
-    """A search that can be asked five ways produces five different columns."""
+    """A search that can be asked five ways produces five different columns, so each source records
+    the query. Most name a ToxoDB search; the myristoylome names the supplementary table it is,
+    which is the same obligation met a different way."""
     for filename, column, _fold, query in TE.SOURCES:
         assert query and len(query) > 20, column
-        assert "Genes" in query, f"{column} does not name the search it came from"
+        assert "Genes" in query or "supplementary file" in query.lower(), (
+            f"{column} does not say where it came from")
 
 
 # --------------------------------------------------------------------------- against the real map
@@ -263,3 +266,20 @@ def test_enzymes_are_the_conserved_half_of_the_proteome():
     b = n.loc[~has, "has_pf_ortholog"].dropna()
     odds, p = fisher_exact([[a.sum(), len(a) - a.sum()], [b.sum(), len(b) - b.sum()]])
     assert odds > 2.0 and p < 1e-20, f"odds {odds:.2f}, p {p:.1e}"
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_every_myristoylated_protein_starts_with_a_glycine():
+    """Myristoylation is chemically defined: the acyl group goes on the glycine exposed when the
+    initiator methionine is removed. A substrate without one is not a substrate, so this is the
+    rare case where the verification is exact rather than statistical."""
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "myristoylation_confidence" not in n.columns or "sequence" not in n.columns:
+        pytest.skip("myristoylation or sequence column not present")
+    myr = n[n["myristoylation_confidence"].notna()]
+    second = myr["sequence"].astype(str).str[1:2]
+    assert (second == "G").all(), sorted(set(second[second != "G"]))
+    others = n[n["myristoylation_confidence"].isna()]["sequence"].astype(str).str[1:2]
+    assert (others == "G").mean() < 0.15, "the motif is not distinctive in this table"

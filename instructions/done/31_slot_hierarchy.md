@@ -55,6 +55,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - Tg_phosphorylation_quantitative
       - Tg_phosphorylation_kinase_substrate
       - Tg_acetylation
+      - Tg_n_myristoylation
       - Tg_arginine_methylation
       - Tg_lactylation
       - Tg_s_nitrosylation
@@ -213,6 +214,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_phosphorylation_quantitative
     - Tg_phosphorylation_kinase_substrate
     - Tg_acetylation
+    - Tg_n_myristoylation
     - Tg_arginine_methylation
     - Tg_lactylation
     - Tg_s_nitrosylation
@@ -323,6 +325,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_protein_turnover_stability
     - Tg_phosphorylation_site_count
     - Tg_phosphorylation_quantitative
+    - Tg_n_myristoylation
     - Tg_arginine_methylation
     - Tg_lactylation
     - Tg_s_nitrosylation

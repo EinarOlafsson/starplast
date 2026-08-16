@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**101 slots: 0 covered well, 0 partly, 0 thinly, 101 empty.**
+**102 slots: 0 covered well, 0 partly, 0 thinly, 102 empty.**
 
 ### transcription
 
@@ -110,6 +110,7 @@ quantity were approximating on 2026-08-13.
 | Pf_phosphorylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_phosphorylation · kinase-substrate | perturbation | **-** |  |  | `` | separate | — |
 | Pf_acetylation | life stages | **-** |  |  | `` | one | — |
+| Pf_N-myristoylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_arginine methylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_lactylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_S-nitrosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |

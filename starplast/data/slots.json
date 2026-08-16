@@ -1249,6 +1249,40 @@
   },
   {
     "organism": "Tg",
+    "name": "N-myristoylation",
+    "axis": "PTM",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [
+      "myristoylation_confidence"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "32618271",
+        "eLife 57861",
+        "myristoylated proteome of Toxoplasma gondii"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "n_myristoylation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
     "name": "arginine methylation",
     "axis": "PTM",
     "context": "tachyzoite",
@@ -4310,6 +4344,32 @@
       "stage-unspecified"
     ],
     "target_family": "acetylation",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "N-myristoylation · asexual blood stage",
+    "axis": "PTM",
+    "context": "asexual blood stage",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "sexual"
+    ],
+    "target_family": "n_myristoylation_asexual_blood_stage",
     "target_columns": [],
     "role": "feature"
   },

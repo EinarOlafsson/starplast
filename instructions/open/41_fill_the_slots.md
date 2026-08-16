@@ -292,3 +292,39 @@ against a case with one possible answer: tachyzoites as reference against tissue
 +21.6 and LDH2 at +16.1, both bradyzoite-specific, and SAG1 at −14.3. Check it against a known
 comparison whenever a new fold-change search is added — getting it backwards raises nothing, it
 silently inverts a column.
+
+### Paper supplements beat repositories when what you want is a study's analysis (2026-08-16)
+
+Four slots filled from open-access supplementary tables through EuropePMC, after repository sweeps
+had reported all four as unserved:
+
+| slot | source | verification |
+|---|---|---|
+| fitness · oxidative stress | PMC8216390 Data Sheet 1 | catalase at −6.15, the extreme of the screen |
+| cyst wall composition | PMC7002340 Data Set S1 | MAG1 and MAG2 top the interactome |
+| target engagement / thermal shift | PMC9436416 supp. file 3 | CAM1 and CAM2 at the 98th percentile |
+| **N-myristoylation** (new slot) | PMC7373427 supp. file 4 | **65 of 65 substrates start with glycine** |
+
+**Two of these had been examined and refused earlier the same day, from their PRIDE deposits.**
+`PXD033642` is the thermal-profiling study and publishes only identifications; the ED scores are in
+the paper. `PXD019677` is the myristoylation study and ships MaxQuant archives of 250–340 MB apiece;
+the answer is a 65-row table in supplementary file 4. A third, glycosylation, was reported here as
+"returned honestly zero from PRIDE" — the deposit exists and is indexed under *glycoprotein*, not
+*glycosylation*.
+
+> **When the wanted quantity is a study's ANALYSIS — a score, a fit, a curated list — the paper's
+> supplement is the primary source and the repository is the fallback.** Repositories hold the
+> evidence a study was built from, not the conclusions it reached. Search PubMed, resolve the PMCID,
+> and pull `europepmc/webservices/rest/{pmcid}/supplementaryFiles`, which returns a zip.
+
+### A third species turned up in the Toxoplasma candidate table
+
+`PMID 38747635`, proposed for `exposure to host cytosol`, is a ***Theileria annulata*** paper — its
+supplement is keyed on `TaC12_001700` and `TA19380`. With PXD056853 (*Dictyostelium*) and PXD028969
+(*Cryptosporidium*), that is three wrong-organism candidates found by opening the file. The organism
+field must be checked for every candidate in both tables, from the record and not from the title.
+
+Two other named candidates for `phosphorylation · kinase-substrate` fail differently and are worth
+recording so nobody re-fetches them: `PXD019677` is the myristoylation study and not CDPK1
+substrates, and `PXD019655` is CDPK7 but ships only Proteome Discoverer `.pdResult` and `.msf` files
+of 3–8 GB, which nothing outside that program reads.

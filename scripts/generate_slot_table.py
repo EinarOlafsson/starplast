@@ -104,6 +104,8 @@ quantity were approximating on 2026-08-13.
 #: and because a proposal that names a PMID without its title asks the reader to go and find
 #: out what was being proposed. Titles are as PubMed gives them.
 REFERENCES = {
+    "32618271": ("2020", "eLife",
+                 "Profiling of myristoylation in Toxoplasma gondii reveals an N-myristoylated protein important for host cell penetration."),
     # Resolved through esummary 2026-08-16, never typed -- the rule that has held for all
     # 193 citations in these tables.
     "26468752": ("2015", "Cell host & microbe",
@@ -654,6 +656,11 @@ SLOTS = [
     # A category the tree did not have. Arginine methylation is a distinct modification with its own
     # writers (the PRMTs), its own substrate class and its own deposit, and leaving it out was a gap
     # in the catalog rather than an absence of data -- which is exactly what criterion 2 asks for.
+    # Like arginine methylation, a category the tree did not have. N-myristoylation is co-translational,
+    # irreversible, has its own enzyme (NMT) and its own drug programme, and 65 substrates are
+    # published. The column is the authors' confidence, 3 for high down to 1 for low.
+    ("N-myristoylation", "PTM", "tachyzoite", "gene", ["myristoylation_confidence"], "one",
+     [("32618271", "eLife 57861", "myristoylated proteome of Toxoplasma gondii")]),
     ("arginine methylation", "PTM", "tachyzoite", "gene", ["n_arginine_methylation_sites"], "one",
      [("", "ToxoDB Yakubu monomethylarginine proteomics", "monomethylarginine sites per gene")]),
     ("lactylation", "PTM", "tachyzoite", "gene", ["n_lactylation_sites"], "one",

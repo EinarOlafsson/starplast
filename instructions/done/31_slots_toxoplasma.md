@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**117 slots: 61 covered well, 11 partly, 23 thinly, 22 empty.**
+**118 slots: 61 covered well, 11 partly, 24 thinly, 22 empty.**
 
 ### transcription
 
@@ -119,6 +119,7 @@ quantity were approximating on 2026-08-13.
 | Tg_phosphorylation · quantitative | tachyzoite | **C** | 1603 | 19.7% | `phospho_` | average | **iTRAQ-Based Phosphoproteomic Analysis of Toxoplasma gondii Tachyzoites Provides Insight Into the Role of Phosphorylation for its Invasion and Egress.** (Frontiers in cellular and infection microbio 2020) [33363051](https://pubmed.ncbi.nlm.nih.gov/33363051/) `PXD020655`<br>**iTRAQ-Based Global Phosphoproteomics Reveals Novel Molecular Differences Between Toxoplasma gondii Strains of Different Genotypes.** (Frontiers in cellular and infection microbio 2019) [31508380](https://pubmed.ncbi.nlm.nih.gov/31508380/) `PXD007777`<br>**The PP2A-2 holoenzyme orchestrates daughter cell emergence during cytokinesis in Toxoplasma gondii.** (PLoS pathogens 2025) [40901993](https://pubmed.ncbi.nlm.nih.gov/40901993/) `PXD064226` |
 | Tg_phosphorylation · kinase-substrate | perturbation | **-** |  |  | `` | separate | **Analysis of CDPK1 targets identifies a trafficking adaptor complex that regulates microneme exocytosis in Toxoplasma.** (eLife 2023) [37933960](https://pubmed.ncbi.nlm.nih.gov/37933960/) `PXD019677`<br>**Protein kinase TgCDPK7 regulates vesicular trafficking and phospholipid synthesis in Toxoplasma gondii.** (PLoS pathogens 2021) [33635921](https://pubmed.ncbi.nlm.nih.gov/33635921/) `PXD019655` |
 | Tg_acetylation | life stages | **B** | 3921 | 48.2% | `n_acetylation_sites` | one | **Label-free quantitative detection and comparative analysis of lysine acetylation during the different life stages of Eimeria tenella.** (Journal of proteome research 2023) [37562054](https://pubmed.ncbi.nlm.nih.gov/37562054/) `PXD040368` |
+| Tg_N-myristoylation | tachyzoite | **C** | 65 | 0.8% | `myristoylation_confidence` | one | **Profiling of myristoylation in Toxoplasma gondii reveals an N-myristoylated protein important for host cell penetration.** (eLife 2020) [32618271](https://pubmed.ncbi.nlm.nih.gov/32618271/) `eLife 57861` |
 | Tg_arginine methylation | tachyzoite | **C** | 368 | 4.5% | `n_arginine_methylation_sites` | one | [ToxoDB](https://pubmed.ncbi.nlm.nih.gov/ToxoDB/) `Yakubu monomethylarginine proteomics` |
 | Tg_lactylation | tachyzoite | **C** | 515 | 6.3% | `n_lactylation_sites` | one | **Protein Lactylation and Metabolic Regulation of the Zoonotic Parasite Toxoplasma gondii.** (Genomics, proteomics & bioinformatics 2023) [36216028](https://pubmed.ncbi.nlm.nih.gov/36216028/) `PXD022700`<br>[PXD031526](https://pubmed.ncbi.nlm.nih.gov/PXD031526/) |
 | Tg_S-nitrosylation | tachyzoite | **C** | 660 | 8.1% | `n_nitrosylation_sites` | one | **Global Proteome-Wide Analysis of Cysteine S-Nitrosylation in Toxoplasma gondii.** (Molecules (Basel, Switzerland) 2023) [37959749](https://pubmed.ncbi.nlm.nih.gov/37959749/) `PXD046083` |
