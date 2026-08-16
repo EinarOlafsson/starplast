@@ -49,7 +49,8 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - abundance
       - Tg_protein_abundance_tachyzoite
       - Tg_protein_abundance_other_life_stages
-      - Tg_protein_turnover_stability
+      - Tg_thermal_stability_melting_temperature
+      - Tg_protein_turnover
     - post-translational state
       - Tg_phosphorylation_site_count
       - Tg_phosphorylation_quantitative
@@ -207,7 +208,8 @@ Slots are the leaves of three independent trees. A single tree would create fals
   - protein abundance
     - Tg_protein_abundance_tachyzoite
     - Tg_protein_abundance_other_life_stages
-    - Tg_protein_turnover_stability
+    - Tg_thermal_stability_melting_temperature
+    - Tg_protein_turnover
 - protein state
   - post-translational modification
     - Tg_phosphorylation_site_count
@@ -322,7 +324,8 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_translation_under_initiation_factor_depletion
     - Tg_transcription_under_initiation_factor_depletion
     - Tg_protein_abundance_tachyzoite
-    - Tg_protein_turnover_stability
+    - Tg_thermal_stability_melting_temperature
+    - Tg_protein_turnover
     - Tg_phosphorylation_site_count
     - Tg_phosphorylation_quantitative
     - Tg_n_myristoylation

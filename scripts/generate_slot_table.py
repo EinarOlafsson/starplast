@@ -649,7 +649,17 @@ SLOTS = [
       ("25867681", "PXD000297", "proteogenomics")]),
     ("protein abundance · other life stages", "protein abundance", "stages", "gene", ["oocyst_"],
      "separate", [("28626452", "PXD003765", "iTRAQ across developmental stages")]),
-    ("protein turnover / stability", "protein abundance", "tachyzoite", "gene", [], "one",
+    # Thermal stability is a different property from turnover and it now has its own slot below.
+    # This one keeps the degradation question -- how fast is this protein replaced -- and stays empty
+    # until somebody publishes a pulse-chase or pulse-SILAC proteome for Toxoplasma.
+    # Melting temperature per protein, which the map had nowhere to put. It came out of the CETSA
+    # curve fits that were already downloaded for the thermal-shift slot -- the same file, a
+    # different question: that slot asks how far the curve MOVES with calcium, this asks where the
+    # curve SITS.
+    ("thermal stability (melting temperature)", "protein abundance", "tachyzoite", "gene",
+     ["melting_temperature_tm"], "one",
+     [("35976251", "eLife 80336", "mineCETSA curve fits")]),
+    ("protein turnover", "protein abundance", "tachyzoite", "gene", [], "one",
      [("35976251", "PXD033642", "temporal and thermal proteome profiling")]),
 
     # ---------------------------------------------------------------- modifications

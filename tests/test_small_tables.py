@@ -368,3 +368,24 @@ def test_the_crosslink_interactome_finds_the_ribosome_and_the_proteasome():
         odds, p = fisher_exact([[(seen & is_k).sum(), (seen & ~is_k).sum()],
                                 [((~seen) & is_k).sum(), ((~seen) & ~is_k).sum()]])
         assert odds > floor and p < 1e-5, f"{pattern}: odds {odds:.1f}, p {p:.1e}"
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_melting_temperatures_are_physical_and_not_an_abundance_proxy():
+    """The curve fit reports values up to 8,563 degrees, which is a failed fit. Anything that got
+    through the filter has to be a temperature a protein could actually melt at.
+
+    And it must not simply track how well-measured a protein is: a Tm that correlated strongly with
+    expression would be reporting depth of coverage rather than stability.
+    """
+    from scipy.stats import spearmanr
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"))
+    if "melting_temperature_tm" not in n.columns:
+        pytest.skip("melting temperature column not merged")
+    tm = n["melting_temperature_tm"].dropna()
+    assert 30 <= tm.min() and tm.max() <= 80, (tm.min(), tm.max())
+    assert 45 < tm.median() < 65, tm.median()
+    j = n[["melting_temperature_tm", "expr_tachy"]].dropna()
+    assert abs(spearmanr(j["melting_temperature_tm"], j["expr_tachy"]).statistic) < 0.35

@@ -1073,7 +1073,41 @@
   },
   {
     "organism": "Tg",
-    "name": "protein turnover / stability",
+    "name": "thermal stability (melting temperature)",
+    "axis": "protein abundance",
+    "context": "tachyzoite",
+    "unit": "gene",
+    "patterns": [
+      "melting_temperature_tm"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "35976251",
+        "eLife 80336",
+        "mineCETSA curve fits"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "tachyzoite"
+    ],
+    "target_family": "thermal_stability_melting_temperature",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "protein turnover",
     "axis": "protein abundance",
     "context": "tachyzoite",
     "unit": "gene",
@@ -1099,7 +1133,7 @@
       "in vitro or assay-defined",
       "tachyzoite"
     ],
-    "target_family": "protein_turnover_stability",
+    "target_family": "protein_turnover",
     "target_columns": [],
     "role": "feature"
   },
@@ -4267,7 +4301,7 @@
   },
   {
     "organism": "Pf",
-    "name": "protein turnover / stability · asexual blood stage",
+    "name": "thermal stability (melting temperature) · asexual blood stage",
     "axis": "protein abundance",
     "context": "asexual blood stage",
     "unit": "gene",
@@ -4287,7 +4321,33 @@
       "in vitro or assay-defined",
       "sexual"
     ],
-    "target_family": "protein_turnover_stability_asexual_blood_stage",
+    "target_family": "thermal_stability_melting_temperature_asexual_blood_stage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "protein turnover · asexual blood stage",
+    "axis": "protein abundance",
+    "context": "asexual blood stage",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "sexual"
+    ],
+    "target_family": "protein_turnover_asexual_blood_stage",
     "target_columns": [],
     "role": "feature"
   },

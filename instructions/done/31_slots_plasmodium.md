@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**102 slots: 0 covered well, 0 partly, 0 thinly, 102 empty.**
+**103 slots: 0 covered well, 0 partly, 0 thinly, 103 empty.**
 
 ### transcription
 
@@ -101,7 +101,8 @@ quantity were approximating on 2026-08-13.
 |---|---|---|---|---|---|---|---|
 | Pf_protein abundance · asexual blood stage | asexual blood stage | **-** |  |  | `` | fill | — |
 | Pf_protein abundance · other life stages | stages | **-** |  |  | `` | separate | — |
-| Pf_protein turnover / stability · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_thermal stability (melting temperature) · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_protein turnover · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 
 ### PTM
 

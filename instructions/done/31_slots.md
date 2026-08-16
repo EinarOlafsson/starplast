@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**220 slots: 61 covered well, 11 partly, 29 thinly, 119 empty.**
+**222 slots: 61 covered well, 12 partly, 29 thinly, 120 empty.**
 
 ### transcription
 
@@ -133,10 +133,12 @@ quantity were approximating on 2026-08-13.
 |---|---|---|---|---|---|---|---|
 | Tg_protein abundance · tachyzoite | tachyzoite | **B** | 3107 | 38.2% | `proteome_, protein_ibaq_log2` | fill | **Quantitative proteomic analysis of the Toxoplasma gondii cytoskeleton and bioinformatic identification of highly antigenic proteins.** (Journal of proteomics 2025) [40716488](https://pubmed.ncbi.nlm.nih.gov/40716488/) `PXD063409`<br>**A large-scale proteogenomics study of apicomplexan pathogens-Toxoplasma gondii and Neospora caninum.** (Proteomics 2015) [25867681](https://pubmed.ncbi.nlm.nih.gov/25867681/) `PXD000297` |
 | Tg_protein abundance · other life stages | stages | **B** | 2079 | 25.5% | `oocyst_` | separate | **Proteomic Differences between Developmental Stages of Toxoplasma gondii Revealed by iTRAQ-Based Quantitative Proteomics.** (Frontiers in microbiology 2017) [28626452](https://pubmed.ncbi.nlm.nih.gov/28626452/) `PXD003765` |
-| Tg_protein turnover / stability | tachyzoite | **-** |  |  | `` | one | **Temporal and thermal profiling of the Toxoplasma proteome implicates parasite Protein Phosphatase 1 in the regulation of Ca2+-responsive pathways.** (eLife 2022) [35976251](https://pubmed.ncbi.nlm.nih.gov/35976251/) `PXD033642` |
+| Tg_thermal stability (melting temperature) | tachyzoite | **B** | 3120 | 38.3% | `melting_temperature_tm` | one | **Temporal and thermal profiling of the Toxoplasma proteome implicates parasite Protein Phosphatase 1 in the regulation of Ca2+-responsive pathways.** (eLife 2022) [35976251](https://pubmed.ncbi.nlm.nih.gov/35976251/) `eLife 80336` |
+| Tg_protein turnover | tachyzoite | **-** |  |  | `` | one | **Temporal and thermal profiling of the Toxoplasma proteome implicates parasite Protein Phosphatase 1 in the regulation of Ca2+-responsive pathways.** (eLife 2022) [35976251](https://pubmed.ncbi.nlm.nih.gov/35976251/) `PXD033642` |
 | Pf_protein abundance · asexual blood stage | asexual blood stage | **-** |  |  | `` | fill | — |
 | Pf_protein abundance · other life stages | stages | **-** |  |  | `` | separate | — |
-| Pf_protein turnover / stability · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_thermal stability (melting temperature) · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_protein turnover · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 
 ### PTM
 
@@ -367,6 +369,7 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | [PMID 29228904](https://pubmed.ncbi.nlm.nih.gov/29228904/) | Tg_transcription · extracellular lytic stress; Tg_translation efficiency · extracellular stress; Tg_translation efficiency · tachyzoite; Tg_translation · tachyzoite; Tg_translation · under stress |
 | [PMID 34263725](https://pubmed.ncbi.nlm.nih.gov/34263725/) | Tg_RNA modification · m6A / 5mC; Tg_transcription · under RNA-processing perturbation |
 | [PMID 31167946](https://pubmed.ncbi.nlm.nih.gov/31167946/) | Tg_translation efficiency · tachyzoite; Tg_translation · tachyzoite |
+| [PMID 35976251](https://pubmed.ncbi.nlm.nih.gov/35976251/) | Tg_protein turnover; Tg_thermal stability (melting temperature) |
 | `ToxoDB` | Tg_arginine methylation; Tg_strain variation |
 | [PMID 38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/) | Tg_exposure to host cytosol; Tg_interaction · with host proteins |
 | [PMID 40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) | Pf_complex membership; Tg_complex membership |

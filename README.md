@@ -191,6 +191,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | P. falciparum LOPIT | Donor labels for orthoLOPIT transfer | 1,646 usable | Chisholm SA et al., The spatial proteome of the Plasmodium falciparum schizont. Nat Commun 2026;17:6192 -- CONFIRM against the file on disk; PMID [42218142](https://pubmed.ncbi.nlm.nih.gov/42218142/) |
 | PVM proximity labelling | Whether the study placed this protein at the parasitophorous vacuole membrane | 1,274 genes (73 positive) | PMID [34749525](https://pubmed.ncbi.nlm.nih.gov/34749525/); `mBio 00260-21 Data Set S1` |
 | Phosphosite counts | Count of phosphosites per protein, no positions | 1,175 (14.4%) | Treeck M et al. 2011 -- CONFIRM against the file on disk |
+| Protein melting temperature (mineCETSA) | Where this protein's melting curve sits, in degrees | 3,120 proteins (38%) | PMID [35976251](https://pubmed.ncbi.nlm.nih.gov/35976251/); `eLife 80336 supplementary file 3` |
 | Proximity labelling | Proximity partners reported per gene | 1,734 genes measured | `PXD059579` |
 | Proximity-labeling corpus | 42 BioID/TurboID/APEX studies with a tagged Toxoplasma protein | 28 studies with data, 127 files | *citation not yet confirmed* |
 | Pulldown corpus | 55 IP-MS / co-IP studies with a tagged Toxoplasma protein | 29 studies with data, 140 files | *citation not yet confirmed* |

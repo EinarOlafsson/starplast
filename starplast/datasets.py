@@ -995,6 +995,19 @@ REGISTRY = [
                  "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
                  "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
                  "sit below the genome median of -0.38."),
+    Dataset("melting_temperature", "Protein melting temperature (mineCETSA)", "post_translation",
+            "proteomics", "Where this protein's melting curve sits, in degrees",
+            ("melting_temperature_tm",), "3,120 proteins (38%)", pmid="35976251",
+            accession="eLife 80336 supplementary file 3",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9436416/supplementaryFiles",
+            path="starplast/data/melting_temperature.tsv",
+            note="The same file as the thermal-shift column and a different question: that one asks "
+                 "how far the curve MOVES when calcium is added, this asks where it SITS. Median "
+                 "55.1 C, which is where protein melting temperatures live. Curves with R2 below "
+                 "0.8 or a Tm outside 30-80 C are dropped -- the fit reports values up to 8,563, "
+                 "which is a failed fit and not a thermophile. Verified by reproducing across "
+                 "independent replicates at rho = +0.78 over 1,623 proteins; a Tm that did not "
+                 "reproduce would be describing the run."),
     Dataset("thermal_shift_cetsa", "Calcium thermal-shift proteome (mineCETSA)", "post_translation",
             "proteomics", "How far a protein's melting curve moves when calcium is added",
             ("cetsa_calcium_ed_score",), "2,348 proteins", pmid="35976251",
