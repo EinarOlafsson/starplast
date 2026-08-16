@@ -291,7 +291,8 @@ _merge_candidate_references()
 ORGANISMS = {
     "Tg": {
         "species": "Toxoplasma gondii",
-        "query": "(Toxoplasma[Title/Abstract] OR gondii[Title/Abstract])",
+        "query": ('("Toxoplasma gondii"[Title/Abstract] OR "T. gondii"[Title/Abstract] '
+                  'OR Toxoplasma[Title/Abstract])'),
         "stages": "tachyzoite, bradyzoite, oocyst, merozoite",
     },
     "Pf": {
@@ -299,8 +300,17 @@ ORGANISMS = {
         # berghei and vivax included on purpose: the fitness and liver-stage data that exist at
         # genome scale are largely berghei, and a slot that only accepted falciparum would be
         # permanently empty for reasons of laboratory convenience rather than biology.
-        "query": ("(Plasmodium[Title/Abstract] OR falciparum[Title/Abstract] "
-                  "OR berghei[Title/Abstract] OR malaria[Title/Abstract])"),
+        # SPECIES terms only, and `malaria` deliberately absent. A disease name is not an
+        # organism: with it in the query the first pass returned red-cell physiology, endothelial
+        # transporters, mosquito immunity and essential-oil antimicrobial screens -- 16 of 62
+        # citations were about no parasite at all. Quoted binomials rather than bare genus words
+        # for the same reason `gondii` alone would be too loose.
+        "query": ('("Plasmodium falciparum"[Title/Abstract] '
+                  'OR "Plasmodium berghei"[Title/Abstract] '
+                  'OR "Plasmodium vivax"[Title/Abstract] '
+                  'OR "Plasmodium knowlesi"[Title/Abstract] '
+                  'OR "Plasmodium yoelii"[Title/Abstract] '
+                  'OR "P. falciparum"[Title/Abstract] OR "P. berghei"[Title/Abstract])'),
         "stages": "ring, trophozoite, schizont, gametocyte, sporozoite, liver",
     },
 }

@@ -13,6 +13,7 @@ import os
 import re
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -43,6 +44,53 @@ def _get(endpoint: str, params: dict) -> bytes:
         return response.read()
 
 
+#: Organism names as GEO indexes them, for the `gds` search below.
+GEO_ORGANISM = {"Tg": "Toxoplasma gondii", "Pf": "Plasmodium"}
+
+
+def _series(slot: dict, retmax: int = 8) -> list:
+    """Candidates from GEO itself rather than from papers about it.
+
+    Worth having in addition to the PubMed pass, and on this data worth more. An accession reaches
+    a PubMed abstract only when the authors put it there; most put it in data availability, which
+    the abstract does not include -- so an abstract search finds the datasets that happened to be
+    advertised rather than the datasets that exist. GEO's own index is keyed BY accession, so every
+    hit is by construction something that can be fetched.
+    """
+    organism = GEO_ORGANISM.get(slot["organism"], "")
+    assay = slots.ASSAY_TERMS.get(slot["axis"], "")
+    context = re.sub(r"[^A-Za-z0-9 -]", " ", slot["context"]).strip()
+    words = [w for w in context.split() if len(w) >= 4 and w.lower() != "gene"][:2]
+    terms = [f'"{organism}"[Organism]', assay]
+    if words:
+        terms.append("(" + " OR ".join(f"{w}[All Fields]" for w in words) + ")")
+    query = " AND ".join(term for term in terms if term)
+    try:
+        found = json.loads(_get("esearch.fcgi", {"db": "gds", "term": query, "retmode": "json",
+                                                 "retmax": retmax}))
+        uids = found.get("esearchresult", {}).get("idlist", [])
+        if not uids:
+            return []
+        summary = json.loads(_get("esummary.fcgi", {"db": "gds", "id": ",".join(uids),
+                                                    "retmode": "json"}))
+    except (ValueError, urllib.error.URLError, urllib.error.HTTPError):
+        return []
+    out = []
+    for uid in uids:
+        record = summary.get("result", {}).get(uid) or {}
+        accession = str(record.get("accession", ""))
+        if not accession.startswith("GSE"):
+            continue
+        out.append({"pmid": str((record.get("pubmedids") or [""])[0]),
+                    "title": str(record.get("title", "")),
+                    "year": str(record.get("pdat", ""))[:4],
+                    "journal": "GEO", "accession": accession,
+                    "samples": int(record.get("n_samples", 0) or 0),
+                    "query": query,
+                    "note": "from the GEO index; verify assay and parasite-gene shape"})
+    return out
+
+
 def _papers(query: str, retmax: int = 8) -> list:
     search = json.loads(_get("esearch.fcgi", {"db": "pubmed", "term": query,
                                                "retmode": "json", "retmax": retmax}))
@@ -63,7 +111,11 @@ def _papers(query: str, retmax: int = 8) -> list:
         out.append({"pmid": pmid, "title": title, "year": year, "journal": journal,
                     "accession": ", ".join(a.upper() for a in accessions),
                     "note": "automatically proposed; verify assay and parasite-gene shape"})
-    return sorted(out, key=lambda paper: (not bool(paper["accession"]), paper["pmid"]))
+    # Accession-bearing only, not merely accession-first. A citation nobody can download is not a
+    # filled slot, and offering one is how an empty slot comes to look filled -- which is the one
+    # reading this table has to be trusted for. A slot with no downloadable candidate stays empty,
+    # and empty is a true statement about what has been measured.
+    return sorted((paper for paper in out if paper["accession"]), key=lambda paper: paper["pmid"])
 
 
 def main(argv=None) -> int:
@@ -85,15 +137,25 @@ def main(argv=None) -> int:
         query = query_for(row)
         key = f"{row['organism']}::{row['name']}"
         try:
-            found = _papers(query, args.retmax)
+            # Both sources: GEO's index first, because every hit there is fetchable by
+            # construction, then the literature for anything GEO does not carry -- proteomics in
+            # PRIDE, and the studies whose data went somewhere GEO does not index.
+            found = _series(row, args.retmax) + _papers(query, args.retmax)
         except (OSError, ValueError, ET.ParseError) as exc:
             print(f"{index}/{len(definitions)} {key}: {type(exc).__name__}")
             found = []
+        seen, unique = set(), []
+        for paper in found:
+            if paper["accession"] in seen:
+                continue
+            seen.add(paper["accession"])
+            unique.append(paper)
+        found = unique
         if found:
-            proposals[key] = [{**paper, "query": query} for paper in found]
-        with_accession = sum(bool(paper["accession"]) for paper in found)
-        print(f"{index}/{len(definitions)} {key}: {len(found)} papers, "
-              f"{with_accession} with an abstract accession")
+            proposals[key] = [{**paper, "query": paper.get("query", query)} for paper in found]
+        from_geo = sum(1 for paper in found if paper.get("journal") == "GEO")
+        print(f"{index}/{len(definitions)} {key}: {len(found)} candidates "
+              f"({from_geo} from GEO, {len(found) - from_geo} from the literature)")
         time.sleep(max(args.delay, 0.0))
     with open(args.out, "w", encoding="utf8") as fh:
         json.dump(proposals, fh, indent=2, ensure_ascii=False)
