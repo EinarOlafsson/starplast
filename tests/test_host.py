@@ -338,3 +338,81 @@ def test_all_bridges_includes_the_replicated_pulldowns(tmp_path):
     assert not b.empty
     assert b["evidence"].str.contains("PMC9426488").any()
     assert set(b["host_id"]) == {"O75340"}
+
+
+def _pv(tmp_path, rows):
+    """The vacuole-proximity summary sheet, which lists parasite and host proteins together."""
+    import io as _io
+    import zipfile as _zip
+    frame = pd.DataFrame(rows, columns=["Mammalian Protein", "Uniprot ID", "Tz-HFF", "Bz-HFF",
+                                        "Neuron", "Average"])
+    buf = _io.BytesIO()
+    with pd.ExcelWriter(buf) as w:
+        pd.DataFrame([["Log2 Fold Change vs Control"]]).to_excel(
+            w, sheet_name=H.PV_UPTAKE["sheet"], index=False, header=False)
+        frame.to_excel(w, sheet_name=H.PV_UPTAKE["sheet"], index=False, startrow=1)
+    folder = tmp_path / H.ESCRT_ROOT / os.path.dirname(H.PV_UPTAKE["archive"])
+    folder.mkdir(parents=True, exist_ok=True)
+    with _zip.ZipFile(tmp_path / H.ESCRT_ROOT / H.PV_UPTAKE["archive"], "w") as z:
+        z.writestr(H.PV_UPTAKE["member"], buf.getvalue())
+    return tmp_path
+
+
+def test_vacuole_enrichment_keeps_host_rows_only(tmp_path):
+    """The parasite rows are the authors' positive control -- the dense granule proteins top the
+    sheet -- and belong to no host table."""
+    _pv(tmp_path, [("GRA1", "TGME49_270250", 6.0, 6.0, 6.0, 6.43),
+                   ("PDCD6 / ALG-2", "O75340", 6.0, 6.0, 5.0, 5.90)])
+    out = H.pv_enrichment(str(tmp_path))
+    assert list(out["host_id"]) == ["O75340"]
+    assert out["pv_enrichment_log2"].iloc[0] == pytest.approx(5.90)
+
+
+def test_a_row_whose_identifier_is_not_an_accession_is_dropped(tmp_path):
+    _pv(tmp_path, [("something", "not an id", 1.0, 1.0, 1.0, 1.0),
+                   ("PDCD6", "O75340", 6.0, 6.0, 5.0, 5.90)])
+    assert list(H.pv_enrichment(str(tmp_path))["host_id"]) == ["O75340"]
+
+
+def test_no_vacuole_sheet_yields_nothing(tmp_path):
+    assert H.pv_enrichment(str(tmp_path)).empty
+
+
+def test_a_vacuole_archive_without_the_member_yields_nothing(tmp_path):
+    import zipfile as _zip
+    folder = tmp_path / H.ESCRT_ROOT / os.path.dirname(H.PV_UPTAKE["archive"])
+    folder.mkdir(parents=True)
+    with _zip.ZipFile(tmp_path / H.ESCRT_ROOT / H.PV_UPTAKE["archive"], "w") as z:
+        z.writestr("other.xlsx", b"x")
+    assert H.pv_enrichment(str(tmp_path)).empty
+
+
+def test_a_vacuole_sheet_with_too_few_columns_is_refused(tmp_path):
+    import io as _io
+    import zipfile as _zip
+    buf = _io.BytesIO()
+    with pd.ExcelWriter(buf) as w:
+        pd.DataFrame([["header"]]).to_excel(w, sheet_name=H.PV_UPTAKE["sheet"], index=False,
+                                            header=False)
+        pd.DataFrame({"a": ["PDCD6"], "b": ["O75340"]}).to_excel(
+            w, sheet_name=H.PV_UPTAKE["sheet"], index=False, startrow=1)
+    folder = tmp_path / H.ESCRT_ROOT / os.path.dirname(H.PV_UPTAKE["archive"])
+    folder.mkdir(parents=True, exist_ok=True)
+    with _zip.ZipFile(tmp_path / H.ESCRT_ROOT / H.PV_UPTAKE["archive"], "w") as z:
+        z.writestr(H.PV_UPTAKE["member"], buf.getvalue())
+    assert H.pv_enrichment(str(tmp_path)).empty
+
+
+def test_the_host_table_joins_identity_and_properties(tmp_path):
+    """A protein reached by a bait but never measured at the vacuole keeps a NaN, which is the
+    difference between 'not at the vacuole' and 'this experiment did not see it'."""
+    _dia(tmp_path, [("=\"PDCD6\"", "O75340", "Homo sapiens", 4.11, 0.001),
+                    ("=\"TSG101\"", "Q99816", "Homo sapiens", 3.09, 0.001)])
+    _pv(tmp_path, [("PDCD6", "O75340", 6.0, 6.0, 5.0, 5.90)])
+    h = H.host_table(str(tmp_path)).set_index("host_id")
+    assert h.loc["O75340", "pv_enrichment_log2"] == pytest.approx(5.90)
+    assert pd.isna(h.loc["Q99816", "pv_enrichment_log2"])
+
+
+def test_no_bridges_means_no_host_table(tmp_path):
+    assert H.host_table(str(tmp_path)).empty

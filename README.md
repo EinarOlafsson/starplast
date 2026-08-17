@@ -185,6 +185,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Crosslinking MS interactome | How many proteins this one crosslinks to | 494 proteins | PMID [40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/); `mBio 02159-25 supplementary file s0004` |
 | Cyst wall interactome | Strongest bait signal and how many baits saw the protein | 56 proteins | PMID [32019789](https://pubmed.ncbi.nlm.nih.gov/32019789/); `PMC7002340 Data Set S1` |
 | Foldseek structural similarity | TM-align over Toxoplasma AlphaFold models, TM >= 0.7 | 11,684 pairs / 2,338 genes | *citation not yet confirmed* |
+| Host proteins at the vacuole | How enriched a host protein is at the parasitophorous vacuole | 12 host proteins | PMID [34898650](https://pubmed.ncbi.nlm.nih.gov/34898650/); `PLoS Pathogens 1010138 supplementary table` |
 | IP-MS of tagged baits | Replicated pulldown vs untagged control | 64 pairs / 48 genes | `PXD043808, PXD065585` |
 | IP-MS supplement membership corpus | Number of downloaded pulldown studies whose supplement names each gene | measured at build time | *citation not yet confirmed* |
 | Lysine acetylome (GCN5b) | Acetylation sites reported per gene | 3,921 genes measured | `PXD079431` |

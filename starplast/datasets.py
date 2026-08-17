@@ -1039,6 +1039,21 @@ REGISTRY = [
                  "MaxQuant prefixes only on the leading entry, so keratin hides mid-group and is "
                  "otherwise the four most enriched host proteins -- and two unique peptides are "
                  "required in BOTH bait replicates, which takes 674 host groups to 219."),
+    Dataset("pv_host_uptake", "Host proteins at the vacuole", "post_translation", "proteomics",
+            "How enriched a host protein is at the parasitophorous vacuole",
+            ("pv_enrichment_log2",), "12 host proteins", pmid="34898650",
+            accession="PLoS Pathogens 1010138 supplementary table",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8700025/supplementaryFiles",
+            path="starplast/data/host_proteins.parquet",
+            note="A property OF a host protein rather than a bridge, because the bait is the "
+                 "compartment and not a named parasite gene -- a bridge needs a parasite gene at one "
+                 "end. Averaged over three infection contexts: tachyzoite-infected fibroblast, "
+                 "bradyzoite-infected fibroblast and neuron. The sheet lists parasite and host "
+                 "proteins together, which is how the authors show the experiment worked -- the "
+                 "dense granule proteins top it -- and only the host rows are kept. Top of those: "
+                 "PDCD6/ALG-2 at +5.90, VPS37C at +4.47, then CHMP4B, PEF1 and VPS28. That is the "
+                 "FOURTH independent dataset in this map to put ALG-2 at the host-parasite "
+                 "interface, after the MYR1, EAF1 and GRA35 pulldowns."),
     Dataset("metabolome_iron", "Metabolome and isotope labelling under iron deprivation",
             "reference", "metabolomics",
             "Steady-state metabolite levels and the fraction labelled from glucose or glutamine",

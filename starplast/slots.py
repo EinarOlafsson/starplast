@@ -41,7 +41,8 @@ RESOLVABLE_UNIT = "gene"
 #: Units that have a table of their own to be resolved against, and where it lives. `pair` is absent
 #: because pair slots are answered by edge layers rather than by a table of rows, and `host_gene` is
 #: absent until instruction 39 builds the host tables -- an entry here is a promise that rows exist.
-UNIT_TABLES = {"gene": "nodes.parquet", "metabolite": "metabolites.parquet"}
+UNIT_TABLES = {"gene": "nodes.parquet", "metabolite": "metabolites.parquet",
+               "host_gene": "host_proteins.parquet"}
 
 #: A bridge is a pair whose two ends live in DIFFERENT tables, so it is neither a column nor an edge
 #: in `graph.npz` -- those are index pairs into the parasite table and a host protein has no index

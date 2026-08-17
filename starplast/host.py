@@ -247,6 +247,65 @@ def all_bridges(base: str) -> pd.DataFrame:
     return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame()
 
 
+#: A proximity experiment at the vacuole whose bait is the compartment rather than a named protein,
+#: so it cannot be a bridge -- a bridge needs a parasite gene at one end. What it gives instead is a
+#: property OF a host protein: how enriched it is at the vacuole, across three infection contexts.
+PV_UPTAKE = {"accession": "PMC8700025",
+             "archive": "PMC8700025/PMC8700025_supplementary.zip",
+             "member": "ppat.1010138.s008.xlsx", "sheet": "Results Summary"}
+
+
+def pv_enrichment(base: str) -> pd.DataFrame:
+    """How enriched each host protein is at the parasitophorous vacuole, averaged over contexts.
+
+    The sheet lists parasite and host proteins together, which is how the authors show the
+    experiment worked -- the dense granule proteins top it. Only the host rows are kept here; the
+    parasite rows are the positive control and belong to no host table.
+    """
+    import zipfile
+
+    path = os.path.join(base, ESCRT_ROOT, PV_UPTAKE["archive"])
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    with zipfile.ZipFile(path) as archive:
+        if PV_UPTAKE["member"] not in archive.namelist():
+            return pd.DataFrame()
+        import io as _io
+        d = pd.read_excel(_io.BytesIO(archive.read(PV_UPTAKE["member"])),
+                          sheet_name=PV_UPTAKE["sheet"], header=1)
+    if d.shape[1] < 6:
+        return pd.DataFrame()
+    ident = d[d.columns[1]].astype(str).str.strip()
+    host = ~ident.str.contains("TGME49_|TGGT1_")
+    out = pd.DataFrame({
+        "host_id": ident[host],
+        "host_name": d[d.columns[0]].astype(str).str.strip()[host],
+        "pv_enrichment_log2": pd.to_numeric(d[d.columns[5]], errors="coerce")[host]})
+    out = out.dropna(subset=["host_id", "pv_enrichment_log2"])
+    out = out[out["host_id"].str.fullmatch(
+        r"[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}")]
+    return out.groupby("host_id", as_index=False).max()
+
+
+def host_table(base: str) -> pd.DataFrame:
+    """Every host protein the project knows, with whatever is measured about it.
+
+    Identity from the bridges, and properties joined on. A host protein reached by a bait but never
+    measured for vacuole enrichment keeps a NaN there, which is the difference between "not at the
+    vacuole" and "this experiment did not see it".
+    """
+    bridge = all_bridges(base)
+    if bridge.empty:
+        return pd.DataFrame()
+    out = bridge[["host_id", "host_name"]].drop_duplicates("host_id").set_index("host_id")
+    pv = pv_enrichment(base)
+    if not pv.empty:
+        out = out.join(pv.set_index("host_id")[["pv_enrichment_log2"]], how="outer")
+        out["host_name"] = out["host_name"].fillna(
+            pv.set_index("host_id")["host_name"])
+    return out.reset_index()
+
+
 def load(base: str, name: str = HOST_TABLE) -> pd.DataFrame:
     """A shipped host table, or an empty frame if it has not been built."""
     path = os.path.join(base, "starplast", "data", name)

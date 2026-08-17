@@ -234,5 +234,7 @@ def test_a_metabolite_slot_resolves_against_the_metabolite_table():
 def test_every_unit_with_a_table_names_it():
     """`UNIT_TABLES` is a promise that rows exist for that unit; pair and host_gene are absent
     because edges are not rows and the host tables are not built."""
-    assert set(slots.UNIT_TABLES) == {"gene", "metabolite"}
-    assert "pair" not in slots.UNIT_TABLES and "host_gene" not in slots.UNIT_TABLES
+    # `host_gene` joined when the host table gained columns of its own rather than only keys.
+    # `pair` stays out: edges and bridges are not rows.
+    assert set(slots.UNIT_TABLES) == {"gene", "metabolite", "host_gene"}
+    assert "pair" not in slots.UNIT_TABLES
