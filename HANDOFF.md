@@ -144,7 +144,7 @@ are dense-granule proteins, which are disordered, so this is expected rather tha
 > suffix rule that works for GT1 and VEG (decision 2b) is wrong here and would silently mis-assign.
 
 **3e. Standalone means every measurement ships; coordinates are the one exception.** (Added v1.3.) The
-cache is 30 MB and carries 375 columns for all 8,140 genes, and lives INSIDE the package
+cache is 30 MB and carries 377 columns for all 8,140 genes, and lives INSIDE the package
 (`starplast/data/`) so a wheel carries it and `paths.py` resolves it with no configuration. An earlier `keep` allowlist silently shipped
 3 of 18 RNA columns and 7 of 8 fitness screens; the build now ships every column that survives, with an
 explicit drop list. Structures resolve on demand (`structures.py`) because 6,538 AlphaFold models plus

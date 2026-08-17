@@ -473,3 +473,28 @@ already been overturned — m6A and this one.
 deposited screen that exists only as an inaccessible preprint, one needs a parasite lipidome, and one
 needs cell-cycle-resolved ribosome profiling. Given the record above, that list should be re-tested
 rather than trusted — the two overturned entries were both overturned within hours.
+
+## The ESCRT-recruitment corpus, downloaded 2026-08-16
+
+Eight sources for host-ESCRT engagement at the Toxoplasma vacuole, in
+`datasets/quarantine/2026_08_16_escrt/`. None is ingested yet — this is acquisition.
+
+| source | what it holds | usable per-gene table? |
+|---|---|---|
+| **PXD080696** | EAF1 and GRA35 affinity purification, DIA. `EAF1_II_vs_WT_III.csv` and `combined_results.csv` | **yes** — differential abundance vs wild type |
+| **PMC9426488** | GRA64 IP in tachyzoite and bradyzoite, plus TurboID in HFF and neuron | **yes** — four summary sheets |
+| **PMC8700025** | Toxoplasma exploiting host ESCRT; results summary with log2 fold change vs control | **yes** |
+| **PMC11559087** | Ulp1 TurboID with an enrichment-fold column, 162 filtered proteins | **yes** |
+| **PMC11377541** | DCS1, DCS2, PP2A-B2, PP2A-C2 co-IPs — ESCRT-adjacent abscission machinery | **yes**, four co-IP datasets |
+| PXD051495 | the same abscission study's raw MGF and Mascot `.dat` | no processed table |
+| PXD024491 | mitochondrial SPOT shedding, LFQ and TMT designs in `.7z` | designs only, data compressed |
+| PMC12453208, PMC12669045 | non-canonical ESCRT activation; VIP1 at the PVM | figure source data only |
+
+**Five carry a per-gene table and are ready to read.** The obvious next step is a
+`host ESCRT engagement` layer built from them together rather than one at a time: five independent
+baits converging on the same host machinery is a far stronger claim than any one IP, and it is the
+kind of agreement that the MYR1 bridge and the spaCR screen already show separately.
+
+Note the convergence already in the map: the MYR1 host bridge is verified by ESCRT topping it
+(PDCD6/ALG-2 rank 1, ALIX 12, VPS28 62, p = 0.006), and the spaCR screen's top hits are EAF1 and
+GRA14. Three unrelated datasets, one biology.

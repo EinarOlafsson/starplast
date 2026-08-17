@@ -487,3 +487,30 @@ def test_cotranslation_pairs_ribosomal_proteins_and_is_not_coexpression():
                             if c.startswith("rpf")]].isna().any(axis=1)).sum())
     chance = len(ct) * (len(ribo) / measured) ** 2
     assert both > 20 * chance, f"{both} ribosomal pairs against {chance:.0f} expected"
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "nodes.parquet")),
+    reason="node table not present")
+def test_the_two_escrt_models_agree_on_their_top_gene():
+    """The screen's verification is that two independent deconvolutions found the same thing.
+
+    EAF1 is the gene the study is named for and is rank 1 under both XGBoost and MaxViT. If they
+    ever disagreed at the top, the column would be reporting the model rather than the screen.
+    """
+    n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet")).set_index("gene_id")
+    a, b = "escrt_recruitment_xgboost", "escrt_recruitment_maxvit"
+    if a not in n.columns or b not in n.columns:
+        pytest.skip("ESCRT screen columns not merged")
+    assert n[a].dropna().idxmax() == n[b].dropna().idxmax()
+    shared = n[[a, b]].dropna()
+    assert len(shared) >= 5, "the two models share too few genes to compare"
+
+
+def test_the_unpublished_screen_is_flagged_in_the_registry():
+    """It ships inside the data cache, so a release check has to be able to find it."""
+    from starplast import datasets
+    entry = next((d for d in datasets.REGISTRY if d.key == "spacr_escrt_screen"), None)
+    if entry is None:
+        pytest.skip("ESCRT screen not registered")
+    assert "UNPUBLISHED" in entry.name, entry.name

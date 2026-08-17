@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**102 slots: 0 covered well, 0 partly, 0 thinly, 102 empty.**
+**103 slots: 0 covered well, 0 partly, 0 thinly, 103 empty.**
 
 ### transcription
 
@@ -236,6 +236,7 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
+| Pf_host ESCRT recruitment | high-content imaging | **-** |  |  | `` | separate | [spaCR](https://pubmed.ncbi.nlm.nih.gov/spaCR/) `screen` |
 | Pf_invasion and egress phenotype | high-content imaging | **-** |  |  | `` | separate | **Data selection choices influence the inferred movement patterns of Plasmodium sporozoites in skin.** (bioRxiv : the preprint server for biology 2026) [42427796](https://pubmed.ncbi.nlm.nih.gov/42427796/)<br>verify assay and parasite-gene shape)<br>**VAMP3 vesicles support host protein recruitment and Plasmodium liver stage development.** (mBio 2026) [42478859](https://pubmed.ncbi.nlm.nih.gov/42478859/)<br>verify assay and parasite-gene shape)<br>**Separating Chromera velia Zoospores From Culture and Estimating Their Average Motility Speed and Lifespan.** (Bio-protocol 2026) [42516582](https://pubmed.ncbi.nlm.nih.gov/42516582/)<br>verify assay and parasite-gene shape) |
 
 ### One dataset, several slots

@@ -409,6 +409,14 @@ NEW_SHARED = [
     # T-cell and B-cell alike. The column name says iedb_ rather than t_cell_ for that reason.
     ("T-cell epitope content", "immunity", "predicted and measured", "gene",
      ["iedb_epitope_count"], "average"),
+    # The phenotype a pooled image-based screen actually measured, which is not invasion or egress.
+    # Defining it rather than letting the screen fill the slot below is the same call made for the
+    # metabolism axis: a slot names a question, and a screen that answers a different one gets its
+    # own. The two deconvolution models are separate columns because their agreement is the
+    # verification -- EAF1 is rank 1 in both and GRA14 is in the top three of both.
+    ("host ESCRT recruitment", "phenotype", "high-content imaging", "gene",
+     ["escrt_recruitment_"], "separate",
+     [("", "spaCR screen (unpublished)", "pooled image-based CRISPR screen of secretory proteins")]),
     ("invasion and egress phenotype", "phenotype", "high-content imaging", "gene", [], "separate"),
     ("essentiality in a second background", "fitness", "second strain", "gene",
      ["crispr_reporter_strain_p8_log2"], "separate",

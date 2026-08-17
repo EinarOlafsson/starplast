@@ -3623,6 +3623,40 @@
   },
   {
     "organism": "Tg",
+    "name": "host ESCRT recruitment",
+    "axis": "phenotype",
+    "context": "high-content imaging",
+    "unit": "gene",
+    "patterns": [
+      "escrt_recruitment_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "",
+        "spaCR screen (unpublished)",
+        "pooled image-based CRISPR screen of secretory proteins"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "cell phenotype",
+      "imaging phenotype"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "cellular process"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "host_escrt_recruitment",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
     "name": "invasion and egress phenotype",
     "axis": "phenotype",
     "context": "high-content imaging",
@@ -6242,6 +6276,38 @@
       "stage-unspecified"
     ],
     "target_family": "t_cell_epitope_content",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "host ESCRT recruitment",
+    "axis": "phenotype",
+    "context": "high-content imaging",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "",
+        "spaCR screen (unpublished)",
+        "pooled image-based CRISPR screen of secretory proteins"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "cell phenotype",
+      "imaging phenotype"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "cellular process"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "host_escrt_recruitment",
     "target_columns": [],
     "role": "feature"
   },

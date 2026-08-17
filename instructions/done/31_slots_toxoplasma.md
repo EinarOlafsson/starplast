@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**118 slots: 62 covered well, 16 partly, 32 thinly, 8 empty.**
+**119 slots: 62 covered well, 16 partly, 33 thinly, 8 empty.**
 
 ### transcription
 
@@ -252,6 +252,7 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
+| Tg_host ESCRT recruitment | high-content imaging | **C** | 10 | 0.1% | `escrt_recruitment_` | separate | [spaCR](https://pubmed.ncbi.nlm.nih.gov/spaCR/) `screen` |
 | Tg_invasion and egress phenotype | high-content imaging | **-** |  |  | `` | separate | — |
 
 ### One dataset, several slots

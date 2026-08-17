@@ -995,6 +995,27 @@ REGISTRY = [
                  "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
                  "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
                  "sit below the genome median of -0.38."),
+    # UNPUBLISHED. Manuscript under submission; this ships inside the data cache, so it is the first
+    # thing to remove before any package release. Flagged here rather than only in a note because
+    # `datasets.registry()` is what a release check would read.
+    Dataset("spacr_escrt_screen", "Host ESCRT recruitment screen (UNPUBLISHED)", "DNA",
+            "CRISPR_screen",
+            "Per-gene effect on host TSG101 recruitment to the vacuole, by two models",
+            ("escrt_recruitment_xgboost", "escrt_recruitment_maxvit"),
+            "13 and 8 genes", accession="spaCR screen, bioRxiv 10.64898/2026.07.08.737057",
+            citation="Olafsson EB et al., A pooled image-based CRISPR screen identifies EAF1 as a "
+                     "T. gondii modulator of ESCRT subversion. bioRxiv 2026 (under submission)",
+            url="https://doi.org/10.64898/2026.07.08.737057",
+            path="datasets/quarantine/2026_08_16_unverified/Tg/escrt_screen/",
+            note="A pooled image-based screen of secretory proteins, deconvolved to gene effects by "
+                 "regression. The phenotype is host ESCRT recruitment and NOT invasion or egress, "
+                 "so it fills a slot of its own rather than the invasion slot whose "
+                 "high-content-imaging context it matches -- a slot names a question, not a method. "
+                 "Both deconvolution models are shipped because their agreement is the "
+                 "verification: EAF1 (TGGT1_244480) is rank 1 in each, and GRA14 -- a dense granule "
+                 "protein independently known to engage host ESCRT -- is in the top three of each. "
+                 "The MYR1 host bridge added the same day is verified by ESCRT machinery topping "
+                 "it, so two unrelated datasets in this map now point at the same biology."),
     Dataset("myr1_host_ip", "MYR1 host interactome (bridge)", "post_translation", "IPMS",
             "Host proteins co-immunoprecipitating with the parasite protein MYR1",
             ("bridge:host",), "219 host proteins, 1 parasite gene", pmid="32075880",

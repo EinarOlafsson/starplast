@@ -123,6 +123,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - Tg_target_engagement_thermal_shift
   - cell phenotype
     - imaging phenotype
+      - Tg_host_escrt_recruitment
       - Tg_invasion_and_egress_phenotype
 - intrinsic and reference
   - orthology-derived
@@ -249,6 +250,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_resistance_conferring_mutation
     - Tg_target_engagement_thermal_shift
   - cellular process
+    - Tg_host_escrt_recruitment
     - Tg_invasion_and_egress_phenotype
 - gene regulation
   - Tg_tf_binding_per_factor
@@ -399,6 +401,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - Tg_noncoding_and_antisense_transcription
     - Tg_complex_membership
     - Tg_t_cell_epitope_content
+    - Tg_host_escrt_recruitment
     - Tg_invasion_and_egress_phenotype
     - Tg_essentiality_in_a_second_background
 - in vivo

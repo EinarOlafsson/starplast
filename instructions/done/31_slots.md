@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**220 slots: 62 covered well, 16 partly, 32 thinly, 110 empty.**
+**222 slots: 62 covered well, 16 partly, 33 thinly, 111 empty.**
 
 ### transcription
 
@@ -353,7 +353,9 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
+| Tg_host ESCRT recruitment | high-content imaging | **C** | 10 | 0.1% | `escrt_recruitment_` | separate | [spaCR](https://pubmed.ncbi.nlm.nih.gov/spaCR/) `screen` |
 | Tg_invasion and egress phenotype | high-content imaging | **-** |  |  | `` | separate | — |
+| Pf_host ESCRT recruitment | high-content imaging | **-** |  |  | `` | separate | [spaCR](https://pubmed.ncbi.nlm.nih.gov/spaCR/) `screen` |
 | Pf_invasion and egress phenotype | high-content imaging | **-** |  |  | `` | separate | **Data selection choices influence the inferred movement patterns of Plasmodium sporozoites in skin.** (bioRxiv : the preprint server for biology 2026) [42427796](https://pubmed.ncbi.nlm.nih.gov/42427796/)<br>verify assay and parasite-gene shape)<br>**VAMP3 vesicles support host protein recruitment and Plasmodium liver stage development.** (mBio 2026) [42478859](https://pubmed.ncbi.nlm.nih.gov/42478859/)<br>verify assay and parasite-gene shape)<br>**Separating Chromera velia Zoospores From Culture and Estimating Their Average Motility Speed and Lifespan.** (Bio-protocol 2026) [42516582](https://pubmed.ncbi.nlm.nih.gov/42516582/)<br>verify assay and parasite-gene shape) |
 
 ### One dataset, several slots
@@ -372,12 +374,14 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | [PMID 38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/) | Tg_exposure to host cytosol; Tg_interaction · with host proteins |
 | [PMID 40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) | Pf_complex membership; Tg_complex membership; Tg_secretome / excreted |
 | `IEDB` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |
+| `spaCR` | Pf_host ESCRT recruitment; Tg_host ESCRT recruitment |
 | `GSE132237` | Pf_essentiality in a second background; Tg_essentiality in a second background |
 | [PMID 42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/) | Pf_field variation and resistance markers; Pf_resistance-conferring mutation |
 | [PMID 42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/) | Pf_T-cell epitope content; Pf_seroreactivity / antigenicity |
 | [PMID 42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/) | Pf_export / PEXEL trafficking; Pf_host receptor binding |
 | `ToxoDB` | Tg_arginine methylation; Tg_strain variation |
 | `IEDB` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |
+| `spaCR` | Pf_host ESCRT recruitment; Tg_host ESCRT recruitment |
 | `GSE132237` | Pf_essentiality in a second background; Tg_essentiality in a second background |
 | `compartment` | Tg_localization · measured; Tg_shared compartment |
 | `orthogroup` | Tg_conservation breadth; Tg_shared orthogroup |
