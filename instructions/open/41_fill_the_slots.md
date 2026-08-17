@@ -569,3 +569,51 @@ passage) but each contributes a handful of genes and no systematic resistome exi
 organism the way Cowell 2018 does for *Plasmodium*. That is a curation job of roughly eight papers
 read end to end, and it yields a deliberately sparse column where sparseness is the biology. It is
 the obvious next move on this axis and has not been started.
+
+### `resistance-conferring mutation`: worked, and refused on what the papers actually say
+
+This was named above as the one of the seven that is curatable rather than blocked. It was then
+curated, and the curation is what refused it — so the slot stays empty for a reason that is now
+specific rather than "not found".
+
+The corpus is real and was read from primary documents, not from summaries. From the artemisinin
+in-vitro-evolution study (PMID 31806760), Table 1 and the supplement give nine genes with coding
+changes and allele frequencies tracked across 8 µM, 16 µM and 100 µM. All nine accessions resolve in
+the current annotation, and each one's product matches the label the paper gives it — a per-row check
+that would catch a mistyped accession, and it caught something else first: the paper's body text
+calls Ark1 `TGME49_239240` while its table says `TGME49_239420`. The table is right. `239420` resolves
+to "protein kinase"; `239240` does not exist in the current annotation at all.
+
+Two findings then stopped the ingest:
+
+1. **The one case where causality was tested, it failed.** The auranofin study (PMID 33816332) ranks
+   its variants and names `TGGT1_316330` (SOD2) and `TGGT1_294640` (RNR) as "most likely resistance
+   conferring". Read further and the same paper says it "did not reveal a consensus resistance
+   locus", and that SOD2 L201P "was **not sufficient to confer resistance** when introduced into
+   wild-type parasites". A ranked candidate table with the top candidate experimentally excluded is
+   not a resistance column. Its table also carries synonymous changes (L606L, P66P), which are
+   background variants and not phenotype at all.
+2. **The artemisinin table is titled "Mutations found in candidate genes".** Candidate is the
+   authors' word. The evidence for selection is genuinely strong — two independent lines converge on
+   the same two genes, and on the same residue in Ark1 (Cys274Arg in F4, Cys274Phe in B2) — but
+   convergence under selection is evidence of selection, not a demonstration that the mutation
+   confers the resistance.
+
+So the honest column here would be *mutation rising to fixation under drug pressure*, which is not
+what the slot says, and shipping it under this slot's name would put a causal claim on the map that
+its sources decline to make. The slot's name is not the problem to fix either: "resistance-conferring"
+is the right question, and the map should be able to say that Toxoplasma has almost no validated
+answer to it.
+
+**What would fill it**, and does exist in principle: mutations validated by introducing them into a
+clean background and recovering the resistance. TgMAPK1 L162Q and I171N for bumped kinase inhibitors
+are the clearest published case, and the classical DHFR-TS and cytochrome b alleles are others.
+That is a small set — probably under fifteen genes — and sparseness would be the biology rather than
+a coverage failure. It needs the primary text of each, and the two routes tried here both failed:
+`PMC8092512` and `PMC12172689` have no full text in EuropePMC, and the publisher PDF returns 403.
+The remaining route is the accepted manuscripts or the authors.
+
+Note for whoever picks this up: an LLM summary of these papers gets this wrong in both directions.
+Asked for the mutations, it returned the auranofin candidates without the sentence excluding them,
+and it attached the artemisinin quote for Ark1 to the DegP2 row. Both papers were then read as PDF
+and XML directly, which is the only reason the refusal is trustworthy.
