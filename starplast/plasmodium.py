@@ -166,9 +166,29 @@ EXPRESSION = (
     ("Troph Ave", "", "protein_stage_share_trophozoite"),
     ("Schizont Ave", "", "protein_stage_share_schizont"),
     ("sense - asexual blood stages", "", "expr_asexual_blood"),
+    # The minority strand from the same runs. Kept alongside its sense partner rather than as a ratio,
+    # because the ratio's denominator is what makes it interpretable and a reader should see both.
+    ("antisense - asexual blood stages", "", "antisense_asexual_blood"),
+    ("antisense - midgut oocysts", "", "antisense_oocyst"),
+    ("antisense - salivary gland sporozoites", "", "antisense_sporozoite"),
     ("sense - midgut oocysts", "", "expr_oocyst"),
     ("sense - salivary gland sporozoites", "", "expr_sporozoite"),
 )
+
+
+def _matches(column: str, label: str) -> bool:
+    """Whether a PlasmoDB header names this sample, without matching a longer name that contains it.
+
+    Plain containment is not enough and the failure is silent. `sense - asexual blood stages` is a
+    SUBSTRING of `antisense - asexual blood stages`, so the moment the antisense columns were fetched
+    each sense entry matched two headers, failed the one-match test, and three columns disappeared --
+    adding antisense deleted sense. The label must start the header or be preceded by something that
+    is not a letter.
+    """
+    at = column.find(label)
+    if at < 0:
+        return False
+    return at == 0 or not column[at - 1].isalnum()
 
 
 def expression(report_path: str) -> pd.DataFrame:
@@ -181,7 +201,7 @@ def expression(report_path: str) -> pd.DataFrame:
     d = d.replace(dict.fromkeys(BLANK, None))
     out = pd.DataFrame({"gene_id": d["Gene ID"].astype(str)})
     for study, sample, column in EXPRESSION:
-        found = [c for c in d.columns if study in c and sample in c]
+        found = [c for c in d.columns if _matches(c, study) and (not sample or sample in c)]
         if len(found) == 1:
             out[column] = pd.to_numeric(d[found[0]], errors="coerce")
     if len(out.columns) == 1:

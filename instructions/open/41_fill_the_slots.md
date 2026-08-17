@@ -1532,3 +1532,36 @@ which is what an exported parasite protein should be touching.
 
 And the pass before this one is why the count is 10 and not 15: reading the discarded pile through the
 accession index rather than a pattern moved five pairs back to the parasite side where they belonged.
+
+## Thirty-first pass: adding three columns deleted three, silently
+
+**Toxoplasma 114 of 119, Plasmodium 38 of 103, combined 152 of 222.**
+
+`Pf_transcription · noncoding and antisense transcription` is filled from the antisense partners of
+the sense columns already in the table — same runs, so directly comparable. They sit **beside** their
+sense partners rather than being reduced to a ratio, because the denominator is what makes a ratio
+interpretable and a reader should see both.
+
+Validated on what antisense has to be: median **1.58 against 12.70** for sense in the same samples,
+an eight-fold minority strand. The highest antisense sits on U6 spliceosomal RNA, SRP RNA and rRNA
+fragments — structured non-coding RNAs where strand assignment is genuinely ambiguous, which is a
+caveat rather than a fault and is worth knowing before reading the column.
+
+### The fault worth more than the slot
+
+Fetching the antisense columns made the slot count **fall from 151 to 149** while a slot was being
+added. The matcher used plain substring containment, and
+
+> `sense - asexual blood stages` is a SUBSTRING of `antisense - asexual blood stages`
+
+so each sense entry suddenly matched two headers, failed its one-match test, and vanished. **Adding
+three columns deleted three**, with no error — the loader's own guard against ambiguity is what did
+the deleting.
+
+Two things now prevent it. The matcher requires the label to start the header or follow a
+non-alphanumeric character, and a test asserts that **no declared sample is absent from the built
+table** — which is the check that would have caught this instantly and which every loader with a
+declared column list should have.
+
+Noticing it at all depended on watching the total go the wrong way. A pass that only checked "did the
+new slot fill?" would have shipped the loss.

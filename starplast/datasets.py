@@ -1179,7 +1179,8 @@ REGISTRY = [
              "expr_oocyst", "expr_sporozoite", "polysomal_ring", "polysomal_trophozoite",
              "polysomal_schizont", "steady_state_ring", "steady_state_trophozoite",
              "steady_state_schizont", "protein_stage_share_ring",
-             "protein_stage_share_trophozoite", "protein_stage_share_schizont"),
+             "protein_stage_share_trophozoite", "protein_stage_share_schizont",
+             "antisense_asexual_blood", "antisense_oocyst", "antisense_sporozoite"),
             "5,720 P. falciparum genes",
             accession="PlasmoDB: Su seven stages, Bunnik polysomal IDC, Gomez-Diaz mosquito stages",
             url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
@@ -1197,7 +1198,15 @@ REGISTRY = [
                  "schizont, Pfs16 in gametocyte II. Pfs25 is the informative one -- its TRANSCRIPT "
                  "peaks in gametocyte V rather than in the ookinete where the protein acts, which "
                  "is the textbook translational-repression stockpile and would look like an "
-                 "off-by-one error to anyone who checked the protein instead. The TMT proteome in "
+                 "off-by-one error to anyone who checked the protein instead. The antisense columns "
+                 "sit beside their sense partners rather than being reduced to a ratio, because the "
+                 "denominator is what makes the ratio interpretable. Adding them exposed a silent "
+                 "matcher fault worth recording: `sense - asexual blood stages` is a SUBSTRING of "
+                 "`antisense - asexual blood stages`, so plain containment made each sense entry "
+                 "match two headers, fail its one-match test and vanish -- fetching antisense DELETED "
+                 "sense and the slot count fell by two while a slot was being added. The matcher now "
+                 "requires the label to start the header or follow a non-alphanumeric character, and "
+                 "a test asserts no declared sample goes missing. The TMT proteome in "
                  "the same report is COMPOSITIONAL and is named for it: PlasmoDB serves the "
                  "channels row-normalised, so a gene's three values sum to a constant and the "
                  "columns anti-correlate by construction. They say which stage a protein sits in, "

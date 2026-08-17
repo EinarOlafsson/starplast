@@ -1503,3 +1503,38 @@ def test_build_all_folds_in_the_complexes(tmp_path):
     d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
     assert d.loc["PF3D7_0100100", "complex_id"] == 1
     assert pd.isna(d.loc["PF3D7_0100200", "complex_id"])
+
+
+# --------------------------------------------------------------------------- the substring collision
+def test_a_sample_name_does_not_match_a_longer_name_containing_it():
+    """The bug that deleted three columns by adding three.
+
+    `sense - asexual blood stages` is a SUBSTRING of `antisense - asexual blood stages`. Plain
+    containment made each sense entry match two headers, fail the one-match test, and vanish -- so
+    fetching antisense removed sense, silently, and the slot count went DOWN by two while a slot was
+    being added. The label must start the header or be preceded by a non-alphanumeric character.
+    """
+    assert P._matches("sense - asexual blood stages - unique only", "sense - asexual blood stages")
+    assert not P._matches("antisense - asexual blood stages - unique only",
+                          "sense - asexual blood stages")
+    assert P._matches("antisense - asexual blood stages - unique only",
+                      "antisense - asexual blood stages")
+    # And a label that begins mid-header after a separator is still found.
+    assert P._matches("Study X - Ring Ave (proteome)", "Ring Ave")
+    assert not P._matches("SpringRing Ave", "Ring Ave")
+
+
+@pytest.mark.skipif(not os.path.exists(EXPR), reason="expression report not fetched")
+def test_every_declared_expression_column_survives_the_real_report():
+    """The guard that would have caught it: no declared sample may go missing from the built table."""
+    d = P.expression(EXPR)
+    missing = [c for _study, _sample, c in P.EXPRESSION if c not in d.columns]
+    assert not missing, f"declared samples absent from the table: {missing}"
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_antisense_is_the_minority_strand_and_sits_beside_its_sense_partner():
+    """Antisense far below sense is the check; both present is the point of not shipping a ratio."""
+    d = pd.read_parquet(NODES, columns=["expr_asexual_blood", "antisense_asexual_blood"]).dropna()
+    assert d["antisense_asexual_blood"].median() < d["expr_asexual_blood"].median() / 3
+    assert len(d) > 4000
