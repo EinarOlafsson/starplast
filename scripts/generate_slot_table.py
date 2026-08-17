@@ -104,6 +104,8 @@ quantity were approximating on 2026-08-13.
 #: and because a proposal that names a PMID without its title asks the reader to go and find
 #: out what was being proposed. Titles are as PubMed gives them.
 REFERENCES = {
+    "41025776": ("2025", "mBio",
+                 "Impact of equilibrative nucleoside transporters on Toxoplasma gondii infection and differentiation."),
     "24533298": ("2013", "Int J Parasitol Drugs Drug Resist",
                  "Identification of mutations in TgMAPK1 of Toxoplasma gondii conferring resistance to 1NM-PP1."),
     "25941623": ("2015", "Int J Parasitol Drugs Drug Resist",
@@ -817,7 +819,17 @@ SLOTS = [
     # Also answers what the chemistry axis used to ask as `drug sensitivity per gene`; see the note
     # there. Empty because no genome-wide chemogenomic screen has been published for Toxoplasma --
     # searched in GEO, PRIDE and PubMed supplements on 2026-08-16 and none exists.
-    ("drug sensitivity", "fitness", "compound", "gene", [], "separate", []),
+    # CURATED, like `resistance-conferring mutation` and for the same reason: no genome-wide
+    # chemogenomic screen exists for this organism, so the answer is in individual knockout studies.
+    # Six catalogue sweeps looked for the screen and correctly found none -- but "no screen exists" is
+    # not "the question cannot be answered", which is the same mistake the lipid slot took three
+    # passes to notice. The bar is a MEASURED shift under a NAMED compound, not "an inhibitor of this
+    # protein kills the parasite", which is target engagement and has its own slot. `unchanged` rows
+    # are kept, because a transporter deleted with no effect on analog sensitivity is a result.
+    ("drug sensitivity", "fitness", "compound", "gene",
+     ["drug_compounds_tested", "drug_sensitivity_shifts", "drug_sensitivity_directions"],
+     "separate",
+     [("41025776", "mBio", "equilibrative nucleoside transporters against Ara-A and 5-FU")]),
 
     # ---------------------------------------------------------------- regulation
     ("TF binding · per factor", "regulation", "ChIP / CUT&RUN", "gene",
@@ -1244,14 +1256,6 @@ BLOCKED = {
         "half-lives, and BONCAT-iTRAQ, which measures synthesis rather than degradation and does it "
         "under a drug.",
         "Pulse-SILAC or a cycloheximide chase with proteome-wide degradation rates."),
-    "Tg_drug sensitivity": (
-        "missing",
-        "100 Toxoplasma screen papers enumerated from EuropePMC and scanned: the only CRISPR "
-        "drug-resistance screen among them is Leishmania. ToxoDB's two CRISPR phenotype searches "
-        "carry the in-vitro and in-vivo fitness arms already ingested and no drug arm. The one "
-        "genome-wide screen under a perturbation (GRA38, PMID 41407671) varies serum lipid, which "
-        "is a nutrient and not a compound.",
-        "A genome-wide CRISPR screen under compound pressure, with per-gene differential fitness."),
     "Tg_fitness · in vivo gut": (
         "missing",
         "EuropePMC for enteric, intestinal, feline and sexual-stage fitness screens. The in vivo "

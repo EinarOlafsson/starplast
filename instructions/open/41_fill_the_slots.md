@@ -1711,3 +1711,49 @@ is, and it needs the same per-row product cross-check that makes a curated table
 It is not started. What is now recorded is that the sentence was wrong in the same way the lipid
 sentence was — "no screen exists" is not "the question cannot be answered" — and that the remaining
 path is curation rather than search, so the next pass need not sweep the catalogues a seventh time.
+
+## Thirty-seventh pass: `drug sensitivity` filled — the sentence really was the problem
+
+**Toxoplasma 115 of 119. Plasmodium 41 of 103. Combined 156 of 222.**
+
+Last pass re-framed this slot and stopped at "the remaining path is curation". This pass took it.
+
+**PMID 41025776** deletes three equilibrative nucleoside transporters and measures each against two
+toxic nucleoside analogues. That is precisely what the slot asks — does disrupting a gene change
+survival under a compound — and it had been invisible for six sweeps because every sweep searched for
+a *screen*.
+
+| gene | | Ara-A | 5-FU | background |
+|---|---|---|---|---|
+| TGME49_244440 | TgAT1 | resistant | resistant | parental |
+| TGME49_233130 | TgENT3 | resistant | sensitive | ΔTgAT1 |
+| TGME49_500147 | TgENT2 | unchanged | unchanged | parental |
+
+Three decisions in that table:
+
+* **`unchanged` rows are kept.** A transporter deleted with no effect on analogue sensitivity is a
+  result. Dropping those two rows would leave the column looking like a list of hits, which is how a
+  curated table starts lying.
+* **TgENT3's rows say `ΔTgAT1`.** They were measured in a double knockout, so they are
+  genetic-interaction results. Reading a double mutant's phenotype off one of its genes is its own
+  error, and `background` is the column that stops it.
+* **Target engagement is excluded and tested for.** "An inhibitor of this protein kills the parasite"
+  is a different slot; a test asserts no row's evidence reads that way. Two of the four candidates
+  named last pass — TgGSK3 and the Aurora kinases — are exactly that and were not used.
+
+The per-row product check earned its keep immediately: the annotation calls TGME49_244440 **"adenosine
+transporter AT1"**, which is independent confirmation the accession is TgAT1 and not a transposition.
+
+### What this changes about the four that remain
+
+The claim "five slots need experiments nobody has run" was wrong, and it was wrong for six passes. One
+of the five needed *reading*, not an experiment. The four left are:
+
+`transcription · in IFN-gamma macrophage`, `translation · per cell-cycle phase`, `protein turnover`,
+`fitness · in vivo gut`.
+
+Those are still `missing`, and two of them were closed by catalogue-complete sweeps rather than by
+phrasing. But the drug-sensitivity case is a standing warning against trusting that: **a sweep tests
+the sentence it was given.** For each of the four, the sentence to suspect is written in the slot table's
+`searched` field, and the question to ask is what instrument OTHER than the one swept for could answer
+the slot.

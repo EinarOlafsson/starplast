@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**119 slots: 62 covered well, 16 partly, 36 thinly, 5 empty.**
+**119 slots: 62 covered well, 16 partly, 37 thinly, 4 empty.**
 
 ### transcription
 
@@ -150,7 +150,7 @@ quantity were approximating on 2026-08-13.
 | Tg_fitness · GRA12 screen 2 in vivo | GRA12 screen 2, mouse | **C** | 232 | 2.9% | `crispr_gra12s2_l2fc_invivo` | one | — |
 | Tg_fitness · GRA12 screen 2 differential | GRA12 screen 2, in vivo vs in vitro | **C** | 232 | 2.9% | `crispr_gra12s2_disco` | one | — |
 | Tg_stage-conversion phenotype | bradyzoite conversion | **C** | 235 | 2.9% | `diff_reporter_log2_mNG_over_bulk` | one | — |
-| Tg_drug sensitivity | compound | **-** |  |  | `` | separate | — |
+| Tg_drug sensitivity | compound | **C** | 3 | 0.0% | `drug_compounds_tested, drug_sensitivity_shifts, drug_sensitivity_directions` | separate | **Impact of equilibrative nucleoside transporters on Toxoplasma gondii infection and differentiation.** (mBio 2025) [41025776](https://pubmed.ncbi.nlm.nih.gov/41025776/) `mBio` |
 | Tg_essentiality in a second background | second strain | **C** | 131 | 1.6% | `crispr_reporter_strain_p8_log2` | separate | [GSE132237](https://pubmed.ncbi.nlm.nih.gov/GSE132237/) |
 | Tg_fitness · in vivo gut | enteric, sexual cycle | **-** |  |  | `` | separate | — |
 

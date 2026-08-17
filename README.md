@@ -227,6 +227,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | AlphaFold DB | Per-gene mean pLDDT; coordinates fetched on demand | 6,480 (79.6%) | Varadi et al. 2024 NAR (database); Jumper et al. 2021 Nature (method); `UP000001529 (taxid 508771), AlphaFold DB` |
 | Antibody epitopes (IEDB) | Distinct antibody epitope sequences per gene | 34 genes, 222 distinct epitopes | `IEDB bcell_search` |
 | Codon usage bias (COMPUTED) | Effective number of codons, GC3, and codon adaptation index | 8,140 genes (100%) | `ToxoDB ME49` |
+| Drug sensitivity per gene (CURATED) | Knockouts with a measured shift in sensitivity to a named compound | 3 genes, 2 compounds | PMID [41025776](https://pubmed.ncbi.nlm.nih.gov/41025776/); `mBio, PMID 41025776` |
 | Enzyme classification (ToxoDB) | EC number per gene, and whether it has one | 1,313 enzymes of 8,140 genes | `ToxoDB ME49` |
 | IEDB epitopes mapped to genes (via ToxoDB) | How many IEDB epitopes ToxoDB maps to this gene | 221 genes | `ToxoDB / IEDB` |
 | InterPro domains | Domain identity and count | 8,140 | *citation not yet confirmed* |

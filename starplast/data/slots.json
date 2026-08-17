@@ -2062,9 +2062,19 @@
     "axis": "fitness",
     "context": "compound",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "drug_compounds_tested",
+      "drug_sensitivity_shifts",
+      "drug_sensitivity_directions"
+    ],
     "policy": "separate",
-    "candidates": [],
+    "candidates": [
+      [
+        "41025776",
+        "mBio",
+        "equilibrative nucleoside transporters against Ara-A and 5-FU"
+      ]
+    ],
     "evidence_path": [
       "perturbational measurements",
       "genetic screens",
