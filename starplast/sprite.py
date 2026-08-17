@@ -42,27 +42,24 @@ from pyqtgraph.Qt import QtGui
 #: "2D" is the plain flat disc -- pyqtgraph's own sprite, and what this map has always drawn. Kept
 #: as a choice because a flat disc is the honest way to show a scatter where the reader is comparing
 #: colours and a highlight is one more thing in the way.
+#: One entry per finish in `lighting.POINT_MODES`, and the same five for the same reason: three of the
+#: original eight measured indistinguishable from a neighbour. The note there carries the numbers.
 SPRITES = {
     "flat": None,
+    "velvet 3D": {"ambient": 0.24, "diffuse": 0.78, "specular": 0.22,
+                  "shininess": 5.0, "rim": 0.92},
     "glossy 3D": {"ambient": 0.16, "diffuse": 0.72, "specular": 1.20,
                   "shininess": 64.0, "rim": 0.18},
+    "glass 3D": {"ambient": 0.10, "diffuse": 0.34, "specular": 1.90,
+                 "shininess": 78.0, "rim": 1.15},
     "metallic 3D": {"ambient": 0.10, "diffuse": 0.50, "specular": 1.65,
                     "shininess": 26.0, "rim": 0.75},
-    "brushed metal 3D": {"ambient": 0.14, "diffuse": 0.56, "specular": 1.30,
-                         "shininess": 14.0, "rim": 0.62},
-    "silver 3D": {"ambient": 0.12, "diffuse": 0.38, "specular": 1.80,
-                  "shininess": 44.0, "rim": 0.90},
-    "pearl 3D": {"ambient": 0.18, "diffuse": 0.68, "specular": 1.25,
-                 "shininess": 34.0, "rim": 0.46},
-    "glass 3D": {"ambient": 0.12, "diffuse": 0.42, "specular": 1.75,
-                 "shininess": 58.0, "rim": 1.00},
-    "velvet 3D": {"ambient": 0.22, "diffuse": 0.74, "specular": 0.42,
-                  "shininess": 8.0, "rim": 0.86},
 }
 
 LEGACY_POINT_MODES = {
     "2D": "flat", "matt": "flat", "satin": "glossy 3D",
     "glossy": "glossy 3D", "metallic": "metallic 3D",
+    "pearl 3D": "glossy 3D", "brushed metal 3D": "metallic 3D", "silver 3D": "metallic 3D",
 }
 
 #: Texels across one ball. 64 is what pyqtgraph uses, and a gene is drawn at 5 to 12 pixels: the
@@ -80,9 +77,11 @@ DEFAULT_LIGHT = (-0.4, 0.6, 0.7)
 MAX_LIGHTS = 8
 RAY_STEPS = 24
 
+#: The id the fragment shader branches on. Renumbered when the duplicate finishes were retired --
+#: safe to renumber because nothing stores it: it is looked up from the finish NAME every frame, and
+#: the names are what persist in settings and recipes.
 MATERIAL_IDS = {
-    "glossy 3D": 1, "metallic 3D": 2, "brushed metal 3D": 3, "silver 3D": 4,
-    "pearl 3D": 5, "glass 3D": 6, "velvet 3D": 7,
+    "glossy 3D": 1, "metallic 3D": 2, "glass 3D": 3, "velvet 3D": 4,
 }
 
 
@@ -191,18 +190,17 @@ void main() {{
 
     vec3 view = normalize(-surfaceEye);
     float nDotV = max(dot(normal, view), 0.001);
-    bool metal = uMaterial == 2 || uMaterial == 3 || uMaterial == 4;
-    bool brushed = uMaterial == 3;
-    bool silver = uMaterial == 4;
-    bool pearl = uMaterial == 5;
-    bool glass = uMaterial == 6;
-    bool velvet = uMaterial == 7;
+    // Four ids, one per material class. The roughness spread is deliberately wide: the retired
+    // `pearl 3D` sat at the SAME roughness as glossy and differed only in base reflectance, which is
+    // why the two were indistinguishable on screen. 0.07 / 0.24 / 0.72 is far enough apart that the
+    // highlight is a point, a coin and a whole hemisphere respectively.
+    bool metal = uMaterial == 2;
+    bool glass = uMaterial == 3;
+    bool velvet = uMaterial == 4;
     float metallic = metal ? 1.0 : 0.0;
-    float roughness = brushed ? 0.34 : (silver ? 0.10 : (metal ? 0.18 :
-                      (velvet ? 0.58 : (glass ? 0.11 : 0.24))));
+    float roughness = metal ? 0.18 : (velvet ? 0.72 : (glass ? 0.07 : 0.24));
     vec3 albedo = clamp(vColor.rgb, 0.0, 1.0);
-    vec3 metalF0 = silver ? mix(vec3(0.78), albedo, 0.24) : albedo;
-    vec3 f0 = mix(pearl ? vec3(0.085) : vec3(0.045), metalF0, metallic);
+    vec3 f0 = mix(vec3(0.045), albedo, metallic);
     vec3 direct = vec3(0.0);
 
     for (int light = 0; light < MAX_LIGHTS; ++light) {{
@@ -237,24 +235,26 @@ void main() {{
     vec3 environment = mix(ground, sky, smoothstep(-0.35, 0.75, reflected.y));
     // Two broad softboxes: compact lobes rather than the old infinite vertical strip, which drew
     // an actual line through every metallic point and a dot that followed the cursor.
+    // The softbox tightness follows the roughness: a sharp material reflects a small bright box, a
+    // rough one smears it across the ball. Glass gets the tightest because that is the whole of what
+    // separates it from glossy at this size.
     float boxA = pow(max(dot(reflected, normalize(vec3(-0.48, 0.62, 0.62))), 0.0),
-                     brushed ? 7.0 : (silver ? 30.0 : 16.0));
+                     glass ? 40.0 : (velvet ? 4.0 : 16.0));
     float boxB = pow(max(dot(reflected, normalize(vec3(0.70, 0.18, 0.69))), 0.0),
-                     brushed ? 5.0 : 20.0);
-    environment += vec3(1.0, 0.88, 0.70) * boxA * (metal ? 1.30 : 0.38);
-    environment += vec3(0.55, 0.72, 1.0) * boxB * (metal ? 0.82 : 0.22);
+                     glass ? 48.0 : (velvet ? 3.0 : 20.0));
+    environment += vec3(1.0, 0.88, 0.70) * boxA * (metal ? 1.30 : (glass ? 0.72 : 0.38));
+    environment += vec3(0.55, 0.72, 1.0) * boxB * (metal ? 0.82 : (glass ? 0.46 : 0.22));
     vec3 envFresnel = fresnelSchlick(nDotV, f0);
     vec3 moodFill = 0.35 + 0.65 * uMood;
-    vec3 diffuseFill = albedo * moodFill * (metal ? (silver ? 0.12 : 0.09) :
-                       (velvet ? 0.42 : (0.30 + 0.18 * max(normal.y, 0.0))));
+    vec3 diffuseFill = albedo * moodFill * (metal ? 0.09 :
+                       (velvet ? 0.46 : (0.30 + 0.18 * max(normal.y, 0.0))));
     vec3 color = diffuseFill + direct * (metal ? 1.35 : 1.0) +
-                 environment * envFresnel * (metal ? 1.20 : 0.48);
-    if (pearl) {{
-        vec3 film = 0.5 + 0.5 * cos(vec3(0.0, 2.1, 4.2) + (1.0 - nDotV) * 9.0);
-        color += film * envFresnel * 0.18;
-    }}
-    if (glass) color = mix(albedo * 0.30, color, 0.76) + envFresnel * 0.20;
-    if (velvet) color += albedo * pow(1.0 - nDotV, 2.2) * 0.42;
+                 environment * envFresnel * (metal ? 1.20 : (glass ? 0.78 : 0.48));
+    // A dark body with a bright edge: the reading that says "transparent" at 8 pixels across.
+    if (glass) color = mix(albedo * 0.22, color, 0.80) + envFresnel * 0.32;
+    // Retroreflective sheen -- brightest where the ball turns away, which is what makes cloth read as
+    // cloth. Strengthened when the near-duplicates went, since this is now the only matte 3D finish.
+    if (velvet) color += albedo * pow(1.0 - nDotV, 1.8) * 0.62;
     color = vec3(1.0) - exp(-color * (metal ? 1.75 : 2.05));
     color = clamp(color, 0.0, 1.0);
 

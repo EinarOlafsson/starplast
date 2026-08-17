@@ -114,7 +114,14 @@ def test_changing_theme_keeps_the_selection(win):
 # --------------------------------------------------------------------------- point styles
 def test_every_point_style_survives_the_next_redraw(win):
     """The bug: apply_point_style set sizes, and redraw() -- which also sets sizes -- overwrote them,
-    so choosing a style changed nothing the moment anything else redrew."""
+    so choosing a style changed nothing the moment anything else redrew.
+
+    Pinned to `Automatic`, which is what makes the style the thing that decides a size. The default is
+    now an absolute 7 px, and an absolute size is SUPPOSED to win -- that is what choosing one means --
+    so leaving this test on the default would have asserted the styles were broken when they were
+    merely overridden. The override is checked by the test below.
+    """
+    win.set_point_size(None)
     sizes = {}
     for style in TH.POINT_STYLES:
         win.point_style = style
@@ -122,6 +129,21 @@ def test_every_point_style_survives_the_next_redraw(win):
         win.redraw()                       # the second redraw is the one that used to undo it
         sizes[style] = float(np.asarray(win.scatter.size).max())
     assert len(set(sizes.values())) > 1, f"all styles drew the same size: {sizes}"
+
+
+def test_an_absolute_point_size_overrides_the_style_but_keeps_its_opacity(win):
+    """The two size controls have to compose rather than fight. An explicit size wins over the style's
+    size -- otherwise picking `Medium (7 px)` would do nothing -- while the style keeps deciding
+    opacity, which is the whole of what `halo` is for."""
+    win.set_point_size(7.0)
+    drawn, alphas = {}, {}
+    for style in TH.POINT_STYLES:
+        win.point_style = style
+        win.redraw()
+        drawn[style] = float(np.asarray(win.scatter.size).max())
+        alphas[style] = round(float(np.asarray(win.scatter.color)[:, 3].max()), 3)
+    assert len(set(drawn.values())) == 1, f"an explicit size did not win: {drawn}"
+    assert len(set(alphas.values())) > 1, f"the style stopped deciding opacity: {alphas}"
 
 
 def test_every_rendering_mode_is_applied_to_the_scatter(win):

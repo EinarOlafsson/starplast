@@ -75,6 +75,12 @@ COLOR_MODES = ["compartment", "compartment (incl. transferred)", "clusters", "in
 POINT_SIZES = [("Automatic", None), ("Tiny (2 px)", 2.0), ("Small (4 px)", 4.0),
                ("Medium (7 px)", 7.0), ("Large (11 px)", 11.0), ("Huge (16 px)", 16.0)]
 
+#: The point size a fresh install starts at. `Automatic` -- follow whatever the point style says --
+#: was the old default and it made the two size controls argue: the style said 5 px, the menu said
+#: "Automatic", and neither told a reader which number was in force. A stated size is one number, and
+#: 7 px is the one that reads at 8,140 genes without the cloud closing up.
+DEFAULT_POINT_SIZE = 7.0
+
 EDGE_EXPLANATION = (
     "They are kept as separate layers rather than added together into one 'interaction' edge.\n\n"
     "The twelve types are not twelve measurements of the same thing. A crosslink-MS edge is a "
@@ -748,7 +754,7 @@ class Window(QtWidgets.QMainWindow):
                                      type=float)),
         }
         self._ambient_widget = None
-        old_mode = str(s.value("display/lighting", "off"))
+        old_mode = str(s.value("display/lighting", _lighting.DEFAULT_MODE))
         mode = "soft" if old_mode == "lit" else old_mode
         old_points = s.value("display/light_point_mode",
                              s.value("display/light_finish", _lighting.DEFAULT_POINT_MODE))
@@ -810,7 +816,7 @@ class Window(QtWidgets.QMainWindow):
         # attributes with menu actions over them rather than widgets read out of a side panel.
         self.level_idx = 2                    # gene tier: the map as it actually is
         self.color_mode = "compartment"
-        self.point_size = None                # None means "whatever the point style says"
+        self.point_size = DEFAULT_POINT_SIZE   # None would mean "whatever the point style says"
         self.edge_on = {k: (k in ("comention", "cofitness") and k in self.edges)
                         for k, _ in EDGE_TYPES}
         self.attn_on = True                   # a correctness default, not a preference
@@ -1419,7 +1425,7 @@ class Window(QtWidgets.QMainWindow):
         for label, val in POINT_SIZES:
             act = ps.addAction(label)
             act.setCheckable(True)
-            act.setChecked(val is None)
+            act.setChecked(val == DEFAULT_POINT_SIZE)
             act.setData(val)
             self.size_group.addAction(act)
             act.triggered.connect(lambda _c, s=val: self.set_point_size(s))
@@ -1539,6 +1545,97 @@ class Window(QtWidgets.QMainWindow):
         m.exec(self.view.mapToGlobal(pos))
         return m
 
+    def display_choices(self) -> list:
+        """Every display setting that is a CHOICE, as (label, options, current, apply).
+
+        One table, so the right-click menu and Preferences cannot drift apart -- they used to be able
+        to: a control added to the dialog was not in the menu, and the menu is where a reader already
+        is when they want to change how the map looks, because they are right-clicking the map.
+
+        Numeric settings are deliberately absent. A slider is not a menu item, and text size, spin
+        speed, panel opacity and the three blob numbers stay in Preferences where they can be dragged.
+        """
+        from . import lighting as L
+        auto = "auto (match the data)"
+        return [
+            ("Theme", list(TH.THEMES), self.theme, self.apply_theme),
+            ("Colour map", [auto] + list(TH.CMAPS), self.cmap_name or auto, self._on_cmap),
+            ("Point style", list(TH.POINT_STYLES), self.point_style, self._on_point_style),
+            ("Overlap", list(TH.POINT_MODES), self.point_mode, self._on_point_mode),
+            ("Point render mode", list(L.POINT_MODES), self._lighting["point_mode"],
+             lambda v: self.set_lighting_option("point_mode", v)),
+            ("Light render mode", list(L.MODES), self._lighting["mode"], self.set_lighting),
+            ("Light target", list(L.SOURCES), self._lighting["source"],
+             lambda v: self.set_lighting_option("source", v)),
+            ("Pointer beam", list(L.POINTER_MODES), self._lighting["pointer_mode"],
+             lambda v: self.set_lighting_option("pointer_mode", v)),
+            ("Pointer response", list(L.RESPONSES), self._lighting["response"],
+             lambda v: self.set_lighting_option("response", v)),
+            ("Target marker", list(L.TARGET_MARKERS), self._lighting["target_marker"],
+             lambda v: self.set_lighting_option("target_marker", v)),
+            ("Light mood", list(L.LIGHT_MOODS), self._lighting["mood"],
+             lambda v: self.set_lighting_option("mood", v)),
+            ("Background", ["none", "blobs"], self._ambient_mode, self.set_ambient),
+            ("Window size", list(WINDOW_SIZES), self.window_settings()["size"],
+             lambda v: self._on_window_change(size=v)),
+        ]
+
+    def display_toggles(self) -> list:
+        """The display settings that are booleans, as (label, state, apply)."""
+        return [
+            ("Full screen", self.isFullScreen(),
+             lambda on: self._on_window_change(fullscreen=bool(on))),
+            ("Fade with distance", self.depth_cue, self.set_depth_cue),
+            ("Reference grid", self.show_ground, self.set_show_ground),
+        ]
+
+    def set_depth_cue(self, on: bool) -> bool:
+        """Whether distance fades and shrinks a point. Named so the checkbox in Preferences and the
+        item in the right-click menu drive one function rather than two equivalent lambdas."""
+        self.depth_cue = bool(on)
+        self.redraw()
+        return self.depth_cue
+
+    def set_show_ground(self, on: bool) -> bool:
+        """Whether the horizon grid is drawn."""
+        self.show_ground = bool(on)
+        self.redraw()
+        return self.show_ground
+
+    def _add_display_menu(self, parent) -> QtWidgets.QMenu:
+        """Add the whole display section to a menu, built from the two tables above.
+
+        One builder rather than the lists written out again: every option list here is the same object
+        Preferences offers, so a finish retired or a mode added appears in both places without anyone
+        having to remember there is a second place.
+        """
+        menu = parent.addMenu("Display")
+        menu.setToolTipsVisible(True)
+        self._display_groups = []
+        for label, options, current, apply in self.display_choices():
+            sub = menu.addMenu(label)
+            group = QtGui.QActionGroup(self)
+            group.setExclusive(True)
+            for name in options:
+                act = sub.addAction(str(name))
+                act.setCheckable(True)
+                act.setChecked(str(name) == str(current))
+                act.setData(str(name))
+                group.addAction(act)
+                # `apply` and `name` bound as defaults. A closure over the loop variables would give
+                # every action the LAST option in the list, which is the classic form of this bug.
+                act.triggered.connect(lambda _checked=False, fn=apply, v=str(name): fn(v))
+            self._display_groups.append((label, group))
+        menu.addSeparator()
+        for label, state, apply in self.display_toggles():
+            act = menu.addAction(label)
+            act.setCheckable(True)
+            act.setChecked(bool(state))
+            act.toggled.connect(lambda on, fn=apply: fn(on))
+        menu.addSeparator()
+        menu.addAction("All display settings…").triggered.connect(self.open_preferences)
+        return menu
+
     def build_context_menu(self):
         """Construct the menu without showing it.
 
@@ -1566,6 +1663,7 @@ class Window(QtWidgets.QMainWindow):
         ps = m.addMenu("Point size")
         for act in self.size_group.actions():
             ps.addAction(act)
+        self._add_display_menu(m)
         m.addSeparator()
         m.addAction("Export image…").triggered.connect(self.export_image)
         m.addAction("Export visible genes (CSV)…").triggered.connect(self.export_visible)
@@ -2364,9 +2462,18 @@ class Window(QtWidgets.QMainWindow):
         return self._prefs
 
     def _gpu_wanted(self) -> bool:
-        """Whether the GPU switch is on, from settings so it survives a restart."""
-        return bool(QtCore.QSettings("starplast", "starplast").value("compute/gpu", False,
-                                                                     type=bool))
+        """Whether the GPU switch is on, from settings so it survives a restart.
+
+        Where nobody has touched the switch, the answer is whether a backend is THERE -- the same
+        default `gpu.enabled()` applies. It used to hardcode False here, so on a machine with CUDA
+        installed the program ran its searches on the GPU while Preferences showed the switch off:
+        the setting disagreed with the behaviour, and the switch was the one lying.
+        """
+        from . import gpu
+        s = QtCore.QSettings("starplast", "starplast")
+        if s.contains("compute/gpu"):
+            return bool(s.value("compute/gpu", type=bool))
+        return any(gpu.available()[k] for k in ("cuml", "cupy", "torch"))
 
     def _on_gpu(self, on: bool) -> str:
         """Remember the choice and say what it will actually do.
@@ -2529,14 +2636,14 @@ class Window(QtWidgets.QMainWindow):
             "Without it, near and far points are equally bright and the map reads as a flat disc "
             "however far it is rotated. Turn it off to compare two points' colors exactly, since the "
             "fade changes apparent color with position.")
-        self.depth_box.toggled.connect(lambda v: (setattr(self, "depth_cue", v), self.redraw()))
+        self.depth_box.toggled.connect(self.set_depth_cue)
 
         self.ground_box = QtWidgets.QCheckBox("horizon grid")
         self.ground_box.setChecked(self.show_ground)
         self.ground_box.setToolTip(
             "A reference plane under the cloud. Spinning a bare point cloud, the eye cannot separate "
             "rotation from the points rearranging themselves.")
-        self.ground_box.toggled.connect(lambda v: (setattr(self, "show_ground", v), self.redraw()))
+        self.ground_box.toggled.connect(self.set_show_ground)
 
         cfg = self.log_settings()
         self.log_box = QtWidgets.QCheckBox("keep a log file")

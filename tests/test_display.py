@@ -395,10 +395,13 @@ def test_the_settings_are_remembered_across_a_restart(qapp, tmp_path, monkeypatc
         w = Window()
         assert w._ambient_mode == "blobs" and w._ambient_widget is not None
         assert w._ambient["density"] == 2.0
+        # `target_marker` is not among the stored keys above, so it takes its default -- which is
+        # now `halo` rather than `none`: the wandering and bouncing lights read as broken while it
+        # was `none`, because the orb they are meant to show is drawn by the marker.
         assert w._lighting == {"mode": "soft", "source": "mouse flashlight",
                                "point_mode": "metallic 3D", "mood": "neutral",
                                "pointer_mode": "broad flashlight", "response": "smooth",
-                               "target_marker": "none"}
+                               "target_marker": "halo"}
         assert w._light_timer.isActive(), "the lights were remembered but not started"
         w.set_lighting("off")
         w.close()
@@ -910,13 +913,27 @@ def test_a_gene_behind_a_cluster_gets_less_light_than_one_in_front_of_it(win):
         win._lighting["mode"] = "soft"
 
 
-def test_no_decorative_emitter_is_drawn_in_either_light_mode(win):
-    """Ray tracing changes transport; it does not add confusing glowing ray ornaments."""
+def test_the_light_mode_never_decides_whether_an_emitter_is_drawn(win):
+    """Ray tracing changes transport; it does not add confusing glowing ray ornaments.
+
+    The assertion this replaces was "no emitter in either mode", which was only true because the
+    marker defaulted to `none`. The property actually worth holding is that the MARKER decides and the
+    mode never does -- otherwise turning on shadows would quietly add an ornament, which is the thing
+    the original test was written to prevent.
+    """
     try:
-        for mode in ("soft", "ray traced"):
+        win.set_lighting_option("target_marker", "none")
+        for mode in ("soft", "ray traced", "deep ray traced"):
             win.set_lighting(mode)
             win._light_tick()
-            assert win.emitter_item is None or not win.emitter_item.visible()
+            assert win.emitter_item is None or not win.emitter_item.visible(), mode
+        win.set_lighting_option("target_marker", "halo")
+        drawn = []
+        for mode in ("soft", "ray traced", "deep ray traced"):
+            win.set_lighting(mode)
+            win._light_tick()
+            drawn.append(win.emitter_item is not None and win.emitter_item.visible())
+        assert len(set(drawn)) == 1, f"the mode changed whether the marker was drawn: {drawn}"
     finally:
         win.set_lighting("off")
 
@@ -1459,3 +1476,101 @@ def test_the_travelling_lights_are_selectable_and_need_no_camera(qapp):
         assert np.allclose(with_camera[0]["pos"], without[0]["pos"]), \
             f"{source} moved when the camera did"
         assert all(light.get("local") for light in with_camera), source
+
+
+# --------------------------------------------------------------------------- the requested defaults
+def test_the_five_defaults_are_what_was_asked_for(qapp, tmp_path, monkeypatch):
+    """A fresh install, with nothing stored. These were chosen by the person who uses the program;
+    the test exists so a later refactor cannot quietly move them back."""
+    from PyQt6 import QtCore
+    from starplast import paths
+    from starplast.app import Window, DEFAULT_POINT_SIZE
+    monkeypatch.setenv(paths.ENV_STATE, str(tmp_path))
+    QtCore.QSettings("starplast", "starplast").clear()
+    w = Window()
+    try:
+        assert w._lighting["mode"] == "deep ray traced"
+        assert w._lighting["source"] == "selected gene and its edges"
+        assert w._lighting["target_marker"] == "halo"
+        assert w._lighting["point_mode"] == "glossy 3D"
+        assert w.point_size == DEFAULT_POINT_SIZE == 7.0
+        assert dict(POINT_SIZES_BY_LABEL())["Medium (7 px)"] == DEFAULT_POINT_SIZE
+    finally:
+        w.close()
+
+
+def POINT_SIZES_BY_LABEL():
+    from starplast.app import POINT_SIZES
+    return POINT_SIZES
+
+
+# --------------------------------------------------------------------------- finishes worth telling apart
+def test_every_finish_is_visibly_different_from_every_other(win):
+    """The complaint that removed three finishes: `glossy 3D` and `pearl 3D` looked the same, and so
+    did two other pairs. Measured rather than judged -- shade the whole cloud under one light and take
+    the mean absolute RGB difference between each pair. `glossy 3D` against `pearl 3D` was 0.0204,
+    which is the number this floor is set against."""
+    import itertools
+    import numpy as np
+    xyz = win.xyz
+    radius = float(np.abs(xyz - xyz.mean(axis=0)).max())
+    rng = np.random.default_rng(0)
+    colors = rng.random((len(xyz), 3)) * 0.7 + 0.2
+    lit = L.fixed((0.4, 0.6, 0.7), radius)
+    shaded = {n: L.shade(xyz, colors, lit, True, point_mode=n)[:, :3] for n in L.POINT_MODES}
+    worst = min((float(np.abs(shaded[a] - shaded[b]).mean()), a, b)
+                for a, b in itertools.combinations(shaded, 2))
+    assert worst[0] >= 0.05, f"{worst[1]} and {worst[2]} differ by only {worst[0]:.4f}"
+
+
+def test_the_retired_finishes_still_resolve_to_something_kept():
+    """A stored setting or a saved recipe naming a removed finish must keep drawing, not fall back to
+    the default and silently change a figure."""
+    assert L.normalize_point_mode("pearl 3D") == "glossy 3D"
+    assert L.normalize_point_mode("brushed metal 3D") == "metallic 3D"
+    assert L.normalize_point_mode("silver 3D") == "metallic 3D"
+    assert L.normalize_point_mode("nonsense") == L.DEFAULT_POINT_MODE
+    for name in ("pearl 3D", "brushed metal 3D", "silver 3D"):
+        assert name not in L.POINT_MODES
+
+
+# --------------------------------------------------------------------------- the travelling orb
+def test_a_travelling_light_actually_travels(win):
+    """The report was that the wandering and bouncing lights "do not work". Two separate causes, and
+    this is the first: at the old speed the slowest term of `_drift` had a period of 184 seconds, so
+    the orb moved about 4% of the map's radius per second and the brightest gene did not change for
+    seconds at a time. One unit of `t` is one second."""
+    import numpy as np
+    xyz = win.xyz
+    radius = float(np.abs(xyz - xyz.mean(axis=0)).max())
+    for source in ("wandering light", "bouncing light"):
+        steps, brightest = [], []
+        previous = None
+        colors = np.tile(np.array([[0.4, 0.6, 0.9]]), (len(xyz), 1))
+        for t in range(7):
+            lit = L.light_at(xyz, source, float(t), 1, L.DEFAULT_SPEED, radius)
+            pos = np.asarray(lit[0]["pos"], dtype=float)
+            if previous is not None:
+                steps.append(float(np.linalg.norm(pos - previous)))
+            previous = pos
+            brightest.append(int(L.shade(xyz, colors, lit, True,
+                                         point_mode="glossy 3D")[:, :3].sum(axis=1).argmax()))
+        assert np.mean(steps) > 0.10 * radius, f"{source} crawls: {np.mean(steps):.2f} of {radius}"
+        assert len(set(brightest)) >= 4, f"{source} lights the same genes all along: {brightest}"
+
+
+def test_a_travelling_light_is_brighter_and_tighter_than_a_held_one(win):
+    """The second cause: at gain 1.0 the pool measured 1.2 to 2.0 times the median gene, which reads as
+    no light at all against 8,000 other bright points. Raising the gain ALONE made it worse -- a pool
+    that wide lifts the median too -- so the travelling lights get their own narrower width."""
+    import numpy as np
+    xyz = win.xyz
+    radius = float(np.abs(xyz - xyz.mean(axis=0)).max())
+    colors = np.tile(np.array([[0.4, 0.6, 0.9]]), (len(xyz), 1))
+    lit = L.wandering(xyz, 3.0, radius)
+    assert lit[0]["gain"] == L.TRAVEL_GAIN > 1.0
+    assert lit[0]["width"] == L.TRAVEL_WIDTH < L.LOCAL_WIDTH
+    tight = L.shade(xyz, colors, lit, True, point_mode="glossy 3D")[:, :3].sum(axis=1)
+    plain = L.shade(xyz, colors, [{k: v for k, v in lit[0].items() if k not in ("gain", "width")}],
+                    True, point_mode="glossy 3D")[:, :3].sum(axis=1)
+    assert tight.max() / np.median(tight) > plain.max() / np.median(plain)

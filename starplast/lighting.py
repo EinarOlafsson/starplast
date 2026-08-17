@@ -22,6 +22,13 @@ import numpy as np
 #: Ray tracing is a light-transport mode, not a pretend graphics backend.
 MODES = ("off", "soft", "ray traced", "deep ray traced")
 
+#: What lighting a fresh install starts with. `off` for a long time, which meant every control below
+#: it did nothing until a reader found this one first -- including the two travelling lights, whose
+#: orb is drawn by the emitter and so was invisible while the mode was off. `deep ray traced` is the
+#: mode the rest of the defaults were chosen against: shadow strength 0.86, so a cluster in front of
+#: the light actually darkens what is behind it.
+DEFAULT_MODE = "deep ray traced"
+
 #: How a point's surface answers the light. The parameters are what separate a mineral from a
 #: billiard ball: how much of the light scatters (diffuse), how much bounces (specular), how tightly
 #: (shininess), how much the silhouette catches the light (rim), and whether the bounce takes the
@@ -52,35 +59,46 @@ MODES = ("off", "soft", "ray traced", "deep ray traced")
 #: reader comparing colours across clusters is better served by a flat scatter than by a lit one.
 #: Every other finish draws each gene as a sphere; there is no separate "3D" entry because they are
 #: all 3D, and two names for the same picture is a menu that answers a question nobody asked.
-#: Three visibly different point renderings. ``flat`` keeps data colors nearly unmodified;
-#: ``glossy 3D`` uses a white broad glint; ``metallic 3D`` has a darker body, colored reflection
-#: and stronger rim. These names also drive the GPU PBR sphere shader in :mod:`starplast.sprite`;
-#: these coefficients remain the CPU fallback's per-point response.
+#: FIVE finishes, one per material class, after eight were measured against each other and three of
+#: them turned out to be duplicates.
+#:
+#: The measurement: shade all 8,140 genes under one fixed light and take the mean absolute RGB
+#: difference between every pair, on a 0-1 scale. `glossy 3D` against `pearl 3D` came out at
+#: **0.0204**, the closest of the 28 pairs -- and in the GPU shader those two differed by nothing but
+#: base reflectance, 0.085 against 0.045, at identical roughness. There was no difference to see.
+#: `metallic 3D` against `brushed metal 3D` was 0.0249, and `silver 3D` against `glass 3D` 0.0247.
+#: Three names for one appearance is worse than one name, because it invites a reader to hunt for a
+#: distinction that does not exist.
+#:
+#: What is left spans the material classes instead of sampling one of them repeatedly -- unshaded,
+#: rough dielectric, mid dielectric, sharp dielectric, metal -- and the same measurement now puts
+#: every pair at 0.05 or better, two and a half times the gap that was indistinguishable. A test
+#: holds that floor, so a finish added later has to earn its place by actually looking different.
 POINT_MODES = {
     "flat": {"ambient": 1.20, "diffuse": 0.25, "specular": 0.0, "shininess": 1.0,
              "rim": 0.0, "tint": 0.0, "size": 1.0},
+    "velvet 3D": {"ambient": 0.96, "diffuse": 0.78, "specular": 0.20,
+                  "shininess": 2.0, "rim": 0.86, "tint": 0.30, "size": 1.32},
     "glossy 3D": {"ambient": 0.88, "diffuse": 0.68, "specular": 1.00,
                   "shininess": 7.0, "rim": 0.30, "tint": 0.0, "size": 1.30},
-    "metallic 3D": {"ambient": 0.70, "diffuse": 0.38, "specular": 1.45,
+    "glass 3D": {"ambient": 0.72, "diffuse": 0.30, "specular": 1.60,
+                 "shininess": 22.0, "rim": 1.15, "tint": 0.05, "size": 1.38},
+    "metallic 3D": {"ambient": 0.66, "diffuse": 0.36, "specular": 1.55,
                     "shininess": 11.0, "rim": 0.82, "tint": 1.0, "size": 1.35},
-    "brushed metal 3D": {"ambient": 0.76, "diffuse": 0.42, "specular": 1.20,
-                         "shininess": 7.0, "rim": 0.65, "tint": 0.85, "size": 1.35},
-    "silver 3D": {"ambient": 0.72, "diffuse": 0.28, "specular": 1.65,
-                  "shininess": 16.0, "rim": 0.92, "tint": 0.35, "size": 1.35},
-    "pearl 3D": {"ambient": 0.84, "diffuse": 0.62, "specular": 1.10,
-                 "shininess": 10.0, "rim": 0.48, "tint": 0.20, "size": 1.32},
-    "glass 3D": {"ambient": 0.78, "diffuse": 0.34, "specular": 1.45,
-                 "shininess": 18.0, "rim": 1.05, "tint": 0.05, "size": 1.38},
-    "velvet 3D": {"ambient": 0.92, "diffuse": 0.72, "specular": 0.28,
-                  "shininess": 3.0, "rim": 0.72, "tint": 0.30, "size": 1.32},
 }
 
 # Kept as a code-level alias for callers written before the UI rename. It contains only the new
 # modes; old saved values go through ``normalize_point_mode`` below.
 FINISHES = POINT_MODES
+#: Old names, including the three finishes retired as duplicates. Each retired name points at the
+#: kept finish it measured nearest, so a stored setting or a saved recipe keeps drawing what it drew
+#: instead of silently reverting to the default. `silver 3D` goes to `metallic 3D` rather than to the
+#: numerically closer `glass 3D`: it was a metal, and staying in the same material class matters more
+#: to a reader than a hundredth of a unit of RGB.
 LEGACY_POINT_MODES = {
     "2D": "flat", "matt": "flat", "satin": "glossy 3D",
     "glossy": "glossy 3D", "metallic": "metallic 3D",
+    "pearl 3D": "glossy 3D", "brushed metal 3D": "metallic 3D", "silver 3D": "metallic 3D",
 }
 
 #: However dark a finish is allowed to make the body of the cloud. A metal that reads properly as
@@ -95,7 +113,11 @@ DEFAULT_FINISH = DEFAULT_POINT_MODE
 #: the points they are looking at rather than the ones behind them.
 SOURCES = ("mouse flashlight", "selected gene", "selected gene and its edges",
            "wandering light", "bouncing light")
-DEFAULT_SOURCE = "mouse flashlight"
+#: The pointer used to be the default. A selected gene and its edges is better as a STARTING state:
+#: the flashlight shows nothing until the mouse is over the map, so a window that has just opened
+#: looked unlit, while this lights something as soon as anything is selected and makes the edge
+#: structure the first thing visible.
+DEFAULT_SOURCE = "selected gene and its edges"
 
 #: The two lights that live INSIDE the cloud rather than outside it, and that difference is the
 #: whole of what they are for. Every other source lights the map from somewhere a viewer stands:
@@ -107,8 +129,33 @@ DEFAULT_SOURCE = "mouse flashlight"
 #: cloud faces the back of nearly everything around it and its diffuse term lands on almost nothing;
 #: the local glow is what makes an interior light light anything at all. That was measured once
 #: already, when a torch inside a far cluster came out DIMMER than the near face of the map.
-WANDER_SPEED = 0.11
+#: `_light_t` advances 0.06 per 60 ms tick, so one unit of `t` is one second. That makes these
+#: numbers checkable, and the old ones were wrong by an order of magnitude: at 0.11 the slowest term
+#: of `_drift` has a period of 2*pi/(0.311*0.11) = **184 seconds**. The light was moving, at about 4%
+#: of the map's radius per second, which over any span a person watches is indistinguishable from
+#: standing still -- measured, the brightest gene did not change for three seconds at a time.
+#:
+#: 0.85 puts the slowest term near 24 seconds, so the orb crosses the cloud while being watched. The
+#: bounce was already fast enough (a full cycle in 4/0.19 = 21 seconds); what it lacked was the
+#: brightness below.
+WANDER_SPEED = 0.85
 BOUNCE_SPEED = 0.19
+
+#: How much brighter a TRAVELLING light is than a light a viewer holds. The wandering and bouncing
+#: lights are the only two that are meant to be seen AS a light -- an orb somewhere in the map with a
+#: pool around it -- rather than as illumination arriving from where the reader stands. At gain 1.0
+#: their pool measured 1.2 to 2.0 times the median gene, which reads as no light at all; the orb has
+#: to win against 8,000 other bright points. Applied as `gain`, so it multiplies the local pool and
+#: the beam falloff together and cannot brighten the whole cloud.
+TRAVEL_GAIN = 2.6
+
+#: The travelling lights get a TIGHTER pool than `LOCAL_WIDTH`, and the reason is a measurement that
+#: went the wrong way: raising the gain alone made the pool/median contrast WORSE, from 1.77 at gain
+#: 2.6 to 1.59 at gain 5.0, because a pool that wide lifts the median along with the peak and the map
+#: just gets brighter. Narrowing it is what makes an orb read as an orb. `LOCAL_WIDTH` itself stays
+#: where it was measured -- it belongs to the pointer flashlight, whose job is to light a cluster a
+#: reader is leaning into rather than to be seen as a lamp.
+TRAVEL_WIDTH = 0.30
 
 #: How far into the cloud these two are allowed, as a fraction of its extent. Kept inside 0.9 so a
 #: wandering light never sits exactly on the hull, where it would read as an ordinary outside light
@@ -129,7 +176,11 @@ RESPONSES = {"direct": 1.0, "smooth": 0.24, "cinematic": 0.09}
 DEFAULT_RESPONSE = "smooth"
 
 TARGET_MARKERS = ("none", "halo", "beacon", "pulse")
-DEFAULT_TARGET_MARKER = "none"
+#: `none` for a long time, and that is why the wandering and bouncing lights read as broken: the orb
+#: itself is drawn by `_draw_emitter`, which returns immediately when the marker is `none`. The light
+#: was there and lighting things; nothing drew the lamp. `halo` is the honest default -- it marks
+#: where the light IS without encoding any data, which is the one thing a marker here must not do.
+DEFAULT_TARGET_MARKER = "halo"
 
 #: Soft color temperatures. Values are intentionally below pure white so specular light cannot
 #: bleach categorical colors. The differences survive multiplication by saturated data colors.
@@ -278,7 +329,7 @@ def wandering(coords, t: float, radius: float, n: int = 1, speed: float = WANDER
     for i in range(max(int(n), 1)):
         where = centre + extent * np.array([_drift(t * speed, i * 3 + axis) for axis in range(3)])
         out.append({"pos": where, "color": np.asarray(color, dtype=float), "local": True,
-                    "target": where})
+                    "gain": TRAVEL_GAIN, "width": TRAVEL_WIDTH, "target": where})
     return out
 
 
@@ -320,7 +371,7 @@ def bouncing(coords, t: float, radius: float, n: int = 1, speed: float = BOUNCE_
         where = centre + extent * np.array(
             [_bounce_axis(rates[axis] * t * speed + offsets[axis]) for axis in range(3)])
         out.append({"pos": where, "color": np.asarray(color, dtype=float), "local": True,
-                    "target": where})
+                    "gain": TRAVEL_GAIN, "width": TRAVEL_WIDTH, "target": where})
     return out
 
 
@@ -436,7 +487,8 @@ def shade(coords, colors, lit, specular: bool = False, ambient: float = AMBIENT,
             # Measured, pointing into a far cluster left it DIMMER than the near face of the map.
             # Physically this is a lamp in a scattering medium rather than a lamp in a vacuum, which
             # is the better model for a cloud of points that have no surfaces anyway.
-            glow = LOCAL_GLOW * light.get("gain", 1.0) / (1.0 + (dist / (LOCAL_WIDTH * scale)) ** 2)
+            width = float(light.get("width", LOCAL_WIDTH))
+            glow = LOCAL_GLOW * light.get("gain", 1.0) / (1.0 + (dist / (width * scale)) ** 2)
             total += (glow * light.get("shadow", 1.0)) * light["color"]
         if specular:
             half = direction + view

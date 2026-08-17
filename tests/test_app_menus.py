@@ -1001,3 +1001,74 @@ def test_an_export_that_cannot_be_written_says_which_file(win, monkeypatch, tmp_
     bad = tmp_path / "no_such_directory" / "frame.png"
     assert win.export_image(str(bad)) is None
     assert "could not write" in win.status.currentMessage()
+
+
+# --------------------------------------------------------------------------- display in the right-click
+def test_the_right_click_menu_carries_every_display_choice(win):
+    """The ask: the display settings belong where a reader already is when they want them, which is
+    right-clicking the map -- and in Preferences too, not instead of it. Built from one table so the
+    two cannot drift, and this asserts the table is what the menu shows."""
+    from PyQt6 import QtWidgets
+    m = win.build_context_menu()
+    display = [a for a in m.actions() if a.text() == "Display"]
+    assert display, "the right-click menu has no Display section"
+    sub = display[0].menu()
+    labels = [a.text() for a in sub.actions() if a.menu()]
+    assert labels == [row[0] for row in win.display_choices()]
+    for action in sub.actions():
+        if action.menu() is None:
+            continue
+        options = [x.text() for x in action.menu().actions()]
+        checked = [x.text() for x in action.menu().actions() if x.isChecked()]
+        assert len(checked) == 1, f"{action.text()} has {len(checked)} options checked"
+        assert len(options) == len(set(options)), f"{action.text()} repeats an option"
+
+
+def test_every_display_menu_item_applies_the_option_it_names(win):
+    """The classic failure for a menu built in a loop is every action carrying the LAST option,
+    because the lambda closed over the loop variable. Driven for real: trigger each action and read
+    the setting back.
+
+    Every key it touches is restored afterwards. These settings are GLOBAL -- one QSettings scope for
+    the whole run -- so a test that leaves `display/light_target_marker` on whatever it last clicked
+    makes the restart test in test_display.py fail, and only when the two run in the same session.
+    That is exactly what happened while this test was being written.
+    """
+    from PyQt6 import QtCore
+    keys = ("display/lighting", "display/light_target_marker", "display/light_point_mode",
+            "display/light_source")
+    s = QtCore.QSettings("starplast", "starplast")
+    before = {k: (s.value(k) if s.contains(k) else None) for k in keys}
+    m = win.build_context_menu()
+    sub = [a for a in m.actions() if a.text() == "Display"][0].menu()
+    by_label = {a.text(): a for a in sub.actions() if a.menu()}
+    try:
+        for label in ("Light render mode", "Target marker", "Point render mode", "Light target"):
+            for act in by_label[label].menu().actions():
+                act.trigger()
+                current = dict((row[0], row[2]) for row in win.display_choices())[label]
+                assert str(current) == act.text(), f"{label}: chose {act.text()}, got {current}"
+    finally:
+        for key, value in before.items():
+            s.remove(key) if value is None else s.setValue(key, value)
+        s.sync()
+
+
+def test_the_display_menu_toggles_drive_the_same_setters_as_preferences(win):
+    """Two controls for one setting must not be two implementations of it."""
+    m = win.build_context_menu()
+    sub = [a for a in m.actions() if a.text() == "Display"][0].menu()
+    toggles = {a.text(): a for a in sub.actions() if a.isCheckable() and a.menu() is None}
+    assert set(toggles) == {label for label, _s, _f in win.display_toggles()}
+    was = win.depth_cue
+    toggles["Fade with distance"].trigger()
+    assert win.depth_cue is not was
+    toggles["Fade with distance"].trigger()
+    assert win.depth_cue is was
+
+
+def test_the_display_menu_offers_the_full_dialog_too(win):
+    """The menu holds the choices; the sliders live in Preferences, so the menu has to point there."""
+    m = win.build_context_menu()
+    sub = [a for a in m.actions() if a.text() == "Display"][0].menu()
+    assert any(a.text() == "All display settings…" for a in sub.actions())
