@@ -16,7 +16,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from starplast import ambient as A, lighting as L  # noqa: E402
+from starplast import ambient as A, app as AW, lighting as L  # noqa: E402
 
 
 # --------------------------------------------------------------------------- the blob field
@@ -175,9 +175,107 @@ def test_an_empty_map_shades_to_nothing_rather_than_raising():
 def test_the_display_tab_exists_with_both_controls(win):
     d = win.build_preferences()
     assert [win.pref_tabs.tabText(i) for i in range(win.pref_tabs.count())] == \
-        ["Appearance", "Display"]
+        ["Appearance", "Display", "Window"]
     assert win.ambient_box.currentText() in ("none", "blobs")
     assert win.light_box.currentText() in L.MODES
+    d.close()
+
+
+# --------------------------------------------------------------------------- window size
+def test_the_window_can_be_made_to_fit_a_1080p_screen(win):
+    """The regression test for the bug that started this: the window would not fit a 1080p monitor.
+
+    Not a size preference at all -- a MINIMUM. The Data tab's `feature blocks` group is one checkbox
+    per slot block, so the tab's minimum height was 2,736 px; a QDockWidget passes its widget's
+    minimum straight through, which made the window's own minimum 2,897. A window cannot be resized
+    below its minimum, so on a 1920x1080 screen it opened with the bottom off the display and no
+    amount of dragging brought it back. Nothing reported it, because a minimum size is not an error.
+
+    The bound is the work area of a 1080p screen after a taskbar and a title bar. Asserting the
+    minimum rather than the current size is the point: a size that merely happens to fit today would
+    pass while the window was still unable to shrink.
+    """
+    assert win.minimumSizeHint().height() <= 1000, "the window cannot fit a 1080p screen"
+    assert win.minimumSizeHint().width() <= 1900
+    # And it must actually take the size, not snap back to a minimum.
+    win.resize(1280, 720)
+    assert (win.width(), win.height()) == (1280, 720)
+
+
+def test_every_analysis_tab_scrolls_rather_than_forcing_the_window_taller(win):
+    """The fix, stated where it can regress: a tab added later without a scroll area would put the
+    window's minimum back where it was."""
+    from PyQt6 import QtWidgets
+    tabs = win.panel.findChild(QtWidgets.QTabWidget)
+    assert tabs.count() == 7
+    for i in range(tabs.count()):
+        page = tabs.widget(i)
+        assert isinstance(page, QtWidgets.QScrollArea), f"tab {tabs.tabText(i)} does not scroll"
+        assert page.widgetResizable(), f"tab {tabs.tabText(i)} would not reflow"
+
+
+def test_the_default_is_the_screen_and_not_full_screen(win, monkeypatch):
+    """What a fresh install does: fill the monitor it opens on, windowed."""
+    win.settings().remove("window/size")
+    win.settings().remove("window/fullscreen")
+    cfg = win.window_settings()
+    assert cfg == {"size": AW.MATCH_SCREEN, "fullscreen": False}
+    assert not win.isFullScreen()
+
+
+def test_a_size_larger_than_the_monitor_is_clamped_and_says_so(win):
+    """Choosing 4K on a 1080p screen must give a window that fits. Silently ignoring the choice would
+    read as a broken setting, so the clamp is reported."""
+    note = win.apply_window_size(size="3840 × 2160", fullscreen=False)
+    area = win.work_area()
+    assert win.width() <= area.width() and win.height() <= area.height()
+    if (area.width(), area.height()) < (3840, 2160):
+        assert "clamped" in note
+
+
+def test_match_screen_uses_the_work_area_not_the_raw_resolution(win):
+    """The taskbar is the difference between fitting and a title bar off the top of the screen."""
+    note = win.apply_window_size(size=AW.MATCH_SCREEN, fullscreen=False)
+    area = win.work_area()
+    assert (win.width(), win.height()) == (area.width(), area.height())
+    assert f"{area.width()} × {area.height()}" in note
+
+
+def test_full_screen_is_a_setting_that_survives_and_can_be_turned_off(win):
+    win.apply_window_size(size="1280 × 720", fullscreen=True)
+    assert win.isFullScreen()
+    assert win.window_settings()["fullscreen"] is True
+    win.apply_window_size(fullscreen=False)
+    assert not win.isFullScreen()
+    assert win.window_settings() == {"size": "1280 × 720", "fullscreen": False}
+
+
+def test_a_stored_size_that_is_no_longer_offered_falls_back(win):
+    """A hand-edited or stale config must not stop the window opening."""
+    win.settings().setValue("window/size", "9999 x nonsense")
+    assert win.window_settings()["size"] == AW.MATCH_SCREEN
+    win.apply_window_size()
+    assert win.width() > 0
+
+
+def test_with_no_screen_at_all_the_window_still_gets_a_size(win, monkeypatch):
+    """The defensive branch, exercised rather than assumed. `screen()` is None before a window is
+    shown and `primaryScreen()` is None on a machine with no display attached -- and this runs during
+    `__init__`, so returning None here would raise before the window exists at all."""
+    from PyQt6 import QtGui
+    monkeypatch.setattr(win, "screen", lambda: None)
+    monkeypatch.setattr(QtGui.QGuiApplication, "primaryScreen", staticmethod(lambda: None))
+    area = win.work_area()
+    assert (area.width(), area.height()) == (1280, 720)
+    assert win.apply_window_size(size=AW.MATCH_SCREEN, fullscreen=False) == "1280 × 720"
+
+
+def test_the_controls_report_the_size_actually_used(win):
+    d = win.build_preferences()
+    assert win.window_size_box.currentText() in AW.WINDOW_SIZES
+    note = win._on_window_change(size="1600 × 900")
+    assert note in win.window_note.text()
+    assert "this monitor allows up to" in win.window_note.text()
     d.close()
 
 

@@ -669,7 +669,27 @@ starplast-discover --read bigA_00_guilt_compartment_best
 
 ## 4. Known limitations — measured, not pending implementation
 
-0. **The Plasmodium arm is DATA AND CATALOG ONLY. The running application cannot show it.**
+0. **FIXED 2026-08-17, recorded because the shape of it will recur: the window could not fit a 1080p
+   monitor.** Not a preference and not a stylesheet -- a MINIMUM SIZE. The Data tab's `feature blocks`
+   group is one checkbox per slot block, so the tab's minimum height was 2,736 px; a `QDockWidget`
+   passes its widget's minimum straight through, which made the window's own minimum **2,897 px**. A
+   window cannot be resized below its minimum, so it opened with the bottom off the display on any
+   monitor, and dragging could not recover it. Nothing reported it, because a minimum size is not an
+   error. Measured with `minimumSizeHint()` on an offscreen window, not guessed.
+
+   Two things follow. The panel tabs are now wrapped in `QScrollArea` (`analysis_panel._scrolled`),
+   which took the window minimum to 517 px -- and the `text size` tooltip had promised exactly that
+   behaviour all along: *"if the window cannot fit the panel the panel scrolls."* It grew and never
+   scrolled. And **any new panel that adds rows without a scroll area puts the bug straight back**, so
+   a test asserts every one of the seven tabs is inside a resizable scroll area.
+
+   Window size and full screen are now settings (Preferences → Window, `window/size` and
+   `window/fullscreen`). The default is the work area of whichever monitor the window opens on --
+   `availableGeometry`, not `geometry`, since the difference is the taskbar and the taskbar is the
+   difference between fitting and a title bar off the top. Every fixed size is clamped to the work
+   area and the clamp is REPORTED, because a setting that was silently ignored reads as broken.
+
+1. **The Plasmodium arm is DATA AND CATALOG ONLY. The running application cannot show it.**
    Verified 2026-08-17 by grep, not assumed: `pf_nodes.parquet` and `pf_graph.npz` are read by
    `plasmodium`, `pf_graph`, `slots` and the registry, and by nothing else. `app.load` opens
    `nodes.parquet` and `graph.npz` by name at `app.py:228`, and `discover` and `embedding` do the

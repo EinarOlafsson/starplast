@@ -28,6 +28,30 @@ from .embedding import (BLOCKS, SLOT_BLOCKS, EmbeddingSpec, NA_POLICIES, SCALING
 from .theme import CMAPS, POINT_MODES, POINT_STYLES, THEMES, cmaps_of, kind_for_column
 
 
+def _scrolled(page: QtWidgets.QWidget) -> QtWidgets.QScrollArea:
+    """Wrap a tab page so the WINDOW can be smaller than the page.
+
+    Without this, the panel's minimum height is the tallest page's minimum, and a `QDockWidget`
+    propagates that minimum straight to the window. The Data tab's `feature blocks` group is one
+    checkbox per slot block, which made it 2,736 px tall, the panel 2,776 and the window **2,897** --
+    so the window could not be made shorter than that on ANY monitor, and did not fit a 1080p screen
+    at all. Nothing reported it, because a minimum size is not an error; the window simply opens
+    larger than the display and the bottom is off-screen.
+
+    The `text size` tooltip already promised exactly this: "if a panel cannot fit its text it grows,
+    and if the window cannot fit the panel the panel scrolls." It grew and never scrolled.
+
+    Horizontal scrolling stays off: the pages are forms that reflow, and a horizontal bar on a form
+    means a label has been cut off rather than wrapped.
+    """
+    area = QtWidgets.QScrollArea()
+    area.setWidgetResizable(True)
+    area.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+    area.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+    area.setWidget(page)
+    return area
+
+
 class Worker(QtCore.QObject):
     """Runs one callable off the GUI thread and reports back."""
     done = QtCore.pyqtSignal(object, object)     # result, error
@@ -304,13 +328,13 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.discovery_step.connect(self._discovery_step_arrived)
 
         tabs = QtWidgets.QTabWidget()
-        tabs.addTab(self._data_tab(), "1 · Data")
-        tabs.addTab(self._map_tab(), "2 · Map")
-        tabs.addTab(self._cluster_tab(), "3 · Clusters")
-        tabs.addTab(self._meaning_tab(), "4 · Inference")
-        tabs.addTab(self._search_tab(), "5 · Search")
-        tabs.addTab(self._validation_tab(), "6 · Validation")
-        tabs.addTab(self._discover_tab(), "7 · Discover")
+        tabs.addTab(_scrolled(self._data_tab()), "1 · Data")
+        tabs.addTab(_scrolled(self._map_tab()), "2 · Map")
+        tabs.addTab(_scrolled(self._cluster_tab()), "3 · Clusters")
+        tabs.addTab(_scrolled(self._meaning_tab()), "4 · Inference")
+        tabs.addTab(_scrolled(self._search_tab()), "5 · Search")
+        tabs.addTab(_scrolled(self._validation_tab()), "6 · Validation")
+        tabs.addTab(_scrolled(self._discover_tab()), "7 · Discover")
         lay = QtWidgets.QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         lay.addWidget(tabs)

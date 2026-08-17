@@ -114,6 +114,19 @@ UI_SCALE_RANGE = (0.8, 1.6)
 #: font: enough for "the X color is on a shape shared with Y -- click it to step through them", and
 #: fixed so that a longer note scrolls instead of moving the drawing.
 DIAGRAM_NOTE_HEIGHT = 54
+
+#: The startup window size, chosen in Preferences. `MATCH_SCREEN` is the default and means the work
+#: area of whichever monitor the window opens on -- the screen minus its taskbar and panels, which is
+#: the largest size that actually fits. It is not the raw screen resolution: on a 1080p monitor a
+#: 1920x1080 window is taller than the space available to it, and the title bar goes off the top.
+#:
+#: The fixed sizes are offered because this program is run on two machines with different monitors and
+#: a figure made at one size should be reproducible at that size on the other. Every one of them is
+#: CLAMPED to the work area before use, so choosing 3840x2160 on a 1080p screen gives a window that
+#: fits rather than one that hangs off the edge.
+MATCH_SCREEN = "match screen"
+WINDOW_SIZES = (MATCH_SCREEN, "1280 × 720", "1366 × 768", "1600 × 900", "1920 × 1080",
+                "2560 × 1440", "3200 × 1800", "3840 × 2160")
 # Columns that are categorical by dtype but meaningless as a filter: provenance flags and internals.
 CATEGORY_DENYLIST = {"gene_id", "product", "symbol", "orthogroup"}
 
@@ -708,7 +721,11 @@ class Window(QtWidgets.QMainWindow):
         self.n = len(self.nodes)
         self.sel = None
         self.setWindowTitle("starplast — Toxoplasma knowledge map")
-        self.resize(1580, 950)
+        # Was a flat resize(1580, 950), which is not the reason the window used to open too large --
+        # that was a 2,897 px minimum height, fixed in `analysis_panel._scrolled` -- but it did mean
+        # the window was the same size on a 1080p monitor and a 4K one. Applied last, after the size
+        # is known to be reachable.
+        self.apply_window_size()
 
         from .runs import RunStore
         self.categories = category_columns(self.nodes)
@@ -1060,6 +1077,61 @@ class Window(QtWidgets.QMainWindow):
     def settings(self):
         """Where preferences persist. One place, so a new setting cannot invent its own file."""
         return QtCore.QSettings("starplast", "starplast")
+
+    # ------------------------------------------------------------------ window size
+    def work_area(self) -> QtCore.QRect:
+        """The space a window may occupy on the monitor it is on.
+
+        `availableGeometry`, not `geometry`: the difference is the taskbar, and it is the difference
+        between a window that fits and one whose title bar is off the top of the screen. Falls back to
+        the primary screen because during `__init__` the window has not been shown and has no screen
+        of its own yet.
+        """
+        screen = self.screen() or QtGui.QGuiApplication.primaryScreen()
+        return screen.availableGeometry() if screen else QtCore.QRect(0, 0, 1280, 720)
+
+    def window_settings(self) -> dict:
+        """The stored window preferences, with the defaults that apply on a fresh install."""
+        s = self.settings()
+        size = str(s.value("window/size", MATCH_SCREEN, type=str) or MATCH_SCREEN)
+        return {"size": size if size in WINDOW_SIZES else MATCH_SCREEN,
+                "fullscreen": bool(s.value("window/fullscreen", False, type=bool))}
+
+    def apply_window_size(self, **changes) -> str:
+        """Resize to the chosen size, or go full screen, and say what happened.
+
+        Every branch ends up clamped to `work_area`, including the fixed sizes, so no choice here can
+        produce a window larger than the display. That is the whole point of the control: the previous
+        behaviour was one hardcoded size for every monitor, and a size too large for a screen is not
+        recoverable by dragging when the title bar is off the top.
+
+        Returns the sentence shown in Preferences, because a setting whose effect was silently clamped
+        needs to say so -- otherwise choosing 4K on a 1080p screen looks like the setting was ignored.
+        """
+        cfg = {**self.window_settings(), **changes}
+        s = self.settings()
+        s.setValue("window/size", cfg["size"])
+        s.setValue("window/fullscreen", bool(cfg["fullscreen"]))
+        area = self.work_area()
+        if cfg["fullscreen"]:
+            self.showFullScreen()
+            return f"full screen on a {area.width()} × {area.height()} work area"
+        if self.isFullScreen():
+            self.showNormal()
+        if cfg["size"] == MATCH_SCREEN:
+            want = QtCore.QSize(area.width(), area.height())
+        else:
+            w, h = (int(p.strip()) for p in cfg["size"].replace("×", "x").split("x"))
+            want = QtCore.QSize(w, h)
+        fitted = want.boundedTo(QtCore.QSize(area.width(), area.height()))
+        self.resize(fitted)
+        # Centre it: a clamped window pinned at its old top-left can still sit half off the screen.
+        self.move(area.x() + max(0, (area.width() - fitted.width()) // 2),
+                  area.y() + max(0, (area.height() - fitted.height()) // 2))
+        note = f"{fitted.width()} × {fitted.height()}"
+        if fitted != want:
+            note += f" (clamped from {want.width()} × {want.height()} to fit this monitor)"
+        return note
 
     def log_settings(self) -> dict:
         """The stored logging preferences, with the defaults that apply on a fresh install.
@@ -1717,6 +1789,64 @@ class Window(QtWidgets.QMainWindow):
         n = len(set(self.cluster_labels[self.cluster_labels >= 0]))
         self.status.showMessage(f"coloring by {n} clusters, kept as a run you can come back to; "
                                 f"gray is unclustered, which is a real answer and not a missing one")
+
+    def _window_tab(self):
+        """How large the window opens, and whether it opens full screen.
+
+        Its own tab rather than a row in Display, because these two are the only settings that take
+        effect before anything is drawn, and they are the ones to reach for when the window is the
+        wrong size for the monitor -- which has to be findable without scrolling a tab that is mostly
+        lighting controls.
+        """
+        cfg = self.window_settings()
+        w = QtWidgets.QWidget()
+        form = QtWidgets.QFormLayout(w)
+
+        self.window_size_box = QtWidgets.QComboBox()
+        self.window_size_box.addItems(WINDOW_SIZES)
+        self.window_size_box.setCurrentText(cfg["size"])
+        self.window_size_box.setToolTip(
+            "The size the window opens at. 'match screen' is the default and means the work area of "
+            "whichever monitor it opens on -- the screen minus its taskbar, which is the largest size "
+            "that actually fits.\n\n"
+            "The fixed sizes are for reproducing a figure at the same size on a different monitor. "
+            "Every one of them is clamped to the monitor before use, so picking a size larger than "
+            "the screen gives a window that fits rather than one whose title bar is off the top.")
+        self.window_size_box.currentTextChanged.connect(
+            lambda text: self._on_window_change(size=text))
+
+        # A switch rather than a checkbox, to match the GPU control and spacr.
+        self.fullscreen_switch = TH.Switch("", checked=cfg["fullscreen"])
+        self.fullscreen_switch.setToolTip(
+            "Fill the whole screen with no title bar. Off by default: the map is usually read beside "
+            "something else, and a window with no title bar cannot be moved.\n\n"
+            "While this is on the size above has no effect; turning it off restores that size.")
+        self.fullscreen_switch.toggled.connect(
+            lambda on: self._on_window_change(fullscreen=bool(on)))
+
+        self.window_note = QtWidgets.QLabel("")
+        self.window_note.setWordWrap(True)
+        self._refresh_window_note()
+
+        form.addRow("window size", self.window_size_box)
+        form.addRow("full screen", self.fullscreen_switch)
+        form.addRow("", self.window_note)
+        return w
+
+    def _on_window_change(self, **changes) -> str:
+        """Apply a window setting and report the size actually used."""
+        note = self.apply_window_size(**changes)
+        self._refresh_window_note(note)
+        self.status.showMessage(f"window: {note}")
+        return note
+
+    def _refresh_window_note(self, note: str = "") -> str:
+        """Say what the window is and what the monitor allows, since the two can differ."""
+        area = self.work_area()
+        text = note or f"{self.width()} × {self.height()}"
+        self.window_note.setText(f"now {text} — this monitor allows up to "
+                                 f"{area.width()} × {area.height()}")
+        return text
 
     def _display_tab(self):
         """Scenery and lighting: the two settings that change how the map LOOKS rather than what it
@@ -2459,6 +2589,7 @@ class Window(QtWidgets.QMainWindow):
         form.addRow("show at level", self.log_console_level)
         form.addRow("log file", self.log_path)
         self.pref_tabs.addTab(self._display_tab(), "Display")
+        self.pref_tabs.addTab(self._window_tab(), "Window")
         close = QtWidgets.QPushButton("close")
         close.clicked.connect(d.accept)
         outer.addWidget(close)
