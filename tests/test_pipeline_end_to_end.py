@@ -352,3 +352,35 @@ def test_the_shipped_expression_columns_still_reproduce_their_geo_source(nodes, 
     if t.empty:
         pytest.skip("no GEO primary matrix on this machine")
     assert t.agrees.all(), t.to_string()
+
+
+def test_the_two_species_caches_do_not_answer_each_other(nodes):
+    """The end-to-end version of the species guard, against the SHIPPED caches.
+
+    The unit tests check the guard on fixtures. This checks the thing that actually ships: hand the
+    Plasmodium arm the Toxoplasma table and graph and it must recover nothing, even though both
+    tables name many columns identically and both graphs name their layers identically. Three
+    separate code paths have to hold for this to pass -- `declared_columns`, `resolve` and
+    `is_filled` -- and each of them failed once while the second species was being built.
+    """
+    import os
+    import numpy as np
+    import pandas as pd
+    import starplast.paths as P
+    from starplast import slots
+    pf_nodes_path = os.path.join(P.data_dir(), "pf_nodes.parquet")
+    pf_graph_path = os.path.join(P.data_dir(), "pf_graph.npz")
+    if not (os.path.exists(pf_nodes_path) and os.path.exists(pf_graph_path)):
+        pytest.skip("Plasmodium cache not built")
+    tg_graph = np.load(os.path.join(P.data_dir(), "graph.npz"), allow_pickle=True)
+    pf_nodes = pd.read_parquet(pf_nodes_path)
+    pf_graph = np.load(pf_graph_path, allow_pickle=True)
+
+    # Against its own cache the Plasmodium arm has data; against the Toxoplasma one it has none.
+    assert slots.coverage("Pf", pf_nodes, pf_graph)["filled"] > 20
+    assert slots.coverage("Pf", nodes, tg_graph)["filled"] == 0
+    # And the reverse, so the guard is not simply refusing everything Plasmodium.
+    assert slots.coverage("Tg", nodes, tg_graph)["filled"] > 50
+    assert slots.coverage("Tg", pf_nodes, pf_graph)["filled"] == 0
+    # The tables must also be disjoint: one gene cannot be in both organisms.
+    assert not set(nodes["gene_id"]) & set(pf_nodes["gene_id"])
