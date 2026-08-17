@@ -1205,6 +1205,26 @@ REGISTRY = [
                  "rather than filled with a share. The tell would have been well hidden: ring "
                  "protein correlates -0.25 with ring mRNA, which reads as a biological puzzle and "
                  "is only the normalisation showing through."),
+    Dataset("plasmodb_pf3d7_exportpred", "Plasmodium export prediction (ExportPred)",
+            "reference", "annotation",
+            "Predicted export to the erythrocyte, as an ordinal confidence tier",
+            ("export_pred_tier", "is_exported"), "440 genes called at some threshold, 191 at the default",
+            accession="PlasmoDB GenesByExportPrediction",
+            url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
+                "GenesByExportPrediction/reports/attributesTabular",
+            path="datasets/reference/plasmodb/exportpred/",
+            note="PREDICTED, not measured, which is why it answers `export / PEXEL trafficking` and "
+                 "not `exposure to host cytosol` -- that slot wants a measured exportome and a "
+                 "sequence model filling it would be a model answering for an experiment. PlasmoDB "
+                 "serves ExportPred as a search with a score threshold rather than as a per-gene "
+                 "attribute, so the score is recovered by asking at several thresholds and keeping "
+                 "the highest a gene survives; the scale saturates, since asking for 20 returns "
+                 "nothing, so 10 is the algorithm's own default and the top tier rather than an "
+                 "arbitrary cut. It is a TIER and not a boolean because the default loses real "
+                 "biology: MESA and PfEMP3 are exported by any textbook and both fall below 10, "
+                 "while KAHRP and the FIKK kinases sit above it. Absence is a real negative here "
+                 "and not a gap -- a sequence model was evaluated on every protein, so its silence "
+                 "is a prediction of not-exported, which is the opposite of the screen columns."),
     Dataset("pf_relation_layers", "Plasmodium relation layers (COMPUTED)", "reference", "graph",
             "Gene pairs sharing an orthogroup or a domain, and pairs whose stages covary",
             ("edge:orthogroup", "edge:domain", "edge:coexpression"),

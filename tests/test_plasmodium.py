@@ -317,3 +317,121 @@ def test_no_plasmodium_slot_claims_the_compositional_proteome():
             assert not pattern.startswith("protein_stage_share"), f"{slot} claims a share"
         if "protein abundance" in slot:
             assert not patterns, f"{slot} must stay empty until a true abundance arrives"
+
+
+# --------------------------------------------------------------------------- export prediction
+EXPORT = os.path.join(ROOT, "datasets", "reference", "plasmodb", P.EXPORT_DIR)
+NODES = os.path.join(ROOT, "starplast", "data", P.TABLE)
+
+
+def _export_dir(tmp_path, tiers=None):
+    """PlasmoDB answers ExportPred as a gene list per score threshold, so the tiers are nested."""
+    tiers = tiers if tiers is not None else {1: ["A", "B", "C"], 5: ["A", "B"], 10: ["A"]}
+    folder = tmp_path / P.EXPORT_DIR
+    folder.mkdir()
+    for threshold, genes in tiers.items():
+        pd.DataFrame({"Gene ID": genes, "Product Description": ["x"] * len(genes)}).to_csv(
+            folder / f"exportpred_score_ge_{threshold}.tsv", sep="\t", index=False)
+    return str(folder)
+
+
+def test_export_tiers_are_ordinal(tmp_path):
+    d = P.export_prediction(_export_dir(tmp_path)).set_index("gene_id")
+    assert d.loc["A", "export_pred_tier"] == 3
+    assert d.loc["B", "export_pred_tier"] == 2
+    assert d.loc["C", "export_pred_tier"] == 1
+
+
+def test_only_the_top_tier_counts_as_exported_at_the_default(tmp_path):
+    d = P.export_prediction(_export_dir(tmp_path)).set_index("gene_id")
+    assert d.loc["A", "is_exported"]
+    assert not d.loc["B", "is_exported"] and not d.loc["C", "is_exported"]
+
+
+def test_a_missing_export_folder_yields_nothing(tmp_path):
+    assert P.export_prediction(str(tmp_path / "absent")).empty
+
+
+def test_an_export_folder_with_no_readable_answer_yields_nothing(tmp_path):
+    folder = tmp_path / P.EXPORT_DIR
+    folder.mkdir()
+    pd.DataFrame({"wrong": ["A"]}).to_csv(folder / "exportpred_score_ge_1.tsv", sep="\t", index=False)
+    assert P.export_prediction(str(folder)).empty
+
+
+def test_a_partly_fetched_export_folder_still_gives_the_tiers_it_has(tmp_path):
+    d = P.export_prediction(_export_dir(tmp_path, tiers={1: ["A", "B"]}))
+    assert set(d["gene_id"]) == {"A", "B"}
+    assert (d["export_pred_tier"] == 1).all() and not d["is_exported"].any()
+
+
+@pytest.mark.skipif(not os.path.isdir(EXPORT), reason="ExportPred answers not fetched")
+def test_the_export_prediction_finds_the_known_exportome():
+    """Composition check: the exported set has to be the families every malaria textbook lists."""
+    d = P.export_prediction(EXPORT)
+    assert 150 < int(d["is_exported"].sum()) < 300
+    top = d[d["is_exported"]]["gene_id"]
+    assert "PF3D7_0202000" in set(top), "KAHRP is not called exported"
+
+
+@pytest.mark.skipif(not os.path.isdir(EXPORT), reason="ExportPred answers not fetched")
+def test_the_tiers_keep_exported_proteins_the_default_threshold_loses():
+    """Why this is a tier and not a boolean. MESA and PfEMP3 are exported and score below 10."""
+    d = P.export_prediction(EXPORT).set_index("gene_id")
+    for gene, name in (("PF3D7_0500800", "MESA"), ("PF3D7_0201900", "PfEMP3")):
+        assert gene in d.index, f"{name} is not called exported at any threshold"
+        assert d.loc[gene, "export_pred_tier"] < 3, f"{name} was expected below the default"
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_a_gene_absent_from_exportpred_is_predicted_not_exported_rather_than_unknown():
+    """A sequence model was run on every protein, so its silence is an answer."""
+    d = pd.read_parquet(NODES, columns=["gene_id", "export_pred_tier", "is_exported"])
+    assert d["export_pred_tier"].notna().all()
+    assert (d["export_pred_tier"] == 0).sum() > 5000
+
+
+# --------------------------------------------------------------------------- whole-table assembly
+def _dataset_root(tmp_path, with_stages=True, with_export=True, genes=True):
+    """A dataset tree shaped the way `build_all` expects to find one."""
+    base = tmp_path / "reference" / "plasmodb"
+    base.mkdir(parents=True)
+    if genes:
+        src = _report(tmp_path)
+        os.replace(src, base / "plasmodb_pf3d7_gene_attributes.tsv")
+    if with_stages:
+        rows = {"Gene ID": ["PF3D7_0100100", "PF3D7_0100200"]}
+        for study, sample, _column in P.EXPRESSION:
+            rows[f"{study} - {sample} - unique" if sample else study] = ["1.5", "2.5"]
+        pd.DataFrame(rows).to_csv(base / P.EXPRESSION_TABLE, sep="\t", index=False)
+    if with_export:
+        folder = base / P.EXPORT_DIR
+        folder.mkdir()
+        for threshold, members in {1: ["PF3D7_0100100"], 5: ["PF3D7_0100100"],
+                                   10: ["PF3D7_0100100"]}.items():
+            pd.DataFrame({"Gene ID": members}).to_csv(
+                folder / f"exportpred_score_ge_{threshold}.tsv", sep="\t", index=False)
+    return str(tmp_path)
+
+
+def test_build_all_assembles_the_three_reports(tmp_path):
+    d = P.build_all(_dataset_root(tmp_path), log=lambda *a: None)
+    assert {"length", "expr_ring", "export_pred_tier", "is_exported"} <= set(d.columns)
+    assert len(d) == 2
+
+
+def test_build_all_records_an_unpredicted_gene_as_not_exported(tmp_path):
+    d = P.build_all(_dataset_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "is_exported"]
+    assert d.loc["PF3D7_0100200", "export_pred_tier"] == 0
+    assert not d.loc["PF3D7_0100200", "is_exported"]
+
+
+def test_build_all_survives_a_dataset_root_with_only_the_gene_report(tmp_path):
+    d = P.build_all(_dataset_root(tmp_path, with_stages=False, with_export=False),
+                    log=lambda *a: None)
+    assert len(d) == 2 and "expr_ring" not in d.columns and "is_exported" not in d.columns
+
+
+def test_build_all_without_a_gene_report_yields_nothing(tmp_path):
+    assert P.build_all(_dataset_root(tmp_path, genes=False), log=lambda *a: None).empty

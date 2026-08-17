@@ -1079,6 +1079,11 @@ PF_PATTERNS = {
     "translation · asexual blood stage": ["polysomal_"],
     # Pair slots, answered by the Plasmodium graph rather than by columns. Its indices point into
     # pf_nodes.parquet and mean nothing in the Toxoplasma graph, which is why there are two files.
+    # Predicted, not measured, and the slot's context says "erythrocyte cytosol" -- a sequence model
+    # for the PEXEL motif is exactly the kind of evidence that answers it. `exposure to host cytosol`
+    # is left empty on purpose: that slot wants a measured exportome, and a prediction filling it
+    # would be a model answering for an experiment.
+    "export / PEXEL trafficking": ["export_pred_tier", "is_exported"],
     "shared orthogroup": ["edge:orthogroup"],
     "shared domain": ["edge:domain"],
     "co-transcription": ["edge:coexpression"],

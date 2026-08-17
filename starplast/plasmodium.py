@@ -187,3 +187,69 @@ def expression(report_path: str) -> pd.DataFrame:
         return pd.DataFrame()
     # Same transcript-versus-gene collapse as the attribute report, and the same reason.
     return out[~out["gene_id"].duplicated()].sort_values("gene_id").reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- export prediction
+#: ExportPred calls a protein exported to the erythrocyte from its signal sequence and PEXEL motif.
+#: PlasmoDB serves it as a SEARCH with a score threshold rather than as a per-gene attribute, so the
+#: score is recovered by asking at several thresholds and recording the highest one a gene survives.
+#: The scale saturates: asking for 20 returns nothing at all, so 10 -- the algorithm's own default --
+#: is the top tier and not an arbitrary cut.
+EXPORT_DIR = "exportpred"
+EXPORT_TIERS = (1, 5, 10)
+
+
+def export_prediction(folder: str) -> pd.DataFrame:
+    """Predicted export to the host erythrocyte, as an ordinal tier.
+
+    A tier rather than a boolean because the threshold matters and the default loses real biology:
+    MESA and PfEMP3 are exported by any textbook and both fall below 10, while KAHRP and the FIKK
+    kinases sit above it. Collapsing to the default would have called two of the best-known exported
+    proteins in the organism not exported.
+
+    Absence is a real negative here and not a gap. ExportPred is a sequence model, so it was
+    evaluated on every protein; a gene missing from all three answers is predicted NOT exported,
+    which is the opposite of the screen columns where absence means nobody looked.
+    """
+    if not os.path.isdir(folder):
+        return pd.DataFrame()
+    tiers = {}
+    for rank, threshold in enumerate(EXPORT_TIERS, start=1):
+        path = os.path.join(folder, f"exportpred_score_ge_{threshold}.tsv")
+        if not os.path.exists(path):
+            continue
+        d = pd.read_csv(path, sep="\t", dtype=str)
+        if "Gene ID" not in d.columns:
+            continue
+        for gene in d["Gene ID"].astype(str):
+            tiers[gene] = max(tiers.get(gene, 0), rank)
+    if not tiers:
+        return pd.DataFrame()
+    out = pd.DataFrame({"gene_id": sorted(tiers), "export_pred_tier": [tiers[g] for g in sorted(tiers)]})
+    out["is_exported"] = out["export_pred_tier"] >= len(EXPORT_TIERS)
+    return out
+
+
+def build_all(dataset_root: str, log=print) -> pd.DataFrame:
+    """The whole Plasmodium table from the three PlasmoDB reports, assembled in one place.
+
+    Exists so the table is reproducible rather than the product of whatever was typed at a prompt,
+    and so the one judgement call in the assembly is written down: a gene absent from ExportPred is
+    recorded as tier 0 rather than as missing, because ExportPred is a sequence model evaluated on
+    every protein and its silence is a prediction of "not exported". Every other absence in this
+    table is ignorance and stays missing.
+    """
+    base = os.path.join(dataset_root, "reference", "plasmodb")
+    nodes = build(os.path.join(base, "plasmodb_pf3d7_gene_attributes.tsv"))
+    if nodes.empty:
+        return nodes
+    stages = expression(os.path.join(base, EXPRESSION_TABLE))
+    if not stages.empty:
+        nodes = nodes.merge(stages, on="gene_id", how="left")
+    exported = export_prediction(os.path.join(base, EXPORT_DIR))
+    if not exported.empty:
+        nodes = nodes.merge(exported, on="gene_id", how="left")
+        nodes["export_pred_tier"] = nodes["export_pred_tier"].fillna(0).astype(int)
+        nodes["is_exported"] = nodes["export_pred_tier"] >= len(EXPORT_TIERS)
+    log(f"Plasmodium table: {len(nodes):,} genes, {len(nodes.columns)} columns")
+    return nodes

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 81 covered well, 17 partly, 36 thinly, 88 empty.**
+**222 slots: 82 covered well, 17 partly, 36 thinly, 87 empty.**
 
 ### transcription
 
@@ -237,7 +237,7 @@ quantity were approximating on 2026-08-13.
 | Pf_membrane topology | sequence | **A** | 5720 | 100.0% | `n_tm, is_tm, has_signal_peptide` | one | — |
 | Pf_exposure to host cytosol | PVM, export | **-** |  |  | `` | fill | — |
 | Pf_secretome / excreted | ESA | **-** |  |  | `` | one | — |
-| Pf_export / PEXEL trafficking | erythrocyte cytosol | **-** |  |  | `` | one | **Plasmodium vivax cysteine-rich protective antigen (PvCyRPA), an important element for vaccine strategies targeting P. vivax, interacts with human erythrocyte surface.** (Acta tropica 2025) [41205844](https://pubmed.ncbi.nlm.nih.gov/41205844/)<br>verify assay and parasite-gene shape)<br>**RALP1 is essential for schizont maturation and erythrocyte invasion in Plasmodium falciparum.** (Parasites & vectors 2026) [41792842](https://pubmed.ncbi.nlm.nih.gov/41792842/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
+| Pf_export / PEXEL trafficking | erythrocyte cytosol | **A** | 5720 | 100.0% | `export_pred_tier, is_exported` | one | **Plasmodium vivax cysteine-rich protective antigen (PvCyRPA), an important element for vaccine strategies targeting P. vivax, interacts with human erythrocyte surface.** (Acta tropica 2025) [41205844](https://pubmed.ncbi.nlm.nih.gov/41205844/)<br>verify assay and parasite-gene shape)<br>**RALP1 is essential for schizont maturation and erythrocyte invasion in Plasmodium falciparum.** (Parasites & vectors 2026) [41792842](https://pubmed.ncbi.nlm.nih.gov/41792842/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
 
 ### relation
 

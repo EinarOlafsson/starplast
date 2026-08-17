@@ -224,6 +224,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Membrane lipid composition of parasite vesicles | Lipid species abundance, and its proportion against the host cell | 194 lipid species | PMID [41716462](https://pubmed.ncbi.nlm.nih.gov/41716462/); `Front Cell Infect Microbiol 1745625 Tables 1-3` |
 | Metabolome and isotope labelling under iron deprivation | Steady-state metabolite levels and the fraction labelled from glucose or glutamine | 1,102 metabolites | PMID [41925342](https://pubmed.ncbi.nlm.nih.gov/41925342/); `mBio 03788-25 Tables S3 and S5` |
 | OrthoMCL orthogroups | Orthogroup assignment and cross-species bridge | 16,793 groups | `OrthoMCL release 6.21` |
+| Plasmodium export prediction (ExportPred) | Predicted export to the erythrocyte, as an ordinal confidence tier | 440 genes called at some threshold, 191 at the default | `PlasmoDB GenesByExportPrediction` |
 | Plasmodium falciparum 3D7 gene attributes | The second species: sequence, orthology, domains, strain SNPs and piggyBac fitness | 5,720 P. falciparum genes | `PlasmoDB GenesByTaxon attributesTabular` |
 | Plasmodium relation layers (COMPUTED) | Gene pairs sharing an orthogroup or a domain, and pairs whose stages covary | 1,741 + 24,123 + 63,158 pairs | *citation not yet confirmed* |
 | PubMed Central open-access full texts | Sectioned JATS XML | 6,667 articles | *citation not yet confirmed* |

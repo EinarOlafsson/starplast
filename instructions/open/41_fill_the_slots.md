@@ -895,3 +895,39 @@ name-keyed check — `declared_columns`, `resolve`, and now `is_filled` — plus
 test that was passing by accident. The mirroring is still right: it is what lets the arms be compared
 at all. But the rule it implies should be written down before a third species arrives: **nothing may
 identify an organism by the name of a column or a layer. Only the table's own accessions do that.**
+
+## Eleventh pass: export prediction, and a threshold that would have lost the textbook
+
+**Toxoplasma 114 of 119, Plasmodium 21 of 103, combined 135 of 222.**
+
+PlasmoDB's gene attributes carry no PEXEL, export or PTM annotation — checked across all 3,070 — so
+the remaining Plasmodium PTM and localisation slots need deposits one at a time, the same acquisition
+work Toxoplasma took. One exception was sitting in the search list rather than the attribute list:
+**ExportPred**, a hidden Markov model of the signal sequence and PEXEL motif.
+
+### Why it is a tier and not a boolean
+
+PlasmoDB serves it as a search with a score threshold, so the score was recovered by asking at
+several thresholds and keeping the highest each gene survives. The scale saturates — asking for 20
+returns nothing — so 10 is the algorithm's own default and the top tier rather than an arbitrary cut.
+
+Taking that default as a boolean would have been wrong in a way that a composition check nearly
+missed. At score ≥ 10 the 191 genes are exactly the textbook exportome: *Plasmodium* exported
+proteins, rifin, PfEMP1, stevor, the FIKK kinases, KAHRP. It looks right. But **MESA and PfEMP3 —
+exported by any textbook — both fall below 10** and only appear at the permissive threshold. A
+boolean at the default would have called two of the best-known exported proteins in the organism not
+exported, and the composition check would still have passed.
+
+Two tests hold the distinction: one asserts the known exportome is found at the default, the other
+asserts MESA and PfEMP3 are present *below* it.
+
+### The other judgement, written into the assembly
+
+Absence from ExportPred is a **real negative**, not a gap: it is a sequence model evaluated on every
+protein, so its silence is a prediction of "not exported". That is the opposite of the screen columns,
+where absence inside the screened set means normal and outside it means nobody looked. The rule now
+lives in `plasmodium.build_all` rather than in whatever was typed at a prompt, which is also what
+made the whole table reproducible for the first time.
+
+`exposure to host cytosol` is left empty on purpose. That slot wants a measured exportome, and a
+prediction filling it would be a model answering for an experiment.
