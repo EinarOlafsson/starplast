@@ -1611,3 +1611,35 @@ For scale: 1,220 curated here against 1,313 in Toxoplasma, on a proteome two-thi
 This is the same distinction as `localization · measured` versus `· transferred`, and as the
 `fitness · transferred from Pb` slots added earlier — a value inferred from orthology is not the same
 claim as one measured in the organism, and the map's job is to keep saying which is which.
+
+## Thirty-fourth pass: host degree, and a third state the classifier was missing
+
+**Toxoplasma 114 of 119, Plasmodium 41 of 103, combined 155 of 222.**
+
+`Pf_host interaction degree`, derived from the host bridge: **117 genes seen in the crosslink data, 10
+with a host partner.**
+
+Not a `fillna(0)`. The Toxoplasma column of the same name IS 0 everywhere without a curated host
+target, and that is right there — its source is a curated table covering the literature. This source
+is **one experiment**, so a gene it never detected has not been shown to lack host partners. The 117
+genes seen carry a count (zero included, because being crosslinked only to parasite proteins is a real
+observation) and the other 5,603 stay missing.
+
+### The third state
+
+Writing the test for that exposed a flaw in the classifier all three crosslink consumers share. It
+asked "is this a parasite gene I know?" and treated **no** as host. But there are **three** answers:
+
+* a known parasite gene,
+* a **parasite** protein the node table does not carry — a deprecated accession, a gene dropped from
+  the annotation,
+* genuinely host.
+
+Reading the middle case as host inflated host degree and would have put a parasite protein into a host
+bridge. Reading it as parasite would index a row that does not exist. Either way the pair is unusable,
+so `_classify` now reports it as parasite-with-no-gene and every consumer skips it.
+
+**The shipped numbers were unaffected** — every accession in this file is in the table, so 79 edges and
+10 bridge pairs are the same before and after. This is a fix for the next file, not a correction of
+this one, and it is worth saying which: the previous two passes found faults that HAD cost real data,
+and conflating the two kinds would overstate this one.

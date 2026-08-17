@@ -1461,6 +1461,23 @@ REGISTRY = [
                  "while KAHRP and the FIKK kinases sit above it. Absence is a real negative here "
                  "and not a gap -- a sequence model was evaluated on every protein, so its silence "
                  "is a prediction of not-exported, which is the opposite of the screen columns."),
+    Dataset("pf_host_degree", "Plasmodium host interaction degree (COMPUTED)", "reference",
+            "crosslink_MS",
+            "How many host proteins a gene was crosslinked to, where it was looked at",
+            ("n_host_targets",), "117 genes seen, 10 with a host partner",
+            derived_from=("bridge:host",),
+            path="starplast/data/pf_nodes.parquet",
+            note="THREE states, and the middle one is why this is not a fillna(0). The Toxoplasma "
+                 "column of the same name is 0 everywhere without a curated host target, which is "
+                 "right there because its source is a curated table covering the literature. This "
+                 "source is ONE experiment: a gene it never detected has not been shown to lack host "
+                 "partners. So the 117 genes seen in the crosslink data carry a count -- zero "
+                 "included, because being crosslinked only to parasite proteins is a real observation "
+                 "-- and the other 5,603 stay missing. Classification is three-way for a reason a "
+                 "test found: a PF3D7 accession the node table does not carry is a PARASITE protein "
+                 "with no row, and reading it as host inflated this count. The shipped numbers were "
+                 "unaffected, because every accession in this file is in the table, but the fix is "
+                 "what stops the next file from being wrong."),
     Dataset("pf_enzyme_classification", "Plasmodium enzyme classification (PlasmoDB)",
             "reference", "annotation",
             "EC number per gene, curated and orthology-derived kept apart",

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 31 covered well, 2 partly, 7 thinly, 63 empty.**
+**103 slots: 31 covered well, 2 partly, 8 thinly, 62 empty.**
 
 ### transcription
 
@@ -183,7 +183,7 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Pf_host interaction degree | curated parasite-host interactions | **-** |  |  | `` | one | — |
+| Pf_host interaction degree | curated parasite-host interactions | **C** | 117 | 2.0% | `n_host_targets` | one | — |
 | Pf_host transcriptional effect per effector | dual perturb-seq | **-** |  |  | `` | separate | — |
 | Pf_host receptor binding | endothelium, erythrocyte | **-** |  |  | `` | separate | **MAHRP2 is required for tether formation and cytoadherence in Plasmodium falciparum infected red blood cells.** (Frontiers in cellular and infection microbiology 2026) [42291314](https://pubmed.ncbi.nlm.nih.gov/42291314/)<br>verify assay and parasite-gene shape)<br>**Predictive value of PfEMP1 antibody profiles for the course of controlled human malaria infections.** (PLoS pathogens 2026) [42341059](https://pubmed.ncbi.nlm.nih.gov/42341059/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
 

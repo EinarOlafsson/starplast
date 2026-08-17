@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 93 covered well, 18 partly, 43 thinly, 68 empty.**
+**222 slots: 93 covered well, 18 partly, 44 thinly, 67 empty.**
 
 ### transcription
 
@@ -281,7 +281,7 @@ quantity were approximating on 2026-08-13.
 |---|---|---|---|---|---|---|---|
 | Tg_host interaction degree | curated parasite-host interactions | **A** | 8140 | 100.0% | `n_host_targets` | one | — |
 | Tg_host transcriptional effect per effector | dual perturb-seq | **C** | 252 | 3.1% | `hosttx_T2, hosttx_signature_` | separate | **High-throughput identification of Toxoplasma gondii effector proteins that target host cell transcription.** (Cell host & microbe 2023) [37827122](https://pubmed.ncbi.nlm.nih.gov/37827122/) `GSE229505` |
-| Pf_host interaction degree | curated parasite-host interactions | **-** |  |  | `` | one | — |
+| Pf_host interaction degree | curated parasite-host interactions | **C** | 117 | 2.0% | `n_host_targets` | one | — |
 | Pf_host transcriptional effect per effector | dual perturb-seq | **-** |  |  | `` | separate | — |
 | Pf_host receptor binding | endothelium, erythrocyte | **-** |  |  | `` | separate | **MAHRP2 is required for tether formation and cytoadherence in Plasmodium falciparum infected red blood cells.** (Frontiers in cellular and infection microbiology 2026) [42291314](https://pubmed.ncbi.nlm.nih.gov/42291314/)<br>verify assay and parasite-gene shape)<br>**Predictive value of PfEMP1 antibody profiles for the course of controlled human malaria infections.** (PLoS pathogens 2026) [42341059](https://pubmed.ncbi.nlm.nih.gov/42341059/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
 
@@ -400,6 +400,7 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `bridge:host` | Pf_interaction · with host proteins; Tg_interaction · with host proteins |
 | `orthogroup` | Pf_conservation breadth; Pf_shared orthogroup; Tg_conservation breadth; Tg_shared orthogroup |
 | `domain` | Pf_shared domain; Tg_shared domain |
+| `n_host_targets` | Pf_host interaction degree; Tg_host interaction degree |
 | `n_interpro` | Pf_domain content; Tg_domain content |
 | `has_domain` | Pf_domain content; Tg_domain content |
 | `mean_plddt` | Pf_fold confidence / disorder; Tg_fold confidence / disorder |

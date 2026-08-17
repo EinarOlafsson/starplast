@@ -174,6 +174,26 @@ CROSSLINK_SHEET = "(D) Protein pairs"
 ACCESSION = re.compile(r"PF3D7_\w+")
 
 
+def _classify(cell, known: set, owners: dict) -> tuple:
+    """(gene, is_parasite) for one protein in a crosslink pair.
+
+    THREE outcomes, not two, and conflating the last two is a bug this cost a test to find. A protein
+    is a known parasite gene, or a parasite protein this table does not carry -- a deprecated
+    accession, a gene dropped from the current annotation -- or genuinely host. Treating the middle
+    case as host inflates host degree and would put a parasite protein into a host bridge; treating it
+    as parasite would index it against a row that does not exist. Either way the pair is unusable, so
+    it is reported as parasite-with-no-gene and the caller skips it.
+    """
+    found = ACCESSION.search(str(cell))
+    if found:
+        return (found.group(0) if found.group(0) in known else None), True
+    parts = str(cell).split("|")
+    gene = owners.get(parts[1]) if len(parts) > 2 else None
+    if gene:
+        return (gene if gene in known else None), True
+    return None, False
+
+
 def crosslink_edges(nodes: pd.DataFrame, dataset_root: str, log=print) -> tuple:
     """Protein pairs joined by a measured crosslink, weighted by how many were found.
 
@@ -208,13 +228,11 @@ def crosslink_edges(nodes: pd.DataFrame, dataset_root: str, log=print) -> tuple:
     index = {gene: i for i, gene in enumerate(nodes["gene_id"].astype(str))}
     owners = uniprot_index(os.path.join(dataset_root, "reference", "plasmodb", UNIPROT_TABLE))
 
+    known = set(index)
+
     def resolve(cell):
-        """The gene this protein is, by accession if it is written that way and by UniProt if not."""
-        found = ACCESSION.search(str(cell))
-        if found and found.group(0) in index:
-            return index[found.group(0)]
-        parts = str(cell).split("|")
-        gene = owners.get(parts[1]) if len(parts) > 2 else None
+        """The row this protein is, or None if it is host or a parasite gene the table lacks."""
+        gene, _parasite = _classify(cell, known, owners)
         return index.get(gene) if gene else None
 
     counts = {}
@@ -260,19 +278,13 @@ def host_bridge(nodes: pd.DataFrame, dataset_root: str, log=print) -> pd.DataFra
     known = set(nodes["gene_id"].astype(str))
     owners = uniprot_index(os.path.join(dataset_root, "reference", "plasmodb", UNIPROT_TABLE))
 
-    def parasite(cell):
-        found = ACCESSION.search(str(cell))
-        if found and found.group(0) in known:
-            return found.group(0)
-        parts = str(cell).split("|")
-        gene = owners.get(parts[1]) if len(parts) > 2 else None
-        return gene if gene in known else None
-
     rows = []
     for one, two, links in zip(d["Protein1"], d["Protein2"],
                                pd.to_numeric(d.get("Num_Crosslinks", 1), errors="coerce")):
-        a, b = parasite(one), parasite(two)
-        if (a is None) == (b is None):        # both parasite, or neither -- not a bridge
+        (a, a_par), (b, b_par) = _classify(one, known, owners), _classify(two, known, owners)
+        # A bridge needs one known parasite gene and one protein that is definitely host. A parasite
+        # protein the table does not carry is neither, and its pair is skipped.
+        if not ((a and not b_par) or (b and not a_par)):
             continue
         gene, other = (a, two) if a else (b, one)
         parts = str(other).split("|")
@@ -286,4 +298,55 @@ def host_bridge(nodes: pd.DataFrame, dataset_root: str, log=print) -> pd.DataFra
     out = pd.DataFrame(rows).drop_duplicates(["gene_id", "host_id"]).reset_index(drop=True)
     log(f"host bridge (crosslink MS): {len(out)} pairs, {out.gene_id.nunique()} parasite genes, "
         f"{out.host_id.nunique()} human proteins")
+    return out
+
+
+def host_degree(nodes: pd.DataFrame, dataset_root: str, log=print) -> pd.Series:
+    """How many host proteins each parasite gene was crosslinked to.
+
+    Three states, and the middle one is the reason this is not a `fillna(0)`. The Toxoplasma arm sets
+    this to 0 for every gene without a curated host target, which is right there because its source is
+    a curated table covering the whole literature. This source is ONE experiment: a gene it never
+    detected has not been shown to lack host partners, it was simply not seen. So genes that appear in
+    the crosslink data get a count -- zero included, because being crosslinked only to parasite
+    proteins is a real observation -- and genes absent from it stay missing.
+    """
+    folder, pmid, name = CROSSLINK
+    path = os.path.join(dataset_root, "reference", "plasmodb", folder, pmid, name)
+    if not os.path.exists(path) or nodes.empty:
+        return pd.Series(dtype=float)
+    book = pd.ExcelFile(path)
+    if CROSSLINK_SHEET not in book.sheet_names:
+        return pd.Series(dtype=float)
+    d = book.parse(CROSSLINK_SHEET)
+    if not {"Protein1", "Protein2"} <= set(d.columns):
+        return pd.Series(dtype=float)
+    from .plasmodium import UNIPROT_TABLE, uniprot_index
+    known = set(nodes["gene_id"].astype(str))
+    owners = uniprot_index(os.path.join(dataset_root, "reference", "plasmodb", UNIPROT_TABLE))
+
+    seen, partners = set(), {}
+    for one, two in zip(d["Protein1"], d["Protein2"]):
+        (a, a_par), (b, b_par) = _classify(one, known, owners), _classify(two, known, owners)
+        for gene in (a, b):
+            if gene:
+                seen.add(gene)
+                partners.setdefault(gene, set())
+        # Only a definite host protein counts as a partner. A parasite gene the table lacks does not.
+        if a and not b_par:
+            gene, other = a, two
+        elif b and not a_par:
+            gene, other = b, one
+        else:
+            continue
+        parts = str(other).split("|")
+        if len(parts) > 2:
+            partners[gene].add(parts[1])
+    if not seen:
+        return pd.Series(dtype=float)
+    counts = {gene: float(len(partners.get(gene, ()))) for gene in seen}
+    out = nodes["gene_id"].astype(str).map(counts)
+    log(f"host degree: {len(seen)} genes seen in the crosslink data, "
+        f"{sum(1 for v in counts.values() if v)} with a host partner; the rest of the proteome "
+        f"stays missing rather than zero")
     return out

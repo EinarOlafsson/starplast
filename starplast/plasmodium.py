@@ -334,6 +334,10 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     cplx = complexes(dataset_root, log=log)
     if not cplx.empty:
         nodes = nodes.merge(cplx, on="gene_id", how="left")
+    from . import pf_graph
+    degree = pf_graph.host_degree(nodes, dataset_root, log=log)
+    if len(degree):
+        nodes["n_host_targets"] = degree.to_numpy()
     ec = enzyme_classification(dataset_root, log=log)
     if not ec.empty:
         nodes = nodes.merge(ec, on="gene_id", how="left")

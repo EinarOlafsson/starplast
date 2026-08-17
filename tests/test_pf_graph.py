@@ -307,3 +307,130 @@ def test_resolution_recovers_more_edges_than_a_pattern_would():
     nodes = pd.read_parquet(NODES)
     a, _b, _w = G.crosslink_edges(nodes, os.path.join(ROOT, "datasets"), log=lambda *a: None)
     assert len(a) >= 79, f"{len(a)} edges: resolution is not going through the accession index"
+
+
+# --------------------------------------------------------------------------- host degree
+def test_host_degree_has_three_states_not_two(tmp_path):
+    """Tested-with-no-host-partner and never-tested are different, and only one is a zero.
+
+    The Toxoplasma arm fills 0 everywhere, correctly, because its source is a curated table covering
+    the whole literature. This source is ONE experiment, so a gene it never saw has not been shown to
+    lack host partners.
+    """
+    root = _xl_root(tmp_path)     # PF3D7_010000 <-> 010001, and 010001 <-> human SPTA1
+    got = G.host_degree(_xl_nodes(), root, log=lambda *a: None)
+    frame = _xl_nodes().assign(degree=got.to_numpy())
+    by_gene = dict(zip(frame.gene_id, frame.degree))
+    assert by_gene["PF3D7_010001"] == 1.0, "a real host partner was not counted"
+    assert by_gene["PF3D7_010000"] == 0.0, "a gene seen only against parasites should be a real zero"
+    assert pd.isna(by_gene["PF3D7_010002"]), "a gene never seen must stay missing, not become 0"
+
+
+def test_host_degree_resolves_symbols_like_the_edge_layer(tmp_path):
+    """Same identity rule: a parasite protein written as a symbol is not a host protein."""
+    base = tmp_path / "reference" / "plasmodb"
+    (base / G.CROSSLINK[0] / G.CROSSLINK[1]).mkdir(parents=True)
+    pd.DataFrame([("PF3D7_010000", "Q2"), ("PF3D7_010001", "Q3")],
+                 columns=["Gene ID", "UniProt ID(s)"]).to_csv(
+        base / "plasmodb_pf3d7_uniprot.tsv", sep="\t", index=False)
+    pd.DataFrame([("sp|Q2|Sym1", "sp|Q3|Sym2", 2)],
+                 columns=["Protein1", "Protein2", "Num_Crosslinks"]).to_excel(
+        base / G.CROSSLINK[0] / G.CROSSLINK[1] / G.CROSSLINK[2],
+        sheet_name=G.CROSSLINK_SHEET, index=False)
+    got = G.host_degree(_xl_nodes(), str(tmp_path), log=lambda *a: None)
+    assert list(got.dropna()) == [0.0, 0.0], "two parasite proteins were counted as host partners"
+
+
+def test_host_degree_is_empty_without_a_readable_source(tmp_path):
+    assert len(G.host_degree(_xl_nodes(), str(tmp_path), log=lambda *a: None)) == 0
+    assert len(G.host_degree(pd.DataFrame(), _xl_root(tmp_path), log=lambda *a: None)) == 0
+    assert len(G.host_degree(_xl_nodes(), _xl_root(tmp_path / "b", sheet="Other"),
+                             log=lambda *a: None)) == 0
+
+
+def test_host_degree_needs_a_gene_it_recognises(tmp_path):
+    root = _xl_root(tmp_path, rows=[("sp|P02549|SPTA1", "sp|P11277|SPTB", 7)])
+    assert len(G.host_degree(_xl_nodes(), root, log=lambda *a: None)) == 0
+
+
+def test_a_parasite_gene_the_table_lacks_is_neither_host_nor_an_edge(tmp_path):
+    """The three-way classification, and the bug that made it necessary.
+
+    A PF3D7 accession the node table does not carry -- deprecated, or dropped from the annotation --
+    is a PARASITE protein with no row. Reading it as host inflated host degree and would have put a
+    parasite protein into a host bridge; reading it as parasite would index a row that does not exist.
+    Its pair is unusable and is skipped by all three consumers.
+    """
+    base = tmp_path / "reference" / "plasmodb"
+    (base / G.CROSSLINK[0] / G.CROSSLINK[1]).mkdir(parents=True)
+    pd.DataFrame([("PF3D7_010000", "Q1")], columns=["Gene ID", "UniProt ID(s)"]).to_csv(
+        base / "plasmodb_pf3d7_uniprot.tsv", sep="\t", index=False)
+    pd.DataFrame([("sp|Q1|PF3D7_010000", "sp|Q9|PF3D7_099999", 3)],
+                 columns=["Protein1", "Protein2", "Num_Crosslinks"]).to_excel(
+        base / G.CROSSLINK[0] / G.CROSSLINK[1] / G.CROSSLINK[2],
+        sheet_name=G.CROSSLINK_SHEET, index=False)
+    root = str(tmp_path)
+    assert len(G.crosslink_edges(_xl_nodes(), root, log=lambda *a: None)[0]) == 0
+    assert G.host_bridge(_xl_nodes(), root, log=lambda *a: None).empty
+    degree = G.host_degree(_xl_nodes(), root, log=lambda *a: None)
+    known = degree.dropna()
+    assert list(known) == [0.0], "the unknown parasite gene was counted as a host partner"
+
+
+def test_the_classifier_reports_all_three_outcomes():
+    known, owners = {"PF3D7_010000"}, {"Q1": "PF3D7_010000"}
+    assert G._classify("sp|Q1|PF3D7_010000", known, owners) == ("PF3D7_010000", True)
+    assert G._classify("sp|Q1|SomeSymbol", known, owners) == ("PF3D7_010000", True)
+    assert G._classify("sp|Q9|PF3D7_099999", known, owners) == (None, True)   # parasite, no row
+    assert G._classify("sp|P02549|SPTA1", known, owners) == (None, False)     # host
+
+
+def _bridge_root(tmp_path, rows, sheet=None, cols=True):
+    base = tmp_path / "reference" / "plasmodb"
+    (base / G.CROSSLINK[0] / G.CROSSLINK[1]).mkdir(parents=True)
+    pd.DataFrame([("PF3D7_010000", "Q1"), ("PF3D7_010001", "Q2")],
+                 columns=["Gene ID", "UniProt ID(s)"]).to_csv(
+        base / "plasmodb_pf3d7_uniprot.tsv", sep="\t", index=False)
+    frame = (pd.DataFrame(rows, columns=["Protein1", "Protein2", "Num_Crosslinks"])
+             if cols else pd.DataFrame({"wrong": [1]}))
+    frame.to_excel(base / G.CROSSLINK[0] / G.CROSSLINK[1] / G.CROSSLINK[2],
+                   sheet_name=sheet or G.CROSSLINK_SHEET, index=False)
+    return str(tmp_path)
+
+
+def test_the_host_bridge_refuses_what_it_cannot_read(tmp_path):
+    rows = [("sp|Q1|PF3D7_010000", "sp|P02549|SPTA1", 2)]
+    assert G.host_bridge(_xl_nodes(), str(tmp_path), log=lambda *a: None).empty
+    assert G.host_bridge(pd.DataFrame(), _bridge_root(tmp_path, rows), log=lambda *a: None).empty
+    assert G.host_bridge(_xl_nodes(), _bridge_root(tmp_path / "b", rows, sheet="Other"),
+                         log=lambda *a: None).empty
+    assert G.host_bridge(_xl_nodes(), _bridge_root(tmp_path / "c", rows, cols=False),
+                         log=lambda *a: None).empty
+
+
+def test_a_host_protein_with_no_accession_field_is_skipped(tmp_path):
+    """A bare name cannot be keyed, so the pair is dropped rather than given a made-up host id."""
+    root = _bridge_root(tmp_path, [("sp|Q1|PF3D7_010000", "SPTA1", 2)])
+    assert G.host_bridge(_xl_nodes(), root, log=lambda *a: None).empty
+    degree = G.host_degree(_xl_nodes(), root, log=lambda *a: None).dropna()
+    assert list(degree) == [0.0]
+
+
+def test_the_host_bridge_records_the_pair_it_finds(tmp_path):
+    root = _bridge_root(tmp_path, [("sp|P02549|SPTA1", "sp|Q2|PF3D7_010001", 4)])
+    said = []
+    b = G.host_bridge(_xl_nodes(), root, log=said.append)
+    assert list(b["gene_id"]) == ["PF3D7_010001"] and list(b["host_id"]) == ["P02549"]
+    assert b["crosslinks"].iloc[0] == 4.0 and b["bridge"].iloc[0] == "host"
+    assert said and "host bridge" in said[0]
+
+
+def test_a_host_pair_with_no_crosslink_count_defaults_to_one(tmp_path):
+    root = _bridge_root(tmp_path, [("sp|Q1|PF3D7_010000", "sp|P02549|SPTA1", None)])
+    b = G.host_bridge(_xl_nodes(), root, log=lambda *a: None)
+    assert b["crosslinks"].iloc[0] == 1.0
+
+
+def test_host_degree_refuses_a_sheet_without_the_protein_columns(tmp_path):
+    root = _bridge_root(tmp_path, [("a", "b", 1)], cols=False)
+    assert len(G.host_degree(_xl_nodes(), root, log=lambda *a: None)) == 0
