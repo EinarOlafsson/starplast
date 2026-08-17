@@ -846,3 +846,101 @@ def test_only_the_assayed_proteins_carry_a_myristoylation_call():
     n = pd.read_parquet(NODES, columns=["is_myristoylated"])["is_myristoylated"]
     assert n.notna().sum() < 1000, "the call spread beyond the 609 proteins in the pulldown"
     assert int((n == True).sum()) < 50                            # noqa: E712
+
+
+# --------------------------------------------------------------------------- acetylome
+ACET = os.path.join(ROOT, "datasets", "post_translation", P.ACETYLOME[0], P.ACETYLOME[1],
+                    P.ACETYLOME[2])
+
+
+def _acet_root(tmp_path, rows=None, sheet=None):
+    rows = rows if rows is not None else [
+        ("Acetyl", "AAA", "PF3D7_0100100", "K10", 1.0),
+        ("Acetyl", "AAA", "PF3D7_0100100", "K20", 0.9),
+        ("Acetyl", "AAA", "PF3D7_0100100", "K20", 0.9),   # the same site twice
+        ("Acetyl", "AAA", "PF3D7_0100200", "K5", 0.30),   # identified, not localised
+        ("Acetyl", "AAA", "CONTAM", "K1", 1.0),
+    ]
+    folder = tmp_path / "post_translation" / P.ACETYLOME[0] / P.ACETYLOME[1]
+    folder.mkdir(parents=True)
+    body = pd.DataFrame(rows, columns=["Modification", "Surrounding Sequence", "Accession Number",
+                                       "Site", "Ascore Localization Probability"])
+    with pd.ExcelWriter(folder / P.ACETYLOME[2].replace(".xls", ".xlsx")) as writer:
+        title = pd.DataFrame([["Acetyl-lysine sites in Plasmodium"]])
+        title.to_excel(writer, sheet_name=sheet or P.ACETYLOME_SHEET, index=False, header=False)
+        body.to_excel(writer, sheet_name=sheet or P.ACETYLOME_SHEET, index=False, startrow=1)
+    os.rename(folder / P.ACETYLOME[2].replace(".xls", ".xlsx"), folder / P.ACETYLOME[2])
+    return str(tmp_path)
+
+
+def test_a_gene_seen_acetylated_is_flagged_even_if_no_site_is_localised(tmp_path):
+    """Identifying an acetylated peptide and localising the acetyl group are different claims."""
+    d = P.acetylome(_acet_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100200", "has_acetyl"]
+    assert pd.isna(d.loc["PF3D7_0100200", "n_acetylsites"])
+
+
+def test_the_site_count_uses_localised_sites_only_and_counts_each_once(tmp_path):
+    d = P.acetylome(_acet_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "n_acetylsites"] == 2
+
+
+def test_non_plasmodium_accessions_are_dropped_from_the_acetylome(tmp_path):
+    d = P.acetylome(_acet_root(tmp_path), log=lambda *a: None)
+    assert d["gene_id"].str.startswith("PF3D7_").all()
+
+
+def test_a_missing_acetylome_yields_nothing(tmp_path):
+    assert P.acetylome(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_an_acetylome_without_the_expected_sheet_is_refused(tmp_path):
+    assert P.acetylome(_acet_root(tmp_path, sheet="Other"), log=lambda *a: None).empty
+
+
+def test_an_acetylome_with_no_plasmodium_accessions_is_refused(tmp_path):
+    assert P.acetylome(_acet_root(tmp_path, rows=[("Acetyl", "A", "CONTAM", "K1", 1.0)]),
+                       log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.exists(ACET), reason="acetylome not fetched")
+def test_the_acetylome_is_led_by_the_acetylation_machinery():
+    """Chromatin readers and writers are the most heavily acetylated proteins in any acetylome."""
+    d = P.acetylome(os.path.join(ROOT, "datasets"), log=lambda *a: None)
+    n = pd.read_parquet(NODES, columns=["gene_id", "product"])
+    m = d.merge(n, on="gene_id", how="left")
+    assert 800 < len(m) < 2000
+    top = " ".join(m.nlargest(10, "n_acetylsites")["product"].astype(str)).lower()
+    assert "phd" in top or "acetyltransferase" in top or "histone" in top
+    assert m["product"].str.contains("histone", case=False, na=False).sum() >= 5
+
+
+def test_an_acetylome_sheet_without_the_expected_columns_is_refused(tmp_path):
+    folder = tmp_path / "post_translation" / P.ACETYLOME[0] / P.ACETYLOME[1]
+    folder.mkdir(parents=True)
+    with pd.ExcelWriter(folder / "tmp.xlsx") as writer:
+        pd.DataFrame([["title"]]).to_excel(writer, sheet_name=P.ACETYLOME_SHEET, index=False,
+                                           header=False)
+        pd.DataFrame({"wrong": ["x"]}).to_excel(writer, sheet_name=P.ACETYLOME_SHEET, index=False,
+                                                startrow=1)
+    os.rename(folder / "tmp.xlsx", folder / P.ACETYLOME[2])
+    assert P.acetylome(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_build_all_splits_the_acetyl_flag_from_the_acetyl_count(tmp_path):
+    root = _dataset_root(tmp_path)
+    folder = os.path.join(root, "post_translation", P.ACETYLOME[0], P.ACETYLOME[1])
+    os.makedirs(folder)
+    body = pd.DataFrame([("Acetyl", "A", "PF3D7_0100100", "K10", 1.0)],
+                        columns=["Modification", "Surrounding Sequence", "Accession Number",
+                                 "Site", "Ascore Localization Probability"])
+    tmp = os.path.join(folder, "tmp.xlsx")
+    with pd.ExcelWriter(tmp) as writer:
+        pd.DataFrame([["title"]]).to_excel(writer, sheet_name=P.ACETYLOME_SHEET, index=False,
+                                           header=False)
+        body.to_excel(writer, sheet_name=P.ACETYLOME_SHEET, index=False, startrow=1)
+    os.rename(tmp, os.path.join(folder, P.ACETYLOME[2]))
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "has_acetyl"] and d.loc["PF3D7_0100100", "n_acetylsites"] == 1
+    assert not d.loc["PF3D7_0100200", "has_acetyl"]
+    assert pd.isna(d.loc["PF3D7_0100200", "n_acetylsites"])

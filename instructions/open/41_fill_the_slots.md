@@ -1114,3 +1114,23 @@ it was fetched for, when the TMT proteome turned out to be compositional.
 
 The remaining 77 need acquisition of the same kind: a deposit or supplement at a time, each with a
 check that would fail if the numbers were not what the slot says.
+
+## Eighteenth pass: the acetylome, and two columns held to two standards
+
+**Toxoplasma 114 of 119, Plasmodium 27 of 103, combined 141 of 222.**
+
+`Pf_acetylation` filled from PMID 26813983: 1,145 genes, 2,163 localised sites.
+
+The judgement here is that **identifying an acetylated peptide and localising the acetyl group to a
+particular lysine are different claims**, so the two columns are built to different standards. The
+flag uses every identification; the count uses only sites with an Ascore of 0.75 or better, because
+a site count is meaningless if you do not know which lysine it is on.
+
+That mattered: the sheet is titled **"Final Ac-K List"** and is **not** pre-filtered on localisation
+— Ascores run all the way down to 0. Taking its length as a site count would have been wrong by
+about a quarter. The word "Final" refers to the identification list, not to site confidence, and
+this is now the fifth time a source's own label needed reading past rather than taking at face value.
+
+Self-validating: fourteen histones appear, and the most heavily acetylated proteins are the PHD
+finger proteins, the MYST acetyltransferase and the coactivator ADA2 — the acetylation machinery
+itself, which is what any acetylome should be led by.

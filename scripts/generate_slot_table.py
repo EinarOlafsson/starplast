@@ -1091,6 +1091,7 @@ PF_PATTERNS = {
     # of observed and motif-predicted, and would have claimed 54% of the proteome.
     "palmitoylation · asexual blood stage": ["is_palmitoylated"],
     "N-myristoylation · asexual blood stage": ["is_myristoylated"],
+    "acetylation": ["n_acetylsites", "has_acetyl"],
     # Wild type and knockout as stated conditions. The KO-minus-WT contrast is deliberately not
     # precomputed; `plasmodium.sir2_perturbation` says why.
     "transcription · under TF or chromatin perturbation": ["sir2_wt_", "sir2a_ko_", "sir2b_ko_"],

@@ -1249,6 +1249,21 @@ REGISTRY = [
                  "the values are log intensities, and the medians align across arrays within 0.1, "
                  "which a test asserts because it is the precondition that makes differencing them "
                  "meaningful at all."),
+    Dataset("pf_acetylome", "Plasmodium lysine acetylome", "post_translation", "acetylation",
+            "Acetylated lysines per gene, and whether the gene was seen acetylated at all",
+            ("n_acetylsites", "has_acetyl"), "1,145 genes, 2,163 localised sites", pmid="26813983",
+            accession="Sci Rep 19722 S2",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4728587/supplementaryFiles",
+            path="datasets/post_translation/acetylome/26813983/srep19722-s2.xls",
+            note="Two columns built to two standards, because identifying an acetylated PEPTIDE and "
+                 "localising the acetyl group to a particular lysine are different claims. The FLAG "
+                 "uses every identification; the COUNT uses only sites with an Ascore of 0.75 or "
+                 "better, since a site count is meaningless if you do not know which lysine. The "
+                 "list is titled Final and is not pre-filtered on localisation -- Ascores run down "
+                 "to 0 -- so taking its length as a site count would have been wrong by about a "
+                 "quarter. Self-validating: fourteen histones appear, and the most heavily "
+                 "acetylated proteins are the PHD finger proteins, the MYST acetyltransferase and "
+                 "the coactivator ADA2, which is to say the acetylation machinery itself."),
     Dataset("pf_myristoylome", "Plasmodium N-myristoylome (NMT-inhibitor sensitive)",
             "post_translation", "myristoylation",
             "Proteins whose click-chemistry capture drops when N-myristoyltransferase is blocked",

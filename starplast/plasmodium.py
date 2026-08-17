@@ -265,6 +265,11 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     sir2 = sir2_perturbation(os.path.join(base, SIR2_TABLE))
     if not sir2.empty:
         nodes = nodes.merge(sir2, on="gene_id", how="left")
+    acetyl = acetylome(dataset_root, log=log)
+    if not acetyl.empty:
+        nodes = nodes.merge(acetyl, on="gene_id", how="left")
+        # Same split as phosphorylation: the count is unknown where nothing was seen, the flag is no.
+        nodes["has_acetyl"] = nodes["has_acetyl"].notna() & (nodes["has_acetyl"] == True)  # noqa: E712
     myr = myristoylome(dataset_root, log=log)
     if not myr.empty:
         # Left-joined and NOT filled: a gene outside the pulldown stays missing, because it was
@@ -483,3 +488,42 @@ def myristoylome(dataset_root: str, log=print) -> pd.DataFrame:
     out = out.groupby("gene_id", as_index=False)["is_myristoylated"].max()
     log(f"myristoylome: {int(out['is_myristoylated'].sum())} substrates of {len(out):,} assayed")
     return out.sort_values("gene_id").reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- acetylation
+#: Proteome-wide lysine acetylation. The site list carries an Ascore -- the probability that the
+#: acetyl group sits on the lysine named rather than a neighbouring one -- and it is not pre-filtered.
+ACETYLOME = ("acetylome", "26813983", "srep19722-s2.xls")
+ACETYLOME_SHEET = "1. Final Ac-K List w Motifs"
+
+#: The site-count cut. Identifying an acetylated PEPTIDE is one claim and localising the acetyl group
+#: to a particular lysine is a harder one, so the two columns are built to different standards: the
+#: flag uses every identification, the count only sites localised at 0.75 or better.
+ACETYL_LOCALISATION = 0.75
+
+
+def acetylome(dataset_root: str, log=print) -> pd.DataFrame:
+    """Acetylated lysines per gene, and whether the gene was seen acetylated at all."""
+    folder, pmid, name = ACETYLOME
+    path = os.path.join(dataset_root, "post_translation", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if ACETYLOME_SHEET not in book.sheet_names:
+        return pd.DataFrame()
+    d = book.parse(ACETYLOME_SHEET, header=1)
+    if not {"Accession Number", "Site"} <= set(d.columns):
+        return pd.DataFrame()
+    d = d.assign(gene=d["Accession Number"].astype(str).str.strip())
+    d = d[d["gene"].str.startswith("PF3D7_")]
+    if d.empty:
+        return pd.DataFrame()
+    score = pd.to_numeric(d.get("Ascore Localization Probability"), errors="coerce")
+    localised = d[score.fillna(0) >= ACETYL_LOCALISATION].drop_duplicates(["gene", "Site"])
+    counts = localised.groupby("gene").size()
+    out = pd.DataFrame({"gene_id": sorted(set(d["gene"]))})
+    out["n_acetylsites"] = out["gene_id"].map(counts)
+    out["has_acetyl"] = True
+    log(f"acetylome: {len(out):,} genes seen acetylated, "
+        f"{int(counts.sum()):,} sites localised at >= {ACETYL_LOCALISATION}")
+    return out
