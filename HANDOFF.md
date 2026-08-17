@@ -645,6 +645,12 @@ starplast-discover --read bigA_00_guilt_compartment_best
 
 ## 4. Known limitations — measured, not pending implementation
 
+0. **The suite segfaulted once, unreproducibly, on 2026-08-17.** `pytest tests/` dumped core after
+   printing its extension-module list (PyQt6, OpenGL, torch); two immediate re-runs, with random and
+   with fixed ordering, both passed all 2,947. Recorded rather than chased because it is a Qt/GL
+   teardown crash in a headless environment and not a test failure — but if it recurs, that is the
+   first place to look, and `-p no:randomly` is the way to tell an ordering effect from a teardown one.
+
 1. **Yield predominantly rewards fragmentation.** The crossed-factor diagnostic is now implemented.
    On the four saved winners, `compartment_best × cellcycle_phase` explains 0/40, 0/40, 0/31 and
    18/97 sibling clusters; only the final run clears the permutation null (18.6%, q=0.035). Fine
