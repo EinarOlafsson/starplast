@@ -162,7 +162,31 @@ tops its own pulldown — with MYR3 at rank 47 and GRA44, GRA7, GRA9, GRA52 and 
 That is MYR1's known neighbourhood at the vacuole membrane, so the IP worked and the enrichment is
 the right way round.
 
-### What is still needed, and it is all structural
+### CORRECTION: the host side is not verifiable either, so this is not only structural
+
+The paragraph above says the parasite side verifies, and it does. The host side does not, and
+claiming this slot was "blocked on architecture, not data" was wrong. Reading it properly:
+
+* **Contaminants hide inside protein groups.** The four most enriched host groups are keratins.
+  MaxQuant prefixes a group with `CON__` only when the LEADING entry is a contaminant, and keratin
+  arrives in the middle of a group headed by `sp|`. Filtering on the prefix keeps them; filtering on
+  `CON__` appearing ANYWHERE in the group drops 26 groups and all of the keratin.
+* **After filtering** — no contaminant entry anywhere, and at least two unique peptides in BOTH MYR1
+  replicates — 219 host groups remain and 112 are enriched over the control.
+* **Those 112 are led by tubulin, filamin C, HSP90, SERCA2, ribophorin and PDCD6**: abundant
+  cytoskeletal and ER proteins, which is what an IP background looks like as much as what a vacuole
+  translocon's neighbourhood looks like.
+
+**There is no known-positive host partner of MYR1 to test the list against.** The parasite side could
+be checked because MYR1 must top its own pulldown and MYR3 must be near it; the host side has no
+equivalent, and enrichment over one control IP does not separate a specific partner from an abundant
+protein that sticks.
+
+So a host table built from this deposit would carry an unverifiable layer into the map. The slot
+needs either a host interactome with its own controls and a checkable positive, or a bridge whose
+evidence is something other than one IP.
+
+### What is still needed structurally, once the data question is settled
 
 1. **A human gene table.** The 674 host rows carry UniProt accessions and the deposit's
    `Fasta headers` column is empty, so mapping them to genes needs UniProt's ID mapping — a new
