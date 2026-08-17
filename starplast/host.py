@@ -7,9 +7,11 @@ host's own identifier, and pair slots as the bridge -- and this is the first one
 
 ## What identifies a host row
 
-The UniProt entry name (`PDCD6_HUMAN`) and accession, taken from the deposit's own protein groups.
-Not a gene symbol: mapping accession to symbol needs UniProt's ID-mapping service, and the entry name
-is already stable, unambiguous and sufficient to join a second study.
+The UniProt ACCESSION (`O75340`), with whatever readable name the deposit gave beside it. The three
+deposits here name host proteins three different ways -- MaxQuant entry names (`PDCD6_HUMAN`), gene
+symbols (`PDCD6`) and bare accessions (`O75340`) -- and a bridge that mixed them would report the
+same protein as three, which would turn "reached by three baits" into an artefact of formatting.
+The accession is the one identifier all three carry.
 
 ## What the bridge is, and what it is not
 
@@ -70,6 +72,24 @@ DIA_FILE = os.path.join("datasets", "quarantine", "2026_08_16_escrt", "PXD080696
 #: gives both, so both are used; the MYR1 IP above gives neither and is filtered on peptides instead.
 DIA_MIN_LOGFC = 1.0
 DIA_MAX_PADJ = 0.05
+
+#: The GRA64 pulldowns, published as two replicates side by side in one sheet, each with its own
+#: accession column because the two are sorted differently. A protein counts when BOTH replicates
+#: enrich it -- which is the same standard the MYR1 IP meets through its peptide requirement, met
+#: here through replication instead.
+REPLICATE_IPS = (
+    {"accession": "PMC9426488", "bait": "TGME49_202620", "bait_name": "GRA64, tachyzoite",
+     "archive": "PMC9426488/PMC9426488_supplementary.zip",
+     "member": "mbio.01442-22-s0009.xlsx", "sheet": "IP_Tachyzoite_Summary"},
+    {"accession": "PMC9426488", "bait": "TGME49_202620", "bait_name": "GRA64, bradyzoite",
+     "archive": "PMC9426488/PMC9426488_supplementary.zip",
+     "member": "mbio.01442-22-s0009.xlsx", "sheet": "IP_Bradyzoite_Summary"},
+    {"accession": "PMC9426488", "bait": "TGME49_202620", "bait_name": "GRA64, HFF TurboID",
+     "archive": "PMC9426488/PMC9426488_supplementary.zip",
+     "member": "mbio.01442-22-s0010.xlsx", "sheet": "HFF TurboID Results Summary"},
+)
+ESCRT_ROOT = os.path.join("datasets", "quarantine", "2026_08_16_escrt")
+REPLICATE_MIN_FOLD = 1.0
 ENTRY = re.compile(r"\|([A-Z0-9]+_HUMAN)")
 ACCESSION = re.compile(r"\b(?:sp|tr)\|([A-Z0-9]+)\|")
 
@@ -101,8 +121,8 @@ def read_ip(base: str, spec: dict = None) -> pd.DataFrame:
     bait = host[list(spec["bait_columns"])].mean(axis=1)
     control = host[list(spec["control_columns"])].mean(axis=1)
     out = pd.DataFrame({
-        "host_id": host["Protein IDs"].astype(str).str.extract(ENTRY, expand=False),
-        "host_accession": host["Protein IDs"].astype(str).str.extract(ACCESSION, expand=False),
+        "host_id": host["Protein IDs"].astype(str).str.extract(ACCESSION, expand=False),
+        "host_name": host["Protein IDs"].astype(str).str.extract(ENTRY, expand=False),
         "host_ip_enrichment_log2": np.log2((bait + 1.0) / (control + 1.0)).to_numpy()})
     out = out.dropna(subset=["host_id"])
     return out.groupby("host_id", as_index=False).max()
@@ -128,10 +148,59 @@ def read_dia(base: str, spec: dict) -> pd.DataFrame:
     if host.empty:
         return pd.DataFrame()
     symbol = host["gene_symbol"].astype(str).str.replace(r'^="?|"?$', "", regex=True)
-    out = pd.DataFrame({"host_id": symbol.to_numpy(),
-                        "host_accession": host.get("uniprot_id", pd.Series(dtype=object)).astype(str).to_numpy(),
+    out = pd.DataFrame({"host_id": host["uniprot_id"].astype(str).to_numpy(),
+                        "host_name": symbol.to_numpy(),
                         "host_ip_enrichment_log2": logfc[keep].to_numpy()})
     return out[out["host_id"].str.len() > 0].groupby("host_id", as_index=False).max()
+
+
+def read_replicated(base: str, spec: dict) -> pd.DataFrame:
+    """One pulldown published as two replicate blocks, kept where both agree.
+
+    The sheet holds each replicate's accessions in its own column because they are sorted
+    differently, so the two blocks are read separately and intersected rather than read row-wise.
+    Reading them row-wise would pair replicate 1 of one protein with replicate 2 of another.
+    """
+    import zipfile
+
+    path = os.path.join(base, ESCRT_ROOT, spec["archive"])
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    with zipfile.ZipFile(path) as archive:
+        if spec["member"] not in archive.namelist():
+            return pd.DataFrame()
+        import io as _io
+        blob = _io.BytesIO(archive.read(spec["member"]))
+        # Three specs share one workbook and each names its own sheet, so a workbook that carries
+        # only some of them must yield nothing for the rest rather than raising.
+        if spec["sheet"] not in pd.ExcelFile(blob).sheet_names:
+            return pd.DataFrame()
+        blob.seek(0)
+        d = pd.read_excel(blob, sheet_name=spec["sheet"], header=1)
+    acc = [c for c in d.columns if "Protein Accessions" in str(c)]
+    fold = [c for c in d.columns if "Protein Fold Change" in str(c)]
+    if len(acc) < 2 or len(fold) < 2:
+        return pd.DataFrame()
+    blocks = []
+    for a, f in zip(acc[:2], fold[:2]):
+        # A row can name several accessions when a peptide matched a protein group; the leading one
+        # is the representative the search engine chose, and it is what the rest of this project
+        # takes. Keeping the whole string would make `P08134; P61586` its own protein.
+        block = pd.DataFrame({"host_id": d[a].astype(str).str.split(";").str[0].str.strip(),
+                              "fold": pd.to_numeric(d[f], errors="coerce")}).dropna()
+        blocks.append(block.groupby("host_id")["fold"].max())
+    both = pd.concat(blocks, axis=1, join="inner")
+    both = both[(both > REPLICATE_MIN_FOLD).all(axis=1)]
+    if both.empty:
+        return pd.DataFrame()
+    # Parasite accessions belong to the parasite side of the experiment, not the host table.
+    keep = ~both.index.str.contains("TGME49_|TGGT1_")
+    both = both[keep]
+    if both.empty:
+        return pd.DataFrame()
+    return pd.DataFrame({"host_id": both.index,
+                         "host_name": both.index,
+                         "host_ip_enrichment_log2": both.mean(axis=1).to_numpy()})
 
 
 def bridges(base: str, spec: dict = None) -> pd.DataFrame:
@@ -143,6 +212,7 @@ def bridges(base: str, spec: dict = None) -> pd.DataFrame:
     return pd.DataFrame({
         "gene_id": spec["bait"],
         "host_id": host["host_id"],
+        "host_name": host["host_name"],
         "host_ip_enrichment_log2": host["host_ip_enrichment_log2"],
         "evidence": f"IP-MS {spec['accession']}"})
 
@@ -161,8 +231,18 @@ def all_bridges(base: str) -> pd.DataFrame:
             continue
         parts.append(pd.DataFrame({
             "gene_id": spec["bait"], "host_id": got["host_id"],
+            "host_name": got["host_name"],
             "host_ip_enrichment_log2": got["host_ip_enrichment_log2"],
             "evidence": f"DIA affinity purification {spec['accession']} ({spec['bait_name']})"}))
+    for spec in REPLICATE_IPS:
+        got = read_replicated(base, spec)
+        if got.empty:
+            continue
+        parts.append(pd.DataFrame({
+            "gene_id": spec["bait"], "host_id": got["host_id"],
+            "host_name": got["host_name"],
+            "host_ip_enrichment_log2": got["host_ip_enrichment_log2"],
+            "evidence": f"IP-MS {spec['accession']} ({spec['bait_name']})"}))
     parts = [p for p in parts if not p.empty]
     return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame()
 

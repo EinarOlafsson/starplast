@@ -33,8 +33,8 @@ def _ip(tmp_path, rows):
 def test_a_host_protein_enriched_over_the_control_is_kept(tmp_path):
     _ip(tmp_path, [("sp|O75340|PDCD6_HUMAN", 1000.0, 1000.0, 1.0, 1.0, 9, 3)])
     out = H.read_ip(str(tmp_path))
-    assert list(out["host_id"]) == ["PDCD6_HUMAN"]
-    assert out["host_accession"].iloc[0] == "O75340"
+    assert list(out["host_id"]) == ["O75340"], "the row key is the accession, not the entry name"
+    assert out["host_name"].iloc[0] == "PDCD6_HUMAN"
     assert out["host_ip_enrichment_log2"].iloc[0] > 8
 
 
@@ -45,14 +45,14 @@ def test_a_contaminant_inside_the_group_is_dropped(tmp_path):
     _ip(tmp_path, [("sp|P02533|K1C14_HUMAN;CON__P02533", 1000.0, 1000.0, 1.0, 1.0, 20, 20),
                    ("sp|O75340|PDCD6_HUMAN", 900.0, 900.0, 1.0, 1.0, 9, 3)])
     out = H.read_ip(str(tmp_path))
-    assert list(out["host_id"]) == ["PDCD6_HUMAN"]
+    assert list(out["host_name"]) == ["PDCD6_HUMAN"]
 
 
 def test_one_peptide_in_one_run_is_not_an_interaction(tmp_path):
     _ip(tmp_path, [("sp|O75340|PDCD6_HUMAN", 1000.0, 1000.0, 1.0, 1.0, 9, 1),
                    ("sp|Q14315|FLNC_HUMAN", 900.0, 900.0, 1.0, 1.0, 5, 4)])
     out = H.read_ip(str(tmp_path))
-    assert list(out["host_id"]) == ["FLNC_HUMAN"]
+    assert list(out["host_name"]) == ["FLNC_HUMAN"]
 
 
 def test_the_parasite_side_of_the_experiment_is_not_a_host_row(tmp_path):
@@ -61,13 +61,14 @@ def test_the_parasite_side_of_the_experiment_is_not_a_host_row(tmp_path):
     _ip(tmp_path, [("TGGT1_254470", 1000.0, 1000.0, 1.0, 1.0, 9, 9),
                    ("sp|O75340|PDCD6_HUMAN", 900.0, 900.0, 1.0, 1.0, 9, 3)])
     out = H.read_ip(str(tmp_path))
-    assert list(out["host_id"]) == ["PDCD6_HUMAN"]
+    assert list(out["host_name"]) == ["PDCD6_HUMAN"]
 
 
 def test_a_bridge_names_both_ends_and_its_evidence(tmp_path):
     _ip(tmp_path, [("sp|O75340|PDCD6_HUMAN", 1000.0, 1000.0, 1.0, 1.0, 9, 3)])
     b = H.bridges(str(tmp_path))
-    assert set(b.columns) == {"gene_id", "host_id", "host_ip_enrichment_log2", "evidence"}
+    assert set(b.columns) == {"gene_id", "host_id", "host_name",
+                              "host_ip_enrichment_log2", "evidence"}
     assert b["gene_id"].iloc[0] == H.MYR1_IP["bait"]
     assert "PXD016383" in b["evidence"].iloc[0]
 
@@ -114,9 +115,10 @@ def test_the_escrt_machinery_leads_the_host_side():
     from scipy.stats import mannwhitneyu
     b = H.load(ROOT, H.BRIDGE_TABLE)
     assert len(b) > 100
-    top = b.sort_values("host_ip_enrichment_log2", ascending=False)["host_id"].tolist()
-    assert top[0] == "PDCD6_HUMAN", top[:3]
-    escrt = b["host_id"].str.match(r"^(PDCD6|PDC6I|VPS28|CHMP\d|VPS4[AB]|TS101)")
+    top = b.sort_values("host_ip_enrichment_log2", ascending=False)["host_name"].tolist()
+    assert "PDCD6" in str(top[0]), top[:3]
+    escrt = b["host_name"].astype(str).str.match(
+        r"^(PDCD6|PDC6I|PDCD6IP|VP37A|VPS28|CHMP\d|VPS4[AB]|TS101|TSG101|PEF1)")
     assert escrt.sum() >= 3, "the ESCRT machinery is not in the bridge"
     p = mannwhitneyu(b.loc[escrt, "host_ip_enrichment_log2"],
                      b.loc[~escrt, "host_ip_enrichment_log2"], alternative="greater").pvalue
@@ -140,21 +142,21 @@ def test_a_dia_bait_keeps_what_clears_both_thresholds(tmp_path):
                     ("=\"NOISE\"", "P00001", "Homo sapiens", 4.11, 0.9),
                     ("=\"SMALL\"", "P00002", "Homo sapiens", 0.2, 0.001)])
     out = H.read_dia(str(tmp_path), H.DIA_IPS[0])
-    assert list(out["host_id"]) == ["PDCD6"]
+    assert list(out["host_name"]) == ["PDCD6"]
 
 
 def test_the_spreadsheet_quoting_is_unwrapped(tmp_path):
     """Symbols arrive as ="PDCD6" -- a spreadsheet stopping Excel reading them as formulas."""
     _dia(tmp_path, [("=\"TSG101\"", "Q99816", "Homo sapiens", 3.09, 0.001)])
     out = H.read_dia(str(tmp_path), H.DIA_IPS[0])
-    assert list(out["host_id"]) == ["TSG101"]
+    assert list(out["host_name"]) == ["TSG101"]
 
 
 def test_parasite_rows_are_not_host_partners_in_the_dia_table(tmp_path):
     _dia(tmp_path, [("=\"GRA8\"", "A0A125", "Toxoplasma gondii", 4.78, 0.001),
                     ("=\"PDCD6\"", "O75340", "Homo sapiens", 4.11, 0.001)])
     out = H.read_dia(str(tmp_path), H.DIA_IPS[0])
-    assert list(out["host_id"]) == ["PDCD6"]
+    assert list(out["host_name"]) == ["PDCD6"]
 
 
 def test_no_dia_file_yields_nothing(tmp_path):
@@ -189,18 +191,25 @@ def test_all_bridges_is_empty_when_nothing_is_downloaded(tmp_path):
 @pytest.mark.skipif(
     not os.path.exists(os.path.join(ROOT, "starplast", "data", H.BRIDGE_TABLE)),
     reason="host bridge not built")
-def test_three_independent_baits_converge_on_alg2():
+def test_independent_baits_converge_on_the_escrt_machinery():
     """The claim a multi-bait bridge can make and a single IP cannot.
 
     PDCD6 -- ALG-2 -- is reached by MYR1, EAF1 and GRA35 independently, and a 2026 paper reports
     Toxoplasma GRA8 engaging it at the vacuole. Convergence across baits is the evidence; any one of
     them alone is a list.
     """
+    from scipy.stats import fisher_exact
     b = H.load(ROOT, H.BRIDGE_TABLE)
-    assert b["gene_id"].nunique() >= 3, "the bridge lost its extra baits"
-    stem = b["host_id"].str.replace("_HUMAN$", "", regex=True).str.upper()
-    reached = b.assign(stem=stem).groupby("stem")["gene_id"].nunique()
-    assert reached.get("PDCD6", 0) >= 3, reached.sort_values(ascending=False).head().to_dict()
+    assert b["gene_id"].nunique() >= 4, "the bridge lost baits"
+    reach = b.groupby("host_id")["gene_id"].nunique()
+    names = b.drop_duplicates("host_id").set_index("host_id")["host_name"].astype(str).str.upper()
+    escrt = names.str.match(r"^(PDCD6|PDC6I|PDCD6IP|ALIX|VP37A|VPS37|TSG101|TS101|VPS28|CHMP\d"
+                            r"|VPS4[AB]|VP4[AB]|SNF8|VPS25|VPS36|IST1|VTA1|PEF1)")
+    multi = reach >= 3
+    odds, p = fisher_exact([[int((multi & escrt).sum()), int((multi & ~escrt).sum())],
+                            [int((~multi & escrt).sum()), int((~multi & ~escrt).sum())]])
+    assert p < 1e-6, f"odds {odds:.1f}, p {p:.1e}"
+    assert int((multi & escrt).sum()) >= 5
 
 
 @pytest.mark.skipif(
@@ -212,5 +221,120 @@ def test_the_eaf1_bait_pulls_the_escrt_pathway():
     eaf1 = b[b["gene_id"] == "TGME49_225160"]
     if eaf1.empty:
         pytest.skip("the EAF1 bait is not in the bridge")
-    got = set(eaf1["host_id"].str.upper())
+    got = set(eaf1["host_name"].astype(str).str.upper())
     assert {"PDCD6", "TSG101", "PDCD6IP", "CHMP4B"} <= got, got
+
+
+def test_the_bridge_is_keyed_on_an_identifier_every_deposit_carries():
+    """Three deposits, three naming conventions. Keyed on the readable name, one protein would count
+    as three and the convergence claim would be an artefact of formatting."""
+    b = H.load(ROOT, H.BRIDGE_TABLE)
+    if b.empty:
+        pytest.skip("host bridge not built")
+    # UniProt accessions are 6 or 10 characters, letter-led, and never carry an underscore or a
+    # lowercase letter -- which is exactly what distinguishes them from the entry names and symbols
+    # the three deposits otherwise use.
+    # UniProt's own accession grammar. An entry name or a gene symbol matches none of it, which is
+    # what makes this a check on the key rather than on the formatting.
+    ok = b["host_id"].str.fullmatch(
+        r"[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}")
+    assert ok.all(), b.loc[~ok, "host_id"].head().tolist()
+
+
+def _replicated(tmp_path, rows, spec=None, member=None):
+    """A two-replicate-block sheet shaped like the GRA64 pulldowns."""
+    import io as _io
+    import zipfile as _zip
+    spec = spec or H.REPLICATE_IPS[0]
+    frame = pd.DataFrame(rows, columns=["Protein Accessions", "Protein Fold Change",
+                                        "Protein Accessions ", "Protein Fold Change.1"])
+    buf = _io.BytesIO()
+    with pd.ExcelWriter(buf) as w:
+        pd.DataFrame([["Table"]]).to_excel(w, sheet_name=spec["sheet"], index=False, header=False)
+        frame.to_excel(w, sheet_name=spec["sheet"], index=False, startrow=1)
+    folder = tmp_path / H.ESCRT_ROOT / os.path.dirname(spec["archive"])
+    folder.mkdir(parents=True, exist_ok=True)
+    with _zip.ZipFile(tmp_path / H.ESCRT_ROOT / spec["archive"], "w") as z:
+        z.writestr(member or spec["member"], buf.getvalue())
+    return tmp_path
+
+
+def test_a_protein_enriched_in_both_replicates_is_kept(tmp_path):
+    _replicated(tmp_path, [("O75340", 4.1, "O75340", 3.8)])
+    out = H.read_replicated(str(tmp_path), H.REPLICATE_IPS[0])
+    assert list(out["host_id"]) == ["O75340"]
+    assert out["host_ip_enrichment_log2"].iloc[0] == pytest.approx(3.95)
+
+
+def test_a_protein_enriched_in_only_one_replicate_is_dropped(tmp_path):
+    _replicated(tmp_path, [("O75340", 4.1, "O75340", 0.2), ("Q99816", 3.0, "Q99816", 2.8)])
+    out = H.read_replicated(str(tmp_path), H.REPLICATE_IPS[0])
+    assert list(out["host_id"]) == ["Q99816"]
+
+
+def test_the_two_replicate_blocks_are_intersected_not_read_row_wise(tmp_path):
+    """The blocks are sorted differently, so row 1 of one is not row 1 of the other. Reading them
+    row-wise would pair replicate 1 of one protein with replicate 2 of another."""
+    _replicated(tmp_path, [("O75340", 4.1, "Q99816", 3.0), ("Q99816", 3.2, "O75340", 3.8)])
+    out = H.read_replicated(str(tmp_path), H.REPLICATE_IPS[0])
+    assert set(out["host_id"]) == {"O75340", "Q99816"}
+    assert out.set_index("host_id").loc["O75340", "host_ip_enrichment_log2"] == pytest.approx(3.95)
+
+
+def test_an_ambiguous_protein_group_keeps_its_leading_accession(tmp_path):
+    """`P08134; P61586` is one peptide matching several proteins, not a protein called that."""
+    _replicated(tmp_path, [("P08134; P61586", 4.1, "P08134; P61586", 3.8)])
+    out = H.read_replicated(str(tmp_path), H.REPLICATE_IPS[0])
+    assert list(out["host_id"]) == ["P08134"]
+
+
+def test_parasite_accessions_are_not_host_rows_in_a_replicated_sheet(tmp_path):
+    _replicated(tmp_path, [("TGME49_264660-t26_1-p1", 4.1, "TGME49_264660-t26_1-p1", 3.9),
+                           ("O75340", 4.1, "O75340", 3.8)])
+    out = H.read_replicated(str(tmp_path), H.REPLICATE_IPS[0])
+    assert list(out["host_id"]) == ["O75340"]
+
+
+def test_a_replicated_sheet_of_only_parasite_rows_yields_nothing(tmp_path):
+    _replicated(tmp_path, [("TGME49_264660-t26_1-p1", 4.1, "TGME49_264660-t26_1-p1", 3.9)])
+    assert H.read_replicated(str(tmp_path), H.REPLICATE_IPS[0]).empty
+
+
+def test_a_replicated_sheet_with_nothing_reproducible_yields_nothing(tmp_path):
+    _replicated(tmp_path, [("O75340", 0.1, "O75340", 0.2)])
+    assert H.read_replicated(str(tmp_path), H.REPLICATE_IPS[0]).empty
+
+
+def test_a_sheet_without_two_replicate_blocks_is_refused(tmp_path):
+    import io as _io
+    import zipfile as _zip
+    spec = H.REPLICATE_IPS[0]
+    buf = _io.BytesIO()
+    with pd.ExcelWriter(buf) as w:
+        pd.DataFrame([["Table"]]).to_excel(w, sheet_name=spec["sheet"], index=False, header=False)
+        pd.DataFrame({"Protein Accessions": ["O75340"], "Protein Fold Change": [4.0]}).to_excel(
+            w, sheet_name=spec["sheet"], index=False, startrow=1)
+    folder = tmp_path / H.ESCRT_ROOT / os.path.dirname(spec["archive"])
+    folder.mkdir(parents=True, exist_ok=True)
+    with _zip.ZipFile(tmp_path / H.ESCRT_ROOT / spec["archive"], "w") as z:
+        z.writestr(spec["member"], buf.getvalue())
+    assert H.read_replicated(str(tmp_path), spec).empty
+
+
+def test_a_missing_member_in_the_archive_is_refused(tmp_path):
+    _replicated(tmp_path, [("O75340", 4.1, "O75340", 3.8)], member="something_else.xlsx")
+    assert H.read_replicated(str(tmp_path), H.REPLICATE_IPS[0]).empty
+
+
+def test_no_replicated_archive_yields_nothing(tmp_path):
+    assert H.read_replicated(str(tmp_path), H.REPLICATE_IPS[0]).empty
+
+
+def test_all_bridges_includes_the_replicated_pulldowns(tmp_path):
+    """Four baits reach the bridge by three different readers; a bait whose reader returns nothing
+    is skipped rather than contributing an empty block."""
+    _replicated(tmp_path, [("O75340", 4.1, "O75340", 3.8)])
+    b = H.all_bridges(str(tmp_path))
+    assert not b.empty
+    assert b["evidence"].str.contains("PMC9426488").any()
+    assert set(b["host_id"]) == {"O75340"}
