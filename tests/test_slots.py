@@ -193,8 +193,10 @@ def test_no_plasmodium_slot_claims_a_column_of_the_toxoplasma_table():
     Toxoplasma sequence columns were added, because the slot lives in `NEW_SHARED` and both arms are
     built from that list.
 
-    When a Plasmodium node table exists this test still holds: its patterns will name ITS columns,
-    and claiming a Toxoplasma one would be the same error it is now.
+    The Plasmodium node table now exists, and the rule survives it in a stronger form. Its columns
+    are named the SAME as Toxoplasma's wherever the quantity is the same -- `length` is a protein
+    length in both -- because that is what lets the two arms be read side by side. So disjoint
+    pattern strings can no longer be what keeps them apart; the table's own accessions are.
     """
     import os
     import pandas as pd
@@ -204,6 +206,36 @@ def test_no_plasmodium_slot_claims_a_column_of_the_toxoplasma_table():
               for s in slots.all_slots("Pf")
               if s.patterns and len(slots.declared_columns(nodes, s))}
     assert not leaked, f"Plasmodium slots claiming Toxoplasma columns: {leaked}"
+    # And the mirroring is real rather than incidental: at least one Pf pattern IS a Toxoplasma
+    # column name, so the assertion above is being held by the species guard rather than by an
+    # accident of naming that some later rename would quietly remove.
+    shared = {p for s in slots.all_slots("Pf") for p in s.patterns if p in nodes.columns}
+    assert shared, "no Pf pattern collides with a Tg column: this test no longer tests anything"
+
+
+def test_a_plasmodium_slot_is_refused_against_the_toxoplasma_table():
+    """The refusal, not merely an empty result -- resolving is where a wrong number would ship."""
+    import os
+    import pandas as pd
+    import starplast.paths as P
+    nodes = pd.read_parquet(os.path.join(P.data_dir(), "nodes.parquet"))
+    slot = next(s for s in slots.all_slots("Pf") if s.patterns)
+    with pytest.raises(ValueError, match="measured in"):
+        slots.resolve(nodes, slot)
+
+
+def test_the_species_of_a_table_is_read_from_its_accessions():
+    assert slots.table_organism(pd.DataFrame({"gene_id": ["TGME49_200010"]})) == "Tg"
+    assert slots.table_organism(pd.DataFrame({"gene_id": ["PF3D7_0100100"]})) == "Pf"
+    assert slots.table_organism(pd.DataFrame({"gene_id": ["something else"]})) is None
+    # No id column at all: fall back to the index, which is how several callers hold it.
+    assert slots.table_organism(pd.DataFrame(index=["PF3D7_0100100"])) == "Pf"
+
+
+def test_a_table_of_unknown_species_is_allowed_through():
+    """Synthetic frames in tests carry no accessions; refusing those would protect nothing."""
+    slot = next(s for s in slots.all_slots("Pf") if s.patterns)
+    assert slots.same_species(pd.DataFrame({"length": [1]}), slot)
 
 
 def test_a_metabolite_slot_is_refused_against_the_gene_table():

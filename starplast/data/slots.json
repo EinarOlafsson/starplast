@@ -4643,7 +4643,9 @@
     "axis": "fitness",
     "context": "asexual blood stage",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "piggybac_"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -5079,7 +5081,11 @@
     "axis": "localization",
     "context": "sequence",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "n_tm",
+      "is_tm",
+      "has_signal_peptide"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -5619,7 +5625,12 @@
     "axis": "sequence",
     "context": "InterPro",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "n_interpro",
+      "has_domain",
+      "interpro_ids",
+      "pfam_ids"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -5671,7 +5682,10 @@
     "axis": "sequence",
     "context": "OrthoMCL",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "ortholog_number",
+      "orthogroup"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -5697,7 +5711,10 @@
     "axis": "sequence",
     "context": "OrthoMCL",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "paralog_number",
+      "has_paralog"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -5723,7 +5740,13 @@
     "axis": "sequence",
     "context": "protein",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "length",
+      "molecular_weight",
+      "isoelectric_point",
+      "transcript_length",
+      "exon_count"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -5749,7 +5772,9 @@
     "axis": "sequence",
     "context": "population",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "snp_"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [

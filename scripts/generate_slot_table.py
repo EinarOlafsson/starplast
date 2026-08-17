@@ -1014,13 +1014,41 @@ def _definition(row, organism: str) -> dict:
             "target_columns": list(override.get("target_columns", ())), "role": role}
 
 
+#: Columns of the Plasmodium table, by the slot each answers.
+#:
+#: The mirror deliberately drops Toxoplasma's patterns, because a Toxoplasma column name is a
+#: statement about Toxoplasma data and mirroring it would have claimed *falciparum* slots with
+#: *gondii* numbers -- the leakage instruction 39 is built to prevent. So the Pf arm names its own,
+#: and `starplast.plasmodium` chooses column names that match the Toxoplasma table where the
+#: quantity is genuinely the same, which is why these read familiar without being shared.
+PF_PATTERNS = {
+    "sequence basics": ["length", "molecular_weight", "isoelectric_point", "transcript_length",
+                        "exon_count"],
+    "domain content": ["n_interpro", "has_domain", "interpro_ids", "pfam_ids"],
+    "conservation breadth": ["ortholog_number", "orthogroup"],
+    "paralogy": ["paralog_number", "has_paralog"],
+    "strain variation": ["snp_"],
+    "membrane topology": ["n_tm", "is_tm", "has_signal_peptide"],
+    # The piggyBac saturation screen is an asexual-blood-stage screen and nothing else. Naming the
+    # stage in the slot keeps it from being read as fitness anywhere in the life cycle.
+    "fitness · asexual blood stage": ["piggybac_"],
+}
+
+
+def _with_pf_patterns(row):
+    """Attach the Plasmodium table's own columns to the slot they answer."""
+    patterns = PF_PATTERNS.get(row[0])
+    return row if not patterns else (row[0], row[1], row[2], row[3], list(patterns)) + tuple(row[5:])
+
+
 def all_slots(organism: str | None = None) -> list:
     """The Toxoplasma, Plasmodium, or combined catalog with organism prefixes explicit."""
     toxo = ([_definition(row, "Tg") for row in SLOTS]
             + [_definition(row, "Tg") for row in NEW_SHARED + NEW_TOXOPLASMA])
-    pf = ([_definition(row, "Pf") for row in _pf_mirror(SLOTS)]
-          + [_definition(_no_toxoplasma_columns(row), "Pf") for row in NEW_SHARED]
-          + [_definition(row, "Pf") for row in NEW_PLASMODIUM])
+    pf = ([_definition(_with_pf_patterns(row), "Pf") for row in _pf_mirror(SLOTS)]
+          + [_definition(_with_pf_patterns(_no_toxoplasma_columns(row)), "Pf")
+             for row in NEW_SHARED]
+          + [_definition(_with_pf_patterns(row), "Pf") for row in NEW_PLASMODIUM])
     out = toxo + pf
     if organism:
         out = [row for row in out if row["organism"] == organism]
@@ -1133,11 +1161,12 @@ def _write_markdown(rows, path=OUT_MD) -> None:
     open(path, "w", encoding="utf8").write("\n".join(lines))
 
 
-def _rows(definitions, nodes, graph, metabolites=None, bridges=None) -> list:
+def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=None) -> list:
     """One row per slot. `metabolites` is the table whose rows are compounds; slots declaring
     `unit="metabolite"` are graded against it and against its own denominator."""
     metabolites = pd.DataFrame() if metabolites is None else metabolites
     bridges = pd.DataFrame() if bridges is None else bridges
+    pf_nodes = pd.DataFrame() if pf_nodes is None else pf_nodes
     """Definitions with measured cache coverage attached."""
     import numpy as np
     n_genes, rows = len(nodes), []
@@ -1171,9 +1200,19 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None) -> list:
         elif definition["organism"] == "Tg":
             covered, cols = coverage(nodes, columns)
             detail = f"{len(cols)} columns" if cols else ""
+        elif definition["organism"] == "Pf" and len(pf_nodes):
+            # Graded against the Plasmodium table and ITS gene count. Scoring 5,720 falciparum
+            # genes out of 8,140 gondii ones would report a complete column as 70% covered.
+            covered, cols = coverage(pf_nodes, columns)
+            detail = f"{len(cols)} columns" if cols else ""
         else:
             covered, cols, detail = 0, [], ""
-        denominator = len(metabolites) if unit == "metabolite" else n_genes
+        if unit == "metabolite":
+            denominator = len(metabolites)
+        elif definition["organism"] == "Pf":
+            denominator = len(pf_nodes)
+        else:
+            denominator = n_genes
         frac = covered / denominator if denominator else 0.0
         rows.append({
             "organism": definition["organism"],
@@ -1252,7 +1291,9 @@ def main() -> int:
     bridges = pd.read_parquet(_bp) if os.path.exists(_bp) else pd.DataFrame()
     z = np.load(paths.cache_file("graph.npz"), allow_pickle=True)
     definitions = all_slots()
-    rows = _rows(definitions, nodes, z, metabolites, bridges)
+    _pf = paths.cache_file("pf_nodes.parquet")
+    pf_nodes = pd.read_parquet(_pf) if os.path.exists(_pf) else pd.DataFrame()
+    rows = _rows(definitions, nodes, z, metabolites, bridges, pf_nodes)
     toxo_rows = [row for row in rows if row["organism"] == "Tg"]
     pf_rows = [row for row in rows if row["organism"] == "Pf"]
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)

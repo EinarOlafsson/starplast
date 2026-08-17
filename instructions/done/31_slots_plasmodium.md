@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 0 covered well, 0 partly, 0 thinly, 103 empty.**
+**103 slots: 7 covered well, 0 partly, 0 thinly, 96 empty.**
 
 ### transcription
 
@@ -123,7 +123,7 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Pf_fitness · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_fitness · asexual blood stage | asexual blood stage | **A** | 5385 | 94.1% | `piggybac_` | one | — |
 | Pf_fitness · gametocyte | gametocyte | **-** |  |  | `` | one | — |
 | Pf_fitness · in vivo peritoneum | mouse peritoneum | **-** |  |  | `` | one | — |
 | Pf_fitness · in vivo lung | mouse lung | **-** |  |  | `` | one | — |
@@ -154,7 +154,7 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Pf_membrane topology | sequence | **-** |  |  | `` | one | — |
+| Pf_membrane topology | sequence | **A** | 5720 | 100.0% | `n_tm, is_tm, has_signal_peptide` | one | — |
 | Pf_exposure to host cytosol | PVM, export | **-** |  |  | `` | fill | — |
 | Pf_secretome / excreted | ESA | **-** |  |  | `` | one | — |
 | Pf_export / PEXEL trafficking | erythrocyte cytosol | **-** |  |  | `` | one | **Plasmodium vivax cysteine-rich protective antigen (PvCyRPA), an important element for vaccine strategies targeting P. vivax, interacts with human erythrocyte surface.** (Acta tropica 2025) [41205844](https://pubmed.ncbi.nlm.nih.gov/41205844/)<br>verify assay and parasite-gene shape)<br>**RALP1 is essential for schizont maturation and erythrocyte invasion in Plasmodium falciparum.** (Parasites & vectors 2026) [41792842](https://pubmed.ncbi.nlm.nih.gov/41792842/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
@@ -201,12 +201,12 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Pf_domain content | InterPro | **-** |  |  | `` | one | — |
+| Pf_domain content | InterPro | **A** | 5720 | 100.0% | `n_interpro, has_domain, interpro_ids, pfam_ids` | one | — |
 | Pf_fold confidence / disorder | AlphaFold | **-** |  |  | `` | one | — |
-| Pf_conservation breadth | OrthoMCL | **-** |  |  | `` | one | — |
-| Pf_paralogy | OrthoMCL | **-** |  |  | `` | one | — |
-| Pf_sequence basics | protein | **-** |  |  | `` | one | — |
-| Pf_strain variation | population | **-** |  |  | `` | one | — |
+| Pf_conservation breadth | OrthoMCL | **A** | 5720 | 100.0% | `ortholog_number, orthogroup` | one | — |
+| Pf_paralogy | OrthoMCL | **A** | 5720 | 100.0% | `paralog_number, has_paralog` | one | — |
+| Pf_sequence basics | protein | **A** | 5720 | 100.0% | `length, molecular_weight, isoelectric_point, transcript_length, exon_count` | one | — |
+| Pf_strain variation | population | **A** | 5720 | 100.0% | `snp_` | one | — |
 | Pf_field variation and resistance markers | clinical isolates | **-** |  |  | `` | one | **Genomic surveillance reveals co-occurrence of Plasmodium falciparum drug resistance variants across diverse transmission settings in Ethiopia.** (Nature microbiology 2026) [42557356](https://pubmed.ncbi.nlm.nih.gov/42557356/)<br>verify assay and parasite-gene shape)<br>**Evolutionary diversity of the pfmdr1 hinge region and association with antimalarial drug resistance mutations post ACT introduction.** (International journal for parasitology. Drugs and drug resistance 2026) [42561758](https://pubmed.ncbi.nlm.nih.gov/42561758/)<br>verify assay and parasite-gene shape)<br>**Phytochemical synergy in artemisia annua herbal tea against malaria: a systematic review of its efficacy and safety in the context of emerging Pfkelch13 resistance.** (Infectious diseases of poverty 2026) [42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/)<br>verify assay and parasite-gene shape) |
 
 ### metabolism

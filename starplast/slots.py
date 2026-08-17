@@ -49,6 +49,35 @@ UNIT_TABLES = {"gene": "nodes.parquet", "metabolite": "metabolites.parquet",
 #: there. A slot declares one as `bridge:<name>` and it is answered by a bridge table.
 BRIDGE_TABLES = {"host": "host_bridges.parquet"}
 
+#: One parasite table per species, and the accession prefixes that identify each.
+#:
+#: The Plasmodium table names its columns the same as the Toxoplasma one wherever the quantity is
+#: genuinely the same -- `length` is a protein length in both -- because that is what lets the two
+#: arms be read side by side. The cost is that a slot pattern alone no longer tells you which
+#: organism a column belongs to, so the TABLE has to. It says so the only way that cannot drift out
+#: of step with its own contents: by what its accessions look like.
+SPECIES_TABLES = {"Tg": "nodes.parquet", "Pf": "pf_nodes.parquet"}
+SPECIES_PREFIXES = {"Tg": ("TGME49_", "TGGT1_"), "Pf": ("PF3D7_",)}
+
+
+def table_organism(nodes: pd.DataFrame) -> str | None:
+    """Which species' table this is, read off its accessions. None if it cannot be told.
+
+    Deliberately derived rather than declared. A flag passed alongside the frame is a second thing
+    that has to be kept true; the accessions are the thing itself.
+    """
+    values = None
+    for column in ("gene_id", "gene", "id"):
+        if column in nodes.columns:
+            values = nodes[column].astype(str)
+            break
+    if values is None:
+        values = pd.Series(nodes.index.astype(str))
+    for organism, prefixes in SPECIES_PREFIXES.items():
+        if values.str.startswith(prefixes).any():
+            return organism
+    return None
+
 
 def bridge_names(slot: Slot) -> tuple:
     """The bridges a slot declares, if any."""
@@ -201,6 +230,11 @@ def declared_columns(nodes: pd.DataFrame, slot: Slot, numeric_only: bool = False
     ``source_columns`` is intentionally numeric because it builds matrices.  Leakage closure needs
     the wider declaration: labels, confidence fields and numeric features all travel together.
     """
+    if not same_species(nodes, slot):
+        # A Plasmodium slot handed the Toxoplasma table would match `length` and `n_tm` and report
+        # itself filled by measurements of the other organism. Since `filled` is what the atlas is
+        # measured by, that is not a wrong number but a wrong claim about how much is known.
+        return ()
     out = []
     for pattern in (*slot.patterns, *slot.target_columns):
         matches = (pattern,) if pattern in nodes.columns else tuple(
@@ -210,6 +244,17 @@ def declared_columns(nodes: pd.DataFrame, slot: Slot, numeric_only: bool = False
                                       or pd.api.types.is_numeric_dtype(nodes[column])):
                 out.append(column)
     return tuple(out)
+
+
+def same_species(nodes: pd.DataFrame, slot: Slot) -> bool:
+    """Whether this table is the one this slot's organism is measured in.
+
+    Unknown counts as matching: a synthetic frame in a test carries no accessions, and refusing
+    those would make the guard a nuisance rather than a protection. What it must catch is the
+    definite mismatch -- a `Pf_` slot against a table of `TGME49_` rows.
+    """
+    here = table_organism(nodes)
+    return here is None or here == slot.organism
 
 
 HIERARCHIES = ("evidence", "biology", "context")
@@ -298,6 +343,14 @@ def resolve(nodes: pd.DataFrame, slot: Slot | str, chosen: str | None = None,
             f"slot {slot.key!r} is measured per {slot.unit!r} and cannot be resolved against a "
             f"table of {unit!r} rows; resolve it against {UNIT_TABLES.get(slot.unit, 'no table')} "
             f"or reach it through a bridge slot")
+    if not same_species(nodes, slot):
+        # The same refusal one axis over. Column names are shared between the species tables on
+        # purpose, so this is the only thing standing between a Pf slot and a table of gondii
+        # numbers that would answer it without complaint.
+        raise ValueError(
+            f"slot {slot.key!r} is measured in {slot.organism!r} and cannot be resolved against a "
+            f"{table_organism(nodes)!r} table; resolve it against "
+            f"{SPECIES_TABLES.get(slot.organism, 'no table')}")
     groups = _groups(nodes, slot)
     empty_source = pd.Series("", index=nodes.index, dtype=object, name=f"{slot.key}_source")
     if not groups:

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 62 covered well, 16 partly, 34 thinly, 110 empty.**
+**222 slots: 69 covered well, 16 partly, 34 thinly, 103 empty.**
 
 ### transcription
 
@@ -191,7 +191,7 @@ quantity were approximating on 2026-08-13.
 | Tg_drug sensitivity | compound | **-** |  |  | `` | separate | — |
 | Tg_essentiality in a second background | second strain | **C** | 131 | 1.6% | `crispr_reporter_strain_p8_log2` | separate | [GSE132237](https://pubmed.ncbi.nlm.nih.gov/GSE132237/) |
 | Tg_fitness · in vivo gut | enteric, sexual cycle | **-** |  |  | `` | separate | — |
-| Pf_fitness · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_fitness · asexual blood stage | asexual blood stage | **A** | 5385 | 94.1% | `piggybac_` | one | — |
 | Pf_fitness · gametocyte | gametocyte | **-** |  |  | `` | one | — |
 | Pf_fitness · in vivo peritoneum | mouse peritoneum | **-** |  |  | `` | one | — |
 | Pf_fitness · in vivo lung | mouse lung | **-** |  |  | `` | one | — |
@@ -234,7 +234,7 @@ quantity were approximating on 2026-08-13.
 | Tg_exposure to host cytosol | PVM, export | **C** | 1274 | 15.7% | `pvm_proximity_positive` | fill | **TurboID mapping reveals the exportome of secreted intrinsically disordered proteins in the transforming parasite Theileria annulata.** (mBio 2024) [38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/)<br>**MYR1-Dependent Effectors Are the Major Drivers of a Host Cell's Early Response to Toxoplasma, Including Counteracting MYR1-Independent Effects.** (mBio 2018) [29615509](https://pubmed.ncbi.nlm.nih.gov/29615509/) `GSE109830`<br>**Translocation of Dense Granule Effectors across the Parasitophorous Vacuole Membrane in Toxoplasma-Infected Cells Requires the Activity of ROP17, a Rhoptry Protein Kinase.** (mSphere 2019) [31366709](https://pubmed.ncbi.nlm.nih.gov/31366709/) `GSE122786` |
 | Tg_secretome / excreted | ESA | **C** | 165 | 2.0% | `secretome_soluble_over_vesicle_log2` | one | **Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and machine learning.** (mBio 2025) [40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) `Ramirez-Flores vesicles` |
 | Tg_cyst wall composition | bradyzoite cyst wall | **C** | 56 | 0.7% | `cyst_wall_` | separate | — |
-| Pf_membrane topology | sequence | **-** |  |  | `` | one | — |
+| Pf_membrane topology | sequence | **A** | 5720 | 100.0% | `n_tm, is_tm, has_signal_peptide` | one | — |
 | Pf_exposure to host cytosol | PVM, export | **-** |  |  | `` | fill | — |
 | Pf_secretome / excreted | ESA | **-** |  |  | `` | one | — |
 | Pf_export / PEXEL trafficking | erythrocyte cytosol | **-** |  |  | `` | one | **Plasmodium vivax cysteine-rich protective antigen (PvCyRPA), an important element for vaccine strategies targeting P. vivax, interacts with human erythrocyte surface.** (Acta tropica 2025) [41205844](https://pubmed.ncbi.nlm.nih.gov/41205844/)<br>verify assay and parasite-gene shape)<br>**RALP1 is essential for schizont maturation and erythrocyte invasion in Plasmodium falciparum.** (Parasites & vectors 2026) [41792842](https://pubmed.ncbi.nlm.nih.gov/41792842/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
@@ -310,12 +310,12 @@ quantity were approximating on 2026-08-13.
 | Tg_paralogy | OrthoMCL | **A** | 8140 | 100.0% | `paralog_number` | one | — |
 | Tg_sequence basics | protein | **A** | 8140 | 100.0% | `length, sequence` | one | — |
 | Tg_strain variation | population | **A** | 8140 | 100.0% | `snp_` | one | [ToxoDB](https://pubmed.ncbi.nlm.nih.gov/ToxoDB/) `HTS SNPs` |
-| Pf_domain content | InterPro | **-** |  |  | `` | one | — |
+| Pf_domain content | InterPro | **A** | 5720 | 100.0% | `n_interpro, has_domain, interpro_ids, pfam_ids` | one | — |
 | Pf_fold confidence / disorder | AlphaFold | **-** |  |  | `` | one | — |
-| Pf_conservation breadth | OrthoMCL | **-** |  |  | `` | one | — |
-| Pf_paralogy | OrthoMCL | **-** |  |  | `` | one | — |
-| Pf_sequence basics | protein | **-** |  |  | `` | one | — |
-| Pf_strain variation | population | **-** |  |  | `` | one | — |
+| Pf_conservation breadth | OrthoMCL | **A** | 5720 | 100.0% | `ortholog_number, orthogroup` | one | — |
+| Pf_paralogy | OrthoMCL | **A** | 5720 | 100.0% | `paralog_number, has_paralog` | one | — |
+| Pf_sequence basics | protein | **A** | 5720 | 100.0% | `length, molecular_weight, isoelectric_point, transcript_length, exon_count` | one | — |
+| Pf_strain variation | population | **A** | 5720 | 100.0% | `snp_` | one | — |
 | Pf_field variation and resistance markers | clinical isolates | **-** |  |  | `` | one | **Genomic surveillance reveals co-occurrence of Plasmodium falciparum drug resistance variants across diverse transmission settings in Ethiopia.** (Nature microbiology 2026) [42557356](https://pubmed.ncbi.nlm.nih.gov/42557356/)<br>verify assay and parasite-gene shape)<br>**Evolutionary diversity of the pfmdr1 hinge region and association with antimalarial drug resistance mutations post ACT introduction.** (International journal for parasitology. Drugs and drug resistance 2026) [42561758](https://pubmed.ncbi.nlm.nih.gov/42561758/)<br>verify assay and parasite-gene shape)<br>**Phytochemical synergy in artemisia annua herbal tea against malaria: a systematic review of its efficacy and safety in the context of emerging Pfkelch13 resistance.** (Infectious diseases of poverty 2026) [42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/)<br>verify assay and parasite-gene shape) |
 
 ### metabolism
@@ -384,4 +384,12 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `spaCR` | Pf_host ESCRT recruitment; Tg_host ESCRT recruitment |
 | `GSE132237` | Pf_essentiality in a second background; Tg_essentiality in a second background |
 | `compartment` | Tg_localization · measured; Tg_shared compartment |
-| `orthogroup` | Tg_conservation breadth; Tg_shared orthogroup |
+| `n_tm` | Pf_membrane topology; Tg_membrane topology |
+| `has_signal_peptide` | Pf_membrane topology; Tg_membrane topology |
+| `is_tm` | Pf_membrane topology; Tg_membrane topology |
+| `orthogroup` | Pf_conservation breadth; Tg_conservation breadth; Tg_shared orthogroup |
+| `n_interpro` | Pf_domain content; Tg_domain content |
+| `has_domain` | Pf_domain content; Tg_domain content |
+| `paralog_number` | Pf_paralogy; Tg_paralogy |
+| `length` | Pf_sequence basics; Tg_sequence basics |
+| `snp_` | Pf_strain variation; Tg_strain variation |
