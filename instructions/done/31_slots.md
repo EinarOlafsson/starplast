@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 87 covered well, 17 partly, 37 thinly, 81 empty.**
+**222 slots: 88 covered well, 17 partly, 37 thinly, 80 empty.**
 
 ### transcription
 
@@ -160,7 +160,7 @@ quantity were approximating on 2026-08-13.
 | Pf_acetylation | life stages | **A** | 5720 | 100.0% | `n_acetylsites, has_acetyl` | one | — |
 | Pf_N-myristoylation · asexual blood stage | asexual blood stage | **C** | 609 | 10.6% | `is_myristoylated` | one | — |
 | Pf_arginine methylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
-| Pf_lactylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_lactylation · asexual blood stage | asexual blood stage | **A** | 5720 | 100.0% | `n_lactylsites, has_lactyl` | one | — |
 | Pf_S-nitrosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_ubiquitination / SUMOylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_glycosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |

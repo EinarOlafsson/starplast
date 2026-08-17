@@ -1134,3 +1134,35 @@ this is now the fifth time a source's own label needed reading past rather than 
 Self-validating: fourteen histones appear, and the most heavily acetylated proteins are the PHD
 finger proteins, the MYST acetyltransferase and the coactivator ADA2 — the acetylation machinery
 itself, which is what any acetylome should be led by.
+
+## Nineteenth pass: the strain-accession problem reaches the Plasmodium arm
+
+**Toxoplasma 114 of 119, Plasmodium 28 of 103, combined 142 of 222.**
+
+`Pf_lactylation` filled — and the interesting part is not the PTM. The study reports against the
+**NF54** annotation rather than 3D7, so joining on the accession string would have dropped all 186
+genes without a word. That is exactly the failure the Toxoplasma identity layer exists to prevent
+(`TGGT1` deposits against a `TGME49` table), met here for the first time on this arm.
+
+### Orthology as identity, and the check that licenses it
+
+`plasmodium.strain_map` resolves NF54 to 3D7 through orthogroups holding **exactly one gene on each
+side**, so the paralogous surface families are dropped rather than guessed at — guessing there would
+attach a measurement to the wrong family member, which is worse than losing it.
+
+Orthology is a claim about ancestry and this needs a claim about identity, so the map is checked
+against protein length: **96.8% of the 4,310 pairs have exactly the same length, 99.2% within 5%**.
+That is what it should look like when one line was cloned from the other, and a test fails if a
+future PlasmoDB release breaks it. Pairs differing by more than half are dropped; pairs with no
+length are kept, because unknown is not a contradiction.
+
+A first attempt validated the map on product-description text instead and got 63%, which looked
+alarming until the disagreements turned out to be the same protein worded differently
+("SufB protein" against "iron-sulfur cluster assembly protein SufB"). Length is the better check
+precisely because it does not depend on annotation prose.
+
+144 of 186 genes resolve. Site counts use a 0.75 localisation cut and the flag does not — the same
+split as acetylation, for the same reason.
+
+**The map is reusable.** It is not lactylation-specific, and the next Plasmodium source reported
+against NF54, 7G8, Dd2 or any other strain can go through the same door.

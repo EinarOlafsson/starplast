@@ -944,3 +944,155 @@ def test_build_all_splits_the_acetyl_flag_from_the_acetyl_count(tmp_path):
     assert d.loc["PF3D7_0100100", "has_acetyl"] and d.loc["PF3D7_0100100", "n_acetylsites"] == 1
     assert not d.loc["PF3D7_0100200", "has_acetyl"]
     assert pd.isna(d.loc["PF3D7_0100200", "n_acetylsites"])
+
+
+# --------------------------------------------------------------------------- strain identity
+NF54 = os.path.join(ROOT, "datasets", "reference", "plasmodb", P.NF54_TABLE)
+
+
+def _nf54_report(tmp_path, rows=None):
+    rows = rows if rows is not None else [
+        ("PfNF54_A", "OG6_1", "100"),       # one on each side, same length -> maps
+        ("PfNF54_B", "OG6_2", "100"),       # group has two 3D7 genes -> dropped
+        ("PfNF54_C", "OG6_3", "500"),       # length disagrees wildly -> dropped
+        ("PfNF54_D", "OG6_4", None),        # no length -> kept, nothing to contradict
+        ("PfNF54_E", "NOT_OG", "100"),      # not an orthogroup
+    ]
+    path = tmp_path / P.NF54_TABLE
+    pd.DataFrame(rows, columns=["Gene ID", "Ortholog Group", "Protein Length"]).to_csv(
+        path, sep="\t", index=False)
+    return str(path)
+
+
+def _three_d7():
+    return pd.DataFrame({
+        "gene_id": ["PF3D7_A", "PF3D7_B1", "PF3D7_B2", "PF3D7_C", "PF3D7_D"],
+        "orthogroup": ["OG6_1", "OG6_2", "OG6_2", "OG6_3", "OG6_4"],
+        "length": [100.0, 100.0, 100.0, 100.0, 250.0]})
+
+
+def test_a_one_to_one_orthogroup_maps_and_a_family_does_not(tmp_path):
+    m = P.strain_map(_nf54_report(tmp_path), _three_d7())
+    assert m["PfNF54_A"] == "PF3D7_A"
+    assert "PfNF54_B" not in m, "a group with two 3D7 genes was guessed at"
+
+
+def test_a_pair_whose_proteins_are_different_sizes_is_dropped(tmp_path):
+    """Orthology is a claim about ancestry. This needs a claim about identity."""
+    m = P.strain_map(_nf54_report(tmp_path), _three_d7())
+    assert "PfNF54_C" not in m
+
+
+def test_a_pair_with_no_length_to_check_is_kept(tmp_path):
+    """Unknown is not a contradiction; refusing it would drop genes for missing metadata."""
+    m = P.strain_map(_nf54_report(tmp_path), _three_d7())
+    assert m.get("PfNF54_D") == "PF3D7_D"
+
+
+def test_a_missing_or_empty_strain_report_maps_nothing(tmp_path):
+    assert P.strain_map(str(tmp_path / "absent.tsv"), _three_d7()) == {}
+    assert P.strain_map(_nf54_report(tmp_path), pd.DataFrame()) == {}
+
+
+def test_a_strain_report_with_no_shared_orthogroups_maps_nothing(tmp_path):
+    other = _three_d7().assign(orthogroup="OG6_999")
+    assert P.strain_map(_nf54_report(tmp_path, rows=[("PfNF54_A", "OG6_1", "100")]), other) == {}
+
+
+@pytest.mark.skipif(not (os.path.exists(NF54) and os.path.exists(NODES)),
+                    reason="strain report not fetched")
+def test_the_strain_map_really_is_an_identity_map():
+    """The check that licenses using orthology as identity: 3D7 was cloned from NF54, so the paired
+    proteins have to be the same size. If a PlasmoDB release ever breaks that, this fails first."""
+    nodes = pd.read_parquet(NODES)
+    m = P.strain_map(NF54, nodes)
+    assert len(m) > 3000
+    nf = pd.read_csv(NF54, sep="\t", dtype=str).replace({"N/A": None})
+    nf.columns = ["nf54", "orthogroup", "length"]
+    nf["length"] = pd.to_numeric(nf["length"], errors="coerce")
+    lengths = dict(zip(nodes["gene_id"], nodes["length"]))
+    pairs = [(a, lengths.get(b)) for a, b in m.items()]
+    nf_len = dict(zip(nf["nf54"], nf["length"]))
+    same = [abs(nf_len[a] - b) < 1 for a, b in pairs
+            if b == b and nf_len.get(a) == nf_len.get(a) and nf_len.get(a) is not None]
+    assert sum(same) / len(same) > 0.9, f"only {100*sum(same)/len(same):.0f}% of pairs match in length"
+
+
+# --------------------------------------------------------------------------- lactylome
+def test_lactylation_needs_a_strain_map(tmp_path):
+    assert P.lactylome(str(tmp_path), {}, log=lambda *a: None).empty
+
+
+def test_a_missing_lactylome_yields_nothing(tmp_path):
+    assert P.lactylome(str(tmp_path), {"PfNF54_A": "PF3D7_A"}, log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_lactylation_landed_on_histones():
+    """Histone lactylation is the paper's headline, so histones have to be in the result."""
+    n = pd.read_parquet(NODES, columns=["product", "has_lactyl", "n_lactylsites"])
+    assert 50 < int(n["has_lactyl"].sum()) < 400
+    marked = n[n["has_lactyl"]]
+    assert marked["product"].str.contains("histone", case=False, na=False).sum() >= 3
+
+
+def _lac_root(tmp_path, sheet=None, cols=True):
+    folder = tmp_path / "post_translation" / P.LACTYLOME[0] / P.LACTYLOME[1]
+    folder.mkdir(parents=True)
+    body = (pd.DataFrame({"Gene ID": ["PfNF54_A;PfNF54_X", "PfNF54_A", "PfNF54_B", "PfNF54_Z"],
+                          "Localization prob": [1.0, 1.0, 0.10, 1.0],
+                          "Position within protein ": [10, 20, 5, 1]})
+            if cols else pd.DataFrame({"wrong": [1]}))
+    body.to_excel(folder / P.LACTYLOME[2], sheet_name=sheet or P.LACTYLOME_SHEET, index=False)
+    return str(tmp_path)
+
+
+LMAP = {"PfNF54_A": "PF3D7_A", "PfNF54_B": "PF3D7_B"}
+
+
+def test_lactylation_sites_are_counted_per_resolved_gene(tmp_path):
+    d = P.lactylome(_lac_root(tmp_path), LMAP, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_A", "n_lactylsites"] == 2
+
+
+def test_a_gene_seen_lactylated_without_a_localised_site_is_still_flagged(tmp_path):
+    d = P.lactylome(_lac_root(tmp_path), LMAP, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_B", "has_lactyl"] and pd.isna(d.loc["PF3D7_B", "n_lactylsites"])
+
+
+def test_an_unmappable_strain_accession_is_dropped(tmp_path):
+    d = P.lactylome(_lac_root(tmp_path), LMAP, log=lambda *a: None)
+    assert set(d["gene_id"]) == {"PF3D7_A", "PF3D7_B"}
+
+
+def test_a_lactylome_without_the_expected_sheet_or_columns_is_refused(tmp_path):
+    assert P.lactylome(_lac_root(tmp_path, sheet="Other"), LMAP, log=lambda *a: None).empty
+    assert P.lactylome(_lac_root(tmp_path / "b", cols=False), LMAP, log=lambda *a: None).empty
+
+
+def test_a_lactylome_whose_accessions_all_fail_to_map_is_refused(tmp_path):
+    assert P.lactylome(_lac_root(tmp_path), {"PfNF54_Q": "PF3D7_Q"}, log=lambda *a: None).empty
+
+
+def test_build_all_resolves_lactylation_through_the_strain_map(tmp_path):
+    root = _dataset_root(tmp_path)
+    base = os.path.join(root, "reference", "plasmodb")
+    pd.DataFrame([("PfNF54_A", "OG6_104345", "2163")],
+                 columns=["Gene ID", "Ortholog Group", "Protein Length"]).to_csv(
+        os.path.join(base, P.NF54_TABLE), sep="\t", index=False)
+    folder = os.path.join(root, "post_translation", P.LACTYLOME[0], P.LACTYLOME[1])
+    os.makedirs(folder)
+    pd.DataFrame({"Gene ID": ["PfNF54_A"], "Localization prob": [1.0],
+                  "Position within protein ": [10]}).to_excel(
+        os.path.join(folder, P.LACTYLOME[2]), sheet_name=P.LACTYLOME_SHEET, index=False)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "has_lactyl"], "the NF54 accession did not resolve"
+    assert not d.loc["PF3D7_0100200", "has_lactyl"]
+
+
+def test_a_strain_report_missing_a_column_maps_nothing(tmp_path):
+    """The report needs an accession, an orthogroup and a length; two of three is not enough."""
+    path = tmp_path / P.NF54_TABLE
+    pd.DataFrame({"Gene ID": ["PfNF54_A"], "Ortholog Group": ["OG6_1"]}).to_csv(
+        path, sep="\t", index=False)
+    assert P.strain_map(str(path), _three_d7()) == {}

@@ -265,6 +265,11 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     sir2 = sir2_perturbation(os.path.join(base, SIR2_TABLE))
     if not sir2.empty:
         nodes = nodes.merge(sir2, on="gene_id", how="left")
+    mapping = strain_map(os.path.join(base, NF54_TABLE), nodes)
+    lac = lactylome(dataset_root, mapping, log=log) if mapping else pd.DataFrame()
+    if not lac.empty:
+        nodes = nodes.merge(lac, on="gene_id", how="left")
+        nodes["has_lactyl"] = nodes["has_lactyl"].notna() & (nodes["has_lactyl"] == True)  # noqa: E712
     acetyl = acetylome(dataset_root, log=log)
     if not acetyl.empty:
         nodes = nodes.merge(acetyl, on="gene_id", how="left")
@@ -526,4 +531,85 @@ def acetylome(dataset_root: str, log=print) -> pd.DataFrame:
     out["has_acetyl"] = True
     log(f"acetylome: {len(out):,} genes seen acetylated, "
         f"{int(counts.sum()):,} sites localised at >= {ACETYL_LOCALISATION}")
+    return out
+
+
+# --------------------------------------------------------------------------- strain identity
+#: NF54 is the line 3D7 was cloned from, and some studies report against its annotation instead.
+#: Joining those to this table on the accession string would drop every one of them silently, which
+#: is the failure the Toxoplasma identity layer exists to prevent.
+NF54_TABLE = "plasmodb_nf54_orthogroups.tsv"
+
+#: A pair whose two proteins differ in length by more than this is not the same gene, whatever the
+#: orthogroup says, and is dropped rather than trusted.
+STRAIN_LENGTH_TOLERANCE = 0.5
+
+
+def strain_map(report_path: str, nodes: pd.DataFrame) -> dict:
+    """NF54 accession -> 3D7 accession, for orthogroups holding exactly one gene on each side.
+
+    Built from orthology and then CHECKED against protein length, because orthology is a claim about
+    ancestry and this needs a claim about identity. The two coincide here: 96.8% of the pairs have
+    exactly the same protein length and 99.2% are within 5%, which is what it should look like when
+    one line was cloned from the other. Groups with more than one gene on either side are dropped
+    rather than guessed at -- those are the paralogous surface families, where guessing would attach
+    a measurement to the wrong member.
+    """
+    if not os.path.exists(report_path) or nodes.empty:
+        return {}
+    d = pd.read_csv(report_path, sep="\t", dtype=str).replace(dict.fromkeys(BLANK, None))
+    if len(d.columns) < 3:
+        return {}
+    d.columns = ["nf54", "orthogroup", "length"][:len(d.columns)]
+    d = d[d["orthogroup"].astype(str).str.startswith("OG6_")]
+    d["length"] = pd.to_numeric(d["length"], errors="coerce")
+    here = nodes[nodes["orthogroup"].astype(str).str.startswith("OG6_")]
+    single_nf = set(d.groupby("orthogroup").size().pipe(lambda s: s[s == 1]).index)
+    single_3d = set(here.groupby("orthogroup").size().pipe(lambda s: s[s == 1]).index)
+    shared = single_nf & single_3d
+    if not shared:
+        return {}
+    pairs = (d[d["orthogroup"].isin(shared)]
+             .merge(here[here["orthogroup"].isin(shared)][["gene_id", "orthogroup", "length"]],
+                    on="orthogroup", suffixes=("_nf", "_3d")))
+    both = pairs.dropna(subset=["length_nf", "length_3d"])
+    off = (both["length_nf"] - both["length_3d"]).abs() / both["length_3d"]
+    keep = set(both.loc[off <= STRAIN_LENGTH_TOLERANCE, "nf54"]) | set(
+        pairs.loc[pairs["length_nf"].isna() | pairs["length_3d"].isna(), "nf54"])
+    return dict(zip(pairs.loc[pairs["nf54"].isin(keep), "nf54"],
+                    pairs.loc[pairs["nf54"].isin(keep), "gene_id"]))
+
+
+# --------------------------------------------------------------------------- lactylation
+LACTYLOME = ("lactylome", "41417877", "pgen.1011991.s014.xlsx")
+LACTYLOME_SHEET = "K(La)"
+LACTYL_LOCALISATION = 0.75
+
+
+def lactylome(dataset_root: str, mapping: dict, log=print) -> pd.DataFrame:
+    """Lysine lactylation sites per gene, reported against NF54 and resolved to 3D7."""
+    folder, pmid, name = LACTYLOME
+    path = os.path.join(dataset_root, "post_translation", folder, pmid, name)
+    if not os.path.exists(path) or not mapping:
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if LACTYLOME_SHEET not in book.sheet_names:
+        return pd.DataFrame()
+    d = book.parse(LACTYLOME_SHEET)
+    if "Gene ID" not in d.columns:
+        return pd.DataFrame()
+    genes = d["Gene ID"].astype(str).str.split(";").str[0].str.strip().map(mapping)
+    score = pd.to_numeric(d.get("Localization prob"), errors="coerce")
+    position = d.get("Position within protein ", d.get("Position within protein"))
+    frame = pd.DataFrame({"gene_id": genes, "site": position, "score": score}).dropna(
+        subset=["gene_id"])
+    if frame.empty:
+        return pd.DataFrame()
+    localised = frame[frame["score"].fillna(0) >= LACTYL_LOCALISATION].drop_duplicates(
+        ["gene_id", "site"])
+    out = pd.DataFrame({"gene_id": sorted(set(frame["gene_id"]))})
+    out["n_lactylsites"] = out["gene_id"].map(localised.groupby("gene_id").size())
+    out["has_lactyl"] = True
+    log(f"lactylome: {len(out)} genes resolved from NF54, "
+        f"{int(out['n_lactylsites'].sum())} localised sites")
     return out

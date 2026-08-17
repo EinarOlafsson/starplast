@@ -1092,6 +1092,7 @@ PF_PATTERNS = {
     "palmitoylation · asexual blood stage": ["is_palmitoylated"],
     "N-myristoylation · asexual blood stage": ["is_myristoylated"],
     "acetylation": ["n_acetylsites", "has_acetyl"],
+    "lactylation · asexual blood stage": ["n_lactylsites", "has_lactyl"],
     # Wild type and knockout as stated conditions. The KO-minus-WT contrast is deliberately not
     # precomputed; `plasmodium.sir2_perturbation` says why.
     "transcription · under TF or chromatin perturbation": ["sir2_wt_", "sir2a_ko_", "sir2b_ko_"],
