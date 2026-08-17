@@ -1084,6 +1084,9 @@ PF_PATTERNS = {
     # is left empty on purpose: that slot wants a measured exportome, and a prediction filling it
     # would be a model answering for an experiment.
     "export / PEXEL trafficking": ["export_pred_tier", "is_exported"],
+    # Pooled across every public Plasmodium phosphoproteomics study, reprocessed through one
+    # pipeline, so the same site found by three groups counts once.
+    "phosphorylation · asexual blood stage": ["n_phosphosites", "has_phospho"],
     "shared orthogroup": ["edge:orthogroup"],
     "shared domain": ["edge:domain"],
     "co-transcription": ["edge:coexpression"],

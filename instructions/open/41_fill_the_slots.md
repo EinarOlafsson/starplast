@@ -931,3 +931,39 @@ made the whole table reproducible for the first time.
 
 `exposure to host cytosol` is left empty on purpose. That slot wants a measured exportome, and a
 prediction filling it would be a model answering for an experiment.
+
+## Twelfth pass: the pooled phosphoproteome
+
+**Toxoplasma 114 of 119, Plasmodium 22 of 103, combined 136 of 222.**
+
+PlasmoDB serves no PTM annotation as gene attributes — checked across all 3,070 and all 325 searches
+— so the Plasmodium PTM slots need deposits one at a time. A sweep of all **251 *P. falciparum*
+PRIDE deposits** found 26 carrying a PTM, and one of them is worth more than the rest:
+**PXD046874**, a re-analysis of every public Plasmodium phosphoproteomics dataset through a single
+pipeline. That is what makes a per-gene count meaningful — the same serine found by three groups is
+one site rather than three.
+
+**16,318 distinct sites over 2,503 genes.**
+
+### The counting trap
+
+The deposit's tables are *site-centric* and still carry **one row per peptidoform and per source
+run**. Summing rows would count how often a protein was looked at rather than how many sites it has,
+and the difference is not subtle: the files hold millions of rows for 16,318 sites. Sites are
+counted as distinct `(gene, position)` pairs, accessions are stripped of their transcript-and-product
+suffix (`PF3D7_1346300.1-p1`, or a gene with two products counts twice), and where a source has a
+merged table its per-run siblings are skipped.
+
+### Validated on orderings, not totals
+
+A count like this cannot be checked against a published number, because pooling changes it. It can be
+checked against things that must be true whatever the total: **67% of kinases carry a site against
+44% of genes at large** (activation loops and autophosphorylation), and **site count rises with
+protein length at rho +0.46**. Both survive the numbers being re-derived.
+
+### Missingness, mirrored from the Toxoplasma arm
+
+The **count** stays missing where nothing was detected — how many sites a protein has is genuinely
+unknown if mass spectrometry never saw it. The **flag** is False, because whether it was ever
+observed phosphorylated is a question about the evidence, and the answer is no. That is the
+Toxoplasma convention exactly, checked against it rather than reinvented, so the arms read the same.

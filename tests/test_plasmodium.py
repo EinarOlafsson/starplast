@@ -414,6 +414,21 @@ def _dataset_root(tmp_path, with_stages=True, with_export=True, genes=True):
     return str(tmp_path)
 
 
+def test_build_all_folds_in_the_phosphosites_and_sets_the_flag_everywhere(tmp_path):
+    root = _dataset_root(tmp_path)
+    folder = os.path.join(root, "reference", "plasmodb", P.PHOSPHO_DIR)
+    os.makedirs(folder)
+    pd.DataFrame([("PF3D7_0100100.1-p1", "12", "Phospho", "1")],
+                 columns=["Proteins", "Protein Modification Positions", "Modification",
+                          P.PHOSPHO_THRESHOLD]).to_csv(
+        os.path.join(folder, "x_Site_Peptidoform_centric.tsv"), sep="\t", index=False)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "n_phosphosites"] == 1
+    assert d.loc["PF3D7_0100100", "has_phospho"]
+    assert not d.loc["PF3D7_0100200", "has_phospho"]
+    assert pd.isna(d.loc["PF3D7_0100200", "n_phosphosites"])
+
+
 def test_build_all_assembles_the_three_reports(tmp_path):
     d = P.build_all(_dataset_root(tmp_path), log=lambda *a: None)
     assert {"length", "expr_ring", "export_pred_tier", "is_exported"} <= set(d.columns)
@@ -435,3 +450,88 @@ def test_build_all_survives_a_dataset_root_with_only_the_gene_report(tmp_path):
 
 def test_build_all_without_a_gene_report_yields_nothing(tmp_path):
     assert P.build_all(_dataset_root(tmp_path, genes=False), log=lambda *a: None).empty
+
+
+# --------------------------------------------------------------------------- phosphosites
+PHOS = os.path.join(ROOT, "datasets", "reference", "plasmodb", P.PHOSPHO_DIR)
+
+
+def _phos_dir(tmp_path, rows=None):
+    rows = rows if rows is not None else [
+        # the same site seen twice, in two peptidoforms -- one site, not two
+        ("PF3D7_0100100.1-p1", "12", "Phospho", "1"),
+        ("PF3D7_0100100.1-p1", "12", "Phospho", "1"),
+        ("PF3D7_0100100.1-p1", "44", "Phospho", "1"),
+        ("PF3D7_0100200.1-p1", "7", "Phospho", "1"),
+        ("PF3D7_0100200.1-p1", "9", "Phospho", "0"),      # fails the q-value cut
+        ("PF3D7_0100200.1-p1", "9", "Acetyl", "1"),       # not phosphorylation
+        ("CONTAM_HUMAN", "3", "Phospho", "1"),            # not a Plasmodium gene
+    ]
+    folder = tmp_path / P.PHOSPHO_DIR
+    folder.mkdir()
+    pd.DataFrame(rows, columns=["Proteins", "Protein Modification Positions", "Modification",
+                                P.PHOSPHO_THRESHOLD]).to_csv(
+        folder / "PXD000001_Site_Peptidoform_centric.tsv", sep="\t", index=False)
+    return str(folder)
+
+
+def test_a_site_seen_twice_is_counted_once(tmp_path):
+    """The tables are one row per peptidoform per run, so rows count looking, not sites."""
+    d = P.phosphosites(_phos_dir(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "n_phosphosites"] == 2
+
+
+def test_sites_below_the_q_value_and_other_modifications_are_excluded(tmp_path):
+    d = P.phosphosites(_phos_dir(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100200", "n_phosphosites"] == 1
+
+
+def test_non_plasmodium_accessions_are_dropped(tmp_path):
+    d = P.phosphosites(_phos_dir(tmp_path), log=lambda *a: None)
+    assert d["gene_id"].str.startswith("PF3D7_").all()
+
+
+def test_the_transcript_and_product_suffix_is_stripped(tmp_path):
+    """`PF3D7_0100100.1-p1` is one gene; two products would otherwise count their sites twice."""
+    d = P.phosphosites(_phos_dir(tmp_path), log=lambda *a: None)
+    assert set(d["gene_id"]) == {"PF3D7_0100100", "PF3D7_0100200"}
+
+
+def test_a_missing_phospho_folder_yields_nothing(tmp_path):
+    assert P.phosphosites(str(tmp_path / "absent"), log=lambda *a: None).empty
+
+
+def test_a_phospho_table_without_a_protein_column_is_skipped(tmp_path):
+    folder = tmp_path / P.PHOSPHO_DIR
+    folder.mkdir()
+    pd.DataFrame({"wrong": ["x"]}).to_csv(folder / "a_Site_Peptidoform_centric.tsv",
+                                          sep="\t", index=False)
+    assert P.phosphosites(str(folder), log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.isdir(PHOS), reason="phosphosite tables not fetched")
+def test_the_pooled_phosphoproteome_behaves_like_a_phosphoproteome():
+    """Two orderings that have to hold, and would not if rows were being counted instead of sites.
+
+    Kinases are phosphorylated more often than proteins at large -- activation loops and
+    autophosphorylation -- and longer proteins carry more sites. Both survive the numbers changing.
+    """
+    import scipy.stats as st
+    nodes = pd.read_parquet(NODES, columns=["gene_id", "product", "length", "n_phosphosites",
+                                            "has_phospho"])
+    assert 1000 < int(nodes["has_phospho"].sum()) < 4000
+    kinase = nodes["product"].str.contains("kinase", case=False, na=False)
+    rate_kinase = nodes.loc[kinase, "has_phospho"].mean()
+    rate_all = nodes["has_phospho"].mean()
+    assert rate_kinase > rate_all * 1.3, (rate_kinase, rate_all)
+    sub = nodes.dropna(subset=["n_phosphosites", "length"])
+    assert st.spearmanr(sub["n_phosphosites"], sub["length"]).statistic > 0.3
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_the_count_stays_missing_where_nothing_was_detected_but_the_flag_does_not():
+    """Mirrors the Toxoplasma convention: how many sites is unknown, whether any were seen is no."""
+    d = pd.read_parquet(NODES, columns=["n_phosphosites", "has_phospho"])
+    assert d["has_phospho"].notna().all()
+    assert d["n_phosphosites"].isna().sum() > 2000
+    assert (d["n_phosphosites"] == 0).sum() == 0

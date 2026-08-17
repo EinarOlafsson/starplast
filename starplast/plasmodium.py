@@ -251,5 +251,65 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
         nodes = nodes.merge(exported, on="gene_id", how="left")
         nodes["export_pred_tier"] = nodes["export_pred_tier"].fillna(0).astype(int)
         nodes["is_exported"] = nodes["export_pred_tier"] >= len(EXPORT_TIERS)
+    phospho = phosphosites(os.path.join(base, PHOSPHO_DIR), log=log)
+    if not phospho.empty:
+        nodes = nodes.merge(phospho, on="gene_id", how="left")
+        # The Toxoplasma convention, mirrored so the arms read the same: the COUNT stays missing
+        # where nothing was detected, because "how many sites" is genuinely unknown for a protein
+        # mass spectrometry never saw; the BOOLEAN is False, because "was it ever observed
+        # phosphorylated" is a yes-or-no about the evidence and the answer is no.
+        nodes["has_phospho"] = nodes["has_phospho"].notna() & (nodes["has_phospho"] == True)  # noqa: E712
     log(f"Plasmodium table: {len(nodes):,} genes, {len(nodes.columns)} columns")
     return nodes
+
+
+# --------------------------------------------------------------------------- phosphorylation
+#: A re-analysis of every public Plasmodium phosphoproteomics dataset (PXD046874), reprocessed
+#: through one pipeline so the sites are comparable. Site-level rather than peptide-level, which is
+#: what makes a per-gene count meaningful: the same site found by three studies is one site.
+PHOSPHO_DIR = "phosphosites"
+
+#: The site q-value the deposit itself computes. 0.01 is the stricter of the two it reports, and
+#: what a site count should be built on.
+PHOSPHO_THRESHOLD = "Site Passes Threshold [0.01]"
+
+
+def phosphosites(folder: str, log=print) -> pd.DataFrame:
+    """Distinct phosphorylated residues per gene, pooled across the re-analysed studies.
+
+    Counted as distinct (gene, position) pairs and not as rows. A site-centric table still carries
+    one row per peptidoform and per source run, so the same serine found in four experiments is four
+    rows; summing them would count how often a protein was looked at rather than how many sites it
+    has. That is the mistake this function exists to not make, and the difference is large -- the
+    files hold millions of rows for tens of thousands of sites.
+    """
+    if not os.path.isdir(folder):
+        return pd.DataFrame()
+    sites = set()
+    files = sorted(f for f in os.listdir(folder) if f.endswith(".tsv"))
+    for name in files:
+        frame = pd.read_csv(os.path.join(folder, name), sep="\t", dtype=str,
+                            usecols=lambda c: c in {"Proteins", "Protein Modification Positions",
+                                                    "Modification", PHOSPHO_THRESHOLD},
+                            low_memory=False)
+        if "Proteins" not in frame.columns:
+            continue
+        if "Modification" in frame.columns:
+            frame = frame[frame["Modification"].astype(str).str.contains("Phospho", na=False)]
+        if PHOSPHO_THRESHOLD in frame.columns:
+            frame = frame[frame[PHOSPHO_THRESHOLD].astype(str).str.strip() == "1"]
+        for protein, position in zip(frame["Proteins"].astype(str),
+                                     frame.get("Protein Modification Positions",
+                                               pd.Series(dtype=str)).astype(str)):
+            # `PF3D7_1346300.1-p1` is a transcript-and-product form of the gene accession, and a
+            # gene with two products would otherwise count its sites twice.
+            gene = protein.split(".")[0].split("-")[0].strip()
+            if gene.startswith("PF3D7_"):
+                sites.add((gene, position))
+    if not sites:
+        return pd.DataFrame()
+    counts = pd.Series([g for g, _p in sites]).value_counts()
+    out = pd.DataFrame({"gene_id": counts.index, "n_phosphosites": counts.to_numpy()})
+    out["has_phospho"] = True
+    log(f"phosphosites: {len(sites):,} distinct sites over {len(out):,} genes")
+    return out.sort_values("gene_id").reset_index(drop=True)

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 82 covered well, 17 partly, 36 thinly, 87 empty.**
+**222 slots: 83 covered well, 17 partly, 36 thinly, 86 empty.**
 
 ### transcription
 
@@ -155,7 +155,7 @@ quantity were approximating on 2026-08-13.
 | Tg_ubiquitination / SUMOylation | tachyzoite | **C** | 130 | 1.6% | `n_ubiquitination_sites` | one | **Ubiquitin-activating enzyme1 (TgUAE1) acts as a key regulator of Toxoplasma gondii lytic cycle and homeostasis.** (Communications biology 2025) [40348811](https://pubmed.ncbi.nlm.nih.gov/40348811/) `PXD045018`<br>**Deciphering cell cycle organization of Toxoplasma endodyogeny.** (mBio 2025) [40590555](https://pubmed.ncbi.nlm.nih.gov/40590555/) `PXD054719` |
 | Tg_glycosylation | tachyzoite | **C** | 394 | 4.8% | `n_o_fucosyl_peptides` | one | **Novel antibodies detect nucleocytoplasmic O-fucose in protist pathogens, cellular slime molds, and plants.** (mSphere 2025) [39912628](https://pubmed.ncbi.nlm.nih.gov/39912628/) `PXD056853` |
 | Tg_palmitoylation | tachyzoite | **C** | 488 | 6.0% | `palmitome_` | separate | **Global Analysis of Palmitoylated Proteins in Toxoplasma gondii.** (Cell host & microbe 2015) [26468752](https://pubmed.ncbi.nlm.nih.gov/26468752/) `ToxoDB Foe palmitome` |
-| Pf_phosphorylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_phosphorylation · asexual blood stage | asexual blood stage | **A** | 5720 | 100.0% | `n_phosphosites, has_phospho` | one | — |
 | Pf_phosphorylation · kinase-substrate | perturbation | **-** |  |  | `` | separate | — |
 | Pf_acetylation | life stages | **-** |  |  | `` | one | — |
 | Pf_N-myristoylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
@@ -386,6 +386,8 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `IEDB` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |
 | `spaCR` | Pf_host ESCRT recruitment; Tg_host ESCRT recruitment |
 | `GSE132237` | Pf_essentiality in a second background; Tg_essentiality in a second background |
+| `n_phosphosites` | Pf_phosphorylation · asexual blood stage; Tg_phosphorylation · site count |
+| `has_phospho` | Pf_phosphorylation · asexual blood stage; Tg_phosphorylation · site count |
 | `compartment` | Tg_localization · measured; Tg_shared compartment |
 | `n_tm` | Pf_membrane topology; Tg_membrane topology |
 | `has_signal_peptide` | Pf_membrane topology; Tg_membrane topology |
