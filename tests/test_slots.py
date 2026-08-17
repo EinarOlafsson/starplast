@@ -270,3 +270,59 @@ def test_every_unit_with_a_table_names_it():
     # `pair` stays out: edges and bridges are not rows.
     assert set(slots.UNIT_TABLES) == {"gene", "metabolite", "host_gene"}
     assert "pair" not in slots.UNIT_TABLES
+
+
+def test_every_empty_toxoplasma_slot_says_why_it_is_empty():
+    """A dash says a slot has no data. It must also say whether anyone has looked.
+
+    Without this the slot table cannot tell a question nobody has searched from one that six
+    acquisition passes exhausted, and those want opposite next actions. The practical cost of losing
+    the distinction is that the next pass re-runs searches that already came back empty -- which
+    happened twice during this campaign before the verdicts were written down.
+
+    A new empty slot fails this until someone records what they searched. That is the point: the
+    cheapest moment to write down where you looked is immediately after looking.
+    """
+    import csv
+    import os
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "instructions", "done", "31_slots_toxoplasma.csv")
+    if not os.path.exists(path):
+        pytest.skip("slot table not generated")
+    with open(path, encoding="utf8") as fh:
+        rows = list(csv.DictReader(fh))
+    undocumented = [r["slot"] for r in rows
+                    if r["grade"] == "-" and not (r.get("blocked_by") or "").strip()]
+    assert not undocumented, (
+        f"empty slots with no verdict: {undocumented}. Add them to BLOCKED in "
+        f"scripts/generate_slot_table.py with what you searched and what would fill them")
+
+
+def test_an_empty_slot_verdict_distinguishes_missing_from_unreachable():
+    """The two blocked states want different things -- an experiment, or a login."""
+    import importlib.util
+    import os
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    spec = importlib.util.spec_from_file_location(
+        "gst", os.path.join(root, "scripts", "generate_slot_table.py"))
+    gst = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gst)
+    assert gst.BLOCKED, "no empty slot has been triaged"
+    for slot, (verdict, searched, wanted) in gst.BLOCKED.items():
+        assert verdict in ("missing", "unreachable"), f"{slot} has verdict {verdict!r}"
+        assert len(searched) > 60, f"{slot} does not say where anyone looked"
+        assert len(wanted) > 30, f"{slot} does not say what would fill it"
+
+
+def test_a_filled_slot_carries_no_blocked_verdict():
+    """Otherwise a stale verdict outlives the gap it described."""
+    import csv
+    import os
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "instructions", "done", "31_slots_toxoplasma.csv")
+    if not os.path.exists(path):
+        pytest.skip("slot table not generated")
+    with open(path, encoding="utf8") as fh:
+        stale = [r["slot"] for r in csv.DictReader(fh)
+                 if r["grade"] != "-" and (r.get("blocked_by") or "").strip()]
+    assert not stale, f"filled slots still carrying a blocked verdict: {stale}"

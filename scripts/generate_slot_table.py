@@ -1104,6 +1104,56 @@ def coverage(nodes, patterns):
     return int(nodes[cols].notna().any(axis=1).sum()), cols
 
 
+#: Why an empty slot is empty, and what would fill it.
+#:
+#: A dash in the grade column says a slot has no data and says nothing about why, so a slot nobody
+#: has looked at reads exactly like one that six passes have searched to the bottom of the
+#: catalogues. Those are opposite states and the difference is the whole value of an acquisition
+#: campaign: without it the next person re-runs the searches that already came back empty. Every
+#: Toxoplasma slot that is still empty carries its verdict here, and `tests/test_slots.py` refuses
+#: to let a new one appear without one.
+#:
+#: `missing` means the measurement has not been made in this organism. `unreachable` means it has
+#: been made and the data cannot be got at. The two want completely different next actions -- one
+#: waits for an experiment, the other for a login.
+BLOCKED = {
+    "Tg_transcription · in IFN-gamma macrophage": (
+        "missing",
+        "All 56 ToxoDB RNA-seq datasets, all 180 datasets, GEO's Toxoplasma+interferon series. The "
+        "only macrophage transcriptome is the naive 29-strain panel already in the map; GSE230866 "
+        "profiles IFN-gamma-activated cells but sequenced only the human side, and the four-cell-type "
+        "panel is neurons, skeletal muscle, astrocytes and fibroblasts.",
+        "Dual RNA-seq of Toxoplasma inside IFN-gamma-activated macrophages, parasite reads retained."),
+    "Tg_translation · per cell-cycle phase": (
+        "missing",
+        "All nine Toxoplasma ribosome-profiling series in GEO, opened one at a time: intracellular "
+        "vs extracellular, eIF4E1 depletion, 5'UTR MPRA, stage conversion. None is cell-cycle "
+        "resolved.",
+        "Ribosome profiling of synchronised or FUCCI-sorted tachyzoites, by cell-cycle phase."),
+    "Tg_protein turnover": (
+        "missing",
+        "PRIDE keyword search for turnover, SILAC and protein stability; the eLife 80336 'temporal "
+        "and thermal' profiling study, whose seven supplements are all CETSA or phospho and contain "
+        "no half-lives; BONCAT-iTRAQ, which measures synthesis rather than degradation and does it "
+        "under a drug.",
+        "Pulse-SILAC or a cycloheximide chase with proteome-wide degradation rates."),
+    "Tg_drug sensitivity": (
+        "missing",
+        "ToxoDB's two CRISPR phenotype searches carry the in-vitro and in-vivo fitness arms already "
+        "ingested and no drug arm; EuropePMC for genome-wide chemogenomic screens. The genome-wide "
+        "screen that does exist under a perturbation (GRA38, PMID 41407671) varies serum lipid, "
+        "which is a nutrient and not a compound.",
+        "A genome-wide CRISPR screen under compound pressure, with per-gene differential fitness."),
+    "Tg_fitness · in vivo gut": (
+        "missing",
+        "EuropePMC for enteric, intestinal, feline and sexual-stage fitness screens. The in vivo "
+        "CRISPR screens cover peritoneum, lung, liver, spleen and brain; the one intestinal screen "
+        "returned is Cryptosporidium.",
+        "A pooled screen through the enteroepithelial stages, in the cat or in the in-vitro sexual "
+        "system."),
+}
+
+
 def grade(frac: float, filled: bool, unit: str) -> str:
     """A for genome-wide and measured, B for partial, C for thin or indirect, - for empty."""
     if not filled:
@@ -1241,9 +1291,11 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
         else:
             denominator = n_genes
         frac = covered / denominator if denominator else 0.0
+        key = f"{definition['organism']}_{slot}"
+        verdict, searched, wanted = BLOCKED.get(key, ("", "", ""))
         rows.append({
             "organism": definition["organism"],
-            "slot": f"{definition['organism']}_{slot}", "axis": axis, "context": context,
+            "slot": key, "axis": axis, "context": context,
             "unit": unit, "grade": grade(frac, bool(covered), unit), "genes": covered,
             "coverage": f"{frac:.1%}" if covered else "",
             "filled_by": ", ".join([f"bridge:{c}" for c in crossing] or edges or columns), "detail": detail, "policy": policy,
@@ -1252,6 +1304,10 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
             "candidate_titles": " | ".join(
                 f"{p}: {REFERENCES.get(p, ('', '', note))[2]}" if p else note
                 for p, a, note in cands),
+            # Only meaningful for an empty slot, and left blank rather than invented for a filled one.
+            "blocked_by": verdict if not covered else "",
+            "searched": searched if not covered else "",
+            "would_fill_it": wanted if not covered else "",
         })
     return rows
 

@@ -730,3 +730,47 @@ ways. A second test asserts no row's validation text reads as *candidate*, *asso
 rather than by phrasing — every ToxoDB dataset, search and RNA-seq series, every Toxoplasma
 ribosome-profiling series in GEO, and PRIDE. Each needs an experiment that has not been done in this
 organism.
+
+## Seventh pass, 2026-08-16: the campaign closes at 114, and says so in the table
+
+**Toxoplasma 114 of 119.** The five that remain were re-searched once more, this time by chasing
+four specific candidates rather than re-running phrasings. All four were opened and all four missed:
+
+| candidate | for | why not |
+|---|---|---|
+| ToxoDB "4 mouse cell types" | IFN-γ macrophage | The four are neurons, skeletal muscle, astrocytes and fibroblasts. No macrophage, no activation. |
+| GSE230866 | IFN-γ macrophage | Profiles IFN-γ-activated cells infected with three parasite strains — and is `taxon: Homo sapiens`. Only the host side was sequenced. |
+| PMID 41407671, GRA38 | drug sensitivity | A genome-wide CRISPR screen under a perturbation, and the perturbation is 1% vs 10% serum. Lipid limitation is a nutrient, not a compound. |
+| PMID 39082802 | fitness in vivo gut | In vivo CRISPR screens of 600 hyperLOPIT-unassigned proteins, scored for systemic virulence. Not enteric. |
+
+### What changed instead: the table now distinguishes two kinds of empty
+
+A dash said a slot had no data and said nothing about whether anyone had looked, so a question nobody
+has searched read exactly like one seven passes had exhausted. Those want opposite next actions, and
+losing the difference has a concrete cost that was paid twice during this campaign: the same searches
+were re-run because the previous refusal had not recorded where it looked.
+
+Every empty Toxoplasma slot now carries three fields in the generated table — `blocked_by`,
+`searched`, `would_fill_it` — and the verdict is one of two words. **`missing`** means the
+measurement has not been made in this organism. **`unreachable`** means it has been made and the data
+cannot be got at. All five currently read `missing`; `resistance-conferring mutation` would have read
+`unreachable` before it was filled, which is exactly the distinction that made it worth another
+attempt while the other five were not.
+
+Three tests hold this up: every empty slot must carry a verdict, every verdict must name where
+someone looked and what would fill the slot, and a slot that gets filled must lose its verdict so a
+stale one cannot outlive the gap it described. A new empty slot fails until someone writes down what
+they searched, which is the cheapest possible moment to write it.
+
+### The five, and the experiments they are waiting for
+
+* `transcription · in IFN-gamma macrophage` — dual RNA-seq inside IFN-γ-activated macrophages with
+  the parasite reads kept.
+* `translation · per cell-cycle phase` — ribosome profiling of synchronised or FUCCI-sorted
+  tachyzoites. The FUCCI probes now exist (PMID 40590555), so this one has become newly feasible.
+* `protein turnover` — pulse-SILAC or a cycloheximide chase with proteome-wide degradation rates.
+* `drug sensitivity` — a genome-wide CRISPR screen under compound pressure.
+* `fitness · in vivo gut` — a pooled screen through the enteroepithelial stages.
+
+Four of the five are ordinary experiments that simply have not been run in Toxoplasma. That is the
+campaign's real finding and it is now visible in the artifact rather than only in this file.
