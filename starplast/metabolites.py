@@ -94,8 +94,13 @@ def _labelled_fraction(archive: zipfile.ZipFile, member: str, sheet: str) -> pd.
     return 1.0 - frame.groupby("metabolite")["m0"].mean()
 
 
-def build(archive_path: str) -> pd.DataFrame:
-    """Assemble the metabolite table from one study's supplementary archive."""
+def build(archive_path: str, lipid_archive: str | None = None) -> pd.DataFrame:
+    """Assemble the metabolite table from the polar-metabolite study, plus lipid species if given.
+
+    The two arrive as separate archives because they are separate studies measuring disjoint
+    classes of compound; `lipids` explains why appending them by name is safe here and what would
+    make it unsafe.
+    """
     if not os.path.exists(archive_path):
         return pd.DataFrame()
     with zipfile.ZipFile(archive_path) as archive:
@@ -126,7 +131,16 @@ def build(archive_path: str) -> pd.DataFrame:
         out = out.join(extra.drop(columns=["metabolite"]), how="outer")
     out = out[~out.index.duplicated()]
     out["metabolite"] = out["metabolite"].fillna(pd.Series(out.index, index=out.index))
-    return out.reset_index(drop=True)
+    out = out.reset_index()
+    if lipid_archive:
+        from . import lipids
+        extra = lipids.build(lipid_archive)
+        if not extra.empty:
+            # Appended, not joined: a lipid species and a polar metabolite are never the same row,
+            # and a key that did collide would mean the naming assumption in `lipids` had broken.
+            extra = extra[~extra["key"].isin(set(out["key"]))]
+            out = pd.concat([out, extra], ignore_index=True)
+    return out.drop(columns=["key"])
 
 
 def load(base: str) -> pd.DataFrame:

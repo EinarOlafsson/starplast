@@ -365,10 +365,14 @@ NEW_SHARED = [
      ["metabolite_level_"], "separate"),
     ("metabolic flux", "metabolism", "labelled precursor", "metabolite",
      ["labelled_fraction_"], "separate"),
-    # Left empty deliberately. The untargeted run behind the other two carries 61 lipid species,
-    # and filling this by selecting them out of that column would be one measurement claimed by two
-    # slots -- leakage, not coverage. This wants a lipidomics experiment.
-    ("lipid composition", "metabolism", "membrane lipids", "metabolite", [], "separate"),
+    # The lipidomics experiment this was waiting for. It was empty for a long time on the correct
+    # ground that the 61 lipid species inside the untargeted metabolome run belong to the two slots
+    # above, and selecting them out would be one measurement claimed by two slots. What was missing
+    # was never a lipid table -- several Toxoplasma lipidomes exist -- but one measuring the
+    # PARASITE, since a lipidome of an infected culture is mostly host cell. The vesicle source is
+    # host-cell-free by construction, and `lipids` records how that is established.
+    ("lipid composition", "metabolism", "membrane lipids", "metabolite",
+     ["lipid_ev_"], "separate"),
     ("enzyme classification", "metabolism", "annotation", "gene", ["ec_number", "has_ec"], "one"),
     # `drug sensitivity per gene` used to sit here and was the same question as `drug sensitivity`
     # on the fitness axis: for each gene, does disrupting it change survival under a compound. Two

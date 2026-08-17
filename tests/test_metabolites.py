@@ -164,3 +164,55 @@ def test_a_labelling_sheet_with_no_control_samples_is_refused(tmp_path):
 def test_a_row_seen_in_both_blocks_appears_once(tmp_path):
     d = M.build(_archive(tmp_path))
     assert d["metabolite"].str.lower().duplicated().sum() == 0
+
+
+# --------------------------------------------------------------------------- the second study
+def _lipid_archive(tmp_path, species=("PI 38:4", "SM 34:1;O2"), name="lipid.zip"):
+    """A lipid archive shaped like the real one, in the shape `lipids` reads."""
+    from starplast import lipids as L
+    frame = pd.DataFrame({"Lipid_names": list(species)})
+    for host in L.HOSTS:
+        frame[f"EV_{host}_1"] = [float(i + 1) for i in range(len(species))]
+    p = tmp_path / name
+    buf = io.BytesIO()
+    with pd.ExcelWriter(buf) as w:
+        frame.to_excel(w, sheet_name=L.LEVELS[1], index=False)
+    with zipfile.ZipFile(p, "w") as z:
+        z.writestr(L.LEVELS[0], buf.getvalue())
+    return str(p)
+
+
+def test_lipid_species_are_appended_to_the_compound_table(tmp_path):
+    polar = M.build(_archive(tmp_path))
+    both = M.build(_archive(tmp_path), _lipid_archive(tmp_path))
+    assert len(both) == len(polar) + 2
+    assert "lipid_ev_level_log2" in both.columns
+    assert set(polar["metabolite"]) < set(both["metabolite"])
+
+
+def test_the_polar_rows_are_unchanged_by_the_lipids_arriving(tmp_path):
+    polar = M.build(_archive(tmp_path)).set_index("metabolite")
+    both = M.build(_archive(tmp_path), _lipid_archive(tmp_path)).set_index("metabolite")
+    for column in polar.columns:
+        assert both.loc[polar.index, column].equals(polar[column])
+
+
+def test_a_lipid_name_that_collides_with_a_compound_is_not_appended_twice(tmp_path):
+    """The naming systems are disjoint today. If one ever collides, the row must not double."""
+    archive = _lipid_archive(tmp_path, species=("Glycine", "PI 38:4"))
+    both = M.build(_archive(tmp_path), archive)
+    assert both["metabolite"].map(M.norm).duplicated().sum() == 0
+    # The polar row wins, keeping its own measurements, and the lipid value is dropped rather than
+    # silently overwriting a compound that a different study measured.
+    row = both[both["metabolite"] == "Glycine"]
+    assert len(row) == 1 and row["lipid_ev_level_log2"].isna().all()
+
+
+def test_an_unreadable_lipid_archive_leaves_the_table_alone(tmp_path):
+    polar = M.build(_archive(tmp_path))
+    both = M.build(_archive(tmp_path), str(tmp_path / "absent.zip"))
+    assert list(both.columns) == list(polar.columns) and len(both) == len(polar)
+
+
+def test_no_lipid_archive_means_no_lipid_columns(tmp_path):
+    assert "lipid_ev_level_log2" not in M.build(_archive(tmp_path)).columns

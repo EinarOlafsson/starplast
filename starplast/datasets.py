@@ -1072,6 +1072,26 @@ REGISTRY = [
                  "called `Metabolite`. Joining a second study means matching compound NAMES, which "
                  "is lossy; that cost is unpaid with one study and is the first thing to fix when a "
                  "second arrives."),
+    Dataset("lipidome_vesicles", "Membrane lipid composition of parasite vesicles",
+            "reference", "lipidomics",
+            "Lipid species abundance, and its proportion against the host cell",
+            ("lipid_ev_level_log2", "lipid_ev_vs_host_clr"),
+            "194 lipid species", pmid="41716462",
+            accession="Front Cell Infect Microbiol 1745625 Tables 1-3",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12913473/supplementaryFiles",
+            path="starplast/data/metabolites.parquet",
+            note="The SECOND study in the metabolite table, and the name-matching cost the entry "
+                 "above warns about is not paid here: lipid shorthand and polar compound names are "
+                 "different naming systems and none of the 194 species collides with the 1,102 "
+                 "compounds. Rows are appended, not joined. These are read as PARASITE lipids "
+                 "because the vesicles came from post-egress tachyzoites in host-cell-free medium, "
+                 "and because the composition does not move when the host does: across four host "
+                 "backgrounds the host cells differ in 1,018-1,362 species and the vesicles the "
+                 "same parasite released in them differ in 0-4. A lipidome of an infected culture "
+                 "would not have supported this slot at all -- most of that lipid is host. The "
+                 "`vs_host` column is COMPUTED here, sample-centred so it compares proportion "
+                 "rather than amount; the archive's own EV-minus-cell column is not used because "
+                 "its transform could not be reproduced to better than 3 log units."),
     Dataset("cotranslation_edges", "Co-translation layer (COMPUTED)", "translation", "RiboSeq",
             "Gene pairs whose ribosome footprints covary", ("edge:cotranslation",),
             "6,231 edges over 7,437 genes",

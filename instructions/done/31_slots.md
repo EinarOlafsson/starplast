@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 62 covered well, 16 partly, 33 thinly, 111 empty.**
+**222 slots: 62 covered well, 16 partly, 34 thinly, 110 empty.**
 
 ### transcription
 
@@ -322,9 +322,9 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Tg_metabolite levels | steady state | **B** | 675 | 61.3% | `metabolite_level_` | separate | — |
-| Tg_metabolic flux | labelled precursor | **B** | 855 | 77.6% | `labelled_fraction_` | separate | — |
-| Tg_lipid composition | membrane lipids | **-** |  |  | `` | separate | — |
+| Tg_metabolite levels | steady state | **B** | 675 | 52.1% | `metabolite_level_` | separate | — |
+| Tg_metabolic flux | labelled precursor | **B** | 855 | 66.0% | `labelled_fraction_` | separate | — |
+| Tg_lipid composition | membrane lipids | **C** | 194 | 15.0% | `lipid_ev_` | separate | — |
 | Tg_enzyme classification | annotation | **A** | 8140 | 100.0% | `ec_number, has_ec` | one | — |
 | Pf_metabolite levels | steady state | **-** |  |  | `` | separate | **Mechanisms Underlying the Effects of Chloroquine on Red Blood Cells Metabolism.** (International journal of molecular sciences 2024) [38928131](https://pubmed.ncbi.nlm.nih.gov/38928131/)<br>verify assay and parasite-gene shape)<br>**A metabolism-chromatin axis promotes differential ribosomal RNA transcription in the human malaria parasite.** (Nature communications 2025) [41419483](https://pubmed.ncbi.nlm.nih.gov/41419483/)<br>verify assay and parasite-gene shape)<br>**Host Reticulocyte Redox Attenuation Creates a Protective Niche for Artemisinin Tolerance in Plasmodium falciparum.** (The Journal of infectious diseases 2026) [42300800](https://pubmed.ncbi.nlm.nih.gov/42300800/)<br>verify assay and parasite-gene shape) |
 | Pf_metabolic flux | labelled precursor | **-** |  |  | `` | separate | **Metabolic adjustments of blood-stage Plasmodium falciparum in response to sublethal pyrazoleamide exposure.** (Scientific reports 2022) [35064153](https://pubmed.ncbi.nlm.nih.gov/35064153/)<br>verify assay and parasite-gene shape)<br>**Endothelial LAT1 (SLC7A5) Mediates S-Nitrosothiol Import and Modulates Respiratory Sequelae of Red Blood Cell Transfusion In Vivo.** (Thrombosis and haemostasis 2024) [38519039](https://pubmed.ncbi.nlm.nih.gov/38519039/)<br>verify assay and parasite-gene shape)<br>**Guanidinium Chloride-Induced Haemolysis Assay to Measure New Permeation Pathway Functionality in Rodent Malaria Plasmodium berghei.** (Biomolecules 2024) [39062495](https://pubmed.ncbi.nlm.nih.gov/39062495/)<br>verify assay and parasite-gene shape) |
