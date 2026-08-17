@@ -4764,110 +4764,6 @@
   },
   {
     "organism": "Pf",
-    "name": "fitness · in vivo peritoneum",
-    "axis": "fitness",
-    "context": "mouse peritoneum",
-    "unit": "gene",
-    "patterns": [],
-    "policy": "one",
-    "candidates": [],
-    "evidence_path": [
-      "perturbational measurements",
-      "genetic screens",
-      "fitness"
-    ],
-    "biology_path": [
-      "parasite phenotype",
-      "fitness and essentiality"
-    ],
-    "context_path": [
-      "in vivo",
-      "stage-unspecified"
-    ],
-    "target_family": "fitness_in_vivo_peritoneum",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Pf",
-    "name": "fitness · in vivo lung",
-    "axis": "fitness",
-    "context": "mouse lung",
-    "unit": "gene",
-    "patterns": [],
-    "policy": "one",
-    "candidates": [],
-    "evidence_path": [
-      "perturbational measurements",
-      "genetic screens",
-      "fitness"
-    ],
-    "biology_path": [
-      "parasite phenotype",
-      "fitness and essentiality"
-    ],
-    "context_path": [
-      "in vivo",
-      "stage-unspecified"
-    ],
-    "target_family": "fitness_in_vivo_lung",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Pf",
-    "name": "fitness · in vivo liver",
-    "axis": "fitness",
-    "context": "mouse liver",
-    "unit": "gene",
-    "patterns": [],
-    "policy": "one",
-    "candidates": [],
-    "evidence_path": [
-      "perturbational measurements",
-      "genetic screens",
-      "fitness"
-    ],
-    "biology_path": [
-      "parasite phenotype",
-      "fitness and essentiality"
-    ],
-    "context_path": [
-      "in vivo",
-      "stage-unspecified"
-    ],
-    "target_family": "fitness_in_vivo_liver",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Pf",
-    "name": "fitness · in vivo spleen",
-    "axis": "fitness",
-    "context": "mouse spleen",
-    "unit": "gene",
-    "patterns": [],
-    "policy": "one",
-    "candidates": [],
-    "evidence_path": [
-      "perturbational measurements",
-      "genetic screens",
-      "fitness"
-    ],
-    "biology_path": [
-      "parasite phenotype",
-      "fitness and essentiality"
-    ],
-    "context_path": [
-      "in vivo",
-      "stage-unspecified"
-    ],
-    "target_family": "fitness_in_vivo_spleen",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Pf",
     "name": "fitness · oxidative stress",
     "axis": "fitness",
     "context": "oxidant",
@@ -6770,6 +6666,110 @@
       "perturbational measurements",
       "genetic screens",
       "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_transmission",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "fitness · in vivo",
+    "axis": "fitness",
+    "context": "humanised mouse or CHMI",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vivo",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_in_vivo",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "fitness · transferred from Pb",
+    "axis": "fitness",
+    "context": "P. berghei, PlasmoGEM",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "orthology-derived",
+      "fitness transfer"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "stage-unspecified"
+    ],
+    "target_family": "fitness_asexual_blood_stage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "fitness · liver stage transferred from Pb",
+    "axis": "fitness",
+    "context": "P. berghei liver stage",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "orthology-derived",
+      "fitness transfer"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "liver stage"
+    ],
+    "target_family": "fitness_liver_stage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "fitness · transmission transferred from Pb",
+    "axis": "fitness",
+    "context": "P. berghei mosquito stages",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "orthology-derived",
+      "fitness transfer"
     ],
     "biology_path": [
       "parasite phenotype",

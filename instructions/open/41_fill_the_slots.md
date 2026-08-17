@@ -1349,3 +1349,40 @@ The next pass should do both at once: convert the four mouse-organ contexts to t
 *falciparum* is actually studied in, and add the transfer slots instruction 39 designed, then fill at
 least one from PlasmoGEM. That is a net increase in questions asked, and it is the shape instruction
 39 settled with the user.
+
+## Twenty-sixth pass: both catalog faults fixed together, denominator unchanged
+
+**Toxoplasma 114 of 119, Plasmodium 34 of 103, combined 148 of 222 — the same numbers as before the
+change, which is the point.**
+
+The previous pass recorded two faults and deliberately did not act, because fixing one without the
+other would have moved the count in one direction for no reason. Both are now fixed as one change and
+the totals are untouched.
+
+**`mouse` joins `TOXO_ONLY_CONTEXTS`.** The four mirrored mouse-organ slots are gone: *P. falciparum*
+is a human parasite and does not infect mice, so `fitness · in vivo peritoneum / lung / liver /
+spleen` were unanswerable by construction rather than empty. The word excludes exactly those four --
+the three brain slots were already caught by `brain` and the screen-specific ones by
+`STUDY_SPECIFIC`.
+
+**In their place, four slots that can be asked.** One `fitness · in vivo` with the setting falciparum
+is actually studied in (humanised mouse, controlled human malaria infection), which is one setting
+rather than four organs; and the three cross-species transfers instruction 39 specified and the
+catalog never had:
+
+* `Pf_fitness · transferred from Pb`
+* `Pf_fitness · liver stage transferred from Pb`
+* `Pf_fitness · transmission transferred from Pb`
+
+Those exist because the data exists and cannot fill a *falciparum* slot directly. PlasmoGEM's
+*berghei* knockout phenotypes and the *knowlesi* piggyBac screens are the best evidence there is for
+falciparum liver-stage and transmission fitness, and transferring them through orthology is a claim
+that has to be **visible** rather than folded into the measured slot.
+
+Each transfer shares its `target_family` with the measured slot it stands in for, which is instruction
+39's leakage rule in its own words: *"target_family closure must span species. Transfer berghei fitness
+onto falciparum, hold out falciparum fitness, and 'recover' it, and you have measured orthology, not
+biology."* Two tests now hold it -- one asserts no transfer slot is alone in its family and that each
+declares itself orthology-derived, the other that no Plasmodium slot asks about a mouse organ.
+
+−4 + 1 + 3 = 0. The catalog got more correct and the score did not move.

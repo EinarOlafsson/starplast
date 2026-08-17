@@ -193,10 +193,6 @@ quantity were approximating on 2026-08-13.
 | Tg_fitness · in vivo gut | enteric, sexual cycle | **-** |  |  | `` | separate | — |
 | Pf_fitness · asexual blood stage | asexual blood stage | **A** | 5385 | 94.1% | `piggybac_` | one | — |
 | Pf_fitness · gametocyte | gametocyte | **-** |  |  | `` | one | — |
-| Pf_fitness · in vivo peritoneum | mouse peritoneum | **-** |  |  | `` | one | — |
-| Pf_fitness · in vivo lung | mouse lung | **-** |  |  | `` | one | — |
-| Pf_fitness · in vivo liver | mouse liver | **-** |  |  | `` | one | — |
-| Pf_fitness · in vivo spleen | mouse spleen | **-** |  |  | `` | one | — |
 | Pf_fitness · oxidative stress | oxidant | **-** |  |  | `` | one | — |
 | Pf_stage-conversion phenotype · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_stage-conversion phenotype · liver stage | liver stage | **-** |  |  | `` | one | — |
@@ -205,6 +201,10 @@ quantity were approximating on 2026-08-13.
 | Pf_essentiality in a second background | second strain | **-** |  |  | `` | separate | [GSE132237](https://pubmed.ncbi.nlm.nih.gov/GSE132237/)<br>**LAMP-coupled CRISPR-Cas12a assays: A promising new tool for molecular diagnosis of leishmaniasis.** (PLoS neglected tropical diseases 2026) [41686849](https://pubmed.ncbi.nlm.nih.gov/41686849/)<br>verify assay and parasite-gene shape)<br>**Pyrophosphate homeostasis in multiple subcellular compartments is essential in Plasmodium falciparum.** (mBio 2026) [42017676](https://pubmed.ncbi.nlm.nih.gov/42017676/)<br>verify assay and parasite-gene shape)<br>**A CRISPR-Based Mutagenesis Strategy for Examining CLAG3 Helix 44 Contribution to Malaria Parasite Nutrient Uptake Channels.** (Genes 2026) [42074580](https://pubmed.ncbi.nlm.nih.gov/42074580/)<br>verify assay and parasite-gene shape) |
 | Pf_fitness · liver stage | hepatocyte | **-** |  |  | `` | one | **Autophagy protein Atg7 is essential for maintaining malaria parasite cellular homeostasis and organelle biogenesis.** (mBio 2025) [39714137](https://pubmed.ncbi.nlm.nih.gov/39714137/)<br>verify assay and parasite-gene shape)<br>**Cas9-expressing HC-04 hepatocytes facilitate CRISPR-based analysis of Plasmodium falciparum sporozoite-host interactions.** (PLoS genetics 2026) [42149978](https://pubmed.ncbi.nlm.nih.gov/42149978/)<br>verify assay and parasite-gene shape)<br>**Molecular and cellular characterization of Plasmodium berghei PPM9 phosphatase, an enzyme dispensable during both asexual and sexual life cycle stages.** (Scientific reports 2026) [42393261](https://pubmed.ncbi.nlm.nih.gov/42393261/)<br>verify assay and parasite-gene shape) |
 | Pf_fitness · transmission | mosquito | **-** |  |  | `` | separate | **Engineered promoter system enables high-efficiency transgenic CRISPR editing in Malaria transmitting mosquito Anopheles sinensis.** (Zoological research 2026) [42457405](https://pubmed.ncbi.nlm.nih.gov/42457405/)<br>verify assay and parasite-gene shape)<br>**Molecular Characterization of Mosquito Species and Confirmation of First Record of Aedes aegypti in Buraydah City, Kingdom of Saudi Arabia.** (Vector borne and zoonotic diseases (Larchmont, N.Y.) 2026) [42461315](https://pubmed.ncbi.nlm.nih.gov/42461315/)<br>verify assay and parasite-gene shape)<br>**Pathogen diversity in mosquitoes (Diptera: Culicidae) from the Republic of Kosovo: a two-year cross-sectional study.** (New microbes and new infections 2026) [42472253](https://pubmed.ncbi.nlm.nih.gov/42472253/)<br>verify assay and parasite-gene shape) |
+| Pf_fitness · in vivo | humanised mouse or CHMI | **-** |  |  | `` | one | — |
+| Pf_fitness · transferred from Pb | P. berghei, PlasmoGEM | **-** |  |  | `` | one | — |
+| Pf_fitness · liver stage transferred from Pb | P. berghei liver stage | **-** |  |  | `` | one | — |
+| Pf_fitness · transmission transferred from Pb | P. berghei mosquito stages | **-** |  |  | `` | one | — |
 
 ### regulation
 

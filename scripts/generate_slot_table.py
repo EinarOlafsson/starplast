@@ -480,7 +480,14 @@ PF_FITNESS_STAGES = ("asexual blood stage", "liver stage", "gametocyte")
 
 #: Toxoplasma questions with no Plasmodium counterpart at all. Listed rather than pattern-matched,
 #: because "has no counterpart" is a judgement about biology and should be reviewable as one.
-TOXO_ONLY_CONTEXTS = ("feline", "enteric", "cyst wall", "bradyzoite checkpoint", "brain")
+# `mouse` joined this list on 2026-08-17. The four Toxoplasma in-vivo screen sites -- peritoneum,
+#: lung, liver, spleen -- were being mirrored onto P. falciparum, which is a HUMAN parasite and does
+#: not infect mice, so those four slots were unanswerable by construction rather than empty for want
+#: of data. It is the same fault the HFF and macrophage entries below were added for, and it slipped
+#: through because a mouse organ reads as a generic context while a fibroblast reads as a host one.
+#: Adding the word excludes exactly those four: the three brain slots are already caught by `brain`
+#: and the screen-specific ones by STUDY_SPECIFIC.
+TOXO_ONLY_CONTEXTS = ("feline", "enteric", "cyst wall", "bradyzoite checkpoint", "brain", "mouse")
 
 #: A slot that names a PARTICULAR EXPERIMENT is not a question, and must never be mirrored. The
 #: first pass got this wrong and produced `Pf_fitness · GRA12 screen 1`, `Pf_genetic interaction ·
@@ -571,6 +578,24 @@ NEW_PLASMODIUM = [
      "gene", [], "separate"),
     ("fitness · liver stage", "fitness", "hepatocyte", "gene", [], "one"),
     ("fitness · transmission", "fitness", "mosquito", "gene", [], "separate"),
+    # What replaces the four mirrored mouse organs. P. falciparum in vivo fitness is measurable --
+    # humanised SCID mice, controlled human malaria infection -- but it is ONE setting rather than
+    # four organs, so four slots become one and the difference is made up by the transfers below.
+    ("fitness · in vivo", "fitness", "humanised mouse or CHMI", "gene", [], "one"),
+    # Instruction 39 specifies these and the catalog never had them: "`Pf_fitness · transferred from
+    # Pb` is a slot, marked as a transfer, `derived_from` the berghei column it came from". They exist
+    # because the data exists and cannot fill a falciparum slot directly -- PlasmoGEM's berghei
+    # knockout phenotypes, and the knowlesi piggyBac screens, are the best evidence there is for
+    # falciparum liver-stage and transmission fitness, and transferring them through orthology is a
+    # claim that has to be visible rather than folded into the measured slot. Each shares a
+    # `target_family` with the measured slot it stands in for, so holding one out holds out both --
+    # otherwise transferring berghei fitness onto falciparum, holding out falciparum fitness and
+    # "recovering" it would be measuring orthology and calling it biology.
+    ("fitness · transferred from Pb", "fitness", "P. berghei, PlasmoGEM", "gene", [], "one"),
+    ("fitness · liver stage transferred from Pb", "fitness", "P. berghei liver stage", "gene",
+     [], "one"),
+    ("fitness · transmission transferred from Pb", "fitness", "P. berghei mosquito stages", "gene",
+     [], "one"),
     ("antigenic variation family expression", "regulation", "var / rif / stevor", "gene", [],
      "separate"),
     ("export / PEXEL trafficking", "localization", "erythrocyte cytosol", "gene", [], "one"),
@@ -985,6 +1010,23 @@ SLOT_OVERRIDES = {
     "localization · measured": {
         "target_family": "subcellular localization",
         "target_columns": ["compartment", "lopit_map", "lopit_mcmc", "lopit_unified"],
+    },
+    # The cross-species transfers instruction 39 specifies. Each shares its `target_family` with the
+    # measured slot it stands in for, which is the leakage rule that instruction states: "target_family
+    # closure must span species. Transfer berghei fitness onto falciparum, hold out falciparum fitness,
+    # and 'recover' it, and you have measured orthology, not biology." The evidence path marks them as
+    # orthology-derived, exactly as `localization · transferred` is marked below.
+    "fitness · transferred from Pb": {
+        "evidence_path": ["intrinsic and reference", "orthology-derived", "fitness transfer"],
+        "target_family": "fitness_asexual_blood_stage",
+    },
+    "fitness · liver stage transferred from Pb": {
+        "evidence_path": ["intrinsic and reference", "orthology-derived", "fitness transfer"],
+        "target_family": "fitness_liver_stage",
+    },
+    "fitness · transmission transferred from Pb": {
+        "evidence_path": ["intrinsic and reference", "orthology-derived", "fitness transfer"],
+        "target_family": "fitness_transmission",
     },
     "localization · transferred": {
         "evidence_path": ["intrinsic and reference", "orthology-derived", "localization transfer"],

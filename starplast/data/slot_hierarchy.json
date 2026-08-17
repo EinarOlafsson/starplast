@@ -612,10 +612,6 @@
           "fitness": {
             "Pf_fitness_asexual_blood_stage": {},
             "Pf_fitness_gametocyte": {},
-            "Pf_fitness_in_vivo_peritoneum": {},
-            "Pf_fitness_in_vivo_lung": {},
-            "Pf_fitness_in_vivo_liver": {},
-            "Pf_fitness_in_vivo_spleen": {},
             "Pf_fitness_oxidative_stress": {},
             "Pf_stage_conversion_phenotype_asexual_blood_stage": {},
             "Pf_stage_conversion_phenotype_liver_stage": {},
@@ -623,7 +619,8 @@
             "Pf_drug_sensitivity": {},
             "Pf_essentiality_in_a_second_background": {},
             "Pf_fitness_liver_stage": {},
-            "Pf_fitness_transmission": {}
+            "Pf_fitness_transmission": {},
+            "Pf_fitness_in_vivo": {}
           }
         },
         "chemical": {
@@ -654,6 +651,13 @@
             "Pf_sequence_basics": {},
             "Pf_strain_variation": {},
             "Pf_field_variation_and_resistance_markers": {}
+          }
+        },
+        "orthology-derived": {
+          "fitness transfer": {
+            "Pf_fitness_transferred_from_pb": {},
+            "Pf_fitness_liver_stage_transferred_from_pb": {},
+            "Pf_fitness_transmission_transferred_from_pb": {}
           }
         }
       },
@@ -747,10 +751,6 @@
         "fitness and essentiality": {
           "Pf_fitness_asexual_blood_stage": {},
           "Pf_fitness_gametocyte": {},
-          "Pf_fitness_in_vivo_peritoneum": {},
-          "Pf_fitness_in_vivo_lung": {},
-          "Pf_fitness_in_vivo_liver": {},
-          "Pf_fitness_in_vivo_spleen": {},
           "Pf_fitness_oxidative_stress": {},
           "Pf_stage_conversion_phenotype_asexual_blood_stage": {},
           "Pf_stage_conversion_phenotype_liver_stage": {},
@@ -758,7 +758,11 @@
           "Pf_drug_sensitivity": {},
           "Pf_essentiality_in_a_second_background": {},
           "Pf_fitness_liver_stage": {},
-          "Pf_fitness_transmission": {}
+          "Pf_fitness_transmission": {},
+          "Pf_fitness_in_vivo": {},
+          "Pf_fitness_transferred_from_pb": {},
+          "Pf_fitness_liver_stage_transferred_from_pb": {},
+          "Pf_fitness_transmission_transferred_from_pb": {}
         },
         "chemical response": {
           "Pf_resistance_conferring_mutation": {},
@@ -916,6 +920,8 @@
           "Pf_essentiality_in_a_second_background": {},
           "Pf_transcription_dormancy_recrudescence": {},
           "Pf_fitness_transmission": {},
+          "Pf_fitness_transferred_from_pb": {},
+          "Pf_fitness_transmission_transferred_from_pb": {},
           "Pf_antigenic_variation_family_expression": {},
           "Pf_field_variation_and_resistance_markers": {}
         },
@@ -932,15 +938,8 @@
           "Pf_transcription_gametocyte": {}
         },
         "liver stage": {
-          "Pf_stage_conversion_phenotype_liver_stage": {}
-        }
-      },
-      "in vivo": {
-        "stage-unspecified": {
-          "Pf_fitness_in_vivo_peritoneum": {},
-          "Pf_fitness_in_vivo_lung": {},
-          "Pf_fitness_in_vivo_liver": {},
-          "Pf_fitness_in_vivo_spleen": {}
+          "Pf_stage_conversion_phenotype_liver_stage": {},
+          "Pf_fitness_liver_stage_transferred_from_pb": {}
         }
       },
       "reference or computational": {
@@ -967,6 +966,11 @@
           "Pf_fitness_liver_stage": {},
           "Pf_export_pexel_trafficking": {},
           "Pf_host_receptor_binding": {}
+        }
+      },
+      "in vivo": {
+        "stage-unspecified": {
+          "Pf_fitness_in_vivo": {}
         }
       }
     }

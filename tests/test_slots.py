@@ -363,3 +363,36 @@ def test_an_edge_slot_with_no_table_to_check_against_is_still_answerable():
     wanted = slots.edge_types(pair)[0]
     graph = types.SimpleNamespace(files=[f"{wanted}__a", f"{wanted}__b"])
     assert slots.is_filled(pair, None, graph)
+
+
+def test_a_cross_species_transfer_shares_its_family_with_the_measured_slot():
+    """Instruction 39's leakage rule, made a test rather than a paragraph.
+
+    Its words: "target_family closure must span species. Transfer berghei fitness onto falciparum,
+    hold out falciparum fitness, and 'recover' it, and you have measured orthology, not biology."
+    A transfer slot in its own family would let exactly that happen, and the recovery would look like
+    a result.
+    """
+    transfers = [s for s in slots.all_slots("Pf") if "transferred from" in s.name]
+    assert transfers, "the catalog has no cross-species transfer slots"
+    families = {s.target_family for s in slots.all_slots("Pf")
+                if "transferred from" not in s.name}
+    for slot in transfers:
+        assert slot.target_family in families, (
+            f"{slot.key} is alone in family {slot.target_family!r}; it must share one with the "
+            f"measured slot it stands in for")
+        assert "orthology-derived" in slot.evidence_path, (
+            f"{slot.key} does not declare itself orthology-derived")
+
+
+def test_no_plasmodium_slot_asks_about_a_mouse_organ():
+    """P. falciparum is a human parasite and does not infect mice.
+
+    Four slots asked about mouse peritoneum, lung, liver and spleen -- the Toxoplasma in-vivo screen
+    sites, mirrored one for one. They were not empty for want of data; the question could not be
+    asked. A humanised mouse is a different thing and is allowed.
+    """
+    bad = [s.key for s in slots.all_slots("Pf")
+           if any(organ in f"{s.name} {s.context}".lower()
+                  for organ in ("mouse peritoneum", "mouse lung", "mouse liver", "mouse spleen"))]
+    assert not bad, f"Plasmodium slots asking about a mouse organ: {bad}"
