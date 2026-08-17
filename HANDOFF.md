@@ -645,13 +645,25 @@ starplast-discover --read bigA_00_guilt_compartment_best
 
 ## 4. Known limitations — measured, not pending implementation
 
-0. **The suite segfaulted once, unreproducibly, on 2026-08-17.** `pytest tests/` dumped core after
+0. **The Plasmodium arm is DATA AND CATALOG ONLY. The running application cannot show it.**
+   Verified 2026-08-17 by grep, not assumed: `pf_nodes.parquet` and `pf_graph.npz` are read by
+   `plasmodium`, `pf_graph`, `slots` and the registry, and by nothing else. `app.load` opens
+   `nodes.parquet` and `graph.npz` by name at `app.py:228`, and `discover` and `embedding` do the
+   same. So the 41 filled Plasmodium slots are verified, tested and registered data that a user of
+   the 3D browser cannot currently see, embed or search.
+   That is not a regression -- it is what instruction 39 designed, and this file still says there is
+   deliberately no combined-organism view -- but it is the difference between "the slot atlas says 155
+   of 222" and "the application shows 155 of 222", and the second is not true. Making the app
+   species-aware is the next product task, and it is a UI and embedding question rather than a data
+   one: the tables, the graph, the bridge and the species guards are all in place and tested.
+
+1. **The suite segfaulted once, unreproducibly, on 2026-08-17.** `pytest tests/` dumped core after
    printing its extension-module list (PyQt6, OpenGL, torch); two immediate re-runs, with random and
    with fixed ordering, both passed all 2,947. Recorded rather than chased because it is a Qt/GL
    teardown crash in a headless environment and not a test failure — but if it recurs, that is the
    first place to look, and `-p no:randomly` is the way to tell an ordering effect from a teardown one.
 
-1. **Yield predominantly rewards fragmentation.** The crossed-factor diagnostic is now implemented.
+2. **Yield predominantly rewards fragmentation.** The crossed-factor diagnostic is now implemented.
    On the four saved winners, `compartment_best × cellcycle_phase` explains 0/40, 0/40, 0/31 and
    18/97 sibling clusters; only the final run clears the permutation null (18.6%, q=0.035). Fine
    clustering can resolve real conjunctions, and `discovery.conjunction` reports those explicitly,
