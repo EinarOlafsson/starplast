@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 90 covered well, 18 partly, 42 thinly, 72 empty.**
+**222 slots: 90 covered well, 18 partly, 43 thinly, 71 empty.**
 
 ### transcription
 
@@ -266,7 +266,7 @@ quantity were approximating on 2026-08-13.
 | Pf_interaction · IP-MS, parasite-parasite | pulldown | **-** |  |  | `` | fill | — |
 | Pf_interaction · proximity labelling | BioID / TurboID | **-** |  |  | `` | fill | — |
 | Pf_interaction · structural similarity | Foldseek | **-** |  |  | `` | one | — |
-| Pf_interaction · with host proteins | host IP-MS | **-** |  |  | `` | separate | — |
+| Pf_interaction · with host proteins | host IP-MS | **C** | 10 | 0.2% | `bridge:host` | separate | — |
 | Pf_shared orthogroup | OrthoMCL | **B** | 635 | 11.1% | `orthogroup` | one | — |
 | Pf_shared domain | InterPro | **A** | 2667 | 46.6% | `domain` | one | — |
 | Pf_interaction degree · crosslink MS | measured contact | **-** |  |  | `` | separate | — |
@@ -397,6 +397,7 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `is_tm` | Pf_membrane topology; Tg_membrane topology |
 | `coexpression` | Pf_co-transcription; Tg_co-transcription |
 | `xlms` | Pf_interaction · crosslink MS; Tg_interaction · crosslink MS |
+| `bridge:host` | Pf_interaction · with host proteins; Tg_interaction · with host proteins |
 | `orthogroup` | Pf_conservation breadth; Pf_shared orthogroup; Tg_conservation breadth; Tg_shared orthogroup |
 | `domain` | Pf_shared domain; Tg_shared domain |
 | `n_interpro` | Pf_domain content; Tg_domain content |

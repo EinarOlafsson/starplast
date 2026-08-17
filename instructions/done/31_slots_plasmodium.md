@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 28 covered well, 2 partly, 6 thinly, 67 empty.**
+**103 slots: 28 covered well, 2 partly, 7 thinly, 66 empty.**
 
 ### transcription
 
@@ -170,7 +170,7 @@ quantity were approximating on 2026-08-13.
 | Pf_interaction · IP-MS, parasite-parasite | pulldown | **-** |  |  | `` | fill | — |
 | Pf_interaction · proximity labelling | BioID / TurboID | **-** |  |  | `` | fill | — |
 | Pf_interaction · structural similarity | Foldseek | **-** |  |  | `` | one | — |
-| Pf_interaction · with host proteins | host IP-MS | **-** |  |  | `` | separate | — |
+| Pf_interaction · with host proteins | host IP-MS | **C** | 10 | 0.2% | `bridge:host` | separate | — |
 | Pf_shared orthogroup | OrthoMCL | **B** | 635 | 11.1% | `orthogroup` | one | — |
 | Pf_shared domain | InterPro | **A** | 2667 | 46.6% | `domain` | one | — |
 | Pf_interaction degree · crosslink MS | measured contact | **-** |  |  | `` | separate | — |

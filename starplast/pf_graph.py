@@ -233,3 +233,57 @@ def crosslink_edges(nodes: pd.DataFrame, dataset_root: str, log=print) -> tuple:
     return (np.array([p[0] for p in pairs], dtype=int),
             np.array([p[1] for p in pairs], dtype=int),
             np.array([counts[p] for p in pairs], dtype=float))
+
+
+def host_bridge(nodes: pd.DataFrame, dataset_root: str, log=print) -> pd.DataFrame:
+    """The crosslinks this layer throws away: parasite protein to HUMAN protein.
+
+    The same file the `xlms` layer reads, and the other half of its filter. A crosslink between a
+    parasite protein and an erythrocyte one is a measured contact across the host boundary, which is
+    a bridge rather than an edge -- the pair's two ends live in different tables and a human protein
+    has no index in this one, exactly as instruction 39 describes.
+
+    Which end is which goes through the accession index, for the reason `crosslink_edges` records:
+    reading it off a pattern classified Pfs16, a parasite protein, as human.
+    """
+    from .plasmodium import UNIPROT_TABLE, uniprot_index
+    folder, pmid, name = CROSSLINK
+    path = os.path.join(dataset_root, "reference", "plasmodb", folder, pmid, name)
+    if not os.path.exists(path) or nodes.empty:
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if CROSSLINK_SHEET not in book.sheet_names:
+        return pd.DataFrame()
+    d = book.parse(CROSSLINK_SHEET)
+    if not {"Protein1", "Protein2"} <= set(d.columns):
+        return pd.DataFrame()
+    known = set(nodes["gene_id"].astype(str))
+    owners = uniprot_index(os.path.join(dataset_root, "reference", "plasmodb", UNIPROT_TABLE))
+
+    def parasite(cell):
+        found = ACCESSION.search(str(cell))
+        if found and found.group(0) in known:
+            return found.group(0)
+        parts = str(cell).split("|")
+        gene = owners.get(parts[1]) if len(parts) > 2 else None
+        return gene if gene in known else None
+
+    rows = []
+    for one, two, links in zip(d["Protein1"], d["Protein2"],
+                               pd.to_numeric(d.get("Num_Crosslinks", 1), errors="coerce")):
+        a, b = parasite(one), parasite(two)
+        if (a is None) == (b is None):        # both parasite, or neither -- not a bridge
+            continue
+        gene, other = (a, two) if a else (b, one)
+        parts = str(other).split("|")
+        if len(parts) < 3:
+            continue
+        rows.append({"gene_id": gene, "host_id": parts[1], "host_name": parts[2],
+                     "crosslinks": float(links) if links == links else 1.0,
+                     "evidence": f"crosslink MS {CROSSLINK[1]}", "bridge": "host"})
+    if not rows:
+        return pd.DataFrame()
+    out = pd.DataFrame(rows).drop_duplicates(["gene_id", "host_id"]).reset_index(drop=True)
+    log(f"host bridge (crosslink MS): {len(out)} pairs, {out.gene_id.nunique()} parasite genes, "
+        f"{out.host_id.nunique()} human proteins")
+    return out

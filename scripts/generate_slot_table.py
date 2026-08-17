@@ -1154,6 +1154,7 @@ PF_PATTERNS = {
     "co-transcription": ["edge:coexpression"],
     "interaction · crosslink MS": ["edge:xlms"],
     "complex membership": ["complex_id", "complex_size", "complex_spans_host"],
+    "interaction · with host proteins": ["bridge:host"],
     # `protein abundance · asexual blood stage` is deliberately NOT claimed by the proteome columns
     # in this table. PlasmoDB serves that TMT study row-normalised, so its three values are a
     # protein's distribution ACROSS the cycle and sum to a constant; they answer "which stage" and
@@ -1341,12 +1342,13 @@ def _write_markdown(rows, path=OUT_MD) -> None:
 
 
 def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=None,
-          pf_graph=None) -> list:
+          pf_graph=None, pf_bridges=None) -> list:
     """One row per slot. `metabolites` is the table whose rows are compounds; slots declaring
     `unit="metabolite"` are graded against it and against its own denominator."""
     metabolites = pd.DataFrame() if metabolites is None else metabolites
     bridges = pd.DataFrame() if bridges is None else bridges
     pf_nodes = pd.DataFrame() if pf_nodes is None else pf_nodes
+    pf_bridges = pd.DataFrame() if pf_bridges is None else pf_bridges
     """Definitions with measured cache coverage attached."""
     import numpy as np
     n_genes, rows = len(nodes), []
@@ -1360,8 +1362,10 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
         crossing = [v.split(":", 1)[1] for v in fills if v.startswith("bridge:")]
         if crossing:
             # A bridge is graded on the pairs it carries and the parasite genes it reaches, because
-            # its other end is not in this table at all.
-            rows_for = bridges[bridges.get("bridge", "").isin(crossing)] if len(bridges) else bridges
+            # its other end is not in this table at all. Each arm against its own bridge file: a
+            # bridge's parasite end is an accession in ONE table.
+            table = pf_bridges if definition["organism"] == "Pf" else bridges
+            rows_for = table[table.get("bridge", "").isin(crossing)] if len(table) else table
             pairs = int(len(rows_for))
             covered = int(rows_for["gene_id"].nunique()) if pairs else 0
             detail = f"{pairs:,} pairs, {covered} parasite gene(s)"
@@ -1486,7 +1490,9 @@ def main() -> int:
     pf_nodes = pd.read_parquet(_pf) if os.path.exists(_pf) else pd.DataFrame()
     _pg = paths.cache_file("pf_graph.npz")
     pf_graph = np.load(_pg, allow_pickle=True) if os.path.exists(_pg) else None
-    rows = _rows(definitions, nodes, z, metabolites, bridges, pf_nodes, pf_graph)
+    _pb = paths.cache_file("pf_host_bridges.parquet")
+    pf_bridges = pd.read_parquet(_pb) if os.path.exists(_pb) else pd.DataFrame()
+    rows = _rows(definitions, nodes, z, metabolites, bridges, pf_nodes, pf_graph, pf_bridges)
     toxo_rows = [row for row in rows if row["organism"] == "Tg"]
     pf_rows = [row for row in rows if row["organism"] == "Pf"]
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)

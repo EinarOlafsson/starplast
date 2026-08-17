@@ -49,6 +49,12 @@ UNIT_TABLES = {"gene": "nodes.parquet", "metabolite": "metabolites.parquet",
 #: there. A slot declares one as `bridge:<name>` and it is answered by a bridge table.
 BRIDGE_TABLES = {"host": "host_bridges.parquet"}
 
+#: And per species, for the same reason `SPECIES_TABLES` exists: a bridge's parasite end is an
+#: accession in ONE table, so each arm needs its own bridge file. Both are keyed `host` because both
+#: cross to a human protein; which file answers depends on the slot's organism, never on the name.
+SPECIES_BRIDGE_TABLES = {"Tg": {"host": "host_bridges.parquet"},
+                         "Pf": {"host": "pf_host_bridges.parquet"}}
+
 #: One parasite table per species, and the accession prefixes that identify each.
 #:
 #: The Plasmodium table names its columns the same as the Toxoplasma one wherever the quantity is
@@ -196,9 +202,16 @@ def is_filled(slot: Slot, nodes: pd.DataFrame = None, graph=None,
         # A bridge slot is filled when its bridge table has rows. Nothing else can answer it: the
         # pair spans two tables, so neither a node column nor a graph edge represents it.
         table = (tables or {}).get("bridge")
-        return bool(table is not None and len(table)
-                    and set(crossing) <= set(table.get("bridge", pd.Series(crossing)).unique()
-                                             if "bridge" in table else crossing))
+        if table is None or not len(table):
+            return False
+        # The species guard, fourth instance. Both arms key their bridge `host`, because both cross to
+        # a human protein, so the NAME cannot say whose bridge this is -- only the parasite end can.
+        # A Plasmodium bridge slot handed the Toxoplasma bridge table would find `host` in it and read
+        # as filled by another organism's contacts.
+        if not same_species(table, slot):
+            return False
+        return bool(set(crossing) <= set(table.get("bridge", pd.Series(crossing)).unique()
+                                         if "bridge" in table else crossing))
     wanted = edge_types(slot)
     if wanted:
         if graph is None:

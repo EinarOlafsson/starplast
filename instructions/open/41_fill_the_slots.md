@@ -1505,3 +1505,30 @@ than one notation, which is most of them. A test now fails if the count drops ba
 Worth noting how it surfaced: not from a validation of the layer itself — the PTEX check passed on 73
 edges just as it does on 79 — but from starting the *next* slot and finding the discarded pile had a
 parasite protein in it. The thrown-away half of a filter is worth reading.
+
+## Thirtieth pass: the discarded half becomes a bridge, and the species guard reaches its fourth place
+
+**Toxoplasma 114 of 119, Plasmodium 37 of 103, combined 151 of 222.**
+
+`Pf_interaction · with host proteins` is filled from exactly the crosslinks the `xlms` layer throws
+away: **10 parasite-to-human pairs, 7 human proteins.** It is a bridge and not an edge for the reason
+instruction 39 gives — the pair's two ends live in different tables and a human protein has no index
+in the parasite one.
+
+Second bridge in the project, after the Toxoplasma host IP-MS one, and building it needed a
+**species-aware bridge lookup**: both arms key their bridge `host`, because both cross to a human
+protein, so the name cannot say whose contacts these are and only the parasite end can. That is the
+**fourth** place the species guard has had to go — `declared_columns`, `resolve`, `is_filled`'s edge
+branch, and now its bridge branch — and the cause is identical each time: a vocabulary deliberately
+shared between the arms so they can be compared.
+
+The rule is now worth stating as a rule rather than four incidents: **whenever the two arms share a
+name, the thing that distinguishes them must be the data, not the name.** Columns, graph layers and
+bridges have all needed it. The next shared vocabulary will need it too.
+
+Validated on an interaction that is in the textbooks: **MESA crosslinks to erythrocyte ankyrin**, and
+the rest of the human side is stomatin, calpain, actin and spectrin beta — the membrane skeleton,
+which is what an exported parasite protein should be touching.
+
+And the pass before this one is why the count is 10 and not 15: reading the discarded pile through the
+accession index rather than a pattern moved five pairs back to the parasite side where they belonged.

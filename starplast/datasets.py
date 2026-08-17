@@ -1452,6 +1452,23 @@ REGISTRY = [
                  "while KAHRP and the FIKK kinases sit above it. Absence is a real negative here "
                  "and not a gap -- a sequence model was evaluated on every protein, so its silence "
                  "is a prediction of not-exported, which is the opposite of the screen columns."),
+    Dataset("pf_host_bridge_xlms", "Plasmodium to human contacts (crosslinking MS)", "reference",
+            "crosslink_MS",
+            "Parasite protein to erythrocyte protein, measured as a crosslink",
+            ("bridge:host",), "10 pairs, 10 parasite genes, 7 human proteins", pmid="41966402",
+            accession="Cell Rep mmc1 sheet D",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13200099/supplementaryFiles",
+            path="starplast/data/pf_host_bridges.parquet",
+            note="The half of the crosslink file the edge layer throws away, and it is a BRIDGE "
+                 "rather than an edge for the reason instruction 39 gives: the pair's two ends live "
+                 "in different tables and a human protein has no index in this one. Second bridge in "
+                 "the project after the Toxoplasma host IP-MS one, and the first thing it needed was "
+                 "a species-aware bridge lookup -- both arms key their bridge `host`, because both "
+                 "cross to a human protein, so the name cannot say whose contacts these are and only "
+                 "the parasite end can. Validated on an interaction that is in the textbooks: MESA "
+                 "(PF3D7_0500800) crosslinks to erythrocyte ankyrin, and the rest of the human side "
+                 "is stomatin, calpain, actin and spectrin beta -- the membrane skeleton, which is "
+                 "what an exported parasite protein should be touching."),
     Dataset("pf_complexes", "Plasmodium complexes from crosslinking MS", "reference",
             "crosslink_MS",
             "Which crosslink-derived complex a gene belongs to, and whether it reaches the host",

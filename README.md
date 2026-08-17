@@ -241,6 +241,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Plasmodium falciparum 3D7 gene attributes | The second species: sequence, orthology, domains, strain SNPs and piggyBac fitness | 5,720 P. falciparum genes | `PlasmoDB GenesByTaxon attributesTabular` |
 | Plasmodium model confidence and disorder (AlphaFold DB) | Mean pLDDT per protein, and the fraction of it at each confidence band | 5,098 of 5,720 genes | `AlphaFold DB API, per UniProt accession` |
 | Plasmodium relation layers (COMPUTED) | Gene pairs sharing an orthogroup or a domain, and pairs whose stages covary | 1,741 + 24,123 + 63,158 pairs | *citation not yet confirmed* |
+| Plasmodium to human contacts (crosslinking MS) | Parasite protein to erythrocyte protein, measured as a crosslink | 10 pairs, 10 parasite genes, 7 human proteins | PMID [41966402](https://pubmed.ncbi.nlm.nih.gov/41966402/); `Cell Rep mmc1 sheet D` |
 | PubMed Central open-access full texts | Sectioned JATS XML | 6,667 articles | *citation not yet confirmed* |
 | PubMed abstracts | Titles and abstracts for co-mention and attention | 33,924 records | *citation not yet confirmed* |
 | Strain variation (ToxoDB HTS SNPs) | SNPs per gene across every sequenced strain, split by effect | 8,140 genes (100%) | `ToxoDB ME49` |

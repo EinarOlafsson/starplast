@@ -396,3 +396,27 @@ def test_no_plasmodium_slot_asks_about_a_mouse_organ():
            if any(organ in f"{s.name} {s.context}".lower()
                   for organ in ("mouse peritoneum", "mouse lung", "mouse liver", "mouse spleen"))]
     assert not bad, f"Plasmodium slots asking about a mouse organ: {bad}"
+
+
+def test_a_bridge_slot_is_not_filled_by_the_other_species_bridge_table():
+    """Both arms key their bridge `host`, because both cross to a human protein.
+
+    So the bridge NAME cannot say whose contacts these are -- only the parasite end can. This is the
+    fourth place the species guard has had to go, after declared_columns, resolve and is_filled's
+    edge branch, and it is the same cause each time: a shared vocabulary between the arms.
+    """
+    import os
+    import pandas as pd
+    import starplast.paths as P
+    tg_path = os.path.join(P.data_dir(), "host_bridges.parquet")
+    pf_path = os.path.join(P.data_dir(), "pf_host_bridges.parquet")
+    if not (os.path.exists(tg_path) and os.path.exists(pf_path)):
+        pytest.skip("bridge tables not built")
+    tg, pf = pd.read_parquet(tg_path), pd.read_parquet(pf_path)
+    bridged = [s for s in slots.all_slots() if slots.bridge_names(s)]
+    assert bridged, "no slot declares a bridge"
+    for slot in bridged:
+        own, other = (pf, tg) if slot.organism == "Pf" else (tg, pf)
+        assert slots.is_filled(slot, None, None, {"bridge": own}), slot.key
+        assert not slots.is_filled(slot, None, None, {"bridge": other}), (
+            f"{slot.key} was filled by the other organism's bridge table")
