@@ -1301,3 +1301,51 @@ Worth separating three outcomes this campaign has now produced, because they wan
 
 Only the first is a reason to reject a source. The other two are reasons to ship it one step further
 back and write down what was and was not shown.
+
+## Twenty-fifth pass: two findings about the CATALOG, not the data
+
+**No change to the totals: Toxoplasma 114 of 119, Plasmodium 34 of 103, combined 148 of 222.**
+
+Searching for the remaining Plasmodium fitness sources turned up two problems in the slot list itself.
+Both are recorded here rather than acted on, for a reason given at the end.
+
+### Four Plasmodium slots are unanswerable by construction
+
+`Pf_fitness · in vivo peritoneum`, `· in vivo lung`, `· in vivo liver` and `· in vivo spleen` carry
+the contexts **mouse peritoneum, mouse lung, mouse liver, mouse spleen**. Those are the Toxoplasma
+in-vivo CRISPR screen sites, mirrored one-for-one onto *P. falciparum* — **a human parasite that does
+not infect mice.**
+
+These four are not empty for want of data. The question cannot be asked. `_pf_mirror` already knows
+this class of problem exists — its `stage_words` regex deliberately catches `macrophage|hff|bmdm` as
+host contexts needing conversion rather than mirroring, with the comment "HFF is the fibroblast
+Toxoplasma is cultured in and Plasmodium does not grow in one". The mouse organs slipped through
+because they read as generic rather than as host contexts.
+
+*P. falciparum* in vivo fitness IS measurable — humanised SCID mice, controlled human malaria
+infection — so the right correction is to re-context, not to delete. For rodent malaria the organ
+contexts are real, which is the second finding's business.
+
+### Instruction 39's transfer slots were never built
+
+Instruction 39 specifies them explicitly: "`Pf_fitness · transferred from Pb` is a slot, marked as a
+transfer, `derived_from` the *berghei* column it came from", with the leakage rule that
+`target_family` closure must span species. **There are zero transfer slots in the catalog.**
+
+That matters now rather than in the abstract, because the data is sitting there: PlasmoDB serves
+`GenesByPhenotype_pberANKA_phenotype_Bushnell_functional_profiling` — the PlasmoGEM *berghei*
+knockout growth phenotypes — and the *knowlesi* piggyBac screens beside it. None can fill a
+*falciparum* slot directly, and all three could fill transfer slots that do not exist yet.
+
+### Why both are recorded rather than fixed
+
+Re-contexting the four mouse-organ slots would **reduce the Plasmodium denominator from 103**, which
+would raise the filled percentage without filling anything. Adding instruction 39's transfer slots
+would **raise** it. Doing the first without the second, at a point where the count is what is being
+asked about, is not a call to make unilaterally — so the honest move is to write both down together
+and let them be decided as one change.
+
+The next pass should do both at once: convert the four mouse-organ contexts to the in-vivo settings
+*falciparum* is actually studied in, and add the transfer slots instruction 39 designed, then fill at
+least one from PlasmoGEM. That is a net increase in questions asked, and it is the shape instruction
+39 settled with the user.
