@@ -410,3 +410,36 @@ Five slots were re-specified rather than filled, and each was a defect the empti
   missing from the tree entirely while their data sat published.
 
 A slot that stays empty is worth re-reading as a question about the SLOT, not only about the data.
+
+## Final state of the Toxoplasma arm
+
+| unit | filled | of | what the remainder needs |
+|---|---|---|---|
+| gene | 98 | 105 | seven slots, searched three times each (table above) |
+| pair | 9 | 10 | `interaction · with host proteins` needs the host tables — instruction 39 |
+| metabolite | 2 | 3 | `lipid composition` needs a parasite lipidome |
+| **total** | **109** | **118** | |
+
+### `lipid composition`, searched and recorded
+
+Three candidate routes, none of which is a Toxoplasma membrane lipidome:
+
+* **the iron metabolomics already in the table** carries 61 lipid species, and filling this slot from
+  them would be the levels column claimed by two slots. Refused as leakage, not for lack of data.
+* **PMC12913473** (2026, extracellular vesicles) measures four HOST cell lines — fibroblast, IPEC,
+  myotube, Vero — and EVs from infected cultures. Host membrane, not parasite.
+* **PMC10033509** (2023, ester- and ether-linked phosphatidylethanolamine) publishes figure source
+  data — plaque sizes, vacuole counts, parasite lengths — and not a table keyed by lipid species.
+
+The 2007 lipidomic analysis of Toxoplasma (PMID 17988103) predates supplementary data tables.
+
+### The metabolite table exists now, and the host tables can follow the same shape
+
+Filling two metabolism slots required the first non-gene table in the project, and the plumbing it
+needed generalises: `slots.resolve` takes the unit the caller holds, `slots.is_filled` looks in the
+table matching a slot's unit, and the slot table grades against that table's own denominator.
+`UNIT_TABLES` is where a unit declares it has rows.
+
+**That is most of what instruction 39 needs for the host tables.** What remains there is the bridge —
+a pair slot whose two ends are in different tables — which is exactly what
+`interaction · with host proteins` is waiting for, and which no amount of downloading will supply.
