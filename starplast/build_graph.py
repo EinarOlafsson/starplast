@@ -508,11 +508,36 @@ def unwritten_interactions(edges: dict, nodes: pd.DataFrame):
 
 
 # --------------------------------------------------------------------------- embedding
+#: The features the Toxoplasma map is laid out on. Named rather than discovered, because a map whose
+#: axes change when a dataset is added is a map two figures cannot be compared across.
+TG_EMBED_FEATURES = ["expr_tachy", "expr_cyst", "expr_max", "mean_plddt", "paralog_number",
+                     "n_interpro", "n_phosphosites", "has_domain", "lineage_specific"]
+
+
+def embed_features(nodes: pd.DataFrame) -> list:
+    """Which columns lay a table out, for whichever species' table this is.
+
+    The Toxoplasma list is explicit and stays that way. A second species cannot reuse it -- only six
+    of its sixteen columns exist in `pf_nodes.parquet`, because the two arms measure different things
+    and their stage names differ on purpose -- so for anything else this takes the numeric columns
+    measured for more than half the genes.
+
+    Discovered rather than named for the second arm, and the reason is honest: naming a Plasmodium
+    feature list would be inventing one, and a list invented without looking at what the data supports
+    is worse than a rule that says what it did. The >50% floor is what keeps the layout from being
+    driven by a column measured for forty genes.
+    """
+    named = [f for f in TG_EMBED_FEATURES + FIT if f in nodes.columns]
+    if len(named) >= 8:                       # the Toxoplasma table, laid out as it always was
+        return named
+    numeric = [c for c in nodes.columns
+               if c not in ("gene_id",) and pd.api.types.is_numeric_dtype(nodes[c])]
+    return [c for c in numeric if float(nodes[c].notna().mean()) > 0.5]
+
+
 def embed(nodes: pd.DataFrame) -> np.ndarray:
     """3D UMAP of a multimodal feature matrix, so position means biological similarity."""
-    feats = ["expr_tachy", "expr_cyst", "expr_max", "mean_plddt", "paralog_number",
-             "n_interpro", "n_phosphosites", "has_domain", "lineage_specific"] + FIT
-    feats = [f for f in feats if f in nodes.columns]
+    feats = embed_features(nodes)
     X = nodes[feats].to_numpy(dtype=float)
     with np.errstate(all="ignore"):
         med = np.nanmedian(X, axis=0)
@@ -527,8 +552,12 @@ def embed(nodes: pd.DataFrame) -> np.ndarray:
     med = np.where(np.isfinite(med), med, 0.0)
     X = np.where(np.isnan(X), med, X)
     X = (X - X.mean(0)) / (X.std(0) + 1e-9)
-    comp = pd.get_dummies(nodes.compartment.astype(str)).to_numpy(dtype=float)
-    X = np.hstack([X, comp * 0.5])          # compartment contributes, without dominating
+    # Compartment is a measured localisation for Toxoplasma and simply absent for Plasmodium, which
+    # has no hyperLOPIT. Skipped rather than faked: one-hotting a column of "unknown" would add a
+    # constant block that moves nothing and still claims a localisation contributed.
+    if "compartment" in nodes.columns:
+        comp = pd.get_dummies(nodes.compartment.astype(str)).to_numpy(dtype=float)
+        X = np.hstack([X, comp * 0.5])      # compartment contributes, without dominating
     log(f"embedding {X.shape[0]} genes x {X.shape[1]} features")
     try:
         import umap
@@ -536,8 +565,19 @@ def embed(nodes: pd.DataFrame) -> np.ndarray:
                       random_state=0).fit_transform(X)
     except Exception as e:
         log(f"UMAP unavailable ({type(e).__name__}); falling back to PCA")
-        from sklearn.decomposition import PCA
-        Y = PCA(n_components=3, random_state=0).fit_transform(X)
+        try:
+            from sklearn.decomposition import PCA
+            Y = PCA(n_components=3, random_state=0).fit_transform(X)
+        except Exception as second:
+            # A table too small or too empty to place -- fewer genes than components, or no feature
+            # with any variance. A deterministic line is the honest answer: it says "not laid out"
+            # without pretending, and it keeps the invariant the loader depends on, which is that a
+            # graph file HAS coordinates. Losing that invariant is what stopped the Plasmodium arm
+            # opening at all, so it is not one to trade for a tidy exception.
+            log(f"no layout possible ({type(second).__name__}: {second}); "
+                f"placing {len(X)} genes on a line")
+            Y = np.zeros((len(X), 3), dtype=float)
+            Y[:, 0] = np.arange(len(X), dtype=float)
     # np.array, not np.asarray. umap returns a READ-ONLY array in recent versions, and asarray does
     # not copy when the dtype already matches -- so the in-place centring below wrote into a read-only
     # buffer and raised "output array is read-only". The same bug was fixed in embedding.py; this is

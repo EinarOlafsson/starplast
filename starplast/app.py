@@ -238,13 +238,40 @@ DEPTH_COLOR = {"focal": (0.98, 0.86, 0.30),          # the paper is about this g
                 "incidental": (0.55, 0.35, 0.60)}     # mentioned in passing, or listed in a table
 
 
-def load():
-    """Load the built cache: node table, coordinates, edge layers and stored models.
+#: The parasite arms this window can open, and the cache each lives in. Instruction 39's rule is that
+#: nothing is merged: one table per species, and anything crossing a boundary crosses through a bridge
+#: that can be inspected and disbelieved. So this is a CHOICE of table, never a union -- one combined
+#: node table would put two id spaces in one index and make "cluster 5 is 71% IMC" a claim about a
+#: mixture of organisms.
+#:
+#: Until this existed, `load` opened `nodes.parquet` by name, and the entire Plasmodium arm -- node
+#: table, graph, host bridge, 41 filled slots -- was data the browser could not open.
+SPECIES = {
+    "Toxoplasma gondii": {"nodes": "nodes.parquet", "graph": "graph.npz"},
+    "Plasmodium falciparum": {"nodes": "pf_nodes.parquet", "graph": "pf_graph.npz"},
+}
+DEFAULT_SPECIES = "Toxoplasma gondii"
+
+
+def available_species() -> list:
+    """The species whose cache is actually present, in menu order.
+
+    Checked rather than assumed: a checkout that has never built the Plasmodium arm should offer one
+    species, not offer two and fail on the second.
+    """
+    return [name for name, where in SPECIES.items()
+            if os.path.exists(os.path.join(DATA, where["nodes"]))
+            and os.path.exists(os.path.join(DATA, where["graph"]))]
+
+
+def load(species: str = DEFAULT_SPECIES):
+    """Load one species' built cache: node table, coordinates, edge layers and stored models.
 
     Raises with the command that builds the cache if it is absent, rather than letting pandas raise
     a file-not-found from inside a constructor, which tells the user nothing about what to do.
     """
-    npz, pq = os.path.join(DATA, "graph.npz"), os.path.join(DATA, "nodes.parquet")
+    where = SPECIES.get(species) or SPECIES[DEFAULT_SPECIES]
+    npz, pq = os.path.join(DATA, where["graph"]), os.path.join(DATA, where["nodes"])
     if not (os.path.exists(npz) and os.path.exists(pq)):
         raise SystemExit("No cached graph. Run:  python -m starplast.build_graph")
     nodes = pd.read_parquet(pq)
@@ -253,8 +280,12 @@ def load():
     edges = {}
     for k, _ in EDGE_TYPES:
         if f"{k}__a" in z.files:
-            edges[k] = {"a": z[f"{k}__a"], "b": z[f"{k}__b"],
-                        "w": z[f"{k}__w"], "r": z[f"{k}__r"]}
+            # `r` is the attention-corrected residual, and only the co-mention layers have one --
+            # every other layer's weight IS its strength. The Toxoplasma builder happens to write `r`
+            # for all of them, so indexing it unconditionally worked there and raised KeyError on the
+            # first graph built by anything else, which is what the Plasmodium arm is.
+            edges[k] = {"a": z[f"{k}__a"], "b": z[f"{k}__b"], "w": z[f"{k}__w"],
+                        "r": z[f"{k}__r"] if f"{k}__r" in z.files else z[f"{k}__w"]}
     # Optional: the crosslink model table, which says how a measured interaction is thought to happen.
     mp = os.path.join(DATA, "crosslink_models.parquet")
     models = pd.read_parquet(mp) if os.path.exists(mp) else pd.DataFrame()
@@ -713,7 +744,7 @@ class Window(QtWidgets.QMainWindow):
     attributes rather than being read back out of widgets, so a headless caller can drive the whole
     interface without a window manager, which is how the tests exercise it.
     """
-    def __init__(self):
+    def __init__(self, species: str = None):
         super().__init__()
         self.theme = 'dark'
         self.point_style = TH.DEFAULT_POINT_STYLE
@@ -723,10 +754,15 @@ class Window(QtWidgets.QMainWindow):
         self.show_ground = True
         self.cmap_name = None
         self.apply_log_settings()
-        self.nodes, self.xyz, self.edges, self.models = load()
+        # Which parasite table this window is showing. One species per window, never a union -- see
+        # `SPECIES`. Remembered, so the arm someone works in is the one that opens next time.
+        stored = str(self.settings().value("data/species", DEFAULT_SPECIES) or DEFAULT_SPECIES)
+        offered = available_species() or [DEFAULT_SPECIES]
+        self.species = species or (stored if stored in offered else offered[0])
+        self.nodes, self.xyz, self.edges, self.models = load(self.species)
         self.n = len(self.nodes)
         self.sel = None
-        self.setWindowTitle("starplast — Toxoplasma knowledge map")
+        self.setWindowTitle(f"starplast — {self.species} knowledge map")
         # Was a flat resize(1580, 950), which is not the reason the window used to open too large --
         # that was a 2,897 px minimum height, fixed in `analysis_panel._scrolled` -- but it did mean
         # the window was the same size on a 1080p monitor and a 4K one. Applied last, after the size
@@ -1370,6 +1406,25 @@ class Window(QtWidgets.QMainWindow):
                      "recorded with the imported columns, and nothing is written into the shipped "
                      "cache.")
         a.triggered.connect(self.import_data)
+        f.addSeparator()
+        # One window per species. Switching opens a new window rather than swapping the table under
+        # this one: nearly every panel here was built from the node table -- the category list, the
+        # colour map, the feature blocks, the saved runs -- and rebuilding all of that in place is a
+        # much larger change than opening the arm someone asked for.
+        species = f.addMenu("Species")
+        species.setToolTipsVisible(True)
+        self.species_group = QtGui.QActionGroup(self)
+        for name in available_species():
+            act = species.addAction(name)
+            act.setCheckable(True)
+            act.setChecked(name == self.species)
+            act.setToolTip(
+                "One table per species, never a union. Merging them would put two identifier spaces "
+                "in one index and make a statement like 'cluster 5 is 71% IMC' a claim about a "
+                "mixture of organisms. What crosses between them is a bridge slot, which can be "
+                "inspected and disbelieved.")
+            self.species_group.addAction(act)
+            act.triggered.connect(lambda _c=False, n=name: self.open_species(n))
         f.addSeparator()
         a = f.addAction("Preferences…")
         a.setShortcut("Ctrl+,")
@@ -2460,6 +2515,28 @@ class Window(QtWidgets.QMainWindow):
         self._prefs.raise_()
         self._prefs.activateWindow()
         return self._prefs
+
+    def open_species(self, name: str):
+        """Open another species' map in a window of its own, and remember the choice.
+
+        Returns the new window. The old one is closed only once the new one exists: building it reads
+        a cache and lays out several thousand genes, and closing first would leave nothing on screen
+        if that failed.
+        """
+        if name == self.species or name not in SPECIES:
+            return self
+        # Written HERE, not in the constructor. Persisting on every construction meant that merely
+        # opening a window changed what opens next time -- and in the suite, one test opening the
+        # Plasmodium arm silently moved eighteen later tests onto a table whose genes they do not
+        # contain. Remembering is a consequence of CHOOSING, which is this method.
+        self.settings().setValue("data/species", name)
+        other = Window(species=name)
+        other.show()
+        # Kept on the new window so Python does not collect the object that owns the running event
+        # filters and timers the moment this method returns.
+        other._opened_from = self
+        self.close()
+        return other
 
     def _gpu_wanted(self) -> bool:
         """Whether the GPU switch is on, from settings so it survives a restart.

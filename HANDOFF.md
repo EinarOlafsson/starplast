@@ -695,17 +695,23 @@ starplast-discover --read bigA_00_guilt_compartment_best
    difference between fitting and a title bar off the top. Every fixed size is clamped to the work
    area and the clamp is REPORTED, because a setting that was silently ignored reads as broken.
 
-1. **The Plasmodium arm is DATA AND CATALOG ONLY. The running application cannot show it.**
-   Verified 2026-08-17 by grep, not assumed: `pf_nodes.parquet` and `pf_graph.npz` are read by
-   `plasmodium`, `pf_graph`, `slots` and the registry, and by nothing else. `app.load` opens
-   `nodes.parquet` and `graph.npz` by name at `app.py:228`, and `discover` and `embedding` do the
-   same. So the 41 filled Plasmodium slots are verified, tested and registered data that a user of
-   the 3D browser cannot currently see, embed or search.
-   That is not a regression -- it is what instruction 39 designed, and this file still says there is
-   deliberately no combined-organism view -- but it is the difference between "the slot atlas says 155
-   of 222" and "the application shows 155 of 222", and the second is not true. Making the app
-   species-aware is the next product task, and it is a UI and embedding question rather than a data
-   one: the tables, the graph, the bridge and the species guards are all in place and tested.
+1. **The Plasmodium arm is now VISIBLE in the application** (2026-08-17). It was data and catalog
+   only: `app.load` opened `nodes.parquet` by name, so the node table, the graph, the host bridge and
+   41 filled slots were data the browser could not open. `File > Species` now switches between
+   `Toxoplasma gondii` and `Plasmodium falciparum`, one window per species, and the choice is
+   remembered.
+
+   Three things had to be true and only one of them was. `SPECIES` maps a name to its pair of cache
+   files. `pf_graph.npz` had every edge layer and **no `xyz`** -- `pf_graph.save` now lays the table
+   out with the same `build_graph.embed` the Toxoplasma arm uses. And `embed` itself was written
+   around Toxoplasma column names, only six of which exist in `pf_nodes.parquet`; `embed_features`
+   now names the Toxoplasma list explicitly and falls back to numeric columns measured for more than
+   half the genes for anything else.
+
+   **Still not merged, deliberately.** One table per species, never a union: two identifier spaces in
+   one index would make "cluster 5 is 71% IMC" a claim about a mixture of organisms. What crosses is
+   a bridge slot. The host tables are still not openable -- they are reached only through bridges,
+   which is instruction 39's remaining half.
 
 1. **The suite segfaulted once, unreproducibly, on 2026-08-17.** `pytest tests/` dumped core after
    printing its extension-module list (PyQt6, OpenGL, torch); two immediate re-runs, with random and

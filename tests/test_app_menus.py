@@ -1185,3 +1185,85 @@ def test_reset_clears_the_ticks_and_not_merely_the_highlight(win):
     win.reset()
     assert win.comp_list.checked() == []
     assert int(win.visible_mask().sum()) == win.n
+
+
+# --------------------------------------------------------------------------- the second species
+def test_both_species_can_be_opened(qapp):
+    """Instruction 39's arm, made visible. Until this worked, `app.load` opened `nodes.parquet` by
+    name and the whole Plasmodium arm -- node table, graph, host bridge, 41 filled slots -- was data
+    the browser could not open."""
+    from starplast.app import Window, available_species
+    assert available_species() == ["Toxoplasma gondii", "Plasmodium falciparum"]
+    for name in available_species():
+        w = Window(species=name)
+        try:
+            assert w.species == name
+            assert w.n > 1000, f"{name} loaded {w.n} genes"
+            assert len(w.xyz) == w.n, "the layout does not cover the table"
+            assert w.edges, f"{name} has no edge layers"
+            assert name in w.windowTitle()
+        finally:
+            w.close()
+
+
+def test_the_two_species_are_different_tables_and_not_one_merged_one(qapp):
+    """Nothing is merged: one table per species. A union would put two identifier spaces in one index
+    and make "cluster 5 is 71% IMC" a claim about a mixture of organisms."""
+    from starplast.app import Window
+    tg = Window(species="Toxoplasma gondii")
+    pf = Window(species="Plasmodium falciparum")
+    try:
+        assert set(tg.nodes.gene_id) & set(pf.nodes.gene_id) == set(), "the two tables share genes"
+        assert tg.nodes.gene_id.str.startswith("TGME49_").all()
+        assert pf.nodes.gene_id.str.startswith("PF3D7_").all()
+        assert tg.n != pf.n
+    finally:
+        tg.close()
+        pf.close()
+
+
+def test_a_layer_without_an_attention_residual_still_loads(qapp):
+    """`r` is the attention-corrected residual and only the co-mention layers have one. Indexing it
+    unconditionally worked on the Toxoplasma graph, whose builder writes it for every layer, and
+    raised KeyError on the first graph built by anything else."""
+    from starplast.app import load
+    _nodes, _xyz, edges, _models = load("Plasmodium falciparum")
+    assert "orthogroup" in edges
+    for name, layer in edges.items():
+        assert len(layer["r"]) == len(layer["w"]), name
+
+
+def test_switching_species_opens_the_other_arm_and_remembers_it(qapp):
+    """Restores the stored species afterwards. It is one global QSettings scope for the whole run, and
+    leaving it on Plasmodium moved seventeen later tests onto a table whose genes they do not
+    contain -- silently, because a Window built with no species argument reads this key."""
+    from PyQt6 import QtCore
+    from starplast.app import Window
+    settings = QtCore.QSettings("starplast", "starplast")
+    before = settings.value("data/species") if settings.contains("data/species") else None
+    w = Window(species="Toxoplasma gondii")
+    other = w.open_species("Plasmodium falciparum")
+    try:
+        assert other is not w
+        assert other.species == "Plasmodium falciparum"
+        assert str(other.settings().value("data/species")) == "Plasmodium falciparum"
+        # Asking for the species already open is a no-op, not a second window.
+        assert other.open_species("Plasmodium falciparum") is other
+        assert other.open_species("Neospora caninum") is other
+    finally:
+        other.close()
+        settings.remove("data/species") if before is None else \
+            settings.setValue("data/species", before)
+        settings.sync()
+
+
+def test_the_species_menu_marks_the_one_that_is_open(qapp):
+    from PyQt6 import QtWidgets
+    from starplast.app import Window, available_species
+    w = Window(species="Plasmodium falciparum")
+    try:
+        menu = next(m for m in w.menuBar().findChildren(QtWidgets.QMenu) if m.title() == "Species")
+        assert [a.text() for a in menu.actions()] == available_species()
+        assert [a.text() for a in menu.actions() if a.isChecked()] == ["Plasmodium falciparum"]
+    finally:
+        w.close()

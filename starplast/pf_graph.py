@@ -153,10 +153,23 @@ def build(nodes: pd.DataFrame, log=print, dataset_root: str | None = None) -> di
 
 
 def save(nodes: pd.DataFrame, path: str, log=print, dataset_root: str | None = None) -> dict:
-    """Build the layers and write them, or write nothing if there are none to write."""
+    """Build the layers AND the 3D layout, and write them together.
+
+    The layout was missing until 2026-08-17, and its absence is why the application could not open
+    this arm at all: `app.load` reads `xyz` out of the graph file, and this file had every edge layer
+    and no coordinates. The arm was 41 filled slots that nothing could draw.
+
+    Laid out by the same `build_graph.embed` the Toxoplasma table uses, so the two maps are made the
+    same way -- not the same axes, which would be meaningless across species with different features,
+    but the same construction, which is what makes comparing them honest.
+    """
     layers = build(nodes, log=log, dataset_root=dataset_root)
-    if layers:
-        np.savez_compressed(path, **layers)
+    if not layers:
+        return layers
+    from .build_graph import embed
+    layers["xyz"] = embed(nodes)
+    log(f"layout: {len(layers['xyz']):,} genes placed in 3D")
+    np.savez_compressed(path, **layers)
     return layers
 
 
