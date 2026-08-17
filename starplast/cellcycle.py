@@ -152,7 +152,7 @@ STAGE_COLUMNS = {
 MIN_MARGIN = 0.5     # z-units the winning stage must lead by before the call is made
 
 
-def stage_enrichment(nodes: pd.DataFrame, log=print) -> pd.DataFrame:
+def stage_enrichment(nodes: pd.DataFrame, log=print, stages: dict | None = None) -> pd.DataFrame:
     """Assign each gene the stage its expression is highest in. DERIVED, never evidence.
 
     Every contributing column is z-scored first, because they are not on one scale — FPKM, iTRAQ ratios
@@ -170,7 +170,11 @@ def stage_enrichment(nodes: pd.DataFrame, log=print) -> pd.DataFrame:
     from each other, not how many genes each stage uses. The margin rule is doing its job here; it is
     the interpretation that has to stay careful.
     """
-    present = {stage: [c for c in cols if c in nodes.columns] for stage, cols in STAGE_COLUMNS.items()}
+    # `stages` lets the Plasmodium arm reuse this construction rather than write its own. Sharing it
+    # is deliberate: if the two arms' stage labels are ever compared, a difference should mean the
+    # biology differs and not that one of them z-scored and the other did not.
+    present = {stage: [c for c in cols if c in nodes.columns]
+               for stage, cols in (stages or STAGE_COLUMNS).items()}
     usable = {s: c for s, c in present.items() if c}
     if len(usable) < 2:
         log(f"stage enrichment: only {list(usable)} available; not enough to compare")

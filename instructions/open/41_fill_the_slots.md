@@ -1190,3 +1190,31 @@ correlation holds and is worth stating rather than hiding — more expressed gen
 Worth noting as a pattern: this is the second time a source opened for one slot filled a different
 one. The ESCRT round did the same thing, and both times it happened because the supplement was read
 rather than the abstract.
+
+## Twenty-first pass: two derived slots, and a construction shared rather than copied
+
+**Toxoplasma 114 of 119, Plasmodium 31 of 103, combined 145 of 222.**
+
+`Pf_transcription · maximum observed across stages` and `Pf_life-cycle stage label (derived)`, both
+computed from the nine stage columns and both declaring `derived_from` so leakage closure excludes
+them together with the measurements underneath.
+
+The stage call **reuses `cellcycle.stage_enrichment`** rather than reimplementing it — the function
+gained a `stages` parameter and the Toxoplasma default is untouched. That is the same decision as
+copying the graph constructions: if the two arms' stage labels are ever compared, a difference should
+mean the biology differs and not that one arm z-scored and the other did not. A test asserts the
+Toxoplasma default survives being passed a different map.
+
+Only **310 of 5,720** genes are labelled, because the shared rule leaves a gene unlabelled unless one
+stage leads the next by half a z-unit. That is the point: a label that is really a coin toss looks
+like a measurement in every table it reaches.
+
+The class counts need the same caveat the Toxoplasma arm carries, and for the same structural reason.
+Ookinete takes 181 of the 310 — not because it uses more genes, but because ring, trophozoite and
+schizont are highly correlated with one another and rarely win by a margin, while the mosquito stages
+are separable. The margin rule is working; the interpretation is what needs care.
+
+Two smaller things this pass also fixed: `kind` must name the assay underneath a derivation and not
+the derivation itself (the entry first said `derived`, which the registry test correctly refused —
+it is RNA-seq, and `derived_from` is what says it is computed), and `plasmodium` needed numpy, which
+only surfaced because the first derived column used it.

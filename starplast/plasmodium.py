@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import os
 
+import numpy as np
 import pandas as pd
 
 TABLE = "pf_nodes.parquet"
@@ -289,6 +290,9 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     if not palm.empty:
         nodes = nodes.merge(palm, on="gene_id", how="left")
         nodes["is_palmitoylated"] = nodes["is_palmitoylated"].notna()
+    derived = derived_labels(nodes, log=log)
+    for column in derived.columns:
+        nodes[column] = derived[column].to_numpy()
     log(f"Plasmodium table: {len(nodes):,} genes, {len(nodes.columns)} columns")
     return nodes
 
@@ -658,4 +662,39 @@ def isoforms(dataset_root: str, log=print) -> pd.DataFrame:
         novel.groupby("gene_id").size()).fillna(0).astype(int)
     log(f"isoforms: {len(out):,} genes, {int(out['n_transcript_models'].sum()):,} models, "
         f"{int(out['novel_transcript_models'].sum())} not in the annotation")
+    return out
+
+
+# --------------------------------------------------------------------------- derived stage labels
+#: The life-cycle stages this arm can compare a gene across, and the columns that measure each.
+#: Passed to `cellcycle.stage_enrichment` so both arms label stages by the same construction.
+PF_STAGE_COLUMNS = {
+    "ring": ("expr_ring",),
+    "trophozoite": ("expr_early_trophozoite", "expr_late_trophozoite"),
+    "schizont": ("expr_schizont",),
+    "gametocyte": ("expr_gametocyte_ii", "expr_gametocyte_v"),
+    "ookinete": ("expr_ookinete",),
+    "oocyst": ("expr_oocyst",),
+    "sporozoite": ("expr_sporozoite",),
+}
+
+
+def derived_labels(nodes: pd.DataFrame, log=print) -> pd.DataFrame:
+    """The two DERIVED columns: peak expression across stages, and which stage a gene belongs to.
+
+    Both are computed from the stage columns and declare it, so leakage closure can exclude them
+    together with the measurements they come from. `expr_max` is the maximum on a log2 scale, matching
+    the Toxoplasma column of the same name; the stage call and its margin come from the shared
+    construction in `cellcycle`, which leaves a gene unlabelled unless one stage leads the next
+    clearly -- a label that is really a coin toss looks like a measurement in every table it reaches.
+    """
+    from . import cellcycle
+    present = [c for cols in PF_STAGE_COLUMNS.values() for c in cols if c in nodes.columns]
+    if len(present) < 2:
+        return pd.DataFrame(index=nodes.index)
+    out = pd.DataFrame(index=nodes.index)
+    out["expr_max"] = np.log2(nodes[present].max(axis=1) + 1)
+    labels = cellcycle.stage_enrichment(nodes, log=log, stages=PF_STAGE_COLUMNS)
+    for column in labels.columns:
+        out[column] = labels[column]
     return out

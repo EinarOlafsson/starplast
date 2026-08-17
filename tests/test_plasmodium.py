@@ -14,6 +14,7 @@ from __future__ import annotations
 import os
 import sys
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -1173,3 +1174,62 @@ def test_build_all_folds_in_the_transcript_models(tmp_path):
     d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
     assert d.loc["PF3D7_0100100", "novel_transcript_models"] == 1
     assert pd.isna(d.loc["PF3D7_0100200", "n_transcript_models"])
+
+
+# --------------------------------------------------------------------------- derived labels
+def _stage_frame(n=80, seed=0):
+    rng = np.random.default_rng(seed)
+    frame = pd.DataFrame({"gene_id": [f"PF3D7_{i:06d}" for i in range(n)]})
+    for cols in P.PF_STAGE_COLUMNS.values():
+        for c in cols:
+            frame[c] = rng.lognormal(size=n)
+    return frame
+
+
+def test_the_maximum_across_stages_is_on_a_log_scale():
+    frame = _stage_frame()
+    d = P.derived_labels(frame, log=lambda *a: None)
+    expected = np.log2(frame[[c for cols in P.PF_STAGE_COLUMNS.values() for c in cols]].max(axis=1) + 1)
+    assert np.allclose(d["expr_max"], expected)
+
+
+def test_the_stage_call_comes_with_its_margin():
+    d = P.derived_labels(_stage_frame(), log=lambda *a: None)
+    assert {"stage_enriched_derived", "stage_margin_derived"} <= set(d.columns)
+    called = d["stage_enriched_derived"].notna()
+    assert d.loc[called, "stage_margin_derived"].notna().all()
+    assert d.loc[~called, "stage_margin_derived"].isna().all()
+
+
+def test_a_gene_with_no_clear_winner_is_left_unlabelled():
+    """A label that is really a coin toss looks like a measurement in every table it reaches."""
+    flat = _stage_frame(n=60)
+    for cols in P.PF_STAGE_COLUMNS.values():
+        for c in cols:
+            flat[c] = 1.0
+    d = P.derived_labels(flat, log=lambda *a: None)
+    assert d["stage_enriched_derived"].isna().all()
+
+
+def test_derived_labels_need_at_least_two_stage_columns():
+    frame = pd.DataFrame({"gene_id": ["PF3D7_000001"], "expr_ring": [1.0]})
+    assert P.derived_labels(frame, log=lambda *a: None).empty or \
+        "expr_max" not in P.derived_labels(frame, log=lambda *a: None).columns
+
+
+def test_the_two_arms_label_stages_by_the_same_construction():
+    """`cellcycle.stage_enrichment` is shared on purpose, so a difference means biology."""
+    from starplast import cellcycle
+    frame = _stage_frame()
+    mine = cellcycle.stage_enrichment(frame, log=lambda *a: None, stages=P.PF_STAGE_COLUMNS)
+    assert "stage_enriched_derived" in mine.columns
+    # And the Toxoplasma default is untouched by passing a different map.
+    assert set(cellcycle.STAGE_COLUMNS) == {"tachyzoite", "bradyzoite", "oocyst"}
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_the_shipped_stage_calls_are_conservative():
+    d = pd.read_parquet(NODES, columns=["expr_max", "stage_enriched_derived"])
+    assert d["expr_max"].notna().all()
+    called = d["stage_enriched_derived"].notna().sum()
+    assert 50 < called < 2000, f"{called} calls: the margin rule is not doing its job"

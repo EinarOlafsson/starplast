@@ -1094,6 +1094,9 @@ PF_PATTERNS = {
     "acetylation": ["n_acetylsites", "has_acetyl"],
     "lactylation · asexual blood stage": ["n_lactylsites", "has_lactyl"],
     "splicing / isoform use": ["n_transcript_models", "novel_transcript_models"],
+    # DERIVED from the stage columns and declaring it, so leakage closure excludes them together.
+    "transcription · maximum observed across stages": ["expr_max"],
+    "life-cycle stage label (derived)": ["stage_margin_derived"],
     # Wild type and knockout as stated conditions. The KO-minus-WT contrast is deliberately not
     # precomputed; `plasmodium.sir2_perturbation` says why.
     "transcription · under TF or chromatin perturbation": ["sir2_wt_", "sir2a_ko_", "sir2b_ko_"],

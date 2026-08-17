@@ -1249,6 +1249,29 @@ REGISTRY = [
                  "the values are log intensities, and the medians align across arrays within 0.1, "
                  "which a test asserts because it is the precondition that makes differencing them "
                  "meaningful at all."),
+    # `kind` names the measurement underneath, not the fact of derivation -- the same rule the
+    # Toxoplasma `stage_enriched` entry records. It is RNA-seq: the argmax of nine expression columns.
+    Dataset("pf_derived_stage_labels", "Plasmodium peak expression and stage label (DERIVED)",
+            "transcription", "RNAseq",
+            "Maximum expression across stages, and which stage a gene belongs to",
+            ("expr_max", "stage_enriched_derived", "stage_margin_derived"),
+            "5,720 genes for the maximum, 310 labelled",
+            derived_from=("expr_ring", "expr_early_trophozoite", "expr_late_trophozoite",
+                          "expr_schizont", "expr_gametocyte_ii", "expr_gametocyte_v",
+                          "expr_ookinete", "expr_oocyst", "expr_sporozoite"),
+            path="starplast/data/pf_nodes.parquet",
+            note="COMPUTED from the stage columns and declaring it, so leakage closure excludes them "
+                 "together. The stage call reuses `cellcycle.stage_enrichment` rather than "
+                 "reimplementing it, which is deliberate: if the two arms' stage labels are ever "
+                 "compared, a difference should mean the biology differs and not that one z-scored "
+                 "and the other did not. Only 310 of 5,720 genes are labelled, because a gene is "
+                 "left unlabelled unless one stage leads the next by half a z-unit -- a label that "
+                 "is really a coin toss looks like a measurement in every table it reaches. Read the "
+                 "class counts with the same caveat the Toxoplasma arm carries: ookinete takes 181 "
+                 "of the 310 not because it uses more genes but because ring, trophozoite and "
+                 "schizont are highly correlated with one another and rarely win by a margin, while "
+                 "the mosquito stages are separable. The margin rule is working; the interpretation "
+                 "is what needs care."),
     Dataset("pf_isoforms", "Plasmodium long-read transcript models", "transcription", "nanopore",
             "Transcript models per gene, and how many the annotation does not contain",
             ("n_transcript_models", "novel_transcript_models"),

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 88 covered well, 18 partly, 37 thinly, 79 empty.**
+**222 slots: 89 covered well, 18 partly, 38 thinly, 77 empty.**
 
 ### transcription
 
@@ -98,9 +98,9 @@ quantity were approximating on 2026-08-13.
 | Pf_transcription · per cell-cycle phase | cell cycle | **A** | 5720 | 100.0% | `steady_state_` | separate | — |
 | Pf_transcription · under stress / conversion | alkaline, stress | **-** |  |  | `` | separate | — |
 | Pf_transcription · under TF or chromatin perturbation | perturbation | **A** | 5544 | 96.9% | `sir2_wt_, sir2a_ko_, sir2b_ko_` | separate | — |
-| Pf_transcription · maximum observed across stages | cross-stage summary | **-** |  |  | `` | one | — |
+| Pf_transcription · maximum observed across stages | cross-stage summary | **A** | 5720 | 100.0% | `expr_max` | one | — |
 | Pf_cell-cycle timing label | single-parasite atlas | **-** |  |  | `` | one | — |
-| Pf_life-cycle stage label (derived) | cross-stage derived target | **-** |  |  | `` | one | — |
+| Pf_life-cycle stage label (derived) | cross-stage derived target | **C** | 310 | 5.4% | `stage_margin_derived` | one | — |
 | Pf_noncoding and antisense transcription | lncRNA | **-** |  |  | `` | separate | **Genome-wide cataloging and orthology analysis of long noncoding RNA expression in three species of Anopheles mosquito.** (BMC genomics 2025) [40394474](https://pubmed.ncbi.nlm.nih.gov/40394474/)<br>verify assay and parasite-gene shape)<br>**Identification of long noncoding RNAs (lncRNAs) and co-transcriptional analysis of mRNAs and lncRNAs in transcriptomes of Anopheles gambiae.** (Frontiers in RNA research 2025) [40855856](https://pubmed.ncbi.nlm.nih.gov/40855856/)<br>verify assay and parasite-gene shape)<br>**Genome-wide discovery and phenotyping of non-coding transcripts in A. fumigatus reveals lncRNAs with a role in antifungal drug sensitivity.** (Nature communications 2026) [41673015](https://pubmed.ncbi.nlm.nih.gov/41673015/)<br>verify assay and parasite-gene shape) |
 | Pf_transcription · liver stage | hepatocyte | **-** |  |  | `` | one | **Autonomous circadian rhythms in the human hepatocyte regulate hepatic drug metabolism and inflammatory responses.** (Science advances 2024) [38657074](https://pubmed.ncbi.nlm.nih.gov/38657074/)<br>verify assay and parasite-gene shape)<br>**The novel Plasmodium berghei protein S14 is essential for sporozoite gliding motility and infectivity.** (Journal of cell science 2024) [38832798](https://pubmed.ncbi.nlm.nih.gov/38832798/)<br>verify assay and parasite-gene shape)<br>**Inhibition of Wnt signaling in primary human hepatocytes promotes Plasmodium falciparum liver stage development.** (PLoS pathogens 2025) [41428747](https://pubmed.ncbi.nlm.nih.gov/41428747/)<br>verify assay and parasite-gene shape) |
 | Pf_transcription · mosquito stages | ookinete, oocyst, sporozoite | **-** |  |  | `` | separate | **A divergent Plasmodium NEK4 acts as a key regulator driving the early events of meiosis.** (Research square 2025) [41510253](https://pubmed.ncbi.nlm.nih.gov/41510253/)<br>verify assay and parasite-gene shape)<br>**A divergent Plasmodium NEK4 acts as a key regulator driving the early events of meiosis.** (Nature communications 2026) [42120403](https://pubmed.ncbi.nlm.nih.gov/42120403/)<br>verify assay and parasite-gene shape)<br>**Transcriptome profiles of Plasmodium vivax and Anopheles dirus (Diptera: Culicidae) genes in sporozoite stage.** (Medical and veterinary entomology 2026) [42466832](https://pubmed.ncbi.nlm.nih.gov/42466832/)<br>verify assay and parasite-gene shape) |
@@ -386,6 +386,8 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `IEDB` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |
 | `spaCR` | Pf_host ESCRT recruitment; Tg_host ESCRT recruitment |
 | `GSE132237` | Pf_essentiality in a second background; Tg_essentiality in a second background |
+| `expr_max` | Pf_transcription · maximum observed across stages; Tg_transcription · maximum observed across stages |
+| `stage_margin_derived` | Pf_life-cycle stage label (derived); Tg_life-cycle stage label (derived) |
 | `n_phosphosites` | Pf_phosphorylation · asexual blood stage; Tg_phosphorylation · site count |
 | `has_phospho` | Pf_phosphorylation · asexual blood stage; Tg_phosphorylation · site count |
 | `novel_transcript_models` | Pf_splicing / isoform use; Tg_splicing / isoform use |
