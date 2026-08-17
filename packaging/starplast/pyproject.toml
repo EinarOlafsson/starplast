@@ -6,7 +6,9 @@
 # markers it installs the CUDA stack where that stack exists and the program alone everywhere else.
 #
 # On a Linux machine with no NVIDIA card this still downloads about 2 GB, which is the cost of the
-# default being GPU. `pip install starplast-cpu` is the way to say no to that.
+# default being GPU. There is no name for saying no to it any more: `starplast-core` carries the CUDA
+# stack itself, so a metapackage could not exclude it, and `starplast-cpu` was removed rather than
+# kept as a name that installed the opposite of what it said. `--no-deps` is the remaining way out.
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"

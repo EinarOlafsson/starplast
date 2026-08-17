@@ -3,12 +3,15 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-# The CODE lives here, under a name nobody has to type. `pip install starplast` and
-# `pip install starplast-cpu` are both thin metapackages in packaging/ that depend on this one, so
-# that the default install can carry the CUDA stack while the -cpu name can leave it out. Neither
-# is possible with a single distribution: dependencies are fixed when a wheel is built, so one name
-# cannot install two dependency sets, and a -cpu package that depended on a GPU-carrying starplast
-# would still drag the CUDA wheels in.
+# The CODE lives here, under a name nobody has to type; `pip install starplast` is a thin metapackage
+# in packaging/ that depends on it.
+#
+# This distribution CARRIES the CUDA stack (see `dependencies`), which is a deliberate choice and not
+# a free one. Dependencies are fixed when a wheel is built, so one name cannot install two dependency
+# sets -- and anything depending on this one inherits the CUDA wheels transitively, with no way to
+# decline them. There used to be a `starplast-cpu` metapackage for saying no to two gigabytes; it has
+# been REMOVED, because once the code carries CUDA that name could only install it anyway and would
+# have been a name that lies. Skipping the wheels now means `--no-deps`, or a platform without them.
 name = "starplast-core"
 version = "0.33.0"
 description = "A 3D browser for the Toxoplasma gondii knowledge map (the code; install starplast)"
@@ -26,6 +29,21 @@ dependencies = [
     "scikit-learn>=1.3",
     "umap-learn>=0.5",
     "openpyxl>=3.1",
+    # The CUDA stack, in the DEFAULT dependencies. `pip install -e .` giving a CPU-only program on a
+    # machine with a CUDA card was the wrong default for the one thing this program is slow at, and a
+    # checkout is exactly where the person installing it knows their own hardware.
+    #
+    # The cost, stated plainly: about 2 GB of wheels, and no way to decline them short of
+    # `--no-deps`. That is the trade the `starplast-cpu` name used to cover; it has been REMOVED
+    # rather than left to lie, because a metapackage depending on this one would drag these in
+    # anyway and still call itself cpu.
+    #
+    # Markered to linux/x86_64, which is where cuml-cu12 and cupy-cuda12x publish wheels at all --
+    # unmarked, the install would FAIL on macOS, Windows and aarch64 rather than fall back. A linux
+    # box with no NVIDIA card is fine: `gpu.available()` counts DEVICES, not imports, so it reports
+    # False and every search takes the CPU path exactly as before.
+    "cuml-cu12>=24.10; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "cupy-cuda12x>=13.0; sys_platform == 'linux' and platform_machine == 'x86_64'",
 ]
 
 [project.optional-dependencies]
@@ -36,9 +54,10 @@ dev = ["pytest>=7.0"]
 #
 #     pip install "starplast[ingest]"
 ingest = ["pyBigWig>=0.3"]
-# The GPU stack, as an extra rather than a dependency: it is ~2 GB of CUDA wheels, it only exists
-# for CUDA 12, and the program runs identically without it -- `starplast.gpu` reports what it found
-# and falls back. cuml does UMAP and HDBSCAN themselves; cupy does the array work.
+# The GPU stack. As of the move into the default dependencies above, this extra adds NOTHING on the
+# platforms that have wheels -- it is kept only so `pip install -e ".[gpu]"` and
+# `pip install "starplast[gpu]"` keep working, because those commands are in the README, in HANDOFF
+# and in muscle memory, and an extra that has vanished is an install that fails.
 #
 #     pip install "starplast[gpu]"          from PyPI
 #     pip install -e ".[gpu]"               in this checkout, editable
@@ -48,8 +67,10 @@ ingest = ["pyBigWig>=0.3"]
 # CUDA 12 because that is what the driver on this machine serves and what torch was built against;
 # a CUDA 13 box wants cuml-cu13 and cupy-cuda13x.
 gpu = [
-    "cuml-cu12>=24.10",
-    "cupy-cuda12x>=13.0",
+    # Markered like the defaults above. Unmarked -- which they were -- `pip install "starplast[gpu]"`
+    # FAILS on macOS, Windows and aarch64, where RAPIDS and CuPy publish no wheels at all.
+    "cuml-cu12>=24.10; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "cupy-cuda12x>=13.0; sys_platform == 'linux' and platform_machine == 'x86_64'",
 ]
 
 [project.scripts]

@@ -17,8 +17,7 @@ other design decision: **[HANDOFF.md](HANDOFF.md)**. Methods prose for publicati
 
 ```bash
 pip install starplast            # the program AND the GPU stack, where this platform has wheels
-pip install starplast-cpu        # the program alone, no CUDA
-pip install -e .                 # this checkout, editable  (add ".[gpu]" for the CUDA stack)
+pip install -e .                 # this checkout, editable -- also with the GPU stack
 starplast-install-gpu            # add GPU support later; picks the CUDA set from the driver
 starplast
 ```

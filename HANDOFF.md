@@ -18,8 +18,8 @@ Terminal entry point: `starplast`
 
 ```bash
 cd /mnt/firecuda2/Claude/repo/starplast        # the working copy on this machine
-pip install -e .            # installs the console_scripts entry point
-pip install -e ".[gpu]"     # optional: cuML and CuPy, for CUDA 12 -- see below
+pip install -e .            # entry point AND the CUDA stack, on linux/x86_64 -- see below
+pip install -e . --no-deps  # the way to decline the ~2 GB of CUDA wheels
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min) -- READ THE NEXT NOTE
 starplast                   # launch
@@ -54,7 +54,13 @@ existed). Coverage that goes UP is worth reading too: it is how two identity-lay
 If the GL widget fails on a headless machine, that is expected — this needs a display. The test suite is
 headless and does not.
 
-**GPU acceleration is optional and off by default.** `Preferences ▸ compute` reports what it found
+**GPU acceleration is ON by default, and the checkout install carries it.** Changed 2026-08-17 at the
+user's direction: `pip install -e .` used to give a CPU-only program, which is the wrong default on a
+machine with a CUDA card. `starplast-core` now lists the CUDA wheels in its own dependencies, markered
+to linux/x86_64 so the install still succeeds where RAPIDS publishes nothing. The `starplast-cpu`
+metapackage was DELETED rather than kept: it depended on `starplast-core`, so it would have inherited
+those wheels transitively and become a name that installs the opposite of what it says. `--no-deps` is
+what remains for declining them. `Preferences ▸ compute` reports what it found
 and what that will buy. cuML moves UMAP and HDBSCAN themselves; CuPy or torch move the array work,
 which measured about 1.5x on large distance matrices and *negative* on rank scaling -- that path was
 deleted rather than shipped. Install with `pip install starplast-gpu`, or `pip install -e ".[gpu]"`
