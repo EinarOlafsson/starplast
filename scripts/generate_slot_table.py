@@ -1152,6 +1152,7 @@ PF_PATTERNS = {
     "shared orthogroup": ["edge:orthogroup"],
     "shared domain": ["edge:domain"],
     "co-transcription": ["edge:coexpression"],
+    "interaction · crosslink MS": ["edge:xlms"],
     # `protein abundance · asexual blood stage` is deliberately NOT claimed by the proteome columns
     # in this table. PlasmoDB serves that TMT study row-normalised, so its three values are a
     # protein's distribution ACROSS the cycle and sum to a constant; they answer "which stage" and

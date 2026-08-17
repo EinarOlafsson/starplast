@@ -1438,3 +1438,26 @@ PlasmoGEM's *berghei* transmission data is. That remains behind PlasmoDB's EDA `
 The three transfer slots stay empty and correctly so; the machinery to hold them honestly is built and
 tested, and the next attempt should start by confirming that a candidate table's rows are MUTANTS
 rather than transcripts.
+
+## Twenty-seventh pass: measured contacts, with the host end thrown away
+
+**Toxoplasma 114 of 119, Plasmodium 35 of 103, combined 149 of 222.**
+
+`Pf_interaction · crosslink MS` from PMID 41966402: **73 parasite-parasite pairs over 102 genes**,
+built as an `xlms` edge layer named to match the Toxoplasma one that answers the same slot.
+
+Two filters, neither optional. The experiment crosslinked **parasite inside erythrocyte**, so a third
+of the 106 protein pairs have a human protein at one or both ends — spectrin, band 3, protein 4.2.
+Those are real contacts and they are a **host bridge**, not a parasite-parasite edge, so they are
+dropped from this layer rather than indexed against a table that has no row for them. And a pair whose
+two ends resolve to one gene is a homomeric crosslink: evidence the protein self-associates, not an
+edge between two genes, and drawing it would put a zero-length line in the graph.
+
+Validated on complexes that have to be there rather than on a count: **EXP2, PTEX150 and HSP101 —
+three subunits of the PTEX translocon — crosslink to one another**, prohibitin 1 to prohibitin 2, and
+RAP1 to RAP2. A contact map that missed those would not be measuring contacts, and the test asserts
+the PTEX pair specifically.
+
+Note what this source also contains and what was not taken: sheet `(F)` is 360 PPIs at 5% FDR and
+`mmc5` is complex clusters, which is `Pf_complex membership` — a second slot, from the same study,
+needing its own reading. Left for the next pass rather than half-done.

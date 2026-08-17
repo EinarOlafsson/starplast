@@ -1452,6 +1452,23 @@ REGISTRY = [
                  "while KAHRP and the FIKK kinases sit above it. Absence is a real negative here "
                  "and not a gap -- a sequence model was evaluated on every protein, so its silence "
                  "is a prediction of not-exported, which is the opposite of the screen columns."),
+    Dataset("pf_crosslink_ms", "Plasmodium crosslinking MS contacts", "reference", "crosslink_MS",
+            "Protein pairs joined by a measured crosslink", ("edge:xlms",),
+            "73 parasite-parasite pairs over 102 genes", pmid="41966402",
+            accession="Cell Rep mmc1 sheet D",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13200099/supplementaryFiles",
+            path="datasets/reference/plasmodb/crosslink/41966402/mmc1.xlsx",
+            note="Two filters, neither optional. The experiment crosslinked PARASITE INSIDE "
+                 "ERYTHROCYTE, so a third of the 106 protein pairs have a human protein at one or "
+                 "both ends -- spectrin, band 3, protein 4.2. Those are real contacts and they are a "
+                 "HOST BRIDGE rather than a parasite-parasite edge, so they are dropped from this "
+                 "layer instead of being indexed against a table with no row for them. And a pair "
+                 "whose ends resolve to one gene is a homomeric crosslink: evidence the protein "
+                 "self-associates, not an edge, and drawing it would put a zero-length line in the "
+                 "graph. Validated on complexes that have to be there: EXP2, PTEX150 and HSP101 -- "
+                 "three subunits of the PTEX translocon -- crosslink to one another, prohibitin 1 to "
+                 "prohibitin 2, and RAP1 to RAP2. A contact map that missed those would not be "
+                 "measuring contacts."),
     Dataset("pf_relation_layers", "Plasmodium relation layers (COMPUTED)", "reference", "graph",
             "Gene pairs sharing an orthogroup or a domain, and pairs whose stages covary",
             ("edge:orthogroup", "edge:domain", "edge:coexpression"),

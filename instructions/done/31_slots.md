@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 90 covered well, 18 partly, 40 thinly, 74 empty.**
+**222 slots: 90 covered well, 18 partly, 41 thinly, 73 empty.**
 
 ### transcription
 
@@ -262,7 +262,7 @@ quantity were approximating on 2026-08-13.
 | Pf_co-transcription | stage series | **A** | 5533 | 96.7% | `coexpression` | separate | — |
 | Pf_co-translation | ribosome profiling | **-** |  |  | `` | separate | — |
 | Pf_co-fitness | seven screens | **-** |  |  | `` | separate | — |
-| Pf_interaction · crosslink MS | measured contact | **-** |  |  | `` | one | — |
+| Pf_interaction · crosslink MS | measured contact | **C** | 102 | 1.8% | `xlms` | one | — |
 | Pf_interaction · IP-MS, parasite-parasite | pulldown | **-** |  |  | `` | fill | — |
 | Pf_interaction · proximity labelling | BioID / TurboID | **-** |  |  | `` | fill | — |
 | Pf_interaction · structural similarity | Foldseek | **-** |  |  | `` | one | — |
@@ -396,6 +396,7 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `has_signal_peptide` | Pf_membrane topology; Tg_membrane topology |
 | `is_tm` | Pf_membrane topology; Tg_membrane topology |
 | `coexpression` | Pf_co-transcription; Tg_co-transcription |
+| `xlms` | Pf_interaction · crosslink MS; Tg_interaction · crosslink MS |
 | `orthogroup` | Pf_conservation breadth; Pf_shared orthogroup; Tg_conservation breadth; Tg_shared orthogroup |
 | `domain` | Pf_shared domain; Tg_shared domain |
 | `n_interpro` | Pf_domain content; Tg_domain content |

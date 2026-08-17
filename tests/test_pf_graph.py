@@ -185,3 +185,95 @@ def test_build_includes_the_correlation_layer_when_the_stages_are_there():
     layers = G.build(frame, log=said.append)
     assert {"coexpression__a", "coexpression__b", "coexpression__w"} <= set(layers)
     assert any("coexpression" in line for line in said)
+
+
+# --------------------------------------------------------------------------- measured contacts
+XL = os.path.join(ROOT, "datasets", "reference", "plasmodb", G.CROSSLINK[0], G.CROSSLINK[1],
+                  G.CROSSLINK[2])
+
+
+def _xl_root(tmp_path, rows=None, sheet=None):
+    rows = rows if rows is not None else [
+        ("sp|Q1|PF3D7_010000", "sp|Q2|PF3D7_010001", 5),   # parasite-parasite: kept
+        ("sp|P02549|SPTA1", "sp|Q2|PF3D7_010001", 12),      # human at one end: dropped
+        ("sp|P02549|SPTA1", "sp|P11277|SPTB", 7),           # human both ends: dropped
+        ("sp|Q1|PF3D7_010000", "sp|Q1|PF3D7_010000", 3),    # homomeric: dropped
+        ("sp|Q9|PF3D7_099999", "sp|Q2|PF3D7_010001", 2),    # not in the table: dropped
+    ]
+    folder = tmp_path / "reference" / "plasmodb" / G.CROSSLINK[0] / G.CROSSLINK[1]
+    folder.mkdir(parents=True)
+    pd.DataFrame(rows, columns=["Protein1", "Protein2", "Num_Crosslinks"]).to_excel(
+        folder / G.CROSSLINK[2], sheet_name=sheet or G.CROSSLINK_SHEET, index=False)
+    return str(tmp_path)
+
+
+def _xl_nodes():
+    return pd.DataFrame({"gene_id": ["PF3D7_010000", "PF3D7_010001", "PF3D7_010002"]})
+
+
+def test_a_host_protein_at_either_end_is_not_a_parasite_edge(tmp_path):
+    """The experiment crosslinked parasite inside erythrocyte, so a third of the pairs are human."""
+    a, b, w = G.crosslink_edges(_xl_nodes(), _xl_root(tmp_path), log=lambda *a: None)
+    assert list(zip(a, b)) == [(0, 1)]
+    assert list(w) == [5.0]
+
+
+def test_a_homomeric_crosslink_is_not_an_edge(tmp_path):
+    """It is evidence a protein self-associates, and drawing it puts a zero-length line in the graph."""
+    a, b, _w = G.crosslink_edges(_xl_nodes(), _xl_root(tmp_path), log=lambda *a: None)
+    assert not any(x == y for x, y in zip(a, b))
+
+
+def test_a_protein_absent_from_the_table_is_dropped(tmp_path):
+    a, _b, _w = G.crosslink_edges(_xl_nodes(), _xl_root(tmp_path), log=lambda *a: None)
+    assert len(a) == 1
+
+
+def test_missing_or_unreadable_crosslinks_yield_no_layer(tmp_path):
+    assert len(G.crosslink_edges(_xl_nodes(), str(tmp_path), log=lambda *a: None)[0]) == 0
+    assert len(G.crosslink_edges(pd.DataFrame(), _xl_root(tmp_path), log=lambda *a: None)[0]) == 0
+    assert len(G.crosslink_edges(_xl_nodes(), _xl_root(tmp_path / "b", sheet="Other"),
+                                 log=lambda *a: None)[0]) == 0
+
+
+def test_a_crosslink_sheet_without_the_protein_columns_is_refused(tmp_path):
+    folder = tmp_path / "reference" / "plasmodb" / G.CROSSLINK[0] / G.CROSSLINK[1]
+    folder.mkdir(parents=True)
+    pd.DataFrame({"wrong": [1]}).to_excel(folder / G.CROSSLINK[2],
+                                          sheet_name=G.CROSSLINK_SHEET, index=False)
+    assert len(G.crosslink_edges(_xl_nodes(), str(tmp_path), log=lambda *a: None)[0]) == 0
+
+
+def test_a_pair_with_no_crosslink_count_still_becomes_an_edge(tmp_path):
+    root = _xl_root(tmp_path, rows=[("sp|Q1|PF3D7_010000", "sp|Q2|PF3D7_010001", None)])
+    a, _b, w = G.crosslink_edges(_xl_nodes(), root, log=lambda *a: None)
+    assert len(a) == 1 and w[0] == 1.0
+
+
+def test_build_includes_the_crosslink_layer_only_when_given_a_dataset_root(tmp_path):
+    nodes = _xl_nodes().assign(orthogroup=["OG6_1", "OG6_1", "OG6_2"])
+    without = G.build(nodes, log=lambda *a: None)
+    assert "xlms__a" not in without
+    with_root = G.build(nodes, log=lambda *a: None, dataset_root=_xl_root(tmp_path))
+    assert "xlms__a" in with_root
+
+
+@pytest.mark.skipif(not os.path.exists(XL), reason="crosslinks not fetched")
+def test_the_crosslinks_recover_complexes_that_have_to_be_there():
+    """PTEX is three subunits that translocate proteins together; a crosslink map that misses them
+    is not measuring contacts. EXP2, PTEX150 and HSP101 must appear joined to one another."""
+    nodes = pd.read_parquet(NODES)
+    a, b, _w = G.crosslink_edges(nodes, os.path.join(ROOT, "datasets"), log=lambda *a: None)
+    genes = nodes["gene_id"].to_numpy()
+    pairs = {frozenset((genes[i], genes[j])) for i, j in zip(a, b)}
+    ptex = {"PF3D7_1471100": "EXP2", "PF3D7_1436300": "PTEX150", "PF3D7_1116800": "HSP101"}
+    joined = [p for p in pairs if len(p & set(ptex)) == 2]
+    assert joined, f"no PTEX subunit pair among {len(pairs)} crosslinked pairs"
+    assert 20 < len(pairs) < 200
+
+
+def test_a_crosslink_table_with_no_usable_pair_yields_no_layer(tmp_path):
+    """Every row human or homomeric: readable, and nothing to draw."""
+    root = _xl_root(tmp_path, rows=[("sp|P02549|SPTA1", "sp|P11277|SPTB", 7),
+                                    ("sp|Q1|PF3D7_010000", "sp|Q1|PF3D7_010000", 3)])
+    assert len(G.crosslink_edges(_xl_nodes(), root, log=lambda *a: None)[0]) == 0

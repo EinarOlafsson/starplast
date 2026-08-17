@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 28 covered well, 2 partly, 4 thinly, 69 empty.**
+**103 slots: 28 covered well, 2 partly, 5 thinly, 68 empty.**
 
 ### transcription
 
@@ -166,7 +166,7 @@ quantity were approximating on 2026-08-13.
 | Pf_co-transcription | stage series | **A** | 5533 | 96.7% | `coexpression` | separate | — |
 | Pf_co-translation | ribosome profiling | **-** |  |  | `` | separate | — |
 | Pf_co-fitness | seven screens | **-** |  |  | `` | separate | — |
-| Pf_interaction · crosslink MS | measured contact | **-** |  |  | `` | one | — |
+| Pf_interaction · crosslink MS | measured contact | **C** | 102 | 1.8% | `xlms` | one | — |
 | Pf_interaction · IP-MS, parasite-parasite | pulldown | **-** |  |  | `` | fill | — |
 | Pf_interaction · proximity labelling | BioID / TurboID | **-** |  |  | `` | fill | — |
 | Pf_interaction · structural similarity | Foldseek | **-** |  |  | `` | one | — |
