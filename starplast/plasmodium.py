@@ -297,6 +297,9 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     if not epitopes.empty:
         # Absent is absent: IEDB records what somebody tested.
         nodes = nodes.merge(epitopes, on="gene_id", how="left")
+    cplx = complexes(dataset_root, log=log)
+    if not cplx.empty:
+        nodes = nodes.merge(cplx, on="gene_id", how="left")
     derived = derived_labels(nodes, log=log)
     for column in derived.columns:
         nodes[column] = derived[column].to_numpy()
@@ -812,3 +815,49 @@ def febrile(report_path: str) -> pd.DataFrame:
     if len(out.columns) == 1:
         return pd.DataFrame()
     return out[~out["gene_id"].duplicated()].sort_values("gene_id").reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- complex membership
+#: Complexes called from the crosslinking data. The clusters mix organisms -- seven of the 47 contain
+#: both parasite and host proteins -- because the experiment crosslinked parasite inside erythrocyte.
+COMPLEXES = ("complexes", "41966402", "mmc5.xlsx")
+COMPLEXES_SHEET = "Clusters"
+
+
+def complexes(dataset_root: str, log=print) -> pd.DataFrame:
+    """Which crosslink-derived complex a gene belongs to, and how big it is.
+
+    `complex_spans_host` is kept rather than dropped, and it is the informative column. Seven of the
+    47 clusters contain human proteins as well as parasite ones, which is not contamination -- the
+    experiment crosslinked parasite inside erythrocyte, so a complex reaching into the host is a
+    finding. But a parasite gene in one of those has partners this table cannot name, and a reader
+    counting `complex_size` without knowing that would over-count its parasite neighbours.
+    """
+    folder, pmid, name = COMPLEXES
+    path = os.path.join(dataset_root, "reference", "plasmodb", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if COMPLEXES_SHEET not in book.sheet_names:
+        return pd.DataFrame()
+    d = book.parse(COMPLEXES_SHEET)
+    d.columns = [str(c).strip() for c in d.columns]
+    number = next((c for c in d.columns if c.startswith("complex nr")), None)
+    if not {"uniprot", "organism_name"} <= set(d.columns) or number is None:
+        return pd.DataFrame()
+    owners = uniprot_index(os.path.join(dataset_root, "reference", "plasmodb", UNIPROT_TABLE))
+    if not owners:
+        return pd.DataFrame()
+    mixed = set(d.groupby(number)["organism_name"].nunique().pipe(lambda s: s[s > 1]).index)
+    here = d[d["organism_name"].astype(str).str.contains("falciparum", na=False)].copy()
+    here["gene_id"] = here["uniprot"].astype(str).str.strip().map(owners)
+    here = here.dropna(subset=["gene_id"]).drop_duplicates("gene_id")
+    if here.empty:
+        return pd.DataFrame()
+    out = pd.DataFrame({"gene_id": here["gene_id"].to_numpy(),
+                        "complex_id": here[number].to_numpy(),
+                        "complex_size": pd.to_numeric(here.get("csize"), errors="coerce").to_numpy(),
+                        "complex_spans_host": here[number].isin(mixed).to_numpy()})
+    log(f"complexes: {len(out)} genes in {out['complex_id'].nunique()} complexes, "
+        f"{int(out['complex_spans_host'].sum())} of them in a complex that reaches the host")
+    return out.sort_values("gene_id").reset_index(drop=True)

@@ -1461,3 +1461,22 @@ the PTEX pair specifically.
 Note what this source also contains and what was not taken: sheet `(F)` is 360 PPIs at 5% FDR and
 `mmc5` is complex clusters, which is `Pf_complex membership` — a second slot, from the same study,
 needing its own reading. Left for the next pass rather than half-done.
+
+## Twenty-eighth pass: complexes from the same study, as a different question
+
+**Toxoplasma 114 of 119, Plasmodium 36 of 103, combined 150 of 222.**
+
+`Pf_complex membership` from the study whose crosslinks filled the pair slot last pass — the same
+source, a different question. That one asks which pairs touch; this asks which assembly a protein
+sits in. **128 genes in 42 complexes.**
+
+`complex_spans_host` is the informative column and is kept rather than dropped. Seven of the 47
+clusters contain human proteins as well as parasite ones, which is not contamination: the experiment
+crosslinked parasite inside erythrocyte, so a complex reaching into the host is a finding. But a
+parasite gene in one of those has partners this table cannot name, and a reader taking `complex_size`
+at face value would over-count its parasite neighbours. Only parasite members get a row; the host
+members belong to a bridge table.
+
+The documented Plasmodium column count in HANDOFF drifted by four during this pass and the
+species-aware column test caught it immediately — which is what that test was extended for two passes
+ago, so it has already paid for itself.

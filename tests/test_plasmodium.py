@@ -1412,3 +1412,94 @@ def test_build_all_folds_in_the_febrile_conditions(tmp_path):
     pd.DataFrame(rows).to_csv(os.path.join(base, P.FEBRILE_TABLE), sep="\t", index=False)
     d = P.build_all(root, log=lambda *a: None)
     assert "febrile_wt_41c" in d.columns
+
+
+# --------------------------------------------------------------------------- complexes
+CPLX = os.path.join(ROOT, "datasets", "reference", "plasmodb", P.COMPLEXES[0], P.COMPLEXES[1],
+                    P.COMPLEXES[2])
+
+
+def _cplx_root(tmp_path, rows=None, sheet=None):
+    rows = rows if rows is not None else [
+        ("Q1", 1, "Plasmodium falciparum (isolate 3D7)", "Pathogen-only", 2),
+        ("Q2", 1, "Plasmodium falciparum (isolate 3D7)", "Pathogen-only", 2),
+        ("Q4", 2, "Plasmodium falciparum (isolate 3D7)", "Host-Pathogen", 3),
+        ("P99", 2, "Homo sapiens", "Host-Pathogen", 3),
+    ]
+    base = tmp_path / "reference" / "plasmodb"
+    (base / P.COMPLEXES[0] / P.COMPLEXES[1]).mkdir(parents=True)
+    pd.DataFrame([("PF3D7_A", "Q1"), ("PF3D7_B", "Q2"), ("PF3D7_D", "Q4")],
+                 columns=["Gene ID", "UniProt ID(s)"]).to_csv(
+        base / P.UNIPROT_TABLE, sep="\t", index=False)
+    pd.DataFrame(rows, columns=["uniprot", "complex nr. in supp. fig 5", "organism_name",
+                                "interaction_type", "csize"]).to_excel(
+        base / P.COMPLEXES[0] / P.COMPLEXES[1] / P.COMPLEXES[2],
+        sheet_name=sheet or P.COMPLEXES_SHEET, index=False)
+    return str(tmp_path)
+
+
+def test_only_parasite_members_get_a_row(tmp_path):
+    d = P.complexes(_cplx_root(tmp_path), log=lambda *a: None)
+    assert set(d["gene_id"]) == {"PF3D7_A", "PF3D7_B", "PF3D7_D"}
+
+
+def test_a_complex_reaching_the_host_is_flagged_rather_than_dropped(tmp_path):
+    """Seven of the 47 real clusters contain human proteins. That is a finding, not contamination --
+    but a parasite gene in one has partners this table cannot name."""
+    d = P.complexes(_cplx_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert not d.loc["PF3D7_A", "complex_spans_host"]
+    assert d.loc["PF3D7_D", "complex_spans_host"]
+
+
+def test_complex_size_comes_from_the_source(tmp_path):
+    d = P.complexes(_cplx_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_A", "complex_size"] == 2 and d.loc["PF3D7_D", "complex_size"] == 3
+
+
+def test_a_missing_or_unreadable_complex_table_yields_nothing(tmp_path):
+    assert P.complexes(str(tmp_path), log=lambda *a: None).empty
+    assert P.complexes(_cplx_root(tmp_path, sheet="Other"), log=lambda *a: None).empty
+
+
+def test_a_complex_table_with_no_mappable_parasite_member_is_refused(tmp_path):
+    root = _cplx_root(tmp_path, rows=[("P99", 1, "Homo sapiens", "Host-only", 2)])
+    assert P.complexes(root, log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.exists(CPLX), reason="complexes not fetched")
+def test_the_real_complexes_are_mostly_parasite_only():
+    d = P.complexes(os.path.join(ROOT, "datasets"), log=lambda *a: None)
+    assert 80 < len(d) < 300
+    assert d["complex_spans_host"].mean() < 0.5, "most complexes should not reach the host"
+    assert d["complex_size"].min() >= 2, "a complex of one is not a complex"
+
+
+def test_a_complex_sheet_missing_its_columns_is_refused(tmp_path):
+    base = tmp_path / "reference" / "plasmodb"
+    (base / P.COMPLEXES[0] / P.COMPLEXES[1]).mkdir(parents=True)
+    pd.DataFrame({"wrong": [1]}).to_excel(
+        base / P.COMPLEXES[0] / P.COMPLEXES[1] / P.COMPLEXES[2],
+        sheet_name=P.COMPLEXES_SHEET, index=False)
+    assert P.complexes(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_complexes_need_the_uniprot_index(tmp_path):
+    root = _cplx_root(tmp_path)
+    os.remove(os.path.join(root, "reference", "plasmodb", P.UNIPROT_TABLE))
+    assert P.complexes(root, log=lambda *a: None).empty
+
+
+def test_build_all_folds_in_the_complexes(tmp_path):
+    root = _dataset_root(tmp_path)
+    base = os.path.join(root, "reference", "plasmodb")
+    pd.DataFrame([("PF3D7_0100100", "Q1")], columns=["Gene ID", "UniProt ID(s)"]).to_csv(
+        os.path.join(base, P.UNIPROT_TABLE), sep="\t", index=False)
+    folder = os.path.join(base, P.COMPLEXES[0], P.COMPLEXES[1])
+    os.makedirs(folder)
+    pd.DataFrame([("Q1", 1, "Plasmodium falciparum (isolate 3D7)", "Pathogen-only", 2)],
+                 columns=["uniprot", "complex nr. in supp. fig 5", "organism_name",
+                          "interaction_type", "csize"]).to_excel(
+        os.path.join(folder, P.COMPLEXES[2]), sheet_name=P.COMPLEXES_SHEET, index=False)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "complex_id"] == 1
+    assert pd.isna(d.loc["PF3D7_0100200", "complex_id"])

@@ -1452,6 +1452,22 @@ REGISTRY = [
                  "while KAHRP and the FIKK kinases sit above it. Absence is a real negative here "
                  "and not a gap -- a sequence model was evaluated on every protein, so its silence "
                  "is a prediction of not-exported, which is the opposite of the screen columns."),
+    Dataset("pf_complexes", "Plasmodium complexes from crosslinking MS", "reference",
+            "crosslink_MS",
+            "Which crosslink-derived complex a gene belongs to, and whether it reaches the host",
+            ("complex_id", "complex_size", "complex_spans_host"),
+            "128 genes in 42 complexes", pmid="41966402", accession="Cell Rep mmc5 Clusters",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13200099/supplementaryFiles",
+            path="datasets/reference/plasmodb/complexes/41966402/mmc5.xlsx",
+            note="`complex_spans_host` is the informative column and is kept rather than dropped. "
+                 "Seven of the 47 clusters contain human proteins as well as parasite ones, which is "
+                 "not contamination -- the experiment crosslinked parasite inside erythrocyte, so a "
+                 "complex reaching into the host is a finding. But a parasite gene in one of those "
+                 "has partners this table cannot name, and a reader taking `complex_size` at face "
+                 "value would over-count its parasite neighbours. Only parasite members get a row; "
+                 "the host members belong to a bridge table. Same study as the crosslink edge layer "
+                 "and a different question: that one is which pairs touch, this one is which "
+                 "assembly a protein sits in."),
     Dataset("pf_crosslink_ms", "Plasmodium crosslinking MS contacts", "reference", "crosslink_MS",
             "Protein pairs joined by a measured crosslink", ("edge:xlms",),
             "73 parasite-parasite pairs over 102 genes", pmid="41966402",
