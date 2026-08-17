@@ -2278,3 +2278,54 @@ def test_a_search_that_cannot_be_written_is_still_a_search(panel, monkeypatch):
                                          "_labels": np.zeros(3, int)}]))
     assert panel.read_button.isEnabled(), "the run was thrown away because it could not be saved"
     assert any("could not save" in s for s in said)
+
+
+# --------------------------------------------------------------------------- picking feature blocks
+def test_the_feature_blocks_are_one_list_and_not_96_check_boxes(panel):
+    """The reason the report kept coming back as "I can still only choose one at a time": separate
+    check-box WIDGETS cannot be dragged across -- there is nothing between them to rubber-band -- so
+    choosing blocks for a map meant 96 individual clicks. As rows in one list a drag works."""
+    from PyQt6 import QtWidgets
+    from starplast.embedding import SLOT_BLOCKS
+    from starplast.theme import CheckList
+    assert isinstance(panel.blocks, CheckList)
+    assert panel.blocks.count() == len(SLOT_BLOCKS) == 96
+    assert not hasattr(panel, "block_cb"), "the old per-block check boxes are still being built"
+
+
+def test_a_drag_and_a_right_click_tick_a_run_of_blocks(panel):
+    """The ask, on the list that prompted it."""
+    from PyQt6 import QtCore
+    blocks = panel.blocks
+    blocks.set_checked([])
+    for i in range(10):
+        blocks.item(i).setSelected(True)
+    menu = blocks.build_menu()
+    next(a for a in menu.actions() if a.text().startswith("Check selected")).trigger()
+    assert len(blocks.checked()) == 10
+    assert len(panel.spec().blocks) == 10, "the ticked blocks did not reach the embedding spec"
+    blocks.set_checked([])
+
+
+def test_a_block_this_cache_cannot_fill_is_greyed_rather_than_hidden(panel):
+    """A block with no columns is a fact about the cache. Hiding it would read as the block not
+    existing at all, which is a different claim."""
+    from PyQt6 import QtCore
+    from starplast.embedding import EmbeddingSpec, columns_for
+    for item in panel.blocks.items():
+        name = item.data(QtCore.Qt.ItemDataRole.UserRole)
+        has = bool(columns_for(panel.nodes, EmbeddingSpec(blocks=(name,))).get(name, []))
+        enabled = bool(item.flags() & QtCore.Qt.ItemFlag.ItemIsEnabled)
+        assert enabled == has, f"{name}: columns={has} but enabled={enabled}"
+
+
+def test_the_default_blocks_survive_the_move_to_a_list(panel):
+    assert set(panel.spec().blocks) == {"Tg_transcription_tachyzoite", "Tg_fitness_hff_in_vitro",
+                                        "Tg_fold_confidence_disorder"}
+
+
+def test_block_states_reports_every_block_not_only_the_ticked_ones(panel):
+    states = panel.block_states()
+    assert len(states) == panel.blocks.count()
+    assert set(states.values()) <= {True, False}
+    assert sum(states.values()) == len(panel.spec().blocks)

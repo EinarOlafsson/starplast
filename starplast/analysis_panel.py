@@ -369,7 +369,7 @@ class AnalysisPanel(QtWidgets.QWidget):
             tip = BUTTON_TOOLTIPS.get(self._handler_name(btn))
             if tip:
                 btn.setToolTip(wrap_tip(tip))
-        for name, cb in getattr(self, "block_cb", {}).items():
+        for cb, name in getattr(self, "_block_rows", lambda: [])():
             cols = columns_for(self.nodes, EmbeddingSpec(blocks=(name,))).get(name, [])
             cb.setToolTip(wrap_tip(
                 f"Feed the {name} block into the map: {len(cols)} columns"
@@ -412,16 +412,30 @@ class AnalysisPanel(QtWidgets.QWidget):
 
         box = QtWidgets.QGroupBox("feature blocks")
         bl = QtWidgets.QVBoxLayout(box)
-        self.block_cb = {}
+        # A LIST, not 96 separate check boxes. Separate widgets cannot be dragged across -- there is
+        # nothing between them to rubber-band -- so choosing the blocks for a map meant 96 individual
+        # clicks, and the group box was 2,490 px tall on its own. As a list, a drag selects a run of
+        # them and the right-click menu ticks the lot; `theme.CheckList` carries that behaviour and the
+        # class list in the main window uses the same widget.
+        self.blocks = CheckList()
+        self.blocks.setMinimumHeight(160)
+        self.blocks.setToolTip(
+            "Which measurement blocks build the map. Drag across several rows and right-click to tick "
+            "them together, or click one row's box; space toggles whatever is selected.\n\n"
+            "A block with no columns in this cache is greyed and cannot be ticked. Anything fed in "
+            "here cannot afterwards be evidence about the clusters it produced.")
         defaults = {"Tg_transcription_tachyzoite", "Tg_fitness_hff_in_vitro",
                     "Tg_fold_confidence_disorder"}
         for b in SLOT_BLOCKS:
             cols = columns_for(self.nodes, EmbeddingSpec(blocks=(b,))).get(b, [])
-            cb = QtWidgets.QCheckBox(f"{b}  ({len(cols)} columns)")
-            cb.setEnabled(bool(cols))
-            cb.setChecked(b in defaults)
-            self.block_cb[b] = cb
-            bl.addWidget(cb)
+            item = self.blocks.add(f"{b}  ({len(cols)} columns)", b)
+            if not cols:
+                # Greyed rather than absent: a block this cache cannot fill is a fact about the cache,
+                # and hiding it would read as the block not existing.
+                item.setFlags(item.flags() & ~QtCore.Qt.ItemFlag.ItemIsEnabled)
+            elif b in defaults:
+                item.setCheckState(QtCore.Qt.CheckState.Checked)
+        bl.addWidget(self.blocks, 1)
         # Imported columns get their own block, added when something is imported: a block that is
         # always there and always empty is a control that does nothing.
         self.imported_cb = QtWidgets.QCheckBox("imported  (0 columns)")
@@ -478,12 +492,27 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.imported_cb.setChecked(bool(self.imported_columns))
         return self.imported_columns
 
+    def _block_rows(self):
+        """(row, block name) for every feature block, so the tooltip pass can reach them.
+
+        The blocks were 96 separate check boxes and are now rows in one list; this keeps the tooltip
+        pass reading the same pairs rather than teaching it about list widgets.
+        """
+        return [(item, item.data(QtCore.Qt.ItemDataRole.UserRole))
+                for item in self.blocks.items()]
+
+    def block_states(self) -> dict:
+        """Every feature block and whether it is ticked. The read-only replacement for `block_cb`."""
+        return {item.data(QtCore.Qt.ItemDataRole.UserRole):
+                item.checkState() == QtCore.Qt.CheckState.Checked
+                for item in self.blocks.items()}
+
     def spec(self) -> EmbeddingSpec:
         """The EmbeddingSpec described by the current controls."""
         return EmbeddingSpec(
             extra_columns=(tuple(self.imported_columns)
                            if self.imported_cb.isChecked() else ()),
-            blocks=tuple(b for b, cb in self.block_cb.items() if cb.isChecked()),
+            blocks=tuple(self.blocks.checked()),
             categorical=("compartment",) if self.cat_cb.isChecked() else (),
             na_policy=self.na_policy.currentText(),
             scaling=self.scaling.currentText(),
