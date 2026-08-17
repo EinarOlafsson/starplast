@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 17 covered well, 0 partly, 0 thinly, 86 empty.**
+**103 slots: 19 covered well, 1 partly, 0 thinly, 83 empty.**
 
 ### transcription
 
@@ -163,7 +163,7 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Pf_co-transcription | stage series | **-** |  |  | `` | separate | — |
+| Pf_co-transcription | stage series | **A** | 5533 | 96.7% | `coexpression` | separate | — |
 | Pf_co-translation | ribosome profiling | **-** |  |  | `` | separate | — |
 | Pf_co-fitness | seven screens | **-** |  |  | `` | separate | — |
 | Pf_interaction · crosslink MS | measured contact | **-** |  |  | `` | one | — |
@@ -171,8 +171,8 @@ quantity were approximating on 2026-08-13.
 | Pf_interaction · proximity labelling | BioID / TurboID | **-** |  |  | `` | fill | — |
 | Pf_interaction · structural similarity | Foldseek | **-** |  |  | `` | one | — |
 | Pf_interaction · with host proteins | host IP-MS | **-** |  |  | `` | separate | — |
-| Pf_shared orthogroup | OrthoMCL | **-** |  |  | `` | one | — |
-| Pf_shared domain | InterPro | **-** |  |  | `` | one | — |
+| Pf_shared orthogroup | OrthoMCL | **B** | 635 | 11.1% | `orthogroup` | one | — |
+| Pf_shared domain | InterPro | **A** | 2667 | 46.6% | `domain` | one | — |
 | Pf_interaction degree · crosslink MS | measured contact | **-** |  |  | `` | separate | — |
 | Pf_interaction degree · IP-MS | curated pulldown | **-** |  |  | `` | one | — |
 | Pf_interaction degree · structural similarity | Foldseek | **-** |  |  | `` | one | — |
@@ -248,3 +248,4 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | [PMID 42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/) | Pf_field variation and resistance markers; Pf_resistance-conferring mutation |
 | [PMID 42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/) | Pf_T-cell epitope content; Pf_seroreactivity / antigenicity |
 | [PMID 42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/) | Pf_export / PEXEL trafficking; Pf_host receptor binding |
+| `orthogroup` | Pf_conservation breadth; Pf_shared orthogroup |

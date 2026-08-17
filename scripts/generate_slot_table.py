@@ -1077,6 +1077,11 @@ PF_PATTERNS = {
     # level. Its steady-state partner from the same experiment is what makes that distinction
     # measurable instead of assumed, which is why both halves are kept.
     "translation · asexual blood stage": ["polysomal_"],
+    # Pair slots, answered by the Plasmodium graph rather than by columns. Its indices point into
+    # pf_nodes.parquet and mean nothing in the Toxoplasma graph, which is why there are two files.
+    "shared orthogroup": ["edge:orthogroup"],
+    "shared domain": ["edge:domain"],
+    "co-transcription": ["edge:coexpression"],
     # `protein abundance · asexual blood stage` is deliberately NOT claimed by the proteome columns
     # in this table. PlasmoDB serves that TMT study row-normalised, so its three values are a
     # protein's distribution ACROSS the cycle and sum to a constant; they answer "which stage" and
@@ -1263,7 +1268,8 @@ def _write_markdown(rows, path=OUT_MD) -> None:
     open(path, "w", encoding="utf8").write("\n".join(lines))
 
 
-def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=None) -> list:
+def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=None,
+          pf_graph=None) -> list:
     """One row per slot. `metabolites` is the table whose rows are compounds; slots declaring
     `unit="metabolite"` are graded against it and against its own denominator."""
     metabolites = pd.DataFrame() if metabolites is None else metabolites
@@ -1288,10 +1294,15 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
             covered = int(rows_for["gene_id"].nunique()) if pairs else 0
             detail = f"{pairs:,} pairs, {covered} parasite gene(s)"
         elif edges:
+            # Each arm against its own graph. An index in one file names a row of the table it was
+            # built from and nothing in the other, so reading Pf edges out of the Toxoplasma graph
+            # would report pair counts for the wrong organism.
+            g = pf_graph if definition["organism"] == "Pf" else graph
             key = f"{edges[0]}__a"
-            pairs = int(len(graph[key])) if key in graph.files else 0
-            covered = int(len(set(np.concatenate([graph[f"{edges[0]}__a"],
-                                                   graph[f"{edges[0]}__b"]])))) if key in graph.files else 0
+            has = g is not None and key in g.files
+            pairs = int(len(g[key])) if has else 0
+            covered = int(len(set(np.concatenate([g[f"{edges[0]}__a"],
+                                                  g[f"{edges[0]}__b"]])))) if has else 0
             detail = f"{pairs:,} pairs"
         elif unit == "metabolite" and definition["organism"] == "Tg":
             # Resolved against the metabolite table, whose rows are compounds. Graded on its own
@@ -1401,7 +1412,9 @@ def main() -> int:
     definitions = all_slots()
     _pf = paths.cache_file("pf_nodes.parquet")
     pf_nodes = pd.read_parquet(_pf) if os.path.exists(_pf) else pd.DataFrame()
-    rows = _rows(definitions, nodes, z, metabolites, bridges, pf_nodes)
+    _pg = paths.cache_file("pf_graph.npz")
+    pf_graph = np.load(_pg, allow_pickle=True) if os.path.exists(_pg) else None
+    rows = _rows(definitions, nodes, z, metabolites, bridges, pf_nodes, pf_graph)
     toxo_rows = [row for row in rows if row["organism"] == "Tg"]
     pf_rows = [row for row in rows if row["organism"] == "Pf"]
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)

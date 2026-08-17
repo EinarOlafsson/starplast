@@ -1205,6 +1205,25 @@ REGISTRY = [
                  "rather than filled with a share. The tell would have been well hidden: ring "
                  "protein correlates -0.25 with ring mRNA, which reads as a biological puzzle and "
                  "is only the normalisation showing through."),
+    Dataset("pf_relation_layers", "Plasmodium relation layers (COMPUTED)", "reference", "graph",
+            "Gene pairs sharing an orthogroup or a domain, and pairs whose stages covary",
+            ("edge:orthogroup", "edge:domain", "edge:coexpression"),
+            "1,741 + 24,123 + 63,158 pairs",
+            derived_from=("orthogroup", "interpro_ids", "expr_ring", "expr_schizont",
+                          "expr_sporozoite"),
+            path="starplast/data/pf_graph.npz",
+            note="A SECOND graph file, because an edge is a pair of indices into a table and a "
+                 "falciparum gene has no index in the Toxoplasma one. Constructions are copied from "
+                 "the Toxoplasma arm rather than re-invented, so that a difference between the arms "
+                 "means the biology differs and not that the edges were drawn by different rules. "
+                 "The one deliberate change is the domain weight. Two proteins can share more than "
+                 "one InterPro domain, and emitting the pair once per shared domain draws the same "
+                 "edge repeatedly, which reads as repeated evidence; the naive construction gave "
+                 "10,764 duplicate emissions among 34,887 here, nearly all inside the var, rifin "
+                 "and stevor families that share whole multi-domain architectures. The count is now "
+                 "the weight, so a pair sharing eleven domains says so. The Toxoplasma arm emits no "
+                 "duplicates at all today -- checked rather than assumed -- and would acquire the "
+                 "same fault the moment its annotation gained a pair sharing two domains."),
     Dataset("cotranslation_edges", "Co-translation layer (COMPUTED)", "translation", "RiboSeq",
             "Gene pairs whose ribosome footprints covary", ("edge:cotranslation",),
             "6,231 edges over 7,437 genes",

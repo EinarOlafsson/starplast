@@ -5211,7 +5211,9 @@
     "axis": "relation",
     "context": "stage series",
     "unit": "pair",
-    "patterns": [],
+    "patterns": [
+      "edge:coexpression"
+    ],
     "policy": "separate",
     "candidates": [],
     "evidence_path": [
@@ -5419,7 +5421,9 @@
     "axis": "relation",
     "context": "OrthoMCL",
     "unit": "pair",
-    "patterns": [],
+    "patterns": [
+      "edge:orthogroup"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -5445,7 +5449,9 @@
     "axis": "relation",
     "context": "InterPro",
     "unit": "pair",
-    "patterns": [],
+    "patterns": [
+      "edge:domain"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [

@@ -203,6 +203,15 @@ def is_filled(slot: Slot, nodes: pd.DataFrame = None, graph=None,
     if wanted:
         if graph is None:
             return False
+        # The species guard again, and this time for edges. Both arms name their layers the same --
+        # `orthogroup`, `domain`, `coexpression` are the same constructions on both -- so a
+        # Plasmodium pair slot handed the Toxoplasma graph finds every layer it asked for and reads
+        # as filled by another organism's edges. Three did, the day the Plasmodium graph was built.
+        # A graph carries no accessions to identify itself, so it is identified by the table it
+        # arrives with: `nodes` and `graph` describe the same species or the caller has mixed two
+        # caches. When there is no table to check against, unknown stays permissive.
+        if nodes is not None and not same_species(nodes, slot):
+            return False
         present = {str(name).split("__")[0] for name in getattr(graph, "files", ())}
         return all(edge in present for edge in wanted)
     if slot.unit != RESOLVABLE_UNIT:

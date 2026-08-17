@@ -855,3 +855,43 @@ fails rather than keeping a wrong label), and one asserts no slot claims a share
 
 That is the same refusal as the vesicle EV-minus-cell column and the auranofin candidates: the
 question is never whether a number is available, it is whether it is the quantity the slot names.
+
+## Tenth pass: the Plasmodium graph, and the third species guard
+
+**Toxoplasma 114 of 119, Plasmodium 20 of 103, combined 134 of 222.**
+
+A second graph file, because an edge is a pair of indices into a table and a *falciparum* gene has no
+index in the Toxoplasma one. Three layers — `orthogroup`, `domain`, `coexpression` — built with the
+Toxoplasma constructions copied rather than re-invented, so that a difference between the arms means
+the biology differs and not that the edges were drawn by different rules.
+
+### The duplicate the Toxoplasma arm never showed
+
+Two proteins can share more than one InterPro domain, and emitting the pair once per shared domain
+draws the same edge repeatedly — which reads as repeated evidence. The naive construction produced
+**10,764 duplicate emissions among 34,887** here, nearly all inside the var, rifin and stevor
+families that share whole multi-domain architectures.
+
+The Toxoplasma arm builds this layer the same way and emits **no duplicates at all** — checked, not
+assumed — which is why the fault was invisible for the life of the project. It would acquire it the
+moment its annotation gained a pair sharing two domains. The count is now the weight, which is both
+correct and strictly more informative than the 1.0 it replaced: a pair sharing eleven domains says
+so.
+
+### The species guard, third instance
+
+`orthogroup`, `domain` and `coexpression` are named identically in both graphs — deliberately. So a
+Plasmodium pair slot handed the Toxoplasma graph finds every layer it asked for and **reads as
+filled by another organism's edges**. Three did, the day the Plasmodium graph was built, and it
+surfaced only because an unrelated assertion (`slots.coverage("Pf", …)["filled"] == 0`) still
+encoded the old world where Plasmodium had nothing.
+
+A graph carries no accessions to identify itself, so it is identified by the table it arrives with:
+`nodes` and `graph` describe one species or the caller has mixed two caches. Unknown stays permissive
+so callers holding only a graph still work.
+
+That is now **three places** where mirroring the column and layer names between arms has cost a
+name-keyed check — `declared_columns`, `resolve`, and now `is_filled` — plus the dataset-contribution
+test that was passing by accident. The mirroring is still right: it is what lets the arms be compared
+at all. But the rule it implies should be written down before a third species arrives: **nothing may
+identify an organism by the name of a column or a layer. Only the table's own accessions do that.**

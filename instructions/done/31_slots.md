@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 79 covered well, 16 partly, 36 thinly, 91 empty.**
+**222 slots: 81 covered well, 17 partly, 36 thinly, 88 empty.**
 
 ### transcription
 
@@ -259,7 +259,7 @@ quantity were approximating on 2026-08-13.
 | Tg_interaction degree · structural similarity | Foldseek | **A** | 8140 | 100.0% | `n_struct_similar` | one | — |
 | Tg_RNA-binding protein targets | CLIP / RIP | **A** | 7463 | 91.7% | `bfd2_rip_log2_ip_over_input` | separate | — |
 | Tg_complex membership | crosslink MS interactome | **C** | 494 | 6.1% | `n_crosslink_partners` | separate | **Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and machine learning.** (mBio 2025) [40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) `mBio 02159-25` |
-| Pf_co-transcription | stage series | **-** |  |  | `` | separate | — |
+| Pf_co-transcription | stage series | **A** | 5533 | 96.7% | `coexpression` | separate | — |
 | Pf_co-translation | ribosome profiling | **-** |  |  | `` | separate | — |
 | Pf_co-fitness | seven screens | **-** |  |  | `` | separate | — |
 | Pf_interaction · crosslink MS | measured contact | **-** |  |  | `` | one | — |
@@ -267,8 +267,8 @@ quantity were approximating on 2026-08-13.
 | Pf_interaction · proximity labelling | BioID / TurboID | **-** |  |  | `` | fill | — |
 | Pf_interaction · structural similarity | Foldseek | **-** |  |  | `` | one | — |
 | Pf_interaction · with host proteins | host IP-MS | **-** |  |  | `` | separate | — |
-| Pf_shared orthogroup | OrthoMCL | **-** |  |  | `` | one | — |
-| Pf_shared domain | InterPro | **-** |  |  | `` | one | — |
+| Pf_shared orthogroup | OrthoMCL | **B** | 635 | 11.1% | `orthogroup` | one | — |
+| Pf_shared domain | InterPro | **A** | 2667 | 46.6% | `domain` | one | — |
 | Pf_interaction degree · crosslink MS | measured contact | **-** |  |  | `` | separate | — |
 | Pf_interaction degree · IP-MS | curated pulldown | **-** |  |  | `` | one | — |
 | Pf_interaction degree · structural similarity | Foldseek | **-** |  |  | `` | one | — |
@@ -390,7 +390,9 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `n_tm` | Pf_membrane topology; Tg_membrane topology |
 | `has_signal_peptide` | Pf_membrane topology; Tg_membrane topology |
 | `is_tm` | Pf_membrane topology; Tg_membrane topology |
-| `orthogroup` | Pf_conservation breadth; Tg_conservation breadth; Tg_shared orthogroup |
+| `coexpression` | Pf_co-transcription; Tg_co-transcription |
+| `orthogroup` | Pf_conservation breadth; Pf_shared orthogroup; Tg_conservation breadth; Tg_shared orthogroup |
+| `domain` | Pf_shared domain; Tg_shared domain |
 | `n_interpro` | Pf_domain content; Tg_domain content |
 | `has_domain` | Pf_domain content; Tg_domain content |
 | `paralog_number` | Pf_paralogy; Tg_paralogy |

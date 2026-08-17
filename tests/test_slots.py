@@ -326,3 +326,40 @@ def test_a_filled_slot_carries_no_blocked_verdict():
         stale = [r["slot"] for r in csv.DictReader(fh)
                  if r["grade"] != "-" and (r.get("blocked_by") or "").strip()]
     assert not stale, f"filled slots still carrying a blocked verdict: {stale}"
+
+
+def test_a_plasmodium_pair_slot_is_not_filled_by_the_toxoplasma_graph():
+    """Both arms name their layers the same, so a graph alone cannot say whose edges it holds.
+
+    `orthogroup`, `domain` and `coexpression` are the same constructions in both species, which is
+    deliberate -- it means a difference between the arms is biology rather than method. The cost is
+    that a Plasmodium pair slot handed the Toxoplasma graph finds every layer it asked for. Three
+    slots did exactly that the day the Plasmodium graph was built, and the count only moved because
+    something else was being checked. The graph is identified by the table it arrives with.
+    """
+    import os
+    import numpy as np
+    import pandas as pd
+    import starplast.paths as P
+    nodes = pd.read_parquet(os.path.join(P.data_dir(), "nodes.parquet"))
+    graph = np.load(os.path.join(P.data_dir(), "graph.npz"))
+    pf_pairs = [s for s in slots.all_slots("Pf") if slots.edge_types(s)]
+    assert pf_pairs, "no Plasmodium slot declares an edge type"
+    filled = [s.name for s in pf_pairs if slots.is_filled(s, nodes, graph)]
+    assert not filled, f"Plasmodium slots filled by Toxoplasma edges: {filled}"
+    # And against its own table and graph they DO fill, or the guard is just refusing everything.
+    pf_nodes_path = os.path.join(P.data_dir(), "pf_nodes.parquet")
+    pf_graph_path = os.path.join(P.data_dir(), "pf_graph.npz")
+    if os.path.exists(pf_nodes_path) and os.path.exists(pf_graph_path):
+        pf_nodes = pd.read_parquet(pf_nodes_path)
+        pf_graph = np.load(pf_graph_path)
+        assert any(slots.is_filled(s, pf_nodes, pf_graph) for s in pf_pairs)
+
+
+def test_an_edge_slot_with_no_table_to_check_against_is_still_answerable():
+    """Callers that hold only a graph are not broken by the species guard."""
+    import types
+    pair = next(s for s in slots.all_slots("Tg") if slots.edge_types(s))
+    wanted = slots.edge_types(pair)[0]
+    graph = types.SimpleNamespace(files=[f"{wanted}__a", f"{wanted}__b"])
+    assert slots.is_filled(pair, None, graph)
