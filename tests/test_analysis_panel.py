@@ -839,15 +839,17 @@ def test_any_objective_can_be_combined_with_any_set_of_labels(panel):
     questions, so the objective and the label set are independent choices."""
     from PyQt6 import QtCore as _Qt
     panel.target.setCurrentText("compartment")
-    panel.focus.clearSelection()
-    assert panel.objective_settings()["category"] is None, "none selected must mean all of them"
+    panel.focus.set_checked([])
+    assert panel.objective_settings()["category"] is None, "none ticked must mean all of them"
+    # Ticked, not highlighted: a highlight is destroyed by the next ordinary click, which is why
+    # assembling a set of categories had to be redone every time the reader looked away.
     for i in range(min(2, panel.focus.count())):
-        panel.focus.item(i).setSelected(True)
+        panel.focus.item(i).setCheckState(_Qt.Qt.CheckState.Checked)
     got = panel.objective_settings()["category"]
     assert isinstance(got, list) and len(got) == 2
     assert all(g == panel.focus.item(i).data(_Qt.Qt.ItemDataRole.UserRole)
                for i, g in enumerate(got))
-    panel.focus.clearSelection()
+    panel.focus.set_checked([])
 
 
 def test_scoring_several_labels_aggregates_by_the_objective():

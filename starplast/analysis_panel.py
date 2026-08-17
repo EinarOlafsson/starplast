@@ -25,7 +25,8 @@ from PyQt6 import QtCore, QtWidgets
 
 from .embedding import (BLOCKS, SLOT_BLOCKS, EmbeddingSpec, NA_POLICIES, SCALINGS, columns_for,
                         variance_share)
-from .theme import CMAPS, POINT_MODES, POINT_STYLES, THEMES, cmaps_of, kind_for_column
+from .theme import (CMAPS, POINT_MODES, POINT_STYLES, THEMES, CheckList, cmaps_of,
+                    kind_for_column)
 
 
 def _scrolled(page: QtWidgets.QWidget) -> QtWidgets.QScrollArea:
@@ -956,15 +957,17 @@ class AnalysisPanel(QtWidgets.QWidget):
         # A list rather than a dropdown: "precision for dense granules" and "recall for dense
         # granules and rhoptries" are both ordinary questions, and the second needs more than one.
         # Select none to score every category.
-        self.focus = QtWidgets.QListWidget()
-        self.focus.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.focus = CheckList()
         self.focus.setMaximumHeight(120)
         self.focus.setToolTip(
-            "Which categories to score. Select none for all of them; select one or several to "
-            "optimize for exactly those. The objective and the label set are independent, so "
-            "'precision for dense granules' and 'recall for dense granules and rhoptries' are both "
-            "reachable. With several, mean objectives average over them and best objectives take "
-            "the best among them.")
+            "Which categories to score. Tick none for all of them; tick one or several to optimize "
+            "for exactly those. Drag across several rows and right-click to tick them together, or "
+            "click a single row's box; space toggles what is selected.\n\n"
+            "Ticks rather than selection, because assembling four categories used to mean four "
+            "ctrl-clicks that one ordinary click threw away.\n\n"
+            "The objective and the label set are independent, so 'precision for dense granules' and "
+            "'recall for dense granules and rhoptries' are both reachable. With several, mean "
+            "objectives average over them and best objectives take the best among them.")
         # The SCORING floors, which are not the same thing as HDBSCAN's min_cluster_size. That one
         # decides what the algorithm FORMS as a cluster and is swept in the grid above; these decide
         # what is allowed to COUNT once clusters exist. Both matter and they were only half exposed:
@@ -1101,14 +1104,16 @@ class AnalysisPanel(QtWidgets.QWidget):
             for name, n in counts.items():
                 if str(name).lower() in ABSENCE_LABELS or n < 15:
                     continue
-                it = QtWidgets.QListWidgetItem(f"{name}  ({n})")
-                it.setData(QtCore.Qt.ItemDataRole.UserRole, str(name))
-                self.focus.addItem(it)
+                self.focus.add(f"{name}  ({n})", str(name))
         self.focus.blockSignals(False)
 
     def selected_categories(self) -> list:
-        """The categories highlighted in the list, or an empty list meaning all of them."""
-        return [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.focus.selectedItems()]
+        """The categories TICKED in the list, or an empty list meaning all of them.
+
+        Ticks, not highlights. A highlight is destroyed by the next ordinary click, which made a set of
+        four categories something a reader had to rebuild every time they looked away.
+        """
+        return self.focus.checked()
 
     def objective_settings(self) -> dict:
         """The scoring choices, as the keyword arguments `objectives.score` takes.

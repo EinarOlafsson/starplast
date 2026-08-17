@@ -168,10 +168,10 @@ def test_switching_category_rebuilds_the_list_and_the_filter(win):
     win.on_category_changed("cellcycle_phase")
     assert win.category == "cellcycle_phase"
     assert win.comp_list.count() == win.nodes.cellcycle_phase.astype(str).nunique()
-    win.comp_list.item(0).setSelected(True)
+    win.comp_list.item(0).setCheckState(QtCore.Qt.CheckState.Checked)
     vis = win.visible_mask()
     assert 0 < vis.sum() < win.n, "the filter is not restricting anything"
-    win.comp_list.clearSelection()
+    win.comp_list.set_checked([])
     win.on_category_changed("compartment")
 
 
@@ -1072,3 +1072,116 @@ def test_the_display_menu_offers_the_full_dialog_too(win):
     m = win.build_context_menu()
     sub = [a for a in m.actions() if a.text() == "Display"][0].menu()
     assert any(a.text() == "All display settings…" for a in sub.actions())
+
+
+# --------------------------------------------------------------------------- drag, then tick
+def test_a_drag_and_a_right_click_tick_several_categories_at_once(win):
+    """The ask: drag across the categories to select them, then right-click to check what is selected.
+    Selection is how rows are chosen; ticks are what the map reads."""
+    from PyQt6 import QtCore as Q
+    win.on_category_changed("compartment")
+    cl = win.comp_list
+    cl.set_checked([])
+    assert cl.checked() == [], "nothing is ticked to begin with, which means everything is shown"
+    assert int(win.visible_mask().sum()) == win.n
+    for i in range(3):                                   # what a drag across three rows leaves behind
+        cl.item(i).setSelected(True)
+    menu = cl.build_menu()
+    labels = [a.text() for a in menu.actions() if a.text()]
+    assert labels[0].startswith("Check selected (3)"), labels
+    next(a for a in menu.actions() if a.text().startswith("Check selected")).trigger()
+    assert len(cl.checked()) == 3
+    assert 0 < int(win.visible_mask().sum()) < win.n, "ticking did not filter the map"
+    cl.set_checked([])
+
+
+def test_an_ordinary_click_no_longer_destroys_a_set_that_was_built_up(win):
+    """The reason ticks exist rather than a highlight. With selection AS the choice, four ctrl-clicks
+    of work were thrown away by one careless click, and there was no way to keep a set while clicking
+    elsewhere to look at something."""
+    from PyQt6 import QtCore as Q
+    win.on_category_changed("compartment")
+    cl = win.comp_list
+    wanted = [cl.item(i).data(Q.Qt.ItemDataRole.UserRole) for i in range(3)]
+    cl.set_checked(wanted)
+    before = int(win.visible_mask().sum())
+    cl.clearSelection()
+    cl.item(5).setSelected(True)                        # the careless click
+    assert cl.checked() == wanted
+    assert int(win.visible_mask().sum()) == before
+    cl.set_checked([])
+
+
+def test_the_right_click_menu_offers_only_what_makes_sense(win):
+    """"Check selected" with nothing selected is a menu item that cannot do anything."""
+    cl = win.comp_list
+    cl.clearSelection()
+    menu = cl.build_menu()
+    by_text = {a.text(): a for a in menu.actions() if a.text()}
+    assert not by_text["Check selected (0)"].isEnabled()
+    assert not by_text["Uncheck selected (0)"].isEnabled()
+    assert by_text["Check all"].isEnabled() and by_text["Clear all"].isEnabled()
+
+
+def test_check_only_selected_replaces_the_set_rather_than_adding_to_it(win):
+    from PyQt6 import QtCore as Q
+    win.on_category_changed("compartment")
+    cl = win.comp_list
+    cl.set_checked([cl.item(0).data(Q.Qt.ItemDataRole.UserRole)])
+    cl.clearSelection()
+    cl.item(4).setSelected(True)
+    next(a for a in cl.build_menu().actions() if a.text() == "Check only selected").trigger()
+    assert cl.checked() == [cl.item(4).data(Q.Qt.ItemDataRole.UserRole)]
+    cl.set_checked([])
+
+
+def test_a_bulk_tick_redraws_once_rather_than_once_per_category(win):
+    """This list drives a redraw of 8,140 points. Ticking twenty-seven categories should cost one."""
+    cl = win.comp_list
+    cl.set_checked([])
+    fired = []
+    cl.checkedChanged.connect(lambda: fired.append(1))
+    next(a for a in cl.build_menu().actions() if a.text() == "Check all").trigger()
+    assert len(cl.checked()) == cl.count() > 1
+    assert len(fired) == 1, f"{cl.count()} rows ticked emitted {len(fired)} signals"
+    cl.set_checked([])
+
+
+def test_space_toggles_whatever_is_selected(win):
+    from PyQt6 import QtCore as Q
+    from PyQt6.QtGui import QKeyEvent
+    cl = win.comp_list
+    cl.set_checked([])
+    cl.clearSelection()
+    for i in range(2):
+        cl.item(i).setSelected(True)
+    press = QKeyEvent(Q.QEvent.Type.KeyPress, Q.Qt.Key.Key_Space, Q.Qt.KeyboardModifier.NoModifier)
+    cl.keyPressEvent(press)
+    assert len(cl.checked()) == 2
+    cl.keyPressEvent(press)                              # again, and it turns them back off
+    assert cl.checked() == []
+
+
+def test_clicking_the_diagram_ticks_rather_than_only_highlighting(win):
+    """Both directions have to be the same operation: clicking an organelle in the drawing must do
+    what ticking its row does, or one of the two halves stops filtering."""
+    if win.diagram is None:
+        pytest.skip("the artwork is not present in this checkout")
+    from starplast.celldiagram import COMPARTMENT_SL
+    win.on_category_changed("compartment")
+    name = next(c for c in COMPARTMENT_SL if c in win.color_of)
+    win.comp_list.set_checked([])
+    win.select_compartment(name)
+    assert win.comp_list.checked() == [name]
+    win.comp_list.set_checked([])
+
+
+def test_reset_clears_the_ticks_and_not_merely_the_highlight(win):
+    """A reset that left the map filtered while saying it had reset it would be worse than no button."""
+    from PyQt6 import QtCore as Q
+    win.on_category_changed("compartment")
+    win.comp_list.set_checked([win.comp_list.item(0).data(Q.Qt.ItemDataRole.UserRole)])
+    assert int(win.visible_mask().sum()) < win.n
+    win.reset()
+    assert win.comp_list.checked() == []
+    assert int(win.visible_mask().sum()) == win.n

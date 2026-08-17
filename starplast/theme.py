@@ -335,6 +335,121 @@ SWITCH_OFF = "#800080"
 SWITCH_ON = "#008080"
 
 
+class CheckList(QtWidgets.QListWidget):
+    """A list of choices carried as TICKS, chosen by dragging across the rows and confirming with the
+    right-click menu.
+
+    Selection and choice are separated deliberately, and that separation is the whole point. Both
+    category lists in this program used the SELECTION as the choice, which has two costs a reader
+    pays constantly: a set assembled over several ctrl-clicks is destroyed by one ordinary click, and
+    there is no way to keep a set while clicking somewhere else to look at something. Here a drag
+    selects, the context menu turns that selection into ticks, and the ticks survive every later
+    click.
+
+    The one-item fast path is not lost: clicking an item's own box ticks it, which is Qt's behaviour
+    for a checkable item and needs no menu. Space toggles the selected rows for the same reason.
+
+    `checkedChanged` fires ONCE for a bulk operation rather than once per row. The lists it feeds
+    trigger a redraw of 8,140 points, and ticking forty categories should redraw once.
+    """
+
+    checkedChanged = QtCore.pyqtSignal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.customContextMenuRequested.connect(self._menu)
+        self.itemChanged.connect(lambda _item: self.checkedChanged.emit())
+
+    def add(self, label: str, value=None, **kw):
+        """Append one checkable row. `value` is what `checked` returns for it, defaulting to `label`."""
+        item = QtWidgets.QListWidgetItem(label)
+        item.setFlags(item.flags() | QtCore.Qt.ItemFlag.ItemIsUserCheckable)
+        item.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        item.setData(QtCore.Qt.ItemDataRole.UserRole, label if value is None else value)
+        for key, val in kw.items():
+            getattr(item, key)(val)
+        self.addItem(item)
+        return item
+
+    def items(self) -> list:
+        """Every row, in list order. `QListWidget` offers no such accessor of its own."""
+        return [self.item(i) for i in range(self.count())]
+
+    def checked(self) -> list:
+        """The ticked values, in list order. Empty is a meaningful answer -- both callers read it as
+        'all of them' -- so it is never padded into a full list here."""
+        return [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.items()
+                if i.checkState() == QtCore.Qt.CheckState.Checked]
+
+    def set_checked(self, values, emit: bool = True) -> list:
+        """Tick exactly these values and nothing else, as one change."""
+        wanted = {str(v) for v in values}
+        self.blockSignals(True)
+        for item in self.items():
+            state = (QtCore.Qt.CheckState.Checked
+                     if str(item.data(QtCore.Qt.ItemDataRole.UserRole)) in wanted
+                     else QtCore.Qt.CheckState.Unchecked)
+            item.setCheckState(state)
+        self.blockSignals(False)
+        if emit:
+            self.checkedChanged.emit()
+        return self.checked()
+
+    def _apply(self, items, state) -> None:
+        """Set a tick state over many rows and report the change once."""
+        if not items:
+            return
+        self.blockSignals(True)
+        for item in items:
+            item.setCheckState(state)
+        self.blockSignals(False)
+        self.checkedChanged.emit()
+
+    def keyPressEvent(self, event):
+        """Space toggles every selected row, which is what a list of tick boxes should do."""
+        if event.key() in (QtCore.Qt.Key.Key_Space, QtCore.Qt.Key.Key_Select):
+            chosen = self.selectedItems()
+            if chosen:
+                on = all(i.checkState() == QtCore.Qt.CheckState.Checked for i in chosen)
+                self._apply(chosen, QtCore.Qt.CheckState.Unchecked if on
+                            else QtCore.Qt.CheckState.Checked)
+                return
+        super().keyPressEvent(event)
+
+    def _menu(self, pos) -> QtWidgets.QMenu:
+        """The right-click menu: turn what is selected into ticks."""
+        return self.build_menu(self.mapToGlobal(pos))
+
+    def build_menu(self, at=None) -> QtWidgets.QMenu:
+        """Construct the menu, and show it only when given somewhere to appear.
+
+        Split so a test can read the actions without entering the modal loop `exec` starts -- the same
+        split as `build_context_menu` and `build_preferences` in the window.
+        """
+        chosen = self.selectedItems()
+        menu = QtWidgets.QMenu(self)
+        act = menu.addAction(f"Check selected ({len(chosen)})")
+        act.setEnabled(bool(chosen))
+        act.triggered.connect(lambda: self._apply(chosen, QtCore.Qt.CheckState.Checked))
+        act = menu.addAction(f"Uncheck selected ({len(chosen)})")
+        act.setEnabled(bool(chosen))
+        act.triggered.connect(lambda: self._apply(chosen, QtCore.Qt.CheckState.Unchecked))
+        act = menu.addAction("Check only selected")
+        act.setEnabled(bool(chosen))
+        act.triggered.connect(lambda: self.set_checked(
+            [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in chosen]))
+        menu.addSeparator()
+        menu.addAction("Check all").triggered.connect(
+            lambda: self._apply(self.items(), QtCore.Qt.CheckState.Checked))
+        menu.addAction("Clear all").triggered.connect(
+            lambda: self._apply(self.items(), QtCore.Qt.CheckState.Unchecked))
+        if at is not None:
+            menu.exec(at)
+        return menu
+
+
 class Switch(QtWidgets.QWidget):
     """A boolean slider, the shape and colors of `spacr.gui_elements.spacrSwitch`.
 

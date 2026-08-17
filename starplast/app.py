@@ -3052,15 +3052,17 @@ class Window(QtWidgets.QMainWindow):
         self.bins_box.hide()
         L.addWidget(self.bins_box)
 
-        self.comp_list = QtWidgets.QListWidget()
+        self.comp_list = TH.CheckList()
         self.comp_list.setToolTip(
-            "Select to show only those classes; select none to show everything. Double-click flies to "
-            "a class's centroid. Counts are of genes with a value, so a class is at least this big and "
-            "possibly bigger.")
-        self.comp_list.setSelectionMode(
-            QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
-        self.comp_list.itemSelectionChanged.connect(self.redraw)
-        self.comp_list.itemSelectionChanged.connect(self._refresh_diagram)
+            "TICK to show only those classes; tick none to show everything. Drag across several rows "
+            "and right-click to tick them all at once -- or click a single row's box. Space toggles "
+            "whatever is selected.\n\n"
+            "Ticks are what the map reads, and selection is only how you choose them, so an ordinary "
+            "click can no longer destroy a set you built up over several ctrl-clicks.\n\n"
+            "Double-click flies to a class's centroid. Counts are of genes with a value, so a class is "
+            "at least this big and possibly bigger.")
+        self.comp_list.checkedChanged.connect(self.redraw)
+        self.comp_list.checkedChanged.connect(self._refresh_diagram)
         self.comp_list.itemDoubleClicked.connect(self.fly_to_compartment)
         L.addWidget(self.comp_list, 1)
         self._fill_category_list()
@@ -3137,15 +3139,13 @@ class Window(QtWidgets.QMainWindow):
         # this proteome, and sorting by size alone would put "we do not know" at the top of every list.
         tail = [v for v in counts.index if str(v).lower() in absent]
         for v in named + tail:
-            it = QtWidgets.QListWidgetItem(f"{v}  ({int(counts[v]):,})")
-            it.setData(QtCore.Qt.ItemDataRole.UserRole, v)
+            it = self.comp_list.add(f"{v}  ({int(counts[v]):,})", v)
             col = self.color_of.get(v)
             if col is not None:
                 it.setForeground(QtGui.QColor.fromRgbF(*col))
             if str(v).lower() in absent:
                 it.setToolTip("Absence, not a class: these genes have no measurement, which is not "
                               "the same as measuring zero.")
-            self.comp_list.addItem(it)
         self.comp_list.blockSignals(False)
 
     def set_bins(self, n: int):
@@ -3187,15 +3187,19 @@ class Window(QtWidgets.QMainWindow):
         self.redraw()
 
     def select_compartment(self, name: str):
-        """Select a compartment in the list, from the diagram. The other half of both directions."""
-        for i in range(self.comp_list.count()):
-            item = self.comp_list.item(i)
+        """Tick a compartment in the list, from the diagram. The other half of both directions.
+
+        Ticks it rather than merely highlighting it, because the list now filters on ticks: clicking an
+        organelle in the drawing has to do the same thing as ticking its row, or the two halves of "both
+        directions" would no longer be the same operation.
+        """
+        for item in self.comp_list.items():
             if item.data(QtCore.Qt.ItemDataRole.UserRole) == name:
+                self.comp_list.set_checked([name])
                 self.comp_list.clearSelection()
                 item.setSelected(True)
                 self.comp_list.setCurrentItem(item)
-                self._refresh_diagram()
-                self.status.showMessage(f"{name} selected from the diagram")
+                self.status.showMessage(f"{name} ticked from the diagram")
                 return
         self.status.showMessage(f"{name} is not in this list")
 
@@ -3216,7 +3220,7 @@ class Window(QtWidgets.QMainWindow):
         self.diagram_note_area.setVisible(show)
         if not show:
             return
-        sel = [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.comp_list.selectedItems()]
+        sel = self.comp_list.checked()
         self.diagram.set_palette(self.color_of, sel[0] if len(sel) == 1 else "")
         absent = [c for c in missing_from_drawing(self.comps, self.diagram.svg)
                   if str(c).lower() not in {str(x).lower() for x in ABSENCE}]
@@ -3319,7 +3323,7 @@ class Window(QtWidgets.QMainWindow):
         displayed embedding does not cover has no position to draw, and drawing it anyway would put
         absence on the map as though it were a measurement.
         """
-        sel = [i.data(QtCore.Qt.ItemDataRole.UserRole) for i in self.comp_list.selectedItems()]
+        sel = self.comp_list.checked()
         vis = (np.ones(self.n, bool) if not sel
                else self.category_values().isin(sel).to_numpy())
         placed = getattr(self, "placed", None)
@@ -3731,6 +3735,9 @@ class Window(QtWidgets.QMainWindow):
     def reset(self):
         """Clear the selection and every filter, and frame the whole map again."""
         self.sel = None
+        # Ticks are the filter now, so clearing the highlight alone would leave the map filtered while
+        # the button said it had reset it.
+        self.comp_list.set_checked([], emit=False)
         self.comp_list.clearSelection()
         self.view.fit_view()
         self.detail.setHtml("<p style='color:#888'>Click a gene.</p>")

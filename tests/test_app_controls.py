@@ -287,12 +287,14 @@ def test_every_gene_can_be_shown_without_raising(win):
 
 # --------------------------------------------------------------------------- compartment filtering
 def test_filtering_by_compartment_reduces_what_is_visible(win):
-    win.comp_list.clearSelection()
+    """The list filters on TICKS, not on the highlight -- highlighting is only how rows are chosen
+    before the right-click menu ticks them."""
+    win.comp_list.set_checked([])
     all_visible = int(win.visible_mask().sum())
-    win.comp_list.item(0).setSelected(True)
+    win.comp_list.item(0).setCheckState(QtCore.Qt.CheckState.Checked)
     filtered = int(win.visible_mask().sum())
     assert filtered < all_visible
-    win.comp_list.clearSelection()
+    win.comp_list.set_checked([])
 
 
 def test_flying_to_a_compartment_switches_to_the_gene_level(win):
@@ -1311,10 +1313,10 @@ def test_the_filter_and_the_fly_to_follow_the_chosen_source(win):
     win.on_category_changed(RUN_PREFIX + run.name)
     item = next(win.comp_list.item(i) for i in range(win.comp_list.count())
                 if win.comp_list.item(i).data(QtCore.Qt.ItemDataRole.UserRole) == "cluster 0")
-    item.setSelected(True)
+    item.setCheckState(QtCore.Qt.CheckState.Checked)
     assert win.visible_mask().sum() == 100
     win.fly_to_compartment(item)
-    win.comp_list.clearSelection()
+    win.comp_list.set_checked([])
 
 
 def test_a_source_that_no_longer_exists_colors_nothing_rather_than_raising(win):
@@ -1350,9 +1352,9 @@ def test_the_diagram_and_the_map_are_colored_from_the_same_dict(win):
     fills = win.diagram.fills()
     assert list(fills) == [COMPARTMENT_SL[name]], "the selection is not the one thing colored"
     assert np.allclose(fills[COMPARTMENT_SL[name]], win.color_of[name], atol=1e-6)
-    win.comp_list.clearSelection()
+    win.comp_list.set_checked([])
     win._refresh_diagram()
-    assert win.diagram.fills() == {}, "with nothing selected the drawing is grey"
+    assert win.diagram.fills() == {}, "with nothing ticked the drawing is grey"
 
 
 def test_selecting_in_the_list_colors_the_shape_it_shares(win):
@@ -1364,11 +1366,10 @@ def test_selecting_in_the_list_colors_the_shape_it_shares(win):
                      if win.comp_list.item(i).data(QtCore.Qt.ItemDataRole.UserRole) == name), None)
         if item is None:
             pytest.skip("this cache has no rhoptry classes")
-        win.comp_list.clearSelection()
-        item.setSelected(True)
+        win.comp_list.set_checked([name])
         assert np.allclose(win.diagram.fills()["SL0233"], win.color_of[name], atol=1e-6)
         assert name in win.diagram_note.text()
-    win.comp_list.clearSelection()
+    win.comp_list.set_checked([])
 
 
 def test_clicking_the_diagram_selects_in_the_list(win):
