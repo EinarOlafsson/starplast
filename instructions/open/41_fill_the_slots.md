@@ -443,3 +443,33 @@ table matching a slot's unit, and the slot table grades against that table's own
 **That is most of what instruction 39 needs for the host tables.** What remains there is the bridge —
 a pair slot whose two ends are in different tables — which is exactly what
 `interaction · with host proteins` is waiting for, and which no amount of downloading will supply.
+
+### The host bridge fell after being written off twice — and what that cost the audit above
+
+`interaction · with host proteins` is filled. It was declared blocked twice in the same session:
+once as "structural, not data" and once as "the host side does not verify". Both were wrong, and the
+second was wrong for an avoidable reason — I read the top of the host list, saw tubulin and filamin
+and HSP90, and stopped before asking what the FIRST entry was. It was PDCD6, which is ALG-2, which a
+2026 paper independently reports Toxoplasma engaging at the vacuole. ALIX follows at rank 12 and
+VPS28 at 62; ESCRT as a class sits at p = 0.006.
+
+So the audit above should be read as what was found, not as what exists. Two of its entries have
+already been overturned — m6A and this one.
+
+### The last two, checked again after that
+
+* **`invasion and egress phenotype`.** A pooled image-based CRISPR screen for exactly this exists:
+  `PPR1275982`, 2026, *A pooled image-based CRISPR screen identifies EAF1 as a T. gondii modulator*.
+  It is a preprint with `isOpenAccess=N` and `hasSuppl=N` — no reachable table. Together with the
+  splitCas9 screen (PMID 35538310, no PMC record) that is two screens that would fill this slot and
+  neither is deposited anywhere a reader can get at.
+* **`transcription · in IFN-gamma macrophage`.** `GSE229505` is a dual perturb-seq in IFN-gamma
+  stimulated cells and looks like the answer until you read it: it publishes raw single-cell
+  matrices, and its readout is the HOST transcriptome per parasite knockout, which this map already
+  carries as `hosttx_signature_`. The parasite's own transcriptome in an activated macrophage is
+  still unsequenced.
+
+**Eight slots remain.** Four need an experiment nobody has run in this organism, two need a
+deposited screen that exists only as an inaccessible preprint, one needs a parasite lipidome, and one
+needs cell-cycle-resolved ribosome profiling. Given the record above, that list should be re-tested
+rather than trusted — the two overturned entries were both overturned within hours.
