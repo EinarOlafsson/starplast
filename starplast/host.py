@@ -15,7 +15,11 @@ The accession is the one identifier all three carry.
 
 ## What the bridge is, and what it is not
 
-One row per (parasite gene, host protein) pair, with the evidence that put it there. It is NOT an
+One row per (parasite gene, host protein) pair, with the evidence that put it there and the number
+that evidence produced. Different evidence produces different NUMBERS -- a log2 enrichment from a
+fold change, a probability from SAINT -- and they occupy different columns rather than being poured
+into one. A SAINT probability of 1.0 beside a log2 of 4.11 in the same column would read as the same
+quantity twice. It is NOT an
 edge in `graph.npz`: those are index pairs into the parasite node table, and neither end of a bridge
 is guaranteed to be in it.
 
@@ -90,6 +94,59 @@ REPLICATE_IPS = (
 )
 ESCRT_ROOT = os.path.join("datasets", "quarantine", "2026_08_16_escrt")
 REPLICATE_MIN_FOLD = 1.0
+
+#: The same two affinity purifications scored the way the AP-MS field scores them -- SAINT, MiST and
+#: CompPASS rather than a fold change and a p-value. SAINT gives a probability that an interaction is
+#: real given the controls, which is a better instrument than the `logFC > 1` used above, so where
+#: both exist these win. UNPUBLISHED: manuscript supplementary tables.
+ORTHOGONAL_IPS = (
+    {"bait": "TGME49_225160", "bait_name": "EAF1", "file": "orthogonal/eaf1_orthogonal_scores.csv"},
+    {"bait": "TGME49_239740", "bait_name": "GRA14", "file": "orthogonal/gra14_orthogonal_scores.csv"},
+)
+#: SAINT's conventional cut. Below it an interaction is not called, and calling one anyway would be
+#: substituting a threshold of mine for the method's own.
+SAINT_MIN = 0.9
+
+
+def _symbol_to_accession(base: str) -> dict:
+    """Gene symbol to UniProt accession, from the deposit that carries both.
+
+    The orthogonal tables name preys by symbol and the bridge is keyed on accession, so the mapping
+    has to come from somewhere. It comes from the same experiment's own protein report rather than
+    from an external service, which keeps the join inside the data.
+    """
+    path = os.path.join(base, DIA_FILE)
+    if not os.path.exists(path):
+        return {}
+    d = pd.read_csv(path)
+    if "gene_symbol" not in d.columns or "uniprot_id" not in d.columns:
+        return {}
+    symbol = d["gene_symbol"].astype(str).str.replace(r'^="?|"?$', "", regex=True)
+    return dict(zip(symbol, d["uniprot_id"].astype(str)))
+
+
+def read_orthogonal(base: str, spec: dict, symbols: dict = None) -> pd.DataFrame:
+    """One bait scored by SAINT, keeping preys the method itself calls."""
+    path = os.path.join(base, ESCRT_ROOT, spec["file"])
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    d = pd.read_csv(path)
+    if not {"genesymbol", "SAINT_AvgP"} <= set(d.columns):
+        return pd.DataFrame()
+    symbols = _symbol_to_accession(base) if symbols is None else symbols
+    name = d["genesymbol"].astype(str).str.replace(r'^="?|"?$', "", regex=True)
+    saint = pd.to_numeric(d["SAINT_AvgP"], errors="coerce")
+    keep = saint >= SAINT_MIN
+    # SAINT is a PROBABILITY, so it goes in its own column. Putting it in the log2 column would
+    # make a 1.0 sit next to a 4.11 as though they were the same quantity, which is the mistake the
+    # rest of this project spends its docstrings avoiding.
+    out = pd.DataFrame({"host_name": name[keep],
+                        "host_id": name[keep].map(symbols),
+                        "saint_avgp": saint[keep]})
+    # A prey with no accession is the parasite side of the experiment -- the bait's own partners
+    # among Toxoplasma proteins, which belong to no host table.
+    out = out.dropna(subset=["host_id"])
+    return out.groupby("host_id", as_index=False).max()
 ENTRY = re.compile(r"\|([A-Z0-9]+_HUMAN)")
 ACCESSION = re.compile(r"\b(?:sp|tr)\|([A-Z0-9]+)\|")
 
@@ -234,6 +291,15 @@ def all_bridges(base: str) -> pd.DataFrame:
             "host_name": got["host_name"],
             "host_ip_enrichment_log2": got["host_ip_enrichment_log2"],
             "evidence": f"DIA affinity purification {spec['accession']} ({spec['bait_name']})"}))
+    symbols = _symbol_to_accession(base)
+    for spec in ORTHOGONAL_IPS:
+        got = read_orthogonal(base, spec, symbols)
+        if got.empty:
+            continue
+        parts.append(pd.DataFrame({
+            "gene_id": spec["bait"], "host_id": got["host_id"], "host_name": got["host_name"],
+            "saint_avgp": got["saint_avgp"],
+            "evidence": f"AP-MS SAINT (unpublished, {spec['bait_name']})"}))
     for spec in REPLICATE_IPS:
         got = read_replicated(base, spec)
         if got.empty:

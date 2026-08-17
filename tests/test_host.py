@@ -113,7 +113,9 @@ def test_the_escrt_machinery_leads_the_host_side():
     known-positive, an enriched host list cannot be told apart from abundant proteins that stick.
     """
     from scipy.stats import mannwhitneyu
-    b = H.load(ROOT, H.BRIDGE_TABLE)
+    # Only the rows scored as a fold change: the SAINT rows carry a probability in their own
+    # column, and ranking the two together would be comparing a 1.0 with a 4.11.
+    b = H.load(ROOT, H.BRIDGE_TABLE).dropna(subset=["host_ip_enrichment_log2"])
     assert len(b) > 100
     top = b.sort_values("host_ip_enrichment_log2", ascending=False)["host_name"].tolist()
     assert "PDCD6" in str(top[0]), top[:3]
@@ -416,3 +418,86 @@ def test_the_host_table_joins_identity_and_properties(tmp_path):
 
 def test_no_bridges_means_no_host_table(tmp_path):
     assert H.host_table(str(tmp_path)).empty
+
+
+def _orthogonal(tmp_path, rows, spec=None):
+    """A SAINT/MiST/CompPASS score table as the manuscript supplements publish them."""
+    spec = spec or H.ORTHOGONAL_IPS[0]
+    folder = tmp_path / H.ESCRT_ROOT / os.path.dirname(spec["file"])
+    folder.mkdir(parents=True, exist_ok=True)
+    pd.DataFrame(rows, columns=["genesymbol", "SAINT_AvgP"]).to_csv(
+        tmp_path / H.ESCRT_ROOT / spec["file"], index=False)
+    return tmp_path
+
+
+def test_saint_keeps_what_the_method_itself_calls(tmp_path):
+    _dia(tmp_path, [("=\"PDCD6\"", "O75340", "Homo sapiens", 4.11, 0.001),
+                    ("=\"WEAK\"", "P00001", "Homo sapiens", 4.11, 0.001)])
+    _orthogonal(tmp_path, [("PDCD6", 1.0), ("WEAK", 0.4)])
+    out = H.read_orthogonal(str(tmp_path), H.ORTHOGONAL_IPS[0])
+    assert list(out["host_id"]) == ["O75340"]
+    assert out["saint_avgp"].iloc[0] == 1.0
+
+
+def test_a_saint_probability_is_not_put_in_the_log2_column(tmp_path):
+    """A 1.0 beside a 4.11 in one column would read as the same quantity twice."""
+    _dia(tmp_path, [("=\"PDCD6\"", "O75340", "Homo sapiens", 4.11, 0.001)])
+    _orthogonal(tmp_path, [("PDCD6", 1.0)])
+    out = H.read_orthogonal(str(tmp_path), H.ORTHOGONAL_IPS[0])
+    assert "host_ip_enrichment_log2" not in out.columns
+    b = H.all_bridges(str(tmp_path))
+    saint = b[b["evidence"].str.contains("SAINT")]
+    assert saint["host_ip_enrichment_log2"].isna().all()
+    assert saint["saint_avgp"].notna().all()
+
+
+def test_a_prey_with_no_accession_is_the_parasite_side(tmp_path):
+    """The orthogonal tables score parasite preys too; those belong to no host table."""
+    _dia(tmp_path, [("=\"PDCD6\"", "O75340", "Homo sapiens", 4.11, 0.001)])
+    _orthogonal(tmp_path, [("PDCD6", 1.0), ("TGRH88_044880", 1.0)])
+    out = H.read_orthogonal(str(tmp_path), H.ORTHOGONAL_IPS[0])
+    assert list(out["host_id"]) == ["O75340"]
+
+
+def test_the_symbol_map_comes_from_the_experiments_own_report(tmp_path):
+    _dia(tmp_path, [("=\"PDCD6\"", "O75340", "Homo sapiens", 4.11, 0.001)])
+    assert H._symbol_to_accession(str(tmp_path))["PDCD6"] == "O75340"
+
+
+def test_no_symbol_map_without_the_report(tmp_path):
+    assert H._symbol_to_accession(str(tmp_path)) == {}
+
+
+def test_a_report_without_the_mapping_columns_gives_no_map(tmp_path):
+    import os as _os
+    folder = tmp_path / _os.path.dirname(H.DIA_FILE)
+    folder.mkdir(parents=True)
+    pd.DataFrame({"something": [1]}).to_csv(tmp_path / H.DIA_FILE, index=False)
+    assert H._symbol_to_accession(str(tmp_path)) == {}
+
+
+def test_no_orthogonal_file_yields_nothing(tmp_path):
+    assert H.read_orthogonal(str(tmp_path), H.ORTHOGONAL_IPS[0]).empty
+
+
+def test_an_orthogonal_table_without_saint_is_refused(tmp_path):
+    spec = H.ORTHOGONAL_IPS[0]
+    folder = tmp_path / H.ESCRT_ROOT / os.path.dirname(spec["file"])
+    folder.mkdir(parents=True, exist_ok=True)
+    pd.DataFrame({"genesymbol": ["PDCD6"], "logFC": [4.1]}).to_csv(
+        tmp_path / H.ESCRT_ROOT / spec["file"], index=False)
+    assert H.read_orthogonal(str(tmp_path), spec).empty
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", H.BRIDGE_TABLE)),
+    reason="host bridge not built")
+def test_alg2_is_reached_by_every_bait():
+    """Five parasite proteins, five experiments, one host protein in common.
+
+    ALG-2 is the thing this map keeps arriving at from unrelated directions, and a bridge exists to
+    make that visible rather than to hold any one pulldown.
+    """
+    b = H.load(ROOT, H.BRIDGE_TABLE)
+    reach = b.groupby("host_id")["gene_id"].nunique()
+    assert reach.get("O75340", 0) == b["gene_id"].nunique(), reach.sort_values().tail().to_dict()
