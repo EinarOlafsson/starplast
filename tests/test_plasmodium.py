@@ -1233,3 +1233,88 @@ def test_the_shipped_stage_calls_are_conservative():
     assert d["expr_max"].notna().all()
     called = d["stage_enriched_derived"].notna().sum()
     assert 50 < called < 2000, f"{called} calls: the margin rule is not doing its job"
+
+
+# --------------------------------------------------------------------------- antibody epitopes
+IEDB = os.path.join(ROOT, "datasets", "reference", "plasmodb", P.IEDB_TABLE)
+
+
+def _iedb_root(tmp_path, epitopes=None, uniprot=None):
+    base = tmp_path / "reference" / "plasmodb"
+    base.mkdir(parents=True)
+    pd.DataFrame(uniprot if uniprot is not None else
+                 [("PF3D7_A", "Q1"), ("PF3D7_B", "Q2,Q3"), ("PF3D7_C", "Q3")],
+                 columns=["Gene ID", "UniProt ID(s)"]).to_csv(
+        base / P.UNIPROT_TABLE, sep="\t", index=False)
+    pd.DataFrame(epitopes if epitopes is not None else
+                 [("Q1", "AAA"), ("Q1", "AAA"), ("Q1", "BBB"), ("Q3", "CCC"), ("Q9", "DDD")],
+                 columns=["uniprot", "epitope"]).to_csv(
+        base / P.IEDB_TABLE, sep="\t", index=False)
+    return str(tmp_path)
+
+
+def test_an_accession_naming_two_genes_is_dropped_from_the_index(tmp_path):
+    """An epitope belongs to a protein; picking whichever paralogue sorted first invents it."""
+    idx = P.uniprot_index(os.path.join(_iedb_root(tmp_path), "reference", "plasmodb",
+                                       P.UNIPROT_TABLE))
+    assert idx["Q1"] == "PF3D7_A" and idx["Q2"] == "PF3D7_B"
+    assert "Q3" not in idx, "an accession shared by two genes was assigned to one"
+
+
+def test_distinct_epitopes_are_counted_not_assay_records(tmp_path):
+    d = P.bcell_epitopes(_iedb_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_A", P.IEDB_COLUMN] == 2
+
+
+def test_an_unmappable_antigen_is_dropped(tmp_path):
+    d = P.bcell_epitopes(_iedb_root(tmp_path), log=lambda *a: None)
+    assert set(d["gene_id"]) == {"PF3D7_A"}
+
+
+def test_epitopes_need_both_tables(tmp_path):
+    base = tmp_path / "reference" / "plasmodb"
+    base.mkdir(parents=True)
+    pd.DataFrame([("Q1", "AAA")], columns=["uniprot", "epitope"]).to_csv(
+        base / P.IEDB_TABLE, sep="\t", index=False)
+    assert P.bcell_epitopes(str(tmp_path), log=lambda *a: None).empty
+    assert P.uniprot_index(str(base / "absent.tsv")) == {}
+
+
+def test_an_epitope_table_without_the_expected_columns_is_refused(tmp_path):
+    root = _iedb_root(tmp_path)
+    pd.DataFrame({"wrong": ["x"]}).to_csv(
+        os.path.join(root, "reference", "plasmodb", P.IEDB_TABLE), sep="\t", index=False)
+    assert P.bcell_epitopes(root, log=lambda *a: None).empty
+
+
+def test_a_uniprot_table_with_one_column_maps_nothing(tmp_path):
+    base = tmp_path / "reference" / "plasmodb"
+    base.mkdir(parents=True)
+    pd.DataFrame({"Gene ID": ["PF3D7_A"]}).to_csv(base / P.UNIPROT_TABLE, sep="\t", index=False)
+    assert P.uniprot_index(str(base / P.UNIPROT_TABLE)) == {}
+
+
+def test_an_epitope_table_whose_antigens_all_fail_to_map_is_refused(tmp_path):
+    root = _iedb_root(tmp_path, epitopes=[("Q9", "AAA")])
+    assert P.bcell_epitopes(root, log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.exists(IEDB), reason="IEDB epitopes not fetched")
+def test_the_antigens_are_the_ones_malaria_serology_has_studied():
+    """MSP1 and CSP are the two most studied antigens in the organism's history."""
+    d = P.bcell_epitopes(os.path.join(ROOT, "datasets"), log=lambda *a: None).set_index("gene_id")
+    assert d[P.IEDB_COLUMN].idxmax() == "PF3D7_0930300", "MSP1 is not the top antigen"
+    assert "PF3D7_0304600" in d.index, "CSP has no antibody epitope"
+    assert 200 < len(d) < 1500
+
+
+def test_build_all_folds_in_the_antibody_epitopes(tmp_path):
+    root = _dataset_root(tmp_path)
+    base = os.path.join(root, "reference", "plasmodb")
+    pd.DataFrame([("PF3D7_0100100", "Q1")], columns=["Gene ID", "UniProt ID(s)"]).to_csv(
+        os.path.join(base, P.UNIPROT_TABLE), sep="\t", index=False)
+    pd.DataFrame([("Q1", "AAA")], columns=["uniprot", "epitope"]).to_csv(
+        os.path.join(base, P.IEDB_TABLE), sep="\t", index=False)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", P.IEDB_COLUMN] == 1
+    assert pd.isna(d.loc["PF3D7_0100200", P.IEDB_COLUMN]), "absent was read as zero"

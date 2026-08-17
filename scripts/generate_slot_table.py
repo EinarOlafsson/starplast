@@ -1097,6 +1097,7 @@ PF_PATTERNS = {
     # DERIVED from the stage columns and declaring it, so leakage closure excludes them together.
     "transcription · maximum observed across stages": ["expr_max"],
     "life-cycle stage label (derived)": ["stage_margin_derived"],
+    "seroreactivity / antigenicity": ["n_bcell_epitopes"],
     # Wild type and knockout as stated conditions. The KO-minus-WT contrast is deliberately not
     # precomputed; `plasmodium.sir2_perturbation` says why.
     "transcription · under TF or chromatin perturbation": ["sir2_wt_", "sir2a_ko_", "sir2b_ko_"],

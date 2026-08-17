@@ -1251,6 +1251,23 @@ REGISTRY = [
                  "meaningful at all."),
     # `kind` names the measurement underneath, not the fact of derivation -- the same rule the
     # Toxoplasma `stage_enriched` entry records. It is RNA-seq: the argmax of nine expression columns.
+    Dataset("pf_iedb_bcell", "Plasmodium antibody epitopes (IEDB)", "reference", "immunity",
+            "Distinct antibody epitope sequences per gene", ("n_bcell_epitopes",),
+            "434 antigens, 7,366 distinct epitopes", accession="IEDB bcell_search",
+            url="https://query-api.iedb.org/bcell_search"
+                "?parent_source_antigen_source_org_name=ilike.*Plasmodium%20falciparum*",
+            path="datasets/reference/plasmodb/iedb_pf_bcell_epitopes.tsv",
+            note="DISTINCT sequences, not assay records. MSP1 alone carries 1,739 epitopes out of "
+                 "14,610 records, so counting records would rank antigens by how many groups have "
+                 "studied them rather than by how much of the protein antibodies recognise. Reached "
+                 "through UniProt rather than through product descriptions -- the Toxoplasma arm has "
+                 "to match descriptions because IEDB's Toxoplasma antigen names are verbatim ToxoDB "
+                 "text, while the falciparum names carry the accession, which is a better key. The "
+                 "209 PlasmoDB accessions naming more than one gene are dropped: an epitope belongs "
+                 "to a protein, and attaching it to whichever paralogue sorted first would be "
+                 "inventing the answer. 434 of 444 antigens resolve. Absent is absent and not zero, "
+                 "because IEDB records what somebody tested. Validated on the history of the field: "
+                 "MSP1 is the top antigen and CSP, the RTS,S vaccine antigen, is present."),
     Dataset("pf_derived_stage_labels", "Plasmodium peak expression and stage label (DERIVED)",
             "transcription", "RNAseq",
             "Maximum expression across stages, and which stage a gene belongs to",

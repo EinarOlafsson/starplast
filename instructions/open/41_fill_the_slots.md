@@ -1218,3 +1218,26 @@ Two smaller things this pass also fixed: `kind` must name the assay underneath a
 the derivation itself (the entry first said `derived`, which the registry test correctly refused —
 it is RNA-seq, and `derived_from` is what says it is computed), and `plasmodium` needed numpy, which
 only surfaced because the first derived column used it.
+
+## Twenty-second pass: antibody epitopes, and a better key than the Toxoplasma arm has
+
+**Toxoplasma 114 of 119, Plasmodium 32 of 103, combined 146 of 222.**
+
+`Pf_seroreactivity / antigenicity` from IEDB directly: 14,610 assay records over 444 antigens,
+reducing to **7,366 distinct epitopes across 434 genes**.
+
+**Distinct sequences, not assay records.** MSP1 alone carries 1,739 epitopes, so counting records
+would rank antigens by how many groups have studied them rather than by how much of the protein
+antibodies recognise — the same reasoning `iedb` records for the Toxoplasma arm.
+
+Where the two arms differ is the key, and the Plasmodium one is better through no merit of mine.
+IEDB's Toxoplasma antigen names are verbatim ToxoDB product descriptions, so that arm has to match
+descriptions and loses eleven antigens to generic names. The falciparum names carry the **UniProt
+accession**, which resolves 434 of 444. The 209 PlasmoDB accessions naming more than one gene are
+dropped rather than assigned: an epitope belongs to a protein, and giving it to whichever paralogue
+sorted first would be inventing the answer.
+
+Validated against the history of the field rather than a number: **MSP1 is the top antigen and CSP —
+the RTS,S vaccine antigen — is present.** Those are the two most studied antigens in the organism.
+
+Absent is absent and not zero, because IEDB records what somebody tested.

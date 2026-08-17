@@ -290,6 +290,10 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     if not palm.empty:
         nodes = nodes.merge(palm, on="gene_id", how="left")
         nodes["is_palmitoylated"] = nodes["is_palmitoylated"].notna()
+    epitopes = bcell_epitopes(dataset_root, log=log)
+    if not epitopes.empty:
+        # Absent is absent: IEDB records what somebody tested.
+        nodes = nodes.merge(epitopes, on="gene_id", how="left")
     derived = derived_labels(nodes, log=log)
     for column in derived.columns:
         nodes[column] = derived[column].to_numpy()
@@ -698,3 +702,59 @@ def derived_labels(nodes: pd.DataFrame, log=print) -> pd.DataFrame:
     for column in labels.columns:
         out[column] = labels[column]
     return out
+
+
+# --------------------------------------------------------------------------- antibody epitopes
+#: IEDB's antibody half, filtered to falciparum source antigens. `iedb` does the same for Toxoplasma
+#: and reaches its genes through product descriptions, because IEDB's Toxoplasma antigen names are
+#: verbatim ToxoDB descriptions. The falciparum names carry the UniProt accession instead, which is a
+#: better key and is why this does not share that module's mapping.
+IEDB_TABLE = "iedb_pf_bcell_epitopes.tsv"
+UNIPROT_TABLE = "plasmodb_pf3d7_uniprot.tsv"
+IEDB_COLUMN = "n_bcell_epitopes"
+
+
+def uniprot_index(report_path: str) -> dict:
+    """UniProt accession -> gene, for accessions that name exactly one gene.
+
+    209 accessions in PlasmoDB point at more than one gene. Those are dropped: an epitope belongs to
+    a protein, and attaching it to whichever paralogue sorted first would be inventing the answer.
+    """
+    if not os.path.exists(report_path):
+        return {}
+    d = pd.read_csv(report_path, sep="\t", dtype=str).replace(dict.fromkeys(BLANK, None))
+    if len(d.columns) < 2:
+        return {}
+    d.columns = ["gene_id", "uniprot"][:len(d.columns)]
+    owners = {}
+    for gene, cell in zip(d["gene_id"], d["uniprot"].fillna("")):
+        for accession in str(cell).split(","):
+            accession = accession.strip()
+            if accession:
+                owners.setdefault(accession, set()).add(gene)
+    return {a: next(iter(g)) for a, g in owners.items() if len(g) == 1}
+
+
+def bcell_epitopes(dataset_root: str, log=print) -> pd.DataFrame:
+    """Distinct antibody epitope sequences per gene.
+
+    DISTINCT sequences, not assay records: MSP1 alone carries 1,739 epitopes across 14,610 records,
+    and counting records would rank antigens by how many groups have studied them rather than by how
+    much of the protein antibodies recognise. Absent is absent and not zero -- IEDB records what
+    somebody tested, and a protein nobody has raised an antibody against is not a protein without
+    epitopes.
+    """
+    base = os.path.join(dataset_root, "reference", "plasmodb")
+    path = os.path.join(base, IEDB_TABLE)
+    owners = uniprot_index(os.path.join(base, UNIPROT_TABLE))
+    if not os.path.exists(path) or not owners:
+        return pd.DataFrame()
+    d = pd.read_csv(path, sep="\t", dtype=str)
+    if not {"uniprot", "epitope"} <= set(d.columns):
+        return pd.DataFrame()
+    d = d.assign(gene_id=d["uniprot"].map(owners)).dropna(subset=["gene_id", "epitope"])
+    if d.empty:
+        return pd.DataFrame()
+    counts = d.drop_duplicates(["gene_id", "epitope"]).groupby("gene_id").size()
+    log(f"antibody epitopes (IEDB): {len(counts)} antigens, {int(counts.sum()):,} distinct epitopes")
+    return pd.DataFrame({"gene_id": counts.index, IEDB_COLUMN: counts.to_numpy()})
