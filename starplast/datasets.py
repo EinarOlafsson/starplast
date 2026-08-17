@@ -1012,8 +1012,13 @@ REGISTRY = [
                  "so it fills a slot of its own rather than the invasion slot whose "
                  "high-content-imaging context it matches -- a slot names a question, not a method. "
                  "Both deconvolution models are shipped because their agreement is the "
-                 "verification: EAF1 (TGGT1_244480) is rank 1 in each, and GRA14 -- a dense granule "
-                 "protein independently known to engage host ESCRT -- is in the top three of each. "
+                 "verification, and the agreement is close: TGGT1_244480 is rank 1 in each, "
+                 "TGGT1_409250 and GRA14 fill out the top three of each, and EAF1 -- which the "
+                 "PRIDE deposit PXD080696 identifies as TGGT1_225160 -- is rank 7 in BOTH. Two "
+                 "independent deconvolutions landing the same gene at the same rank is a stronger "
+                 "statement than any single ordering. An earlier version of this note called "
+                 "TGGT1_244480 EAF1 and said EAF1 was rank 1; both were wrong, and the deposit's "
+                 "own abstract is what settled it. "
                  "The MYR1 host bridge added the same day is verified by ESCRT machinery topping "
                  "it, so two unrelated datasets in this map now point at the same biology."),
     Dataset("myr1_host_ip", "MYR1 host interactome (bridge)", "post_translation", "IPMS",

@@ -53,6 +53,23 @@ MYR1_IP = {
 }
 
 MIN_UNIQUE_PEPTIDES = 2
+
+#: The EAF1 and GRA35 affinity purifications, published as a differential-abundance table rather
+#: than raw intensities -- so there is nothing to filter and nothing to normalise, only a contrast to
+#: read. One deposit, two baits, each against the same wild-type control.
+DIA_IPS = (
+    {"accession": "PXD080696", "bait": "TGME49_225160", "bait_name": "EAF1",
+     "logfc": "logFC_EAF1_II_vs_WT_III", "padj": "adj.P.Val_EAF1_II_vs_WT_III"},
+    {"accession": "PXD080696", "bait": "TGME49_226380", "bait_name": "GRA35",
+     "logfc": "logFC_GRA35_I_vs_WT_III", "padj": "adj.P.Val_GRA35_I_vs_WT_III"},
+)
+DIA_FILE = os.path.join("datasets", "quarantine", "2026_08_16_escrt", "PXD080696",
+                        "combined_results.csv")
+
+#: Enrichment and significance a host protein must clear to become a bridge row. A DIA contrast
+#: gives both, so both are used; the MYR1 IP above gives neither and is filtered on peptides instead.
+DIA_MIN_LOGFC = 1.0
+DIA_MAX_PADJ = 0.05
 ENTRY = re.compile(r"\|([A-Z0-9]+_HUMAN)")
 ACCESSION = re.compile(r"\b(?:sp|tr)\|([A-Z0-9]+)\|")
 
@@ -91,6 +108,32 @@ def read_ip(base: str, spec: dict = None) -> pd.DataFrame:
     return out.groupby("host_id", as_index=False).max()
 
 
+def read_dia(base: str, spec: dict) -> pd.DataFrame:
+    """One bait of the DIA deposit, as host protein rows that clear both thresholds.
+
+    Gene symbols arrive quoted as `="PDCD6"` -- a spreadsheet's way of stopping Excel reading a
+    symbol as a formula or a date -- and are unwrapped rather than matched.
+    """
+    path = os.path.join(base, DIA_FILE)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    d = pd.read_csv(path)
+    if not {spec["logfc"], spec["padj"], "organism", "gene_symbol"} <= set(d.columns):
+        return pd.DataFrame()
+    host = d[d["organism"].astype(str).str.contains("Homo sapiens", na=False)].copy()
+    logfc = pd.to_numeric(host[spec["logfc"]], errors="coerce")
+    padj = pd.to_numeric(host[spec["padj"]], errors="coerce")
+    keep = (logfc >= DIA_MIN_LOGFC) & (padj < DIA_MAX_PADJ)
+    host = host[keep]
+    if host.empty:
+        return pd.DataFrame()
+    symbol = host["gene_symbol"].astype(str).str.replace(r'^="?|"?$', "", regex=True)
+    out = pd.DataFrame({"host_id": symbol.to_numpy(),
+                        "host_accession": host.get("uniprot_id", pd.Series(dtype=object)).astype(str).to_numpy(),
+                        "host_ip_enrichment_log2": logfc[keep].to_numpy()})
+    return out[out["host_id"].str.len() > 0].groupby("host_id", as_index=False).max()
+
+
 def bridges(base: str, spec: dict = None) -> pd.DataFrame:
     """Parasite gene to host protein, one row per pair, with what put it there."""
     spec = spec or MYR1_IP
@@ -102,6 +145,26 @@ def bridges(base: str, spec: dict = None) -> pd.DataFrame:
         "host_id": host["host_id"],
         "host_ip_enrichment_log2": host["host_ip_enrichment_log2"],
         "evidence": f"IP-MS {spec['accession']}"})
+
+
+def all_bridges(base: str) -> pd.DataFrame:
+    """Every bait in the project, as one bridge table.
+
+    Four baits from two deposits. Keeping them in one table with the bait named per row is what lets
+    a reader ask which parasite proteins reach a given host protein -- the question a single IP
+    cannot answer and the reason a multi-bait bridge is worth more than the sum of its IPs.
+    """
+    parts = [bridges(base)]
+    for spec in DIA_IPS:
+        got = read_dia(base, spec)
+        if got.empty:
+            continue
+        parts.append(pd.DataFrame({
+            "gene_id": spec["bait"], "host_id": got["host_id"],
+            "host_ip_enrichment_log2": got["host_ip_enrichment_log2"],
+            "evidence": f"DIA affinity purification {spec['accession']} ({spec['bait_name']})"}))
+    parts = [p for p in parts if not p.empty]
+    return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame()
 
 
 def load(base: str, name: str = HOST_TABLE) -> pd.DataFrame:

@@ -495,8 +495,9 @@ def test_cotranslation_pairs_ribosomal_proteins_and_is_not_coexpression():
 def test_the_two_escrt_models_agree_on_their_top_gene():
     """The screen's verification is that two independent deconvolutions found the same thing.
 
-    EAF1 is the gene the study is named for and is rank 1 under both XGBoost and MaxViT. If they
-    ever disagreed at the top, the column would be reporting the model rather than the screen.
+    EAF1 is TGGT1_225160, per the deposit PXD080696, and it is rank 7 under BOTH models -- not rank
+    1, which is TGGT1_244480 under both. What is being tested is that the two deconvolutions agree,
+    because a column where they disagreed would be reporting the model rather than the screen.
     """
     n = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet")).set_index("gene_id")
     a, b = "escrt_recruitment_xgboost", "escrt_recruitment_maxvit"

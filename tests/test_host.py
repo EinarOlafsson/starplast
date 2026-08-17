@@ -121,3 +121,96 @@ def test_the_escrt_machinery_leads_the_host_side():
     p = mannwhitneyu(b.loc[escrt, "host_ip_enrichment_log2"],
                      b.loc[~escrt, "host_ip_enrichment_log2"], alternative="greater").pvalue
     assert p < 0.05, f"ESCRT is not enriched over the rest, p = {p:.3f}"
+
+
+def _dia(tmp_path, rows):
+    """A differential-abundance table shaped like PXD080696's combined_results.csv."""
+    import os as _os
+    folder = tmp_path / _os.path.dirname(H.DIA_FILE)
+    folder.mkdir(parents=True, exist_ok=True)
+    spec = H.DIA_IPS[0]
+    frame = pd.DataFrame(rows, columns=["gene_symbol", "uniprot_id", "organism",
+                                        spec["logfc"], spec["padj"]])
+    frame.to_csv(tmp_path / H.DIA_FILE, index=False)
+    return tmp_path
+
+
+def test_a_dia_bait_keeps_what_clears_both_thresholds(tmp_path):
+    _dia(tmp_path, [("=\"PDCD6\"", "O75340", "Homo sapiens", 4.11, 0.001),
+                    ("=\"NOISE\"", "P00001", "Homo sapiens", 4.11, 0.9),
+                    ("=\"SMALL\"", "P00002", "Homo sapiens", 0.2, 0.001)])
+    out = H.read_dia(str(tmp_path), H.DIA_IPS[0])
+    assert list(out["host_id"]) == ["PDCD6"]
+
+
+def test_the_spreadsheet_quoting_is_unwrapped(tmp_path):
+    """Symbols arrive as ="PDCD6" -- a spreadsheet stopping Excel reading them as formulas."""
+    _dia(tmp_path, [("=\"TSG101\"", "Q99816", "Homo sapiens", 3.09, 0.001)])
+    out = H.read_dia(str(tmp_path), H.DIA_IPS[0])
+    assert list(out["host_id"]) == ["TSG101"]
+
+
+def test_parasite_rows_are_not_host_partners_in_the_dia_table(tmp_path):
+    _dia(tmp_path, [("=\"GRA8\"", "A0A125", "Toxoplasma gondii", 4.78, 0.001),
+                    ("=\"PDCD6\"", "O75340", "Homo sapiens", 4.11, 0.001)])
+    out = H.read_dia(str(tmp_path), H.DIA_IPS[0])
+    assert list(out["host_id"]) == ["PDCD6"]
+
+
+def test_no_dia_file_yields_nothing(tmp_path):
+    assert H.read_dia(str(tmp_path), H.DIA_IPS[0]).empty
+
+
+def test_a_dia_table_without_the_contrast_columns_is_refused(tmp_path):
+    import os as _os
+    folder = tmp_path / _os.path.dirname(H.DIA_FILE)
+    folder.mkdir(parents=True)
+    pd.DataFrame({"gene_symbol": ["PDCD6"], "organism": ["Homo sapiens"]}).to_csv(
+        tmp_path / H.DIA_FILE, index=False)
+    assert H.read_dia(str(tmp_path), H.DIA_IPS[0]).empty
+
+
+def test_a_dia_bait_with_nothing_significant_yields_nothing(tmp_path):
+    _dia(tmp_path, [("=\"NOISE\"", "P00001", "Homo sapiens", 0.1, 0.9)])
+    assert H.read_dia(str(tmp_path), H.DIA_IPS[0]).empty
+
+
+def test_all_bridges_names_the_bait_on_every_row(tmp_path):
+    _dia(tmp_path, [("=\"PDCD6\"", "O75340", "Homo sapiens", 4.11, 0.001)])
+    b = H.all_bridges(str(tmp_path))
+    assert set(b["gene_id"]) <= {s["bait"] for s in H.DIA_IPS}
+    assert b["evidence"].str.contains("PXD080696").all()
+
+
+def test_all_bridges_is_empty_when_nothing_is_downloaded(tmp_path):
+    assert H.all_bridges(str(tmp_path)).empty
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", H.BRIDGE_TABLE)),
+    reason="host bridge not built")
+def test_three_independent_baits_converge_on_alg2():
+    """The claim a multi-bait bridge can make and a single IP cannot.
+
+    PDCD6 -- ALG-2 -- is reached by MYR1, EAF1 and GRA35 independently, and a 2026 paper reports
+    Toxoplasma GRA8 engaging it at the vacuole. Convergence across baits is the evidence; any one of
+    them alone is a list.
+    """
+    b = H.load(ROOT, H.BRIDGE_TABLE)
+    assert b["gene_id"].nunique() >= 3, "the bridge lost its extra baits"
+    stem = b["host_id"].str.replace("_HUMAN$", "", regex=True).str.upper()
+    reached = b.assign(stem=stem).groupby("stem")["gene_id"].nunique()
+    assert reached.get("PDCD6", 0) >= 3, reached.sort_values(ascending=False).head().to_dict()
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", H.BRIDGE_TABLE)),
+    reason="host bridge not built")
+def test_the_eaf1_bait_pulls_the_escrt_pathway():
+    """Five partners, all ESCRT, including the TSG101 the imaging screen measured."""
+    b = H.load(ROOT, H.BRIDGE_TABLE)
+    eaf1 = b[b["gene_id"] == "TGME49_225160"]
+    if eaf1.empty:
+        pytest.skip("the EAF1 bait is not in the bridge")
+    got = set(eaf1["host_id"].str.upper())
+    assert {"PDCD6", "TSG101", "PDCD6IP", "CHMP4B"} <= got, got
