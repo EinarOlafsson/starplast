@@ -1024,3 +1024,33 @@ This is a different kind of restraint from the four refusals before it. Those we
 number was not the quantity the slot named. Here the number probably *is* the right quantity and the
 evidence for it is merely weaker than a column implies — so the answer is not to refuse the data but
 to ship it one step further back, and say why.
+
+## Fifteenth pass: `Pf_chromatin accessibility` built and refused
+
+**No change to the totals: Toxoplasma 114 of 119, Plasmodium 24 of 103, combined 138 of 222.**
+
+A Plasmodium ATAC-seq study (PMID via PMC13032594) ships a peak table already annotated to genes,
+with the paper's own `Promoter` calls — no coordinate pipeline needed, 3,798 genes with a
+promoter-proximal peak. It was built and then refused on three checks that all point the same way.
+
+| check | Toxoplasma benchmark | this data |
+|---|---|---|
+| rho(promoter ATAC, mRNA) | **+0.495** (`atac_promoter_ut`) | **+0.067** |
+| expressed vs silent promoters | — | 161.7 vs 155.7, no separation |
+| heterochromatic families | should be LESS accessible | **MORE accessible**, 178.1 vs 157.5, p = 3e-17 |
+
+The third is the one that settles it. *var*, *rifin* and *stevor* sit in heterochromatin, and their
+promoters come out **more** accessible than the genome at large. That is backwards, and it is the
+signature of read pile-up in subtelomeric multigene families whose members are near-identical —
+mappability, not chromatin. Normalising by peak width or taking the maximum peak instead of the mean
+changes the correlation by less than 0.005, so it is not a summarisation choice.
+
+This is the same refusal as H3K4me1 in the Toxoplasma arm, and deliberately decided the same way:
+there, marked genes had *less* accessible promoters than unmarked ones, and the H4-acetylation data
+from the same site and assay behaved correctly — which proved the method was fine and the data was
+not. Here the Toxoplasma ATAC column plays that role: the same measurement, in the same map, relates
+to transcription seven times more strongly.
+
+`Pf_chromatin accessibility` therefore stays empty, and its verdict is `missing` in the sense that
+matters — a usable measurement has not been published for this organism, even though an ATAC-seq
+experiment has.
