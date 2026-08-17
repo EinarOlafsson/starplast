@@ -345,6 +345,14 @@ def build_edges(nodes: pd.DataFrame):
     if len(rna) >= 3:
         corr_edges(rna, "coexpression", 0.95)
     corr_edges(FIT, "cofitness", 0.90)
+    # Co-translation is the same construction over ribosome footprints that co-expression is over
+    # transcripts, and it is a different layer rather than a copy: 97% of its edges are not
+    # co-expression edges (Jaccard 0.003). What says it is measuring co-translation is that
+    # ribosomal proteins pair with each other 464 times where chance gives 3 -- they are made
+    # together stoichiometrically, which is the textbook case.
+    rpf = [c for c in nodes.columns if c.startswith("rpf")]
+    if len(rpf) >= 3:
+        corr_edges(rpf, "cotranslation", 0.95)
 
     # Measured physical binding and structural similarity. Already keyed by TGME49_ gene id upstream, so
     # these bypass the identity layer entirely.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Add newly verified columns to the cached node table.
+"""Add newly verified columns and edge layers to the cached graph.
 
 `build_graph` is the proper home for these and it needs the upstream `toxonet` interim tables, which
 are not on every machine that has the cache. So this does the merge on its own: read the node table,
@@ -88,6 +88,48 @@ def main(argv=None) -> int:
         return 0
     nodes.to_parquet(args.nodes, index=False)
     print(f"written to {args.nodes}")
+    return _edges(nodes, os.path.join(os.path.dirname(args.nodes), "graph.npz"))
+
+
+def _edges(nodes: pd.DataFrame, path: str) -> int:
+    """Add the co-translation layer to the shipped graph without recomputing the embedding.
+
+    `build_graph` builds it too, so a full rebuild produces the same file; this is the shortcut for
+    machines that do not have the upstream interim tables, exactly as the column merge above is.
+    """
+    import numpy as np
+
+    if not os.path.exists(path):
+        print("no graph cache; edge layer not added")
+        return 0
+    rpf = [c for c in nodes.columns if c.startswith("rpf")]
+    if len(rpf) < 3:
+        print("fewer than three ribosome-footprint columns; co-translation not built")
+        return 0
+    M = nodes[rpf].to_numpy(dtype=float)
+    ok = ~np.isnan(M).any(axis=1)
+    X = M[ok]
+    X = (X - X.mean(0)) / (X.std(0) + 1e-9)
+    C = np.corrcoef(X)
+    np.fill_diagonal(C, 0.0)
+    rows = np.where(ok)[0]
+    a, b, w = [], [], []
+    for i in range(len(rows)):
+        for j in np.argsort(-C[i])[:25]:
+            if C[i, j] >= 0.95 and rows[i] < rows[j]:
+                a.append(rows[i])
+                b.append(rows[j])
+                w.append(float(C[i, j]))
+    if not a:
+        print("no co-translation edges above the threshold")
+        return 0
+    flat = dict(np.load(path))
+    flat["cotranslation__a"] = np.array(a, dtype=np.int32)
+    flat["cotranslation__b"] = np.array(b, dtype=np.int32)
+    flat["cotranslation__w"] = np.array(w, dtype=np.float32)
+    flat["cotranslation__r"] = np.array(w, dtype=np.float32)
+    np.savez_compressed(path, **flat)
+    print(f"co-translation: {len(a):,} edges written to {path}")
     return 0
 
 

@@ -138,13 +138,24 @@ def test_the_attention_tiers_are_ordered_by_strength(nodes):
 def test_every_registered_dataset_contributes_at_least_one_column(nodes):
     """A dataset joining zero rows looks exactly like a dataset nobody measured. The in vivo screen
     contributed 0 of 8,140 rows for exactly this reason until it was routed through identity."""
+    import numpy as np
+    import starplast.paths as P
+    graph = np.load(os.path.join(P.data_dir(), "graph.npz"))
+    layers = {k.split("__")[0] for k in graph.files if "__" in k}
     missing = {}
     for d in datasets.REGISTRY:
         if not d.columns:
             continue
-        present = [c for c in d.columns if c in nodes.columns]
-        if not present:
-            missing[d.key] = d.columns
+        # An entry whose columns are `edge:<layer>` contributes an EDGE LAYER and never a node
+        # column, so it is checked against the graph. Reading it as a missing column was the first
+        # thing that broke when the co-translation layer was registered.
+        wanted = [c for c in d.columns if not c.startswith("edge:")]
+        edges = [c.split(":", 1)[1] for c in d.columns if c.startswith("edge:")]
+        if edges and not any(e in layers for e in edges):
+            missing[d.key] = tuple(d.columns)
+            continue
+        if wanted and not any(c in nodes.columns for c in wanted):
+            missing[d.key] = tuple(d.columns)
     assert not missing, f"registered datasets contributing nothing: {missing}"
 
 

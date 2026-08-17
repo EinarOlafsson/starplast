@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**220 slots: 62 covered well, 13 partly, 31 thinly, 114 empty.**
+**220 slots: 62 covered well, 14 partly, 31 thinly, 113 empty.**
 
 ### transcription
 
@@ -244,7 +244,7 @@ quantity were approximating on 2026-08-13.
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
 | Tg_co-transcription | stage series | **A** | 6375 | 78.3% | `coexpression` | separate | — |
-| Tg_co-translation | ribosome profiling | **-** |  |  | `` | separate | — |
+| Tg_co-translation | ribosome profiling | **B** | 1089 | 13.4% | `cotranslation` | separate | — |
 | Tg_co-fitness | seven screens | **A** | 7290 | 89.6% | `cofitness` | separate | — |
 | Tg_interaction · crosslink MS | measured contact | **B** | 1630 | 20.0% | `xlms` | one | — |
 | Tg_interaction · IP-MS, parasite-parasite | pulldown | **C** | 48 | 0.6% | `ip_ms` | fill | [(55](https://pubmed.ncbi.nlm.nih.gov/(55/) `IP-MS studies already downloaded and not curated)` |

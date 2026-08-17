@@ -458,3 +458,32 @@ def test_the_sexual_stage_column_rises_on_oocyst_wall_protein():
     assert len(wall) and len(ribo)
     assert wall.median() > measured[column].quantile(0.9), wall.median()
     assert ribo.median() < measured[column].median(), ribo.median()
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(ROOT, "starplast", "data", "graph.npz")),
+    reason="graph cache not present")
+def test_cotranslation_pairs_ribosomal_proteins_and_is_not_coexpression():
+    """Two things at once, because either alone would let a wrong layer through.
+
+    Ribosomal proteins are made together stoichiometrically, so they must pair far above chance --
+    that is what makes it co-TRANSLATION. And it must not simply reproduce the co-expression layer,
+    or the slot is answering a question the map already answers.
+    """
+    import numpy as np
+    import starplast.paths as P
+    graph = np.load(os.path.join(P.data_dir(), "graph.npz"))
+    if "cotranslation__a" not in graph.files:
+        pytest.skip("co-translation layer not built")
+    nodes = pd.read_parquet(os.path.join(P.data_dir(), "nodes.parquet"))
+    ct = set(zip(graph["cotranslation__a"], graph["cotranslation__b"]))
+    ce = set(zip(graph["coexpression__a"], graph["coexpression__b"]))
+    assert len(ct & ce) / len(ct | ce) < 0.05, "co-translation is reproducing co-expression"
+
+    ribo = set(np.where(nodes["product"].astype(str).str.contains(
+        "ribosomal protein", case=False, na=False))[0])
+    both = sum(1 for a, b in ct if a in ribo and b in ribo)
+    measured = int((~nodes[[c for c in nodes.columns
+                            if c.startswith("rpf")]].isna().any(axis=1)).sum())
+    chance = len(ct) * (len(ribo) / measured) ** 2
+    assert both > 20 * chance, f"{both} ribosomal pairs against {chance:.0f} expected"

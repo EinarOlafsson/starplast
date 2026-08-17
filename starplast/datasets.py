@@ -995,6 +995,20 @@ REGISTRY = [
                  "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
                  "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
                  "sit below the genome median of -0.38."),
+    Dataset("cotranslation_edges", "Co-translation layer (COMPUTED)", "translation", "RiboSeq",
+            "Gene pairs whose ribosome footprints covary", ("edge:cotranslation",),
+            "6,231 edges over 7,437 genes",
+            derived_from=("rpf99395_intracellular_r1", "rpf129869_confluent_r1",
+                          "rpf245775_parent_tachy_r1"),
+            note="COMPUTED here: the same construction co-expression uses over transcripts, applied "
+                 "to the 22 ribosome-footprint columns, at r >= 0.95 and the top 25 neighbours. "
+                 "DERIVED, so it is declared -- an embedding built on the RPF columns must not then "
+                 "be validated against this layer. It is not a copy of co-expression: 97% of its "
+                 "edges are not co-expression edges, Jaccard 0.003. What says it is co-TRANSLATION "
+                 "is that ribosomal proteins pair with each other 464 times where chance gives 3; "
+                 "they are made together stoichiometrically, which is the textbook case of "
+                 "co-translational regulation. 85 of its edges are also measured crosslink "
+                 "contacts."),
     Dataset("m6a_peaks", "m6A methylome (MeRIP peaks)", "transcription", "MeRIP",
             "How many m6A peaks the authors called on this gene in tachyzoites",
             ("n_m6a_peaks",), "837 genes (10%)", pmid="34324585",

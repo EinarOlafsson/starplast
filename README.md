@@ -83,7 +83,7 @@ Settings live in the menu bar; the panel keeps only what is used continuously.
 | double-click a value | fly to that class's centroid |
 | **View** | level of detail, color by, point size, spin, theme, preferences |
 | **Preferences ▸ lighting** | soft or GPU volumetric ray-traced shadows; mouse/selection target; neutral, cool, or warm light; flat discs or OpenGL GGX glossy/metallic spheres |
-| **Edges** | the twelve relation types, "draw all active edges", attention correction, and why they are never combined |
+| **Edges** | the thirteen relation types, "draw all active edges", attention correction, and why they are never combined |
 | **File** | export the image, the visible genes as CSV, or the active graph as GraphML |
 | **Tools** | console, running jobs, the walk gallery, and an assistant that is told what is on screen |
 
@@ -166,6 +166,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Dataset | Type of data | Coverage | Reference |
 |---|---|---|---|
 | AP2XII-1/AP2XI-2 perturbation total proteome | Replicate abundance and log2 fold-change during pre-sexual conversion | 3,005 (36.9%) | Antunes AV et al., In vitro production of cat-restricted Toxoplasma pre-sexual stages. Nature 2024;625:366-376; PMID [38093015](https://pubmed.ncbi.nlm.nih.gov/38093015/); `PXD039400, PXD042658` |
+| Co-translation layer (COMPUTED) | Gene pairs whose ribosome footprints covary | 6,231 edges over 7,437 genes | *citation not yet confirmed* |
 | Differentiation ribosome profiling (eIF1.2) | RPF and RNA counts, and their ratio, in tachyzoites and pre-bradyzoites | 7,880 genes (97%) | PMID [38782906](https://pubmed.ncbi.nlm.nih.gov/38782906/); `GSE245775` |
 | Host-context parasite ribosome profiling | Parasite ribosome footprints, RNA and translation efficiency in two HFF states | measured at build time | Holmes MJ et al., Simultaneous Ribosome Profiling of Human Host Cells Infected with Toxoplasma gondii. mSphere 2019;4:e00292-19; PMID [31167946](https://pubmed.ncbi.nlm.nih.gov/31167946/); `GSE129869` |
 | Intracellular/extracellular ribosome profiling | Ribosome footprints, matched RNA and relative translation efficiency | measured at build time | Hassan MA et al., Comparative ribosome profiling uncovers a dominant role for translational control in Toxoplasma gondii. BMC Genomics 2017;18:961; PMID [29228904](https://pubmed.ncbi.nlm.nih.gov/29228904/); `GSE99395` |

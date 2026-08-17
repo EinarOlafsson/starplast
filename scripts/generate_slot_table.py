@@ -804,7 +804,12 @@ SLOTS = [
 
     # ---------------------------------------------------------------- relations (gene pairs)
     ("co-transcription", "relation", "stage series", "pair", ["edge:coexpression"], "separate", []),
-    ("co-translation", "relation", "ribosome profiling", "pair", [], "separate", []),
+    # Correlated ribosome footprints, the same construction co-transcription uses over transcripts.
+    # Not a copy of it: 97% of its edges are not co-expression edges. Ribosomal proteins pair with
+    # each other 464 times where chance gives 3, which is what says it is co-TRANSLATION -- they are
+    # made together stoichiometrically.
+    ("co-translation", "relation", "ribosome profiling", "pair", ["edge:cotranslation"],
+     "separate", []),
     ("co-fitness", "relation", "seven screens", "pair", ["edge:cofitness"], "separate", []),
     ("interaction · crosslink MS", "relation", "measured contact", "pair", ["edge:xlms"], "one",
      []),

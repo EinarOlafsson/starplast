@@ -12,7 +12,7 @@ Figures were read from the built cache at commit `29b0bd9`.
 
 starplast is a desktop application written in Python 3.10 using PyQt6 (6.7.1) and pyqtgraph (0.13.7) for
 OpenGL rendering, with pandas, NumPy, scikit-learn and umap-learn for data processing. It is distributed
-with a precomputed cache (30 MB) containing all 375 columns for 8,140 genes and all 12 relation
+with a precomputed cache (30 MB) containing all 375 columns for 8,140 genes and all 13 relation
 types (296,412 edges), so the application requires neither a network connection nor any source dataset at
 runtime. The cache is installed inside the package, so it is present in a wheel and resolves without
 configuration. Source
@@ -137,7 +137,7 @@ AlphaFold Database and cached locally.
 
 ## Relations between genes
 
-Twelve relation types are stored separately and never merged, since they answer different questions and
+Thirteen relation types are stored separately and never merged, since they answer different questions and
 disagree with one another. Ten are derived directly from data: co-mention in abstracts (435 edges,
 minimum two shared abstracts) and in open-access full texts (7,733; two shared paragraphs); crosslinking
 mass spectrometry (2,842 pairs over 1,630 genes) **[cite StarPath]**; immunoprecipitation of tagged baits

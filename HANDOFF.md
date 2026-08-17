@@ -60,7 +60,7 @@ Force-directed position is aesthetic and arbitrary; two adjacent nodes mean noth
 (expression × 7 fitness screens × compartment × orthology breadth × domain content × disorder) gives
 positions where proximity is interpretable. Precomputed and cached — never laid out live.
 
-**2. Twelve edge types, toggleable, never merged silently.**
+**2. Thirteen edge types, toggleable, never merged silently.**
 "The knowledge map" is not one graph. Each edge type answers a different question:
 
 | edge | source | note |
@@ -416,7 +416,7 @@ map in silence.
 **The data layer beneath it, verified 2026-08-11 (v1.2).** `identity.py`, `corpus.py`,
 `literature.py`, `build_graph.py`, `fetch_names.py`, `interactions.py`: identity resolution, every
 precision guard, JATS parsing, the mentions table, the attention arithmetic, the attention-depth
-tiering, and the app offscreen over 8,140 nodes, all 12 edge types, all 3 LOD levels, every colour
+tiering, and the app offscreen over 8,140 nodes, all 13 edge types, all 3 LOD levels, every colour
 mode, picking, search (`GRA16` → TGME49_208830), edge toggles, attention toggle.
 
 **Numbers as built** (do not quote the older estimates):
