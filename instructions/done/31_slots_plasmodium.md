@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 21 covered well, 1 partly, 0 thinly, 81 empty.**
+**103 slots: 22 covered well, 1 partly, 0 thinly, 80 empty.**
 
 ### transcription
 
@@ -117,7 +117,7 @@ quantity were approximating on 2026-08-13.
 | Pf_S-nitrosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_ubiquitination / SUMOylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_glycosylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
-| Pf_palmitoylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
+| Pf_palmitoylation · asexual blood stage | asexual blood stage | **A** | 5720 | 100.0% | `is_palmitoylated` | separate | — |
 
 ### fitness
 

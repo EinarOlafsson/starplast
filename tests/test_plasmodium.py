@@ -429,6 +429,19 @@ def test_build_all_folds_in_the_phosphosites_and_sets_the_flag_everywhere(tmp_pa
     assert pd.isna(d.loc["PF3D7_0100200", "n_phosphosites"])
 
 
+def test_build_all_folds_in_the_palmitome_and_flags_the_rest_false(tmp_path):
+    root = _dataset_root(tmp_path)
+    folder = os.path.join(root, "post_translation", P.PALMITOME[0], P.PALMITOME[1])
+    os.makedirs(folder)
+    with pd.ExcelWriter(os.path.join(folder, P.PALMITOME[2])) as writer:
+        pd.DataFrame({P.PALMITOME_PREDICTED: ["PF3D7_0100200"],
+                      P.PALMITOME_OBSERVED: ["PF3D7_0100100"]}).to_excel(
+            writer, sheet_name=P.PALMITOME_SHEET, index=False)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "is_palmitoylated"]
+    assert not d.loc["PF3D7_0100200", "is_palmitoylated"], "the predicted column leaked in"
+
+
 def test_build_all_assembles_the_three_reports(tmp_path):
     d = P.build_all(_dataset_root(tmp_path), log=lambda *a: None)
     assert {"length", "expr_ring", "export_pred_tier", "is_exported"} <= set(d.columns)
@@ -535,3 +548,76 @@ def test_the_count_stays_missing_where_nothing_was_detected_but_the_flag_does_no
     assert d["has_phospho"].notna().all()
     assert d["n_phosphosites"].isna().sum() > 2000
     assert (d["n_phosphosites"] == 0).sum() == 0
+
+
+# --------------------------------------------------------------------------- palmitome
+PALM = os.path.join(ROOT, "datasets", "post_translation", P.PALMITOME[0], P.PALMITOME[1],
+                    P.PALMITOME[2])
+
+
+def _palm_root(tmp_path, sheet=None, observed=None):
+    folder = tmp_path / "post_translation" / P.PALMITOME[0] / P.PALMITOME[1]
+    folder.mkdir(parents=True)
+    frame = pd.DataFrame({
+        P.PALMITOME_PREDICTED: ["PF3D7_0100100", "PF3D7_0100200", "PF3D7_0100300"],
+        P.PALMITOME_OBSERVED: (observed if observed is not None
+                               else ["PF3D7_0100200", None, None])})
+    with pd.ExcelWriter(folder / P.PALMITOME[2]) as writer:
+        frame.to_excel(writer, sheet_name=sheet or P.PALMITOME_SHEET, index=False)
+    return str(tmp_path)
+
+
+def test_only_the_observed_column_is_read_not_the_predicted_one(tmp_path):
+    """The trap this loader exists for.
+
+    The source workbook also has a sheet CALLED `nrPalmitoylatedProteins` whose contents are the
+    union of observed and motif-predicted -- 3,105 of 5,720 genes. Reading by name would have
+    called 54% of the proteome palmitoylated against published palmitomes of 400 to 500.
+    """
+    d = P.palmitome(_palm_root(tmp_path), log=lambda *a: None)
+    assert list(d["gene_id"]) == ["PF3D7_0100200"]
+    assert "PF3D7_0100100" not in set(d["gene_id"]), "the predicted column leaked in"
+
+
+def test_a_missing_palmitome_yields_nothing(tmp_path):
+    assert P.palmitome(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_a_palmitome_without_the_expected_sheet_is_refused(tmp_path):
+    assert P.palmitome(_palm_root(tmp_path, sheet="Something Else"), log=lambda *a: None).empty
+
+
+def test_a_palmitome_sheet_without_the_observed_column_is_refused(tmp_path):
+    folder = tmp_path / "post_translation" / P.PALMITOME[0] / P.PALMITOME[1]
+    folder.mkdir(parents=True)
+    with pd.ExcelWriter(folder / P.PALMITOME[2]) as writer:
+        pd.DataFrame({P.PALMITOME_PREDICTED: ["PF3D7_0100100"]}).to_excel(
+            writer, sheet_name=P.PALMITOME_SHEET, index=False)
+    assert P.palmitome(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_a_palmitome_with_no_plasmodium_accessions_is_refused(tmp_path):
+    assert P.palmitome(_palm_root(tmp_path, observed=["CONTAM", None, None]),
+                       log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.exists(PALM), reason="palmitome not fetched")
+def test_the_real_palmitome_is_the_size_a_palmitome_should_be():
+    d = P.palmitome("datasets" if os.path.isdir("datasets") else
+                    os.path.join(ROOT, "datasets"), log=lambda *a: None)
+    assert 300 < len(d) < 800, f"{len(d)} proteins: published palmitomes are 400-500"
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_palmitoylation_lands_on_the_proteins_it_should():
+    """GAP45 and CDPK1 are the canonical Plasmodium palmitoylation substrates, and the modification
+    anchors proteins to membranes -- so membrane proteins have to be enriched among them."""
+    from scipy.stats import fisher_exact
+    n = pd.read_parquet(NODES, columns=["gene_id", "n_tm", "is_palmitoylated"]).set_index("gene_id")
+    assert n.loc["PF3D7_1222700", "is_palmitoylated"], "GAP45"
+    assert n.loc["PF3D7_0217500", "is_palmitoylated"], "CDPK1"
+    tm = n["n_tm"].fillna(0) > 0
+    p = n["is_palmitoylated"]
+    odds, pvalue = fisher_exact([[int((p & tm).sum()), int((p & ~tm).sum())],
+                                 [int((~p & tm).sum()), int((~p & ~tm).sum())]])
+    assert odds > 1.5 and pvalue < 1e-6, (odds, pvalue)

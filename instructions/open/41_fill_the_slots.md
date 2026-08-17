@@ -967,3 +967,35 @@ The **count** stays missing where nothing was detected — how many sites a prot
 unknown if mass spectrometry never saw it. The **flag** is False, because whether it was ever
 observed phosphorylated is a question about the evidence, and the answer is no. That is the
 Toxoplasma convention exactly, checked against it rather than reinvented, so the arms read the same.
+
+## Thirteenth pass: the palmitome, and a sheet that lies about itself
+
+**Toxoplasma 114 of 119, Plasmodium 23 of 103, combined 137 of 222.**
+
+The 26 Plasmodium PTM deposits found in the PRIDE sweep mostly carry search-engine output — `.msf`,
+MaxQuant internals, `.mzid` — rather than per-gene tables, which is the situation instruction 41
+already has a rule for: **paper supplements beat repositories when the wanted quantity is the study's
+analysis**. Applied here it went straight to a usable table.
+
+### The sheet named for the wrong thing
+
+PMID 36250062's workbook has a sheet called **`nrPalmitoylatedProteins`** with 3,105 rows. Its name
+says palmitoylated. Its contents are the **union of palmitoyl-ABLE — a motif prediction over 2,902
+proteins — and the 503 actually observed.**
+
+Reading it by name would have called **54% of the proteome palmitoylated**, against published
+palmitomes of 400 to 500. What gave it away was not the name but the size, and then the first rows:
+PfEMP1 and rifin, the families that dominate any cysteine-presence prediction. The loader reads the
+observed column of the `Palmitome` sheet and the docstring says why, with a test asserting the
+predicted column cannot leak in.
+
+This is the fourth time this campaign that a source's own label was the thing to distrust — after the
+compositional TMT proteome served as "abundance", the archive delta whose transform could not be
+reproduced, and the ExportPred default that drops MESA and PfEMP3.
+
+### Validated on substrates and mechanism, not on a total
+
+GAP45 and CDPK1 — the canonical Plasmodium palmitoylation substrates — are both present, and membrane
+proteins are enriched **2.1-fold** among the palmitoylated (44% against 27%, p = 7e-15), which is
+what a membrane-anchoring modification has to do. ARO is a known miss; no palmitome is complete, and
+absence here means not observed.

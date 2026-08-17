@@ -1087,6 +1087,9 @@ PF_PATTERNS = {
     # Pooled across every public Plasmodium phosphoproteomics study, reprocessed through one
     # pipeline, so the same site found by three groups counts once.
     "phosphorylation · asexual blood stage": ["n_phosphosites", "has_phospho"],
+    # OBSERVED palmitoylation only. The source workbook's own "nrPalmitoylated" sheet is the union
+    # of observed and motif-predicted, and would have claimed 54% of the proteome.
+    "palmitoylation · asexual blood stage": ["is_palmitoylated"],
     "shared orthogroup": ["edge:orthogroup"],
     "shared domain": ["edge:domain"],
     "co-transcription": ["edge:coexpression"],

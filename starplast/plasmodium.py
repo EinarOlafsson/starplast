@@ -259,6 +259,10 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
         # mass spectrometry never saw; the BOOLEAN is False, because "was it ever observed
         # phosphorylated" is a yes-or-no about the evidence and the answer is no.
         nodes["has_phospho"] = nodes["has_phospho"].notna() & (nodes["has_phospho"] == True)  # noqa: E712
+    palm = palmitome(dataset_root, log=log)
+    if not palm.empty:
+        nodes = nodes.merge(palm, on="gene_id", how="left")
+        nodes["is_palmitoylated"] = nodes["is_palmitoylated"].notna()
     log(f"Plasmodium table: {len(nodes):,} genes, {len(nodes.columns)} columns")
     return nodes
 
@@ -313,3 +317,39 @@ def phosphosites(folder: str, log=print) -> pd.DataFrame:
     out["has_phospho"] = True
     log(f"phosphosites: {len(sites):,} distinct sites over {len(out):,} genes")
     return out.sort_values("gene_id").reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- palmitoylation
+#: The palmitome compiled by PMID 36250062, which pools the published Plasmodium palmitoylation
+#: datasets alongside its own analysis.
+PALMITOME = ("palmitome", "36250062", "Table_3.xlsx")
+PALMITOME_SHEET = "Palmitome"
+
+#: The column of OBSERVED palmitoylated proteins. Naming it explicitly matters more than usual here:
+#: the same workbook carries a sheet called `nrPalmitoylatedProteins` whose 3,105 rows are the UNION
+#: of palmitoyl-ABLE (a motif prediction, 2,902 proteins) and palmitoylATED (503 observed). Its name
+#: says palmitoylated and its contents are mostly predicted, and taking it at its name would have
+#: called 54% of the proteome palmitoylated -- against published palmitomes of 400 to 500.
+PALMITOME_OBSERVED = "Palmitoylated Proteins"
+PALMITOME_PREDICTED = "Palmitoylable Proteins"
+
+
+def palmitome(dataset_root: str, log=print) -> pd.DataFrame:
+    """Proteins observed palmitoylated. Prediction is deliberately not folded in."""
+    folder, pmid, name = PALMITOME
+    path = os.path.join(dataset_root, "post_translation", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if PALMITOME_SHEET not in book.sheet_names:
+        return pd.DataFrame()
+    sheet = book.parse(PALMITOME_SHEET)
+    if PALMITOME_OBSERVED not in sheet.columns:
+        return pd.DataFrame()
+    genes = sorted({str(g).strip() for g in sheet[PALMITOME_OBSERVED].dropna()
+                    if str(g).startswith("PF3D7_")})
+    if not genes:
+        return pd.DataFrame()
+    log(f"palmitome: {len(genes):,} proteins observed palmitoylated "
+        f"(the workbook's {PALMITOME_PREDICTED.lower()} column is a prediction and is not used)")
+    return pd.DataFrame({"gene_id": genes, "is_palmitoylated": True})
