@@ -204,3 +204,35 @@ def test_no_plasmodium_slot_claims_a_column_of_the_toxoplasma_table():
               for s in slots.all_slots("Pf")
               if s.patterns and len(slots.declared_columns(nodes, s))}
     assert not leaked, f"Plasmodium slots claiming Toxoplasma columns: {leaked}"
+
+
+def test_a_metabolite_slot_is_refused_against_the_gene_table():
+    """The refusal that keeps the two tables apart. Resolving a metabolite slot against genes
+    matches nothing, and matching nothing looks exactly like nobody having downloaded it."""
+    import pandas as pd
+    metab = [s for s in slots.all_slots("Tg") if s.unit == "metabolite"]
+    assert metab, "the metabolism axis lost its metabolite slots"
+    with pytest.raises(ValueError, match="cannot be resolved against a table of 'gene' rows"):
+        slots.resolve(pd.DataFrame(index=[0]), metab[0])
+
+
+def test_a_metabolite_slot_resolves_against_the_metabolite_table():
+    import os
+    import pandas as pd
+    import starplast.paths as P
+    path = os.path.join(P.data_dir(), "metabolites.parquet")
+    if not os.path.exists(path):
+        pytest.skip("metabolite table not built")
+    table = pd.read_parquet(path)
+    filled = [s for s in slots.all_slots("Tg")
+              if s.unit == "metabolite" and slots.declared_columns(table, s)]
+    assert filled, "no metabolite slot resolves against the metabolite table"
+    got = slots.resolve(table, filled[0], unit="metabolite")
+    assert got.values.notna().to_numpy().sum() > 100
+
+
+def test_every_unit_with_a_table_names_it():
+    """`UNIT_TABLES` is a promise that rows exist for that unit; pair and host_gene are absent
+    because edges are not rows and the host tables are not built."""
+    assert set(slots.UNIT_TABLES) == {"gene", "metabolite"}
+    assert "pair" not in slots.UNIT_TABLES and "host_gene" not in slots.UNIT_TABLES

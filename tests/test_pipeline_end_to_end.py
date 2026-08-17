@@ -140,6 +140,7 @@ def test_every_registered_dataset_contributes_at_least_one_column(nodes):
     contributed 0 of 8,140 rows for exactly this reason until it was routed through identity."""
     import numpy as np
     import starplast.paths as P
+    from starplast import slots
     graph = np.load(os.path.join(P.data_dir(), "graph.npz"))
     layers = {k.split("__")[0] for k in graph.files if "__" in k}
     missing = {}
@@ -154,7 +155,17 @@ def test_every_registered_dataset_contributes_at_least_one_column(nodes):
         if edges and not any(e in layers for e in edges):
             missing[d.key] = tuple(d.columns)
             continue
-        if wanted and not any(c in nodes.columns for c in wanted):
+        # A dataset can contribute to a table that is not the node table. The metabolite table's
+        # rows are compounds, so its columns will never appear in `nodes` and reading their absence
+        # as a broken join is the same mistake the edge layers caused.
+        elsewhere = set()
+        for name in slots.UNIT_TABLES.values():
+            if name == "nodes.parquet":
+                continue
+            path = os.path.join(P.data_dir(), name)
+            if os.path.exists(path):
+                elsewhere |= set(pd.read_parquet(path).columns)
+        if wanted and not any(c in nodes.columns or c in elsewhere for c in wanted):
             missing[d.key] = tuple(d.columns)
     assert not missing, f"registered datasets contributing nothing: {missing}"
 

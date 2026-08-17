@@ -995,6 +995,24 @@ REGISTRY = [
                  "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
                  "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
                  "sit below the genome median of -0.38."),
+    Dataset("metabolome_iron", "Metabolome and isotope labelling under iron deprivation",
+            "reference", "metabolomics",
+            "Steady-state metabolite levels and the fraction labelled from glucose or glutamine",
+            ("metabolite_level_log2fc_iron_depleted", "metabolite_level_padj",
+             "labelled_fraction_glucose", "labelled_fraction_glutamine"),
+            "1,102 metabolites", pmid="41925342",
+            accession="mBio 03788-25 Tables S3 and S5",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13170339/supplementaryFiles",
+            path="starplast/data/metabolites.parquet",
+            note="Rows are COMPOUNDS, not genes -- the first table in the project that is not the "
+                 "node table, and the shape instruction 39 describes for host tables. The flux "
+                 "column is one minus the unlabelled isotopologue, which is the only labelling "
+                 "readout comparable between molecules of different carbon number. The archive's "
+                 "two labelling sheets differ in whether they carry a title row, and assuming they "
+                 "did not silently dropped the glucose arm: the sheet read fine and had no column "
+                 "called `Metabolite`. Joining a second study means matching compound NAMES, which "
+                 "is lossy; that cost is unpaid with one study and is the first thing to fix when a "
+                 "second arrives."),
     Dataset("cotranslation_edges", "Co-translation layer (COMPUTED)", "translation", "RiboSeq",
             "Gene pairs whose ribosome footprints covary", ("edge:cotranslation",),
             "6,231 edges over 7,437 genes",

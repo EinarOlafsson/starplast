@@ -361,8 +361,13 @@ NEW_SHARED = [
     #
     # `enzyme classification` below is the metabolism question that IS gene-indexed, and it is
     # filled.
-    ("metabolite levels", "metabolism", "steady state", "metabolite", [], "separate"),
-    ("metabolic flux", "metabolism", "labelled precursor", "metabolite", [], "separate"),
+    ("metabolite levels", "metabolism", "steady state", "metabolite",
+     ["metabolite_level_"], "separate"),
+    ("metabolic flux", "metabolism", "labelled precursor", "metabolite",
+     ["labelled_fraction_"], "separate"),
+    # Left empty deliberately. The untargeted run behind the other two carries 61 lipid species,
+    # and filling this by selecting them out of that column would be one measurement claimed by two
+    # slots -- leakage, not coverage. This wants a lipidomics experiment.
     ("lipid composition", "metabolism", "membrane lipids", "metabolite", [], "separate"),
     ("enzyme classification", "metabolism", "annotation", "gene", ["ec_number", "has_ec"], "one"),
     # `drug sensitivity per gene` used to sit here and was the same question as `drug sensitivity`
@@ -1113,7 +1118,10 @@ def _write_markdown(rows, path=OUT_MD) -> None:
     open(path, "w", encoding="utf8").write("\n".join(lines))
 
 
-def _rows(definitions, nodes, graph) -> list:
+def _rows(definitions, nodes, graph, metabolites=None) -> list:
+    """One row per slot. `metabolites` is the table whose rows are compounds; slots declaring
+    `unit="metabolite"` are graded against it and against its own denominator."""
+    metabolites = pd.DataFrame() if metabolites is None else metabolites
     """Definitions with measured cache coverage attached."""
     import numpy as np
     n_genes, rows = len(nodes), []
@@ -1129,12 +1137,19 @@ def _rows(definitions, nodes, graph) -> list:
             covered = int(len(set(np.concatenate([graph[f"{edges[0]}__a"],
                                                    graph[f"{edges[0]}__b"]])))) if key in graph.files else 0
             detail = f"{pairs:,} pairs"
+        elif unit == "metabolite" and definition["organism"] == "Tg":
+            # Resolved against the metabolite table, whose rows are compounds. Graded on its own
+            # denominator: 400 of 1,102 metabolites is most of what anyone has measured, and scoring
+            # it out of 8,140 genes would report a full table as 5% covered.
+            covered, cols = coverage(metabolites, columns)
+            detail = f"{len(cols)} columns of {len(metabolites):,} metabolites" if cols else ""
         elif definition["organism"] == "Tg":
             covered, cols = coverage(nodes, columns)
             detail = f"{len(cols)} columns" if cols else ""
         else:
             covered, cols, detail = 0, [], ""
-        frac = covered / n_genes if n_genes else 0.0
+        denominator = len(metabolites) if unit == "metabolite" else n_genes
+        frac = covered / denominator if denominator else 0.0
         rows.append({
             "organism": definition["organism"],
             "slot": f"{definition['organism']}_{slot}", "axis": axis, "context": context,
@@ -1206,9 +1221,11 @@ def main() -> int:
     from starplast import paths
 
     nodes = pd.read_parquet(paths.cache_file("nodes.parquet"))
+    _mp = paths.cache_file("metabolites.parquet")
+    metabolites = pd.read_parquet(_mp) if os.path.exists(_mp) else pd.DataFrame()
     z = np.load(paths.cache_file("graph.npz"), allow_pickle=True)
     definitions = all_slots()
-    rows = _rows(definitions, nodes, z)
+    rows = _rows(definitions, nodes, z, metabolites)
     toxo_rows = [row for row in rows if row["organism"] == "Tg"]
     pf_rows = [row for row in rows if row["organism"] == "Pf"]
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)

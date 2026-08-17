@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**220 slots: 62 covered well, 14 partly, 31 thinly, 113 empty.**
+**220 slots: 62 covered well, 16 partly, 31 thinly, 111 empty.**
 
 ### transcription
 
@@ -322,8 +322,8 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Tg_metabolite levels | steady state | **-** |  |  | `` | separate | — |
-| Tg_metabolic flux | labelled precursor | **-** |  |  | `` | separate | — |
+| Tg_metabolite levels | steady state | **B** | 675 | 61.3% | `metabolite_level_` | separate | — |
+| Tg_metabolic flux | labelled precursor | **B** | 855 | 77.6% | `labelled_fraction_` | separate | — |
 | Tg_lipid composition | membrane lipids | **-** |  |  | `` | separate | — |
 | Tg_enzyme classification | annotation | **A** | 8140 | 100.0% | `ec_number, has_ec` | one | — |
 | Pf_metabolite levels | steady state | **-** |  |  | `` | separate | **Mechanisms Underlying the Effects of Chloroquine on Red Blood Cells Metabolism.** (International journal of molecular sciences 2024) [38928131](https://pubmed.ncbi.nlm.nih.gov/38928131/)<br>verify assay and parasite-gene shape)<br>**A metabolism-chromatin axis promotes differential ribosomal RNA transcription in the human malaria parasite.** (Nature communications 2025) [41419483](https://pubmed.ncbi.nlm.nih.gov/41419483/)<br>verify assay and parasite-gene shape)<br>**Host Reticulocyte Redox Attenuation Creates a Protective Niche for Artemisinin Tolerance in Plasmodium falciparum.** (The Journal of infectious diseases 2026) [42300800](https://pubmed.ncbi.nlm.nih.gov/42300800/)<br>verify assay and parasite-gene shape) |

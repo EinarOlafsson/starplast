@@ -34,8 +34,14 @@ POLICIES = ("one", "average", "fill", "separate")
 #:                   mistaken for a measurement in the receiving species.
 UNITS = ("gene", "host_gene", "pair", "ortholog_group", "metabolite")
 
-#: The unit whose rows are the node table's rows.
+#: The unit whose rows are the node table's rows. Kept as the default so every existing caller means
+#: what it used to; a caller with a different table says so.
 RESOLVABLE_UNIT = "gene"
+
+#: Units that have a table of their own to be resolved against, and where it lives. `pair` is absent
+#: because pair slots are answered by edge layers rather than by a table of rows, and `host_gene` is
+#: absent until instruction 39 builds the host tables -- an entry here is a promise that rows exist.
+UNIT_TABLES = {"gene": "nodes.parquet", "metabolite": "metabolites.parquet"}
 CATALOG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "slots.json")
 
 
@@ -127,7 +133,8 @@ def edge_types(slot: Slot) -> tuple:
                  if str(p).startswith(EDGE_PREFIX))
 
 
-def is_filled(slot: Slot, nodes: pd.DataFrame = None, graph=None) -> bool:
+def is_filled(slot: Slot, nodes: pd.DataFrame = None, graph=None,
+              tables: dict | None = None) -> bool:
     """Does this slot have data behind it -- in the node table, OR in the graph?
 
     Both, and that is the whole reason this is a function rather than a line of whatever script
@@ -138,6 +145,11 @@ def is_filled(slot: Slot, nodes: pd.DataFrame = None, graph=None) -> bool:
     already in the graph, and the coverage figure went out twice before anyone noticed.
 
     `graph` is anything with a `files` list, which is what `numpy.load` gives back for an npz.
+
+    A slot measured per METABOLITE is filled by a column of the metabolite table, which is a third
+    place to look; `tables` maps a unit to its frame. Without it a metabolite slot reads as empty,
+    which was true until that table existed and is a lie afterwards -- the same failure the pair
+    slots had.
     """
     wanted = edge_types(slot)
     if wanted:
@@ -145,19 +157,23 @@ def is_filled(slot: Slot, nodes: pd.DataFrame = None, graph=None) -> bool:
             return False
         present = {str(name).split("__")[0] for name in getattr(graph, "files", ())}
         return all(edge in present for edge in wanted)
+    if slot.unit != RESOLVABLE_UNIT:
+        table = (tables or {}).get(slot.unit)
+        return bool(table is not None and len(table) and declared_columns(table, slot))
     return bool(nodes is not None and declared_columns(nodes, slot))
 
 
-def coverage(organism: str = "Tg", nodes: pd.DataFrame = None, graph=None) -> dict:
+def coverage(organism: str = "Tg", nodes: pd.DataFrame = None, graph=None,
+             tables: dict | None = None) -> dict:
     """How many of an arm's feature slots have data, and which do not.
 
     The single place this question is answered, so a viewer, a report and a census cannot disagree
     about it -- which they did, before this existed.
     """
     feature = [s for s in all_slots(organism) if s.role == "feature"]
-    full = [s for s in feature if is_filled(s, nodes, graph)]
+    full = [s for s in feature if is_filled(s, nodes, graph, tables)]
     return {"organism": organism, "n_slots": len(feature), "filled": len(full),
-            "empty": tuple(s.name for s in feature if not is_filled(s, nodes, graph))}
+            "empty": tuple(s.name for s in feature if not is_filled(s, nodes, graph, tables))}
 
 
 def declared_columns(nodes: pd.DataFrame, slot: Slot, numeric_only: bool = False) -> tuple:
@@ -240,7 +256,8 @@ def _rank(frame: pd.DataFrame) -> pd.DataFrame:
     return frame.rank(method="average", pct=True, na_option="keep") - 0.5
 
 
-def resolve(nodes: pd.DataFrame, slot: Slot | str, chosen: str | None = None) -> SlotResult:
+def resolve(nodes: pd.DataFrame, slot: Slot | str, chosen: str | None = None,
+            unit: str = RESOLVABLE_UNIT) -> SlotResult:
     """Apply a slot's ``one``, ``average``, ``fill`` or ``separate`` policy.
 
     ``source`` is one value per gene. For ``fill`` it is the exact candidate supplying that gene;
@@ -252,14 +269,16 @@ def resolve(nodes: pd.DataFrame, slot: Slot | str, chosen: str | None = None) ->
         raise KeyError("unknown slot")
     if slot.policy not in POLICIES:
         raise ValueError(f"unknown slot policy {slot.policy!r}")
-    if slot.unit != RESOLVABLE_UNIT:
-        # Refused rather than returned empty. A host-gene or pair slot resolved against a table of
+    if slot.unit != unit:
+        # Refused rather than returned empty. A metabolite or pair slot resolved against a table of
         # parasite genes matches nothing, and "matches nothing" is indistinguishable from "nobody
         # has downloaded this yet" -- so the mistake would be invisible in exactly the place the
-        # slot table exists to make visible.
+        # slot table exists to make visible. `unit` is what the CALLER is holding; passing the
+        # metabolite table without saying so is the mistake this catches.
         raise ValueError(
             f"slot {slot.key!r} is measured per {slot.unit!r} and cannot be resolved against a "
-            f"table of {RESOLVABLE_UNIT!r} rows; it reaches the map through a bridge slot")
+            f"table of {unit!r} rows; resolve it against {UNIT_TABLES.get(slot.unit, 'no table')} "
+            f"or reach it through a bridge slot")
     groups = _groups(nodes, slot)
     empty_source = pd.Series("", index=nodes.index, dtype=object, name=f"{slot.key}_source")
     if not groups:

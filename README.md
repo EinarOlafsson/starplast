@@ -216,6 +216,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Enzyme classification (ToxoDB) | EC number per gene, and whether it has one | 1,313 enzymes of 8,140 genes | `ToxoDB ME49` |
 | IEDB epitopes mapped to genes (via ToxoDB) | How many IEDB epitopes ToxoDB maps to this gene | 221 genes | `ToxoDB / IEDB` |
 | InterPro domains | Domain identity and count | 8,140 | *citation not yet confirmed* |
+| Metabolome and isotope labelling under iron deprivation | Steady-state metabolite levels and the fraction labelled from glucose or glutamine | 1,102 metabolites | PMID [41925342](https://pubmed.ncbi.nlm.nih.gov/41925342/); `mBio 03788-25 Tables S3 and S5` |
 | OrthoMCL orthogroups | Orthogroup assignment and cross-species bridge | 16,793 groups | `OrthoMCL release 6.21` |
 | PubMed Central open-access full texts | Sectioned JATS XML | 6,667 articles | *citation not yet confirmed* |
 | PubMed abstracts | Titles and abstracts for co-mention and attention | 33,924 records | *citation not yet confirmed* |
