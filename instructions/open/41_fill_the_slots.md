@@ -1565,3 +1565,30 @@ declared column list should have.
 
 Noticing it at all depended on watching the total go the wrong way. A pass that only checked "did the
 new slot fill?" would have shipped the loss.
+
+## Thirty-second pass: the first measurement the two arms can be compared on
+
+**Toxoplasma 114 of 119, Plasmodium 39 of 103, combined 153 of 222.**
+
+`Pf_codon usage / translation efficiency`, computed through the **same code as the Toxoplasma arm**
+rather than reimplemented — `codons.codon_usage` gained a table and node-table parameter, the way
+`cellcycle.stage_enrichment` gained `stages`. ENC and GC3 are definitions and the CAI reference set is
+"the ribosomal proteins" in both arms, so two implementations could only differ by being wrong in one
+of them.
+
+Sharing it buys something no other column in this project has yet had: **a measurement the two arms
+can be compared on, where the comparison is itself the validation.**
+
+| | Plasmodium | Toxoplasma |
+|---|---|---|
+| GC3 median | **0.150** | 0.583 |
+| ENC median | **37.6** | 53.9 |
+
+*P. falciparum* has the most AT-rich genome of any eukaryote, so extreme codon bias — a low ENC — is
+what has to appear, and it does. A test fails if the two arms ever converge, which would mean either a
+genome was mixed up or they stopped computing the same quantity. That test is only meaningful because
+the construction is shared; had each arm computed its own ENC, a difference would have been
+uninterpretable.
+
+Practical note: PlasmoDB's sequence report returned 422, 400 and 500 to three different request
+shapes. The static release FASTA is what works, and 5,389 transcripts reduce to 5,318 genes.

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 91 covered well, 18 partly, 43 thinly, 70 empty.**
+**222 slots: 92 covered well, 18 partly, 43 thinly, 69 empty.**
 
 ### transcription
 
@@ -125,7 +125,7 @@ quantity were approximating on 2026-08-13.
 | Pf_translation · under stress | extracellular stress or iron | **-** |  |  | `` | separate | — |
 | Pf_translation efficiency · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
 | Pf_translation efficiency · extracellular stress | extracellular stress | **-** |  |  | `` | separate | — |
-| Pf_codon usage / translation efficiency | sequence-derived | **-** |  |  | `` | one | — |
+| Pf_codon usage / translation efficiency | sequence-derived | **A** | 5318 | 93.0% | `codon_` | one | — |
 
 ### protein abundance
 
@@ -406,4 +406,5 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `paralog_number` | Pf_paralogy; Tg_paralogy |
 | `length` | Pf_sequence basics; Tg_sequence basics |
 | `snp_` | Pf_strain variation; Tg_strain variation |
+| `codon_` | Pf_codon usage / translation efficiency; Tg_codon usage / translation efficiency |
 | `n_bcell_epitopes` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |

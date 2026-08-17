@@ -251,6 +251,20 @@ def export_prediction(folder: str) -> pd.DataFrame:
     return out
 
 
+#: The Plasmodium CDS file, and the node table its CAI reference set is read from.
+CDS_TABLE = "plasmodb_cds.tsv.gz"
+
+
+def codon_usage(base: str, log=print) -> pd.DataFrame:
+    """ENC, GC3 and CAI per gene, through the shared construction in `codons`.
+
+    Not reimplemented. ENC and GC3 are definitions and the CAI reference set is "the ribosomal
+    proteins" in both arms, so two implementations could only differ by being wrong in one of them.
+    """
+    from . import codons
+    return codons.codon_usage(base, log=log, table=CDS_TABLE, nodes=TABLE)
+
+
 def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     """The whole Plasmodium table from the three PlasmoDB reports, assembled in one place.
 
@@ -320,6 +334,9 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     cplx = complexes(dataset_root, log=log)
     if not cplx.empty:
         nodes = nodes.merge(cplx, on="gene_id", how="left")
+    codons_here = codon_usage(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), log=log)
+    if not codons_here.empty:
+        nodes = nodes.merge(codons_here, left_on="gene_id", right_index=True, how="left")
     derived = derived_labels(nodes, log=log)
     for column in derived.columns:
         nodes[column] = derived[column].to_numpy()

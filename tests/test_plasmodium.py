@@ -1538,3 +1538,43 @@ def test_antisense_is_the_minority_strand_and_sits_beside_its_sense_partner():
     d = pd.read_parquet(NODES, columns=["expr_asexual_blood", "antisense_asexual_blood"]).dropna()
     assert d["antisense_asexual_blood"].median() < d["expr_asexual_blood"].median() / 3
     assert len(d) > 4000
+
+
+# --------------------------------------------------------------------------- codon usage
+CDS = os.path.join(ROOT, "starplast", "data", P.CDS_TABLE)
+
+
+@pytest.mark.skipif(not os.path.exists(CDS), reason="Plasmodium CDS not fetched")
+def test_codon_usage_comes_from_the_shared_construction():
+    """Not reimplemented. ENC and GC3 are definitions and the CAI reference set is the ribosomal
+    proteins in both arms, so two implementations could only differ by being wrong in one."""
+    d = P.codon_usage(ROOT, log=lambda *a: None)
+    assert set(d.columns) == {"codon_enc", "codon_gc3", "codon_cai_ribosomal"}
+    assert len(d) > 4000
+
+
+@pytest.mark.skipif(not (os.path.exists(NODES) and os.path.exists(
+    os.path.join(ROOT, "starplast", "data", "nodes.parquet"))), reason="both caches needed")
+def test_the_two_arms_differ_in_codon_bias_the_way_their_genomes_do():
+    """The first measurement the two arms can be compared on, and the reason for sharing the code.
+
+    P. falciparum has the most AT-rich genome of any eukaryote, so its GC3 has to be far below
+    Toxoplasma's and its ENC far lower -- lower ENC being MORE biased. If these ever converge, either
+    a genome was mixed up or the two arms stopped computing the same quantity.
+    """
+    pf = pd.read_parquet(NODES, columns=["codon_gc3", "codon_enc"])
+    tg = pd.read_parquet(os.path.join(ROOT, "starplast", "data", "nodes.parquet"),
+                         columns=["codon_gc3", "codon_enc"])
+    assert pf["codon_gc3"].median() < 0.30, "Plasmodium GC3 is not AT-rich"
+    assert tg["codon_gc3"].median() > 0.45, "Toxoplasma GC3 has moved"
+    assert pf["codon_enc"].median() < tg["codon_enc"].median() - 10, (
+        "the two arms no longer differ in codon bias")
+
+
+@pytest.mark.skipif(not os.path.exists(CDS), reason="Plasmodium CDS not fetched")
+def test_cai_is_measured_against_plasmodium_ribosomal_proteins():
+    """The reference set must come from the Pf node table, not the Toxoplasma one."""
+    d = P.codon_usage(ROOT, log=lambda *a: None)
+    cai = d["codon_cai_ribosomal"].dropna()
+    assert len(cai) > 4000
+    assert 0 < cai.min() and cai.max() <= 1.0

@@ -235,6 +235,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | OrthoMCL orthogroups | Orthogroup assignment and cross-species bridge | 16,793 groups | `OrthoMCL release 6.21` |
 | Plasmodium T-cell epitopes (IEDB) | Distinct T-cell epitope sequences per gene | 44 antigens, 1,542 distinct epitopes | `IEDB tcell_search` |
 | Plasmodium antibody epitopes (IEDB) | Distinct antibody epitope sequences per gene | 434 antigens, 7,366 distinct epitopes | `IEDB bcell_search` |
+| Plasmodium codon usage (COMPUTED) | Effective number of codons, GC3, and CAI against the ribosomal proteins | 5,318 genes | `PlasmoDB-68 Pfalciparum3D7 AnnotatedCDSs` |
 | Plasmodium complexes from crosslinking MS | Which crosslink-derived complex a gene belongs to, and whether it reaches the host | 128 genes in 42 complexes | PMID [41966402](https://pubmed.ncbi.nlm.nih.gov/41966402/); `Cell Rep mmc5 Clusters` |
 | Plasmodium crosslinking MS contacts | Protein pairs joined by a measured crosslink | 79 parasite-parasite pairs | PMID [41966402](https://pubmed.ncbi.nlm.nih.gov/41966402/); `Cell Rep mmc1 sheet D` |
 | Plasmodium export prediction (ExportPred) | Predicted export to the erythrocyte, as an ordinal confidence tier | 440 genes called at some threshold, 191 at the default | `PlasmoDB GenesByExportPrediction` |

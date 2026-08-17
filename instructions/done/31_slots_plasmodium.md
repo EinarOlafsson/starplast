@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 29 covered well, 2 partly, 7 thinly, 65 empty.**
+**103 slots: 30 covered well, 2 partly, 7 thinly, 64 empty.**
 
 ### transcription
 
@@ -93,7 +93,7 @@ quantity were approximating on 2026-08-13.
 | Pf_translation · under stress | extracellular stress or iron | **-** |  |  | `` | separate | — |
 | Pf_translation efficiency · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
 | Pf_translation efficiency · extracellular stress | extracellular stress | **-** |  |  | `` | separate | — |
-| Pf_codon usage / translation efficiency | sequence-derived | **-** |  |  | `` | one | — |
+| Pf_codon usage / translation efficiency | sequence-derived | **A** | 5318 | 93.0% | `codon_` | one | — |
 
 ### protein abundance
 

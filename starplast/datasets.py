@@ -1461,6 +1461,24 @@ REGISTRY = [
                  "while KAHRP and the FIKK kinases sit above it. Absence is a real negative here "
                  "and not a gap -- a sequence model was evaluated on every protein, so its silence "
                  "is a prediction of not-exported, which is the opposite of the screen columns."),
+    Dataset("pf_codon_usage", "Plasmodium codon usage (COMPUTED)", "reference", "annotation",
+            "Effective number of codons, GC3, and CAI against the ribosomal proteins",
+            ("codon_enc", "codon_gc3", "codon_cai_ribosomal"), "5,318 genes",
+            accession="PlasmoDB-68 Pfalciparum3D7 AnnotatedCDSs",
+            url="https://plasmodb.org/common/downloads/Current_Release/Pfalciparum3D7/fasta/data/"
+                "PlasmoDB-68_Pfalciparum3D7_AnnotatedCDSs.fasta",
+            path="starplast/data/plasmodb_cds.tsv.gz",
+            derived_from=("length",),
+            note="COMPUTED through the SAME code as the Toxoplasma arm rather than reimplemented -- "
+                 "`codons.codon_usage` gained a table and node-table parameter for it. ENC and GC3 "
+                 "are definitions and the CAI reference set is 'the ribosomal proteins' in both arms, "
+                 "so two implementations could only differ by being wrong in one of them. Sharing it "
+                 "buys the first measurement the two arms can be COMPARED on, and the comparison is "
+                 "the validation: GC3 median 0.150 here against 0.583 in Toxoplasma, and ENC 37.6 "
+                 "against 53.9 -- P. falciparum has the most AT-rich genome of any eukaryote, so "
+                 "extreme codon bias is what has to appear, and a test fails if the two arms ever "
+                 "converge. The sequence report API returned 422, 400 and 500 to three different "
+                 "request shapes; the static release FASTA is what works."),
     Dataset("pf_host_bridge_xlms", "Plasmodium to human contacts (crosslinking MS)", "reference",
             "crosslink_MS",
             "Parasite protein to erythrocyte protein, measured as a crosslink",

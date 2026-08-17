@@ -136,14 +136,20 @@ def cai(counts: dict, weights: dict) -> float:
     return math.exp(total / n) if n else float("nan")
 
 
-def codon_usage(base: str, resolve=None, reference=None, log=print) -> pd.DataFrame:
+def codon_usage(base: str, resolve=None, reference=None, log=print,
+                table: str | None = None, nodes: str | None = None) -> pd.DataFrame:
     """ENC, GC3 and CAI per gene.
 
     `reference` is the gene ids of the CAI reference set. Left None it is taken from the product
     descriptions in the shipped node table -- the ribosomal proteins -- and if that table is not
     present the CAI column is left out rather than computed against an arbitrary set.
+
+    `table` and `nodes` name the CDS file and the node table to read, so the Plasmodium arm can use
+    this construction instead of writing its own. Sharing it is the point: ENC, GC3 and a CAI against
+    ribosomal proteins are definitions, and two arms computing them differently would make a
+    difference between the arms unreadable.
     """
-    path = os.path.join(base, "starplast", "data", TABLE)
+    path = os.path.join(base, "starplast", "data", table or TABLE)
     if not os.path.exists(path):
         return pd.DataFrame()
     with gzip.open(path, "rt", errors="replace") as fh:
@@ -164,7 +170,7 @@ def codon_usage(base: str, resolve=None, reference=None, log=print) -> pd.DataFr
     out["codon_gc3"] = [gc3(counts_by_gene[g]) for g in out.index]
 
     if reference is None:
-        reference = _ribosomal(base)
+        reference = _ribosomal(base, nodes or "nodes.parquet")
     chosen = {g: counts_by_gene[g] for g in (reference or ()) if g in counts_by_gene}
     if chosen:
         weights = reference_weights(chosen)
@@ -176,9 +182,9 @@ def codon_usage(base: str, resolve=None, reference=None, log=print) -> pd.DataFr
     return out
 
 
-def _ribosomal(base: str) -> list:
+def _ribosomal(base: str, nodes: str = "nodes.parquet") -> list:
     """Ribosomal protein gene ids from the shipped node table, for the CAI reference set."""
-    path = os.path.join(base, "starplast", "data", "nodes.parquet")
+    path = os.path.join(base, "starplast", "data", nodes)
     if not os.path.exists(path):
         return []
     n = pd.read_parquet(path, columns=["gene_id", "product"])
