@@ -247,8 +247,8 @@ DEPTH_COLOR = {"focal": (0.98, 0.86, 0.30),          # the paper is about this g
 #: Until this existed, `load` opened `nodes.parquet` by name, and the entire Plasmodium arm -- node
 #: table, graph, host bridge, 41 filled slots -- was data the browser could not open.
 SPECIES = {
-    "Toxoplasma gondii": {"nodes": "nodes.parquet", "graph": "graph.npz"},
-    "Plasmodium falciparum": {"nodes": "pf_nodes.parquet", "graph": "pf_graph.npz"},
+    "Toxoplasma gondii": {"nodes": "nodes.parquet", "graph": "graph.npz", "code": "Tg"},
+    "Plasmodium falciparum": {"nodes": "pf_nodes.parquet", "graph": "pf_graph.npz", "code": "Pf"},
 }
 DEFAULT_SPECIES = "Toxoplasma gondii"
 
@@ -1451,6 +1451,15 @@ class Window(QtWidgets.QMainWindow):
 
         # ---- View
         v = mb.addMenu("&View")
+        a = v.addAction("Slot tree…")
+        a.setToolTip(
+            "Every slot, its address in each of the three hierarchies, and what fills it -- with the "
+            "empty ones coloured, because they are the map of what has not been measured.\n\n"
+            "It reads the catalog's own functions rather than a copy of them, so it cannot report a "
+            "clean catalog while the build sees a broken one, and it shows BOTH arms whichever one "
+            "this window is displaying.")
+        a.triggered.connect(self.open_slot_tree)
+        v.addSeparator()
         lvl = v.addMenu("Level of detail")
         lvl.setToolTipsVisible(True)
         self.level_group = QtGui.QActionGroup(self)
@@ -2515,6 +2524,23 @@ class Window(QtWidgets.QMainWindow):
         self._prefs.raise_()
         self._prefs.activateWindow()
         return self._prefs
+
+    def open_slot_tree(self):
+        """The slot tree, in a window of its own. Shown rather than exec'd, and kept on `self`.
+
+        A modal here would mean checking the catalog against the map from memory, which is the exact
+        comparison it is for.
+        """
+        from .slot_tree import SlotTreeWindow
+        if getattr(self, "_slot_tree", None) is None:
+            # Opens on the arm this window is showing. Defaulting to whichever organism code sorts
+            # first meant the tree opened on Plasmodium while the map showed Toxoplasma, and a filter
+            # typed against what was on screen returned nothing.
+            self._slot_tree = SlotTreeWindow(
+                organism=SPECIES[self.species]["code"], parent=self)
+        self._slot_tree.show()
+        self._slot_tree.raise_()
+        return self._slot_tree
 
     def open_species(self, name: str):
         """Open another species' map in a window of its own, and remember the choice.

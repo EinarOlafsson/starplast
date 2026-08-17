@@ -1,6 +1,24 @@
 # 40 — A window that shows every slot, its place in the tree, and what fills it
 
-**Status: open. Requested 2026-08-15. Execute after 39.**
+**Status: DONE 2026-08-17.** `View > Slot tree`, built as `starplast/slot_tree.py`, 16 tests.
+
+Two findings it produced on the way in, which is the argument for having built it:
+
+* **It caught its own bug against the generated table.** `slots.is_filled` keys its `tables` argument
+  by UNIT, and keying it by file name instead made every metabolite and bridge slot read as empty --
+  the window said seven empty Toxoplasma slots where the table says three. A test now pins the window
+  to the table, so the two cannot drift.
+* **Seven Plasmodium columns are claimed by no slot**, which the orphan alarm shows and which was not
+  visible before: `gene_type`, `product`, `chromosome`, `alphafold_accession` -- annotation the
+  `Pf_gene identity and annotation` slot does not match -- and the three `protein_stage_share_*`
+  columns, deliberately left unclaimed when the compositional TMT proteome was refused as an
+  abundance measurement. A column nothing claims can never be held out or audited, so these are real
+  and they belong to 41.
+
+Also fixed while building it: the tree keys were being rebuilt from slot names by replacing " · " and
+spaces with underscores, which looked equivalent to the catalog's own keys and was not -- 53 of 119
+slots failed to match and rendered as empty GROUP rows. The key is now taken from
+`slots.hierarchy_path`, which is the catalog answering for itself.
 
 ## Why
 
