@@ -144,7 +144,9 @@ are dense-granule proteins, which are disordered, so this is expected rather tha
 > suffix rule that works for GT1 and VEG (decision 2b) is wrong here and would silently mis-assign.
 
 **3e. Standalone means every measurement ships; coordinates are the one exception.** (Added v1.3.) The
-cache is 30 MB and carries 387 columns for all 8,140 genes, and lives INSIDE the package
+cache is 30 MB and carries 387 columns for all 8,140 Toxoplasma genes, and lives INSIDE the package.
+Beside it sits the Plasmodium cache -- `pf_nodes.parquet`, 85 columns for 5,720 genes, and
+`pf_graph.npz` -- which is a separate table and graph on purpose and never joined to the first
 (`starplast/data/`) so a wheel carries it and `paths.py` resolves it with no configuration. An earlier `keep` allowlist silently shipped
 3 of 18 RNA columns and 7 of 8 fitness screens; the build now ships every column that survives, with an
 explicit drop list. Structures resolve on demand (`structures.py`) because 6,538 AlphaFold models plus
@@ -660,8 +662,9 @@ starplast-discover --read bigA_00_guilt_compartment_best
 ## 5. Future scope, not an open numbered task
 
 * **The malaria map is now built, and still separate.** Superseded 2026-08-17: a Plasmodium node
-  table (`pf_nodes.parquet`, 5,720 genes) and its own graph (`pf_graph.npz`) exist, and 21 of 103
-  Pf slots are filled. The concern that produced the original "deliberately no Pf node table" is
+  table (`pf_nodes.parquet`, 5,720 genes) and its own graph (`pf_graph.npz`) exist, and 34 of 103
+  Pf slots are filled from sixteen datasets and two computed layers. `plasmodium.build_all` assembles
+  the whole table from the dataset root, so it is reproducible rather than the product of a prompt. The concern that produced the original "deliberately no Pf node table" is
   unchanged and is now enforced rather than avoided: nothing is merged, no measurement crosses
   species, and there is still no combined-organism view. What makes that safe is the species guard
   in `slots` -- a table reports its own species from its accessions, and `declared_columns`,
@@ -701,7 +704,24 @@ Five are open. Suggested order, cheapest-unblocking-first:
 
 The atlas of all 222 slots, filled and empty, is published and regenerates from
 `scripts/generate_slot_table.py` plus `starplast/data/slots.json`. As of 2026-08-17 it stands at
-**135 filled: Toxoplasma 114 of 119, Plasmodium 21 of 103.**
+**148 filled: Toxoplasma 114 of 119, Plasmodium 34 of 103.**
+
+The Plasmodium arm went 0 to 34 in one session. Eight sources were built and then refused or shipped
+one step further back, which is where most of the care went and is worth reading before adding the
+next one — `instructions/open/41_fill_the_slots.md` records each. The distinction that emerged, and
+the rule for the next source:
+
+| a check that comes back | example | do this |
+|---|---|---|
+| **backwards** | *var* genes MORE accessible than the genome, when they are heterochromatic | refuse the data |
+| **contradictory** | *var* up in two stages and down in a third under one knockout | ship the conditions, not the contrast |
+| **null** | heat shock proteins unmoved by fever (real: these chaperones are constitutive) | ship, and record that the prediction was null |
+
+Only the first rejects a source. And five times a source's own LABEL was the thing to distrust — a
+sheet named for palmitoylated proteins holding mostly predicted ones, a TMT proteome served
+row-normalised as though it were abundance, a "Final" site list not filtered on localisation, an
+ExportPred default that drops two textbook exported proteins, and an m6A table that is a 43-gene
+intersection with another species.
 
 The five empty Toxoplasma slots are not a backlog. Each carries `blocked_by`, `searched` and
 `would_fill_it` in the generated table, and the verdict is one of two words -- `missing` (the
