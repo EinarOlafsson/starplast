@@ -196,3 +196,88 @@ def test_the_shipped_table_is_falciparum_and_not_gondii():
     d = P.load(ROOT)
     assert len(d) > 5000
     assert not d["gene_id"].str.contains("TGME49_|TGGT1_").any()
+
+
+# --------------------------------------------------------------------------- expression
+EXPR = os.path.join(ROOT, "datasets", "reference", "plasmodb", P.EXPRESSION_TABLE)
+
+#: Stage markers whose timing is textbook, used to check that the columns are labelled correctly.
+#: Pfs25 is the interesting one: its transcript is stockpiled in mature female gametocytes and only
+#: translated in the ookinete, so a TRANSCRIPT peak in gametocyte V is right and a peak in ookinete
+#: would suggest the columns had been shifted by one.
+MARKERS = {
+    "PF3D7_0304600": ("expr_sporozoite", "circumsporozoite protein"),
+    "PF3D7_0930300": ("expr_schizont", "merozoite surface protein 1"),
+    "PF3D7_0406200": ("expr_gametocyte_ii", "early gametocyte marker Pfs16"),
+    "PF3D7_1031000": ("expr_gametocyte_v", "Pfs25, transcript stockpiled before the ookinete"),
+}
+STAGES = ("expr_ring", "expr_early_trophozoite", "expr_late_trophozoite", "expr_schizont",
+          "expr_gametocyte_ii", "expr_gametocyte_v", "expr_ookinete", "expr_oocyst",
+          "expr_sporozoite")
+
+
+def _expr_report(tmp_path, header=True):
+    rows = {"Gene ID": ["PF3D7_0100100", "PF3D7_0100200"]}
+    for study, sample, _column in P.EXPRESSION:
+        rows[f"{study} - {sample} - unique" if sample else study] = ["1.5", "N/A"]
+    path = tmp_path / "expr.tsv"
+    frame = pd.DataFrame(rows)
+    if not header:
+        frame = frame.drop(columns=["Gene ID"])
+    frame.to_csv(path, sep="\t", index=False)
+    return str(path)
+
+
+def test_the_expression_report_maps_every_sample_to_a_column(tmp_path):
+    d = P.expression(_expr_report(tmp_path))
+    for _study, _sample, column in P.EXPRESSION:
+        assert column in d.columns, column
+
+
+def test_expression_values_are_numeric_and_missing_stays_missing(tmp_path):
+    d = P.expression(_expr_report(tmp_path)).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "expr_ring"] == pytest.approx(1.5)
+    assert pd.isna(d.loc["PF3D7_0100200", "expr_ring"])
+
+
+def test_a_missing_expression_report_yields_nothing(tmp_path):
+    assert P.expression(str(tmp_path / "absent.tsv")).empty
+
+
+def test_an_expression_report_without_a_gene_column_is_refused(tmp_path):
+    assert P.expression(_expr_report(tmp_path, header=False)).empty
+
+
+def test_an_expression_report_with_no_recognised_sample_is_refused(tmp_path):
+    path = tmp_path / "e.tsv"
+    pd.DataFrame({"Gene ID": ["PF3D7_0100100"], "something else": ["1"]}).to_csv(
+        path, sep="\t", index=False)
+    assert P.expression(str(path)).empty
+
+
+@pytest.mark.skipif(not os.path.exists(EXPR), reason="expression report not fetched")
+def test_the_life_stage_columns_are_not_mislabelled():
+    """Marker genes have to peak where a hundred years of malaria biology says they do.
+
+    The columns come out of PlasmoDB in one wide report and are matched by substring, so a mistake
+    here would silently shift a stage. Nothing else in the pipeline would notice.
+    """
+    d = P.expression(EXPR).set_index("gene_id")
+    for gene, (stage, why) in MARKERS.items():
+        assert gene in d.index, gene
+        peak = d.loc[gene, list(STAGES)].idxmax()
+        assert peak == stage, f"{gene} ({why}) peaks in {peak}, expected {stage}"
+
+
+@pytest.mark.skipif(not os.path.exists(EXPR), reason="expression report not fetched")
+def test_polysomal_and_steady_state_are_kept_apart():
+    """One is what is on ribosomes and the other is what is in the cell. Averaging them would
+    destroy the only comparison in this table that separates transcription from translation."""
+    d = P.expression(EXPR)
+    poly = [c for c in d.columns if c.startswith("polysomal_")]
+    steady = [c for c in d.columns if c.startswith("steady_state_")]
+    assert len(poly) == 3 and len(steady) == 3
+    assert not set(poly) & set(steady)
+    # They must also disagree: identical columns would mean the substring match caught one twice.
+    for a, b in zip(sorted(poly), sorted(steady)):
+        assert not d[a].equals(d[b]), f"{a} and {b} are the same column"

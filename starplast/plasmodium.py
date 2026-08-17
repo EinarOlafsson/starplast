@@ -126,3 +126,53 @@ def load(base: str) -> pd.DataFrame:
     """The shipped Plasmodium table, or an empty frame if it has not been built."""
     path = os.path.join(base, "starplast", "data", TABLE)
     return pd.read_parquet(path) if os.path.exists(path) else pd.DataFrame()
+
+
+# --------------------------------------------------------------------------- expression
+#: A second PlasmoDB report: transcript abundance per life stage, plus the polysomal fraction.
+EXPRESSION_TABLE = "plasmodb_pf3d7_expression.tsv"
+
+#: Header substring -> column. Matched on a substring because PlasmoDB's headers carry the study
+#: name, the sample, the read-assignment rule and the dataset in one string, and the part that
+#: identifies the sample is the middle.
+EXPRESSION = (
+    ("Su Seven Stages", "Ring", "expr_ring"),
+    ("Su Seven Stages", "Early Trophozoite", "expr_early_trophozoite"),
+    ("Su Seven Stages", "Late Trophozoite", "expr_late_trophozoite"),
+    ("Su Seven Stages", "Schizont", "expr_schizont"),
+    ("Su Seven Stages", "Gametocyte II", "expr_gametocyte_ii"),
+    ("Su Seven Stages", "Gametocyte V", "expr_gametocyte_v"),
+    ("Su Seven Stages", "Ookinete", "expr_ookinete"),
+    # The polysomal fraction is what is ON ribosomes, which is a translation readout and not a
+    # transcript level. Its steady-state partner from the same experiment is the transcript level,
+    # and keeping both is the point: the pair is the only thing here that separates "more mRNA" from
+    # "more translated".
+    ("Polysomal and steady-state", "Polysomal ring", "polysomal_ring"),
+    ("Polysomal and steady-state", "Polysomal troph", "polysomal_trophozoite"),
+    ("Polysomal and steady-state", "Polysomal schiz", "polysomal_schizont"),
+    ("Polysomal and steady-state", "Steady_state ring", "steady_state_ring"),
+    ("Polysomal and steady-state", "Steady_state troph", "steady_state_trophozoite"),
+    ("Polysomal and steady-state", "Steady_state schiz", "steady_state_schizont"),
+    ("sense - asexual blood stages", "", "expr_asexual_blood"),
+    ("sense - midgut oocysts", "", "expr_oocyst"),
+    ("sense - salivary gland sporozoites", "", "expr_sporozoite"),
+)
+
+
+def expression(report_path: str) -> pd.DataFrame:
+    """Per-stage transcript abundance and the polysomal fraction, keyed by gene."""
+    if not os.path.exists(report_path):
+        return pd.DataFrame()
+    d = pd.read_csv(report_path, sep="\t", dtype=str)
+    if "Gene ID" not in d.columns:
+        return pd.DataFrame()
+    d = d.replace(dict.fromkeys(BLANK, None))
+    out = pd.DataFrame({"gene_id": d["Gene ID"].astype(str)})
+    for study, sample, column in EXPRESSION:
+        found = [c for c in d.columns if study in c and sample in c]
+        if len(found) == 1:
+            out[column] = pd.to_numeric(d[found[0]], errors="coerce")
+    if len(out.columns) == 1:
+        return pd.DataFrame()
+    # Same transcript-versus-gene collapse as the attribute report, and the same reason.
+    return out[~out["gene_id"].duplicated()].sort_values("gene_id").reset_index(drop=True)

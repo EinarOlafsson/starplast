@@ -774,3 +774,44 @@ they searched, which is the cheapest possible moment to write it.
 
 Four of the five are ordinary experiments that simply have not been run in Toxoplasma. That is the
 campaign's real finding and it is now visible in the artifact rather than only in this file.
+
+## Eighth pass: the Plasmodium transcriptome, 7 -> 17
+
+**Combined 131 of 222.** Toxoplasma stays at 114 of 119; the five that remain need experiments
+nobody has run, and this pass did not pretend otherwise. The work went where slots could still be
+filled from data that exists.
+
+One PlasmoDB report carrying three studies fills ten more slots. The split between them was the
+design decision, and it is the leakage rule rather than convenience that dictated it:
+
+| study | answers |
+|---|---|
+| Su seven stages | ring, trophozoite, schizont, gametocyte, ookinete |
+| Gomez-Diaz mosquito stages | asexual blood stage, oocyst, sporozoite |
+| Bunnik polysomal IDC (0h, 18h, 36h) | **steady-state arm** → transcription per cell-cycle phase; **polysomal arm** → translation |
+
+Handing the stage slots and the cell-cycle slot the same columns would have been one measurement
+claimed twice. Two studies, two slots, no shared column.
+
+### Stage labels are checked against biology, not trusted
+
+The columns come out of PlasmoDB as one wide report and are matched by substring, so a mislabelling
+would silently shift a stage and nothing downstream would notice. The test asserts marker genes peak
+where a century of malaria biology puts them: CSP in sporozoite, MSP1 in schizont, Pfs16 in
+gametocyte II.
+
+**Pfs25 is the informative one.** Its transcript peaks in **gametocyte V**, not in the ookinete where
+the protein does its work — the textbook translational-repression stockpile. Anyone validating
+against the protein literature would read that as an off-by-one error and "fix" a correct column.
+The test pins the transcript behaviour and the docstring says why.
+
+### A test that was passing by accident
+
+`test_every_registered_dataset_contributes_at_least_one_column` checks each dataset against the
+tables it could land in, and it did not know about the species tables. The first Plasmodium dataset
+passed it anyway — because the Pf column names are deliberately mirrored from the Toxoplasma ones,
+and `length` exists in both. The second dataset, whose stage names are Plasmodium-specific, is what
+exposed it. Mirroring the names buys comparability between the arms and costs exactly this: checks
+that key on a column name can no longer tell the arms apart, and have to be told which table to look
+in. That is now the third place this session where that cost has come due, after `declared_columns`
+and `resolve`.

@@ -166,9 +166,14 @@ def test_every_registered_dataset_contributes_at_least_one_column(nodes):
             continue
         # A dataset can contribute to a table that is not the node table. The metabolite table's
         # rows are compounds, so its columns will never appear in `nodes` and reading their absence
-        # as a broken join is the same mistake the edge layers caused.
+        # as a broken join is the same mistake the edge layers caused. The species tables are the
+        # fourth kind: a Plasmodium dataset lands in `pf_nodes.parquet` and none of its columns has
+        # any business being in a table of Toxoplasma genes. Worth recording how the gap was found --
+        # the FIRST Plasmodium dataset passed this test by accident, because its column names are
+        # deliberately mirrored from the Toxoplasma ones and `length` exists in both tables. The
+        # second one, whose stage names are Plasmodium-specific, is what exposed it.
         elsewhere = set()
-        for name in slots.UNIT_TABLES.values():
+        for name in list(slots.UNIT_TABLES.values()) + list(slots.SPECIES_TABLES.values()):
             if name == "nodes.parquet":
                 continue
             path = os.path.join(P.data_dir(), name)

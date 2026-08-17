@@ -1171,6 +1171,32 @@ REGISTRY = [
                  "essential and dispensable genomes without crashing, so the test checks it "
                  "against biology -- ribosomal proteins come out at median MIS 0.15 and the var, "
                  "rifin and stevor families at 0.94."),
+    Dataset("plasmodb_pf3d7_expression", "Plasmodium falciparum life-stage and polysomal RNA",
+            "transcription", "RNAseq",
+            "Transcript abundance across seven life stages, and what is on ribosomes",
+            ("expr_ring", "expr_early_trophozoite", "expr_late_trophozoite", "expr_schizont",
+             "expr_gametocyte_ii", "expr_gametocyte_v", "expr_ookinete", "expr_asexual_blood",
+             "expr_oocyst", "expr_sporozoite", "polysomal_ring", "polysomal_trophozoite",
+             "polysomal_schizont", "steady_state_ring", "steady_state_trophozoite",
+             "steady_state_schizont"),
+            "5,720 P. falciparum genes",
+            accession="PlasmoDB: Su seven stages, Bunnik polysomal IDC, Gomez-Diaz mosquito stages",
+            url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
+                "GenesByTaxon/reports/attributesTabular",
+            path="starplast/data/pf_nodes.parquet",
+            note="Three studies in one report, split across slots so that no column answers two "
+                 "questions: the seven-stage study answers the individual stages, and the polysomal "
+                 "study is an IDC time course at 0h, 18h and 36h whose steady-state arm answers "
+                 "cell-cycle phase while its polysomal arm answers translation. Polysome-associated "
+                 "RNA is what is ON ribosomes rather than a transcript level, and keeping its "
+                 "steady-state partner is what makes that distinction measurable instead of "
+                 "assumed. Stage labels are checked against marker genes rather than trusted, "
+                 "because the columns are matched by substring out of one wide report and a "
+                 "mislabelling would silently shift a stage: CSP peaks in sporozoite, MSP1 in "
+                 "schizont, Pfs16 in gametocyte II. Pfs25 is the informative one -- its TRANSCRIPT "
+                 "peaks in gametocyte V rather than in the ookinete where the protein acts, which "
+                 "is the textbook translational-repression stockpile and would look like an "
+                 "off-by-one error to anyone who checked the protein instead."),
     Dataset("cotranslation_edges", "Co-translation layer (COMPUTED)", "translation", "RiboSeq",
             "Gene pairs whose ribosome footprints covary", ("edge:cotranslation",),
             "6,231 edges over 7,437 genes",

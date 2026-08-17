@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 69 covered well, 16 partly, 36 thinly, 101 empty.**
+**222 slots: 79 covered well, 16 partly, 36 thinly, 91 empty.**
 
 ### transcription
 
@@ -88,14 +88,14 @@ quantity were approximating on 2026-08-13.
 | Tg_transcription · under initiation-factor depletion | eIF1.2 knockout, tachyzoite and pre-bradyzoite | **A** | 7880 | 96.8% | `rna245775_eif12ko_` | separate | **Translation initiation factor eIF1.2 promotes Toxoplasma stage conversion by regulating levels of key differentiation factors.** (Nature communications 2024) [38782906](https://pubmed.ncbi.nlm.nih.gov/38782906/) `GSE245775` |
 | Tg_noncoding and antisense transcription | lncRNA | **A** | 8140 | 100.0% | `antisense_expression_percentile` | separate | — |
 | Tg_transcription · in vivo enteric | feline enterocyte | **A** | 7739 | 95.1% | `ees_vs_tachyzoite_log2` | one | — |
-| Pf_transcription · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
-| Pf_transcription · ring | ring | **-** |  |  | `` | one | — |
-| Pf_transcription · trophozoite | trophozoite | **-** |  |  | `` | one | — |
-| Pf_transcription · schizont | schizont | **-** |  |  | `` | one | — |
-| Pf_transcription · ookinete | ookinete | **-** |  |  | `` | one | — |
-| Pf_transcription · oocyst | oocyst | **-** |  |  | `` | one | — |
-| Pf_transcription · sporozoite | sporozoite | **-** |  |  | `` | one | — |
-| Pf_transcription · per cell-cycle phase | cell cycle | **-** |  |  | `` | separate | — |
+| Pf_transcription · asexual blood stage | asexual blood stage | **A** | 5720 | 100.0% | `expr_asexual_blood` | one | — |
+| Pf_transcription · ring | ring | **A** | 5720 | 100.0% | `expr_ring` | one | — |
+| Pf_transcription · trophozoite | trophozoite | **A** | 5720 | 100.0% | `expr_early_trophozoite, expr_late_trophozoite` | one | — |
+| Pf_transcription · schizont | schizont | **A** | 5720 | 100.0% | `expr_schizont` | one | — |
+| Pf_transcription · ookinete | ookinete | **A** | 5720 | 100.0% | `expr_ookinete` | one | — |
+| Pf_transcription · oocyst | oocyst | **A** | 5720 | 100.0% | `expr_oocyst` | one | — |
+| Pf_transcription · sporozoite | sporozoite | **A** | 5720 | 100.0% | `expr_sporozoite` | one | — |
+| Pf_transcription · per cell-cycle phase | cell cycle | **A** | 5720 | 100.0% | `steady_state_` | separate | — |
 | Pf_transcription · under stress / conversion | alkaline, stress | **-** |  |  | `` | separate | — |
 | Pf_transcription · under TF or chromatin perturbation | perturbation | **-** |  |  | `` | separate | — |
 | Pf_transcription · maximum observed across stages | cross-stage summary | **-** |  |  | `` | one | — |
@@ -104,7 +104,7 @@ quantity were approximating on 2026-08-13.
 | Pf_noncoding and antisense transcription | lncRNA | **-** |  |  | `` | separate | **Genome-wide cataloging and orthology analysis of long noncoding RNA expression in three species of Anopheles mosquito.** (BMC genomics 2025) [40394474](https://pubmed.ncbi.nlm.nih.gov/40394474/)<br>verify assay and parasite-gene shape)<br>**Identification of long noncoding RNAs (lncRNAs) and co-transcriptional analysis of mRNAs and lncRNAs in transcriptomes of Anopheles gambiae.** (Frontiers in RNA research 2025) [40855856](https://pubmed.ncbi.nlm.nih.gov/40855856/)<br>verify assay and parasite-gene shape)<br>**Genome-wide discovery and phenotyping of non-coding transcripts in A. fumigatus reveals lncRNAs with a role in antifungal drug sensitivity.** (Nature communications 2026) [41673015](https://pubmed.ncbi.nlm.nih.gov/41673015/)<br>verify assay and parasite-gene shape) |
 | Pf_transcription · liver stage | hepatocyte | **-** |  |  | `` | one | **Autonomous circadian rhythms in the human hepatocyte regulate hepatic drug metabolism and inflammatory responses.** (Science advances 2024) [38657074](https://pubmed.ncbi.nlm.nih.gov/38657074/)<br>verify assay and parasite-gene shape)<br>**The novel Plasmodium berghei protein S14 is essential for sporozoite gliding motility and infectivity.** (Journal of cell science 2024) [38832798](https://pubmed.ncbi.nlm.nih.gov/38832798/)<br>verify assay and parasite-gene shape)<br>**Inhibition of Wnt signaling in primary human hepatocytes promotes Plasmodium falciparum liver stage development.** (PLoS pathogens 2025) [41428747](https://pubmed.ncbi.nlm.nih.gov/41428747/)<br>verify assay and parasite-gene shape) |
 | Pf_transcription · mosquito stages | ookinete, oocyst, sporozoite | **-** |  |  | `` | separate | **A divergent Plasmodium NEK4 acts as a key regulator driving the early events of meiosis.** (Research square 2025) [41510253](https://pubmed.ncbi.nlm.nih.gov/41510253/)<br>verify assay and parasite-gene shape)<br>**A divergent Plasmodium NEK4 acts as a key regulator driving the early events of meiosis.** (Nature communications 2026) [42120403](https://pubmed.ncbi.nlm.nih.gov/42120403/)<br>verify assay and parasite-gene shape)<br>**Transcriptome profiles of Plasmodium vivax and Anopheles dirus (Diptera: Culicidae) genes in sporozoite stage.** (Medical and veterinary entomology 2026) [42466832](https://pubmed.ncbi.nlm.nih.gov/42466832/)<br>verify assay and parasite-gene shape) |
-| Pf_transcription · gametocyte | gametocyte I-V | **-** |  |  | `` | average | **[Role of protein palmitoylation modification in the proliferation and gametogenesis of Plasmodium falciparum].** (Zhongguo xue xi chong bing fang zhi za zhi = Chinese journal of schistosomiasis control 2026) [42264951](https://pubmed.ncbi.nlm.nih.gov/42264951/)<br>verify assay and parasite-gene shape)<br>**Plasmodium falciparum leucine-rich repeat 5 disruption alters the transcription progression during asexual and sexual stage development.** (mSphere 2026) [42294623](https://pubmed.ncbi.nlm.nih.gov/42294623/)<br>verify assay and parasite-gene shape)<br>**Single-Cell Transcriptomics and Development of Gametocyte-Specific Molecular Markers for Avian Malaria Parasites.** (Molecular ecology resources 2026) [42409029](https://pubmed.ncbi.nlm.nih.gov/42409029/)<br>verify assay and parasite-gene shape) |
+| Pf_transcription · gametocyte | gametocyte I-V | **A** | 5720 | 100.0% | `expr_gametocyte_` | average | **[Role of protein palmitoylation modification in the proliferation and gametogenesis of Plasmodium falciparum].** (Zhongguo xue xi chong bing fang zhi za zhi = Chinese journal of schistosomiasis control 2026) [42264951](https://pubmed.ncbi.nlm.nih.gov/42264951/)<br>verify assay and parasite-gene shape)<br>**Plasmodium falciparum leucine-rich repeat 5 disruption alters the transcription progression during asexual and sexual stage development.** (mSphere 2026) [42294623](https://pubmed.ncbi.nlm.nih.gov/42294623/)<br>verify assay and parasite-gene shape)<br>**Single-Cell Transcriptomics and Development of Gametocyte-Specific Molecular Markers for Avian Malaria Parasites.** (Molecular ecology resources 2026) [42409029](https://pubmed.ncbi.nlm.nih.gov/42409029/)<br>verify assay and parasite-gene shape) |
 | Pf_transcription · dormancy / recrudescence | artemisinin quiescence | **-** |  |  | `` | separate | **Mapping the intellectual landscape of malaria drug repurposing: a systematic analysis of the 51 most cited studies.** (Malaria journal 2026) [42374402](https://pubmed.ncbi.nlm.nih.gov/42374402/)<br>verify assay and parasite-gene shape)<br>**Sense-Antisense RNA duplexes mediate stress-responsive translational control in Plasmodium falciparum.** (RNA (New York, N.Y.) 2026) [42575702](https://pubmed.ncbi.nlm.nih.gov/42575702/)<br>verify assay and parasite-gene shape)<br>**Single-cell transcriptional changes of artemisinin-sensitive K13C580 and artemisinin-resistant K13580Y Plasmodium falciparum upon dihydroartemisinin exposure.** (Frontiers in cellular and infection microbiology 2026) [42582255](https://pubmed.ncbi.nlm.nih.gov/42582255/)<br>verify assay and parasite-gene shape) |
 
 ### translation
@@ -120,7 +120,7 @@ quantity were approximating on 2026-08-13.
 | Tg_translation efficiency · bradyzoite | pre-bradyzoite, alkaline-induced | **A** | 7880 | 96.8% | `te245775_parent_prebrady_` | separate | **Translation initiation factor eIF1.2 promotes Toxoplasma stage conversion by regulating levels of key differentiation factors.** (Nature communications 2024) [38782906](https://pubmed.ncbi.nlm.nih.gov/38782906/) `GSE245775` |
 | Tg_translation · under initiation-factor depletion | eIF1.2 knockout, tachyzoite and pre-bradyzoite | **A** | 7880 | 96.8% | `rpf245775_eif12ko_, te245775_eif12ko_` | separate | **Translation initiation factor eIF1.2 promotes Toxoplasma stage conversion by regulating levels of key differentiation factors.** (Nature communications 2024) [38782906](https://pubmed.ncbi.nlm.nih.gov/38782906/) `GSE245775` |
 | Tg_codon usage / translation efficiency | sequence-derived | **A** | 8140 | 100.0% | `codon_` | one | — |
-| Pf_translation · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
+| Pf_translation · asexual blood stage | asexual blood stage | **A** | 5720 | 100.0% | `polysomal_` | separate | — |
 | Pf_translation · per cell-cycle phase | cell cycle | **-** |  |  | `` | one | — |
 | Pf_translation · under stress | extracellular stress or iron | **-** |  |  | `` | separate | — |
 | Pf_translation efficiency · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |

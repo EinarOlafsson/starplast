@@ -1059,6 +1059,24 @@ PF_PATTERNS = {
     # The piggyBac saturation screen is an asexual-blood-stage screen and nothing else. Naming the
     # stage in the slot keeps it from being read as fitness anywhere in the life cycle.
     "fitness · asexual blood stage": ["piggybac_"],
+    # Two transcriptome studies, split so no column answers two slots. The seven-stage study answers
+    # the individual stages; the polysomal study is an IDC time course at 0h, 18h and 36h, so its
+    # steady-state arm answers cell-cycle phase and its polysomal arm answers translation. Handing
+    # the stage slots and the cell-cycle slot the same columns would be one measurement claimed
+    # twice, which is the leakage this catalog exists to prevent.
+    "transcription · ring": ["expr_ring"],
+    "transcription · trophozoite": ["expr_early_trophozoite", "expr_late_trophozoite"],
+    "transcription · schizont": ["expr_schizont"],
+    "transcription · gametocyte": ["expr_gametocyte_"],
+    "transcription · ookinete": ["expr_ookinete"],
+    "transcription · oocyst": ["expr_oocyst"],
+    "transcription · sporozoite": ["expr_sporozoite"],
+    "transcription · asexual blood stage": ["expr_asexual_blood"],
+    "transcription · per cell-cycle phase": ["steady_state_"],
+    # Polysome-associated RNA is what is ON ribosomes: a translation readout rather than a transcript
+    # level. Its steady-state partner from the same experiment is what makes that distinction
+    # measurable instead of assumed, which is why both halves are kept.
+    "translation · asexual blood stage": ["polysomal_"],
 }
 
 
