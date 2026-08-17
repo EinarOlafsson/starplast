@@ -659,11 +659,19 @@ starplast-discover --read bigA_00_guilt_compartment_best
 
 ## 5. Future scope, not an open numbered task
 
-* **The malaria map remains separate.** The authoritative 24-slot Pf catalogue and its cached
-  candidates now exist, and processed source files were acquired under
-  `datasets/plasmodium_acquisition_2026_08_14/`. There is deliberately no Pf node table or
-  combined-organism view: the Toxoplasma application must not attach malaria measurements to
-  Toxoplasma genes through sparse orthology. Building that second map is a future product task.
+* **The malaria map is now built, and still separate.** Superseded 2026-08-17: a Plasmodium node
+  table (`pf_nodes.parquet`, 5,720 genes) and its own graph (`pf_graph.npz`) exist, and 21 of 103
+  Pf slots are filled. The concern that produced the original "deliberately no Pf node table" is
+  unchanged and is now enforced rather than avoided: nothing is merged, no measurement crosses
+  species, and there is still no combined-organism view. What makes that safe is the species guard
+  in `slots` -- a table reports its own species from its accessions, and `declared_columns`,
+  `resolve` and `is_filled` all refuse a slot whose organism disagrees.
+  **Read this before touching either arm:** the Pf columns are named the SAME as the Toxoplasma ones
+  wherever the quantity is the same, because that is what lets the arms be compared. The cost is
+  that nothing keyed on a COLUMN OR LAYER NAME can tell the arms apart. That cost has already come
+  due four times -- `declared_columns`, `resolve`, `is_filled`, and the dataset-contribution test
+  that was passing by accident. The rule for the third species: nothing may identify an organism by
+  the name of a column or a layer; only the table's own accessions do that.
 * The ten-task headless run was stopped at 7 of 10 by request, to free the GPU for that work. Results land in
   `~/.cache/starplast/searches/bigA_*` … `bigE_*`; read them with `starplast-discover --read NAME`.
 
@@ -691,5 +699,14 @@ Five are open. Suggested order, cheapest-unblocking-first:
    read both before starting either, and fold 38's archive into 41's procedure rather than building
    two fetchers.
 
-The atlas of all 239 slots, filled and empty, is published and regenerates from
-`scripts/generate_slot_table.py` plus `starplast/data/slots.json`.
+The atlas of all 222 slots, filled and empty, is published and regenerates from
+`scripts/generate_slot_table.py` plus `starplast/data/slots.json`. As of 2026-08-17 it stands at
+**135 filled: Toxoplasma 114 of 119, Plasmodium 21 of 103.**
+
+The five empty Toxoplasma slots are not a backlog. Each carries `blocked_by`, `searched` and
+`would_fill_it` in the generated table, and the verdict is one of two words -- `missing` (the
+measurement has not been made in this organism) or `unreachable` (it has, and the data cannot be
+got at). All five read `missing`, two of them after catalogue-complete sweeps rather than keyword
+searches: all 201 Toxoplasma PRIDE deposits for protein turnover, and 100 Toxoplasma screen papers
+for drug sensitivity. A test refuses to let a new empty slot appear without a verdict, so the next
+person can tell a question nobody searched from one that was searched to the bottom.
