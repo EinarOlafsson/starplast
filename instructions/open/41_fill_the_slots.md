@@ -1414,3 +1414,27 @@ Three things stand between that and a filled slot, and they are the work, not th
 sources; PlasmoDB's `GenesByPhenotype_pberANKA_phenotype_Bushnell_functional_profiling` is the
 blood-stage one and sits behind an EDA `filter` parameter rather than a plain attribute, which is why
 it was not fetched here.
+
+### Correction to the entry above: that source is the wrong KIND of measurement
+
+Checked before use, and refused. `WT/2.33 avg Log2` is **differential gene EXPRESSION** between two
+*berghei* lines — ANKA 2.34, which produces gametocytes, against ANKA 2.33, which does not — and the
+positive tail is genes enriched in gametocytes. It is a transcriptome comparison, **not a knockout
+fitness screen.**
+
+So it cannot fill `Pf_fitness · transmission transferred from Pb`, which is a fitness slot. The
+paper's title — "Identification of genes required for *Plasmodium* gametocyte-to-sporozoite
+transition" — reads exactly like a screen, and the previous entry here described it as one on the
+strength of a per-gene log2 with a p-value. That was wrong and is corrected rather than deleted,
+because the mistake is the instructive part: **a log2 with a p-value tells you nothing about what was
+measured.** Every source this campaign refused had one.
+
+It also cannot be redirected to a transcription slot. Gametocyte-enriched expression is
+`Pf_transcription · gametocyte`, which the Su seven-stage series already fills, and using this beside
+it would be one question answered twice.
+
+**What the transfer slots actually need is a knockout screen scored in the mosquito**, which is what
+PlasmoGEM's *berghei* transmission data is. That remains behind PlasmoDB's EDA `filter` parameter.
+The three transfer slots stay empty and correctly so; the machinery to hold them honestly is built and
+tested, and the next attempt should start by confirming that a candidate table's rows are MUTANTS
+rather than transcripts.
