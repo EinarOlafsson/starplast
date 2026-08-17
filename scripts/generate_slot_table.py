@@ -1090,6 +1090,9 @@ PF_PATTERNS = {
     # OBSERVED palmitoylation only. The source workbook's own "nrPalmitoylated" sheet is the union
     # of observed and motif-predicted, and would have claimed 54% of the proteome.
     "palmitoylation · asexual blood stage": ["is_palmitoylated"],
+    # Wild type and knockout as stated conditions. The KO-minus-WT contrast is deliberately not
+    # precomputed; `plasmodium.sir2_perturbation` says why.
+    "transcription · under TF or chromatin perturbation": ["sir2_wt_", "sir2a_ko_", "sir2b_ko_"],
     "shared orthogroup": ["edge:orthogroup"],
     "shared domain": ["edge:domain"],
     "co-transcription": ["edge:coexpression"],

@@ -155,6 +155,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Novel transcript models (Nanopore, via ToxoDB) | How many novel TALON transcript models long reads support for this gene | 798 genes (10%) | `ToxoDB Stuart/Ralph nanopore` |
 | Oocyst sporulation series | Unsporulated / sporulating / sporulated, 2 replicates (6 columns) | 7,974 (98.0%) | `GSE206344` |
 | Plasmodium falciparum life-stage and polysomal RNA | Transcript abundance across seven life stages, and what is on ribosomes | 5,720 P. falciparum genes | `PlasmoDB: Su seven stages, Bunnik polysomal IDC, Gomez-Diaz mosquito stages` |
+| Plasmodium transcription under Sir2 knockout | Wild type and sir2a / sir2b knockout at ring, trophozoite and schizont | 5,615 genes | `PlasmoDB Sir2 KO Marray` |
 | Primary brain-cell parasite differentiation time course | Parasite base mean and log2 fold-change at days 1, 2, 4, 7 and 14 | measured at build time | Mouveaux T et al., Primary brain cell infection by Toxoplasma gondii reveals spontaneous bradyzoite differentiation and modification of neuron biology; PMID [34610266](https://pubmed.ncbi.nlm.nih.gov/34610266/); `GSE168465` |
 | Pru tachyzoite / 72-hour bradyzoite stage array | Matched tachyzoite and alkaline-induced bradyzoite expression | 7,253 genes | `GSE22258` |
 | Sexual development in the cat (single-cell atlas) | Enrichment at 8 days post-infection, when gametogony happens | 4,463 genes (55%) | PMID [41929010](https://pubmed.ncbi.nlm.nih.gov/41929010/); `PMC13042011 supplementary media-2` |

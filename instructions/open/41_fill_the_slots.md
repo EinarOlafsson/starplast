@@ -999,3 +999,28 @@ GAP45 and CDPK1 — the canonical Plasmodium palmitoylation substrates — are b
 proteins are enriched **2.1-fold** among the palmitoylated (44% against 27%, p = 7e-15), which is
 what a membrane-anchoring modification has to do. ARO is a known miss; no palmitome is complete, and
 absence here means not observed.
+
+## Fourteenth pass: a contrast deliberately not computed
+
+**Toxoplasma 114 of 119, Plasmodium 24 of 103, combined 138 of 222.**
+
+The Sir2 knockout microarray is the chromatin perturbation this arm has: wild type against *sir2a*
+and *sir2b* knockouts, at ring, trophozoite and schizont.
+
+The obvious column is knockout minus wild type, and it is **not** computed. The independent check on
+it came out ambiguous. Sir2a silences subtelomeric *var* genes, so *var* should rise in the *sir2a*
+knockout — and it does in ring (+0.135, p = 4e-12) and schizont (+0.130, p = 2e-38), but **falls in
+trophozoite** (−0.240, p = 3e-22), with all effects small against a spread of 0.7.
+
+That is consistent with the canonical result being subset-specific and with *var* probes
+cross-hybridising across sixty paralogues. It is not a clean confirmation. A derived column carrying
+an unexplained sign flip would state more confidence than there is, so the nine **conditions** ship
+instead — those are unambiguous: PlasmoDB names them, the values are log intensities, and the array
+medians align within 0.1. A test asserts that alignment, because it is the precondition that makes
+differencing them meaningful at all, and it is the thing that would break first if PlasmoDB
+renormalised.
+
+This is a different kind of restraint from the four refusals before it. Those were cases where a
+number was not the quantity the slot named. Here the number probably *is* the right quantity and the
+evidence for it is merely weaker than a column implies — so the answer is not to refuse the data but
+to ship it one step further back, and say why.

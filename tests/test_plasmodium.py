@@ -442,6 +442,17 @@ def test_build_all_folds_in_the_palmitome_and_flags_the_rest_false(tmp_path):
     assert not d.loc["PF3D7_0100200", "is_palmitoylated"], "the predicted column leaked in"
 
 
+def test_build_all_folds_in_the_chromatin_perturbation(tmp_path):
+    root = _dataset_root(tmp_path)
+    base = os.path.join(root, "reference", "plasmodb")
+    rows = {"Gene ID": ["PF3D7_0100100", "PF3D7_0100200"]}
+    for label, _column in P.SIR2:
+        rows[f"{label} (Sir2 KO Marray)"] = ["2.7", "2.9"]
+    pd.DataFrame(rows).to_csv(os.path.join(base, P.SIR2_TABLE), sep="\t", index=False)
+    d = P.build_all(root, log=lambda *a: None)
+    assert "sir2_wt_ring" in d.columns and "sir2a_ko_ring" in d.columns
+
+
 def test_build_all_assembles_the_three_reports(tmp_path):
     d = P.build_all(_dataset_root(tmp_path), log=lambda *a: None)
     assert {"length", "expr_ring", "export_pred_tier", "is_exported"} <= set(d.columns)
@@ -621,3 +632,62 @@ def test_palmitoylation_lands_on_the_proteins_it_should():
     odds, pvalue = fisher_exact([[int((p & tm).sum()), int((p & ~tm).sum())],
                                  [int((~p & tm).sum()), int((~p & ~tm).sum())]])
     assert odds > 1.5 and pvalue < 1e-6, (odds, pvalue)
+
+
+# --------------------------------------------------------------------------- chromatin perturbation
+SIR2 = os.path.join(ROOT, "datasets", "reference", "plasmodb", P.SIR2_TABLE)
+
+
+def _sir2_report(tmp_path, header=True):
+    rows = {"Gene ID": ["PF3D7_0100100", "PF3D7_0100200"]}
+    for label, _column in P.SIR2:
+        rows[f"{label} (Sir2 KO Marray)"] = ["2.7", "N/A"]
+    frame = pd.DataFrame(rows)
+    if not header:
+        frame = frame.drop(columns=["Gene ID"])
+    path = tmp_path / P.SIR2_TABLE
+    frame.to_csv(path, sep="\t", index=False)
+    return str(path)
+
+
+def test_every_sir2_condition_becomes_its_own_column(tmp_path):
+    d = P.sir2_perturbation(_sir2_report(tmp_path))
+    for _label, column in P.SIR2:
+        assert column in d.columns, column
+
+
+def test_the_knockout_and_wild_type_stay_separate_columns(tmp_path):
+    """The contrast is not precomputed, so both arms have to survive into the table."""
+    d = P.sir2_perturbation(_sir2_report(tmp_path))
+    assert any(c.startswith("sir2_wt_") for c in d.columns)
+    assert any(c.startswith("sir2a_ko_") for c in d.columns)
+    assert any(c.startswith("sir2b_ko_") for c in d.columns)
+
+
+def test_a_missing_sir2_report_yields_nothing(tmp_path):
+    assert P.sir2_perturbation(str(tmp_path / "absent.tsv")).empty
+
+
+def test_a_sir2_report_without_a_gene_column_is_refused(tmp_path):
+    assert P.sir2_perturbation(_sir2_report(tmp_path, header=False)).empty
+
+
+def test_a_sir2_report_with_no_recognised_condition_is_refused(tmp_path):
+    path = tmp_path / P.SIR2_TABLE
+    pd.DataFrame({"Gene ID": ["PF3D7_0100100"], "unrelated": ["1"]}).to_csv(
+        path, sep="\t", index=False)
+    assert P.sir2_perturbation(str(path)).empty
+
+
+@pytest.mark.skipif(not os.path.exists(SIR2), reason="Sir2 report not fetched")
+def test_the_sir2_arrays_are_on_a_comparable_scale():
+    """Differencing them is only meaningful if they are, and the module leaves that to the caller.
+
+    This asserts the precondition rather than the conclusion: the arrays are log intensities whose
+    medians line up, which is what makes a knockout-minus-wild-type difference interpretable at all.
+    """
+    d = P.sir2_perturbation(SIR2)
+    values = d[[c for c in d.columns if c != "gene_id"]]
+    medians = values.median()
+    assert medians.max() - medians.min() < 0.1, medians.to_dict()
+    assert values.min().min() > 1 and values.max().max() < 20

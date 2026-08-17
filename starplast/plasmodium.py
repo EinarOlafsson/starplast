@@ -259,6 +259,9 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
         # mass spectrometry never saw; the BOOLEAN is False, because "was it ever observed
         # phosphorylated" is a yes-or-no about the evidence and the answer is no.
         nodes["has_phospho"] = nodes["has_phospho"].notna() & (nodes["has_phospho"] == True)  # noqa: E712
+    sir2 = sir2_perturbation(os.path.join(base, SIR2_TABLE))
+    if not sir2.empty:
+        nodes = nodes.merge(sir2, on="gene_id", how="left")
     palm = palmitome(dataset_root, log=log)
     if not palm.empty:
         nodes = nodes.merge(palm, on="gene_id", how="left")
@@ -353,3 +356,47 @@ def palmitome(dataset_root: str, log=print) -> pd.DataFrame:
     log(f"palmitome: {len(genes):,} proteins observed palmitoylated "
         f"(the workbook's {PALMITOME_PREDICTED.lower()} column is a prediction and is not used)")
     return pd.DataFrame({"gene_id": genes, "is_palmitoylated": True})
+
+
+# --------------------------------------------------------------------------- chromatin perturbation
+#: Transcription in sir2a and sir2b knockouts against wild type, at three stages of the cycle.
+#: Sir2 is a histone deacetylase and the knockouts are the chromatin perturbation this arm has.
+SIR2_TABLE = "plasmodb_pf3d7_sir2_perturbation.tsv"
+SIR2 = (("wild type - ring", "sir2_wt_ring"),
+        ("wild type - trophozoite", "sir2_wt_trophozoite"),
+        ("wild type - schizont", "sir2_wt_schizont"),
+        ("sir2a KO - ring", "sir2a_ko_ring"),
+        ("sir2a KO - trophozoite", "sir2a_ko_trophozoite"),
+        ("sir2a KO - schizont", "sir2a_ko_schizont"),
+        ("sir2b KO - ring", "sir2b_ko_ring"),
+        ("sir2b KO - trophozoite", "sir2b_ko_trophozoite"),
+        ("sir2b KO - schizont", "sir2b_ko_schizont"))
+
+
+def sir2_perturbation(report_path: str) -> pd.DataFrame:
+    """Wild type and knockout intensities, shipped as stated conditions rather than as a contrast.
+
+    The knockout-minus-wild-type difference is the quantity anyone will want, and it is deliberately
+    NOT computed here. The independent check on it came out ambiguous: Sir2a silences subtelomeric
+    var genes, so var should rise in the sir2a knockout, and it does in ring (+0.135, p = 4e-12) and
+    schizont (+0.130, p = 2e-38) -- but FALLS in trophozoite (-0.240, p = 3e-22). The effects are
+    also small against a spread of 0.7. That is consistent with the canonical result being
+    subset-specific and with var probes cross-hybridising across sixty paralogues, but it is not a
+    clean confirmation, and a derived column carrying an unexplained sign flip would state more
+    confidence than there is. The conditions themselves are unambiguous -- PlasmoDB names them, the
+    scale is log intensity, and the medians align across arrays -- so those are what ship.
+    """
+    if not os.path.exists(report_path):
+        return pd.DataFrame()
+    d = pd.read_csv(report_path, sep="\t", dtype=str)
+    if "Gene ID" not in d.columns:
+        return pd.DataFrame()
+    d = d.replace(dict.fromkeys(BLANK, None))
+    out = pd.DataFrame({"gene_id": d["Gene ID"].astype(str)})
+    for label, column in SIR2:
+        found = [c for c in d.columns if label in c]
+        if len(found) == 1:
+            out[column] = pd.to_numeric(d[found[0]], errors="coerce")
+    if len(out.columns) == 1:
+        return pd.DataFrame()
+    return out[~out["gene_id"].duplicated()].sort_values("gene_id").reset_index(drop=True)
