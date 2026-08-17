@@ -1386,3 +1386,31 @@ biology."* Two tests now hold it -- one asserts no transfer slot is alone in its
 declares itself orthology-derived, the other that no Plasmodium slot asks about a mouse organ.
 
 −4 + 1 + 3 = 0. The catalog got more correct and the score did not move.
+
+### The source for the transmission transfer slot, found and not yet used
+
+`Pf_fitness · transmission transferred from Pb` now exists and its data is located: **PMID 37708854 /
+PMC7618085**, a genome-scale *berghei* screen for gametocyte-to-sporozoite transition. Supplementary
+`mmc2.xlsx` sheet `Table S1A` carries **3,428 PBANKA genes** with a log2 ratio and a p-value, reached
+through the nested `EMS208536-supplement-Supplementary_Material.zip`.
+
+Three things stand between that and a filled slot, and they are the work, not the finding:
+
+1. **What the ratio means.** The column is headed `WT/2.33 avg Log2`. `2.33` is a line or pool name
+   and the direction has to be established from the paper before the column can be named, exactly as
+   the ToxoDB `fold_change_avg` direction and the vesicle EV-minus-cell transform had to be.
+2. **A PBANKA -> PF3D7 map.** The NF54 map cannot be reused. That one is an IDENTITY map validated on
+   protein length because 3D7 was cloned from NF54; *berghei* is a different species and its
+   orthologues will differ in length, so length is the wrong check here. The right one is orthogroups
+   holding exactly one gene on each side, with the SAME conservative drop of multi-gene groups, and a
+   different validation -- probably that known-conserved essential families map and the variant
+   surface families do not.
+3. **The transfer has to stay visible.** The slot already declares itself orthology-derived and shares
+   `target_family` with `Pf_fitness · transmission`, so the leakage rule is in place and tested. The
+   column must be named for what it is -- transferred *berghei* fitness -- and never merged into the
+   measured slot.
+
+`Pf_fitness · transferred from Pb` and `· liver stage transferred from Pb` still need their own
+sources; PlasmoDB's `GenesByPhenotype_pberANKA_phenotype_Bushnell_functional_profiling` is the
+blood-stage one and sits behind an EDA `filter` parameter rather than a plain attribute, which is why
+it was not fetched here.
