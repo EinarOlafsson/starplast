@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**119 slots: 62 covered well, 16 partly, 34 thinly, 7 empty.**
+**119 slots: 62 covered well, 16 partly, 35 thinly, 6 empty.**
 
 ### transcription
 
@@ -253,7 +253,7 @@ quantity were approximating on 2026-08-13.
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
 | Tg_host ESCRT recruitment | high-content imaging | **C** | 10 | 0.1% | `escrt_recruitment_` | separate | [spaCR](https://pubmed.ncbi.nlm.nih.gov/spaCR/) `screen` |
-| Tg_invasion and egress phenotype | high-content imaging | **-** |  |  | `` | separate | — |
+| Tg_invasion and egress phenotype | high-content imaging | **C** | 318 | 3.9% | `screen_egress_phenotype, screen_any_phenotype, screen_actin_phenotype, screen_apicoplast_phenotype, screen_replication_phenotype, screen_scorers_agree` | separate | **A splitCas9 phenotypic screen in Toxoplasma gondii identifies proteins involved in host cell egress and invasion.** (Nat Microbiol 2022) [35538310](https://pubmed.ncbi.nlm.nih.gov/35538310/) `Nat Microbiol 41564-2022-01114` |
 
 ### One dataset, several slots
 

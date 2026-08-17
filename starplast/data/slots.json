@@ -3663,9 +3663,22 @@
     "axis": "phenotype",
     "context": "high-content imaging",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "screen_egress_phenotype",
+      "screen_any_phenotype",
+      "screen_actin_phenotype",
+      "screen_apicoplast_phenotype",
+      "screen_replication_phenotype",
+      "screen_scorers_agree"
+    ],
     "policy": "separate",
-    "candidates": [],
+    "candidates": [
+      [
+        "35538310",
+        "Nat Microbiol 41564-2022-01114",
+        "arrayed splitCas9 imaging screen, 319 genes"
+      ]
+    ],
     "evidence_path": [
       "perturbational measurements",
       "cell phenotype",
@@ -6347,6 +6360,11 @@
     "patterns": [],
     "policy": "separate",
     "candidates": [
+      [
+        "35538310",
+        "Nat Microbiol 41564-2022-01114",
+        "arrayed splitCas9 imaging screen, 319 genes"
+      ],
       [
         "42427796",
         "",

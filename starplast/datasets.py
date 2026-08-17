@@ -1092,6 +1092,32 @@ REGISTRY = [
                  "`vs_host` column is COMPUTED here, sample-centred so it compares proportion "
                  "rather than amount; the archive's own EV-minus-cell column is not used because "
                  "its transform could not be reproduced to better than 3 log units."),
+    Dataset("splitcas9_imaging_screen", "Arrayed splitCas9 imaging screen", "DNA",
+            "imaging_screen",
+            "What a parasite looks like when a gene is off: egress, actin, apicoplast, replication",
+            ("screen_egress_phenotype", "screen_actin_phenotype", "screen_apicoplast_phenotype",
+             "screen_replication_phenotype", "screen_any_phenotype", "screen_scorers_agree"),
+            "319 genes screened, 99 with a phenotype, 35 at egress", pmid="35538310",
+            accession="Nat Microbiol 41564-2022-01114 Supplementary Tables 2 and 3B",
+            url="https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-022-01114-y/"
+                "MediaObjects/41564_2022_1114_MOESM4_ESM.xlsx",
+            path="datasets/DNA/imaging_screen/35538310/41564_2022_1114_MOESM4_ESM.xlsx",
+            note="The only per-gene invasion-or-egress phenotype table published for Toxoplasma, "
+                 "and it covers the EGRESS half: the screen's own figure legend calls it a screen "
+                 "for actin dynamics, apicoplast segregation and egress, and invasion is a property "
+                 "its hits were shown to have afterwards rather than a category anything was scored "
+                 "into. Two earlier passes read this slot as blocked because the other candidates "
+                 "promise invasion and egress in their titles and deliver it by characterising one "
+                 "gene. The category codes had to be EARNED: the workbook ships no legend, it lives "
+                 "in a figure that is an image, so `E` is read as egress because the paper names "
+                 "exactly four categories in three places and because the two genes it names as its "
+                 "egress mutants, CGP TGGT1_240380 and SLF TGGT1_208420, both carry an E -- which "
+                 "the test asserts, so the mapping can fail. The SUBSCRIPT is deliberately not "
+                 "read: E3 and E4 differ in something no accessible text defines, and a severity "
+                 "invented from a digit is a number with no measurement behind it. Missingness "
+                 "carries the other half of the meaning -- a screened gene with no egress call was "
+                 "looked at and was normal, and the 7,800 unscreened genes stay missing, because "
+                 "collapsing those would tell the map that nearly every gene has been checked."),
     Dataset("plasmodb_pf3d7_attributes", "Plasmodium falciparum 3D7 gene attributes",
             "reference", "annotation",
             "The second species: sequence, orthology, domains, strain SNPs and piggyBac fitness",

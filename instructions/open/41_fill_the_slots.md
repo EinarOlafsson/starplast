@@ -617,3 +617,66 @@ Note for whoever picks this up: an LLM summary of these papers gets this wrong i
 Asked for the mutations, it returned the auranofin candidates without the sentence excluding them,
 and it attached the artemisinin quote for Ark1 to the DegP2 row. Both papers were then read as PDF
 and XML directly, which is the only reason the refusal is trustworthy.
+
+## Fifth pass, 2026-08-16: the egress screen, and the Plasmodium arm opens
+
+**Toxoplasma 113 of 119. Plasmodium 7 of 103. Combined 120 of 222.**
+
+### `invasion and egress phenotype`, filled on its egress half
+
+Two earlier passes read this as blocked, and both times for the same reason: the Toxoplasma papers
+whose titles promise invasion and egress deliver it by characterising *one gene*. The kinome HiT
+screen was refused last pass on exactly that. What was missing was the search that asks for the
+screen rather than the finding, and it exists — PMID 35538310, an arrayed splitCas9 screen that
+disrupted 319 genes one per well and scored the images by eye.
+
+The category codes had to be **earned**. The workbook gives each gene codes like `E3` and `F1 A2`
+and ships no legend; the legend is in a figure that is an image. So the mapping rests on two things
+rather than on the initials:
+
+* The paper names its categories in three independent places — supplementary discussion, figure
+  legend, abstract — and names the same four each time: replication, apicoplast, F-actin, egress.
+* The check that does not use initials at all: it names exactly two genes as the egress mutants it
+  went on to characterise, CGP (`TGGT1_240380`) and SLF (`TGGT1_208420`), and **both carry an `E`**.
+  The test asserts it, so the mapping is a claim the suite can lose.
+
+The **subscript is deliberately not read**. `E3` and `E4` differ in something no accessible text
+defines, and a severity column invented out of a digit is a number with no measurement behind it.
+
+Missingness carries half the meaning here and is encoded on purpose: 319 genes were looked at and 99
+had a phenotype, so a screened gene with no egress call is `False` and the other 7,800 stay missing.
+Collapsing those would tell the map that nearly every Toxoplasma gene has been checked for an egress
+defect and passed.
+
+Invasion is still not covered, and the `detail` says so: the screen's own figure legend calls it a
+screen for actin dynamics, apicoplast segregation and egress, and invasion is a property its hits
+were shown to have *afterwards* rather than a category anything was scored into.
+
+### The Plasmodium arm, 0 -> 7
+
+Instruction 39's per-species design was settled and unbuilt, so all 103 Pf slots read empty for want
+of anywhere to look rather than for want of data. One PlasmoDB report now fills seven at grade A:
+sequence basics, domain content, conservation breadth, paralogy, strain variation, membrane topology
+and asexual-blood-stage fitness. That single call does the work of five Toxoplasma acquisitions,
+because PlasmoDB curates into gene attributes what for Toxoplasma had to be found a paper at a time.
+
+The design point that cost the most thought: the Pf columns are named the SAME as the Toxoplasma
+ones wherever the quantity is the same, so the two arms can be read side by side — which broke the
+existing leakage guard, since it was resting on the pattern strings being disjoint. The guard moved
+into the resolution layer instead. A table now reports its own species from what its accessions look
+like, derived rather than declared, and both `declared_columns` and `resolve` refuse a slot whose
+organism disagrees.
+
+### Where the six remaining Toxoplasma slots stand
+
+Searched again this pass, and this pass exhausted the catalogues rather than the phrasings:
+**every one of ToxoDB's 180 datasets, all 234 gene searches, and all 56 RNA-seq datasets** were
+enumerated against these six. The only macrophage transcriptome ToxoDB serves is the naive 29-strain
+panel already in the map; there is no IFN-γ-activated arm. GEO's nine Toxoplasma ribosome-profiling
+series were opened one by one and none is cell-cycle resolved. PRIDE returns nothing for turnover.
+The CRISPR phenotype searches carry the in-vitro and in-vivo fitness arms already ingested and no
+drug arm.
+
+`resistance-conferring mutation` remains the one that is blocked on **access** rather than on
+existence: it needs mutations validated by reintroduction, and the primary text for the two
+candidate papers is absent from EuropePMC and 403 from the publisher.

@@ -104,6 +104,8 @@ quantity were approximating on 2026-08-13.
 #: and because a proposal that names a PMID without its title asks the reader to go and find
 #: out what was being proposed. Titles are as PubMed gives them.
 REFERENCES = {
+    "35538310": ("2022", "Nat Microbiol",
+                 "A splitCas9 phenotypic screen in Toxoplasma gondii identifies proteins involved in host cell egress and invasion."),
     "40874616": ("2025", "mBio",
                  "Mapping a Toxoplasma gondii interactome by crosslinking mass spectrometry and machine learning."),
     "32618271": ("2020", "eLife",
@@ -421,7 +423,19 @@ NEW_SHARED = [
     ("host ESCRT recruitment", "phenotype", "high-content imaging", "gene",
      ["escrt_recruitment_"], "separate",
      [("", "spaCR screen (unpublished)", "pooled image-based CRISPR screen of secretory proteins")]),
-    ("invasion and egress phenotype", "phenotype", "high-content imaging", "gene", [], "separate"),
+    # Filled by the EGRESS half only, and the detail says which. The arrayed splitCas9 screen scored
+    # 319 genes by eye into four categories -- egress, F-actin, apicoplast, replication -- and
+    # invasion is a property its hits were shown to have afterwards rather than a category anything
+    # was scored into. Two earlier passes read this slot as blocked because the papers that promise
+    # invasion and egress in their titles deliver it by characterising one gene; this one delivers a
+    # table. The other three categories ride along in their own columns: they are the same
+    # measurement on the same wells and splitting them across slots would claim one screen four
+    # times, so they are here as context for the egress call rather than as separate answers.
+    ("invasion and egress phenotype", "phenotype", "high-content imaging", "gene",
+     ["screen_egress_phenotype", "screen_any_phenotype", "screen_actin_phenotype",
+      "screen_apicoplast_phenotype", "screen_replication_phenotype", "screen_scorers_agree"],
+     "separate",
+     [("35538310", "Nat Microbiol 41564-2022-01114", "arrayed splitCas9 imaging screen, 319 genes")]),
     ("essentiality in a second background", "fitness", "second strain", "gene",
      ["crispr_reporter_strain_p8_log2"], "separate",
      [("", "GSE132237", "eight passages in the differentiation reporter strain")]),

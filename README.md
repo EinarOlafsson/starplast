@@ -119,6 +119,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 
 | Dataset | Type of data | Coverage | Reference |
 |---|---|---|---|
+| Arrayed splitCas9 imaging screen | What a parasite looks like when a gene is off: egress, actin, apicoplast, replication | 319 genes screened, 99 with a phenotype, 35 at egress | PMID [35538310](https://pubmed.ncbi.nlm.nih.gov/35538310/); `Nat Microbiol 41564-2022-01114 Supplementary Tables 2 and 3B` |
 | Differentiation reporter CRISPR screen (COMPUTED) | Guide enrichment in reporter-positive parasites against the bulk population | 235 genes | `GSE132237` |
 | Fitness in the reporter strain (COMPUTED) | Guide depletion over eight passages of ordinary growth | 262 genes | `GSE132237` |
 | GRA12 strains and mouse subspecies | Median L2FC in vitro and in vivo, DISCO score; two screens | 236 / 232 | GRA12 is a common virulence factor across Toxoplasma gondii strains and mouse subspecies; PMID [40240328](https://pubmed.ncbi.nlm.nih.gov/40240328/) |

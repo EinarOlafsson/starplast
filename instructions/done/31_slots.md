@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 69 covered well, 16 partly, 34 thinly, 103 empty.**
+**222 slots: 69 covered well, 16 partly, 35 thinly, 102 empty.**
 
 ### transcription
 
@@ -354,9 +354,9 @@ quantity were approximating on 2026-08-13.
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
 | Tg_host ESCRT recruitment | high-content imaging | **C** | 10 | 0.1% | `escrt_recruitment_` | separate | [spaCR](https://pubmed.ncbi.nlm.nih.gov/spaCR/) `screen` |
-| Tg_invasion and egress phenotype | high-content imaging | **-** |  |  | `` | separate | — |
+| Tg_invasion and egress phenotype | high-content imaging | **C** | 318 | 3.9% | `screen_egress_phenotype, screen_any_phenotype, screen_actin_phenotype, screen_apicoplast_phenotype, screen_replication_phenotype, screen_scorers_agree` | separate | **A splitCas9 phenotypic screen in Toxoplasma gondii identifies proteins involved in host cell egress and invasion.** (Nat Microbiol 2022) [35538310](https://pubmed.ncbi.nlm.nih.gov/35538310/) `Nat Microbiol 41564-2022-01114` |
 | Pf_host ESCRT recruitment | high-content imaging | **-** |  |  | `` | separate | [spaCR](https://pubmed.ncbi.nlm.nih.gov/spaCR/) `screen` |
-| Pf_invasion and egress phenotype | high-content imaging | **-** |  |  | `` | separate | **Data selection choices influence the inferred movement patterns of Plasmodium sporozoites in skin.** (bioRxiv : the preprint server for biology 2026) [42427796](https://pubmed.ncbi.nlm.nih.gov/42427796/)<br>verify assay and parasite-gene shape)<br>**VAMP3 vesicles support host protein recruitment and Plasmodium liver stage development.** (mBio 2026) [42478859](https://pubmed.ncbi.nlm.nih.gov/42478859/)<br>verify assay and parasite-gene shape)<br>**Separating Chromera velia Zoospores From Culture and Estimating Their Average Motility Speed and Lifespan.** (Bio-protocol 2026) [42516582](https://pubmed.ncbi.nlm.nih.gov/42516582/)<br>verify assay and parasite-gene shape) |
+| Pf_invasion and egress phenotype | high-content imaging | **-** |  |  | `` | separate | **A splitCas9 phenotypic screen in Toxoplasma gondii identifies proteins involved in host cell egress and invasion.** (Nat Microbiol 2022) [35538310](https://pubmed.ncbi.nlm.nih.gov/35538310/) `Nat Microbiol 41564-2022-01114`<br>**Data selection choices influence the inferred movement patterns of Plasmodium sporozoites in skin.** (bioRxiv : the preprint server for biology 2026) [42427796](https://pubmed.ncbi.nlm.nih.gov/42427796/)<br>verify assay and parasite-gene shape)<br>**VAMP3 vesicles support host protein recruitment and Plasmodium liver stage development.** (mBio 2026) [42478859](https://pubmed.ncbi.nlm.nih.gov/42478859/)<br>verify assay and parasite-gene shape)<br>**Separating Chromera velia Zoospores From Culture and Estimating Their Average Motility Speed and Lifespan.** (Bio-protocol 2026) [42516582](https://pubmed.ncbi.nlm.nih.gov/42516582/)<br>verify assay and parasite-gene shape) |
 
 ### One dataset, several slots
 
@@ -375,6 +375,7 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | [PMID 40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) | Pf_complex membership; Tg_complex membership; Tg_secretome / excreted |
 | `IEDB` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |
 | `spaCR` | Pf_host ESCRT recruitment; Tg_host ESCRT recruitment |
+| [PMID 35538310](https://pubmed.ncbi.nlm.nih.gov/35538310/) | Pf_invasion and egress phenotype; Tg_invasion and egress phenotype |
 | `GSE132237` | Pf_essentiality in a second background; Tg_essentiality in a second background |
 | [PMID 42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/) | Pf_field variation and resistance markers; Pf_resistance-conferring mutation |
 | [PMID 42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/) | Pf_T-cell epitope content; Pf_seroreactivity / antigenicity |
