@@ -1166,3 +1166,27 @@ split as acetylation, for the same reason.
 
 **The map is reusable.** It is not lactylation-specific, and the next Plasmodium source reported
 against NF54, 7G8, Dd2 or any other strain can go through the same door.
+
+## Twentieth pass: an m6A refusal that turned into an isoform fill
+
+**Toxoplasma 114 of 119, Plasmodium 29 of 103, combined 143 of 222.**
+
+Opened PMID 40316999 for its m6A data and refused it: the *falciparum* arm of that table is a
+**43-gene intersection with *P. vivax***, not a methylome, and a column called "RNA modification"
+built on it would represent the Pf epitranscriptome as forty-three genes when it runs to thousands.
+`Pf_RNA modification` stays empty.
+
+The same supplement carries a **SQANTI long-read isoform table** — 2,498 transcript models over 1,857
+genes — which fills `Pf_splicing / isoform use` instead. `full-splice_match` is the reference
+transcript recovered and is deliberately not counted as novel; only `novel_in_catalog`,
+`novel_not_in_catalog` and `fusion` are, which is what the Toxoplasma column of the same name counts.
+238 models are not in the annotation.
+
+Absence stays missing rather than reading as 1: a gene with no long-read model was not sequenced
+deeply enough to say, which is a different statement from having a single transcript. The obvious
+correlation holds and is worth stating rather than hiding — more expressed genes yield more models
+(rho +0.36) — which is detection depth, and is why the count is not read as isoform diversity.
+
+Worth noting as a pattern: this is the second time a source opened for one slot filled a different
+one. The ESCRT round did the same thing, and both times it happened because the supplement was read
+rather than the abstract.

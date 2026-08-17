@@ -1249,6 +1249,24 @@ REGISTRY = [
                  "the values are log intensities, and the medians align across arrays within 0.1, "
                  "which a test asserts because it is the precondition that makes differencing them "
                  "meaningful at all."),
+    Dataset("pf_isoforms", "Plasmodium long-read transcript models", "transcription", "nanopore",
+            "Transcript models per gene, and how many the annotation does not contain",
+            ("n_transcript_models", "novel_transcript_models"),
+            "1,857 genes, 2,498 models, 238 novel", pmid="40316999",
+            accession="Malar J 05376 Supplementary Data 2",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12046715/supplementaryFiles",
+            path="datasets/transcription/isoforms/40316999/SupplementaryData2.xlsx",
+            note="SQANTI classifications of long-read models. `full-splice_match` is the reference "
+                 "transcript recovered and is NOT counted as novel -- only novel_in_catalog, "
+                 "novel_not_in_catalog and fusion are, which is what the Toxoplasma column of the "
+                 "same name counts. Absence is sequencing depth rather than a statement that a gene "
+                 "has one transcript, so unseen genes stay missing instead of reading as 1. Found "
+                 "while looking for something else: this paper was opened for its m6A data, whose "
+                 "Pf arm turned out to be a 43-gene intersection with P. vivax rather than a "
+                 "methylome, and was refused for that -- the isoform table beside it is the usable "
+                 "one. The obvious correlation holds: more expressed genes yield more models "
+                 "(rho +0.36), which is detection depth and is why the count is not read as "
+                 "isoform diversity."),
     Dataset("pf_lactylome", "Plasmodium lysine lactylome (resolved from NF54)",
             "post_translation", "lactylation",
             "Lactylated lysines per gene, reported against NF54 and resolved to 3D7",

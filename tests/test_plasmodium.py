@@ -1096,3 +1096,80 @@ def test_a_strain_report_missing_a_column_maps_nothing(tmp_path):
     pd.DataFrame({"Gene ID": ["PfNF54_A"], "Ortholog Group": ["OG6_1"]}).to_csv(
         path, sep="\t", index=False)
     assert P.strain_map(str(path), _three_d7()) == {}
+
+
+# --------------------------------------------------------------------------- isoforms
+ISO = os.path.join(ROOT, "datasets", "transcription", P.ISOFORMS[0], P.ISOFORMS[1], P.ISOFORMS[2])
+
+
+def _iso_root(tmp_path, rows=None, sheet=None, cols=True):
+    rows = rows if rows is not None else [
+        ("PF3D7_0100100", "full-splice_match"),
+        ("PF3D7_0100100", "novel_in_catalog"),
+        ("PF3D7_0100200", "full-splice_match"),
+        ("PF3D7_0100300_novel_gene_1", "novel_not_in_catalog"),
+        ("novelGene_123", "genic"),
+    ]
+    folder = tmp_path / "transcription" / P.ISOFORMS[0] / P.ISOFORMS[1]
+    folder.mkdir(parents=True)
+    body = (pd.DataFrame(rows, columns=["associated_gene", "structural_category"])
+            if cols else pd.DataFrame({"wrong": [1]}))
+    body.to_excel(folder / P.ISOFORMS[2], sheet_name=sheet or P.ISOFORM_SHEET, index=False)
+    return str(tmp_path)
+
+
+def test_transcript_models_are_counted_per_gene(tmp_path):
+    d = P.isoforms(_iso_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "n_transcript_models"] == 2
+    assert d.loc["PF3D7_0100200", "n_transcript_models"] == 1
+
+
+def test_only_models_the_annotation_lacks_count_as_novel(tmp_path):
+    """`full-splice_match` is the reference transcript recovered, which is not a discovery."""
+    d = P.isoforms(_iso_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "novel_transcript_models"] == 1
+    assert d.loc["PF3D7_0100200", "novel_transcript_models"] == 0
+
+
+def test_a_novel_gene_suffix_is_stripped_back_to_the_gene(tmp_path):
+    d = P.isoforms(_iso_root(tmp_path), log=lambda *a: None)
+    assert "PF3D7_0100300" in set(d["gene_id"])
+
+
+def test_models_not_anchored_on_a_gene_are_dropped(tmp_path):
+    d = P.isoforms(_iso_root(tmp_path), log=lambda *a: None)
+    assert d["gene_id"].str.startswith("PF3D7_").all()
+
+
+def test_a_missing_isoform_table_yields_nothing(tmp_path):
+    assert P.isoforms(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_an_isoform_table_without_the_sheet_or_columns_is_refused(tmp_path):
+    assert P.isoforms(_iso_root(tmp_path, sheet="Other"), log=lambda *a: None).empty
+    assert P.isoforms(_iso_root(tmp_path / "b", cols=False), log=lambda *a: None).empty
+
+
+def test_an_isoform_table_with_no_plasmodium_genes_is_refused(tmp_path):
+    assert P.isoforms(_iso_root(tmp_path, rows=[("novelGene_1", "genic")]),
+                      log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_a_gene_with_no_long_read_model_stays_missing_rather_than_reading_as_one():
+    """Absence is sequencing depth, not a statement that the gene has a single transcript."""
+    d = pd.read_parquet(NODES, columns=["n_transcript_models", "novel_transcript_models"])
+    assert d["n_transcript_models"].isna().sum() > 3000
+    assert d["n_transcript_models"].min() >= 1
+
+
+def test_build_all_folds_in_the_transcript_models(tmp_path):
+    root = _dataset_root(tmp_path)
+    folder = os.path.join(root, "transcription", P.ISOFORMS[0], P.ISOFORMS[1])
+    os.makedirs(folder)
+    pd.DataFrame([("PF3D7_0100100", "novel_in_catalog")],
+                 columns=["associated_gene", "structural_category"]).to_excel(
+        os.path.join(folder, P.ISOFORMS[2]), sheet_name=P.ISOFORM_SHEET, index=False)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "novel_transcript_models"] == 1
+    assert pd.isna(d.loc["PF3D7_0100200", "n_transcript_models"])

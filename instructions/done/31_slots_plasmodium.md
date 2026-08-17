@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 26 covered well, 1 partly, 1 thinly, 75 empty.**
+**103 slots: 26 covered well, 2 partly, 1 thinly, 74 empty.**
 
 ### transcription
 
@@ -146,7 +146,7 @@ quantity were approximating on 2026-08-13.
 | Pf_chromatin state · asexual blood stage | asexual blood stage | **-** |  |  | `` | fill | — |
 | Pf_chromatin accessibility | stages | **-** |  |  | `` | one | — |
 | Pf_RNA modification · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
-| Pf_splicing / isoform use | stages | **-** |  |  | `` | one | — |
+| Pf_splicing / isoform use | stages | **B** | 1857 | 32.5% | `n_transcript_models, novel_transcript_models` | one | — |
 | Pf_RNA stability / half-life · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_antigenic variation family expression | var / rif / stevor | **-** |  |  | `` | separate | **Plasmodium falciparum SET2 domain is allosterically regulated by its PHD-like domain to methylate at H3K36.** (Biochimica et biophysica acta. Gene regulatory mechanisms 2021) [34389510](https://pubmed.ncbi.nlm.nih.gov/34389510/)<br>verify assay and parasite-gene shape)<br>**Chromodomain Protein Interacts with H3K9me3 and Controls RBC Rosette Formation by Regulating the Expression of a Subset of RIFINs in the Malaria Parasite.** (Journal of molecular biology 2022) [35460670](https://pubmed.ncbi.nlm.nih.gov/35460670/)<br>verify assay and parasite-gene shape)<br>**The Putative Bromodomain Protein PfBDP7 of the Human Malaria Parasite Plasmodium Falciparum Cooperates With PfBDP1 in the Silencing of Variant Surface Antigen Expression.** (Frontiers in cell and developmental biology 2022) [35493110](https://pubmed.ncbi.nlm.nih.gov/35493110/)<br>verify assay and parasite-gene shape) |
 

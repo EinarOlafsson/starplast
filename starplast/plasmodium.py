@@ -265,6 +265,11 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     sir2 = sir2_perturbation(os.path.join(base, SIR2_TABLE))
     if not sir2.empty:
         nodes = nodes.merge(sir2, on="gene_id", how="left")
+    iso = isoforms(dataset_root, log=log)
+    if not iso.empty:
+        # Left-joined without filling: a gene with no long-read model was not sequenced deeply
+        # enough to say, which is not the same as having one transcript.
+        nodes = nodes.merge(iso, on="gene_id", how="left")
     mapping = strain_map(os.path.join(base, NF54_TABLE), nodes)
     lac = lactylome(dataset_root, mapping, log=log) if mapping else pd.DataFrame()
     if not lac.empty:
@@ -612,4 +617,45 @@ def lactylome(dataset_root: str, mapping: dict, log=print) -> pd.DataFrame:
     out["has_lactyl"] = True
     log(f"lactylome: {len(out)} genes resolved from NF54, "
         f"{int(out['n_lactylsites'].sum())} localised sites")
+    return out
+
+
+# --------------------------------------------------------------------------- isoforms
+#: Long-read transcript models classified by SQANTI against the reference annotation.
+ISOFORMS = ("isoforms", "40316999", "SupplementaryData2.xlsx")
+ISOFORM_SHEET = "PF_sense"
+
+#: SQANTI categories that mean the model is NOT the annotated transcript. `full-splice_match` is the
+#: reference transcript recovered; everything here is a splice pattern the annotation does not have.
+#: `novel_transcript_models` is named for the Toxoplasma column that answers the same question.
+NOVEL_CATEGORIES = ("novel_in_catalog", "novel_not_in_catalog", "fusion")
+
+
+def isoforms(dataset_root: str, log=print) -> pd.DataFrame:
+    """Transcript models per gene, and how many of them the annotation does not contain."""
+    folder, pmid, name = ISOFORMS
+    path = os.path.join(dataset_root, "transcription", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if ISOFORM_SHEET not in book.sheet_names:
+        return pd.DataFrame()
+    d = book.parse(ISOFORM_SHEET)
+    if not {"associated_gene", "structural_category"} <= set(d.columns):
+        return pd.DataFrame()
+    # A fusion model names both genes it joins; the first is the one it is anchored on.
+    gene = d["associated_gene"].astype(str).str.split("_novel").str[0].str.split("_").str[:2]
+    gene = gene.str.join("_").str.strip()
+    frame = pd.DataFrame({"gene_id": gene,
+                          "category": d["structural_category"].astype(str).str.strip()})
+    frame = frame[frame["gene_id"].str.match(r"^PF3D7_\w+$", na=False)]
+    if frame.empty:
+        return pd.DataFrame()
+    out = pd.DataFrame({"gene_id": sorted(set(frame["gene_id"]))})
+    out["n_transcript_models"] = out["gene_id"].map(frame.groupby("gene_id").size())
+    novel = frame[frame["category"].isin(NOVEL_CATEGORIES)]
+    out["novel_transcript_models"] = out["gene_id"].map(
+        novel.groupby("gene_id").size()).fillna(0).astype(int)
+    log(f"isoforms: {len(out):,} genes, {int(out['n_transcript_models'].sum()):,} models, "
+        f"{int(out['novel_transcript_models'].sum())} not in the annotation")
     return out
