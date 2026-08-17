@@ -826,7 +826,10 @@ SLOTS = [
       ("36214684", "PXD032102", "calmodulin proximal interactors")]),
     ("interaction · structural similarity", "relation", "Foldseek", "pair", ["edge:struct"], "one",
      []),
-    ("interaction · with host proteins", "relation", "host IP-MS", "pair", [], "separate",
+    # A BRIDGE, not an edge: its two ends are in different tables, so `graph.npz` -- whose edges are
+    # index pairs into the parasite table -- cannot hold it. See `slots.BRIDGE_TABLES`.
+    ("interaction · with host proteins", "relation", "host IP-MS", "pair", ["bridge:host"],
+     "separate",
      [("32075880", "PXD016383", "MYR1 co-IP"), ("38747635", "", "exportome TurboID")]),
     ("shared compartment", "relation", "hyperLOPIT", "pair", ["edge:compartment"], "one", []),
     ("shared orthogroup", "relation", "OrthoMCL", "pair", ["edge:orthogroup"], "one", []),
@@ -1118,10 +1121,11 @@ def _write_markdown(rows, path=OUT_MD) -> None:
     open(path, "w", encoding="utf8").write("\n".join(lines))
 
 
-def _rows(definitions, nodes, graph, metabolites=None) -> list:
+def _rows(definitions, nodes, graph, metabolites=None, bridges=None) -> list:
     """One row per slot. `metabolites` is the table whose rows are compounds; slots declaring
     `unit="metabolite"` are graded against it and against its own denominator."""
     metabolites = pd.DataFrame() if metabolites is None else metabolites
+    bridges = pd.DataFrame() if bridges is None else bridges
     """Definitions with measured cache coverage attached."""
     import numpy as np
     n_genes, rows = len(nodes), []
@@ -1130,8 +1134,17 @@ def _rows(definitions, nodes, graph, metabolites=None) -> list:
         context, unit = definition["context"], definition["unit"]
         fills, policy, cands = definition["patterns"], definition["policy"], definition["candidates"]
         edges = [value[len("edge:"):] for value in fills if value.startswith("edge:")]
-        columns = [value for value in fills if not value.startswith("edge:")]
-        if edges:
+        columns = [value for value in fills
+                   if not value.startswith("edge:") and not value.startswith("bridge:")]
+        crossing = [v.split(":", 1)[1] for v in fills if v.startswith("bridge:")]
+        if crossing:
+            # A bridge is graded on the pairs it carries and the parasite genes it reaches, because
+            # its other end is not in this table at all.
+            rows_for = bridges[bridges.get("bridge", "").isin(crossing)] if len(bridges) else bridges
+            pairs = int(len(rows_for))
+            covered = int(rows_for["gene_id"].nunique()) if pairs else 0
+            detail = f"{pairs:,} pairs, {covered} parasite gene(s)"
+        elif edges:
             key = f"{edges[0]}__a"
             pairs = int(len(graph[key])) if key in graph.files else 0
             covered = int(len(set(np.concatenate([graph[f"{edges[0]}__a"],
@@ -1155,7 +1168,7 @@ def _rows(definitions, nodes, graph, metabolites=None) -> list:
             "slot": f"{definition['organism']}_{slot}", "axis": axis, "context": context,
             "unit": unit, "grade": grade(frac, bool(covered), unit), "genes": covered,
             "coverage": f"{frac:.1%}" if covered else "",
-            "filled_by": ", ".join(edges or columns), "detail": detail, "policy": policy,
+            "filled_by": ", ".join([f"bridge:{c}" for c in crossing] or edges or columns), "detail": detail, "policy": policy,
             "candidates": "; ".join(f"PMID {p} {a}".strip() + (f" ({note})" if note else "")
                                     for p, a, note in cands),
             "candidate_titles": " | ".join(
@@ -1223,9 +1236,11 @@ def main() -> int:
     nodes = pd.read_parquet(paths.cache_file("nodes.parquet"))
     _mp = paths.cache_file("metabolites.parquet")
     metabolites = pd.read_parquet(_mp) if os.path.exists(_mp) else pd.DataFrame()
+    _bp = paths.cache_file("host_bridges.parquet")
+    bridges = pd.read_parquet(_bp) if os.path.exists(_bp) else pd.DataFrame()
     z = np.load(paths.cache_file("graph.npz"), allow_pickle=True)
     definitions = all_slots()
-    rows = _rows(definitions, nodes, z, metabolites)
+    rows = _rows(definitions, nodes, z, metabolites, bridges)
     toxo_rows = [row for row in rows if row["organism"] == "Tg"]
     pf_rows = [row for row in rows if row["organism"] == "Pf"]
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)

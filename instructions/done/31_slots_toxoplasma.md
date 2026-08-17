@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**118 slots: 62 covered well, 16 partly, 31 thinly, 9 empty.**
+**118 slots: 62 covered well, 16 partly, 32 thinly, 8 empty.**
 
 ### transcription
 
@@ -187,7 +187,7 @@ quantity were approximating on 2026-08-13.
 | Tg_interaction · IP-MS, parasite-parasite | pulldown | **C** | 48 | 0.6% | `ip_ms` | fill | [(55](https://pubmed.ncbi.nlm.nih.gov/(55/) `IP-MS studies already downloaded and not curated)` |
 | Tg_interaction · proximity labelling | BioID / TurboID | **B** | 1742 | 21.4% | `n_proximity_partners` | fill | [(44](https://pubmed.ncbi.nlm.nih.gov/(44/) `BioID studies already downloaded)`<br>**Essential Functions of Calmodulin and Identification of Its Proximal Interacting Proteins in Tachyzoite-Stage Toxoplasma gondii via BioID Technology.** (Microbiology spectrum 2022) [36214684](https://pubmed.ncbi.nlm.nih.gov/36214684/) `PXD032102` |
 | Tg_interaction · structural similarity | Foldseek | **A** | 2338 | 28.7% | `struct` | one | — |
-| Tg_interaction · with host proteins | host IP-MS | **-** |  |  | `` | separate | **Coimmunoprecipitation with MYR1 Identifies Three Additional Proteins within the Toxoplasma gondii Parasitophorous Vacuole Required for Translocation of Dense Granule Effectors into Host Cells.** (mSphere 2020) [32075880](https://pubmed.ncbi.nlm.nih.gov/32075880/) `PXD016383`<br>**TurboID mapping reveals the exportome of secreted intrinsically disordered proteins in the transforming parasite Theileria annulata.** (mBio 2024) [38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/) |
+| Tg_interaction · with host proteins | host IP-MS | **C** | 1 | 0.0% | `bridge:host` | separate | **Coimmunoprecipitation with MYR1 Identifies Three Additional Proteins within the Toxoplasma gondii Parasitophorous Vacuole Required for Translocation of Dense Granule Effectors into Host Cells.** (mSphere 2020) [32075880](https://pubmed.ncbi.nlm.nih.gov/32075880/) `PXD016383`<br>**TurboID mapping reveals the exportome of secreted intrinsically disordered proteins in the transforming parasite Theileria annulata.** (mBio 2024) [38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/) |
 | Tg_shared compartment | hyperLOPIT | **B** | 1724 | 21.2% | `compartment` | one | — |
 | Tg_shared orthogroup | OrthoMCL | **B** | 1258 | 15.5% | `orthogroup` | one | — |
 | Tg_shared domain | InterPro | **A** | 2235 | 27.5% | `domain` | one | — |

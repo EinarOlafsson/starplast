@@ -150,8 +150,17 @@ def test_every_registered_dataset_contributes_at_least_one_column(nodes):
         # An entry whose columns are `edge:<layer>` contributes an EDGE LAYER and never a node
         # column, so it is checked against the graph. Reading it as a missing column was the first
         # thing that broke when the co-translation layer was registered.
-        wanted = [c for c in d.columns if not c.startswith("edge:")]
+        wanted = [c for c in d.columns
+                  if not c.startswith("edge:") and not c.startswith("bridge:")]
         edges = [c.split(":", 1)[1] for c in d.columns if c.startswith("edge:")]
+        # A bridge contributes rows to a bridge table, which is neither a node column nor a graph
+        # layer. Third kind of contribution, third time this test has had to learn one.
+        crossing = [c.split(":", 1)[1] for c in d.columns if c.startswith("bridge:")]
+        if crossing:
+            bridge = os.path.join(P.data_dir(), slots.BRIDGE_TABLES.get(crossing[0], ""))
+            if not (os.path.exists(bridge) and len(pd.read_parquet(bridge))):
+                missing[d.key] = tuple(d.columns)
+            continue
         if edges and not any(e in layers for e in edges):
             missing[d.key] = tuple(d.columns)
             continue

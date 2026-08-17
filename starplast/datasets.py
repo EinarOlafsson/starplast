@@ -995,6 +995,24 @@ REGISTRY = [
                  "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
                  "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
                  "sit below the genome median of -0.38."),
+    Dataset("myr1_host_ip", "MYR1 host interactome (bridge)", "post_translation", "IPMS",
+            "Host proteins co-immunoprecipitating with the parasite protein MYR1",
+            ("bridge:host",), "219 host proteins, 1 parasite gene", pmid="32075880",
+            accession="PXD016383",
+            url="https://www.ebi.ac.uk/pride/archive/projects/PXD016383",
+            path="starplast/data/host_bridges.parquet",
+            note="The first BRIDGE in the project: pairs whose two ends are in different tables, "
+                 "which `graph.npz` cannot hold because its edges are index pairs into the parasite "
+                 "table. Verified twice over. The parasite side: MYR1 is rank 1 of 325 in its own "
+                 "pulldown at +34.4, with MYR3 at 47 and GRA44, GRA7 and GRA9 in the top ten. The "
+                 "host side against independent literature: PDCD6, which is ALG-2, is rank 1 of "
+                 "219, and a 2026 paper reports Toxoplasma GRA8 engaging host ALG-2 at the vacuole; "
+                 "its partner ALIX is rank 12 and VPS28 rank 62, so ESCRT as a class sits at "
+                 "p = 0.006 against the rest of the host proteins. Two filters do the work and both "
+                 "were got wrong first: a group is a contaminant group if ANY entry in it is one -- "
+                 "MaxQuant prefixes only on the leading entry, so keratin hides mid-group and is "
+                 "otherwise the four most enriched host proteins -- and two unique peptides are "
+                 "required in BOTH bait replicates, which takes 674 host groups to 219."),
     Dataset("metabolome_iron", "Metabolome and isotope labelling under iron deprivation",
             "reference", "metabolomics",
             "Steady-state metabolite levels and the fraction labelled from glucose or glutamine",

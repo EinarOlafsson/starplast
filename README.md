@@ -188,6 +188,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | IP-MS supplement membership corpus | Number of downloaded pulldown studies whose supplement names each gene | measured at build time | *citation not yet confirmed* |
 | Lysine acetylome (GCN5b) | Acetylation sites reported per gene | 3,921 genes measured | `PXD079431` |
 | Lysine lactylome | Lactylation sites reported per gene | 515 genes measured | `PXD031526` |
+| MYR1 host interactome (bridge) | Host proteins co-immunoprecipitating with the parasite protein MYR1 | 219 host proteins, 1 parasite gene | PMID [32075880](https://pubmed.ncbi.nlm.nih.gov/32075880/); `PXD016383` |
 | Monomethylarginine proteome (via ToxoDB) | Monomethylarginine sites reported per gene | 368 genes | `ToxoDB Yakubu monomethylarginine` |
 | N-myristoylated proteome | The authors' confidence that this protein is myristoylated, 3 high to 1 low | 65 substrates | PMID [32618271](https://pubmed.ncbi.nlm.nih.gov/32618271/); `eLife 57861 supplementary file 4` |
 | O-fucosylated glycoproteins (AAL pulldown) | Peptide identifications in the AAL lectin pulldown, per gene | 394 genes | `PXD004426` |

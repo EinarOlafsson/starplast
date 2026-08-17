@@ -42,6 +42,16 @@ RESOLVABLE_UNIT = "gene"
 #: because pair slots are answered by edge layers rather than by a table of rows, and `host_gene` is
 #: absent until instruction 39 builds the host tables -- an entry here is a promise that rows exist.
 UNIT_TABLES = {"gene": "nodes.parquet", "metabolite": "metabolites.parquet"}
+
+#: A bridge is a pair whose two ends live in DIFFERENT tables, so it is neither a column nor an edge
+#: in `graph.npz` -- those are index pairs into the parasite table and a host protein has no index
+#: there. A slot declares one as `bridge:<name>` and it is answered by a bridge table.
+BRIDGE_TABLES = {"host": "host_bridges.parquet"}
+
+
+def bridge_names(slot: Slot) -> tuple:
+    """The bridges a slot declares, if any."""
+    return tuple(p.split(":", 1)[1] for p in slot.patterns if str(p).startswith("bridge:"))
 CATALOG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "slots.json")
 
 
@@ -151,6 +161,14 @@ def is_filled(slot: Slot, nodes: pd.DataFrame = None, graph=None,
     which was true until that table existed and is a lie afterwards -- the same failure the pair
     slots had.
     """
+    crossing = bridge_names(slot)
+    if crossing:
+        # A bridge slot is filled when its bridge table has rows. Nothing else can answer it: the
+        # pair spans two tables, so neither a node column nor a graph edge represents it.
+        table = (tables or {}).get("bridge")
+        return bool(table is not None and len(table)
+                    and set(crossing) <= set(table.get("bridge", pd.Series(crossing)).unique()
+                                             if "bridge" in table else crossing))
     wanted = edge_types(slot)
     if wanted:
         if graph is None:
