@@ -1093,6 +1093,9 @@ PF_PATTERNS = {
     # Wild type and knockout as stated conditions. The KO-minus-WT contrast is deliberately not
     # precomputed; `plasmodium.sir2_perturbation` says why.
     "transcription · under TF or chromatin perturbation": ["sir2_wt_", "sir2a_ko_", "sir2b_ko_"],
+    # The mean AND the shape. A protein half well-folded and half disordered has the same mean as
+    # one uniformly mediocre, and the slot asks about disorder as well as confidence.
+    "fold confidence / disorder": ["mean_plddt", "plddt_fraction_"],
     "shared orthogroup": ["edge:orthogroup"],
     "shared domain": ["edge:domain"],
     "co-transcription": ["edge:coexpression"],

@@ -1205,6 +1205,28 @@ REGISTRY = [
                  "rather than filled with a share. The tell would have been well hidden: ring "
                  "protein correlates -0.25 with ring mRNA, which reads as a biological puzzle and "
                  "is only the normalisation showing through."),
+    Dataset("pf_alphafold_confidence", "Plasmodium model confidence and disorder (AlphaFold DB)",
+            "reference", "structure",
+            "Mean pLDDT per protein, and the fraction of it at each confidence band",
+            ("mean_plddt", "plddt_fraction_very_low", "plddt_fraction_low",
+             "plddt_fraction_confident", "plddt_fraction_very_high", "alphafold_accession"),
+            "5,098 of 5,720 genes",
+            accession="AlphaFold DB API, per UniProt accession",
+            url="https://alphafold.ebi.ac.uk/api/prediction/",
+            path="datasets/reference/plasmodb/plasmodb_pf3d7_alphafold.tsv",
+            note="Fetched per protein because the bulk proteome archive for this organism is not "
+                 "where the documented path says it is. The FRACTIONS matter as much as the mean: a "
+                 "protein half well-folded and half disordered has the same mean as one uniformly "
+                 "mediocre, and the slot asks about disorder as well as confidence. A gene can "
+                 "carry several UniProt accessions -- 876 do, mostly the variant surface families "
+                 "where each field isolate's allele has its own entry -- so the fetch tries them in "
+                 "order and `alphafold_accession` records which one supplied the model, or a number "
+                 "could not be traced back to a structure. Validated on an ordering rather than a "
+                 "total: proteins carrying a recognised InterPro domain model at median pLDDT 73.5 "
+                 "against 56.0 for those without (p = 2e-159), because a domain is a thing that "
+                 "folds. The correlation with protein length is NEGATIVE at -0.555, which is not a "
+                 "fault -- it is this proteome's low-complexity asparagine insertions, which are "
+                 "long and disordered."),
     Dataset("pf_sir2_perturbation", "Plasmodium transcription under Sir2 knockout",
             "transcription", "microarray",
             "Wild type and sir2a / sir2b knockout at ring, trophozoite and schizont",

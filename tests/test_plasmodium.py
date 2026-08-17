@@ -453,6 +453,18 @@ def test_build_all_folds_in_the_chromatin_perturbation(tmp_path):
     assert "sir2_wt_ring" in d.columns and "sir2a_ko_ring" in d.columns
 
 
+def test_build_all_folds_in_the_model_confidence(tmp_path):
+    root = _dataset_root(tmp_path)
+    base = os.path.join(root, "reference", "plasmodb")
+    rows = {"gene_id": ["PF3D7_0100100"], "uniprot_used": ["Q1"]}
+    for source, _column in P.ALPHAFOLD:
+        rows[source] = ["70.5"] if source == "globalMetricValue" else ["0.25"]
+    pd.DataFrame(rows).to_csv(os.path.join(base, P.ALPHAFOLD_TABLE), sep="\t", index=False)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "mean_plddt"] == pytest.approx(70.5)
+    assert pd.isna(d.loc["PF3D7_0100200", "mean_plddt"])
+
+
 def test_build_all_assembles_the_three_reports(tmp_path):
     d = P.build_all(_dataset_root(tmp_path), log=lambda *a: None)
     assert {"length", "expr_ring", "export_pred_tier", "is_exported"} <= set(d.columns)
@@ -691,3 +703,68 @@ def test_the_sir2_arrays_are_on_a_comparable_scale():
     medians = values.median()
     assert medians.max() - medians.min() < 0.1, medians.to_dict()
     assert values.min().min() > 1 and values.max().max() < 20
+
+
+# --------------------------------------------------------------------------- fold confidence
+AF = os.path.join(ROOT, "datasets", "reference", "plasmodb", P.ALPHAFOLD_TABLE)
+
+
+def _af_report(tmp_path, header=True):
+    rows = {"gene_id": ["PF3D7_0100100", "PF3D7_0100200"], "uniprot_used": ["Q1", "Q2"]}
+    for source, _column in P.ALPHAFOLD:
+        rows[source] = ["70.5", "40.0"] if source == "globalMetricValue" else ["0.25", "0.25"]
+    frame = pd.DataFrame(rows)
+    if not header:
+        frame = frame.drop(columns=["gene_id"])
+    path = tmp_path / P.ALPHAFOLD_TABLE
+    frame.to_csv(path, sep="\t", index=False)
+    return str(path)
+
+
+def test_the_alphafold_summary_becomes_a_mean_and_a_shape(tmp_path):
+    d = P.alphafold(_af_report(tmp_path)).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "mean_plddt"] == pytest.approx(70.5)
+    for _source, column in P.ALPHAFOLD:
+        assert column in d.columns
+
+
+def test_the_accession_a_model_came_from_is_recorded(tmp_path):
+    """A gene can carry eight UniProt accessions; a number should name the structure it came from."""
+    d = P.alphafold(_af_report(tmp_path)).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "alphafold_accession"] == "Q1"
+
+
+def test_a_missing_alphafold_report_yields_nothing(tmp_path):
+    assert P.alphafold(str(tmp_path / "absent.tsv")).empty
+
+
+def test_an_alphafold_report_without_a_gene_column_is_refused(tmp_path):
+    assert P.alphafold(_af_report(tmp_path, header=False)).empty
+
+
+def test_an_alphafold_report_without_the_metric_is_refused(tmp_path):
+    path = tmp_path / P.ALPHAFOLD_TABLE
+    pd.DataFrame({"gene_id": ["PF3D7_0100100"], "uniprot_used": ["Q1"]}).to_csv(
+        path, sep="\t", index=False)
+    assert P.alphafold(str(path)).empty
+
+
+@pytest.mark.skipif(not os.path.exists(AF), reason="AlphaFold summaries not fetched")
+def test_the_confidence_fractions_are_internally_consistent():
+    """Four fractions of one model have to account for all of it."""
+    d = P.alphafold(AF)
+    fractions = d[[c for c in d.columns if c.startswith("plddt_fraction_")]]
+    assert len(fractions.columns) == 4
+    total = fractions.sum(axis=1)
+    assert (total - 1.0).abs().max() < 0.01
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_proteins_with_a_recognised_domain_are_modelled_more_confidently():
+    """A domain is a thing that folds, so this ordering has to hold whatever the numbers are."""
+    from scipy.stats import mannwhitneyu
+    n = pd.read_parquet(NODES, columns=["mean_plddt", "has_domain"]).dropna(subset=["mean_plddt"])
+    with_domain = n.loc[n["has_domain"] == True, "mean_plddt"]      # noqa: E712
+    without = n.loc[n["has_domain"] == False, "mean_plddt"]         # noqa: E712
+    assert with_domain.median() > without.median() + 5
+    assert mannwhitneyu(with_domain, without).pvalue < 1e-20

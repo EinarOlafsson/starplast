@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 85 covered well, 17 partly, 36 thinly, 84 empty.**
+**222 slots: 86 covered well, 17 partly, 36 thinly, 83 empty.**
 
 ### transcription
 
@@ -311,7 +311,7 @@ quantity were approximating on 2026-08-13.
 | Tg_sequence basics | protein | **A** | 8140 | 100.0% | `length, sequence` | one | — |
 | Tg_strain variation | population | **A** | 8140 | 100.0% | `snp_` | one | [ToxoDB](https://pubmed.ncbi.nlm.nih.gov/ToxoDB/) `HTS SNPs` |
 | Pf_domain content | InterPro | **A** | 5720 | 100.0% | `n_interpro, has_domain, interpro_ids, pfam_ids` | one | — |
-| Pf_fold confidence / disorder | AlphaFold | **-** |  |  | `` | one | — |
+| Pf_fold confidence / disorder | AlphaFold | **A** | 5098 | 89.1% | `mean_plddt, plddt_fraction_` | one | — |
 | Pf_conservation breadth | OrthoMCL | **A** | 5720 | 100.0% | `ortholog_number, orthogroup` | one | — |
 | Pf_paralogy | OrthoMCL | **A** | 5720 | 100.0% | `paralog_number, has_paralog` | one | — |
 | Pf_sequence basics | protein | **A** | 5720 | 100.0% | `length, molecular_weight, isoelectric_point, transcript_length, exon_count` | one | — |
@@ -397,6 +397,7 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `domain` | Pf_shared domain; Tg_shared domain |
 | `n_interpro` | Pf_domain content; Tg_domain content |
 | `has_domain` | Pf_domain content; Tg_domain content |
+| `mean_plddt` | Pf_fold confidence / disorder; Tg_fold confidence / disorder |
 | `paralog_number` | Pf_paralogy; Tg_paralogy |
 | `length` | Pf_sequence basics; Tg_sequence basics |
 | `snp_` | Pf_strain variation; Tg_strain variation |

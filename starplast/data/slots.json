@@ -5719,7 +5719,10 @@
     "axis": "sequence",
     "context": "AlphaFold",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "mean_plddt",
+      "plddt_fraction_"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [

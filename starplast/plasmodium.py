@@ -259,6 +259,9 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
         # mass spectrometry never saw; the BOOLEAN is False, because "was it ever observed
         # phosphorylated" is a yes-or-no about the evidence and the answer is no.
         nodes["has_phospho"] = nodes["has_phospho"].notna() & (nodes["has_phospho"] == True)  # noqa: E712
+    fold = alphafold(os.path.join(base, ALPHAFOLD_TABLE))
+    if not fold.empty:
+        nodes = nodes.merge(fold, on="gene_id", how="left")
     sir2 = sir2_perturbation(os.path.join(base, SIR2_TABLE))
     if not sir2.empty:
         nodes = nodes.merge(sir2, on="gene_id", how="left")
@@ -398,5 +401,42 @@ def sir2_perturbation(report_path: str) -> pd.DataFrame:
         if len(found) == 1:
             out[column] = pd.to_numeric(d[found[0]], errors="coerce")
     if len(out.columns) == 1:
+        return pd.DataFrame()
+    return out[~out["gene_id"].duplicated()].sort_values("gene_id").reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- fold confidence
+#: AlphaFold's own per-model summary, fetched per protein from the AlphaFold DB API. `mean_plddt`
+#: matches the Toxoplasma column name; the four fractions are the disorder half of the same slot,
+#: because a mean hides the shape -- a protein that is half well-folded and half disordered scores
+#: the same as one that is uniformly mediocre, and those are not the same protein.
+ALPHAFOLD_TABLE = "plasmodb_pf3d7_alphafold.tsv"
+ALPHAFOLD = (("globalMetricValue", "mean_plddt"),
+             ("fractionPlddtVeryLow", "plddt_fraction_very_low"),
+             ("fractionPlddtLow", "plddt_fraction_low"),
+             ("fractionPlddtConfident", "plddt_fraction_confident"),
+             ("fractionPlddtVeryHigh", "plddt_fraction_very_high"))
+
+
+def alphafold(report_path: str) -> pd.DataFrame:
+    """Model confidence per gene, keyed back to the PlasmoDB accession.
+
+    A gene can carry several UniProt accessions -- 876 of them do, mostly the variant surface
+    families where each field isolate's allele has its own entry. The fetch tries them in order and
+    keeps the first with a model, and `uniprot_used` records which, so a number can be traced to the
+    structure it came from rather than to a gene that has eight.
+    """
+    if not os.path.exists(report_path):
+        return pd.DataFrame()
+    d = pd.read_csv(report_path, sep="\t", dtype=str)
+    if "gene_id" not in d.columns:
+        return pd.DataFrame()
+    out = pd.DataFrame({"gene_id": d["gene_id"].astype(str)})
+    for source, column in ALPHAFOLD:
+        if source in d.columns:
+            out[column] = pd.to_numeric(d[source], errors="coerce")
+    if "uniprot_used" in d.columns:
+        out["alphafold_accession"] = d["uniprot_used"].astype(str)
+    if "mean_plddt" not in out.columns:
         return pd.DataFrame()
     return out[~out["gene_id"].duplicated()].sort_values("gene_id").reset_index(drop=True)

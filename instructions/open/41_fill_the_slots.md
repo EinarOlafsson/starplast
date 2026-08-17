@@ -1054,3 +1054,32 @@ to transcription seven times more strongly.
 `Pf_chromatin accessibility` therefore stays empty, and its verdict is `missing` in the sense that
 matters — a usable measurement has not been published for this organism, even though an ATAC-seq
 experiment has.
+
+## Sixteenth pass: model confidence, fetched one protein at a time
+
+**Toxoplasma 114 of 119, Plasmodium 25 of 103, combined 139 of 222.**
+
+`Pf_fold confidence / disorder` is filled from AlphaFold DB, **5,098 of 5,720 genes**. The bulk
+proteome archive is not at the documented path for this organism, so the summaries were fetched per
+protein from the API — 5,306 requests — which turned out to be better than the archive would have
+been: the API returns the mean pLDDT *and* the fraction of each model in each confidence band,
+without downloading or parsing a single structure.
+
+**The fractions matter as much as the mean.** A protein that is half well-folded and half disordered
+scores the same mean as one that is uniformly mediocre, and those are not the same protein. The slot
+asks about disorder as well as confidence, so both ship.
+
+**The accession problem.** A gene can carry several UniProt entries — 876 do, mostly the variant
+surface families where each field isolate's allele has its own. The fetch tries them in order and
+`alphafold_accession` records which one supplied the model, so a number can be traced to the
+structure it came from rather than to a gene that has eight.
+
+### Validated on an ordering, and one number that looks wrong and is not
+
+Proteins carrying a recognised InterPro domain model at median pLDDT **73.5** against **56.0** for
+those without (p = 2e-159) — a domain is a thing that folds.
+
+The correlation with protein length is **−0.555**, which would be alarming in most proteomes and is
+correct in this one: *P. falciparum* is famous for long low-complexity asparagine insertions, which
+are exactly what AlphaFold models with no confidence. Recorded here because the next person to check
+it will have the same moment of doubt.

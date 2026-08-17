@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 23 covered well, 1 partly, 0 thinly, 79 empty.**
+**103 slots: 24 covered well, 1 partly, 0 thinly, 78 empty.**
 
 ### transcription
 
@@ -202,7 +202,7 @@ quantity were approximating on 2026-08-13.
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
 | Pf_domain content | InterPro | **A** | 5720 | 100.0% | `n_interpro, has_domain, interpro_ids, pfam_ids` | one | — |
-| Pf_fold confidence / disorder | AlphaFold | **-** |  |  | `` | one | — |
+| Pf_fold confidence / disorder | AlphaFold | **A** | 5098 | 89.1% | `mean_plddt, plddt_fraction_` | one | — |
 | Pf_conservation breadth | OrthoMCL | **A** | 5720 | 100.0% | `ortholog_number, orthogroup` | one | — |
 | Pf_paralogy | OrthoMCL | **A** | 5720 | 100.0% | `paralog_number, has_paralog` | one | — |
 | Pf_sequence basics | protein | **A** | 5720 | 100.0% | `length, molecular_weight, isoelectric_point, transcript_length, exon_count` | one | — |
