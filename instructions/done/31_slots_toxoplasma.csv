@@ -104,7 +104,7 @@ Tg,Tg_metabolite levels,metabolism,steady state,metabolite,B,675,52.1%,metabolit
 Tg,Tg_metabolic flux,metabolism,labelled precursor,metabolite,B,855,66.0%,labelled_fraction_,"2 columns of 1,296 metabolites",separate,,
 Tg,Tg_lipid composition,metabolism,membrane lipids,metabolite,C,194,15.0%,lipid_ev_,"2 columns of 1,296 metabolites",separate,,
 Tg,Tg_enzyme classification,metabolism,annotation,gene,A,8140,100.0%,"ec_number, has_ec",2 columns,one,,
-Tg,Tg_resistance-conferring mutation,chemistry,in vitro evolution,gene,-,0,,,,separate,,
+Tg,Tg_resistance-conferring mutation,chemistry,in vitro evolution,gene,C,1,0.0%,"resistance_allele_count, resistance_compound_count, resistance_substitutions, resistance_compounds",4 columns,separate,"PMID 24533298 Int J Parasitol Drugs Drug Resist (TgMAPK1 L162Q and I171N, 1NM-PP1); PMID 25941623 Sci Rep (TgMAPKL-1 gatekeeper S191Y)",24533298: Identification of mutations in TgMAPK1 of Toxoplasma gondii conferring resistance to 1NM-PP1. | 25941623: A single mutation in the gatekeeper residue in TgMAPKL-1 restores the inhibitory effect of a bumped kinase inhibitor on the cell cycle.
 Tg,Tg_target engagement / thermal shift,chemistry,thermal proteome,gene,B,2348,28.8%,cetsa_calcium_ed_score,1 columns,average,,
 Tg,Tg_RNA-binding protein targets,relation,CLIP / RIP,gene,A,7463,91.7%,bfd2_rip_log2_ip_over_input,1 columns,separate,,
 Tg,Tg_noncoding and antisense transcription,transcription,lncRNA,gene,A,8140,100.0%,antisense_expression_percentile,1 columns,separate,,

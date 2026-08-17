@@ -25,7 +25,7 @@ import numpy as np
 import pandas as pd
 
 from . import (cellcycle, chromatin, codons, corpus, expression, identity, interaction_studies,
-               phenotype_screen,
+               phenotype_screen, resistance,
                iedb, interactions, palmitome, small_tables,
                literature,
                proteomics,
@@ -136,7 +136,8 @@ def load_nodes() -> pd.DataFrame:
                   small_tables.enzyme_classification(BASE, resolve=resolve,
                                                         log=log),
                   iedb.bcell_epitopes(BASE, resolve=resolve, log=log),
-                  phenotype_screen.screen(BASE, resolve=resolve, log=log)):
+                  phenotype_screen.screen(BASE, resolve=resolve, log=log),
+                  resistance.resistance(BASE, resolve=resolve, log=log)):
         if table.empty:
             continue
         aligned = table.reindex(pd.Index(n.gene_id.astype(str)))

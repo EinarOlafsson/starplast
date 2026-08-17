@@ -3397,9 +3397,25 @@
     "axis": "chemistry",
     "context": "in vitro evolution",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "resistance_allele_count",
+      "resistance_compound_count",
+      "resistance_substitutions",
+      "resistance_compounds"
+    ],
     "policy": "separate",
-    "candidates": [],
+    "candidates": [
+      [
+        "24533298",
+        "Int J Parasitol Drugs Drug Resist",
+        "TgMAPK1 L162Q and I171N, 1NM-PP1"
+      ],
+      [
+        "25941623",
+        "Sci Rep",
+        "TgMAPKL-1 gatekeeper S191Y"
+      ]
+    ],
     "evidence_path": [
       "perturbational measurements",
       "chemical",
@@ -6015,6 +6031,16 @@
     "patterns": [],
     "policy": "separate",
     "candidates": [
+      [
+        "24533298",
+        "Int J Parasitol Drugs Drug Resist",
+        "TgMAPK1 L162Q and I171N, 1NM-PP1"
+      ],
+      [
+        "25941623",
+        "Sci Rep",
+        "TgMAPKL-1 gatekeeper S191Y"
+      ],
       [
         "42569447",
         "",

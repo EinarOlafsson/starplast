@@ -104,6 +104,10 @@ quantity were approximating on 2026-08-13.
 #: and because a proposal that names a PMID without its title asks the reader to go and find
 #: out what was being proposed. Titles are as PubMed gives them.
 REFERENCES = {
+    "24533298": ("2013", "Int J Parasitol Drugs Drug Resist",
+                 "Identification of mutations in TgMAPK1 of Toxoplasma gondii conferring resistance to 1NM-PP1."),
+    "25941623": ("2015", "Int J Parasitol Drugs Drug Resist",
+                 "A single mutation in the gatekeeper residue in TgMAPKL-1 restores the inhibitory effect of a bumped kinase inhibitor on the cell cycle."),
     "35538310": ("2022", "Nat Microbiol",
                  "A splitCas9 phenotypic screen in Toxoplasma gondii identifies proteins involved in host cell egress and invasion."),
     "40874616": ("2025", "mBio",
@@ -382,7 +386,16 @@ NEW_SHARED = [
     # make the other permanently and misleadingly empty. The fitness axis keeps it, because that is
     # what the measurement is; the chemistry axis keeps the two questions that are genuinely its
     # own, resistance-conferring mutation and target engagement.
-    ("resistance-conferring mutation", "chemistry", "in vitro evolution", "gene", [], "separate"),
+    # The only CURATED source in the map: Toxoplasma has no resistome to parse, so this is read out
+    # of papers one allele at a time. The bar is that the mutation was put BACK -- introduced into a
+    # clean background and shown to produce the resistance -- which is why it holds one gene rather
+    # than the ten that in-vitro-evolution candidate lists would have given. `resistance` records
+    # the three well-known alleles it deliberately does not carry, and why.
+    ("resistance-conferring mutation", "chemistry", "in vitro evolution", "gene",
+     ["resistance_allele_count", "resistance_compound_count", "resistance_substitutions",
+      "resistance_compounds"], "separate",
+     [("24533298", "Int J Parasitol Drugs Drug Resist", "TgMAPK1 L162Q and I171N, 1NM-PP1"),
+      ("25941623", "Sci Rep", "TgMAPKL-1 gatekeeper S191Y")]),
     ("target engagement / thermal shift", "chemistry", "thermal proteome", "gene",
      ["cetsa_calcium_ed_score"], "average"),
     ("RNA-binding protein targets", "relation", "CLIP / RIP", "gene",

@@ -228,6 +228,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | PubMed abstracts | Titles and abstracts for co-mention and attention | 33,924 records | *citation not yet confirmed* |
 | Strain variation (ToxoDB HTS SNPs) | SNPs per gene across every sequenced strain, split by effect | 8,140 genes (100%) | `ToxoDB ME49` |
 | ToxoDB gene identity | Symbols, previous IDs, product descriptions | 8,843 ME49 genes | `ToxoDB ME49` |
+| Validated resistance-conferring mutations (CURATED) | Mutations shown to CAUSE drug resistance by putting them back into a clean background | 1 gene, 3 substitutions, 3 compounds | PMID [24533298](https://pubmed.ncbi.nlm.nih.gov/24533298/); `Int J Parasitol Drugs Drug Resist, PMIDs 24533298 and 25941623` |
 
 ## Licence and citing
 

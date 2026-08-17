@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**119 slots: 62 covered well, 16 partly, 35 thinly, 6 empty.**
+**119 slots: 62 covered well, 16 partly, 36 thinly, 5 empty.**
 
 ### transcription
 
@@ -238,7 +238,7 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Tg_resistance-conferring mutation | in vitro evolution | **-** |  |  | `` | separate | — |
+| Tg_resistance-conferring mutation | in vitro evolution | **C** | 1 | 0.0% | `resistance_allele_count, resistance_compound_count, resistance_substitutions, resistance_compounds` | separate | **Identification of mutations in TgMAPK1 of Toxoplasma gondii conferring resistance to 1NM-PP1.** (Int J Parasitol Drugs Drug Resist 2013) [24533298](https://pubmed.ncbi.nlm.nih.gov/24533298/) `Int J Parasitol Drugs Drug Resist`<br>**A single mutation in the gatekeeper residue in TgMAPKL-1 restores the inhibitory effect of a bumped kinase inhibitor on the cell cycle.** (Int J Parasitol Drugs Drug Resist 2015) [25941623](https://pubmed.ncbi.nlm.nih.gov/25941623/) `Sci Rep` |
 | Tg_target engagement / thermal shift | thermal proteome | **B** | 2348 | 28.8% | `cetsa_calcium_ed_score` | average | — |
 
 ### immunity

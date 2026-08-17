@@ -1092,6 +1092,30 @@ REGISTRY = [
                  "`vs_host` column is COMPUTED here, sample-centred so it compares proportion "
                  "rather than amount; the archive's own EV-minus-cell column is not used because "
                  "its transform could not be reproduced to better than 3 log units."),
+    Dataset("curated_resistance_alleles", "Validated resistance-conferring mutations (CURATED)",
+            "reference", "literature",
+            "Mutations shown to CAUSE drug resistance by putting them back into a clean background",
+            ("resistance_allele_count", "resistance_compound_count", "resistance_substitutions",
+             "resistance_compounds"),
+            "1 gene, 3 substitutions, 3 compounds", pmid="24533298",
+            accession="Int J Parasitol Drugs Drug Resist, PMIDs 24533298 and 25941623",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3862444/fullTextXML",
+            note="The ONLY curated source in the map: Toxoplasma has no resistome to parse, so this "
+                 "is read out of papers one allele at a time and every row carries its paper, "
+                 "substitution, compound and how causality was shown. The bar is that the mutation "
+                 "was put BACK -- introduced into a clean background and shown to produce the "
+                 "resistance -- and that bar is why this holds one gene rather than ten. Nine genes "
+                 "were curated from the artemisinin and auranofin in-vitro-evolution studies and "
+                 "then DROPPED: the artemisinin table is titled 'Mutations found in candidate "
+                 "genes', and the auranofin paper names SOD2 as its likeliest locus and then "
+                 "reports that SOD2 L201P was not sufficient to confer resistance when introduced "
+                 "into wild-type parasites. Three well-known alleles are deliberately absent and "
+                 "the module says why: DHFR-TS pyrimethamine alleles (primary text pre-PMC and "
+                 "unreachable), DHODH N302S (primary not open access), and cytochrome b atovaquone "
+                 "alleles (mitochondrially encoded, so no row exists in a table of nuclear genes -- "
+                 "the eighteen nuclear cytochrome b hits are b-c1 subunits and would be the wrong "
+                 "gene). Absence here is ignorance rather than a negative result: nobody selected "
+                 "resistance in most genes, so only curated genes carry a value."),
     Dataset("splitcas9_imaging_screen", "Arrayed splitCas9 imaging screen", "DNA",
             "imaging_screen",
             "What a parasite looks like when a gene is off: egress, actin, apicoplast, replication",

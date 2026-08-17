@@ -680,3 +680,53 @@ drug arm.
 `resistance-conferring mutation` remains the one that is blocked on **access** rather than on
 existence: it needs mutations validated by reintroduction, and the primary text for the two
 candidate papers is absent from EuropePMC and 403 from the publisher.
+
+## Sixth pass, 2026-08-16: `resistance-conferring mutation`, filled by raising the bar
+
+**Toxoplasma 114 of 119.** Five gene slots remain.
+
+Last pass curated this slot and refused it, on the grounds that the Toxoplasma in-vitro-evolution
+studies produce *candidate* loci and that the one candidate ever tested for causality failed. That
+refusal was right about those studies and wrong about the slot. The question "which genes carry a
+mutation that confers resistance" has an answer in this organism; it is just not in the evolution
+papers. It is in the papers that **put the mutation back**.
+
+`TgMAPK1` / `TgMAPKL-1` (`TGME49_312570`) carries L162Q and I171N for 1NM-PP1, with cross-resistance
+to 3BrB-PP1 and 3MB-PP1 (PMID 24533298), and the gatekeeper S191Y (PMID 25941623) — where one
+residue swapped two ways in one background gives a sensitive clone and a resistant one, which is as
+clean as causal evidence gets. Both papers are open access and were read directly.
+
+So the slot is filled by **one gene**, and one gene is the honest number under that bar. Nine genes
+were curated from the artemisinin and auranofin studies and then dropped.
+
+### Three alleles deliberately not carried, recorded as data rather than omitted
+
+`resistance.DOCUMENTED_ELSEWHERE` names them so the next pass does not rediscover the same dead ends,
+and a test asserts none has been added without a source:
+
+* **DHFR-TS** (`TGME49_249180`) pyrimethamine alleles — established well enough that the mutant is
+  the field's standard selectable marker, but the primary text is pre-PMC and unreachable, and a
+  review's paraphrase is not the measurement.
+* **DHODH** (`TGME49_210790`) N302S — primary paper not open access.
+* **Cytochrome b** M129L, I254L for atovaquone — excluded for a *structural* reason rather than an
+  access one. Toxoplasma cytochrome b is mitochondrially encoded and has no row in a table of 8,140
+  nuclear genes; the eighteen nuclear "cytochrome b" hits are b-c1 subunits and b5-domain proteins,
+  and putting an atovaquone allele on one of those would be a plain error.
+
+### What makes a hand-typed table safe
+
+This is the only source in the map with no parser to fail and no archive to disagree with, so the
+usual safety net is gone. What replaces it is a per-row check that costs nothing: every allele
+records the gene's product **as the current annotation gives it**, and a test asserts they match. A
+transposed digit either names nothing or names a different protein, and either way the product stops
+matching — the same check that caught the artemisinin paper writing its own kinase accession two
+ways. A second test asserts no row's validation text reads as *candidate*, *associated with* or
+*correlated*, so the bar cannot erode by someone adding a weaker row later.
+
+### The five that remain
+
+`transcription · in IFN-gamma macrophage`, `translation · per cell-cycle phase`, `protein turnover`,
+`drug sensitivity`, `fitness · in vivo gut`. All five were re-searched this pass at catalogue level
+rather than by phrasing — every ToxoDB dataset, search and RNA-seq series, every Toxoplasma
+ribosome-profiling series in GEO, and PRIDE. Each needs an experiment that has not been done in this
+organism.

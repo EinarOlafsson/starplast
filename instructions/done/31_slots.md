@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 69 covered well, 16 partly, 35 thinly, 102 empty.**
+**222 slots: 69 covered well, 16 partly, 36 thinly, 101 empty.**
 
 ### transcription
 
@@ -335,9 +335,9 @@ quantity were approximating on 2026-08-13.
 
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
-| Tg_resistance-conferring mutation | in vitro evolution | **-** |  |  | `` | separate | — |
+| Tg_resistance-conferring mutation | in vitro evolution | **C** | 1 | 0.0% | `resistance_allele_count, resistance_compound_count, resistance_substitutions, resistance_compounds` | separate | **Identification of mutations in TgMAPK1 of Toxoplasma gondii conferring resistance to 1NM-PP1.** (Int J Parasitol Drugs Drug Resist 2013) [24533298](https://pubmed.ncbi.nlm.nih.gov/24533298/) `Int J Parasitol Drugs Drug Resist`<br>**A single mutation in the gatekeeper residue in TgMAPKL-1 restores the inhibitory effect of a bumped kinase inhibitor on the cell cycle.** (Int J Parasitol Drugs Drug Resist 2015) [25941623](https://pubmed.ncbi.nlm.nih.gov/25941623/) `Sci Rep` |
 | Tg_target engagement / thermal shift | thermal proteome | **B** | 2348 | 28.8% | `cetsa_calcium_ed_score` | average | — |
-| Pf_resistance-conferring mutation | in vitro evolution | **-** |  |  | `` | separate | **Secondary Metabolite Profiling, In Vitro Antimicrobial Activity Evaluation, and In Vivo Acute Toxicity Assessment of Osyris quadripartita and Toddalia asiatica Leaves and Stem Bark Extracts.** (Journal of tropical medicine 2026) [42569447](https://pubmed.ncbi.nlm.nih.gov/42569447/)<br>verify assay and parasite-gene shape)<br>**Phytochemical synergy in artemisia annua herbal tea against malaria: a systematic review of its efficacy and safety in the context of emerging Pfkelch13 resistance.** (Infectious diseases of poverty 2026) [42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/)<br>verify assay and parasite-gene shape)<br>**Silybum marianum and Trigonella foenum-graecum Exhibit Moderate In Vitro Antimalarial Properties against Plasmodium knowlesi.** (Iranian journal of parasitology 2026) [42598511](https://pubmed.ncbi.nlm.nih.gov/42598511/)<br>verify assay and parasite-gene shape) |
+| Pf_resistance-conferring mutation | in vitro evolution | **-** |  |  | `` | separate | **Identification of mutations in TgMAPK1 of Toxoplasma gondii conferring resistance to 1NM-PP1.** (Int J Parasitol Drugs Drug Resist 2013) [24533298](https://pubmed.ncbi.nlm.nih.gov/24533298/) `Int J Parasitol Drugs Drug Resist`<br>**A single mutation in the gatekeeper residue in TgMAPKL-1 restores the inhibitory effect of a bumped kinase inhibitor on the cell cycle.** (Int J Parasitol Drugs Drug Resist 2015) [25941623](https://pubmed.ncbi.nlm.nih.gov/25941623/) `Sci Rep`<br>**Secondary Metabolite Profiling, In Vitro Antimicrobial Activity Evaluation, and In Vivo Acute Toxicity Assessment of Osyris quadripartita and Toddalia asiatica Leaves and Stem Bark Extracts.** (Journal of tropical medicine 2026) [42569447](https://pubmed.ncbi.nlm.nih.gov/42569447/)<br>verify assay and parasite-gene shape)<br>**Phytochemical synergy in artemisia annua herbal tea against malaria: a systematic review of its efficacy and safety in the context of emerging Pfkelch13 resistance.** (Infectious diseases of poverty 2026) [42596018](https://pubmed.ncbi.nlm.nih.gov/42596018/)<br>verify assay and parasite-gene shape)<br>**Silybum marianum and Trigonella foenum-graecum Exhibit Moderate In Vitro Antimalarial Properties against Plasmodium knowlesi.** (Iranian journal of parasitology 2026) [42598511](https://pubmed.ncbi.nlm.nih.gov/42598511/)<br>verify assay and parasite-gene shape) |
 | Pf_target engagement / thermal shift | thermal proteome | **-** |  |  | `` | average | **Essential Oil of Symplocos chinensis (Lour.) Druce: Chemical Composition, Antioxidant Activity, and Inhibitory Effects on Acetylcholinesterase and β-Lactamase.** (Molecules (Basel, Switzerland) 2026) [42451739](https://pubmed.ncbi.nlm.nih.gov/42451739/)<br>verify assay and parasite-gene shape)<br>**Conversion of artemisinin into novel unprotected N-alkylamine-11-azaartemisinins with enhanced antimalarial activity.** (Bioorganic & medicinal chemistry letters 2026) [42486375](https://pubmed.ncbi.nlm.nih.gov/42486375/)<br>verify assay and parasite-gene shape)<br>**The biophysical characterization of recombinant glutathione transferase from Plasmodium berghei, a murine model of human malaria: Insights from empirical and computational methods.** (International journal of biological macromolecules 2026) [42537965](https://pubmed.ncbi.nlm.nih.gov/42537965/)<br>verify assay and parasite-gene shape) |
 
 ### immunity
@@ -373,6 +373,8 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `ToxoDB` | Tg_arginine methylation; Tg_strain variation |
 | [PMID 38747635](https://pubmed.ncbi.nlm.nih.gov/38747635/) | Tg_exposure to host cytosol; Tg_interaction · with host proteins |
 | [PMID 40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/) | Pf_complex membership; Tg_complex membership; Tg_secretome / excreted |
+| [PMID 24533298](https://pubmed.ncbi.nlm.nih.gov/24533298/) | Pf_resistance-conferring mutation; Tg_resistance-conferring mutation |
+| [PMID 25941623](https://pubmed.ncbi.nlm.nih.gov/25941623/) | Pf_resistance-conferring mutation; Tg_resistance-conferring mutation |
 | `IEDB` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |
 | `spaCR` | Pf_host ESCRT recruitment; Tg_host ESCRT recruitment |
 | [PMID 35538310](https://pubmed.ncbi.nlm.nih.gov/35538310/) | Pf_invasion and egress phenotype; Tg_invasion and egress phenotype |
