@@ -1643,3 +1643,38 @@ so `_classify` now reports it as parasite-with-no-gene and every consumer skips 
 10 bridge pairs are the same before and after. This is a fix for the next file, not a correction of
 this one, and it is worth saying which: the previous two passes found faults that HAD cost real data,
 and conflating the two kinds would overstate this one.
+
+## Thirty-fifth pass: translation efficiency computed and refused
+
+**No change to the totals: Toxoplasma 114 of 119, Plasmodium 41 of 103, combined 155 of 222.**
+
+`Pf_translation efficiency · asexual blood stage` has everything it needs in the table already —
+polysomal and steady-state arms of one experiment at three IDC stages — so the ratio is one line. It
+was computed, checked twice, and **not shipped**, because the two checks disagree.
+
+First, a scale error worth recording because it nearly went unnoticed: the arms are LINEAR (0 to
+12,988), not log, so a difference is not a ratio. `log2((poly+1)/(steady+1))` is the quantity.
+
+**The check that passes.** Ribosomal proteins are the most heavily translated things in any cell, and
+their TE is **+0.805 against −0.741** for everything else (p = 1e-25). That is exactly right.
+
+**The check that fails.** TE correlates **negatively** with codon adaptation — rho −0.10 to −0.19
+across the three stages — where the textbook expectation is positive: heavily translated genes carry
+optimal codons. It is worse than merely negative, because CAI's reference set here **is** the ribosomal
+proteins, so the genes with the highest TE are the genes that define high CAI, and the global
+correlation still runs the other way.
+
+Something dominates that relationship which I cannot name, and in this genome there are candidates —
+whether codon bias predicts expression in *P. falciparum* at all is contested, and CAI in a genome
+this AT-rich may track base composition more than translational demand. But "there are candidate
+explanations" is not the same as knowing which, and a column called *translation efficiency* asserts
+that the number measures translation efficiency.
+
+Under the rule this campaign settled, two checks disagreeing is the **contradictory** case, whose
+answer is to ship the conditions rather than the derived contrast. Both conditions are already shipped
+and already answer two other slots, so there is nothing left to ship one step back — which makes this
+the case where the rule resolves to a refusal.
+
+Twelfth source built or computed and then refused. The slot keeps its verdict of missing, and what it
+needs is a translation-efficiency measurement whose relationship to codon usage someone has already
+had to explain.
