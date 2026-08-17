@@ -46,7 +46,15 @@ def facts():
     for dp, dirs, fs in os.walk(paths.data_dir()):
         dirs[:] = [d for d in dirs if d not in written_while_running]
         size += sum(os.path.getsize(os.path.join(dp, f)) for f in fs)
-    return {"genes": len(nodes), "columns": nodes.shape[1],
+    # The second species has its own cache, and a document quoting its shape should be held to it
+    # rather than measured against the first. Keyed by gene count, because that is what the sentence
+    # says next to the column count and it is what tells the two caches apart.
+    by_genes = {len(nodes): nodes.shape[1]}
+    pf = paths.cache_file("pf_nodes.parquet")
+    if os.path.exists(pf):
+        pf_nodes = pd.read_parquet(pf)
+        by_genes[len(pf_nodes)] = pf_nodes.shape[1]
+    return {"genes": len(nodes), "columns": nodes.shape[1], "columns_by_genes": by_genes,
             "edge_types": len(types), "mb": size / 1e6}
 
 
@@ -58,11 +66,18 @@ def test_the_cache_column_count_is_quoted_correctly(facts):
     """The claim that was wrong: 95 in the methods document, 85 in HANDOFF, against 169 on disk."""
     for doc in ("HANDOFF.md", "MATERIALS_AND_METHODS.md"):
         text = _doc(doc)
-        quoted = {int(m) for m in
-                  re.findall(r"(\d{2,3})\s+(?:per-gene\s+)?columns for (?:all )?[\d,]+ genes", text)}
-        assert quoted, f"{doc} no longer states how many columns the cache carries"
-        assert quoted == {facts["columns"]}, (
-            f"{doc} says {quoted} columns; the cache has {facts['columns']}")
+        pairs = re.findall(
+            r"(\d{2,3})\s+(?:per-gene\s+)?columns for (?:all )?([\d,]+)(?:\s+\w+)? genes", text)
+        assert pairs, f"{doc} no longer states how many columns a cache carries"
+        for columns, genes in pairs:
+            n = int(genes.replace(",", ""))
+            assert n in facts["columns_by_genes"], (
+                f"{doc} quotes {columns} columns for {genes} genes, and no cache has {genes} genes")
+            assert int(columns) == facts["columns_by_genes"][n], (
+                f"{doc} says {columns} columns for {genes} genes; that cache has "
+                f"{facts['columns_by_genes'][n]}")
+        assert facts["columns"] in {int(c) for c, _g in pairs}, (
+            f"{doc} no longer states the Toxoplasma cache's column count")
 
 
 def test_the_cache_size_is_quoted_correctly(facts):
