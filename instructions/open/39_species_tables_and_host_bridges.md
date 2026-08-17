@@ -145,3 +145,34 @@ scope **acquisition** as:
 * Host tables never appear as feature columns in a parasite embedding: assert it.
 * 100% coverage, no `pragma`. Coverage is currently 99% and should be back at 100 before this lands
   on top of it.
+
+## The data for the first host bridge is downloaded and verified (2026-08-16)
+
+`interaction · with host proteins` is the last unfilled pair slot in the Toxoplasma arm, and it is
+blocked on this instruction's bridge rather than on acquisition. The dataset is in place:
+
+**PXD016383, MYR1 immunoprecipitations**, `proteinGroups.txt` at
+`datasets/quarantine/2026_08_16_pride/Tg/host_interaction/`. 1,092 protein groups, LFQ intensities
+for two MYR1 IPs (M1, M2) and two controls (R1, R2). 425 rows name a Toxoplasma accession and 674 a
+human one, which is what a parasite–host bridge needs: one experiment, both ends.
+
+**Verified on the parasite side, which is the side that can be checked today.** Taking
+log2(mean LFQ in MYR1 IP over mean LFQ in control), MYR1 is **rank 1 of 325** at +34.4 — the bait
+tops its own pulldown — with MYR3 at rank 47 and GRA44, GRA7, GRA9, GRA52 and GRA50 in the top ten.
+That is MYR1's known neighbourhood at the vacuole membrane, so the IP worked and the enrichment is
+the right way round.
+
+### What is still needed, and it is all structural
+
+1. **A human gene table.** The 674 host rows carry UniProt accessions and the deposit's
+   `Fasta headers` column is empty, so mapping them to genes needs UniProt's ID mapping — a new
+   external source, and the first identity layer in this project that is not ToxoDB's.
+2. **A bridge that is a pair across two tables.** `slots.is_filled` now looks in the table matching a
+   slot's unit (see `UNIT_TABLES`, added for the metabolite table), but an edge whose two ends live
+   in different tables is not an edge in `graph.npz` and has no representation yet.
+3. **Filling semantics for a bridge slot** — what `coverage` means when the denominator is pairs
+   drawn from two tables of different size.
+
+The metabolite table built on 2026-08-16 is the worked example for step 1's shape: a second table
+keyed by its own identifier, reached through slots that declare their unit, graded on its own
+denominator. Steps 2 and 3 are genuinely new.
