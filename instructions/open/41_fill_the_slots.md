@@ -498,3 +498,74 @@ kind of agreement that the MYR1 bridge and the spaCR screen already show separat
 Note the convergence already in the map: the MYR1 host bridge is verified by ESCRT topping it
 (PDCD6/ALG-2 rank 1, ALIX 12, VPS28 62, p = 0.006), and the spaCR screen's top hits are EAF1 and
 GRA14. Three unrelated datasets, one biology.
+
+## Fourth pass, 2026-08-16: the metabolite axis closes
+
+**112 of 119.** `lipid composition` is filled and the metabolite unit is complete at 3 of 3. Seven
+gene slots remain.
+
+### What filled it, and why three earlier passes missed it
+
+The slot was never short of Toxoplasma lipidomes — there are several, and passes one through three
+found them. It was short of a lipidome *of the parasite*. A lipidome taken from an infected culture
+is mostly host cell, and a lipid measured there is not thereby a parasite lipid, so each candidate
+was correctly refused on the same ground and the ground was recorded as though it applied to the
+whole question. It applied to those experiments.
+
+The fill (PMID 41716462) works because the vesicles were collected from tachyzoites **after egress,
+in host-cell-free medium**, and because the study grew the parasite in four host backgrounds. The
+host cells differ from each other in 1,018–1,362 lipid species; the vesicles the same parasite
+released in them differ in 0–4. Composition set by the host would move when the host is replaced.
+That contrast, not the paper's wording, is what licenses the column, so `tests/test_lipids.py`
+recomputes both numbers from the shipped archive: if it stops holding, the column comes out.
+
+Two refusals inside the accepted source, both worth keeping:
+
+- The archive's own EV-minus-cell column is **not** used. It correlates 0.92 with every
+  reconstruction attempted and matches none to better than 3 log units, so its transform is unknown.
+  A number whose definition cannot be reproduced cannot be verified. The column shipped instead is
+  computed here, sample-centred, and the module states the rule.
+- The raw difference would have been wrong even if reproducible: a vesicle holds far less total
+  material than a cell, so every species reads as depleted and the column measures sample size. The
+  word in the slot is *composition*, which is a question about proportion.
+
+Sign was then checked against biology the study does not itself argue: cholesteryl ester,
+sphingomyelin, HexCer and cardiolipin come out depleted, PI enriched — what a parasite that
+scavenges cholesterol and carries a GPI-rich surface should show. An inverted convention would have
+failed that.
+
+### The pattern this adds
+
+A fifth working pattern, and the one with the best yield per hour so far: **when a slot has been
+refused three times on the same sentence, suspect the sentence.** "A lipidome of an infected culture
+is mostly host" is true and was the right refusal each time; it is not the same statement as "the
+parasite's lipid composition cannot be measured". Re-asking what would make the measurement valid —
+*host-cell-free material, and a control that varies the host* — named the experiment, and the
+experiment existed. This generalises the fourth pattern (re-asking a refused source a better
+question) from a source to a slot.
+
+### Four candidates opened and refused this pass
+
+| candidate | for | why not |
+|---|---|---|
+| PMID 35976251, eLife 80336 | protein turnover | The review draft lists it as "temporal/thermal proteome profiling", and the temporal half was read as turnover. Every one of its seven supplements is CETSA or phospho: `mineCETSA_curve_fits`, AUC, melting curves. There are no half-lives in it. The two thermal columns already shipped are all it holds. |
+| PMC11510713, BONCAT-iTRAQ | protein turnover | Measures **newly synthesised** protein, which is synthesis and not degradation, and measures it under pyrimethamine rather than at steady state. 220 proteins. Wrong quantity, not merely thin. |
+| PMC9167752, kinome HiT screen | invasion and egress phenotype | Title promises a regulator of invasion and egress and delivers it — by deep follow-up on one gene, SPARK. The per-gene screen columns are `Microscopy phenotype` (Cell Division I/II, Doublets, Singlets, Accumulated IMC1) and a lytic clearance call. Division phenotypes and monolayer clearance, neither of which is this slot, and both of which belong to slots already filled. |
+| ToxoDB "Lipidome and palmitoylome" | lipid composition | Named for this slot and is not it: a chemical-proteomic study of the lipid**ated** proteome, gene-indexed, already in the map as the palmitome. |
+
+A ToxoDB pass this round also enumerated all 180 datasets and all 234 gene searches against the
+seven remaining slots. `GenesByPhenotypeEvidence` looked like curated phenotype annotation and takes
+no parameters — it is dataset filtering, not a vocabulary.
+
+### Where the seven stand
+
+Searched again this pass, nothing found: parasite transcriptome in IFN-γ-activated macrophages
+(the naive-macrophage arm exists and is in; the activated one is not published as parasite-side
+data), cell-cycle-resolved ribosome profiling, proteome-wide turnover, per-gene drug sensitivity,
+and an enteric fitness screen. `resistance-conferring mutation` is the one of the seven that is
+**curatable rather than blocked** — Toxoplasma in vitro evolution papers do exist (ROP1 P207S with
+ROP8 and TGGT1_237700 for KG8; TgMAPK1 L162Q/I171N for BKIs; artemisinin resistance by serial
+passage) but each contributes a handful of genes and no systematic resistome exists for this
+organism the way Cowell 2018 does for *Plasmodium*. That is a curation job of roughly eight papers
+read end to end, and it yields a deliberately sparse column where sparseness is the biology. It is
+the obvious next move on this axis and has not been started.
