@@ -153,6 +153,17 @@ EXPRESSION = (
     ("Polysomal and steady-state", "Steady_state ring", "steady_state_ring"),
     ("Polysomal and steady-state", "Steady_state troph", "steady_state_trophozoite"),
     ("Polysomal and steady-state", "Steady_state schiz", "steady_state_schizont"),
+    # Protein, and COMPOSITIONAL -- which is why these are not called `protein_ring`. The study is
+    # TMT isobaric labelling of ring, trophozoite and schizont, and PlasmoDB serves the channels
+    # row-normalised: every gene's three values sum to 12.07 +/- 0.20 and the three columns are
+    # anti-correlated with each other (-0.46, -0.74, -0.14). So they say WHICH STAGE a protein sits
+    # in, not how much of it there is, and they cannot answer a slot that asks for abundance. Named
+    # `stage_share` so nobody has to rediscover that by wondering why protein disagrees with its own
+    # transcript: the -0.25 correlation between ring protein and ring mRNA is the normalisation
+    # showing through, not biology.
+    ("Ring Ave", "", "protein_stage_share_ring"),
+    ("Troph Ave", "", "protein_stage_share_trophozoite"),
+    ("Schizont Ave", "", "protein_stage_share_schizont"),
     ("sense - asexual blood stages", "", "expr_asexual_blood"),
     ("sense - midgut oocysts", "", "expr_oocyst"),
     ("sense - salivary gland sporozoites", "", "expr_sporozoite"),

@@ -1077,6 +1077,11 @@ PF_PATTERNS = {
     # level. Its steady-state partner from the same experiment is what makes that distinction
     # measurable instead of assumed, which is why both halves are kept.
     "translation · asexual blood stage": ["polysomal_"],
+    # `protein abundance · asexual blood stage` is deliberately NOT claimed by the proteome columns
+    # in this table. PlasmoDB serves that TMT study row-normalised, so its three values are a
+    # protein's distribution ACROSS the cycle and sum to a constant; they answer "which stage" and
+    # the slot asks "how much". Claiming it would have put a compositional share where an abundance
+    # belongs, and the tell would have been buried: ring protein correlates -0.25 with ring mRNA.
 }
 
 
@@ -1150,17 +1155,19 @@ BLOCKED = {
         "Ribosome profiling of synchronised or FUCCI-sorted tachyzoites, by cell-cycle phase."),
     "Tg_protein turnover": (
         "missing",
-        "PRIDE keyword search for turnover, SILAC and protein stability; the eLife 80336 'temporal "
-        "and thermal' profiling study, whose seven supplements are all CETSA or phospho and contain "
-        "no half-lives; BONCAT-iTRAQ, which measures synthesis rather than degradation and does it "
+        "All 201 Toxoplasma deposits in PRIDE enumerated and scanned, not keyword-sampled: four "
+        "mention stability or a drug and none measures degradation. Also the eLife 80336 'temporal "
+        "and thermal' study, whose seven supplements are all CETSA or phospho and contain no "
+        "half-lives, and BONCAT-iTRAQ, which measures synthesis rather than degradation and does it "
         "under a drug.",
         "Pulse-SILAC or a cycloheximide chase with proteome-wide degradation rates."),
     "Tg_drug sensitivity": (
         "missing",
-        "ToxoDB's two CRISPR phenotype searches carry the in-vitro and in-vivo fitness arms already "
-        "ingested and no drug arm; EuropePMC for genome-wide chemogenomic screens. The genome-wide "
-        "screen that does exist under a perturbation (GRA38, PMID 41407671) varies serum lipid, "
-        "which is a nutrient and not a compound.",
+        "100 Toxoplasma screen papers enumerated from EuropePMC and scanned: the only CRISPR "
+        "drug-resistance screen among them is Leishmania. ToxoDB's two CRISPR phenotype searches "
+        "carry the in-vitro and in-vivo fitness arms already ingested and no drug arm. The one "
+        "genome-wide screen under a perturbation (GRA38, PMID 41407671) varies serum lipid, which "
+        "is a nutrient and not a compound.",
         "A genome-wide CRISPR screen under compound pressure, with per-gene differential fitness."),
     "Tg_fitness · in vivo gut": (
         "missing",

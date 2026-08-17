@@ -281,3 +281,39 @@ def test_polysomal_and_steady_state_are_kept_apart():
     # They must also disagree: identical columns would mean the substring match caught one twice.
     for a, b in zip(sorted(poly), sorted(steady)):
         assert not d[a].equals(d[b]), f"{a} and {b} are the same column"
+
+
+@pytest.mark.skipif(not os.path.exists(EXPR), reason="expression report not fetched")
+def test_the_proteome_columns_are_compositional_and_say_so_in_their_names():
+    """PlasmoDB serves that TMT study row-normalised, and the name has to carry that.
+
+    Called `protein_ring` it reads as an abundance, and the slot catalog would have claimed it for
+    `protein abundance · asexual blood stage`. It is a share: the three values sum to a constant per
+    gene and the columns are anti-correlated with one another by construction. The check is on the
+    data rather than on the name so that a future PlasmoDB release serving true abundances fails
+    here instead of silently keeping a wrong label.
+    """
+    d = P.expression(EXPR)
+    share = [c for c in d.columns if c.startswith("protein_stage_share_")]
+    assert len(share) == 3
+    rows = d[share].dropna()
+    assert rows.sum(axis=1).std() < 0.5, "no longer compositional: rename and re-check the slot"
+    corr = rows.corr(method="spearman")
+    off = [corr.iloc[i, j] for i in range(3) for j in range(3) if i != j]
+    assert sum(v < 0 for v in off) >= 4, "compositional columns should mostly anti-correlate"
+    assert not any(c.startswith("protein_ring") for c in d.columns), (
+        "a bare `protein_` name would let the abundance slot claim a share")
+
+
+def test_no_plasmodium_slot_claims_the_compositional_proteome():
+    """The slot this was nearly given asks how much protein there is, which this cannot answer."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "gst", os.path.join(ROOT, "scripts", "generate_slot_table.py"))
+    gst = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gst)
+    for slot, patterns in gst.PF_PATTERNS.items():
+        for pattern in patterns:
+            assert not pattern.startswith("protein_stage_share"), f"{slot} claims a share"
+        if "protein abundance" in slot:
+            assert not patterns, f"{slot} must stay empty until a true abundance arrives"

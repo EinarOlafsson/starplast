@@ -1178,7 +1178,8 @@ REGISTRY = [
              "expr_gametocyte_ii", "expr_gametocyte_v", "expr_ookinete", "expr_asexual_blood",
              "expr_oocyst", "expr_sporozoite", "polysomal_ring", "polysomal_trophozoite",
              "polysomal_schizont", "steady_state_ring", "steady_state_trophozoite",
-             "steady_state_schizont"),
+             "steady_state_schizont", "protein_stage_share_ring",
+             "protein_stage_share_trophozoite", "protein_stage_share_schizont"),
             "5,720 P. falciparum genes",
             accession="PlasmoDB: Su seven stages, Bunnik polysomal IDC, Gomez-Diaz mosquito stages",
             url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
@@ -1196,7 +1197,14 @@ REGISTRY = [
                  "schizont, Pfs16 in gametocyte II. Pfs25 is the informative one -- its TRANSCRIPT "
                  "peaks in gametocyte V rather than in the ookinete where the protein acts, which "
                  "is the textbook translational-repression stockpile and would look like an "
-                 "off-by-one error to anyone who checked the protein instead."),
+                 "off-by-one error to anyone who checked the protein instead. The TMT proteome in "
+                 "the same report is COMPOSITIONAL and is named for it: PlasmoDB serves the "
+                 "channels row-normalised, so a gene's three values sum to a constant and the "
+                 "columns anti-correlate by construction. They say which stage a protein sits in, "
+                 "not how much there is, so `protein abundance · asexual blood stage` is left EMPTY "
+                 "rather than filled with a share. The tell would have been well hidden: ring "
+                 "protein correlates -0.25 with ring mRNA, which reads as a biological puzzle and "
+                 "is only the normalisation showing through."),
     Dataset("cotranslation_edges", "Co-translation layer (COMPUTED)", "translation", "RiboSeq",
             "Gene pairs whose ribosome footprints covary", ("edge:cotranslation",),
             "6,231 edges over 7,437 genes",

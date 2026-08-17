@@ -815,3 +815,43 @@ exposed it. Mirroring the names buys comparability between the arms and costs ex
 that key on a column name can no longer tell the arms apart, and have to be told which table to look
 in. That is now the third place this session where that cost has come due, after `declared_columns`
 and `resolve`.
+
+## Ninth pass: two catalogue-complete negatives, and a slot refused after it was nearly filled
+
+**Toxoplasma 114 of 119, Plasmodium 17 of 103, combined 131 of 222.**
+
+### The two Toxoplasma slots that were still "maybe" are now definite
+
+Both were re-tested by enumerating the whole catalogue rather than sampling keywords, which is the
+difference between "I did not find it" and "it is not there":
+
+* **`protein turnover`** — all **201** Toxoplasma deposits in PRIDE listed and scanned. Four mention
+  stability or a drug; none measures degradation. (The four are the DegP2 thermal-stability set,
+  two zaprinast phosphoproteomes, and an HDAC-inhibitor antigen study.)
+* **`drug sensitivity`** — **100** Toxoplasma screen papers enumerated from EuropePMC and scanned.
+  The only CRISPR drug-resistance screen among them is *Leishmania*.
+
+Both verdicts in the slot table now say what was enumerated, so the next pass can see the difference
+between a search and a sweep.
+
+### `Pf_protein abundance` was built, validated, and then refused
+
+PlasmoDB serves a TMT proteome of ring, trophozoite and schizont as three gene attributes. They were
+fetched, merged, and the slot filled — and then the validation caught it.
+
+Protein correlated with its own transcript at **−0.25** in ring. Plasmodium's proteome is known to
+lag its transcriptome, so the first guess was that the lag would put the peak off-diagonal; it did
+not, and the structure made no sense as biology either way. The actual answer was in the shape of the
+data: every gene's three values **sum to 12.07 ± 0.20**, and the three columns anti-correlate with
+one another (−0.46, −0.74, −0.14). PlasmoDB serves that study **row-normalised**. The numbers are a
+protein's distribution across the cycle, not its abundance.
+
+So the columns are named `protein_stage_share_*` and `protein abundance · asexual blood stage` stays
+empty. What makes this worth recording is how well the error was hidden: named `protein_ring` it
+would have been claimed by an abundance slot automatically, and the only symptom was a −0.25
+correlation that reads as a biological puzzle rather than as an artifact. Two tests now pin it — one
+asserts the columns really are compositional (so a future PlasmoDB release serving true abundances
+fails rather than keeping a wrong label), and one asserts no slot claims a share.
+
+That is the same refusal as the vesicle EV-minus-cell column and the auranofin candidates: the
+question is never whether a number is available, it is whether it is the quantity the slot names.
