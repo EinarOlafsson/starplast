@@ -1157,6 +1157,8 @@ PF_PATTERNS = {
     "interaction · with host proteins": ["bridge:host"],
     "noncoding and antisense transcription": ["antisense_"],
     "codon usage / translation efficiency": ["codon_"],
+    # Curated first: `one` picks the leading candidate, and the orthology-derived field is inference.
+    "enzyme classification": ["ec_number", "has_ec", "ec_number_orthology"],
     # `protein abundance · asexual blood stage` is deliberately NOT claimed by the proteome columns
     # in this table. PlasmoDB serves that TMT study row-normalised, so its three values are a
     # protein's distribution ACROSS the cycle and sum to a constant; they answer "which stage" and

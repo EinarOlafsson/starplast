@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 92 covered well, 18 partly, 43 thinly, 69 empty.**
+**222 slots: 93 covered well, 18 partly, 43 thinly, 68 empty.**
 
 ### transcription
 
@@ -329,7 +329,7 @@ quantity were approximating on 2026-08-13.
 | Pf_metabolite levels | steady state | **-** |  |  | `` | separate | **Mechanisms Underlying the Effects of Chloroquine on Red Blood Cells Metabolism.** (International journal of molecular sciences 2024) [38928131](https://pubmed.ncbi.nlm.nih.gov/38928131/)<br>verify assay and parasite-gene shape)<br>**A metabolism-chromatin axis promotes differential ribosomal RNA transcription in the human malaria parasite.** (Nature communications 2025) [41419483](https://pubmed.ncbi.nlm.nih.gov/41419483/)<br>verify assay and parasite-gene shape)<br>**Host Reticulocyte Redox Attenuation Creates a Protective Niche for Artemisinin Tolerance in Plasmodium falciparum.** (The Journal of infectious diseases 2026) [42300800](https://pubmed.ncbi.nlm.nih.gov/42300800/)<br>verify assay and parasite-gene shape) |
 | Pf_metabolic flux | labelled precursor | **-** |  |  | `` | separate | **Metabolic adjustments of blood-stage Plasmodium falciparum in response to sublethal pyrazoleamide exposure.** (Scientific reports 2022) [35064153](https://pubmed.ncbi.nlm.nih.gov/35064153/)<br>verify assay and parasite-gene shape)<br>**Endothelial LAT1 (SLC7A5) Mediates S-Nitrosothiol Import and Modulates Respiratory Sequelae of Red Blood Cell Transfusion In Vivo.** (Thrombosis and haemostasis 2024) [38519039](https://pubmed.ncbi.nlm.nih.gov/38519039/)<br>verify assay and parasite-gene shape)<br>**Guanidinium Chloride-Induced Haemolysis Assay to Measure New Permeation Pathway Functionality in Rodent Malaria Plasmodium berghei.** (Biomolecules 2024) [39062495](https://pubmed.ncbi.nlm.nih.gov/39062495/)<br>verify assay and parasite-gene shape) |
 | Pf_lipid composition | membrane lipids | **-** |  |  | `` | separate | **Deoxy-Piezo1 hyperactivity elevates pump-leak fluxes and lactate production in sickle cells.** (Biophysical journal 2026) [41964222](https://pubmed.ncbi.nlm.nih.gov/41964222/)<br>verify assay and parasite-gene shape)<br>**A prokaryotic-like cardiolipin synthase is essential to maintain mitochondrial function, lipid homeostasis, and survival of the blood stage malaria parasite Plasmodium falciparum.** (The Journal of biological chemistry 2026) [42203171](https://pubmed.ncbi.nlm.nih.gov/42203171/)<br>verify assay and parasite-gene shape)<br>**Fc-fucosylation of Plasmodium falciparum-specific IgG varies with antigen and immunization.** (The Journal of infectious diseases 2026) [42262128](https://pubmed.ncbi.nlm.nih.gov/42262128/)<br>verify assay and parasite-gene shape) |
-| Pf_enzyme classification | annotation | **-** |  |  | `` | one | — |
+| Pf_enzyme classification | annotation | **A** | 5720 | 100.0% | `ec_number, has_ec, ec_number_orthology` | one | — |
 
 ### chemistry
 
@@ -406,5 +406,7 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `paralog_number` | Pf_paralogy; Tg_paralogy |
 | `length` | Pf_sequence basics; Tg_sequence basics |
 | `snp_` | Pf_strain variation; Tg_strain variation |
+| `ec_number` | Pf_enzyme classification; Tg_enzyme classification |
+| `has_ec` | Pf_enzyme classification; Tg_enzyme classification |
 | `codon_` | Pf_codon usage / translation efficiency; Tg_codon usage / translation efficiency |
 | `n_bcell_epitopes` | Pf_seroreactivity / antigenicity; Tg_seroreactivity / antigenicity |

@@ -1578,3 +1578,61 @@ def test_cai_is_measured_against_plasmodium_ribosomal_proteins():
     cai = d["codon_cai_ribosomal"].dropna()
     assert len(cai) > 4000
     assert 0 < cai.min() and cai.max() <= 1.0
+
+
+# --------------------------------------------------------------------------- enzyme classification
+EC = os.path.join(ROOT, "datasets", "reference", "plasmodb", P.EC_TABLE)
+
+
+def _ec_root(tmp_path, rows=None, drop_id=False):
+    rows = rows if rows is not None else [
+        ("PF3D7_0100100", "2.7.11.1", None),        # curated
+        ("PF3D7_0100200", None, "3.1.3.2"),         # orthology only
+        ("PF3D7_0100300", None, None),              # neither
+    ]
+    base = tmp_path / "reference" / "plasmodb"
+    base.mkdir(parents=True)
+    frame = pd.DataFrame(rows, columns=["Gene ID", "EC numbers", "EC numbers from OrthoMCL"])
+    if drop_id:
+        frame = frame.drop(columns=["Gene ID"])
+    frame.to_csv(base / P.EC_TABLE, sep="\t", index=False)
+    return str(tmp_path)
+
+
+def test_curated_and_derived_ec_stay_in_separate_columns(tmp_path):
+    """Different KINDS of evidence. Merging them would put inference where annotation is, and the
+    merged column would give no way to tell which genes were never annotated in this organism."""
+    d = P.enzyme_classification(_ec_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "has_ec"]
+    assert not d.loc["PF3D7_0100200", "has_ec"], "an orthology-derived EC counted as curated"
+    assert d.loc["PF3D7_0100200", "ec_number_orthology"] == "3.1.3.2"
+
+
+def test_a_gene_with_no_ec_at_all_is_flagged_false(tmp_path):
+    d = P.enzyme_classification(_ec_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert not d.loc["PF3D7_0100300", "has_ec"]
+    assert pd.isna(d.loc["PF3D7_0100300", "ec_number"])
+
+
+def test_a_missing_or_headerless_ec_table_yields_nothing(tmp_path):
+    assert P.enzyme_classification(str(tmp_path), log=lambda *a: None).empty
+    assert P.enzyme_classification(_ec_root(tmp_path, drop_id=True), log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.exists(EC), reason="EC table not fetched")
+def test_the_enzyme_count_is_the_size_a_proteome_of_this_kind_gives():
+    d = P.enzyme_classification(os.path.join(ROOT, "datasets"), log=lambda *a: None)
+    assert 800 < int(d["has_ec"].sum()) < 2500
+    # Orthology adds genes the curation does not have; if it added none the second column is pointless.
+    extra = (~d["has_ec"] & d["ec_number_orthology"].notna()).sum()
+    assert extra > 50, f"only {extra} genes gain an EC from orthology"
+
+
+def test_build_all_folds_in_the_enzyme_classification(tmp_path):
+    root = _dataset_root(tmp_path)
+    base = os.path.join(root, "reference", "plasmodb")
+    pd.DataFrame([("PF3D7_0100100", "2.7.11.1", None)],
+                 columns=["Gene ID", "EC numbers", "EC numbers from OrthoMCL"]).to_csv(
+        os.path.join(base, P.EC_TABLE), sep="\t", index=False)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "has_ec"] and not d.loc["PF3D7_0100200", "has_ec"]

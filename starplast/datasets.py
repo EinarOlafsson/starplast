@@ -1461,6 +1461,22 @@ REGISTRY = [
                  "while KAHRP and the FIKK kinases sit above it. Absence is a real negative here "
                  "and not a gap -- a sequence model was evaluated on every protein, so its silence "
                  "is a prediction of not-exported, which is the opposite of the screen columns."),
+    Dataset("pf_enzyme_classification", "Plasmodium enzyme classification (PlasmoDB)",
+            "reference", "annotation",
+            "EC number per gene, curated and orthology-derived kept apart",
+            ("ec_number", "has_ec", "ec_number_orthology"),
+            "1,220 curated, 335 more from orthology",
+            accession="PlasmoDB ec_numbers and ec_numbers_derived",
+            url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
+                "GenesByTaxon/reports/attributesTabular",
+            path="datasets/reference/plasmodb/plasmodb_pf3d7_ec.tsv",
+            note="PlasmoDB serves two EC fields and they are different KINDS of evidence -- one "
+                 "curated for this organism, one inferred from the gene's OrthoMCL group -- so they "
+                 "are separate columns and `has_ec` counts only the curated one. Merged they would be "
+                 "1,584 genes with no way to tell which 335 were never annotated here at all, which "
+                 "is inference standing where annotation should. The slot lists the curated column "
+                 "first and its policy is `one`, so the leading candidate wins and the derived field "
+                 "is there to be chosen deliberately rather than by default."),
     Dataset("pf_codon_usage", "Plasmodium codon usage (COMPUTED)", "reference", "annotation",
             "Effective number of codons, GC3, and CAI against the ribosomal proteins",
             ("codon_enc", "codon_gc3", "codon_cai_ribosomal"), "5,318 genes",

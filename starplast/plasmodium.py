@@ -334,6 +334,10 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     cplx = complexes(dataset_root, log=log)
     if not cplx.empty:
         nodes = nodes.merge(cplx, on="gene_id", how="left")
+    ec = enzyme_classification(dataset_root, log=log)
+    if not ec.empty:
+        nodes = nodes.merge(ec, on="gene_id", how="left")
+        nodes["has_ec"] = nodes["has_ec"].notna() & (nodes["has_ec"] == True)  # noqa: E712
     codons_here = codon_usage(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), log=log)
     if not codons_here.empty:
         nodes = nodes.merge(codons_here, left_on="gene_id", right_index=True, how="left")
@@ -898,3 +902,29 @@ def complexes(dataset_root: str, log=print) -> pd.DataFrame:
     log(f"complexes: {len(out)} genes in {out['complex_id'].nunique()} complexes, "
         f"{int(out['complex_spans_host'].sum())} of them in a complex that reaches the host")
     return out.sort_values("gene_id").reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- enzyme classification
+#: PlasmoDB serves two EC fields and they are different KINDS of evidence: one curated for this
+#: organism, one inferred from its OrthoMCL group. They are kept in separate columns for that reason --
+#: merging them would put inference where annotation is, and the merged column would be 1,584 genes
+#: with no way to tell which 343 of them were never annotated here at all.
+EC_TABLE = "plasmodb_pf3d7_ec.tsv"
+
+
+def enzyme_classification(dataset_root: str, log=print) -> pd.DataFrame:
+    """EC number per gene, curated and orthology-derived kept apart."""
+    path = os.path.join(dataset_root, "reference", "plasmodb", EC_TABLE)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    d = pd.read_csv(path, sep="\t", dtype=str).replace(dict.fromkeys(BLANK, None))
+    if "Gene ID" not in d.columns or len(d.columns) < 2:
+        return pd.DataFrame()
+    d.columns = ["gene_id", "ec_number", "ec_number_orthology"][:len(d.columns)]
+    out = d[~d["gene_id"].duplicated()].copy()
+    out["has_ec"] = out["ec_number"].notna()
+    curated = int(out["has_ec"].sum())
+    derived = int(out["ec_number_orthology"].notna().sum()) if "ec_number_orthology" in out else 0
+    log(f"enzyme classification: {curated} genes with a curated EC, {derived} with one derived from "
+        f"orthology")
+    return out.reset_index(drop=True)

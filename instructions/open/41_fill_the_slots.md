@@ -1592,3 +1592,22 @@ uninterpretable.
 
 Practical note: PlasmoDB's sequence report returned 422, 400 and 500 to three different request
 shapes. The static release FASTA is what works, and 5,389 transcripts reduce to 5,318 genes.
+
+## Thirty-third pass: two EC fields that are two kinds of evidence
+
+**Toxoplasma 114 of 119, Plasmodium 40 of 103, combined 154 of 222.**
+
+`Pf_enzyme classification`. PlasmoDB serves **two** EC fields, and the distinction is the whole
+decision: one is curated for this organism, the other inferred from the gene's OrthoMCL group.
+
+They are separate columns and `has_ec` counts only the curated one. Merged they would read as 1,584
+genes with an EC and give no way to tell which **335 were never annotated in this organism at all** —
+inference standing exactly where annotation should. The slot lists the curated column first and its
+policy is `one`, so the leading candidate wins and the derived field is available to be chosen
+deliberately rather than by default.
+
+For scale: 1,220 curated here against 1,313 in Toxoplasma, on a proteome two-thirds the size.
+
+This is the same distinction as `localization · measured` versus `· transferred`, and as the
+`fitness · transferred from Pb` slots added earlier — a value inferred from orthology is not the same
+claim as one measured in the organism, and the map's job is to keep saying which is which.
