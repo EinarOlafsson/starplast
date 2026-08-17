@@ -1083,3 +1083,34 @@ The correlation with protein length is **−0.555**, which would be alarming in 
 correct in this one: *P. falciparum* is famous for long low-complexity asparagine insertions, which
 are exactly what AlphaFold models with no confidence. Recorded here because the next person to check
 it will have the same moment of doubt.
+
+## Seventeenth pass: the myristoylome, and three states rather than two
+
+**Toxoplasma 114 of 119, Plasmodium 26 of 103, combined 140 of 222.**
+
+`Pf_N-myristoylation` filled from PMID 34695132. The evidence for a substrate is **not** being pulled
+down — background comes down too — but coming down **less** when the transferase is inhibited, so the
+loader requires significance *and* a negative difference. A positive difference under a blocked
+transferase would be a protein that came down more without it, which is not what a substrate does.
+
+**Three states, not two.** 16 substrates; 593 proteins assayed and not substrates; 5,111 genes never
+in the pulldown, which stay missing. Collapsing the last two would tell the map that the whole
+proteome had been tested for myristoylation by one experiment that saw 609 proteins.
+
+Sparse because the biology is — Plasmodium has roughly thirty predicted NMT substrates — and the list
+validates itself: **GAP45, ARO, CDPK1, Rab-5B, ARF1 and ISP3** are the canonical N-myristoylated
+families in apicomplexans, and all are present.
+
+## Where the Plasmodium arm stands
+
+**0 to 26 this session**, from nothing: a node table, its own graph, and ten datasets. Filled slots
+span sequence, orthology, domains, strain variation, fitness, seven life-stage transcriptomes,
+translation, export, model confidence and disorder, phosphorylation, palmitoylation, myristoylation,
+chromatin perturbation, and three relation layers.
+
+One slot was built and refused — `chromatin accessibility`, where *var* genes came out **more**
+accessible than the genome at large — and one column was renamed rather than shipped under the slot
+it was fetched for, when the TMT proteome turned out to be compositional.
+
+The remaining 77 need acquisition of the same kind: a deposit or supplement at a time, each with a
+check that would fail if the numbers were not what the slot says.

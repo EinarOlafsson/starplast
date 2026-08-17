@@ -465,6 +465,18 @@ def test_build_all_folds_in_the_model_confidence(tmp_path):
     assert pd.isna(d.loc["PF3D7_0100200", "mean_plddt"])
 
 
+def test_build_all_leaves_unassayed_genes_missing_for_myristoylation(tmp_path):
+    root = _dataset_root(tmp_path)
+    folder = os.path.join(root, "post_translation", P.MYRISTOYLOME[0], P.MYRISTOYLOME[1])
+    os.makedirs(folder)
+    pd.DataFrame([("PF3D7_0100100.1-p1", "+", -2.4)],
+                 columns=["Protein IDs", "Significant", "Difference"]).to_excel(
+        os.path.join(folder, P.MYRISTOYLOME[2]), index=False)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "is_myristoylated"]
+    assert pd.isna(d.loc["PF3D7_0100200", "is_myristoylated"]), "an unassayed gene got a call"
+
+
 def test_build_all_assembles_the_three_reports(tmp_path):
     d = P.build_all(_dataset_root(tmp_path), log=lambda *a: None)
     assert {"length", "expr_ring", "export_pred_tier", "is_exported"} <= set(d.columns)
@@ -768,3 +780,69 @@ def test_proteins_with_a_recognised_domain_are_modelled_more_confidently():
     without = n.loc[n["has_domain"] == False, "mean_plddt"]         # noqa: E712
     assert with_domain.median() > without.median() + 5
     assert mannwhitneyu(with_domain, without).pvalue < 1e-20
+
+
+# --------------------------------------------------------------------------- myristoylome
+MYR = os.path.join(ROOT, "datasets", "post_translation", P.MYRISTOYLOME[0], P.MYRISTOYLOME[1],
+                   P.MYRISTOYLOME[2])
+
+
+def _myr_root(tmp_path, rows=None):
+    rows = rows if rows is not None else [
+        ("PF3D7_0100100.1-p1", "+", -2.4),    # substrate: significant AND depleted
+        ("PF3D7_0100200.1-p1", "+", 2.4),     # significant the wrong way
+        ("PF3D7_0100300.1-p1", None, -3.0),   # depleted but not significant
+        ("CONTAM;OTHER", "+", -2.0),          # not a Plasmodium gene
+    ]
+    folder = tmp_path / "post_translation" / P.MYRISTOYLOME[0] / P.MYRISTOYLOME[1]
+    folder.mkdir(parents=True)
+    pd.DataFrame(rows, columns=["Protein IDs", "Significant", "Difference"]).to_excel(
+        folder / P.MYRISTOYLOME[2], index=False)
+    return str(tmp_path)
+
+
+def test_a_substrate_must_be_significant_and_depleted(tmp_path):
+    """Depletion when the transferase is blocked is the evidence. Enrichment is not."""
+    d = P.myristoylome(_myr_root(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "is_myristoylated"]
+    assert not d.loc["PF3D7_0100200", "is_myristoylated"], "wrong direction was accepted"
+    assert not d.loc["PF3D7_0100300", "is_myristoylated"]
+
+
+def test_assayed_and_unassayed_are_different_states(tmp_path):
+    """A protein in the pulldown and not a substrate is a result; one absent from it is not."""
+    d = P.myristoylome(_myr_root(tmp_path), log=lambda *a: None)
+    assert set(d["gene_id"]) == {"PF3D7_0100100", "PF3D7_0100200", "PF3D7_0100300"}
+
+
+def test_a_missing_myristoylome_yields_nothing(tmp_path):
+    assert P.myristoylome(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_a_myristoylome_without_the_expected_columns_is_refused(tmp_path):
+    folder = tmp_path / "post_translation" / P.MYRISTOYLOME[0] / P.MYRISTOYLOME[1]
+    folder.mkdir(parents=True)
+    pd.DataFrame({"wrong": [1]}).to_excel(folder / P.MYRISTOYLOME[2], index=False)
+    assert P.myristoylome(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_a_myristoylome_with_no_plasmodium_accessions_is_refused(tmp_path):
+    assert P.myristoylome(_myr_root(tmp_path, rows=[("CONTAM", "+", -2.0)]),
+                          log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.exists(MYR), reason="myristoylome not fetched")
+def test_the_myristoylome_is_the_families_that_are_myristoylated():
+    """ARF and Rab GTPases, GAP45, ARO, CDPK1 and the ISP family are the known substrates."""
+    d = P.myristoylome(os.path.join(ROOT, "datasets"), log=lambda *a: None).set_index("gene_id")
+    for gene, name in (("PF3D7_1222700", "GAP45"), ("PF3D7_0414900", "ARO"),
+                       ("PF3D7_0217500", "CDPK1"), ("PF3D7_1020900", "ARF1")):
+        assert d.loc[gene, "is_myristoylated"], name
+    assert 5 < int(d["is_myristoylated"].sum()) < 40
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_only_the_assayed_proteins_carry_a_myristoylation_call():
+    n = pd.read_parquet(NODES, columns=["is_myristoylated"])["is_myristoylated"]
+    assert n.notna().sum() < 1000, "the call spread beyond the 609 proteins in the pulldown"
+    assert int((n == True).sum()) < 50                            # noqa: E712

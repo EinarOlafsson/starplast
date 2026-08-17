@@ -265,6 +265,11 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     sir2 = sir2_perturbation(os.path.join(base, SIR2_TABLE))
     if not sir2.empty:
         nodes = nodes.merge(sir2, on="gene_id", how="left")
+    myr = myristoylome(dataset_root, log=log)
+    if not myr.empty:
+        # Left-joined and NOT filled: a gene outside the pulldown stays missing, because it was
+        # never assayed. Only the 609 that were carry True or False.
+        nodes = nodes.merge(myr, on="gene_id", how="left")
     palm = palmitome(dataset_root, log=log)
     if not palm.empty:
         nodes = nodes.merge(palm, on="gene_id", how="left")
@@ -440,3 +445,41 @@ def alphafold(report_path: str) -> pd.DataFrame:
     if "mean_plddt" not in out.columns:
         return pd.DataFrame()
     return out[~out["gene_id"].duplicated()].sort_values("gene_id").reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- N-myristoylation
+#: Click-chemistry capture of myristoylated proteins, with and without an NMT inhibitor. The
+#: quantity that identifies a substrate is not being pulled down -- background comes down too -- but
+#: coming down LESS when the transferase is blocked.
+MYRISTOYLOME = ("myristoylome", "34695132", "pbio.3001408.s011.xlsx")
+
+
+def myristoylome(dataset_root: str, log=print) -> pd.DataFrame:
+    """Proteins whose capture drops when N-myristoyltransferase is inhibited.
+
+    Three states, not two, and the difference matters. A protein marked significant is a substrate;
+    a protein in the table but not marked was assayed and is not one; a protein absent from the
+    table was never in the pulldown at all and nothing is known about it. Collapsing the last two
+    would claim the whole proteome had been tested for myristoylation by a single experiment that
+    saw 609 proteins.
+    """
+    folder, pmid, name = MYRISTOYLOME
+    path = os.path.join(dataset_root, "post_translation", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    sheet = book.parse(book.sheet_names[0])
+    if not {"Significant", "Difference", "Protein IDs"} <= set(sheet.columns):
+        return pd.DataFrame()
+    genes = sheet["Protein IDs"].astype(str).str.split(";").str[0].str.split(".").str[0]
+    significant = sheet["Significant"].astype(str).str.strip() == "+"
+    # Depletion on inhibition, not enrichment. A positive difference under a blocked transferase
+    # would be a protein that came down MORE without it, which is not what a substrate does.
+    depleted = pd.to_numeric(sheet["Difference"], errors="coerce") < 0
+    out = pd.DataFrame({"gene_id": genes, "is_myristoylated": significant & depleted})
+    out = out[out["gene_id"].str.startswith("PF3D7_")]
+    if out.empty:
+        return pd.DataFrame()
+    out = out.groupby("gene_id", as_index=False)["is_myristoylated"].max()
+    log(f"myristoylome: {int(out['is_myristoylated'].sum())} substrates of {len(out):,} assayed")
+    return out.sort_values("gene_id").reset_index(drop=True)

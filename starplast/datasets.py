@@ -1249,6 +1249,24 @@ REGISTRY = [
                  "the values are log intensities, and the medians align across arrays within 0.1, "
                  "which a test asserts because it is the precondition that makes differencing them "
                  "meaningful at all."),
+    Dataset("pf_myristoylome", "Plasmodium N-myristoylome (NMT-inhibitor sensitive)",
+            "post_translation", "myristoylation",
+            "Proteins whose click-chemistry capture drops when N-myristoyltransferase is blocked",
+            ("is_myristoylated",), "16 substrates of 609 assayed", pmid="34695132",
+            accession="PLoS Biol 3001408 S11",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8544853/supplementaryFiles",
+            path="datasets/post_translation/myristoylome/34695132/pbio.3001408.s011.xlsx",
+            note="The evidence for a substrate is not being pulled down -- background comes down "
+                 "too -- but coming down LESS when the transferase is inhibited, so the loader "
+                 "requires significance AND a negative difference. A positive difference under a "
+                 "blocked transferase would be a protein that came down MORE without it, which is "
+                 "not what a substrate does. THREE states, not two: 16 substrates, 593 assayed and "
+                 "not substrates, and 5,111 genes never in the pulldown, which stay missing -- "
+                 "collapsing the last two would claim the whole proteome had been tested for "
+                 "myristoylation by one experiment that saw 609 proteins. Sparse because the "
+                 "biology is: Plasmodium has roughly thirty predicted NMT substrates. The list "
+                 "validates itself -- GAP45, ARO, CDPK1, Rab-5B, ARF1 and ISP3 are the canonical "
+                 "N-myristoylated families in apicomplexans and all are present."),
     Dataset("pf_palmitome", "Plasmodium palmitome (observed only)", "post_translation",
             "palmitoylation",
             "Proteins observed S-palmitoylated, with the motif prediction deliberately excluded",
