@@ -1318,3 +1318,32 @@ def test_build_all_folds_in_the_antibody_epitopes(tmp_path):
     d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
     assert d.loc["PF3D7_0100100", P.IEDB_COLUMN] == 1
     assert pd.isna(d.loc["PF3D7_0100200", P.IEDB_COLUMN]), "absent was read as zero"
+
+
+def test_the_two_iedb_halves_are_separate_columns(tmp_path):
+    """Antibodies and T cells are different questions and get different slots."""
+    root = _iedb_root(tmp_path)
+    pd.DataFrame([("Q1", "TTT"), ("Q1", "TTT")], columns=["uniprot", "epitope"]).to_csv(
+        os.path.join(root, "reference", "plasmodb", P.IEDB_TABLES["n_tcell_epitopes"]),
+        sep="\t", index=False)
+    d = P.bcell_epitopes(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_A", "n_bcell_epitopes"] == 2
+    assert d.loc["PF3D7_A", "n_tcell_epitopes"] == 1
+
+
+def test_one_iedb_half_alone_is_enough(tmp_path):
+    """The T-cell fetch failing must not cost the antibody column."""
+    d = P.bcell_epitopes(_iedb_root(tmp_path), log=lambda *a: None)
+    assert "n_bcell_epitopes" in d.columns and "n_tcell_epitopes" not in d.columns
+
+
+@pytest.mark.skipif(not os.path.exists(os.path.join(
+    ROOT, "datasets", "reference", "plasmodb", P.IEDB_TABLES["n_tcell_epitopes"])),
+    reason="T-cell epitopes not fetched")
+def test_the_two_halves_are_not_interchangeable():
+    """434 antigens carry an antibody epitope and only 44 a T-cell one; pooling would blur that."""
+    d = P.bcell_epitopes(os.path.join(ROOT, "datasets"), log=lambda *a: None)
+    b = d["n_bcell_epitopes"].notna().sum()
+    t = d["n_tcell_epitopes"].notna().sum()
+    assert b > t * 3, (b, t)
+    assert "PF3D7_0304600" in set(d.loc[d["n_tcell_epitopes"].notna(), "gene_id"]), "CSP"

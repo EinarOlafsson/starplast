@@ -1098,6 +1098,7 @@ PF_PATTERNS = {
     "transcription · maximum observed across stages": ["expr_max"],
     "life-cycle stage label (derived)": ["stage_margin_derived"],
     "seroreactivity / antigenicity": ["n_bcell_epitopes"],
+    "T-cell epitope content": ["n_tcell_epitopes"],
     # Wild type and knockout as stated conditions. The KO-minus-WT contrast is deliberately not
     # precomputed; `plasmodium.sir2_perturbation` says why.
     "transcription · under TF or chromatin perturbation": ["sir2_wt_", "sir2a_ko_", "sir2b_ko_"],

@@ -709,8 +709,16 @@ def derived_labels(nodes: pd.DataFrame, log=print) -> pd.DataFrame:
 #: and reaches its genes through product descriptions, because IEDB's Toxoplasma antigen names are
 #: verbatim ToxoDB descriptions. The falciparum names carry the UniProt accession instead, which is a
 #: better key and is why this does not share that module's mapping.
-IEDB_TABLE = "iedb_pf_bcell_epitopes.tsv"
 UNIPROT_TABLE = "plasmodb_pf3d7_uniprot.tsv"
+
+#: The two halves of IEDB, kept apart on purpose. `seroreactivity / antigenicity` is a question about
+#: ANTIBODIES and `T-cell epitope content` is a question about T cells; answering either with the
+#: other's number, or with the two pooled, would be answering a different question with a plausible
+#: column. The numbers are not interchangeable either -- 434 antigens carry an antibody epitope and
+#: only 44 carry a T-cell one.
+IEDB_TABLES = {"n_bcell_epitopes": "iedb_pf_bcell_epitopes.tsv",
+               "n_tcell_epitopes": "iedb_pf_tcell_epitopes.tsv"}
+IEDB_TABLE = IEDB_TABLES["n_bcell_epitopes"]
 IEDB_COLUMN = "n_bcell_epitopes"
 
 
@@ -745,16 +753,24 @@ def bcell_epitopes(dataset_root: str, log=print) -> pd.DataFrame:
     epitopes.
     """
     base = os.path.join(dataset_root, "reference", "plasmodb")
-    path = os.path.join(base, IEDB_TABLE)
     owners = uniprot_index(os.path.join(base, UNIPROT_TABLE))
-    if not os.path.exists(path) or not owners:
+    if not owners:
         return pd.DataFrame()
-    d = pd.read_csv(path, sep="\t", dtype=str)
-    if not {"uniprot", "epitope"} <= set(d.columns):
-        return pd.DataFrame()
-    d = d.assign(gene_id=d["uniprot"].map(owners)).dropna(subset=["gene_id", "epitope"])
-    if d.empty:
-        return pd.DataFrame()
-    counts = d.drop_duplicates(["gene_id", "epitope"]).groupby("gene_id").size()
-    log(f"antibody epitopes (IEDB): {len(counts)} antigens, {int(counts.sum()):,} distinct epitopes")
-    return pd.DataFrame({"gene_id": counts.index, IEDB_COLUMN: counts.to_numpy()})
+    out = None
+    for column, name in IEDB_TABLES.items():
+        path = os.path.join(base, name)
+        if not os.path.exists(path):
+            continue
+        d = pd.read_csv(path, sep="\t", dtype=str)
+        if not {"uniprot", "epitope"} <= set(d.columns):
+            continue
+        d = d.assign(gene_id=d["uniprot"].map(owners)).dropna(subset=["gene_id", "epitope"])
+        if d.empty:
+            continue
+        counts = d.drop_duplicates(["gene_id", "epitope"]).groupby("gene_id").size()
+        piece = pd.DataFrame({"gene_id": counts.index, column: counts.to_numpy()})
+        out = piece if out is None else out.merge(piece, on="gene_id", how="outer")
+        kind = "antibody" if "bcell" in name else "T-cell"
+        log(f"{kind} epitopes (IEDB): {len(counts)} antigens, "
+            f"{int(counts.sum()):,} distinct epitopes")
+    return out if out is not None else pd.DataFrame()

@@ -1241,3 +1241,34 @@ Validated against the history of the field rather than a number: **MSP1 is the t
 the RTS,S vaccine antigen — is present.** Those are the two most studied antigens in the organism.
 
 Absent is absent and not zero, because IEDB records what somebody tested.
+
+## Twenty-third pass: the other half of IEDB, and why it is a separate slot
+
+**Toxoplasma 114 of 119, Plasmodium 33 of 103, combined 147 of 222.**
+
+`Pf_T-cell epitope content` from `tcell_search`: 6,134 assay records over 44 antigens, **1,542
+distinct epitopes**. Same UniProt keying and same distinct-sequence counting as the antibody half.
+
+The two halves are kept apart, and the numbers are the argument for it: **434 antigens carry an
+antibody epitope and only 44 carry a T-cell one.** Pooling them, or filling either slot with the
+other's number, would answer one question with the other — which is exactly the mistake `iedb`
+records for the Toxoplasma arm, where ToxoDB's undifferentiated epitope count could not answer a
+question about antibodies.
+
+The loader reads whichever halves are on disk, so one fetch failing costs its own column and not the
+other.
+
+## The Plasmodium arm at 33
+
+Thirteen datasets and two computed layers, built this session from a standing start. The pattern that
+emerged is worth stating compactly, because it is what the remaining 70 slots need:
+
+1. **Find the source, then read past its labels.** Five sheets or fields this session said something
+   other than what they contained.
+2. **Key it correctly.** Product descriptions, UniProt accessions and strain annotations each needed
+   a different door, and one of them needed a new one built.
+3. **Validate on an ordering that must hold whatever the numbers are** — kinases phosphorylated more
+   than average, domains folded better than their absence, MSP1 the top antigen, CSP present.
+4. **Encode missingness in as many states as the experiment produced**, which was two states
+   sometimes and three others.
+5. **Refuse when a check comes back backwards**, which happened twice.

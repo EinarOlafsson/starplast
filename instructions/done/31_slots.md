@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 89 covered well, 18 partly, 39 thinly, 76 empty.**
+**222 slots: 89 covered well, 18 partly, 40 thinly, 75 empty.**
 
 ### transcription
 
@@ -347,7 +347,7 @@ quantity were approximating on 2026-08-13.
 | Tg_seroreactivity / antigenicity | human or animal sera | **C** | 34 | 0.4% | `n_bcell_epitopes` | separate | [IEDB](https://pubmed.ncbi.nlm.nih.gov/IEDB/) `bcell_search` |
 | Tg_T-cell epitope content | predicted and measured | **C** | 221 | 2.7% | `iedb_epitope_count` | average | — |
 | Pf_seroreactivity / antigenicity | human or animal sera | **C** | 434 | 7.6% | `n_bcell_epitopes` | separate | [IEDB](https://pubmed.ncbi.nlm.nih.gov/IEDB/) `bcell_search`<br>**Engineered antibodies preserve structural and functional recognition of Plasmodium falciparum circumsporozoite protein.** (Protein science : a publication of the Protein Society 2026) [42560026](https://pubmed.ncbi.nlm.nih.gov/42560026/)<br>verify assay and parasite-gene shape)<br>**Impact of FY*X homozygosity of the DARC receptor on Plasmodium knowlesi line A1-H.1 invasion.** (Current research in parasitology & vector-borne diseases 2026) [42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/)<br>verify assay and parasite-gene shape)<br>**A narrative review of the epidemiological and mechanistic associations between ABO blood groups and diseases: focusing on cardiovascular diseases, cancers, diabetes, malaria, COVID-19 and rheumatic diseases.** (Annals of medicine 2026) [42574721](https://pubmed.ncbi.nlm.nih.gov/42574721/)<br>verify assay and parasite-gene shape) |
-| Pf_T-cell epitope content | predicted and measured | **-** |  |  | `` | average | **Reconstruction of historical malaria transmission in Senegal using multiplex serocatalytic models.** (PLoS computational biology 2026) [42507702](https://pubmed.ncbi.nlm.nih.gov/42507702/)<br>verify assay and parasite-gene shape)<br>**Sero-epidemiological and functional evaluation of IgG specific for a cysteine protease inhibitor of Plasmodium falciparum, falstatin.** (Infection and immunity 2026) [42550035](https://pubmed.ncbi.nlm.nih.gov/42550035/)<br>verify assay and parasite-gene shape)<br>**Impact of FY*X homozygosity of the DARC receptor on Plasmodium knowlesi line A1-H.1 invasion.** (Current research in parasitology & vector-borne diseases 2026) [42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/)<br>verify assay and parasite-gene shape) |
+| Pf_T-cell epitope content | predicted and measured | **C** | 44 | 0.8% | `n_tcell_epitopes` | average | **Reconstruction of historical malaria transmission in Senegal using multiplex serocatalytic models.** (PLoS computational biology 2026) [42507702](https://pubmed.ncbi.nlm.nih.gov/42507702/)<br>verify assay and parasite-gene shape)<br>**Sero-epidemiological and functional evaluation of IgG specific for a cysteine protease inhibitor of Plasmodium falciparum, falstatin.** (Infection and immunity 2026) [42550035](https://pubmed.ncbi.nlm.nih.gov/42550035/)<br>verify assay and parasite-gene shape)<br>**Impact of FY*X homozygosity of the DARC receptor on Plasmodium knowlesi line A1-H.1 invasion.** (Current research in parasitology & vector-borne diseases 2026) [42571463](https://pubmed.ncbi.nlm.nih.gov/42571463/)<br>verify assay and parasite-gene shape) |
 
 ### phenotype
 

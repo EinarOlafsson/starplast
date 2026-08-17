@@ -1268,6 +1268,18 @@ REGISTRY = [
                  "inventing the answer. 434 of 444 antigens resolve. Absent is absent and not zero, "
                  "because IEDB records what somebody tested. Validated on the history of the field: "
                  "MSP1 is the top antigen and CSP, the RTS,S vaccine antigen, is present."),
+    Dataset("pf_iedb_tcell", "Plasmodium T-cell epitopes (IEDB)", "reference", "immunity",
+            "Distinct T-cell epitope sequences per gene", ("n_tcell_epitopes",),
+            "44 antigens, 1,542 distinct epitopes", accession="IEDB tcell_search",
+            url="https://query-api.iedb.org/tcell_search"
+                "?parent_source_antigen_source_org_name=ilike.*Plasmodium%20falciparum*",
+            path="datasets/reference/plasmodb/iedb_pf_tcell_epitopes.tsv",
+            note="Kept apart from the antibody half on purpose, and the numbers show why they are "
+                 "not interchangeable: 434 antigens carry an antibody epitope and only 44 carry a "
+                 "T-cell one. Pooling them, or filling either slot with the other, would answer one "
+                 "question with the other's number. Same UniProt keying and same distinct-sequence "
+                 "counting as the antibody table, and the loader reads whichever halves are present "
+                 "so one fetch failing does not cost the other column."),
     Dataset("pf_derived_stage_labels", "Plasmodium peak expression and stage label (DERIVED)",
             "transcription", "RNAseq",
             "Maximum expression across stages, and which stage a gene belongs to",
