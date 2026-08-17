@@ -1678,3 +1678,36 @@ the case where the rule resolves to a refusal.
 Twelfth source built or computed and then refused. The slot keeps its verdict of missing, and what it
 needs is a translation-efficiency measurement whose relationship to codon usage someone has already
 had to explain.
+
+## Thirty-sixth pass: `drug sensitivity` re-framed, and the one path left
+
+**No change: Toxoplasma 114 of 119.**
+
+The "suspect the sentence" test applied to `drug sensitivity`, since it worked for `lipid composition`
+and for `resistance-conferring mutation`. The sentence recorded against this slot is *"no genome-wide
+chemogenomic screen has been published for Toxoplasma"*, and every sweep tested exactly that.
+
+But the slot asks whether **disrupting a gene changes survival under a compound**, and a genome-wide
+screen is only one instrument that answers it. Individual knockout studies answer it one gene at a
+time, and there are many.
+
+Searching for those turned up one promising hit — *"A combined genetic and chemical approach for
+identifying novel antifungal compounds"*, open access, a systematic platform screening knockout mutants
+against a 2,704-compound library. It is ***Fusarium graminearum***. A fungus. Caught by reading the
+abstract rather than the title, which is the fourth wrong-organism candidate this campaign after
+*Dictyostelium*, *Cryptosporidium* and *Theileria*.
+
+**What the reframing does leave is a curation job with a statable bar**, and it is the same shape as
+the one that filled `resistance-conferring mutation`:
+
+> a gene is in if a knockout or knockdown shows a MEASURED shift in sensitivity to a NAMED compound,
+> read from primary text, with the direction and the compound recorded per row.
+
+Candidates seen while searching: equilibrative nucleoside transporters against purine analogues
+(PMC12607627), the ZFT iron/zinc transporter (PMC12875612), TgGSK3 (PMC12589562), Aurora kinases
+(PMC12707362) — all open access. That would be perhaps ten to twenty genes, sparse because the biology
+is, and it needs the same per-row product cross-check that makes a curated table safe.
+
+It is not started. What is now recorded is that the sentence was wrong in the same way the lipid
+sentence was — "no screen exists" is not "the question cannot be answered" — and that the remaining
+path is curation rather than search, so the next pass need not sweep the catalogues a seventh time.
