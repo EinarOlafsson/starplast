@@ -277,3 +277,33 @@ def test_a_crosslink_table_with_no_usable_pair_yields_no_layer(tmp_path):
     root = _xl_root(tmp_path, rows=[("sp|P02549|SPTA1", "sp|P11277|SPTB", 7),
                                     ("sp|Q1|PF3D7_010000", "sp|Q1|PF3D7_010000", 3)])
     assert len(G.crosslink_edges(_xl_nodes(), root, log=lambda *a: None)[0]) == 0
+
+
+def test_a_protein_written_as_a_symbol_is_still_resolved(tmp_path):
+    """The bug this cost six edges to find.
+
+    The source writes some rows `sp|Q6ZMA7|Pfs16` -- a UniProt symbol, not a PF3D7 accession -- and
+    Pfs16 IS a parasite gene. Matching a pattern on the accession field dropped those pairs as
+    "host at one end" and put a parasite protein on its way into a host bridge. Resolution has to go
+    through the identity index, which is what the Toxoplasma layer exists to teach.
+    """
+    base = tmp_path / "reference" / "plasmodb"
+    (base / G.CROSSLINK[0] / G.CROSSLINK[1]).mkdir(parents=True)
+    pd.DataFrame([("PF3D7_010000", "Q1"), ("PF3D7_010001", "Q2")],
+                 columns=["Gene ID", "UniProt ID(s)"]).to_csv(
+        base / "plasmodb_pf3d7_uniprot.tsv", sep="\t", index=False)
+    pd.DataFrame([("sp|Q1|SomeSymbol", "sp|Q2|AnotherSymbol", 4)],
+                 columns=["Protein1", "Protein2", "Num_Crosslinks"]).to_excel(
+        base / G.CROSSLINK[0] / G.CROSSLINK[1] / G.CROSSLINK[2],
+        sheet_name=G.CROSSLINK_SHEET, index=False)
+    a, b, w = G.crosslink_edges(_xl_nodes(), str(tmp_path), log=lambda *a: None)
+    assert list(zip(a, b)) == [(0, 1)], "a symbol-named parasite protein was not resolved"
+    assert list(w) == [4.0]
+
+
+@pytest.mark.skipif(not os.path.exists(XL), reason="crosslinks not fetched")
+def test_resolution_recovers_more_edges_than_a_pattern_would():
+    """Guards the fix: 73 by pattern alone, 79 through the index. If it ever drops back, this fails."""
+    nodes = pd.read_parquet(NODES)
+    a, _b, _w = G.crosslink_edges(nodes, os.path.join(ROOT, "datasets"), log=lambda *a: None)
+    assert len(a) >= 79, f"{len(a)} edges: resolution is not going through the accession index"

@@ -184,6 +184,14 @@ def crosslink_edges(nodes: pd.DataFrame, dataset_root: str, log=print) -> tuple:
     them. And a pair whose two ends resolve to the same gene is a homomeric crosslink: evidence the
     protein self-associates, not an edge between two genes, and drawing it would put a zero-length
     line in the graph.
+
+    Identifying which end is which must go through the IDENTITY INDEX and not through a pattern. The
+    first version of this matched `PF3D7_\w+` in the mapping field and shipped 73 edges; the source
+    writes some rows with a UniProt symbol instead -- `sp|Q6ZMA7|Pfs16` is Pfs16, which is
+    PF3D7_0406200 and a parasite gene -- so six real parasite-parasite contacts were dropped as
+    "host at one end", and one parasite protein was on its way into a host bridge. Resolving through
+    the accession index recovers all 79. This is the mistake the Toxoplasma identity layer exists to
+    prevent, made here anyway because a regex on an accession looks like resolution and is not.
     """
     folder, pmid, name = CROSSLINK
     path = os.path.join(dataset_root, "reference", "plasmodb", folder, pmid, name)
@@ -196,11 +204,18 @@ def crosslink_edges(nodes: pd.DataFrame, dataset_root: str, log=print) -> tuple:
     d = book.parse(CROSSLINK_SHEET)
     if not {"Protein1", "Protein2"} <= set(d.columns):
         return empty
+    from .plasmodium import UNIPROT_TABLE, uniprot_index
     index = {gene: i for i, gene in enumerate(nodes["gene_id"].astype(str))}
+    owners = uniprot_index(os.path.join(dataset_root, "reference", "plasmodb", UNIPROT_TABLE))
 
     def resolve(cell):
+        """The gene this protein is, by accession if it is written that way and by UniProt if not."""
         found = ACCESSION.search(str(cell))
-        return index.get(found.group(0)) if found else None
+        if found and found.group(0) in index:
+            return index[found.group(0)]
+        parts = str(cell).split("|")
+        gene = owners.get(parts[1]) if len(parts) > 2 else None
+        return index.get(gene) if gene else None
 
     counts = {}
     for one, two, links in zip(d["Protein1"], d["Protein2"],

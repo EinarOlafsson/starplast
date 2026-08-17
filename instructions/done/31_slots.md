@@ -262,7 +262,7 @@ quantity were approximating on 2026-08-13.
 | Pf_co-transcription | stage series | **A** | 5533 | 96.7% | `coexpression` | separate | — |
 | Pf_co-translation | ribosome profiling | **-** |  |  | `` | separate | — |
 | Pf_co-fitness | seven screens | **-** |  |  | `` | separate | — |
-| Pf_interaction · crosslink MS | measured contact | **C** | 102 | 1.8% | `xlms` | one | — |
+| Pf_interaction · crosslink MS | measured contact | **C** | 110 | 1.9% | `xlms` | one | — |
 | Pf_interaction · IP-MS, parasite-parasite | pulldown | **-** |  |  | `` | fill | — |
 | Pf_interaction · proximity labelling | BioID / TurboID | **-** |  |  | `` | fill | — |
 | Pf_interaction · structural similarity | Foldseek | **-** |  |  | `` | one | — |

@@ -1470,7 +1470,7 @@ REGISTRY = [
                  "assembly a protein sits in."),
     Dataset("pf_crosslink_ms", "Plasmodium crosslinking MS contacts", "reference", "crosslink_MS",
             "Protein pairs joined by a measured crosslink", ("edge:xlms",),
-            "73 parasite-parasite pairs over 102 genes", pmid="41966402",
+            "79 parasite-parasite pairs", pmid="41966402",
             accession="Cell Rep mmc1 sheet D",
             url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13200099/supplementaryFiles",
             path="datasets/reference/plasmodb/crosslink/41966402/mmc1.xlsx",
@@ -1484,7 +1484,13 @@ REGISTRY = [
                  "graph. Validated on complexes that have to be there: EXP2, PTEX150 and HSP101 -- "
                  "three subunits of the PTEX translocon -- crosslink to one another, prohibitin 1 to "
                  "prohibitin 2, and RAP1 to RAP2. A contact map that missed those would not be "
-                 "measuring contacts."),
+                 "measuring contacts. Which end is host and which is parasite goes through the "
+                 "ACCESSION INDEX and not through a pattern: the first version matched PF3D7_ in the "
+                 "mapping field and shipped 73 edges, but the source writes some rows with a UniProt "
+                 "symbol instead -- `sp|Q6ZMA7|Pfs16` is PF3D7_0406200, a parasite gene -- so six "
+                 "real contacts were dropped as host-at-one-end and a parasite protein was on its "
+                 "way into a host bridge. Resolving recovers all 79, and a test fails if the count "
+                 "ever drops back."),
     Dataset("pf_relation_layers", "Plasmodium relation layers (COMPUTED)", "reference", "graph",
             "Gene pairs sharing an orthogroup or a domain, and pairs whose stages covary",
             ("edge:orthogroup", "edge:domain", "edge:coexpression"),

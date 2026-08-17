@@ -1480,3 +1480,28 @@ members belong to a bridge table.
 The documented Plasmodium column count in HANDOFF drifted by four during this pass and the
 species-aware column test caught it immediately — which is what that test was extended for two passes
 ago, so it has already paid for itself.
+
+## Twenty-ninth pass: a bug in last pass's own layer, found by reading the next slot
+
+**Toxoplasma 114 of 119, Plasmodium 36 of 103, combined 150 of 222 — and the crosslink layer went
+from 73 edges to 79, because six of them should never have been dropped.**
+
+Setting up `Pf_interaction · with host proteins` meant looking at the host-parasite crosslinks that
+the `xlms` layer had deliberately excluded. One of the "host" proteins was `sp|Q6ZMA7|Pfs16`.
+
+**Pfs16 is a *Plasmodium* gene.** Q6ZMA7 resolves to `PF3D7_0406200`.
+
+The layer identified which end was host by matching `PF3D7_\w+` in the mapping field. The source
+writes some rows with a UniProt symbol instead of the accession, so those rows failed the pattern and
+were classified as host — which **dropped six real parasite-parasite contacts** and would have put a
+parasite protein into a host bridge as though it were human. Resolving through the accession index
+recovers all 79.
+
+This is precisely the failure the Toxoplasma identity layer exists to prevent, and it happened anyway
+because **a regex on an accession field looks like resolution and is not.** The lesson instruction 41
+already recorded for deposits keyed on `TGGT1_` applies to any field that carries identifiers in more
+than one notation, which is most of them. A test now fails if the count drops back below 79.
+
+Worth noting how it surfaced: not from a validation of the layer itself — the PTEX check passed on 73
+edges just as it does on 79 — but from starting the *next* slot and finding the discarded pile had a
+parasite protein in it. The thrown-away half of a filter is worth reading.
