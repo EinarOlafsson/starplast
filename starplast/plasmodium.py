@@ -263,6 +263,9 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     fold = alphafold(os.path.join(base, ALPHAFOLD_TABLE))
     if not fold.empty:
         nodes = nodes.merge(fold, on="gene_id", how="left")
+    fever = febrile(os.path.join(base, FEBRILE_TABLE))
+    if not fever.empty:
+        nodes = nodes.merge(fever, on="gene_id", how="left")
     sir2 = sir2_perturbation(os.path.join(base, SIR2_TABLE))
     if not sir2.empty:
         nodes = nodes.merge(sir2, on="gene_id", how="left")
@@ -774,3 +777,38 @@ def bcell_epitopes(dataset_root: str, log=print) -> pd.DataFrame:
         log(f"{kind} epitopes (IEDB): {len(counts)} antigens, "
             f"{int(counts.sum()):,} distinct epitopes")
     return out if out is not None else pd.DataFrame()
+
+
+# --------------------------------------------------------------------------- febrile stress
+#: Transcription at 37 C and at the 41 C of a malarial fever, in wild type and in two mutants.
+FEBRILE_TABLE = "plasmodb_pf3d7_febrile.tsv"
+FEBRILE = (("WT 37C", "febrile_wt_37c"), ("WT 41C", "febrile_wt_41c"),
+           ("delta-LRR5-37C", "febrile_lrr5ko_37c"), ("delta-LRR5-41C", "febrile_lrr5ko_41c"),
+           ("delta-DHC-37C", "febrile_dhcko_37c"), ("delta-DHC-41C", "febrile_dhcko_41c"))
+
+
+def febrile(report_path: str) -> pd.DataFrame:
+    """The six conditions, as conditions. The 41-versus-37 contrast is left to the caller.
+
+    Same restraint as `sir2_perturbation`, for a different reason. There the check on the contrast
+    contradicted itself; here it came out NULL: heat shock proteins move by a median log2 of +0.08
+    against -0.07 for everything else (p = 0.2), so a fever does not induce them measurably. That is
+    consistent with what is known -- Plasmodium's chaperones are constitutively high rather than
+    stress-induced -- and the genes that do rise, Maurer's cleft two-TM proteins and stevor at four
+    to five log2, match published fever-driven surface remodelling. But a null result on the one
+    prediction available is not a validation, and a derived column would imply it had passed one.
+    The conditions themselves are unambiguous and are what ship.
+    """
+    if not os.path.exists(report_path):
+        return pd.DataFrame()
+    d = pd.read_csv(report_path, sep="\t", dtype=str).replace(dict.fromkeys(BLANK, None))
+    if "Gene ID" not in d.columns:
+        return pd.DataFrame()
+    out = pd.DataFrame({"gene_id": d["Gene ID"].astype(str)})
+    for label, column in FEBRILE:
+        found = [c for c in d.columns if label in c]
+        if len(found) == 1:
+            out[column] = pd.to_numeric(d[found[0]], errors="coerce")
+    if len(out.columns) == 1:
+        return pd.DataFrame()
+    return out[~out["gene_id"].duplicated()].sort_values("gene_id").reset_index(drop=True)

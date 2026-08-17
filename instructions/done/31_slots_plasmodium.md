@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 27 covered well, 2 partly, 4 thinly, 70 empty.**
+**103 slots: 28 covered well, 2 partly, 4 thinly, 69 empty.**
 
 ### transcription
 
@@ -73,7 +73,7 @@ quantity were approximating on 2026-08-13.
 | Pf_transcription · oocyst | oocyst | **A** | 5720 | 100.0% | `expr_oocyst` | one | — |
 | Pf_transcription · sporozoite | sporozoite | **A** | 5720 | 100.0% | `expr_sporozoite` | one | — |
 | Pf_transcription · per cell-cycle phase | cell cycle | **A** | 5720 | 100.0% | `steady_state_` | separate | — |
-| Pf_transcription · under stress / conversion | alkaline, stress | **-** |  |  | `` | separate | — |
+| Pf_transcription · under stress / conversion | alkaline, stress | **A** | 5720 | 100.0% | `febrile_` | separate | — |
 | Pf_transcription · under TF or chromatin perturbation | perturbation | **A** | 5544 | 96.9% | `sir2_wt_, sir2a_ko_, sir2b_ko_` | separate | — |
 | Pf_transcription · maximum observed across stages | cross-stage summary | **A** | 5720 | 100.0% | `expr_max` | one | — |
 | Pf_cell-cycle timing label | single-parasite atlas | **-** |  |  | `` | one | — |

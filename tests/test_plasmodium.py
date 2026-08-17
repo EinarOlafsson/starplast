@@ -1347,3 +1347,68 @@ def test_the_two_halves_are_not_interchangeable():
     t = d["n_tcell_epitopes"].notna().sum()
     assert b > t * 3, (b, t)
     assert "PF3D7_0304600" in set(d.loc[d["n_tcell_epitopes"].notna(), "gene_id"]), "CSP"
+
+
+# --------------------------------------------------------------------------- febrile stress
+FEB = os.path.join(ROOT, "datasets", "reference", "plasmodb", P.FEBRILE_TABLE)
+
+
+def _feb_report(tmp_path, header=True):
+    rows = {"Gene ID": ["PF3D7_0100100", "PF3D7_0100200"]}
+    for label, _column in P.FEBRILE:
+        rows[f"sense - {label} - unique only"] = ["10.0", "N/A"]
+    frame = pd.DataFrame(rows)
+    if not header:
+        frame = frame.drop(columns=["Gene ID"])
+    path = tmp_path / P.FEBRILE_TABLE
+    frame.to_csv(path, sep="\t", index=False)
+    return str(path)
+
+
+def test_every_febrile_condition_becomes_its_own_column(tmp_path):
+    d = P.febrile(_feb_report(tmp_path))
+    for _label, column in P.FEBRILE:
+        assert column in d.columns, column
+
+
+def test_both_temperatures_and_all_three_lines_survive(tmp_path):
+    """The 41-versus-37 contrast is the caller's to make, so both arms have to be there."""
+    d = P.febrile(_feb_report(tmp_path))
+    assert {"febrile_wt_37c", "febrile_wt_41c"} <= set(d.columns)
+    assert sum(c.endswith("_41c") for c in d.columns) == 3
+
+
+def test_a_missing_febrile_report_yields_nothing(tmp_path):
+    assert P.febrile(str(tmp_path / "absent.tsv")).empty
+
+
+def test_a_febrile_report_without_a_gene_column_is_refused(tmp_path):
+    assert P.febrile(_feb_report(tmp_path, header=False)).empty
+
+
+def test_a_febrile_report_with_no_recognised_condition_is_refused(tmp_path):
+    path = tmp_path / P.FEBRILE_TABLE
+    pd.DataFrame({"Gene ID": ["PF3D7_0100100"], "unrelated": ["1"]}).to_csv(
+        path, sep="\t", index=False)
+    assert P.febrile(str(path)).empty
+
+
+@pytest.mark.skipif(not os.path.exists(FEB), reason="febrile report not fetched")
+def test_the_febrile_arms_are_on_a_comparable_scale():
+    """Asserting the precondition rather than the conclusion, as with the Sir2 arrays."""
+    d = P.febrile(FEB)
+    values = d[[c for c in d.columns if c != "gene_id"]]
+    medians = values.median()
+    assert medians.min() > 5 and medians.max() < 200, medians.to_dict()
+    assert values.min().min() >= 0
+
+
+def test_build_all_folds_in_the_febrile_conditions(tmp_path):
+    root = _dataset_root(tmp_path)
+    base = os.path.join(root, "reference", "plasmodb")
+    rows = {"Gene ID": ["PF3D7_0100100", "PF3D7_0100200"]}
+    for label, _column in P.FEBRILE:
+        rows[f"sense - {label} - unique only"] = ["10.0", "12.0"]
+    pd.DataFrame(rows).to_csv(os.path.join(base, P.FEBRILE_TABLE), sep="\t", index=False)
+    d = P.build_all(root, log=lambda *a: None)
+    assert "febrile_wt_41c" in d.columns

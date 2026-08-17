@@ -1272,3 +1272,32 @@ emerged is worth stating compactly, because it is what the remaining 70 slots ne
 4. **Encode missingness in as many states as the experiment produced**, which was two states
    sometimes and three others.
 5. **Refuse when a check comes back backwards**, which happened twice.
+
+## Twenty-fourth pass: febrile stress, and a null check that is not a failure
+
+**Toxoplasma 114 of 119, Plasmodium 34 of 103, combined 148 of 222.**
+
+`Pf_transcription · under stress / conversion` from the febrile-temperature series: wild type and two
+mutants at 37 °C and at the 41 °C of a malarial fever.
+
+Shipped as **conditions** rather than as a 41-versus-37 contrast — the same restraint as the Sir2
+entry, for a different reason. There the check on the contrast **contradicted itself**; here it came
+out **null**. Heat shock proteins move by a median log2 of +0.08 against −0.07 for everything else
+(p = 0.2), so a fever does not measurably induce them.
+
+That null is consistent with what is known rather than evidence of a fault: this organism's chaperones
+are constitutively high rather than stress-induced, and the genes that *do* rise — Maurer's cleft
+two-TM proteins and stevor, at four to five log2 — match published fever-driven surface remodelling.
+But a null result on the one available prediction is not a validation, and a derived column would
+imply it had passed one.
+
+Worth separating three outcomes this campaign has now produced, because they want different actions:
+
+| check result | example | action |
+|---|---|---|
+| **backwards** | *var* genes more accessible than the genome | refuse the data |
+| **contradictory** | *var* up in two stages and down in a third under Sir2 KO | ship conditions, not the contrast |
+| **null** | heat shock proteins unmoved by fever | ship conditions, and say the prediction was null |
+
+Only the first is a reason to reject a source. The other two are reasons to ship it one step further
+back and write down what was and was not shown.

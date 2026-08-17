@@ -1227,6 +1227,26 @@ REGISTRY = [
                  "folds. The correlation with protein length is NEGATIVE at -0.555, which is not a "
                  "fault -- it is this proteome's low-complexity asparagine insertions, which are "
                  "long and disordered."),
+    Dataset("pf_febrile_stress", "Plasmodium transcription at febrile temperature",
+            "transcription", "RNAseq",
+            "Wild type and two mutants at 37 C and at the 41 C of a malarial fever",
+            ("febrile_wt_37c", "febrile_wt_41c", "febrile_lrr5ko_37c", "febrile_lrr5ko_41c",
+             "febrile_dhcko_37c", "febrile_dhcko_41c"), "5,791 genes",
+            accession="PlasmoDB Pfal3D7 Febrile temps RNA-Seq",
+            url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
+                "GenesByTaxon/reports/attributesTabular",
+            path="datasets/reference/plasmodb/plasmodb_pf3d7_febrile.tsv",
+            note="Shipped as CONDITIONS rather than as a 41-versus-37 contrast, the same restraint as "
+                 "the Sir2 entry and for a different reason. There the check on the contrast "
+                 "contradicted itself; here it came out NULL. Heat shock proteins move by a median "
+                 "log2 of +0.08 against -0.07 for everything else (p = 0.2), so a fever does not "
+                 "measurably induce them -- which is consistent with what is known, since this "
+                 "organism's chaperones are constitutively high rather than stress-induced, and the "
+                 "genes that do rise are Maurer's cleft two-TM proteins and stevor at four to five "
+                 "log2, matching published fever-driven surface remodelling. But a null result on "
+                 "the one available prediction is not a validation, and a derived column would imply "
+                 "it had passed one. A test asserts the arms are on a comparable scale, which is the "
+                 "precondition for the caller making the contrast themselves."),
     Dataset("pf_sir2_perturbation", "Plasmodium transcription under Sir2 knockout",
             "transcription", "microarray",
             "Wild type and sir2a / sir2b knockout at ring, trophozoite and schizont",
