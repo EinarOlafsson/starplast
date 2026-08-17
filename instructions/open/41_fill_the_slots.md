@@ -1757,3 +1757,156 @@ phrasing. But the drug-sensitivity case is a standing warning against trusting t
 the sentence it was given.** For each of the four, the sentence to suspect is written in the slot table's
 `searched` field, and the question to ask is what instrument OTHER than the one swept for could answer
 the slot.
+
+## Thirty-eighth pass: `fitness · in vivo gut` filled, and the catalogue that was never complete
+
+**Toxoplasma 116 of 119. Plasmodium 41 of 103. Combined 157 of 222.**
+
+Last pass ended with a warning against my own sweeps: *a sweep tests the sentence it was given.* This
+pass turned that on the four remaining slots and it cost three of the four their verdicts — not
+because the data appeared, but because the sweeps had been narrower than the claims I wrote from them.
+
+### The catalogue that was complete for the wrong set
+
+`protein turnover` was closed on "all 201 Toxoplasma deposits in PRIDE, enumerated not sampled". That
+is catalogue-complete **for PRIDE**, which is not the same statement as complete for proteomics.
+ProteomeXchange aggregates five repositories, and Toxoplasma has **233** deposits across them — 192
+PRIDE, 29 iProX, 6 MassIVE, 5 jPOST, 1 PeptideAtlas. Forty-one deposits my sweep never saw.
+
+None measures turnover. The negative survived, but it had been resting on a smaller catalogue than I
+claimed for six passes.
+
+### The trap in the seven numbers
+
+Then the literature instead of the archives: 467 open-access Toxoplasma papers mentioning
+cycloheximide, half-life, protein stability or turnover, full text fetched and grepped for a half-life
+attached to a gene name. Seven statements matched.
+
+**All seven are ExPASy ProtParam predictions.** Six say exactly `30 h`; the seventh says `> 20 h
+(yeast)`. ProtParam returns a constant keyed on the N-terminal residue, and every hit is an in-silico
+vaccine-design paper reciting it next to a molecular weight and an extinction coefficient.
+
+Ingesting them would have filled `protein turnover` for eight genes with a column that is **one amino
+acid in disguise** — and it would have looked like the campaign's cheapest win. This is the label trap
+in its purest form: not a mislabelled dataset, a *predicted* quantity wearing a measured quantity's
+name. Refused, and the reason is now written into the slot's verdict so the next sweep doesn't
+rediscover them as a find.
+
+### The sixth label lie
+
+Widening GEO the same way — no organism filter, because a dual RNA-seq series tagged host-only is
+invisible to one — surfaced **GSE204926**, titled *"Toxoplasma IWS1 determines fitness in
+interferon-γ-activated host cells and mice"*, organism tagged `Toxoplasma gondii`. Exactly the
+missing slot, by its title.
+
+Its samples are `WT parasite_1..3` and `IWS1 KO parasite_1..3`, and the design says *"freshly isolated
+tachyzoites"*. It is a genotype contrast in extracellular parasites. The IFN-γ in the title is what
+the gene is *for*, not what the experiment *varied*. Refused — the sixth time a source's own label
+named a measurement it had not made.
+
+### Closing a slot on set membership instead of a phrase
+
+`translation · per cell-cycle phase` was closed by reading nine ribo-seq series. Better: intersect two
+catalogues. Every BioProject matching ribosome/polysome/translatome (7) against every BioProject
+matching synchronised/cell-cycle/sorted (29). **The intersection is empty.** No submission is both.
+That closes the slot on a set operation rather than on a judgement about phrasing, and it cannot rot
+the way a sentence can.
+
+### The slot that fell
+
+`fitness · in vivo gut` was closed on "no pooled screen through the enteroepithelial stages" — true,
+and it will stay true, because the sexual cycle runs only in a felid and nobody has put a barcoded
+library through a cat. But the slot asks whether disrupting a gene costs the parasite oocysts, and a
+pooled screen is one instrument that answers it. **Feeding one knockout to a cat and counting what it
+sheds is another,** and four labs have done it.
+
+| gene | | oocyst yield | sporulation | background |
+|---|---|---|---|---|
+| TGME49_227100 | Grx5 | reduced, 2.5e7 → 8e6 | 80% → 30% | parental, Pru |
+| TGME49_287510 | AAH1 | reduced, ~1e3 vs 1e6–1e7 | not measured | parental, ME49 |
+| TGME49_212740 | AAH2 | reduced, ~10-fold | 75–80% → ~60% | parental, ME49 |
+| TGME49_212740 | AAH2 | reduced | not measured | **ΔAAH1** |
+| TGME49_285940 | HAP2 | reduced, <1,600 vs 11e6 | **abolished, 0%** | parental, CZ H3 |
+| TGME49_276850/60/70/80 | LEA850–880 | **unchanged, 30 vs 34 million** | unchanged | ΔLEA cluster |
+
+Decisions worth keeping:
+
+* **The four `unchanged` rows are the strongest in the table.** All four LEA genes were deleted
+  *together*, and oocyst yield did not move. A joint deletion that changes nothing proves more than a
+  single knockout could: redundancy cannot be hiding the phenotype. The authors also report the
+  sporulation dip (~65% vs ~85%) as inside the 60–90% range they see normally, so it is recorded as
+  unchanged rather than mined as an effect.
+* **Yield and sporulation are separate columns**, because HAP2 sheds a few mis-shapen oocysts that
+  *never* sporulate while Grx5 sheds a third as many that sporulate poorly. One column would erase
+  the difference between a fertilisation block and a maturation defect.
+* **Magnitudes stay in `evidence`, not in a numeric column.** Cats, strains and inocula differ across
+  four papers; a float here would invent a precision the experiments do not have.
+* **Two papers were found and refused** for failing the bar: one says the cat experiment "should be
+  carried out", one says oocysts were seen but "the numbers were not quantified". A test asserts
+  neither phrasing can reappear as a row.
+* **The HAP2 caveat is carried, not dropped.** That line has a second mutation in an intron of
+  TGME49_223060 which the authors disclose and argue against. A caveat the source volunteers is not
+  mine to silently delete.
+
+### The identity check that nearly failed
+
+The AAH paper gives `TgME49_212740` for AAH2 and **never gives AAH1's accession**. The node table's
+product strings were no help either: I searched `hydroxylase` and got nothing, because ToxoDB spells
+both products *"aromatic amino acid hydro**l**ase"*. The paper also says the two genes are "very
+closely related and located on chromosome V", and the accessions I had — 212740 and 287510 — are
+nothing like adjacent, unlike the tandem LEA cluster 276850/60/70/80.
+
+ToxoDB's record endpoint returned 500 for every attribute, so the check had to come from the local
+identity index, which carries a `gene_name` field: **AAH1 = TGME49_287510, AAH2 = TGME49_212740**.
+Authoritative, and independent of the product string that hid them. This is the standing rule paying
+out again — *resolve through the identity index, never a regex and never a guess.*
+
+### Rebuilding it exposed two silent-loss bugs and a five-tree layout
+
+The rebuild needed `toxonet/data/interim/nodes.parquet`, which lives outside the repo, so I pointed
+`STARPLAST_DATA` at the tree that has it. The build **succeeded, exit 0**, wrote its parquet, reported
+`8140 nodes, 13 edge types` — and carried 305 columns instead of 390. Eighty-eight datasets had
+vanished. Nothing errored, and the three new columns were present and correct, so any check that only
+asked *"did my slot land?"* would have passed while the table lost 22% of itself.
+
+Four more attempts landed on 352, 334, 334 and 391 before the layout was right. `BASE` is the parent
+of the dataset root, and loaders join it five different ways, so the build needs ONE directory holding
+all of:
+
+`starplast/` · `datasets/` · `toxonet/` · `toxo_stage_atlas/` · `starpath_*` · `.claude/skills/…/corpus/`
+
+They were split across two parents. Symlinked into place, and the required paths are now checked
+explicitly rather than discovered by a column count going down.
+
+Then the last two columns refused to build, and each was a real bug:
+
+* **`proteomics.load_all` was called without `resolve`.** Two of the quarantine tables it reaches are
+  keyed on `TGGT1_`; without the identity layer they join zero rows. That is 7,384 and 2,348 values,
+  and the build still exited 0. One-line fix, and the restored coverage matches the old numbers
+  *exactly*, which is what says the fix is right rather than merely non-empty.
+* **`add_strain_accessions` contradicted its own module docstring.** The documented rule is that a
+  cross-strain accession resolves *when its suffix exists in the node table*. The implementation only
+  registered accessions enumerated in the strain TSV — and that file is incomplete: `TGGT1_212960`,
+  `_251570`, `_297960` and `_310430` are absent from its 8,637 rows while all four ME49 genes are in
+  the node table, so four genes of the splitCas9 screen silently failed to join. Now completed by
+  suffix, which can only add: each suffix maps to exactly one ME49 gene.
+
+Those two fixes gave **14 columns more coverage than the table had before**: the GSE99395 ribo-seq arms
+went 7,437 → 7,506 genes each, `cdpk1_thiophospho_peptides` 361 → 367, the differentiation reporter
+235 → 237. A slot-filling pass found bugs in the identity layer because it insisted the rebuild lose
+nothing.
+
+**The check that caught all of it**, and the one to keep running: diff the rebuilt table against
+`HEAD` on *columns gained, columns lost, and per-column coverage in both directions*. Column presence
+alone would have missed the 4-gene screen regression and the 1,306-value `best_model_agreement` wipe,
+because both columns still existed. A build that exits 0 is not evidence that a build was correct.
+
+### Two tests that were passing for the wrong reason
+
+`test_a_missing_study_file_reports_and_returns_empty` and `test_a_missing_primary_matrix_reports_rather_than_raising`
+set `STARPLAST_DATA` to an empty directory and then assert the loader reports a missing file. But
+`paths.find` walks *every* root it can name, and one is derived from the package location, not the
+environment — so neither test ever guaranteed the absence it is named for. They passed because the
+repo's dataset tree happened not to contain those two files, and they broke the moment it did. Both
+now patch `paths.dataset_roots` to name exactly one root. Setting an env var is not isolation when the
+resolver has other candidates.

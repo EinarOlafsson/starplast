@@ -214,8 +214,24 @@ def build_index(node_ids, identity_tsv: str, log=print) -> GeneIndex:
     return ix
 
 
+#: The accession prefix each strain writes. Used to complete the suffix mapping below.
+STRAIN_PREFIXES = {"GT1": "TGGT1", "VEG": "TGVEG"}
+
+
 def add_strain_accessions(ix: GeneIndex, strain_tsvs: dict, log=print) -> GeneIndex:
-    """Register GT1/VEG accessions, which map to ME49 by numeric suffix (see module docstring)."""
+    """Register GT1/VEG accessions, which map to ME49 by numeric suffix (see module docstring).
+
+    Two passes, and the second one matters. The first walks the strain TSVs, which is how the
+    accessions carrying a trailing letter get registered. But the rule this module documents is that a
+    cross-strain accession is accepted *when its suffix exists in the node table* -- it says nothing
+    about the accession having been enumerated in a file. Relying on the file alone made resolution
+    depend on that file's completeness, and it is not complete: `TGGT1_212960`, `_251570`, `_297960`
+    and `_310430` are absent from the 8,637-row GT1 list while all four ME49 genes are in the node
+    table, so four genes of the splitCas9 imaging screen silently failed to join. The second pass
+    closes that by registering the implied accession for every suffix the node table knows.
+
+    It can only add. Each suffix maps to exactly one ME49 gene, so no existing resolution changes.
+    """
     for strain, path in strain_tsvs.items():
         if not os.path.exists(path):
             continue
@@ -230,4 +246,14 @@ def add_strain_accessions(ix: GeneIndex, strain_tsvs: dict, log=print) -> GeneIn
                 ix._add(gid, target, "accession_strain")
                 n += 1
         log(f"identity: {n:,} {strain} accessions mapped to ME49 by suffix")
+    # Second pass: complete the convention for every suffix in the node table, whether or not the
+    # strain list happened to enumerate it.
+    for strain, prefix in STRAIN_PREFIXES.items():
+        added = 0
+        for suffix, target in ix.suffix.items():
+            acc = f"{prefix}_{suffix}"
+            if norm(acc) not in ix.lookup:
+                ix._add(acc, target, "accession_strain")
+                added += 1
+        log(f"identity: {added:,} further {strain} accessions implied by suffix")
     return ix

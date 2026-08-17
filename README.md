@@ -228,6 +228,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Antibody epitopes (IEDB) | Distinct antibody epitope sequences per gene | 34 genes, 222 distinct epitopes | `IEDB bcell_search` |
 | Codon usage bias (COMPUTED) | Effective number of codons, GC3, and codon adaptation index | 8,140 genes (100%) | `ToxoDB ME49` |
 | Drug sensitivity per gene (CURATED) | Knockouts with a measured shift in sensitivity to a named compound | 3 genes, 2 compounds | PMID [41025776](https://pubmed.ncbi.nlm.nih.gov/41025776/); `mBio, PMID 41025776` |
+| Enteric / sexual-cycle fitness per gene (CURATED) | Gene disruptions carried through the feline stage with oocyst output measured | 8 genes, 4 studies | PMID [28288194](https://pubmed.ncbi.nlm.nih.gov/28288194/); `PMIDs 28288194, 30728393, 36809045 and PMC12942651` |
 | Enzyme classification (ToxoDB) | EC number per gene, and whether it has one | 1,313 enzymes of 8,140 genes | `ToxoDB ME49` |
 | IEDB epitopes mapped to genes (via ToxoDB) | How many IEDB epitopes ToxoDB maps to this gene | 221 genes | `ToxoDB / IEDB` |
 | InterPro domains | Domain identity and count | 8,140 | *citation not yet confirmed* |
@@ -251,7 +252,6 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Strain variation (ToxoDB HTS SNPs) | SNPs per gene across every sequenced strain, split by effect | 8,140 genes (100%) | `ToxoDB ME49` |
 | ToxoDB gene identity | Symbols, previous IDs, product descriptions | 8,843 ME49 genes | `ToxoDB ME49` |
 | Validated resistance-conferring mutations (CURATED) | Mutations shown to CAUSE drug resistance by putting them back into a clean background | 1 gene, 3 substitutions, 3 compounds | PMID [24533298](https://pubmed.ncbi.nlm.nih.gov/24533298/); `Int J Parasitol Drugs Drug Resist, PMIDs 24533298 and 25941623` |
-
 ## Licence and citing
 
 Cite the original studies, not this table. The repository redistributes derived facts and the identity

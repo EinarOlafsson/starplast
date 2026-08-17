@@ -1092,6 +1092,28 @@ REGISTRY = [
                  "`vs_host` column is COMPUTED here, sample-centred so it compares proportion "
                  "rather than amount; the archive's own EV-minus-cell column is not used because "
                  "its transform could not be reproduced to better than 3 log units."),
+    Dataset("curated_enteric_fitness", "Enteric / sexual-cycle fitness per gene (CURATED)",
+            "reference", "literature",
+            "Gene disruptions carried through the feline stage with oocyst output measured",
+            ("enteric_oocyst_yield", "enteric_sporulation", "enteric_measurements"),
+            "8 genes, 4 studies", pmid="28288194",
+            accession="PMIDs 28288194, 30728393, 36809045 and PMC12942651",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5363998/fullTextXML",
+            note="THIRD curated source, and it exists because the sweeps that closed this slot "
+                 "looked for a POOLED SCREEN through the enteroepithelial stages and correctly "
+                 "found none -- nobody has put a barcoded library through a cat. But the slot asks "
+                 "whether disrupting a gene costs the parasite oocysts, and feeding one knockout to "
+                 "a cat answers that one gene at a time. Two papers were found and REFUSED for "
+                 "failing the bar: one says the cat experiment 'should be carried out', one says "
+                 "oocysts were seen but the numbers were 'not quantified'. Four of the ten rows are "
+                 "unchanged, and they are the strongest rows here -- deleting all four LEA genes at "
+                 "once left oocyst yield alone (30 against 34 million from paired kittens), which a "
+                 "single knockout could not have established because redundancy could have hidden "
+                 "it. Yield and sporulation are separate columns because HAP2 sheds a few oocysts "
+                 "that never sporulate while Grx5 sheds fewer that sporulate poorly, and those are "
+                 "different events. Magnitudes stay in the evidence text: they are not comparable "
+                 "across cats, strains and inocula, and one numeric column would invent a precision "
+                 "the experiments do not have."),
     Dataset("curated_drug_sensitivity", "Drug sensitivity per gene (CURATED)", "reference",
             "literature",
             "Knockouts with a measured shift in sensitivity to a named compound",

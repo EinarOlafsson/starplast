@@ -66,6 +66,12 @@ def test_only_the_five_real_phases_are_kept(tmp_path, monkeypatch):
 def test_a_missing_study_file_reports_and_returns_empty(tmp_path, monkeypatch):
     from starplast import paths
     monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    # Patch the resolver itself, not just the env root. `paths.find` walks EVERY root it can name, and
+    # one of them is derived from the package location rather than from the environment -- so an empty
+    # `STARPLAST_DATA` never made the file missing. This test claimed a missing study file while a
+    # real dataset tree was still reachable, and it only started failing once that tree gained the
+    # file. Naming one root is what makes "absent" mean absent.
+    monkeypatch.setattr(paths, "dataset_roots", lambda: [str(tmp_path)])
     msgs = []
     assert CC.phase_labels("", log=msgs.append).empty
     assert any("not found" in m for m in msgs)

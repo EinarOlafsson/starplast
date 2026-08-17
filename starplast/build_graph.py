@@ -25,7 +25,7 @@ import numpy as np
 import pandas as pd
 
 from . import (cellcycle, chromatin, codons, corpus, expression, identity, interaction_studies,
-               phenotype_screen, resistance, drug_sensitivity,
+               phenotype_screen, resistance, drug_sensitivity, enteric,
                iedb, interactions, palmitome, small_tables,
                literature,
                proteomics,
@@ -124,7 +124,11 @@ def load_nodes() -> pd.DataFrame:
     # metadata field. Merged here rather than inside `expression.load_all` because these are counts
     # of reported sites, not abundances, and mixing the two under one loader would invite them to be
     # normalised together.
-    ms = proteomics.load_all(BASE, n.gene_id.astype(str), log=log)
+    # `resolve` is not optional here, even though the parameter is. Two of the quarantine tables this
+    # reaches are keyed on TGGT1_ -- the oxidative-stress screen and the calcium mineCETSA sheet --
+    # and without the identity layer they join zero rows, which looks exactly like a dataset with no
+    # coverage. That is how 7,384 and 2,348 values went missing from a build that still exited 0.
+    ms = proteomics.load_all(BASE, n.gene_id.astype(str), log=log, resolve=resolve)
     for c in ms.columns:
         n[c] = ms[c].to_numpy()
 
@@ -138,7 +142,8 @@ def load_nodes() -> pd.DataFrame:
                   iedb.bcell_epitopes(BASE, resolve=resolve, log=log),
                   phenotype_screen.screen(BASE, resolve=resolve, log=log),
                   resistance.resistance(BASE, resolve=resolve, log=log),
-                  drug_sensitivity.sensitivity(BASE, resolve=resolve, log=log)):
+                  drug_sensitivity.sensitivity(BASE, resolve=resolve, log=log),
+                  enteric.fitness(BASE, resolve=resolve, log=log)):
         if table.empty:
             continue
         aligned = table.reindex(pd.Index(n.gene_id.astype(str)))

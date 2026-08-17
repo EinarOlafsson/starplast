@@ -21,11 +21,35 @@ cd /mnt/firecuda2/Claude/repo/starplast        # the working copy on this machin
 pip install -e .            # installs the console_scripts entry point
 pip install -e ".[gpu]"     # optional: cuML and CuPy, for CUDA 12 -- see below
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
-python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min)
+python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min) -- READ THE NEXT NOTE
 starplast                   # launch
-pytest tests/ -q            # 2,285 tests, headless, no network, ~4 min
+pytest tests/ -q            # 3,035 tests, headless, no network, ~3.5 min
 pytest tests/ -q -m slow    # the real build and the pdoc pass, ~2 min
 ```
+
+**`build_graph` needs six trees under one parent, and says nothing when they are missing.** `BASE` is
+the parent of the first dataset root, and loaders join it several different ways, so all of these must
+resolve from it:
+
+```
+starplast/           the package itself (codons and friends read starplast/data/)
+datasets/            the dataset archive, old flat layout AND datasets/<level>/<type>/<PMID>/
+toxonet/             data/interim/nodes.parquet and edges_v3.parquet
+toxo_stage_atlas/    data/proteomics/ and data/transcriptomics/  (~60 columns)
+starpath_*           starpath_interactions.csv, _crosslinks.json, _crosslink_mining/, _dump/
+.claude/skills/toxoplasma-scientist/corpus/   pubmed_toxoplasma.jsonl (the abstract layer)
+```
+
+On this machine they are split across `repo/starplast/` and `toxoplasma_projects/`, and the gap is
+bridged with symlinks (all gitignored). Get one wrong and **the build still exits 0** — a loader that
+cannot find its file returns an empty frame and is skipped in silence. Missing `toxo_stage_atlas`
+costs 59 columns; missing the StarPath export silently empties `best_model_agreement`; missing the
+corpus drops every `abstract` mention and with it the `comention` edge layer.
+
+So after any rebuild, diff against the previous cache on **columns gained, columns lost, and
+per-column coverage in both directions** — not column presence, which would have missed both silent
+regressions found this way (a 4-gene screen loss and a 1,306-value wipe, in columns that still
+existed). Coverage that goes UP is worth reading too: it is how two identity-layer bugs surfaced.
 
 If the GL widget fails on a headless machine, that is expected — this needs a display. The test suite is
 headless and does not.
@@ -144,7 +168,7 @@ are dense-granule proteins, which are disordered, so this is expected rather tha
 > suffix rule that works for GT1 and VEG (decision 2b) is wrong here and would silently mis-assign.
 
 **3e. Standalone means every measurement ships; coordinates are the one exception.** (Added v1.3.) The
-cache is 30 MB and carries 390 columns for all 8,140 Toxoplasma genes, and lives INSIDE the package.
+cache is 30 MB and carries 393 columns for all 8,140 Toxoplasma genes, and lives INSIDE the package.
 Beside it sits the Plasmodium cache -- `pf_nodes.parquet`, 98 columns for 5,720 genes, and
 `pf_graph.npz` -- which is a separate table and graph on purpose and never joined to the first
 (`starplast/data/`) so a wheel carries it and `paths.py` resolves it with no configuration. An earlier `keep` allowlist silently shipped
@@ -722,7 +746,7 @@ Five are open. Suggested order, cheapest-unblocking-first:
 
 The atlas of all 222 slots, filled and empty, is published and regenerates from
 `scripts/generate_slot_table.py` plus `starplast/data/slots.json`. As of 2026-08-17 it stands at
-**148 filled: Toxoplasma 114 of 119, Plasmodium 34 of 103.**
+**157 filled: Toxoplasma 116 of 119, Plasmodium 41 of 103.**
 
 The Plasmodium arm went 0 to 34 in one session. Eight sources were built and then refused or shipped
 one step further back, which is where most of the care went and is worth reading before adding the
@@ -741,10 +765,27 @@ row-normalised as though it were abundance, a "Final" site list not filtered on 
 ExportPred default that drops two textbook exported proteins, and an m6A table that is a 43-gene
 intersection with another species.
 
-The five empty Toxoplasma slots are not a backlog. Each carries `blocked_by`, `searched` and
+The three empty Toxoplasma slots are not a backlog. Each carries `blocked_by`, `searched` and
 `would_fill_it` in the generated table, and the verdict is one of two words -- `missing` (the
 measurement has not been made in this organism) or `unreachable` (it has, and the data cannot be
-got at). All five read `missing`, two of them after catalogue-complete sweeps rather than keyword
-searches: all 201 Toxoplasma PRIDE deposits for protein turnover, and 100 Toxoplasma screen papers
-for drug sensitivity. A test refuses to let a new empty slot appear without a verdict, so the next
-person can tell a question nobody searched from one that was searched to the bottom.
+got at). All three read `missing`. A test refuses to let a new empty slot appear without a verdict, so
+the next person can tell a question nobody searched from one that was searched to the bottom.
+
+There were five, and **two of the five were wrong** -- not wrong about the data, wrong about the
+question. Both fell to the same move, so it is worth stating as a procedure: *a sweep tests the
+sentence it was given.* `drug sensitivity` was closed on "no genome-wide chemogenomic screen exists"
+(true, and still true) when the slot only asks whether disrupting a gene changes survival under a
+compound. `fitness · in vivo gut` was closed on "no pooled screen through the enteroepithelial stages"
+(true, and likely to stay true -- the sexual cycle runs only in a felid) when the slot only asks
+whether disrupting a gene costs the parasite oocysts. Both are answered one knockout at a time, in
+papers the sweeps could not match because the sweeps were looking for an instrument. Before trusting
+any `searched` field here, read it as a sentence and ask what OTHER instrument could answer the slot.
+
+Two of the three that remain were closed by catalogue-complete sweeps, and those sweeps were widened
+this pass after the same suspicion: `protein turnover` now covers all 233 ProteomeXchange deposits
+across five repositories rather than 201 PRIDE deposits, plus the full text of 467 open-access papers.
+That search also found the trap worth knowing about -- the only per-gene "half-life" numbers in the
+Toxoplasma literature are **ExPASy ProtParam predictions**, six of them reading exactly `30 h`, since
+ProtParam returns a constant keyed on the N-terminal residue. They are refused, and the verdict says
+so, because ingesting them would have made the slot read as filled by a column that is one amino acid
+in disguise.

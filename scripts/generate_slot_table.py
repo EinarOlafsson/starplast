@@ -104,6 +104,14 @@ quantity were approximating on 2026-08-13.
 #: and because a proposal that names a PMID without its title asks the reader to go and find
 #: out what was being proposed. Titles are as PubMed gives them.
 REFERENCES = {
+    "28288194": ("2017", "PLoS Pathog",
+                 "The aromatic amino acid hydroxylase genes AAH1 and AAH2 in Toxoplasma gondii contribute to transmission in the cat."),
+    "30728393": ("2019", "Sci Rep",
+                 "An experimental genetically attenuated live vaccine to prevent transmission of Toxoplasma gondii by cats."),
+    "36809045": ("2023", "mBio",
+                 "Late Embryogenesis Abundant proteins contribute to the resistance of Toxoplasma gondii oocysts against environmental stresses."),
+    "PMC12942651": ("2026", "Pathogens",
+                 "Loss of TGME49_227100 (Glutaredoxin 5) disrupts oocyst formation and sporulation in Toxoplasma gondii."),
     "41025776": ("2025", "mBio",
                  "Impact of equilibrative nucleoside transporters on Toxoplasma gondii infection and differentiation."),
     "24533298": ("2013", "Int J Parasitol Drugs Drug Resist",
@@ -609,7 +617,20 @@ NEW_PLASMODIUM = [
 NEW_TOXOPLASMA = [
     ("transcription · in vivo enteric", "transcription", "feline enterocyte", "gene",
      ["ees_vs_tachyzoite_log2"], "one"),
-    ("fitness · in vivo gut", "fitness", "enteric, sexual cycle", "gene", [], "separate"),
+    # CURATED, and the third slot filled that way. The sweeps that closed this looked for a POOLED
+    # SCREEN through the enteroepithelial stages and correctly found none -- the sexual cycle runs
+    # only in a felid and nobody has put a barcoded library through a cat. But the slot asks whether
+    # disrupting a gene costs the parasite oocysts, and feeding one knockout to a cat answers it one
+    # gene at a time. The bar is a MEASURED enteric outcome; a paper saying the cat experiment
+    # "should be carried out", and one saying oocysts were seen but "not quantified", were both found
+    # and both refused. The four `unchanged` rows are the strongest in the table: all four LEA genes
+    # deleted together left oocyst yield alone, which a single knockout could not have shown.
+    ("fitness · in vivo gut", "fitness", "enteric, sexual cycle", "gene",
+     ["enteric_oocyst_yield", "enteric_sporulation", "enteric_measurements"], "separate",
+     [("28288194", "PLoS Pathog", "AAH1/AAH2 oocyst yield in the cat"),
+      ("30728393", "Sci Rep", "HAP2 fertilisation-deficient line sheds no sporulating oocysts"),
+      ("36809045", "mBio", "LEA cluster deletion, oocyst yield unchanged"),
+      ("PMC12942651", "Pathogens", "glutaredoxin 5 reduces oocyst production and sporulation")]),
     ("cyst wall composition", "localization", "bradyzoite cyst wall", "gene",
      ["cyst_wall_"], "separate"),
 ]
@@ -1240,29 +1261,42 @@ BLOCKED = {
         "All 56 ToxoDB RNA-seq datasets, all 180 datasets, GEO's Toxoplasma+interferon series. The "
         "only macrophage transcriptome is the naive 29-strain panel already in the map; GSE230866 "
         "profiles IFN-gamma-activated cells but sequenced only the human side, and the four-cell-type "
-        "panel is neurons, skeletal muscle, astrocytes and fibroblasts.",
+        "panel is neurons, skeletal muscle, astrocytes and fibroblasts. Re-swept without an organism "
+        "filter, on the theory that a dual RNA-seq series tagged host-only would be invisible to "
+        "one: 57 Toxoplasma+interferon GEO series and all 184 tagged Toxoplasma gondii. That "
+        "surfaced GSE204926, whose title reads 'Toxoplasma IWS1 determines fitness in "
+        "interferon-gamma-activated host cells' and whose parasite samples are freshly isolated "
+        "EXTRACELLULAR tachyzoites compared WT against IWS1-KO -- a genotype contrast, not an "
+        "IFN-gamma condition contrast. Refused: the sixth time a source's own label named a "
+        "measurement it had not made.",
         "Dual RNA-seq of Toxoplasma inside IFN-gamma-activated macrophages, parasite reads retained."),
     "Tg_translation · per cell-cycle phase": (
         "missing",
         "All nine Toxoplasma ribosome-profiling series in GEO, opened one at a time: intracellular "
         "vs extracellular, eIF4E1 depletion, 5'UTR MPRA, stage conversion. None is cell-cycle "
-        "resolved.",
+        "resolved. Re-checked from the other direction by intersecting two catalogues rather than "
+        "searching one: all 184 GEO series tagged Toxoplasma gondii, and every BioProject matching "
+        "ribosome/polysome/translatome (7) against every BioProject matching "
+        "synchronised/cell-cycle/sorted (29). The intersection is empty -- no submission is both -- "
+        "which closes the slot on set membership instead of on a phrase.",
         "Ribosome profiling of synchronised or FUCCI-sorted tachyzoites, by cell-cycle phase."),
     "Tg_protein turnover": (
         "missing",
-        "All 201 Toxoplasma deposits in PRIDE enumerated and scanned, not keyword-sampled: four "
-        "mention stability or a drug and none measures degradation. Also the eLife 80336 'temporal "
-        "and thermal' study, whose seven supplements are all CETSA or phospho and contain no "
-        "half-lives, and BONCAT-iTRAQ, which measures synthesis rather than degradation and does it "
-        "under a drug.",
+        "All 233 Toxoplasma deposits in ProteomeXchange, across every repository it aggregates -- "
+        "192 PRIDE, 29 iProX, 6 MassIVE, 5 jPOST, 1 PeptideAtlas -- enumerated and scanned. The "
+        "earlier 201-deposit sweep was catalogue-complete for PRIDE only, which is not the same as "
+        "complete for proteomics; widening it added 41 deposits and no turnover measurement. The one "
+        "hit on turnover vocabulary is PXD019917, thermal stability under a drug (CETSA), not "
+        "degradation. Also the eLife 80336 'temporal and thermal' study, whose seven supplements are "
+        "all CETSA or phospho and contain no half-lives, and BONCAT-iTRAQ, which measures synthesis "
+        "rather than degradation and does it under a drug. Then the literature rather than the "
+        "archives: all 467 open-access Toxoplasma papers mentioning cycloheximide, half-life, "
+        "protein stability or turnover, full text fetched and grepped for a half-life attached to a "
+        "gene. Seven statements matched and ALL SEVEN are ExPASy ProtParam predictions -- six say "
+        "exactly '30 h' and one '>20 h (yeast)', because ProtParam returns a constant keyed on the "
+        "N-terminal residue -- in in-silico vaccine-design papers. Ingesting them would have made "
+        "this slot read as filled by a column that is one amino acid in disguise. They are refused.",
         "Pulse-SILAC or a cycloheximide chase with proteome-wide degradation rates."),
-    "Tg_fitness · in vivo gut": (
-        "missing",
-        "EuropePMC for enteric, intestinal, feline and sexual-stage fitness screens. The in vivo "
-        "CRISPR screens cover peritoneum, lung, liver, spleen and brain; the one intestinal screen "
-        "returned is Cryptosporidium.",
-        "A pooled screen through the enteroepithelial stages, in the cat or in the in-vitro sexual "
-        "system."),
 }
 
 

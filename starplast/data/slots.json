@@ -3790,9 +3790,34 @@
     "axis": "fitness",
     "context": "enteric, sexual cycle",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "enteric_oocyst_yield",
+      "enteric_sporulation",
+      "enteric_measurements"
+    ],
     "policy": "separate",
-    "candidates": [],
+    "candidates": [
+      [
+        "28288194",
+        "PLoS Pathog",
+        "AAH1/AAH2 oocyst yield in the cat"
+      ],
+      [
+        "30728393",
+        "Sci Rep",
+        "HAP2 fertilisation-deficient line sheds no sporulating oocysts"
+      ],
+      [
+        "36809045",
+        "mBio",
+        "LEA cluster deletion, oocyst yield unchanged"
+      ],
+      [
+        "PMC12942651",
+        "Pathogens",
+        "glutaredoxin 5 reduces oocyst production and sporulation"
+      ]
+    ],
     "evidence_path": [
       "perturbational measurements",
       "genetic screens",

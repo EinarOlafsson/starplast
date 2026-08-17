@@ -76,6 +76,10 @@ def test_disagreement_is_named_rather_than_resolved(tmp_path, monkeypatch, capsy
 def test_a_missing_primary_matrix_reports_rather_than_raising(tmp_path, monkeypatch):
     from starplast import paths
     monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    # Patch the resolver, not just the env root: `paths.find` walks every root it can name, including
+    # one derived from the package location, so an empty `STARPLAST_DATA` did not guarantee the
+    # "missing primary matrix" this test is named for.
+    monkeypatch.setattr(paths, "dataset_roots", lambda: [str(tmp_path)])
     msgs = []
     assert V.compare_series("GSE108740", _nodes(["a"], [1.0]), log=msgs.append).empty
     assert any("cannot verify" in m for m in msgs)
