@@ -182,26 +182,6 @@ void main() {{
     q.y = -q.y;
     float radius2 = dot(q, q);
     if (radius2 > 1.0) discard;
-
-    // Coverage-based antialiasing, and it has to happen HERE -- before the depth write.
-    //
-    // Two defects, one cause. The silhouette used to be a smoothstep over radius SQUARED between
-    // fixed constants, which is a band of fixed width in sphere space and therefore a band whose
-    // width in PIXELS changes with the dot size: measured on an isolated 64 px sphere, luminance fell
-    // 0.20 -> 0.02 -> 0.00 across two pixels, which is a hard edge, not an edge with a gradient.
-    // `fwidth(r)` is the change in radius across one pixel, so a band two of those wide is two pixels
-    // wide at every dot size -- an actual antialiased circle rather than a stair.
-    //
-    // And every fragment in that band used to write `gl_FragDepth` while carrying almost no colour.
-    // A nearly transparent fragment that writes depth OCCLUDES what is behind it, so where two large
-    // dots overlap the front one's invisible fringe hid the back one and left a dark ring between
-    // them. That is the black rim on large dots. Discarding the fringe before the depth write is what
-    // fixes it; smoothing the edge alone would only have made a softer dark ring.
-    float r = sqrt(radius2);
-    float pixel = max(fwidth(r), 1e-5);
-    float coverage = 1.0 - smoothstep(1.0 - 2.0 * pixel, 1.0, r);
-    if (vColor.a * coverage < 0.02) discard;
-
     float z = sqrt(max(1.0 - radius2, 0.0));
     vec3 normal = normalize(vec3(q, z));
     vec3 surfaceEye = vCenterEye + normal * vRadiusEye;
@@ -285,7 +265,8 @@ void main() {{
     color = vec3(1.0) - exp(-color * (metal ? 1.75 : 2.05));
     color = clamp(color, 0.0, 1.0);
 
-    gl_FragColor = vec4(color, vColor.a * coverage);
+    float edge = 1.0 - smoothstep(0.88, 1.0, radius2);
+    gl_FragColor = vec4(color, vColor.a * edge);
 }}
 """
 
