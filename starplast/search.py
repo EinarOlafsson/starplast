@@ -34,7 +34,7 @@ import itertools
 import json
 import os
 import time
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 
 import numpy as np
 import pandas as pd
@@ -633,3 +633,91 @@ def predictions(nodes: pd.DataFrame, labels: np.ndarray, truth: pd.Series, gene_
                         "cluster_precision": float(prec),
                         "n_labelled_in_cluster": int(known.sum())})
     return pd.DataFrame(out)
+
+
+# --------------------------------------------------------------------------- the category sweep
+def categories_at(hierarchy: str = "evidence", level: int = 1, organism: str = "Tg",
+                  blocks=None) -> list:
+    """Every category address at one LEVEL of a hierarchy, with the blocks beneath it.
+
+    Returns ``[(path, [block, ...]), ...]``. A level rather than the whole tree, because the question
+    "does this class of evidence recover on a map built without it" is asked of a class, and which
+    level counts as a class is the reader's choice: level 1 is "molecular measurements", level 3 is
+    "transcript abundance". Both are real questions and they have different answers.
+    """
+    from . import slots
+    keep = set(blocks) if blocks is not None else None
+    out = {}
+    for slot in slots.all_slots(organism):
+        path = slots.hierarchy_path(slot, hierarchy)
+        block = path[-1]
+        if keep is not None and block not in keep:
+            continue
+        if len(path) <= level:                       # a slot shallower than the level asked for
+            continue
+        out.setdefault(tuple(path[:level]), []).append(block)
+    return [(path, sorted(blocks)) for path, blocks in sorted(out.items())]
+
+
+def sweep_categories(nodes: pd.DataFrame, spec, hierarchy: str = "evidence", level: int = 1,
+                     organism: str = "Tg", only=None, algorithm: str = "hdbscan",
+                     min_cluster_size: int = 25, should_stop=None, on_result=None,
+                     log=print) -> pd.DataFrame:
+    """Hold out each category in turn, rebuild the map without it, and ask whether it comes back.
+
+    This is the project's whole argument, run as a procedure instead of by hand. For each category:
+    build the embedding from every OTHER block, cluster it, then test the held-out category's columns
+    against those clusters with `clustering.battery` -- which marks anything the map actually saw as
+    `used` or `derived`, so only genuinely held-out evidence is scored.
+
+    A category that recovers strongly is structure the rest of the evidence already implies. One that
+    does not is either independent information or noise, and the two are told apart by looking, not by
+    this function -- which is why the per-feature table comes back rather than only a score.
+
+    `should_stop` is asked between categories and a stopped sweep RETURNS what it has, for the same
+    reason `search` does: a stop is a decision that enough has been seen, not an error.
+    """
+    from .clustering import battery, cluster
+    from .embedding import EmbeddingSpec, columns_for, embed
+    groups = categories_at(hierarchy, level, organism, blocks=spec.blocks)
+    if only:
+        wanted = {tuple(p) if isinstance(p, (list, tuple)) else (p,) for p in only}
+        groups = [(path, blocks) for path, blocks in groups if path in wanted]
+    rows = []
+    for path, held in groups:
+        if should_stop is not None and should_stop():
+            log(f"sweep stopped after {len(rows)} of {len(groups)} categories")
+            break
+        remaining = tuple(b for b in spec.blocks if b not in set(held))
+        if not remaining:
+            log(f"{' > '.join(path)}: skipped, it is everything that was ticked")
+            continue
+        without = replace(spec, blocks=remaining)
+        held_columns = sorted({c for cols in
+                               columns_for(nodes, replace(spec, blocks=tuple(held))).values()
+                               for c in cols})
+        if not held_columns:
+            log(f"{' > '.join(path)}: skipped, no columns in this cache")
+            continue
+        used = [c for cols in columns_for(nodes, without).values() for c in cols]
+        log(f"{' > '.join(path)}: holding out {len(held_columns)} columns, "
+            f"building from {len(used)}")
+        # `embed` returns (coords, feature names, kept rows). The kept rows matter: a policy that
+        # drops genes with missing values means the labels describe a SUBSET, and scoring them against
+        # the whole table would align cluster 3 with the wrong genes.
+        coords, _names, kept = embed(nodes, without, log=lambda *a: None)
+        labels = cluster(np.asarray(coords), algorithm=algorithm, min_cluster_size=min_cluster_size)
+        sub = nodes.loc[kept] if kept is not None else nodes
+        scored, _detail = battery(sub, labels, used_features=used, features=held_columns,
+                                  log=lambda *a: None)
+        held_rows = scored[scored.evidence == "held_out"] if len(scored) else scored
+        best = float(held_rows["score"].max()) if len(held_rows) else float("nan")
+        row = {"category": " > ".join(path), "hierarchy": hierarchy, "level": level,
+               "blocks_held_out": len(held), "columns_held_out": len(held_columns),
+               "columns_used": len(used), "clusters": int(len({int(x) for x in labels if x >= 0})),
+               "tested": int(len(held_rows)), "best_score": best,
+               "recovered": bool(len(held_rows) and best >= 0.30)}
+        rows.append(row)
+        if on_result is not None:
+            on_result(row, held_rows)
+    return pd.DataFrame(rows)

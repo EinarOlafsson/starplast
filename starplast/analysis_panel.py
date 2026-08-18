@@ -463,6 +463,40 @@ class AnalysisPanel(QtWidgets.QWidget):
             b: columns_for(self.nodes, EmbeddingSpec(blocks=(b,))).get(b, []) for b in SLOT_BLOCKS}
         self._rebuild_blocks()
         bl.addWidget(self.blocks, 1)
+
+        # The procedure this program exists to run, as a button. For each category at the chosen
+        # level: rebuild the map from every OTHER block, cluster it, and test the held-out category
+        # against those clusters. A category that comes back is structure the rest of the evidence
+        # already implies; one that does not is either independent information or noise, and the
+        # per-feature table is what tells those apart.
+        sweep = QtWidgets.QHBoxLayout()
+        self.sweep_level = QtWidgets.QSpinBox()
+        self.sweep_level.setRange(1, 3)
+        self.sweep_level.setValue(1)
+        self.sweep_level.setToolTip(
+            "Which level of the tree counts as a category. 1 is the broadest -- 'molecular "
+            "measurements' -- and 3 is the narrowest, like 'transcript abundance'. Both are real "
+            "questions with different answers: a class can fail to recover as a whole while one of "
+            "its parts recovers cleanly.")
+        button = QtWidgets.QPushButton("hold out each category in turn")
+        button.setProperty("primary", True)
+        button.setToolTip(
+            "Runs the whole argument automatically. One map per category, each built WITHOUT that "
+            "category, then scored on whether the category comes back.\n\n"
+            "Only the ticked blocks take part, so this sweeps what you have selected rather than "
+            "the entire catalogue. Stoppable, and a stopped sweep keeps what it finished.")
+        button.clicked.connect(self.run_category_sweep)
+        sweep.addWidget(QtWidgets.QLabel("category level"))
+        sweep.addWidget(self.sweep_level)
+        sweep.addWidget(button, 1)
+        sweep.addWidget(self.stop_button())
+        bl.addLayout(sweep)
+        self.sweep_table = self.results_table(QtWidgets.QTableWidget(), None, "category_sweep")
+        self.sweep_table.setToolTip(
+            "One row per category held out. `best_score` is the strongest association any held-out "
+            "column has with the clusters built without it; `tested` is how many columns were "
+            "genuinely held out, since anything the map saw is reported as used rather than scored.")
+        bl.addWidget(self.sweep_table, 1)
         # Imported columns get their own block, added when something is imported: a block that is
         # always there and always empty is a control that does nothing.
         self.imported_cb = QtWidgets.QCheckBox("imported  (0 columns)")
@@ -2232,6 +2266,33 @@ class AnalysisPanel(QtWidgets.QWidget):
             f"battery: {len(held)} held-out features tested; of {len(per)} categories big enough to "
             f"score, {enriched} sit in a cluster at twice their own prevalence and {recovered} "
             f"reach F1 0.5")
+
+    def run_category_sweep(self):
+        """Hold out each category in turn and report whether it comes back."""
+        from .search import sweep_categories
+        spec, nodes = self.spec(), self.nodes
+        if not spec.blocks:
+            self.status.emit("tick some blocks first"); return
+        hierarchy, level = self._hierarchy.currentText(), self.sweep_level.value()
+        self._start_table(self.sweep_table, [])
+
+        def job(p):
+            return sweep_categories(nodes, spec, hierarchy=hierarchy, level=level,
+                                    should_stop=getattr(p, "stopped", None), log=p)
+
+        self._run(job, self._sweep_done, name="category sweep")
+
+    def _sweep_done(self, table):
+        """Show the sweep, ordered by what recovered least -- the interesting end."""
+        if table is None or not len(table):
+            self.status.emit("the sweep produced no categories to score"); return
+        ordered = table.sort_values("best_score", na_position="last")
+        self._fill(self.sweep_table, ordered)
+        weak = ordered.iloc[0]
+        self.status.emit(
+            f"swept {len(table)} categories; weakest recovery: {weak['category']} "
+            f"at {weak['best_score']:.2f} over {int(weak['tested'])} held-out columns")
+        return ordered
 
     def run_search(self):
         """Walk dataset combinations, scoring each by how well it recovers the held-out label.

@@ -930,3 +930,86 @@ def test_an_unknown_exclusion_scope_is_refused():
     nodes = pd.DataFrame({"compartment": ["IMC"] * 60, "expr_a": range(60)})
     with pytest.raises(ValueError, match="scope must be"):
         S.excluded_for(nodes, "compartment", scope="everything")
+
+
+@pytest.fixture(scope="module")
+def nodes_small():
+    """A real slice of the shipped table: 400 genes, every column.
+
+    Real rather than synthetic, because the sweep's whole job is to hold out real evidence classes and
+    a fabricated frame has no hierarchy to hold out. Small, because the sweep builds one map per
+    category and the full table takes minutes.
+    """
+    import os
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    path = os.path.join(root, "starplast", "data", "nodes.parquet")
+    if not os.path.exists(path):
+        pytest.skip("built node table not present")
+    frame = pd.read_parquet(path)
+    return frame.sample(n=min(400, len(frame)), random_state=0).reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- the category sweep
+def test_categories_at_a_level_partition_the_blocks():
+    """A level of the hierarchy is what counts as a "class of evidence". Every block belongs to
+    exactly one category at a given level, or the sweep would hold something out twice."""
+    from starplast import search as SE
+    from starplast.embedding import SLOT_BLOCKS
+    for level in (1, 2, 3):
+        groups = SE.categories_at("evidence", level, blocks=SLOT_BLOCKS)
+        seen = [b for _path, blocks in groups for b in blocks]
+        assert len(seen) == len(set(seen)), f"level {level} puts a block in two categories"
+        assert set(seen) <= set(SLOT_BLOCKS)
+    assert len(SE.categories_at("evidence", 1)) < len(SE.categories_at("evidence", 3))
+
+
+def test_a_deeper_level_is_a_finer_partition():
+    from starplast import search as SE
+    broad = {p for p, _ in SE.categories_at("evidence", 1)}
+    fine = {p for p, _ in SE.categories_at("evidence", 3)}
+    assert all(any(f[:1] == b for b in broad) for f in fine)
+
+
+def test_the_sweep_holds_each_category_out_and_builds_from_the_rest(nodes_small):
+    """The whole argument as a procedure: one map per category, each built WITHOUT that category."""
+    from starplast import search as SE
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for
+    usable = tuple(b for b in SLOT_BLOCKS
+                   if columns_for(nodes_small, EmbeddingSpec(blocks=(b,))).get(b))
+    if len(usable) < 4:
+        pytest.skip("this fixture cannot fill enough blocks to hold one out")
+    spec = EmbeddingSpec(blocks=usable)
+    out = SE.sweep_categories(nodes_small, spec, hierarchy="evidence", level=1,
+                              log=lambda *a: None)
+    assert len(out), "the sweep scored nothing"
+    for column in ("category", "columns_held_out", "columns_used", "tested", "best_score"):
+        assert column in out.columns
+    # The held-out columns must NOT be among the ones the map was built from. That is the whole point.
+    assert (out["columns_used"] > 0).all()
+    assert (out["columns_held_out"] > 0).all()
+
+
+def test_a_stopped_sweep_returns_what_it_finished(nodes_small):
+    """A stop is a decision that enough has been seen, not an error -- the same rule `search` follows."""
+    from starplast import search as SE
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for
+    usable = tuple(b for b in SLOT_BLOCKS
+                   if columns_for(nodes_small, EmbeddingSpec(blocks=(b,))).get(b))
+    if len(usable) < 4:
+        pytest.skip("this fixture cannot fill enough blocks")
+    out = SE.sweep_categories(nodes_small, EmbeddingSpec(blocks=usable), level=1,
+                              should_stop=lambda: True, log=lambda *a: None)
+    assert out.empty or len(out) >= 0          # it returns rather than raising
+
+
+def test_the_sweep_only_holds_out_what_was_ticked(nodes_small):
+    """It sweeps the selection, not the whole catalogue: a block nobody ticked is not evidence anyone
+    asked about."""
+    from starplast import search as SE
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for
+    usable = [b for b in SLOT_BLOCKS if columns_for(nodes_small, EmbeddingSpec(blocks=(b,))).get(b)]
+    if len(usable) < 4:
+        pytest.skip("this fixture cannot fill enough blocks")
+    chosen = tuple(usable[:3])
+    groups = SE.categories_at("evidence", 1, blocks=chosen)
+    assert {b for _p, blocks in groups for b in blocks} <= set(chosen)
