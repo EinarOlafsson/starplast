@@ -742,3 +742,92 @@ def sweep_categories(nodes: pd.DataFrame, spec, hierarchy: str = "evidence", lev
         if on_result is not None:
             on_result(row, held_rows)
     return pd.DataFrame(rows)
+
+
+# --------------------------------------------------------------------------- tuning the map (43.3)
+#: The UMAP settings worth trying, and nothing else. A grid is a claim about where the answer might
+#: be, so it stays small and is spent on the axes that were measured to matter: neighbourhood size
+#: sets how local the structure is, and `min_dist` 0.0 is what lets a cluster be dense enough to find.
+UMAP_GRID = {"n_neighbors": (5, 15, 30, 60), "min_dist": (0.0, 0.1)}
+
+#: Evaluated with LEAF selection, which is the finding this tuner exists on top of. HDBSCAN's default
+#: excess-of-mass selection merged the whole proteome into two giant clusters on every configuration
+#: tried -- 2 to 5 clusters, 47% to 97% in the largest, essentially no noise -- and that looked like a
+#: map with no structure. With leaf selection the same embedding gives 37 clusters, 4.9% largest and
+#: 55% noise. The structure was there; the selection method was throwing it away.
+TUNE_CLUSTERING = {"algorithm": "hdbscan", "min_cluster_size": 25,
+                   "cluster_selection_method": "leaf"}
+
+
+def map_quality(labels) -> dict:
+    """How much structure a clustering found, and whether it may be believed at all.
+
+    `usable` is `clustering.degenerate` and it gates everything: a configuration that produced a
+    bisection scores nothing, however good its other numbers look. Tuning toward a score without that
+    gate would simply find the settings that bisect most confidently.
+    """
+    from .clustering import degenerate
+    labels = np.asarray(labels)
+    ids = [int(i) for i in set(labels.tolist()) if i >= 0]
+    sizes = np.array([int((labels == i).sum()) for i in ids]) if ids else np.array([])
+    why = degenerate(labels)
+    clustered = float((labels >= 0).mean())
+    # Evenness, so one huge cluster and a tail of crumbs does not score like a real partition.
+    share = sizes / sizes.sum() if len(sizes) else np.array([1.0])
+    evenness = float(-(share * np.log(share + 1e-12)).sum() / np.log(len(sizes))) if len(sizes) > 1 else 0.0
+    return {"clusters": len(ids), "clustered": clustered, "evenness": evenness,
+            "largest": float(sizes.max() / len(labels)) if len(sizes) else 1.0,
+            "usable": not why, "why_not": why,
+            "score": 0.0 if why else float(evenness * min(clustered / 0.5, 1.0))}
+
+
+def tune_umap(nodes: pd.DataFrame, spec, grid: dict = None, sample: int = 1500,
+              keep: float = 0.5, seed: int = DEFAULT_SEED, should_stop=None, log=print) -> pd.DataFrame:
+    """Find UMAP settings that give a map worth clustering, cheaply first and fully only for survivors.
+
+    Successive halving, because the cost is the embedding and most settings are not worth paying it
+    twice for: every configuration is built on a SAMPLE, the top `keep` fraction survives, and only
+    those are rebuilt on the full table. On this catalogue that is four settings evaluated at 1,500
+    genes and two at 8,140, rather than six full builds.
+
+    Returns every configuration with its quality, ranked -- including the ones that failed, and why,
+    because "these four settings all bisected the cloud" is the useful half of the answer when
+    nothing works.
+    """
+    from .clustering import cluster
+    from .embedding import embed
+    grid = grid or UMAP_GRID
+    combos = [dict(zip(grid, values)) for values in itertools.product(*grid.values())]
+    rng = np.random.default_rng(seed)
+    small = nodes if len(nodes) <= sample else nodes.iloc[
+        np.sort(rng.choice(len(nodes), size=sample, replace=False))]
+
+    def evaluate(frame, settings):
+        coords, _names, _kept = embed(frame, replace(spec, **settings), log=lambda *a: None)
+        labels = cluster(np.asarray(coords), **TUNE_CLUSTERING)
+        return map_quality(labels)
+
+    rows = []
+    for settings in combos:
+        if should_stop is not None and should_stop():
+            log(f"tuning stopped after {len(rows)} of {len(combos)} settings")
+            break
+        got = evaluate(small, settings)
+        rows.append({**settings, **got, "stage": "sample", "genes": len(small)})
+        log(f"{settings}: {got['clusters']} clusters on {len(small)} genes"
+            + ("" if got["usable"] else f" -- NOT USABLE, {got['why_not']}"))
+    table = pd.DataFrame(rows)
+    if table.empty or not table["usable"].any():
+        return table
+    survivors = table[table["usable"]].sort_values("score", ascending=False)
+    survivors = survivors.head(max(1, int(len(survivors) * keep)))
+    full = []
+    for _, row in survivors.iterrows():
+        if should_stop is not None and should_stop():
+            break
+        settings = {k: row[k] for k in grid}
+        got = evaluate(nodes, settings)
+        full.append({**settings, **got, "stage": "full", "genes": len(nodes)})
+        log(f"{settings}: {got['clusters']} clusters on all {len(nodes)} genes")
+    return pd.concat([table, pd.DataFrame(full)], ignore_index=True).sort_values(
+        ["stage", "score"], ascending=[False, False]).reset_index(drop=True)

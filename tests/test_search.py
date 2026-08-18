@@ -1188,3 +1188,88 @@ def test_holding_out_everything_produces_no_score_rather_than_a_default(nodes_sm
                               log=lambda *a: None)
     assert out.empty or not out["usable"].any(), (
         "holding out everything that was ticked still produced a usable score")
+
+
+# --------------------------------------------------------------------------- tuning the map (43.3)
+def test_map_quality_refuses_to_score_a_bisection():
+    """Tuning toward a score without the degeneracy gate would simply find the settings that bisect
+    most confidently. The gate is therefore inside the objective, not beside it."""
+    import numpy as np
+    from starplast import search as SE
+    bisection = SE.map_quality(np.array([0] * 50 + [1] * 50))
+    assert not bisection["usable"] and bisection["score"] == 0.0 and bisection["why_not"]
+    real = SE.map_quality(np.array([0] * 10 + [1] * 10 + [2] * 10 + [3] * 10 + [-1] * 60))
+    assert real["usable"] and real["score"] > 0
+
+
+def test_map_quality_prefers_an_even_partition_to_one_lump_and_crumbs():
+    import numpy as np
+    from starplast import search as SE
+    even = SE.map_quality(np.array([0] * 15 + [1] * 15 + [2] * 15 + [3] * 15 + [-1] * 40))
+    lumpy = SE.map_quality(np.array([0] * 45 + [1] * 5 + [2] * 5 + [3] * 5 + [-1] * 40))
+    assert even["score"] > lumpy["score"]
+
+
+def test_tuning_spends_the_full_table_only_on_survivors(nodes_small):
+    """Successive halving: the cost is the embedding, and most settings are not worth paying it twice
+    for. Every configuration is scored on a sample; only the top fraction is rebuilt in full."""
+    from starplast import search as SE
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for
+    usable = tuple(b for b in SLOT_BLOCKS
+                   if columns_for(nodes_small, EmbeddingSpec(blocks=(b,))).get(b))[:8]
+    if len(usable) < 4:
+        pytest.skip("this fixture cannot fill enough blocks")
+    grid = {"n_neighbors": (5, 30), "min_dist": (0.0,)}
+    out = SE.tune_umap(nodes_small, EmbeddingSpec(blocks=usable), grid=grid, sample=200,
+                       keep=0.5, log=lambda *a: None)
+    assert len(out), "tuning produced nothing"
+    sampled = out[out["stage"] == "sample"]
+    assert len(sampled) == 2, "not every configuration was tried on the sample"
+    full = out[out["stage"] == "full"]
+    assert len(full) < len(sampled) or len(sampled) == 1, "the full table was spent on everything"
+    for _, row in out.iterrows():
+        assert bool(row["usable"]) == (row["why_not"] == "")
+
+
+def test_tuning_reports_the_failures_rather_than_dropping_them(nodes_small):
+    """"These settings all bisected the cloud" is the useful half of the answer when nothing works."""
+    from starplast import search as SE
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for
+    usable = tuple(b for b in SLOT_BLOCKS
+                   if columns_for(nodes_small, EmbeddingSpec(blocks=(b,))).get(b))[:6]
+    if len(usable) < 3:
+        pytest.skip("this fixture cannot fill enough blocks")
+    out = SE.tune_umap(nodes_small, EmbeddingSpec(blocks=usable),
+                       grid={"n_neighbors": (5,), "min_dist": (0.0,)}, sample=150,
+                       log=lambda *a: None)
+    assert {"usable", "why_not", "score", "clusters"} <= set(out.columns)
+
+
+def test_leaf_selection_is_what_makes_the_shipped_map_clusterable():
+    """The finding this tuner is built on, asserted so it cannot be quietly reverted.
+
+    HDBSCAN's default excess-of-mass selection merged the whole proteome into two giant clusters on
+    every configuration tried -- 2 to 5 clusters, 47% to 97% in the largest, essentially no noise --
+    which read as a map with no structure. Leaf selection on the SAME embedding gives tens of
+    clusters with honest noise. The structure was there; the selection method threw it away.
+    """
+    import os
+    import numpy as np
+    from starplast import search as SE, paths
+    from starplast.clustering import cluster, degenerate
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for, embed
+    path = paths.cache_file("nodes.parquet")
+    if not os.path.exists(path):
+        pytest.skip("built node table not present")
+    assert SE.TUNE_CLUSTERING["cluster_selection_method"] == "leaf"
+    nodes = pd.read_parquet(path)
+    usable = tuple(b for b in SLOT_BLOCKS
+                   if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b))
+    coords, _n, _k = embed(nodes, EmbeddingSpec(blocks=usable, na_policy="indicator",
+                                                scaling="rank", n_neighbors=15, min_dist=0.0),
+                           log=lambda *a: None)
+    X = np.asarray(coords)
+    assert degenerate(cluster(X, algorithm="hdbscan", min_cluster_size=25)), \
+        "excess-of-mass now clusters this map; the leaf finding should be re-measured"
+    assert not degenerate(cluster(X, **SE.TUNE_CLUSTERING)), \
+        "leaf selection no longer finds structure in the shipped map"
