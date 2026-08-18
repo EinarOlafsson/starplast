@@ -580,6 +580,14 @@ def _pf_mirror(rows):
 #: Malaria-specific slots: questions with no Toxoplasma counterpart, kept out of the shared list so
 #: the shared list stays a statement about apicomplexan biology rather than a union of two lists.
 NEW_PLASMODIUM = [
+    # The compositional half of PXD016378, and its own slot rather than `protein abundance`, which
+    # stays empty on purpose. Row sums are constant (12.07 +/- 0.20) and the stages anti-correlate,
+    # so these say what SHARE of a protein's signal falls in each stage, not how much there is; ring
+    # protein against ring mRNA came out at rho = -0.25, which is what settled it. Plasmodium-only:
+    # it is one study's shape, and mirroring it would grow the Toxoplasma denominator for a question
+    # nobody asked there. Left unclaimed until the slot tree's orphan alarm caught it -- a
+    # measurement the catalog cannot describe is one nobody can hold out.
+    ("protein stage share", "protein abundance", "asexual blood stage, TMT", "gene", [], "separate"),
     ("transcription · liver stage", "transcription", "hepatocyte", "gene", [], "one"),
     ("transcription · mosquito stages", "transcription", "ookinete, oocyst, sporozoite", "gene",
      [], "separate"),
@@ -1124,6 +1132,13 @@ def _definition(row, organism: str) -> dict:
 #: and `starplast.plasmodium` chooses column names that match the Toxoplasma table where the
 #: quantity is genuinely the same, which is why these read familiar without being shared.
 PF_PATTERNS = {
+    # The Plasmodium arm carries annotation columns the Toxoplasma slot's patterns do not name --
+    # `gene_type`, `chromosome`, `alphafold_accession` -- so with only the mirrored ("gene_id",
+    # "product") they were claimed by NOTHING. The slot tree's orphan alarm is what surfaced that,
+    # and a column no slot claims can never be held out, audited or reported.
+    "gene identity and annotation": ["gene_id", "product", "gene_type", "chromosome",
+                                     "alphafold_accession"],
+    "protein stage share": ["protein_stage_share_"],
     "sequence basics": ["length", "molecular_weight", "isoelectric_point", "transcript_length",
                         "exon_count"],
     "domain content": ["n_interpro", "has_domain", "interpro_ids", "pfam_ids"],

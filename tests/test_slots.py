@@ -420,3 +420,101 @@ def test_a_bridge_slot_is_not_filled_by_the_other_species_bridge_table():
         assert slots.is_filled(slot, None, None, {"bridge": own}), slot.key
         assert not slots.is_filled(slot, None, None, {"bridge": other}), (
             f"{slot.key} was filled by the other organism's bridge table")
+
+
+# --------------------------------------------------------------------------- instruction 39
+def test_the_column_partition_holds_for_every_species():
+    """Acceptance criterion: no column claimed by two slots, none claimed by none -- run PER TABLE.
+
+    It passed for Toxoplasma and had never been run for Plasmodium, where it failed: seven columns
+    were claimed by nothing. `gene_type`, `chromosome` and `alphafold_accession` because the mirrored
+    metadata slot only named ("gene_id", "product"), and the three `protein_stage_share_*` columns
+    because the compositional TMT proteome was refused as an abundance measurement and never given a
+    slot of its own. A column no slot claims can never be held out, audited or reported.
+    """
+    import os
+    from starplast.slot_tree import shipped_sources
+    for organism, source in shipped_sources().items():
+        nodes = source.get("nodes")
+        if nodes is None:
+            continue
+        claimed = {}
+        for slot in slots.all_slots(organism):
+            if slot.unit != slots.RESOLVABLE_UNIT:
+                continue
+            for column in slots.declared_columns(nodes, slot):
+                claimed.setdefault(column, []).append(slot.name)
+        doubled = {c: n for c, n in claimed.items() if len(n) > 1}
+        orphans = [c for c in nodes.columns if c not in claimed and c != "gene_id"]
+        assert not doubled, f"{organism}: columns claimed twice: {doubled}"
+        assert not orphans, f"{organism}: columns claimed by no slot: {orphans}"
+
+
+def test_a_transferred_column_does_not_survive_its_own_familys_hold_out():
+    """Acceptance criterion, and the circularity this project has already published once and
+    corrected: transfer berghei fitness onto falciparum, hold out falciparum fitness, "recover" it,
+    and you have measured orthology rather than biology. The family must close ACROSS species."""
+    transferred = [s for s in slots.all_slots()
+                   if "transferred" in s.name and s.target_family]
+    if not transferred:
+        pytest.skip("no transfer slots are defined yet")
+    for slot in transferred:
+        # Scoped to the RECEIVING organism. A hold-out happens inside one species' table -- a berghei
+        # column cannot leak into a falciparum map by being present, only by having been transferred
+        # INTO it -- so the family that matters is the receiving arm's.
+        family = slots.family_slots(slot.target_family, organism=slot.organism)
+        names = {s.name for s in family}
+        assert slot.name in names, (
+            f"{slot.organism}_{slot.name} is a transfer whose family does not contain it, so holding "
+            f"out {slot.target_family} would leave the transferred copy feeding the map")
+        # The transfer must sit beside the receiving species' OWN measurement of that family. A
+        # transfer alone in its family is one nothing can be checked against: hold the family out and
+        # the only thing that could "recover" it is the orthology it came from.
+        own = [s for s in family if s.name != slot.name]
+        assert own, (f"{slot.organism}_{slot.name} is the only member of {slot.target_family}, so "
+                     f"recovering it would measure orthology rather than biology")
+
+
+def test_a_bridge_slot_names_both_ends():
+    """Acceptance criterion: a pair row without both species named is refused. Both arms key their
+    bridge `host`, so the NAME cannot say whose contacts these are -- only the parasite accessions
+    can, which is what `same_species` checks."""
+    import pandas as pd
+    bridges = [s for s in slots.all_slots() if slots.bridge_names(s)]
+    assert bridges, "no bridge slots are defined"
+    for slot in bridges:
+        assert slot.unit == "pair", f"{slot.name} bridges without being a pair"
+        # A bridge table belonging to the OTHER arm must not fill it.
+        other = "Pf" if slot.organism == "Tg" else "Tg"
+        wrong = slots.SPECIES_BRIDGE_TABLES.get(other, {}).get("host")
+        if not wrong:
+            continue
+        from starplast import paths
+        import os
+        path = paths.cache_file(wrong)
+        if not os.path.exists(path):
+            continue
+        table = pd.read_parquet(path)
+        assert not slots.is_filled(slot, tables={"bridge": table}), (
+            f"{slot.organism}_{slot.name} is filled by {other}'s bridge table")
+
+
+def test_host_columns_never_appear_in_a_parasite_embedding():
+    """Acceptance criterion, and the claim it protects: "cluster 5 is 71% IMC" assumes every ROW is a
+    parasite gene. A host table's columns entering a parasite embedding would break that silently."""
+    import os
+    import pandas as pd
+    from starplast import paths
+    from starplast.embedding import SLOT_BLOCKS, EmbeddingSpec, columns_for
+    path = paths.cache_file(slots.UNIT_TABLES.get("host_gene", "host_proteins.parquet"))
+    if not os.path.exists(path):
+        pytest.skip("the host table is not built")
+    host = set(pd.read_parquet(path).columns) - {"gene_id"}
+    nodes = pd.read_parquet(paths.cache_file("nodes.parquet"))
+    used = {c for cols in columns_for(nodes, EmbeddingSpec(blocks=tuple(SLOT_BLOCKS))).values()
+            for c in cols}
+    assert not (used & host), f"host columns reached a parasite embedding: {sorted(used & host)}"
+    # And no slot of host_gene unit may be a feature at all.
+    for slot in slots.all_slots():
+        if slot.unit == "host_gene":
+            assert slot.role != "feature", f"{slot.name} would feed a parasite map"

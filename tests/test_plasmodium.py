@@ -306,18 +306,32 @@ def test_the_proteome_columns_are_compositional_and_say_so_in_their_names():
         "a bare `protein_` name would let the abundance slot claim a share")
 
 
-def test_no_plasmodium_slot_claims_the_compositional_proteome():
-    """The slot this was nearly given asks how much protein there is, which this cannot answer."""
+def test_the_compositional_proteome_is_a_share_and_never_an_abundance():
+    """The slot this was nearly given asks how much protein there is, which this cannot answer.
+
+    It used to assert that NOTHING claimed these columns, which was right while they had no slot and
+    wrong afterwards: a column no slot claims can never be held out or audited, and the slot tree's
+    orphan alarm found these three sitting unclaimed. They now have a slot that says `share` in its
+    name, and the rule that matters is the narrower one -- the ABUNDANCE slot must still be empty,
+    because row sums are constant and the stages anti-correlate, so these say what fraction of a
+    protein's signal falls in each stage rather than how much of it there is.
+    """
     import importlib.util
     spec = importlib.util.spec_from_file_location(
         "gst", os.path.join(ROOT, "scripts", "generate_slot_table.py"))
     gst = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(gst)
+    claimants = [slot for slot, patterns in gst.PF_PATTERNS.items()
+                 for p in patterns if p.startswith("protein_stage_share")]
+    assert claimants == ["protein stage share"], claimants
     for slot, patterns in gst.PF_PATTERNS.items():
-        for pattern in patterns:
-            assert not pattern.startswith("protein_stage_share"), f"{slot} claims a share"
-        if "protein abundance" in slot:
+        if slot.startswith("protein abundance"):
             assert not patterns, f"{slot} must stay empty until a true abundance arrives"
+    from starplast import slots as S
+    abundance = [s for s in S.all_slots("Pf") if s.name.startswith("protein abundance")]
+    assert abundance, "the abundance slots vanished rather than staying empty"
+    for slot in abundance:
+        assert not slot.patterns, f"{slot.name} started claiming columns"
 
 
 # --------------------------------------------------------------------------- export prediction

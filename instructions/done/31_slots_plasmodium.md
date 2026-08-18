@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**103 slots: 31 covered well, 2 partly, 8 thinly, 62 empty.**
+**104 slots: 32 covered well, 3 partly, 8 thinly, 61 empty.**
 
 ### transcription
 
@@ -103,6 +103,7 @@ quantity were approximating on 2026-08-13.
 | Pf_protein abundance · other life stages | stages | **-** |  |  | `` | separate | — |
 | Pf_thermal stability (melting temperature) · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_protein turnover · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_protein stage share | asexual blood stage, TMT | **B** | 2706 | 47.3% | `protein_stage_share_` | separate | — |
 
 ### PTM
 
@@ -195,7 +196,7 @@ quantity were approximating on 2026-08-13.
 | Pf_analysis-derived structural holes | coexpression + cofitness - literature | **-** |  |  | `` | one | — |
 | Pf_assay confidence and significance | target evidence metadata | **-** |  |  | `` | one | — |
 | Pf_literature attention | PubMed / PMC | **-** |  |  | `` | one | — |
-| Pf_gene identity and annotation | ToxoDB | **-** |  |  | `` | one | — |
+| Pf_gene identity and annotation | ToxoDB | **A** | 5720 | 100.0% | `gene_id, product, gene_type, chromosome, alphafold_accession` | one | — |
 
 ### sequence
 

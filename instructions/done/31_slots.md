@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**222 slots: 93 covered well, 18 partly, 46 thinly, 65 empty.**
+**223 slots: 94 covered well, 19 partly, 46 thinly, 64 empty.**
 
 ### transcription
 
@@ -139,6 +139,7 @@ quantity were approximating on 2026-08-13.
 | Pf_protein abundance · other life stages | stages | **-** |  |  | `` | separate | — |
 | Pf_thermal stability (melting temperature) · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
 | Pf_protein turnover · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |
+| Pf_protein stage share | asexual blood stage, TMT | **B** | 2706 | 47.3% | `protein_stage_share_` | separate | — |
 
 ### PTM
 
@@ -298,7 +299,7 @@ quantity were approximating on 2026-08-13.
 | Pf_analysis-derived structural holes | coexpression + cofitness - literature | **-** |  |  | `` | one | — |
 | Pf_assay confidence and significance | target evidence metadata | **-** |  |  | `` | one | — |
 | Pf_literature attention | PubMed / PMC | **-** |  |  | `` | one | — |
-| Pf_gene identity and annotation | ToxoDB | **-** |  |  | `` | one | — |
+| Pf_gene identity and annotation | ToxoDB | **A** | 5720 | 100.0% | `gene_id, product, gene_type, chromosome, alphafold_accession` | one | — |
 
 ### sequence
 
@@ -407,6 +408,8 @@ Read off the table above: this is the many-to-many the mechanism has to carry, n
 | `paralog_number` | Pf_paralogy; Tg_paralogy |
 | `length` | Pf_sequence basics; Tg_sequence basics |
 | `snp_` | Pf_strain variation; Tg_strain variation |
+| `gene_id` | Pf_gene identity and annotation; Tg_gene identity and annotation |
+| `product` | Pf_gene identity and annotation; Tg_gene identity and annotation |
 | `ec_number` | Pf_enzyme classification; Tg_enzyme classification |
 | `has_ec` | Pf_enzyme classification; Tg_enzyme classification |
 | `codon_` | Pf_codon usage / translation efficiency; Tg_codon usage / translation efficiency |

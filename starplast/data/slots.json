@@ -5847,7 +5847,13 @@
     "axis": "NEVER a feature",
     "context": "ToxoDB",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "gene_id",
+      "product",
+      "gene_type",
+      "chromosome",
+      "alphafold_accession"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -6475,6 +6481,34 @@
       "stage-unspecified"
     ],
     "target_family": "essentiality_in_a_second_background",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "protein stage share",
+    "axis": "protein abundance",
+    "context": "asexual blood stage, TMT",
+    "unit": "gene",
+    "patterns": [
+      "protein_stage_share_"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "sexual"
+    ],
+    "target_family": "protein_stage_share",
     "target_columns": [],
     "role": "feature"
   },
