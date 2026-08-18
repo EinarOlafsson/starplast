@@ -1,6 +1,83 @@
 # 47 — Inference by network propagation, graph learning and regression, compared honestly
 
-**Status: open. Requested by the user 2026-08-18.**
+**Status: DONE 2026-08-18**, except the GNN, which is deliberately not built — see the end.
+
+## The answer, measured across all twenty shipped questions
+
+Every method ran the same recipes: same leakage closure, same seed, same holdout, same validation
+control, same statistics. 84 runs, in `instructions/done/47_method_comparison.csv`.
+
+| method | questions | mean F1 | genes named | corroborated | rate |
+|---|---|---|---|---|---|
+| propagation · struct | 20 | **0.530** | 975 | 645 | 66% |
+| propagation · xlms | 20 | 0.504 | 630 | 189 | 30% |
+| logistic (L1) | 20 | 0.501 | 4,105 | 2,752 | **67%** |
+| umap + hdbscan | 20 | **0.126** | 942 | 433 | 46% |
+
+**Every alternative recovers the holdout about four times better than the map does**, across twenty
+questions rather than one lucky case. On the first question specifically, gradient boosting reaches
+mean F1 0.552 and best-label 0.787 — the strongest single result in the project.
+
+The plain reading: **the UMAP is a visualisation, and it is not this project's inference engine.**
+That is worth knowing before more is built on top of it, and it is a question nobody could ask before
+because there was nothing to compare against.
+
+Two results worth more than the ranking:
+
+* **A 2,842-edge layer beats the entire 361-column feature matrix.** `xlms` is measured crosslink
+  proximity — not attention-biased, not predicted, not derived — and diffusing a label across it
+  recovers that label better than embedding every column in the table and clustering the result.
+* **`struct` names 645 corroborated genes of 975.** Foldseek structural similarity needs no
+  orthology, so it reaches lineage-specific effectors that every homology-based route misses.
+
+## What each method contributes that the clustering cannot
+
+* **Linear (L1 logistic)** — a coefficient per column, so an answer reads "this label is predicted by
+  these six measurements" rather than "these genes go together". It is also the baseline: without it
+  "mean F1 0.20" could not be called good or bad.
+* **Propagation, per layer** — no cluster-size floor. A clustering needs fifteen labelled genes
+  INSIDE one cluster; propagation seeded with the genes that are labelled scores all 8,140 and ranks
+  them, which is what makes sparse labels answerable at all.
+* **Boosting** — missing values stay missing. Every other path resolves absence before the model sees
+  it, and one of those policies changes WHICH GENES the labels describe. A tree learns a split for
+  the missing branch, so "not measured" becomes evidence. A test pins this directly: a column whose
+  values carry nothing but whose ABSENCE tracks the label is learned at >0.9, and every imputing
+  policy destroys that signal by construction.
+* **Multiplex consensus** — communities each layer finds ON ITS OWN, joined where at least half the
+  layers that can see a pair agree. Never a summed adjacency: that would merge the thirteen types
+  design decision 2 forbids merging, and would let the two attention-biased layers pull every
+  community toward the well-published genes. Measured: 267 components, 6 usable groups, mean F1
+  0.287, and it names nobody — the consensus is conservative, and that is reported rather than tuned
+  away.
+
+## The guards that had to come first
+
+**Closure now bans edge layers**, and the family is closed at ANY scope. Class scope — what every
+recipe uses — banned nothing for `compartment`, because `Tg_shared_compartment` sits under
+`molecular relationships` while the label sits under `cell organization`: the class of the target
+does not contain the layer built from the target. For columns this never arises, since association,
+provenance and same-quantity catch the family by other routes; an edge layer has none of those.
+
+**Enforced, not merely reported**: walking `compartment` while holding it out is refused, a bare
+`propagation` is refused with the list of layers, and a walk over a SUBSET of the node table is
+refused because edge endpoints are positions in the full table — a subset walks between the wrong
+genes and stays in range once it is large enough, which is the silent version of the same bug.
+
+**Every supervised method is scored only on genes no fold of its model ever saw**, with a test that
+attacks it: forty columns of pure noise must not be "recovered". The shuffled-label negative control
+the clustering carries applies to each of them.
+
+## The GNN is deliberately not built, and this is the reason
+
+This instruction said to build it last and only "if the baseline says the simpler methods are leaving
+something on the table". The baseline now exists and says the opposite: a penalised linear model and
+a random walk over a two-thousand-edge layer already quadruple the map's recovery, and boosting beats
+both. A relational GNN on 8,140 nodes would overfit, would be the least interpretable thing in the
+project, and would need a heavy dependency to reach numbers the simple methods have already reached.
+
+Left open rather than closed off: if the acquisition campaign grows the graph substantially, or if a
+question appears that needs to combine layers rather than compare them, the gate this instruction set
+would be met and it should be built then.
 
 ## Why
 
