@@ -42,8 +42,9 @@ import numpy as np
 import pandas as pd
 
 from .embedding import EmbeddingSpec, columns_for, embed
-from .search import (ABSENCE_LABELS, CLUSTER_GRID, DEFAULT_SEED, TARGETS, best_clustering,
-                     excluded_detail, map_quality, predictions, score_recovery, tune_umap)
+from .search import (ABSENCE_LABELS, CLUSTER_GRID, DEFAULT_SEED, TARGETS, all_edge_layers,
+                     best_clustering, excluded_detail, excluded_edges, map_quality, score_recovery,
+                     tune_umap)
 
 #: How much a control label must be enriched in a cluster, over its own rate across the whole map,
 #: before it counts as agreeing with the primary. Two-fold is a low bar deliberately: the control is
@@ -85,12 +86,44 @@ class Recipe:
     scope: str = "biology"
     seed: int = DEFAULT_SEED
     spec: dict = field(default_factory=dict)
-    #: The purity a cluster must reach before its unlabelled genes are named. Part of the RECIPE and
-    #: not of the run, because it is a claim about how confident an answer has to be before it counts
-    #: -- and a threshold chosen after seeing the answer is a threshold fitted to it.
-    min_precision: float = 0.8
+    #: How much a label must be CONCENTRATED in a cluster, over its rate across the whole map,
+    #: before that cluster may name its unlabelled genes. This is the gate, and precision is not.
+    #:
+    #: Measured, and the reason is that a fixed purity bar is a different statistical demand for
+    #: every question. `compartment` has 24 classes and a typical one covers 3% of labelled genes, so
+    #: 0.80 purity there is a 25-fold enrichment; a quantity binned into thirds has 33% per class, so
+    #: the same 0.80 is 2.4-fold. Gating on purity therefore asks almost nothing of a rare label and
+    #: nearly the impossible of a common one, which is an accident of how many classes the holdout
+    #: happens to have rather than a fact about biology. Enrichment means the same thing at any base
+    #: rate, and it is already what the CONTROL is judged by -- the primary deserves the same test.
+    min_enrichment: float = 2.0
+    #: The purity a cluster must reach as well, carried onto every named gene as its confidence.
+    #: Kept as a floor rather than the gate because enrichment and reliability are different
+    #: questions: a cluster 15% X where X is 3% everywhere is five-fold enriched and still wrong
+    #: about five genes in six. Enrichment says the signal is real; precision says how often an
+    #: individual prediction will be right, and a reader needs both numbers.
+    #:
+    #: **0.30 was chosen by measurement, and the measurement was a surprise.** Every shipped question
+    #: was run once and 25 candidate gates applied to the same clusterings, scored not by how many
+    #: genes they named but by how many of those the INDEPENDENT CONTROL corroborated
+    #: (`instructions/done/45_gate_choice.csv`). At enrichment >= 2 the corroboration rate falls
+    #: monotonically as this floor rises -- 0.3: 46.0%, 0.4: 41.5%, 0.5: 31.7%, 0.6: 22.3%,
+    #: 0.8: 9.9% -- so the purest clusters are precisely the ones the control does NOT back. The
+    #: reading: high purity is reached by small tight clusters of rare labels, where a sparse control
+    #: has too few genes to agree; the moderately pure, strongly enriched clusters are the large
+    #: coherent ones where it can. Raising this floor was selecting against corroborated answers.
+    #:
+    #: It still does work rather than being switched off: a 24-class holdout at 2x enrichment reaches
+    #: only ~6% purity, and naming genes from a cluster that is 6% one label would be wrong 94 times
+    #: in a hundred. 0.30 is where reliability stops being free and starts costing corroboration.
+    min_precision: float = 0.3
     holdout_bins: int = 0          # >0 bins a QUANTITY into that many classes before scoring
     control_bins: int = 0
+    #: How the question is answered. Every method produces a PARTITION -- clusters, or out-of-fold
+    #: predicted classes -- and everything after that is identical, so two methods on one question are
+    #: compared on the same closure, the same control and the same statistics rather than on their
+    #: own separate write-ups.
+    method: str = "umap+hdbscan"
     axis: str = ""                 # which of the catalogue's axes this question belongs to
     expectation: str = ""          # what a believable answer looks like, written before the run
     expect_refusal: bool = False   # a recipe kept BECAUSE it is refused; see instruction 45
@@ -192,6 +225,11 @@ class Closure:
     columns: tuple = ()
     excluded: dict = field(default_factory=dict)      # every banned column -> why
     removed: dict = field(default_factory=dict)       # of those, the ones the inputs asked for
+    #: Graph layers, which are a leak surface of their own. A method that traverses edges rather than
+    #: reading columns can recover a label from the layer built out of it, and no column guard can
+    #: see that -- `compartment` is 118,712 edges as well as the commonest holdout here.
+    layers: tuple = ()                                # the edge layers a graph method may traverse
+    excluded_layers: dict = field(default_factory=dict)
     dropped_blocks: dict = field(default_factory=dict)
     emptied: tuple = ()
     holdout_column: str = ""
@@ -207,7 +245,10 @@ class Closure:
         if self.refusal:
             return f"REFUSED: {self.refusal}"
         lines = [f"{len(self.blocks)} block(s), {len(self.columns)} column(s) may build this map;"
-                 f" {len(self.excluded)} column(s) excluded"]
+                 f" {len(self.excluded)} column(s) excluded",
+                 f"{len(self.layers)} edge layer(s) may be traversed; "
+                 f"{len(self.excluded_layers)} excluded"
+                 + (": " + ", ".join(sorted(self.excluded_layers)) if self.excluded_layers else "")]
         for block, why in sorted(self.dropped_blocks.items()):
             lines.append(f"  dropped {block}: {why}")
         return "\n".join(lines)
@@ -234,6 +275,8 @@ def close(nodes: pd.DataFrame, recipe: Recipe, threshold: float = 0.8) -> Closur
 
     excluded = {c: f"primary: {why}" for c, why in
                 excluded_detail(nodes, holdout, threshold=threshold, scope=recipe.scope).items()}
+    banned_layers = {L: f"primary: {why}"
+                     for L, why in excluded_edges(holdout, recipe.scope).items()}
 
     control = TARGETS.get(recipe.validation_holdout, recipe.validation_holdout)
     out.control_column = control
@@ -252,7 +295,11 @@ def close(nodes: pd.DataFrame, recipe: Recipe, threshold: float = 0.8) -> Closur
         for c, why in excluded_detail(nodes, control, threshold=threshold,
                                       scope=recipe.scope).items():
             excluded.setdefault(c, f"control: {why}")
+        for L, why in excluded_edges(control, recipe.scope).items():
+            banned_layers.setdefault(L, f"control: {why}")
     out.excluded = excluded
+    out.excluded_layers = banned_layers
+    out.layers = tuple(L for L in all_edge_layers(recipe.organism) if L not in banned_layers)
 
     if not recipe.inputs:
         out.refusal = "the recipe names no inputs"
@@ -401,6 +448,35 @@ def recovery_by_cluster(labels: np.ndarray, truth: pd.Series,
     return pd.DataFrame(rows)
 
 
+def infer(labels: np.ndarray, truth: pd.Series, gene_index, min_enrichment: float = 2.0,
+          min_precision: float = 0.3, min_labelled: int = MIN_LABEL) -> pd.DataFrame:
+    """Name the unlabelled genes in clusters where a label is genuinely concentrated.
+
+    Two gates rather than one, because they answer different questions and a single number hides
+    whichever it is not. Enrichment says the label is more concentrated here than at large -- that the
+    cluster carries signal about it. Precision says how often a prediction drawn from this cluster
+    will actually be right, and it rides on every row as the prediction's confidence.
+
+    Built on `dominant_by_cluster`, which is also what scores the control, so "is this label
+    concentrated in this cluster" is computed once and means one thing throughout.
+    """
+    dom = dominant_by_cluster(labels, truth, min_label=min_labelled, enrichment=min_enrichment)
+    labels = np.asarray(labels)
+    values = truth.astype("object").where(truth.notna(), None).to_numpy()
+    unlabelled = np.array([v is None for v in values])
+    genes = np.asarray(gene_index)
+    out = []
+    for _, r in dom.iterrows():
+        if not r.agrees or r.share_in_cluster < min_precision:
+            continue
+        for gene in genes[(labels == r.cluster) & unlabelled]:
+            out.append({"gene_id": gene, "predicted": r.label, "cluster": int(r.cluster),
+                        "cluster_precision": float(r.share_in_cluster),
+                        "enrichment": float(r.enrichment), "base_rate": float(r.base_rate),
+                        "n_labelled_in_cluster": int(r.n_labelled)})
+    return pd.DataFrame(out)
+
+
 # --------------------------------------------------------------------------- running one
 @dataclass
 class RecipeResult:
@@ -422,8 +498,20 @@ class RecipeResult:
     inference: pd.DataFrame = field(default_factory=pd.DataFrame)
     control: pd.DataFrame = field(default_factory=pd.DataFrame)
     control_summary: dict = field(default_factory=dict)
+    #: Which measurements a model actually used, when the method is one that can say. Empty for the
+    #: clustering path, which cannot.
+    coefficients: pd.DataFrame = field(default_factory=pd.DataFrame)
     genes: np.ndarray = field(default_factory=lambda: np.array([], dtype=bool))
     labels: np.ndarray = field(default_factory=lambda: np.array([], dtype=int))
+    #: The embedding itself, and the two label columns as the map saw them. Kept because a figure
+    #: rebuilt from a seed is a figure nobody checked: the report draws the coordinates that were
+    #: actually scored, not a re-run that should agree with them.
+    coords: np.ndarray = field(default_factory=lambda: np.zeros((0, 3)))
+    truth: pd.Series = field(default_factory=lambda: pd.Series(dtype="object"))
+    control_truth: pd.Series = field(default_factory=lambda: pd.Series(dtype="object"))
+    #: Other maps the tuner considered, each fully scored. A report that shows only the winner hides
+    #: what the choice was between.
+    alternatives: list = field(default_factory=list)
     stopped_because: str = ""
 
     @property
@@ -436,32 +524,16 @@ class RecipeResult:
                 "inference": self.inference, "control": self.control}
 
 
-def run(nodes: pd.DataFrame, recipe: Recipe, tune: bool = True, sample: int = 1500,
-        log=print) -> RecipeResult:
-    """Answer one question: close leakage, tune a map, cluster it, score it, and name genes.
+def build_map(nodes: pd.DataFrame, recipe: Recipe, closure: Closure, settings: dict,
+              log=print) -> RecipeResult:
+    """Build one map at the given UMAP settings, cluster it, score it, and name genes.
 
-    The order matters and it is the argument of the whole module. Closure runs FIRST and reports
-    before anything is built, so a refusal costs no compute and is legible. Tuning runs on what
-    survived. The clustering is checked for degeneracy before it is scored, because a recovery number
-    computed on a bisection reads exactly like a real one. Only then is the primary holdout scored,
-    the unlabelled genes in pure clusters named, and the control put on the SAME clusters beside them.
+    Split out of `run` so the winning configuration and the alternatives kept for the report go
+    through IDENTICAL code. A report whose alternatives were scored by a second, shorter path would
+    be comparing the winner against something else.
     """
-    closure = close(nodes, recipe)
-    log(closure.report())
-    if not closure.ok:
-        return RecipeResult(recipe=recipe, closure=closure, stopped_because=closure.refusal)
-
-    spec = EmbeddingSpec(blocks=closure.blocks, random_state=recipe.seed, **recipe.spec)
-    settings = {}
-    if tune:
-        walk = tune_umap(nodes, spec, sample=sample, seed=recipe.seed, log=lambda *a: None)
-        usable = walk[walk["usable"]] if len(walk) else walk
-        if not len(usable):
-            return RecipeResult(recipe=recipe, closure=closure,
-                                stopped_because="no UMAP setting gave a map worth clustering")
-        best = usable.sort_values(["stage", "score"], ascending=[False, False]).iloc[0]
-        settings = {"n_neighbors": int(best["n_neighbors"]), "min_dist": float(best["min_dist"])}
-        spec = EmbeddingSpec(**{**asdict(spec), **settings})
+    spec = EmbeddingSpec(blocks=closure.blocks, random_state=recipe.seed,
+                         **{**recipe.spec, **settings})
     coords, _names, kept = embed(nodes, spec, log=lambda *a: None)
     coords = np.asarray(coords)
 
@@ -489,12 +561,12 @@ def run(nodes: pd.DataFrame, recipe: Recipe, tune: bool = True, sample: int = 15
     params = {k: int(v) for k, v in params.items()}
     labels = cluster(coords, **{**TUNE_CLUSTERING, **params})
     quality = map_quality(labels)
-    settings.update(params)
+    settings = {**settings, **params}
 
     genes = np.zeros(len(nodes), dtype=bool)
     genes[np.arange(len(nodes))[kept] if kept is not None else np.arange(len(nodes))] = True
     result = RecipeResult(recipe=recipe, closure=closure, quality=quality, settings=settings,
-                          genes=genes, labels=labels)
+                          genes=genes, labels=labels, coords=coords)
     if not quality["usable"]:
         # A recipe on a degenerate map returns that and stops. There is no score to report and a
         # number here would be read as one.
@@ -503,11 +575,12 @@ def run(nodes: pd.DataFrame, recipe: Recipe, tune: bool = True, sample: int = 15
         return result
 
     truth = label_series(sub, closure.holdout_column, recipe.holdout_bins)
+    result.truth = truth
     result.summary, result.recovery = score_recovery(labels, truth, min_label=MIN_LABEL)
     result.per_cluster = recovery_by_cluster(labels, truth)
-    result.inference = predictions(sub, labels, truth, np.asarray(sub["gene_id"]),
-                                   min_precision=recipe.min_precision,
-                                   min_cluster_labelled=MIN_LABEL)
+    result.inference = infer(labels, truth, np.asarray(sub["gene_id"]),
+                             min_enrichment=recipe.min_enrichment,
+                             min_precision=recipe.min_precision)
     if not len(result.inference):
         # An empty answer must say how close it came. "No genes" and "no cluster was 80% pure, the
         # purest was 75%" are different findings, and only the second tells a reader whether the
@@ -515,14 +588,17 @@ def run(nodes: pd.DataFrame, recipe: Recipe, tune: bool = True, sample: int = 15
         purity = dominant_by_cluster(labels, truth)
         scoreable = purity[purity.n_labelled >= MIN_LABEL]
         result.inference_note = (
-            f"no cluster reached the {recipe.min_precision:.2f} purity this recipe asks for; the "
-            f"purest scoreable cluster was {scoreable.share_in_cluster.max():.2f} "
-            f"({scoreable.loc[scoreable.share_in_cluster.idxmax(), 'label']})"
+            f"no cluster reached {recipe.min_enrichment:.1f}x enrichment at "
+            f"{recipe.min_precision:.2f} purity; the best scoreable cluster was "
+            f"{scoreable.enrichment.max():.1f}x at "
+            f"{scoreable.loc[scoreable.enrichment.idxmax(), 'share_in_cluster']:.2f} purity "
+            f"({scoreable.loc[scoreable.enrichment.idxmax(), 'label']})"
             if len(scoreable) else
             f"no cluster holds {MIN_LABEL} labelled genes, so none can support a prediction")
         log(result.inference_note)
     if closure.control_column:
         control_truth = label_series(sub, closure.control_column, recipe.control_bins)
+        result.control_truth = control_truth
         result.control = dominant_by_cluster(labels, control_truth).rename(
             columns={"label": "control_label", "n_labelled": "n_control_labelled"})
         result.control_summary, _per = score_recovery(labels, control_truth, min_label=MIN_LABEL)
@@ -532,11 +608,121 @@ def run(nodes: pd.DataFrame, recipe: Recipe, tune: bool = True, sample: int = 15
             cols = ["cluster", "control_label", "n_control_labelled", "enrichment", "agrees", "why"]
             result.inference = result.inference.merge(
                 result.control[cols].rename(columns={"agrees": "control_agrees",
-                                                     "why": "control_says"}),
+                                                     "why": "control_says",
+                                                     "enrichment": "control_enrichment"}),
                 on="cluster", how="left")
     log(f"{len(result.inference)} gene(s) named"
         + (f", {int(result.inference['control_agrees'].fillna(False).sum())} of them in clusters the "
            f"control corroborates" if "control_agrees" in result.inference else ""))
+    return result
+
+
+def build_model(nodes: pd.DataFrame, recipe: Recipe, closure: Closure, log=print) -> RecipeResult:
+    """Answer a question with a classifier instead of a clustering, scored out of fold.
+
+    The partition here is the out-of-fold predicted class, so `score_recovery` reports genuine
+    cross-validated performance rather than memorisation, and `infer` names the unlabelled genes in
+    predicted classes that are concentrated enough to support a claim. Everything downstream --
+    including whether the independent control corroborates the answer -- is the code the clustering
+    path uses, unchanged.
+    """
+    from . import methods
+    from .embedding import build_matrix
+    spec = EmbeddingSpec(blocks=closure.blocks, random_state=recipe.seed, **recipe.spec)
+    X, names, kept = build_matrix(nodes, spec, log=lambda *a: None)
+    sub = nodes.loc[kept] if kept is not None else nodes
+    truth = label_series(sub, closure.holdout_column, recipe.holdout_bins)
+
+    fit = methods.logistic(np.asarray(X), truth, seed=recipe.seed)
+    labels = np.asarray(fit["partition"])
+    genes = np.zeros(len(nodes), dtype=bool)
+    genes[np.arange(len(nodes))[kept] if kept is not None else np.arange(len(nodes))] = True
+    result = RecipeResult(recipe=recipe, closure=closure, settings=fit["settings"],
+                          genes=genes, labels=labels, truth=truth,
+                          quality=map_quality(labels))
+    result.coefficients = methods.coefficients(fit["model"], fit["classes"], list(names))
+    if not len(fit["classes"]):
+        result.stopped_because = ("too few labelled genes to train and score a classifier on this "
+                                  "holdout")
+        return result
+
+    result.summary, result.recovery = score_recovery(labels, truth, min_label=MIN_LABEL)
+    result.per_cluster = recovery_by_cluster(labels, truth)
+    result.inference = infer(labels, truth, np.asarray(sub["gene_id"]),
+                             min_enrichment=recipe.min_enrichment,
+                             min_precision=recipe.min_precision)
+    if len(result.inference):
+        # The partition's ids are class codes, so the class each one MEANS goes on the row. A table
+        # saying "group 3" where the model said "dense granules" would be unreadable.
+        result.inference["predicted_class"] = [fit["classes"][int(c)] if int(c) >= 0 else ""
+                                               for c in result.inference.cluster]
+    if closure.control_column:
+        control_truth = label_series(sub, closure.control_column, recipe.control_bins)
+        result.control_truth = control_truth
+        result.control = dominant_by_cluster(labels, control_truth).rename(
+            columns={"label": "control_label", "n_labelled": "n_control_labelled"})
+        result.control_summary, _p = score_recovery(labels, control_truth, min_label=MIN_LABEL)
+        if len(result.inference):
+            cols = ["cluster", "control_label", "n_control_labelled", "enrichment", "agrees", "why"]
+            result.inference = result.inference.merge(
+                result.control[cols].rename(columns={"agrees": "control_agrees",
+                                                     "why": "control_says",
+                                                     "enrichment": "control_enrichment"}),
+                on="cluster", how="left")
+    log(f"{recipe.method}: {len(fit['classes'])} classes, "
+        f"mean F1 {result.summary.get('mean_f1', float('nan')):.3f}, "
+        f"{len(result.inference)} gene(s) named")
+    return result
+
+
+def run(nodes: pd.DataFrame, recipe: Recipe, tune: bool = True, sample: int = 1500,
+        alternatives: int = 0, log=print) -> RecipeResult:
+    """Answer one question: close leakage, tune a map, cluster it, score it, and name genes.
+
+    The order matters and it is the argument of the whole module. Closure runs FIRST and reports
+    before anything is built, so a refusal costs no compute and is legible. Tuning runs on what
+    survived. The clustering is checked for degeneracy before it is scored, because a recovery number
+    computed on a bisection reads exactly like a real one. Only then is the primary holdout scored,
+    the unlabelled genes in concentrated clusters named, and the control put on the SAME clusters
+    beside them.
+
+    `alternatives` keeps the next best UMAP settings, each built and scored in full, for the report:
+    a document that shows only the winner hides what the choice was between. They cost a full build
+    each, so the default is none.
+    """
+    closure = close(nodes, recipe)
+    log(closure.report())
+    if not closure.ok:
+        return RecipeResult(recipe=recipe, closure=closure, stopped_because=closure.refusal)
+    if recipe.method != "umap+hdbscan":
+        return build_model(nodes, recipe, closure, log=log)
+
+    choices = [{}]
+    if tune:
+        spec = EmbeddingSpec(blocks=closure.blocks, random_state=recipe.seed, **recipe.spec)
+        walk = tune_umap(nodes, spec, sample=sample, seed=recipe.seed, log=lambda *a: None)
+        usable = walk[walk["usable"]] if len(walk) else walk
+        if not len(usable):
+            return RecipeResult(recipe=recipe, closure=closure,
+                                stopped_because="no UMAP setting gave a map worth clustering")
+        ranked = usable.sort_values(["stage", "score"], ascending=[False, False])
+        # Distinct settings only: the walk scores each configuration on a sample and again in full,
+        # so the same n_neighbors/min_dist pair appears twice and would otherwise be "the
+        # alternative" to itself.
+        seen, choices = set(), []
+        for _, row in ranked.iterrows():
+            key = (int(row["n_neighbors"]), float(row["min_dist"]))
+            if key in seen:
+                continue
+            seen.add(key)
+            choices.append({"n_neighbors": key[0], "min_dist": key[1]})
+            if len(choices) > alternatives:
+                break
+
+    result = build_map(nodes, recipe, closure, choices[0], log=log)
+    for other in choices[1:]:
+        log(f"building alternative map {other}")
+        result.alternatives.append(build_map(nodes, recipe, closure, other, log=lambda *a: None))
     return result
 
 

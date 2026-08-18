@@ -207,7 +207,9 @@ def test_every_analysis_tab_scrolls_rather_than_forcing_the_window_taller(win):
     window's minimum back where it was."""
     from PyQt6 import QtWidgets
     tabs = win.panel.findChild(QtWidgets.QTabWidget)
-    assert tabs.count() == 7
+    # The count is asserted so the loop below cannot pass by iterating over nothing. It moves when a
+    # tab is added -- 8 since 2026-08-18, when Questions was added.
+    assert tabs.count() == 8
     for i in range(tabs.count()):
         page = tabs.widget(i)
         assert isinstance(page, QtWidgets.QScrollArea), f"tab {tabs.tabText(i)} does not scroll"

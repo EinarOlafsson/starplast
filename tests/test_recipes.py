@@ -472,3 +472,85 @@ def test_a_different_seed_is_a_different_map(nodes):
     a = R.run(nodes, R.Recipe(**ask, seed=7), tune=False, log=lambda *a: None)
     b = R.run(nodes, R.Recipe(**ask, seed=8), tune=False, log=lambda *a: None)
     assert not np.array_equal(a.labels, b.labels)
+
+
+# --------------------------------------------------------------------------- the edge guard (47)
+def test_a_graph_method_may_not_traverse_the_layer_its_holdout_was_built_from(nodes):
+    """The largest leak in this project, and until instruction 47 nothing could see it.
+
+    `compartment` is the most-used holdout here AND a 118,712-edge layer made by joining genes that
+    share a compartment. Propagating a label along that layer recovers it perfectly, and every
+    column-based guard passes, because none of them can see an edge.
+    """
+    c = R.close(nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment"))
+    assert c.ok
+    assert "compartment" in c.excluded_layers
+    assert "compartment" not in c.layers
+    assert "Tg_shared_compartment" in c.excluded_layers["compartment"]
+
+
+def test_the_edge_guard_holds_at_class_scope_which_is_what_recipes_use(nodes):
+    """Measured, and it inverted the assumption this was built on. Asked at CLASS scope -- what every
+    recipe uses -- the slot selection bans nothing for `compartment`, because `Tg_shared_compartment`
+    sits under `molecular relationships` while the label sits under `cell organization`. The class of
+    the target does not contain the layer built from the target. The family is therefore closed
+    unconditionally, whatever scope is asked for.
+    """
+    from starplast import slots
+    from starplast.search import excluded_edges, scoped_slots
+    class_layers = {layer for slot in scoped_slots("compartment", "biology")
+                    for layer in slots.edge_types(slot)}
+    assert "compartment" not in class_layers, \
+        "the biology class of compartment now contains its own edge layer; this test is stale"
+    for scope in ("direct", "target_family", "biology", "evidence", "context"):
+        assert "compartment" in excluded_edges("compartment", scope), scope
+
+
+def test_a_holdout_no_edge_layer_is_built_from_bans_no_layer(nodes):
+    """The guard must not simply ban everything: a graph method is useless with no graph."""
+    c = R.close(nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="cellcycle_phase"))
+    assert c.ok and not c.excluded_layers
+    assert len(c.layers) == len(R.all_edge_layers("Tg"))
+
+
+def test_the_controls_layers_are_banned_as_well_as_the_primarys(nodes):
+    """A control is a holdout too, and a map that traversed the control's own layer would corroborate
+    itself."""
+    # Fitness inputs, not RNA: `cellcycle_phase` IS RNA-derived, so an RNA-fed recipe is refused
+    # before it reaches the edge guard -- as this file's own earlier test asserts.
+    c = R.close(nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="cellcycle_phase",
+                                validation_holdout="compartment"))
+    assert c.ok, c.refusal
+    assert c.excluded_layers["compartment"].startswith("control:")
+
+
+def test_the_closure_report_says_which_layers_may_be_traversed(nodes):
+    report = R.close(nodes, R.Recipe(question="q", inputs=[FITNESS],
+                                     holdout="compartment")).report()
+    assert "edge layer" in report and "compartment" in report
+
+
+def test_alternative_maps_are_built_and_are_actually_different(nodes, monkeypatch):
+    """The report shows what the winner was chosen against, so the alternatives have to be real
+    builds rather than the same map listed twice. The walk scores every configuration once on a
+    sample and again in full, so the same settings arrive twice and would otherwise become "the
+    alternative" to themselves."""
+    monkeypatch.setattr(R, "tune_umap", lambda *a, **k: pd.DataFrame([
+        {"n_neighbors": 7, "min_dist": 0.0, "usable": True, "score": 1.0, "stage": "full"},
+        {"n_neighbors": 7, "min_dist": 0.0, "usable": True, "score": 0.9, "stage": "sample"},
+        {"n_neighbors": 40, "min_dist": 0.3, "usable": True, "score": 0.5, "stage": "full"},
+    ]))
+    monkeypatch.setattr("starplast.clustering.cluster", lambda X, **k: _fake_clusters(len(X)))
+    res = R.run(nodes, R.Recipe(question="q", inputs=[RNA], holdout="compartment"),
+                alternatives=1, log=lambda *a: None)
+    assert len(res.alternatives) == 1
+    assert res.settings["n_neighbors"] == 7
+    assert res.alternatives[0].settings["n_neighbors"] == 40, "the duplicate was taken as the alternative"
+
+
+def test_no_alternatives_are_built_unless_asked_for(nodes, monkeypatch):
+    """They cost a full embedding each."""
+    monkeypatch.setattr("starplast.clustering.cluster", lambda X, **k: _fake_clusters(len(X)))
+    res = R.run(nodes, R.Recipe(question="q", inputs=[RNA], holdout="compartment"),
+                tune=False, log=lambda *a: None)
+    assert res.alternatives == []

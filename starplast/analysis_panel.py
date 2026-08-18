@@ -349,6 +349,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         tabs.addTab(_scrolled(self._search_tab()), "5 · Search")
         tabs.addTab(_scrolled(self._validation_tab()), "6 · Validation")
         tabs.addTab(_scrolled(self._discover_tab()), "7 · Discover")
+        tabs.addTab(_scrolled(self._questions_tab()), "8 · Questions")
         lay = QtWidgets.QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         lay.addWidget(tabs)
@@ -2388,3 +2389,234 @@ class AnalysisPanel(QtWidgets.QWidget):
             return
         self._category_of_interest = (v.get("category"), v.get("cluster"))
         self.show_search_row(row, table=self.category_search_table)
+
+    # ----------------------------------------------------------------- 8 · Questions
+    def _questions_tab(self):
+        """Pick a biological question, see what it is allowed to use, and run it.
+
+        The other seven tabs assemble an analysis; this one asks a question. The difference is not
+        cosmetic. Everywhere else the user chooses blocks and a target and finds out afterwards what
+        the guard removed; here the question arrives with its inputs, its holdout and its control
+        already chosen and already checked, and the thing on screen before anything runs is what
+        leakage closure took away and why.
+
+        The catalogue is deliberately not editable from here. A question is a saved object with a
+        seed and a spec so its answer can be rebuilt, and a control that let one be edited in place
+        would produce results that no longer match the question they are filed under.
+        """
+        from . import questions
+        w = QtWidgets.QWidget()
+        v = QtWidgets.QVBoxLayout(w)
+        note = QtWidgets.QLabel(
+            "A recipe asks whether a chosen set of measurements can predict a label they were never "
+            "given. Pick a question: its inputs, its holdout and its validation control are already "
+            "chosen, and anything that would restate the holdout is removed before the map is built "
+            "— that removal is shown, with the mechanism that caught each column. What comes back "
+            "is a list of genes, each carrying the purity of the cluster it came from and whether "
+            "the independent control agrees. A question whose control abstains is reported as such "
+            "rather than quietly presented as an answer.")
+        note.setWordWrap(True)
+        v.addWidget(note)
+
+        form = QtWidgets.QFormLayout()
+        self.question_choice = QtWidgets.QComboBox()
+        self.question_choice.setMinimumWidth(420)
+        self._questions = questions.shipped(None) or []
+        for q in self._questions:
+            label = q.get("question", "")
+            if q.get("expect_refusal"):
+                label += "   [expected to fail]"
+            self.question_choice.addItem(label)
+        self.question_choice.setToolTip(
+            "The questions this data can be asked, each one checked against the real table before "
+            "it was shipped. One is kept deliberately BECAUSE it is refused: a library where every "
+            "question works is a library that has been fitted to its answers.")
+        self.question_choice.currentIndexChanged.connect(self.show_question)
+        form.addRow("question", self.question_choice)
+        v.addLayout(form)
+
+        self.question_detail = QtWidgets.QTextBrowser()
+        self.question_detail.setMinimumHeight(120)
+        v.addWidget(self.question_detail)
+
+        run = QtWidgets.QHBoxLayout()
+        check = QtWidgets.QPushButton("check what it may use")
+        check.setToolTip(
+            "Run leakage closure and stop. Cheap, because nothing is built: it reports which "
+            "columns were removed from the inputs this question names, and which of the five "
+            "mechanisms caught each one. A question that restates its own holdout is refused here, "
+            "before any compute is spent on it.")
+        check.clicked.connect(self.check_question)
+        go = QtWidgets.QPushButton("run this question")
+        go.setProperty("primary", True)
+        go.setToolTip(
+            "Build the map from what survived closure, tune it, cluster it, and name the unlabelled "
+            "genes in clusters that are mostly one holdout label. The validation control is scored "
+            "on the SAME clusters and its verdict appears on the same rows as the genes it "
+            "qualifies.")
+        go.clicked.connect(self.run_question)
+        self.question_pdf = QtWidgets.QPushButton("save the figures as a PDF")
+        self.question_pdf.setEnabled(False)
+        self.question_pdf.setToolTip(
+            "Write this run as a document meant for a paper: one page per map, its UMAP and "
+            "clustering settings, the map coloured by cluster, by the holdout and by the control, "
+            "and the quality of each. Vector output, and the cover page carries the question, what "
+            "leakage closure removed, and the seed — so a reader can trace any figure back to a run "
+            "that can be rebuilt.")
+        self.question_pdf.clicked.connect(self.save_question_pdf)
+        run.addWidget(check)
+        run.addWidget(go)
+        run.addWidget(self.question_pdf)
+        run.addWidget(self.stop_button())
+        v.addLayout(run)
+        self._question_result = None
+
+        self.question_table = self.results_table(QtWidgets.QTableWidget(), None, "named genes")
+        v.addWidget(self.question_table, 1)
+        self.question_report = QtWidgets.QTextBrowser()
+        self.question_report.setMinimumHeight(160)
+        v.addWidget(self.question_report, 1)
+        self.show_question()
+        return w
+
+    def save_question_pdf(self):
+        """Write the last run to a PDF the user chooses."""
+        if self._question_result is None:
+            return
+        from .report import recipe_pdf
+        default = "".join(c if c.isalnum() else "_" for c in
+                          self._question_result.recipe.question)[:60].strip("_") + ".pdf"
+        path, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save the figures", default,
+                                                        "PDF (*.pdf)")
+        if not path:
+            return
+        result = self._question_result
+
+        def job(p):
+            return recipe_pdf(result, path)
+
+        self._run(job, self._pdf_done, name="recipe report")
+
+    def _pdf_done(self, path):
+        self.status.emit(f"figures written to {path}")
+
+    def current_question(self):
+        """The catalogue entry the combo box is showing, or None when the catalogue is empty."""
+        i = self.question_choice.currentIndex()
+        return self._questions[i] if 0 <= i < len(self._questions) else None
+
+    def show_question(self):
+        """Describe the selected question without running anything."""
+        q = self.current_question()
+        if q is None:
+            self.question_detail.setPlainText(
+                "No questions are shipped yet. Generate them with "
+                "scripts/generate_question_table.py.")
+            return
+        from .questions import as_recipe
+        from .recipes import address_label
+        recipe = as_recipe(q)
+        inputs = "<br>".join("&nbsp;&nbsp;• " + address_label(a) for a in recipe.inputs)
+        self.question_detail.setHtml(
+            f"<b>{q.get('question', '')}</b><br><i>{q.get('axis', '')}</i><br><br>"
+            f"<b>holdout</b> — the label the map must recover: <code>{recipe.holdout}</code>"
+            + (f" (binned into {recipe.holdout_bins})" if recipe.holdout_bins else "") + "<br>"
+            f"<b>control</b> — should behave the same way if the answer is real: "
+            f"<code>{recipe.validation_holdout or 'none available'}</code><br>"
+            f"<b>confidence</b> — a cluster must be this pure before its genes are named: "
+            f"{recipe.min_precision:.2f}<br><br><b>inputs</b><br>{inputs}<br><br>"
+            + (f"<b>expected</b>: {q['expectation']}" if q.get("expectation") else "")
+            + ("<br><br><b>This question is shipped BECAUSE it is refused</b> — "
+               + q.get("reason", "") if q.get("expect_refusal") else ""))
+
+    def check_question(self):
+        """Closure only: what this question may use, and what was taken away."""
+        q = self.current_question()
+        if q is None or self.nodes is None:
+            return
+        from .questions import as_recipe
+        from .recipes import close
+        recipe = as_recipe(q)
+
+        def job(p):
+            return close(self.nodes, recipe)
+
+        self._run(job, self._closure_done, name="closure check")
+
+    def _closure_done(self, result):
+        """Report what this question may use. Failures arrive through `_run`'s own error path."""
+        if not result.ok:
+            self.question_report.setHtml(f"<b>refused</b><br>{result.refusal}")
+            self.status.emit("this question is refused: " + result.refusal)
+            return
+        removed = "".join(
+            f"<tr><td><code>{c}</code></td><td>{why}</td></tr>"
+            for c, why in sorted(result.removed.items())) or \
+            "<tr><td colspan=2><i>nothing the question named had to be removed</i></td></tr>"
+        self.question_report.setHtml(
+            f"<b>{len(result.blocks)} blocks, {len(result.columns)} columns may build this map.</b> "
+            f"{len(result.excluded)} columns are excluded overall; "
+            f"{len(result.removed)} of them were named by this question."
+            f"<table>{removed}</table>")
+        self.status.emit(
+            f"closure: {len(result.columns)} columns may build this map, {len(result.removed)} "
+            f"of the question's own were removed")
+
+    def run_question(self):
+        """Answer the selected question, and put the control's verdict beside the answer."""
+        q = self.current_question()
+        if q is None or self.nodes is None:
+            return
+        from .questions import as_recipe
+        from .recipes import run as run_recipe
+        recipe = as_recipe(q)
+        self._start_table(self.question_table, [])
+        self.question_report.setPlainText("")
+        self._question_result = None
+        self.question_pdf.setEnabled(False)
+
+        def job(p):
+            from . import gpu
+            with gpu.pinned():
+                # Two alternative maps are built so the PDF can show what the winner was chosen
+                # against. They cost a build each, which is why nothing else asks for them.
+                return run_recipe(self.nodes, recipe, alternatives=2, log=p)
+
+        self._run(job, self._question_done, name=f"question ({recipe.holdout})")
+
+    def _question_done(self, result):
+        """Report the answer, and be explicit when there is not one."""
+        self._question_result = result
+        # Enabled even for a refusal: the refusal and its cause is the result, and a reader looking
+        # for the run needs to find the reason rather than an absent file.
+        self.question_pdf.setEnabled(True)
+        if not result.ok:
+            self.question_report.setHtml(f"<b>no answer</b><br>{result.stopped_because}")
+            self.status.emit(result.stopped_because)
+            return
+        if len(result.inference):
+            self._fill(self.question_table, result.inference)
+        agreed = int(result.inference["control_agrees"].fillna(False).sum()) \
+            if "control_agrees" in result.inference else 0
+        quality = result.quality
+        lines = [
+            f"<b>{len(result.inference)} genes named.</b> "
+            f"{agreed} of them sit in clusters the independent control corroborates.",
+            f"<br><b>the map</b>: {quality['clusters']} clusters, "
+            f"{100 * quality['clustered']:.0f}% of genes clustered, evenness "
+            f"{quality['evenness']:.2f}; settings {result.settings}",
+            f"<br><b>recovery</b>: {result.summary.get('n_labels_scored', 0)} labels scored, "
+            f"mean F1 {result.summary.get('mean_f1', float('nan')):.3f}, best "
+            f"{result.summary.get('best_f1', float('nan')):.3f} "
+            f"({result.summary.get('best_label', '')})",
+        ]
+        if result.inference_note:
+            lines.append(f"<br><b>{result.inference_note}</b>")
+        if len(result.inference) and not agreed:
+            # Stated rather than left to be noticed. An uncorroborated list of genes looks exactly
+            # like a corroborated one on screen, and the whole argument for the control is that the
+            # difference is what says whether to believe the answer.
+            lines.append("<br><b>The control corroborates none of these clusters</b>, so this answer "
+                         "stands on the primary holdout alone — read it as a lead, not a finding.")
+        self.question_report.setHtml("".join(lines))
+        self.status.emit(f"{len(result.inference)} genes named, {agreed} corroborated")

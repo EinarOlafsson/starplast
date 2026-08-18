@@ -1,0 +1,3543 @@
+[
+ {
+  "question": "Which unplaced proteins sit in clusters that are almost entirely one hyperLOPIT compartment, judged only from how much protein there is, how it is modified and how badly it is needed?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ]
+  ],
+  "holdout": "compartment_best",
+  "holdout_bins": 0,
+  "validation_holdout": "ec_number",
+  "control_bins": 0,
+  "verdict": "keep",
+  "reason": "Sequence inputs and every LOPIT view are excluded, so the compartment can only be recovered from behaviour; EC class is an annotation from a different source, so it is an independent check with 11 classes over 1313 genes.",
+  "expectation": "A handful of clusters that are >70% one compartment (apical secretory, mitochondrion - soluble, nucleus - chromatin) each carrying 5-20 unlabelled genes, and those same clusters dominated by one EC top level where enzymes are present.",
+  "shipped": true
+ },
+ {
+  "question": "Which uncharacterised proteins behave like the exported dense-granule proteins that BioID puts at the PV membrane?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "tachyzoite"
+    ]
+   ]
+  ],
+  "holdout": "pvm_proximity_positive",
+  "holdout_bins": 0,
+  "validation_holdout": "compartment_best",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "refused by leakage closure: the validation holdout 'compartment_best' is not independent of the primary 'pvm_proximity_positive' -- measured association. A control that is a copy controls nothing",
+  "expectation": "One or two clusters holding most of the 73 PVM-proximal genes, mostly apical_secretory in LOPIT, with unlabelled neighbours that are worth epitope-tagging for host-facing localisation.",
+  "expect_refusal": true
+ },
+ {
+  "question": "Which unannotated genes sit with the GRA17 synthetic-lethal set, i.e. which genes are functionally coupled to the PVM nutrient pore?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-host"
+    ]
+   ]
+  ],
+  "holdout": "crispr_gra17_candidate",
+  "holdout_bins": 0,
+  "validation_holdout": "pvm_proximity_positive",
+  "control_bins": 0,
+  "verdict": "keep",
+  "reason": "The holdout is a genetic screen, so localisation is admissible as an input here; fitness inputs are excluded because the gra17 delta and phenotype columns are that same screen, and the BioID control is a third experiment.",
+  "expectation": "A dense-granule-flavoured cluster containing at least 15 of the 118 GRA17 candidates and also enriched for PVM-proximal genes; its unlabelled members are candidate pore or pore-trafficking components.",
+  "shipped": true
+ },
+ {
+  "question": "Which proteins are tethered to membranes by palmitoylation rather than by a transmembrane segment?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "cellular process"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ]
+  ],
+  "holdout": "palmitome_odya_vs_palmitate_log2",
+  "holdout_bins": 3,
+  "validation_holdout": "compartment_best",
+  "control_bins": 0,
+  "verdict": "uncertain",
+  "reason": "PTM inputs have to be dropped because the sibling palmitome column lives there and sequence is barred, which leaves thin inputs; and 488 labelled genes is only about twice the iedb count that was measured too sparse to fill a cluster.",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins resist a single steady-state compartment because they are genuinely dual-localised or in transit, rather than merely scarce?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ]
+  ],
+  "holdout": "lopit_confident",
+  "holdout_bins": 0,
+  "validation_holdout": "pvm_proximity_positive",
+  "control_bins": 0,
+  "verdict": "uncertain",
+  "reason": "Assignment confidence tracks how much protein there is, and protein abundance is an input, so the map may recover the label technically rather than biologically; I cannot judge the size of that confound from the two CSVs.",
+  "expectation": ""
+ },
+ {
+  "question": "Can protein behaviour recover the MAP compartment assignment, using the MCMC assignment as the check?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ]
+  ],
+  "holdout": "lopit_map",
+  "holdout_bins": 0,
+  "validation_holdout": "lopit_mcmc",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Six-views trap: compartment, compartment_best, lopit_unified, lopit_map, lopit_mcmc and ortholopit_label are one experiment, so MAP validated by MCMC is a copy, not a control (criterion 4).",
+  "expectation": ""
+ },
+ {
+  "question": "Can signal peptides, transmembrane segments and domain content place a protein in its compartment?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "intrinsic properties",
+     "sequence structure and evolution"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "compartment_best",
+  "holdout_bins": 0,
+  "validation_holdout": "pvm_proximity_positive",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Sequence-derived features predict localisation directly, so the map recovers the label by predicting it rather than by finding biology (measured trap, criterion 3).",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins carry a signal peptide?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ]
+  ],
+  "holdout": "has_signal_peptide",
+  "holdout_bins": 0,
+  "validation_holdout": "is_tm",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Fails criterion 5: the label is already computable from sequence for all 8140 genes so nobody changes an experiment on the answer, and is_tm comes out of the same prediction pipeline, so it is not an independent control either.",
+  "expectation": ""
+ },
+ {
+  "question": "Which effectors leave the parasite as soluble protein rather than packaged in vesicles?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-host"
+    ]
+   ]
+  ],
+  "holdout": "secretome_soluble_over_vesicle_log2",
+  "holdout_bins": 3,
+  "validation_holdout": "pvm_proximity_positive",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Only 165 genes carry the label; iedb_epitope_count at 221 was measured too sparse to put 15 labelled genes in any cluster, so this holdout cannot be evaluated at cluster level at all.",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins are N-myristoylated and therefore anchored at the parasite periphery?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ]
+  ],
+  "holdout": "myristoylation_confidence",
+  "holdout_bins": 0,
+  "validation_holdout": "compartment_best",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "65 labelled genes with a minority class of 23 - an order of magnitude below what cluster-level evaluation needs, by the same sparsity limit measured on the epitope columns (criterion 2 in practice).",
+  "expectation": ""
+ },
+ {
+  "question": "Which PVM proteins face the host cytosol rather than the vacuolar lumen?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-host"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ]
+  ],
+  "holdout": "pvm_proximity_positive",
+  "holdout_bins": 0,
+  "validation_holdout": "compartment_best",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Criterion 6: the only PVM column is a proximity yes/no and it carries no membrane-orientation information, so the question as asked has no label in the table - the recipe would silently answer a different question.",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins were localised by hyperLOPIT directly rather than by orthoLOPIT transfer?",
+  "axis": "localisation and export",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "provenance and analysis metadata",
+     "stage-unspecified"
+    ]
+   ]
+  ],
+  "holdout": "compartment_source",
+  "holdout_bins": 0,
+  "validation_holdout": "lopit_confident",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "This is provenance metadata - it records which pipeline made the call, so recovering it changes nobody's next experiment (criterion 5), and lopit_confident is the same experiment so the control is a copy too.",
+  "expectation": ""
+ },
+ {
+  "question": "Which uncharacterised proteins are loaded into the oocyst, and are they the genes the sexual stages switch on?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene regulation",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ]
+  ],
+  "holdout": "oocyst_itraq_115_113",
+  "holdout_bins": 3,
+  "validation_holdout": "sexual_stage_8dpi_log2fc",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "Protein-abundance inputs are excluded because the oocyst iTRAQ ratios live there; the control is a cat-gut RNA experiment, entirely independent of the oocyst proteome measurement, and both holdouts are dense (2068 and 4463 genes).",
+  "expectation": "Clusters sitting in the top iTRAQ third that are also high in the 8 dpi sexual-stage log2FC and contain hypothetical genes - a shortlist for sporozoite/oocyst tagging.",
+  "shipped": true
+ },
+ {
+  "question": "Which genes are needed to persist in the mouse brain at 14 days but are dispensable for growth in culture?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ]
+  ],
+  "holdout": "brain168465_14d_lfc",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_ifng",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "Fitness inputs are excluded so neither screen leaks into the map; the IFN-gamma macrophage screen is a separate study from the in vivo brain screen, so it is a genuine second observation of chronic-stage pressure.",
+  "expectation": "A bradyzoite-leaning cluster strongly depleted in the 14 d brain screen and also depleted under IFN-gamma; its unlabelled members are chronic-persistence knockout candidates.",
+  "shipped": true
+ },
+ {
+  "question": "Which transcripts does the BFD2 switch hold, and are they the bradyzoite programme?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ]
+  ],
+  "holdout": "bfd2_rip_log2_ip_over_input",
+  "holdout_bins": 3,
+  "validation_holdout": "stage_enriched_derived",
+  "control_bins": 0,
+  "verdict": "keep",
+  "reason": "RNA-abundance inputs are excluded so neither the RIP ratio nor the expression-derived stage call is fed in; stage_enriched_derived is exactly the trivially-recovering control the brief describes, used here as a control and not as a discovery.",
+  "expectation": "Chromatin/regulatory clusters whose members are in the top BFD2-bound third and mostly bradyzoite in stage_enriched_derived, with unlabelled members worth testing as conversion regulators.",
+  "shipped": true
+ },
+ {
+  "question": "Can protein abundance, phosphorylation and fitness alone say which cell-cycle phase a gene belongs to - i.e. is the cycle visible without any RNA?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "cellular process"
+    ]
+   ]
+  ],
+  "holdout": "cellcycle_phase",
+  "holdout_bins": 0,
+  "validation_holdout": "cellcycle19092_7h_r1",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "refused by leakage closure: the validation holdout 'cellcycle19092_7h_r1' is not independent of the primary 'cellcycle_phase' -- declared family (Tg_transcription_per_cell_cycle_phase). A control that is a copy controls nothing",
+  "expectation": "Phospho-heavy clusters that are mostly S or M genes and also peak in the 7 h synchronised sample; the unlabelled members are candidates for phase-restricted tagging or degron work.",
+  "expect_refusal": false
+ },
+ {
+  "question": "Which mRNAs are held translationally silent as tachyzoites begin converting?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ]
+  ],
+  "holdout": "te245775_parent_prebrady_r2",
+  "holdout_bins": 3,
+  "validation_holdout": "n_m6a_peaks",
+  "control_bins": 3,
+  "verdict": "uncertain",
+  "reason": "The holdout is a single replicate whose RNA denominator sits in the excluded expression family, and I cannot tell from the CSVs whether translation-efficiency columns are addressed apart from RNA abundance; n_m6a_peaks at 837 genes and only 2 usable bins is borderline as a control.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are tachyzoite-, bradyzoite- or oocyst-enriched?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ]
+  ],
+  "holdout": "stage_enriched_derived",
+  "holdout_bins": 0,
+  "validation_holdout": "expr_cyst",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "stage_enriched_derived is computed from the very expression columns being fed in, so it recovers trivially - it is a control, not a discovery (measured trap) - and expr_cyst is one of those input columns as well.",
+  "expectation": ""
+ },
+ {
+  "question": "Can the single-cell expression programme assign each gene to a cell-cycle phase?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ]
+  ],
+  "holdout": "cellcycle_phase",
+  "holdout_bins": 0,
+  "validation_holdout": "cellcycle_pseudotime",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "cellcycle_phase is derived from single-parasite RNA-seq and lives under RNA abundance, so RNA inputs restate it (criterion 3); pseudotime is the same single-cell experiment, so the control is a copy as well (criterion 4).",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are stage-restricted, checked against how sharply stage-restricted they are?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "stage_enriched_derived",
+  "holdout_bins": 0,
+  "validation_holdout": "stage_margin_derived",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "stage_margin_derived is the margin behind the stage_enriched_derived call - the same computation twice on the same 1911 genes, so the control controls nothing (criterion 4).",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes respond to alkaline stress in the conversion reporter time course?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ]
+  ],
+  "holdout": "stress_5-24_stress_green_48",
+  "holdout_bins": 3,
+  "validation_holdout": "stress_6-16_stress_green_48",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "The holdout is one sample of the stress experiment whose sibling samples sit in the RNA inputs (restatement, criterion 3), and the control is another sample of that same experiment (criterion 4).",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are required for an oocyst to sporulate?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "stage-unspecified"
+    ]
+   ]
+  ],
+  "holdout": "expr_sporulated",
+  "holdout_bins": 3,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Criterion 6: every fitness screen in the table is tachyzoite or mouse, so there is no requirement label for sporulation - the only sporulation columns are abundance, and the recipe would quietly answer 'expressed in oocysts' instead.",
+  "expectation": ""
+ },
+ {
+  "question": "Can measurements predict how many transcript models a gene has?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ]
+  ],
+  "holdout": "novel_transcript_models",
+  "holdout_bins": 0,
+  "validation_holdout": "n_holes",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Passes criteria 1-4 and fails 5: transcript-model count is an annotation artefact of how the gene was assembled, and no knockout, antibody or imaging decision turns on it.",
+  "expectation": ""
+ },
+ {
+  "question": "What is the overall structure of stage conversion across the genome?",
+  "axis": "life-cycle stage and conversion",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "tachyzoite"
+    ]
+   ]
+  ],
+  "holdout": "stage_enriched_derived",
+  "holdout_bins": 0,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Criterion 1: there is no wrong answer - any map produces 'structure', so nothing the recipe returns could contradict the question.",
+  "expectation": ""
+ },
+ {
+  "question": "Which uncharacterised proteins sit inside clusters that are almost entirely one enzyme class, and therefore come with a pathway to test?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ]
+  ],
+  "holdout": "ec_number",
+  "holdout_bins": 0,
+  "validation_holdout": "compartment_best",
+  "control_bins": 0,
+  "verdict": "keep",
+  "reason": "Sequence and metabolic-pathway inputs are excluded because EC numbers are derived from them; hyperLOPIT is a separate experiment and pathway members should share a compartment, so the control is independent and dense (3855 genes).",
+  "expectation": "Small clusters dominated by one EC top level (protein kinases, apicoplast FASII, phosphatases) that hold a few hypothetical proteins and also share one dominant LOPIT compartment - each hypothetical is an assayable enzyme candidate.",
+  "shipped": true
+ },
+ {
+  "question": "Do the expanded Toxoplasma paralogue families actually behave as one unit, and which unassigned genes belong with them?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "orthogroup",
+  "holdout_bins": 0,
+  "validation_holdout": "stage_enriched_derived",
+  "control_bins": 0,
+  "verdict": "keep",
+  "reason": "Orthogroups are homology calls so every sequence input is barred; RNA is left out so the expression-derived stage control is not restated by the inputs, and family membership and stage restriction are independent facts about a gene.",
+  "expectation": "Two or three of the ten large orthogroups (SRS, AP2, rhoptry kinases) coming back as coherent clusters with a single dominant stage label, each carrying unplaced genes that inherit a family and a stage to test.",
+  "shipped": true
+ },
+ {
+  "question": "Which Toxoplasma-specific genes behave like conserved core machinery, and are those the ones the parasite cannot lose?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "lineage_specific",
+  "holdout_bins": 0,
+  "validation_holdout": "fit_invitro_hff",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "Sequence and orthology inputs are barred because the label is an orthology call; fitness is kept out so the CRISPR control stays independent of the map, and both holdouts cover the whole 8140-gene table.",
+  "expectation": "One or two clusters that are mostly lineage_specific=1 yet sit among housekeeping-like localisations and fall in the most-depleted fitness third - a lineage-restricted essential list, which is a drug-target shortlist.",
+  "shipped": true
+ },
+ {
+  "question": "Do the proteins whose phosphorylation goes up together form one signalling module - one that also shows up as calcium-responsive in thermal stability?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "cellular process"
+    ]
+   ]
+  ],
+  "holdout": "phospho_up_ratio",
+  "holdout_bins": 3,
+  "validation_holdout": "cetsa_calcium_ed_score",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "PTM inputs are excluded because the phospho columns live there; CETSA calcium shift is a different experiment on a different readout, so a cluster agreeing on both is two observations, not one (1182 and 2348 genes labelled).",
+  "expectation": "A motility/secretion-flavoured cluster in the top phospho-up third whose members also shift in the calcium CETSA; unlabelled members are candidate CDPK substrates worth a phospho-null allele.",
+  "shipped": true
+ },
+ {
+  "question": "Which uncharacterised proteins co-melt with the subunits of known complexes?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ]
+  ],
+  "holdout": "melting_temperature_tm",
+  "holdout_bins": 3,
+  "validation_holdout": "n_crosslink_partners",
+  "control_bins": 0,
+  "verdict": "uncertain",
+  "reason": "The control has only 494 labelled genes spread over four classes, close to the sparsity that was measured to break cluster evaluation at 221; and melting temperature may be a physical property more than a complex signal, which puts criterion 5 in doubt.",
+  "expectation": ""
+ },
+ {
+  "question": "Which pairs of proteins physically bind each other?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "n_ipms_partners",
+  "holdout_bins": 0,
+  "validation_holdout": "n_crosslink_partners",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Criterion 6: a recipe assigns one label per gene and an edge between two genes is not a column; partner counts are the only per-gene stand-in and they answer 'how many partners', which is a different question.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are Toxoplasma-specific, checked against whether they have a Plasmodium ortholog?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "lineage_specific",
+  "holdout_bins": 0,
+  "validation_holdout": "has_pf_ortholog",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "lineage_specific is defined by the same ortholog calls that produce has_pf_ortholog, so the control is a restatement of the primary (criterion 4) - the same failure mode as pairing two LOPIT views.",
+  "expectation": ""
+ },
+ {
+  "question": "Can domain content place a gene in its orthogroup?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "intrinsic properties",
+     "sequence structure and evolution"
+    ]
+   ]
+  ],
+  "holdout": "orthogroup",
+  "holdout_bins": 0,
+  "validation_holdout": "pfam_id",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Inputs and both holdouts come out of the same homology pipeline: the map restates the label (criterion 3) and pfam_id is a copy of the primary (criterion 4).",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins have a reported interaction partner?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "n_ipms_partners",
+  "holdout_bins": 0,
+  "validation_holdout": "n_bioid_studies",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Only 48 of 8140 genes are positive, so no cluster can hold the 15 labelled members an evaluation needs; and both columns record how often a gene was pulled into somebody's pulldown, not whether it has partners.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes look like the ones that keep turning up in interaction studies?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "n_ipms_studies",
+  "holdout_bins": 3,
+  "validation_holdout": "n_bioid_studies",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Both are study-participation counts - the attention_depth confound in another guise - so they measure what has been done to a gene rather than the gene (criterion 5), and they are not independent of each other (criterion 4).",
+  "expectation": ""
+ },
+ {
+  "question": "Which understudied genes behave like the well-studied ones?",
+  "axis": "relationships between genes",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "attention_depth",
+  "holdout_bins": 0,
+  "validation_holdout": "lit_tier",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "attention_depth is how much a gene has been written about and is a negative control only; recovering it reports publication bias rather than biology (criterion 5), and lit_tier comes from the same text mining (criterion 4).",
+  "expectation": ""
+ },
+ {
+  "question": "Which uncharacterised genes sit inside the co-expressed, co-translated, co-complexed modules that the parasite cannot lose in culture?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ]
+  ],
+  "holdout": "fit_invitro_hff",
+  "holdout_bins": 3,
+  "validation_holdout": "brain168465_14d_lfc",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "No fitness input, so the seven-screen trap is avoided; primary and control are separate experiments (HFF competitive screen vs an independent in vivo brain library) with 7325 and 7334 labelled genes.",
+  "expectation": "Ribosome, proteasome, apicoplast-housekeeping and tRNA-synthetase clusters come out almost entirely in the most-depleted bin and stay depleted in brain; the payoff is the hypothetical proteins inside those clusters that carry no fitness score of their own, which is a knockout shortlist.",
+  "shipped": true
+ },
+ {
+  "question": "Which genes are required for growth in interferon-gamma-activated macrophages but dispensable in resting ones?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "host recognition",
+     "stage-unspecified"
+    ]
+   ]
+  ],
+  "holdout": "fit_ifng",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_naive_bmdm",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criteria 3 and 4 together: the differential does not exist as a column, so asking it means feeding fit_naive_bmdm in as an input while holding out fit_ifng, and the two arms are one experiment measuring the same thing under two conditions.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are required for survival in the spleen specifically?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-host"
+    ]
+   ]
+  ],
+  "holdout": "fit_invivo_spleen",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_invivo_liver",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criterion 4: fit_invivo_spleen, liver, lung and PE are four organ readouts of one in vivo screen (all 7395 labelled), so a second organ is not a second observation.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes become essential only when the PVM nutrient pore GRA17 is deleted - what backs up the parasite access to host nutrients?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "host recognition",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-host"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ]
+  ],
+  "holdout": "crispr_gra17_synthlethal_delta",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_invivo_PE",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "The delta column is already normalised against the parental screen so ordinary essentiality is not restated, no fitness category is fed in, and the control is a different screen entirely - crispr_gra17_candidate and crispr_gra17ko_phenotype are barred as controls because they are the same experiment.",
+  "expectation": "A dense-granule and PV-membrane cluster plus a transporter cluster carrying the strong-synthetic-lethal bin, with several unnamed GRA-like proteins among them; the next step is knocking those out in the delta-gra17 background.",
+  "shipped": true
+ },
+ {
+  "question": "Which genes are essential in a GRA17 knockout background?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "crispr_gra17ko_phenotype",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_invitro_hff",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criterion 5 and brushes criterion 3: the knockout-background fitness score is dominated by ordinary essentiality, so it re-derives fit_invitro_hff and changes nobody's next move; the informative column is the synthetic-lethal delta.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are required to persist in the brain during chronic infection but not during acute growth?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "brain168465_14d_lfc",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_invivo_spleen",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "No fitness input; the 14-day brain library and the acute in vivo organ screen are separate experiments with 7334 and 7395 labelled genes, and chronic-versus-acute is a real contrast between two independent screens rather than two arms of one.",
+  "expectation": "A bradyzoite-expressed, chromatin-repressed cluster that is dropped out at 14 days but neutral in spleen - cyst-wall proteins and bradyzoite metabolism - and the uncharacterised BFD1-regulon members inside it are the genes to knock out and score for cyst burden."
+ },
+ {
+  "question": "Do host-interaction measurements alone predict which genes the parasite needs in a living animal?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-host"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "host recognition",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ]
+  ],
+  "holdout": "fit_invivo_lung",
+  "holdout_bins": 3,
+  "validation_holdout": "brain168465_7d_lfc",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "Fitness is kept out of the inputs, the map is built only from parasite-host relationship and expression data, and the control is a different in vivo screen from a different library, so agreement between them is a second observation rather than a copy.",
+  "expectation": "Effector- and GRA-rich clusters carrying the in-vivo-costly bin while being neutral in culture, agreeing with the 7-day brain screen; the output is a shortlist of uncharacterised secreted proteins worth an in vivo knockout.",
+  "shipped": true
+ },
+ {
+  "question": "Which uncharacterised genes cause a replication defect when knocked out?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "screen_replication_phenotype",
+  "holdout_bins": 0,
+  "validation_holdout": "fit_invitro_hff",
+  "control_bins": 3,
+  "verdict": "uncertain",
+  "reason": "Criterion 2 is technically met but density is the doubt: only 318 genes carry the imaging-screen label, and the measured floor in this table is that a 221-gene column cannot fill a cluster with 15 labelled members - 318 is in the same band, and the sibling screens (actin, egress, apicoplast) cannot serve as the control because they are one experiment.",
+  "expectation": ""
+ },
+ {
+  "question": "Can co-fitness and co-expression recover how many nonsynonymous SNPs a gene carries across strains?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ]
+  ],
+  "holdout": "snp_nonsynonymous",
+  "holdout_bins": 3,
+  "validation_holdout": "snp_total_all_strains",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criterion 5 exactly as the brief's own length example does, and fails criterion 4 as well: a SNP-count bin is not a list anyone picks a knockout or an antibody from, and total SNPs is the same count with the synonymous ones added back.",
+  "expectation": ""
+ },
+ {
+  "question": "Are essential genes distinguishable by their codon adaptation and GC3 content?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "codon_cai_ribosomal",
+  "holdout_bins": 3,
+  "validation_holdout": "codon_gc3",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criterion 5 and criterion 4: nobody acts on a CAI bin, and CAI, GC3 and ENC are three statistics computed from one sequence, so the control is a copy - this is the sequence-statistic trap for this axis.",
+  "expectation": ""
+ },
+ {
+  "question": "Which of the genes hyperLOPIT could not assign are nonetheless required in vivo?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-host"
+    ]
+   ]
+  ],
+  "holdout": "fit_hyperlopit_unassigned_invivo_lib1",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_hyperlopit_unassigned_invivo_lib2",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criterion 4 and density at once: lib1 and lib2 are two libraries of one screen, and at 291 and 290 labelled genes neither can put 15 labelled members in a cluster.",
+  "expectation": ""
+ },
+ {
+  "question": "Which essential genes are druggable - essential in vivo and absent from the human genome?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "",
+  "holdout_bins": 0,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Fails criterion 6: neither CSV has a human-orthology, druggability or compound-target column; has_pf_ortholog and has_cp_ortholog are apicomplexan orthology and answer a different question.",
+  "expectation": ""
+ },
+ {
+  "question": "Which uncharacterised proteins behave like enzymes - as co-expressed, co-translated and fitness-coupled as the annotated enzyme set?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "has_ec",
+  "holdout_bins": 0,
+  "validation_holdout": "compartment_best",
+  "control_bins": 0,
+  "verdict": "keep",
+  "reason": "Metabolism is excluded from the inputs because it contains the label, and so is sequence: EC numbers are assigned by homology, so pfam or interpro inputs would recover the label by predicting it, the same trap the brief names for localisation; the control is a single LOPIT view used alone, which the six-view refusal permits, and localisation is therefore kept out of the inputs.",
+  "expectation": "Apicoplast FASII, mitochondrial TCA and cytosolic glycolysis modules come out enzyme-rich and compartment-coherent; the answer is the unannotated genes sitting inside them, which is a list for biochemical assay or heterologous complementation.",
+  "shipped": true
+ },
+ {
+  "question": "Can expression and fitness data recover which enzyme class a protein belongs to?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ]
+  ],
+  "holdout": "ec_number",
+  "holdout_bins": 0,
+  "validation_holdout": "compartment_best",
+  "control_bins": 0,
+  "verdict": "uncertain",
+  "reason": "Only 11 EC classes reach 15 members and the top ones are kinases, phosphatases and acetyltransferases, so the label tests signalling annotation rather than pathway membership; those classes cover only a few hundred of the 1313 labelled genes and I cannot tell from the CSVs whether any cluster reaches 15 same-class members.",
+  "expectation": ""
+ },
+ {
+  "question": "Which metabolic modules does the parasite need during infection of a living animal, and which uncharacterised genes cluster inside them?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "fit_invivo_liver",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_invitro_hff",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "Metabolism is the input and fitness is the holdout, so the seven-screen trap does not apply; primary and control are separate screens (in vivo organ library vs the HFF competitive screen) and both are densely labelled.",
+  "expectation": "Apicoplast and mitochondrial enzyme clusters depleted in both screens, and a salvage cluster - purine, pyrimidine or lipid - depleted in vivo while neutral in HFF; that second set, with its uncharacterised members, is the shortlist."
+ },
+ {
+  "question": "Which genes buffer oxidative stress - what does the parasite need when its redox metabolism is challenged?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "oxidative_stress_screen_score",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_ifng",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "Neither fitness nor chemical response is admitted as an input, so the score cannot be recovered from general essentiality; the macrophage screen is an independent experiment in which the same redox genes should matter. Residual risk: if the score is a raw dropout rather than a stress-normalised one, general essentiality leaks into the label itself.",
+  "expectation": "Thioredoxin, peroxiredoxin, glutathione and mitochondrial electron-transport clusters in the sensitive bin and also costly under IFN-gamma; the uncharacterised members are the candidates for a ROS-sensitivity knockout.",
+  "shipped": true
+ },
+ {
+  "question": "Which genes act in the apicoplast type II fatty acid synthesis pathway?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "compartment_best",
+  "holdout_bins": 0,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Fails criterion 6 as asked: neither CSV carries a pathway-membership column, and the only proxy - the compartment label - is the LOPIT localisation experiment, which turns a metabolism question into a localisation recipe answering something else.",
+  "expectation": ""
+ },
+ {
+  "question": "Do metabolite levels track the expression of the enzymes that produce them?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "",
+  "holdout_bins": 0,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Fails criterion 6: there are no metabolomics columns in either CSV, so there is nothing to hold out - the table measures genes, not metabolites.",
+  "expectation": ""
+ },
+ {
+  "question": "Which transporters import which host-derived nutrients?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "interpro_desc",
+  "holdout_bins": 0,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Fails criteria 3 and 6: transporter identity exists in this table only inside interpro and pfam annotation, which is sequence-derived, so any map admitting sequence recovers the class by predicting it, and no substrate or transport-assay column exists at all.",
+  "expectation": ""
+ },
+ {
+  "question": "Which metabolic enzymes are lysine-acetylated, linking them to acetyl-CoA availability?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "n_acetylation_sites",
+  "holdout_bins": 0,
+  "validation_holdout": "n_lactylation_sites",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Fails criterion 5 because absence is not a class: only proteins that have sites are labelled, so the holdout separates site-count strata among already-acetylated proteins rather than acetylated from unacetylated. The same defect sinks n_nitrosylation_sites, n_lactylation_sites, n_ubiquitination_sites and n_o_fucosyl_peptides.",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins are intrinsically thermostable in the parasite proteome?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "melting_temperature_tm",
+  "holdout_bins": 3,
+  "validation_holdout": "cetsa_calcium_ed_score",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criterion 4 and criterion 5: the melting temperature and the calcium shift score are two readouts of one thermal-proteome experiment, and a Tm bin on its own changes nobody's next experiment.",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins change thermal stability in the presence of calcium - which are the candidate calcium-regulated enzymes?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "cetsa_calcium_ed_score",
+  "holdout_bins": 3,
+  "validation_holdout": "n_phosphosites",
+  "control_bins": 3,
+  "verdict": "uncertain",
+  "reason": "The question itself is actionable (a pulldown list of candidate Ca2+-binding proteins) but the only independent control I can find is the phosphoproteome at 1175 labelled genes, and I cannot tell whether that puts 15 labelled members in any cluster; the melting temperature column is barred as a control because it is the same experiment.",
+  "expectation": ""
+ },
+ {
+  "question": "Which metabolic enzymes switch on in sporulated oocysts?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "expr_sporulated",
+  "holdout_bins": 3,
+  "validation_holdout": "oocyst_itraq_115_113",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criterion 3 twice over: the oocyst iTRAQ columns measure the same stage on the other molecule, so the control restates the primary, and expr_sporulated itself sits inside gene expression > RNA abundance, which the map would have to admit as an input to work at all.",
+  "expectation": ""
+ },
+ {
+  "question": "Can the map recover how many synonymous SNPs or how long an enzyme is?",
+  "axis": "metabolism",
+  "inputs": [
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "snp_synonymous",
+  "holdout_bins": 3,
+  "validation_holdout": "length",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criterion 5, stated explicitly because it is the standing trap for this axis: snp_synonymous, snp_total_all_strains, codon_enc, codon_gc3, length and mean_plddt all pass criteria 1 to 4 and change nothing about what anyone does next.",
+  "expectation": ""
+ },
+ {
+  "question": "Which transcripts does the bradyzoite RNA-binding regulator BFD2 hold - which mRNAs are its targets beyond the known ones?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ]
+  ],
+  "holdout": "bfd2_rip_log2_ip_over_input",
+  "holdout_bins": 3,
+  "validation_holdout": "cuttag_hdac3_promoter_ut",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "The RIP value is IP-over-input, so transcript abundance is normalised out and the RNA inputs do not restate it; the HDAC3 CUT&Tag control is a different molecule, assay and laboratory, and both are densely labelled (7463 and 8140).",
+  "expectation": "A stage-gene cluster with high IP-over-input enrichment that is also HDAC3-occupied, containing BFD1 and the cyst-wall genes; the unnamed mRNAs in the same cluster are the RIP-qPCR candidates."
+ },
+ {
+  "question": "Which genes are held silent in tachyzoites by chromatin and released in the cat-gut enteroepithelial stages?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene regulation",
+     "tachyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "ees_vs_tachyzoite_log2",
+  "holdout_bins": 3,
+  "validation_holdout": "sexual_stage_8dpi_log2fc",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "No expression input, so the holdout differential is not fed back in; primary and control are two independent sexual-stage datasets (7739 vs 4463 labelled, so different studies) that should agree if the tachyzoite repression model is right, and fitness is a legal input because the holdout is not a fitness screen.",
+  "expectation": "An HDAC3- and MORC-occupied, culture-dispensable cluster that is strongly EES-induced and also up at 8 days post-infection; its unnamed members are candidate merozoite and sexual-stage genes worth tagging.",
+  "shipped": true
+ },
+ {
+  "question": "Do fitness, localisation and interaction data alone tell you which promoters the HDAC3 repressor occupies?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ]
+  ],
+  "holdout": "cuttag_hdac3_promoter_ut",
+  "holdout_bins": 3,
+  "validation_holdout": "sexual_stage_8dpi_log2fc",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "Expression is deliberately excluded because accessibility and occupancy track transcript level directly, which is the same predicts-the-label trap the brief names for sequence and localisation; what remains - dispensability plus secretory localisation - is real biology, and the control is an independent in vivo expression measurement that is not an input.",
+  "expectation": "A dispensable, dense-granule and secretory-localised cluster carrying high HDAC3 occupancy and high 8 dpi induction; the uncharacterised members are candidate stage-specific effectors for tagging and knockout.",
+  "shipped": true
+ },
+ {
+  "question": "Which promoters are open, and can expression data tell you?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "atac_promoter_ut",
+  "holdout_bins": 3,
+  "validation_holdout": "h4_acetylation_chip_score",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criterion 3: promoter accessibility tracks transcript abundance, so an RNA-fed map recovers the ATAC label by predicting it rather than by finding biology - the same trap the brief names for sequence features and localisation. The H4ac control has the same defect.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes carry active-chromatin histone marks?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "h4_acetylation_chip_score",
+  "holdout_bins": 3,
+  "validation_holdout": "cuttag_hdac3_promoter_ut",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criterion 4: HDAC3 is the enzyme that removes histone acetylation, so the control is the mechanistic inverse of the primary and not an independent observation; the RNA input also makes it the accessibility-tracks-expression trap again.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are derepressed when the MORC repressor is degraded?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "morc_MORC_IAA1",
+  "holdout_bins": 3,
+  "validation_holdout": "morc_MORC_UT1",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails criteria 4 and 6 as posed: the morc_* columns are per-sample RNA abundances for each genotype, not a depletion contrast, so a single sample binned in three encodes expression level and any two of them are one experiment - the derepression log-fold-change the question needs is not a column.",
+  "expectation": ""
+ },
+ {
+  "question": "Which transcripts depend on CPSF4 for correct polyadenylation?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "cpsf4rna168155_iaa_24h_1",
+  "holdout_bins": 3,
+  "validation_holdout": "cpsf4rna168155_ut_1",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Same defect as the MORC recipe: cpsf4rna168155_* are per-sample abundances at 7, 24 and 48 hours of auxin plus untreated, the IAA-versus-UT contrast is not a column, and pairing two samples as primary and control is one experiment (criterion 4).",
+  "expectation": ""
+ },
+ {
+  "question": "Which uncharacterised proteins are transcription factors of the AP2 family?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "pfam_id",
+  "holdout_bins": 0,
+  "validation_holdout": "interpro_id",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Fails criteria 3 and 4: the only transcription-factor label in this table is the AP2 domain inside pfam_id and interpro_id, which is sequence-derived, so the class is recovered by prediction, and the two annotation columns are the same assignment under two databases.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are cell-cycle regulated, built from protein and chromatin data rather than RNA?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "stage-unspecified"
+    ]
+   ]
+  ],
+  "holdout": "cellcycle_phase",
+  "holdout_bins": 0,
+  "validation_holdout": "cellcycle_pseudotime",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "Fails criterion 4: phase and pseudotime are two readouts of one single-parasite RNA-seq experiment. The only independent cell-cycle columns, the cellcycle19092 bulk time course, are per-timepoint abundances whose three-bin split encodes expression level rather than phase, so no legal control exists.",
+  "expectation": ""
+ },
+ {
+  "question": "Which uncharacterised genes belong to the BFD1 and MORC controlled bradyzoite regulon?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ]
+  ],
+  "holdout": "expr_cyst",
+  "holdout_bins": 3,
+  "validation_holdout": "rna22258_bradyzoite",
+  "control_bins": 3,
+  "verdict": "uncertain",
+  "reason": "I cannot tell from the CSVs how much of the gene regulation category is accessibility and acetylation data that tracks transcript level directly; if it dominates, the chromatin inputs recover the expression holdout by prediction rather than by biology, which is the same objection that sinks the ATAC recipe run in the other direction.",
+  "expectation": ""
+ },
+ {
+  "question": "Which transcripts are destabilised by m6A methylation?",
+  "axis": "regulation and chromatin",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "mrna_remaining_5h_actinomycin",
+  "holdout_bins": 3,
+  "validation_holdout": "n_m6a_peaks",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "Fails on density and criterion 4: at 412 labelled genes the primary sits in the band where the measured 221-gene floor bites, and m6A peak count is the mechanistic cause of the decay the primary measures, so the control is close to a copy rather than an independent observation.",
+  "expectation": ""
+ },
+ {
+  "question": "Which uncharacterised proteins behave like PVM-resident effectors - which unlabelled genes fall in map clusters dominated by proteins detected at the parasitophorous vacuole membrane?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ]
+  ],
+  "holdout": "pvm_proximity_positive",
+  "holdout_bins": 0,
+  "validation_holdout": "crispr_gra17_candidate",
+  "control_bins": 0,
+  "verdict": "keep",
+  "reason": "keep - pvm_proximity_positive has 1274 labelled genes in 2 classes of >=15 and leaves 6866 unlabelled to nominate; the control is a CRISPR synthetic-lethal screen (7553 labelled), a different experiment from the proximity labelling, and no input carries interaction, proximity or provenance data. Two caveats stated up front: at 15.7% labelled only clusters of roughly 100+ genes will carry the >=15 labelled genes needed to score, and the control's positive class is only 118 genes so it can confirm but rarely contradict.",
+  "expectation": "One or two large secretory/dense-granule-flavoured clusters enriched for pvm_proximity_positive=1, nominating on the order of 20-60 unlabelled genes, most of them small signal-peptide proteins of unknown function; the GRA17 candidate control should mark the same clusters and not the nucleolar or ribosomal ones. If the enriched clusters are ribosomal, mitochondrial or apicoplast, the answer is abundance structure, not PVM biology.",
+  "shipped": true
+ },
+ {
+  "question": "Which unlabelled genes belong to the parasitophorous-vacuole nutrient-pore network - which genes sit in clusters enriched for a large fitness delta in a GRA17 knockout background?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ]
+  ],
+  "holdout": "crispr_gra17_synthlethal_delta",
+  "holdout_bins": 3,
+  "validation_holdout": "pvm_proximity_positive",
+  "control_bins": 0,
+  "verdict": "keep",
+  "reason": "keep - 7553 labelled at 3 bins, 587 unlabelled to nominate; the control is proximity labelling at the PVM (1274 labelled), a physically different assay from a pooled CRISPR screen; all genetic-screen and fitness input categories are excluded so nothing restates the delta. It is deliberately the reciprocal of the PVM recipe: the two use the same pair of columns in opposite roles and should agree, which is a coherence check, not a duplicate claim.",
+  "expectation": "Clusters rich in transporters, permeases and PV-membrane proteins carrying the strongest synthetic-lethal deltas, nominating perhaps 10-40 unlabelled genes that are membrane-spanning and metabolite-transport annotated; the PVM-proximity control should mark the same clusters. A list dominated by cytosolic metabolic enzymes with no membrane character would say the map recovered growth rate instead."
+ },
+ {
+  "question": "Which genes does the parasite need to survive inside a macrophage - which unlabelled genes cluster with the set whose loss costs fitness in naive bone-marrow-derived macrophages?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "fit_naive_bmdm",
+  "holdout_bins": 3,
+  "validation_holdout": "macrophage_expression_percentile",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "keep - fit_naive_bmdm has 7402 labelled at 3 bins with 738 unlabelled to nominate, and the control is a transcript-level measurement labelled for all 8140 genes, so it can be scored on every cluster. The control is a different measurement type from the primary, which is the strongest form of independence available on this axis. RNA inputs are excluded because they would restate the expression control, and all genetic-screen and fitness inputs are excluded because they would restate the primary.",
+  "expectation": "Clusters of secreted and organellar proteins carrying a severe macrophage fitness cost, nominating a short list of unlabelled genes that also sit high in the macrophage expression percentile. If the recovered clusters are the general essential machinery (ribosome, proteasome), the map found essentiality rather than anything macrophage-specific and the claim fails.",
+  "shipped": true
+ },
+ {
+  "question": "Which proteins face the host cell, built from the parasite-host interactome together with proximity data?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-host"
+    ]
+   ],
+   [
+    "evidence",
+    [
+     "relational measurements",
+     "parasite-host"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "pvm_proximity_positive",
+  "holdout_bins": 0,
+  "validation_holdout": "crispr_gra17_candidate",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - criterion 3: pvm_proximity_positive IS a parasite-host proximity measurement, so parasite-host relational inputs contain the holdout; the map would recover the label by carrying it rather than by finding biology. The same recipe with those two input categories removed is the keep above.",
+  "expectation": ""
+ },
+ {
+  "question": "Can the map recover which genes are GRA17 synthetic-lethal candidates, validated against the size of the GRA17 fitness delta?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "crispr_gra17_candidate",
+  "holdout_bins": 0,
+  "validation_holdout": "crispr_gra17_synthlethal_delta",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "drop - criterion 4: crispr_gra17_candidate and crispr_gra17_synthlethal_delta both carry 7553 labelled genes because they are the call and the effect size from one GRA17 synthetic-lethal screen. A control that is a thresholded copy of the primary controls nothing - the same failure mode as the six LOPIT views.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes become essential when the PV pore is lost - which unlabelled genes cluster with the GRA17-knockout fitness phenotype, checked against baseline fitness in fibroblasts?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "crispr_gra17ko_phenotype",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_invitro_hff",
+  "control_bins": 3,
+  "verdict": "uncertain",
+  "reason": "uncertain - the existence of crispr_gra17_synthlethal_delta implies crispr_gra17ko_phenotype (7553 labelled) is differenced against a wild-type fitness arm, and fit_invitro_hff (7325 labelled) is the obvious candidate for that arm; if it is, this pairs a screen with its own baseline and fails criterion 4, the stage_enriched_derived trap in another guise. The labelled counts differ (7553 vs 7325) so I cannot show from the CSVs that they are or are not one experiment. Resolve by checking whether the delta column equals gra17ko_phenotype minus fit_invitro_hff.",
+  "expectation": ""
+ },
+ {
+  "question": "Which parasite genes drive the host cell's transcriptional response to infection?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "molecular relationships",
+     "parasite-parasite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "cellular process"
+    ]
+   ]
+  ],
+  "holdout": "hosttx_T2",
+  "holdout_bins": 3,
+  "validation_holdout": "hosttx_padj",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "drop - twice blocked. hosttx_T2 and hosttx_padj each have 252 labelled genes (3.1% of 8140), so a cluster needs about 480 genes before it carries the 15 labelled genes required to score, and they are the statistic and the p-value of one host-transcriptome experiment, so as a pair they fail criterion 4. Acquisition target: extend host-response profiling from 252 parasite genes to a genome-scale perturbation-by-host-transcriptome matrix, and add a second, independent host-response readout (e.g. host proteomics) to serve as control.",
+  "expectation": ""
+ },
+ {
+  "question": "Which effectors are exported as soluble cargo rather than in vesicles - which unlabelled genes cluster with the soluble half of the secretome?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ]
+  ],
+  "holdout": "secretome_soluble_over_vesicle_log2",
+  "holdout_bins": 3,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - secretome_soluble_over_vesicle_log2 has 165 labelled genes (2.0%); no cluster short of about 740 genes carries the 15 labelled genes needed to score it, and the table holds no second secretion-route label to control with, so the recipe has no validation half at all. Acquisition target: genome-scale secretome/vesicle fractionation, plus any independent export-route assay (e.g. selective permeabilisation or a reporter export screen) as control.",
+  "expectation": ""
+ },
+ {
+  "question": "Which unlabelled genes are needed for egress from the host cell - which genes cluster with the egress-defective hits from the imaging screen?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "screen_egress_phenotype",
+  "holdout_bins": 0,
+  "validation_holdout": "screen_replication_phenotype",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - criterion 4 plus sparsity. All five screen_* columns carry exactly 318 labelled genes because they are five phenotypes scored in ONE 318-gene imaging screen, so primary and control are one experiment; and 318 labelled (3.9%) means clusters below about 385 genes abstain on both halves. Acquisition target: a genome-scale egress screen, and an independent egress readout from a different platform for the control.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes act with GRA12 to keep the vacuole intact in vivo - which unlabelled genes cluster with the GRA12 screen hits?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ]
+  ],
+  "holdout": "crispr_gra12s1_l2fc_invivo",
+  "holdout_bins": 3,
+  "validation_holdout": "crispr_gra12s2_l2fc_invivo",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "drop - 236 and 232 labelled genes (about 2.9%) put both halves far below the 15-labelled-genes-per-cluster floor, and s1/s2 are two sublibraries of one GRA12 screen, so they are one experiment (criterion 4). This is the same shape of failure as the epitope columns: a real, interesting label that only covers a targeted gene set. Acquisition target: run the GRA12-background screen at genome scale.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are transcriptionally tuned to the macrophage niche - can the map recover macrophage expression rank?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ]
+  ],
+  "holdout": "macrophage_expression_percentile",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_naive_bmdm",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "drop - criteria 1 and 5: macrophage_expression_percentile is labelled for all 8140 genes, so there are no unlabelled genes for the map to nominate and the recipe can only re-describe a measurement that already exists for every gene. It cannot come back with a gene list anyone would act on. A fully labelled column like this is fine as a CONTROL (it scores on every cluster) and useless as a primary.",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins are host-interaction hubs, using the number of BioID studies that recovered a protein as the label?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ]
+  ],
+  "holdout": "n_bioid_studies",
+  "holdout_bins": 3,
+  "validation_holdout": "pvm_proximity_positive",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - n_bioid_studies counts how often a protein has been pulled into someone's proximity experiment; it is the attention_depth trap wearing a host-interaction label, and a hit here means the protein was studied, not that it is a hub. It is also labelled for all 8140 genes, so nothing can be nominated, and it shares its underlying assay with the pvm_proximity_positive control, so the pair is not independent either.",
+  "expectation": ""
+ },
+ {
+  "question": "Are the lineage-specific genes the effectors - can functional measurements predict which genes lack apicomplexan orthologs?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "parasite phenotype",
+     "fitness and essentiality"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "intrinsic properties",
+     "sequence structure and evolution"
+    ]
+   ]
+  ],
+  "holdout": "lineage_specific",
+  "holdout_bins": 0,
+  "validation_holdout": "has_cp_ortholog",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - three ways. lineage_specific is labelled for all 8140 genes so there is nothing to nominate; it is computed from has_pf_ortholog/has_cp_ortholog so the control is its own input (criterion 4); and the sequence-structure-and-evolution input category holds the orthology columns themselves, restating the holdout (criterion 3).",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins respond to the calcium signal that triggers egress - which unlabelled genes cluster with the calcium-shifted thermal-stability set?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "cetsa_calcium_ed_score",
+  "holdout_bins": 3,
+  "validation_holdout": "screen_egress_phenotype",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - the primary half is fine (cetsa_calcium_ed_score has 2348 labelled at 3 bins with 5792 genes left to nominate) but the ONLY independent egress label in the table, screen_egress_phenotype, has 318 labelled genes (3.9%) and will abstain on essentially every cluster, so the recipe has no validation. This one is a single acquisition away from being a keep: a genome-scale egress or motility screen would turn it into a strong question.",
+  "expectation": ""
+ },
+ {
+  "question": "Which parasite proteins change abundance across the first 48 hours of infection - which unlabelled genes cluster with the strongly regulated set?",
+  "axis": "host interaction",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "proteome_lfc_UT_Vs_T_24h_log2_fold_change",
+  "holdout_bins": 3,
+  "validation_holdout": "proteome_log2_normalized_and_imputated_abundances_T_48h_R1",
+  "control_bins": 3,
+  "verdict": "uncertain",
+  "reason": "uncertain - I cannot tell from the CSVs what UT vs T is: untreated vs infected HOST cells, or an untreated vs treated parasite culture. If the rows are host genes the question is not answerable on this table at all (criterion 6); if they are parasite proteins the primary is viable at 3005 labelled with 5135 to nominate. Separately, the control I named is certainly wrong - the abundance and log-fold-change columns share the 3005-gene footprint of one proteomics run (criterion 4), so a kept version would need a control from a different experiment entirely.",
+  "expectation": ""
+ },
+ {
+  "question": "Which uncharacterised genes are required to survive inside IFN-gamma-activated macrophages - which unlabelled genes cluster with the immune-evasion arsenal?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "fit_ifng",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_invivo_spleen",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "keep - fit_ifng has 7402 labelled at 3 bins and leaves 738 unlabelled to nominate, so it scores on any cluster of about 20 genes; the control is a separate in-vivo tissue selection (7395 labelled) rather than the paired naive-macrophage arm of the same screen, and every fitness and genetic-screen input category is excluded so nothing restates the label. This is the densest genuinely immunological label in the table and is the main reason this axis is not entirely blocked. Residual risk to state: both halves are pooled CRISPR screens, so the independence is of experiment, not of method. [re-axed: its holdout is a fitness screen, not an immunity measurement]",
+  "expectation": "A small number of clusters rich in dense-granule and rhoptry proteins carrying the strongest IFN-gamma-specific cost, nominating roughly 10-40 unlabelled genes; the in-vivo spleen control should mark the same clusters. A believable list is secretory and stage-regulated. If the enriched clusters are ribosomal, apicoplast or mitochondrial, the map recovered general growth rate and the immune-evasion reading is wrong.",
+  "shipped": true
+ },
+ {
+  "question": "Which genes are needed specifically when macrophages are activated - can the map separate the IFN-gamma requirement from the baseline macrophage requirement?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ]
+  ],
+  "holdout": "fit_ifng",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_naive_bmdm",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "drop - criterion 4: fit_ifng and fit_naive_bmdm both carry 7402 labelled genes because they are the treated and untreated arms of one macrophage screen. Two arms of one experiment are not two observations, and here they are worse than a copy - the biology of interest is the difference between them, so a cluster that recovers one recovers the other by construction.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are selected against during chronic infection of the brain - which unlabelled genes cluster with the genes the parasite needs to persist under immune control?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ]
+  ],
+  "holdout": "brain168465_14d_lfc",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_invivo_PE",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "keep - brain168465_14d_lfc has 7334 labelled at 3 bins with 806 unlabelled to nominate; the control is a different in-vivo screen (peritoneal exudate, 7395 labelled) from a different accession, and the primary's own 1d/2d/4d/7d timepoints are deliberately NOT used as control because they are the same screen. Inputs carry no fitness or screen data. The two niches differ enough (chronic CNS vs acute peritoneum) that the control can genuinely fail. [re-axed: its holdout is a fitness screen, not an immunity measurement]",
+  "expectation": "Bradyzoite-regulon-flavoured clusters showing strong 14-day dropout, nominating unlabelled genes that are bradyzoite-induced and dispensable in fibroblasts - exactly the shortlist someone would take to a knockout in a cyst-forming strain. If the same clusters also dominate the 1-day timepoint, the signal is general in-vivo fitness rather than persistence."
+ },
+ {
+  "question": "Which unlabelled genes defend the parasite against oxidative attack - which genes cluster with the hits from the oxidative-stress screen?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "metabolism",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ]
+  ],
+  "holdout": "oxidative_stress_screen_score",
+  "holdout_bins": 3,
+  "validation_holdout": "fit_ifng",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "keep - oxidative_stress_screen_score has 7384 labelled at 3 bins with 756 unlabelled to nominate; the control is a different challenge in a different system (cytokine-activated macrophages vs a chemical oxidative challenge) and the expectation that ROS-defence genes also matter in activated macrophages is a real prediction that can come back false. Genetic-screen, fitness and chemical-response input categories are all excluded so neither half is restated. [re-axed: its holdout is a fitness screen, not an immunity measurement]",
+  "expectation": "Redox clusters - thioredoxins, peroxiredoxins, superoxide dismutase, mitochondrial electron-transport neighbours - carrying the worst oxidative scores, nominating a handful of unlabelled genes with redox-adjacent metabolic annotation. If fit_ifng does not follow those clusters, the oxidative burst and the IFN-gamma programme are separable in this parasite and the weaker claim (ROS defence only) is what survives."
+ },
+ {
+  "question": "Which genes are under selection in host tissue but not in culture, and are they the genes the parasite also up-regulates in the macrophage niche?",
+  "axis": "fitness and essentiality",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein synthesis"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "protein state",
+     "post-translational modification"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "fit_invivo_liver",
+  "holdout_bins": 3,
+  "validation_holdout": "macrophage_expression_percentile",
+  "control_bins": 3,
+  "verdict": "keep",
+  "reason": "keep - and it is the best-controlled question on this axis because primary and control are different measurement types: fit_invivo_liver is a CRISPR fitness screen (7395 labelled, 745 unlabelled to nominate) and macrophage_expression_percentile is a transcript rank labelled for all 8140 genes, so the control scores on every cluster and cannot be a restatement of the primary. RNA inputs are excluded because they would restate the control; screen and fitness inputs are excluded because they would restate the primary. [re-axed: its holdout is a fitness screen, not an immunity measurement]",
+  "expectation": "Clusters with a strong in-vivo-specific cost that also sit high in macrophage expression, nominating unlabelled secretory and surface genes. The failure mode to watch for is that the two halves disagree completely - being needed in the liver and being transcribed in macrophages are not the same thing, and a null result here is informative rather than a bug.",
+  "shipped": true
+ },
+ {
+  "question": "Which uncharacterised proteins are antigenic - which unlabelled genes fall in clusters dominated by proteins with catalogued T-cell epitopes?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ]
+  ],
+  "holdout": "iedb_epitope_count",
+  "holdout_bins": 3,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - the label exists but is too sparse to score. iedb_epitope_count is labelled for 221 of 8140 genes (2.7%) and collapses to only 2 classes when binned into 3; a cluster needs >=15 labelled genes to be evaluated at all, which at that density means a cluster of about 550 genes, and in a measured run on this table no cluster reached it - the epitope column abstained on every cluster. This is the single most damaging gap on this axis: the biologically obvious question is unanswerable for want of coverage, not for want of a method. Acquisition target: genome-scale epitope mapping - MHC immunopeptidomics of infected cells, or proteome-wide peptide arrays - to lift labelled genes from 221 to at least a couple of thousand, which is where cluster scoring starts to work.",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins carry B-cell epitopes - which unlabelled genes cluster with the antibody-recognised set?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "n_bcell_epitopes",
+  "holdout_bins": 3,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - criterion 2, outright. n_bcell_epitopes has 34 labelled genes and appears in NEITHER inventory CSV, meaning it does not even form two classes of >=15 members, so it is not a legal holdout and is not answerable from this table (criterion 6). Acquisition target: a proteome-wide B-cell epitope or seroreactivity dataset; nothing short of that makes this column usable in any role, primary or control.",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins carry both T-cell and B-cell epitopes - the shortlist a vaccine programme would start from?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ]
+  ],
+  "holdout": "iedb_epitope_count",
+  "holdout_bins": 3,
+  "validation_holdout": "n_bcell_epitopes",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "drop - doubly blocked, and worth recording as the worst case on this axis. The primary has 221 labelled genes (2.7%) and abstains on almost every cluster; the control has 34 labelled genes, fails the >=2 classes of >=15 test entirely, and is explicitly refused as a validation holdout in the brief. Both halves need new data before the question exists, so it cannot be rescued by swapping inputs or bins.",
+  "expectation": ""
+ },
+ {
+  "question": "Which unannotated genes behave like SRS surface antigens - which domainless genes cluster with the SRS/SAG family by expression and behaviour rather than by sequence?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "tachyzoite"
+    ]
+   ]
+  ],
+  "holdout": "interpro_desc",
+  "holdout_bins": 0,
+  "validation_holdout": "iedb_epitope_count",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "drop - the control kills it, not the primary. iedb_epitope_count (221 labelled) is explicitly refused as a validation holdout because no cluster reaches the 15 control-labelled genes needed to evaluate. The primary half is genuinely viable: interpro_desc has 4957 labelled with SRS-domain classes among its largest, leaves 3183 domainless genes to nominate, and with only expression and regulation inputs nothing sequence-derived restates it. Record it as one dense antigenicity label away from being a keep - the same acquisition that unblocks the epitope questions unblocks this one.",
+  "expectation": ""
+ },
+ {
+  "question": "Which domainless genes are surface antigens - validated against where the LOPIT map puts them?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "RNA abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "tachyzoite"
+    ]
+   ]
+  ],
+  "holdout": "interpro_desc",
+  "holdout_bins": 0,
+  "validation_holdout": "compartment_best",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - criterion 4: an SRS/SAG domain call all but determines a plasma-membrane or secretory LOPIT assignment, so compartment_best is a downstream consequence of the primary rather than an independent observation of the same biology - confirming it would confirm nothing. The brief's own trap note makes the direction explicit: sequence-derived labels predict localisation. Any sequence-derived input would additionally restate interpro_desc (criterion 3).",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are immune-recognised, built from the host-immunity relational measurements?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "evidence",
+    [
+     "relational measurements",
+     "host immunity"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "host recognition",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "iedb_epitope_count",
+  "holdout_bins": 3,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - criterion 3 on top of the sparsity. The epitope counts are what the host-immunity relational category contains, so those inputs restate the holdout and the map would recover the label by carrying it; and with 221 labelled genes (2.7%) it could not be scored even if the inputs were clean. This also records a structural fact about the axis: the only host-immunity input block in the table is the same 221-gene block that would have to be the holdout, so inputs and label cannot be separated here.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are antigenic, predicted from how heavily they have been studied?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "biology",
+    [
+     "provenance and analysis metadata",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ]
+  ],
+  "holdout": "iedb_epitope_count",
+  "holdout_bins": 3,
+  "validation_holdout": "lit_tier",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - the attention trap, twice. attention_depth and lit_tier measure how much a gene has been written about and are never inputs; worse, epitope curation is itself a function of study depth, so any apparent success is a publication artefact rather than immunology. lit_tier is also not independent of the primary for exactly that reason (criterion 4), and the 221-gene primary is unscoreable regardless.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are needed late rather than early during brain infection - which unlabelled genes cluster with the 14-day dropouts, checked against day 1?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ]
+  ],
+  "holdout": "brain168465_14d_lfc",
+  "holdout_bins": 3,
+  "validation_holdout": "brain168465_1d_lfc",
+  "control_bins": 3,
+  "verdict": "drop",
+  "reason": "drop - criterion 4: brain168465 1d/2d/4d/7d/14d are timepoints of ONE in-vivo brain screen (labelled counts step down 6908/7055/7369/7393/7334 as coverage drops with time, not because they are different studies). Two readouts of one experiment are not two observations. The keep-shaped version of this question uses fit_invivo_PE, a different screen, as the control.",
+  "expectation": ""
+ },
+ {
+  "question": "Which proteins are recognised by antibodies from chronically infected people - the seroreactive proteome?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene regulation",
+     "bradyzoite"
+    ]
+   ]
+  ],
+  "holdout": "",
+  "holdout_bins": 0,
+  "validation_holdout": "",
+  "control_bins": 0,
+  "verdict": "drop",
+  "reason": "drop - criterion 6: there is no seroreactivity or serology column anywhere in either inventory. The nearest thing, iedb_epitope_count (221 genes), is a curation of previously published epitopes rather than a genome-wide measurement, and n_bcell_epitopes (34 genes) is smaller still. Acquisition target, and the highest-value one for this axis: a proteome-wide serological array run against human chronic-infection sera - it would supply both a dense primary and, alongside T-cell epitope mapping, the independent control that every other antigenicity question here is missing.",
+  "expectation": ""
+ },
+ {
+  "question": "Which genes are immune-visible in vivo - do host-recognition annotations plus protein abundance predict which genes are selected against in the spleen?",
+  "axis": "immunity and antigenicity",
+  "inputs": [
+   [
+    "biology",
+    [
+     "host recognition",
+     "stage-unspecified"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "gene expression",
+     "protein abundance"
+    ]
+   ],
+   [
+    "biology",
+    [
+     "cell organization",
+     "localization and topology"
+    ]
+   ]
+  ],
+  "holdout": "fit_invivo_spleen",
+  "holdout_bins": 3,
+  "validation_holdout": "macrophage_expression_percentile",
+  "control_bins": 3,
+  "verdict": "uncertain",
+  "reason": "uncertain - the holdout and control are both fine (7395 and 8140 labelled, different measurement types), but I cannot tell from the CSVs which columns sit under 'host recognition > stage-unspecified'. If that address holds the 221-gene IEDB block it contributes almost nothing at 2.7% coverage and the recipe collapses into a protein-abundance recipe wearing an immunology label; if it holds a dense host-recognition annotation it is a keep as written. Resolve by listing the columns mapped to that address before running it - a guess either way costs more than the abstention.",
+  "expectation": ""
+ }
+]

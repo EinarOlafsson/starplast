@@ -147,6 +147,82 @@ def excluded_group(nodes: pd.DataFrame, hierarchy: str, path, organism="Tg") -> 
     return out
 
 
+#: The scopes a holdout may be closed at. `direct` bans only what is measurably a copy;
+#: `target_family` bans the slots that estimate the same quantity; the three hierarchy names ban the
+#: first two levels of that facet, which is what "class scope" means.
+SCOPES = ("direct", "target_family", "evidence", "biology", "context")
+
+
+def scoped_slots(target: str, scope: str = "target_family") -> tuple:
+    """The catalogue slots a holdout closes over, at the given scope.
+
+    Shared by the column guard and the edge guard, because they must ban the SAME slots. Two copies
+    of this selection would eventually disagree, and the way it would show up is a graph method
+    quietly eating the layer whose label it is being scored against.
+    """
+    if scope not in SCOPES:
+        raise ValueError(f"scope must be one of {', '.join(SCOPES)}")
+    from . import slots
+    matched = slots.target_slots(target)
+    if scope == "direct" or not matched:
+        return ()
+    if scope == "target_family":
+        return tuple({s.key: s for seed in matched
+                      for s in slots.family_slots(seed.target_family)}.values())
+    selected = {}
+    for seed in matched:
+        path = getattr(seed, f"{scope}_path")
+        # The CLASS is the first two levels, named rather than derived from the depth. This used to
+        # be `path[:-1]` -- "everything but the assay-specific last component" -- which was the class
+        # only while the paths were three long. On 2026-08-18 the trees gained facet levels (stage,
+        # host, tissue, condition) so each could be held out on its own, and `path[:-1]` silently
+        # became a much narrower holdout: it stopped catching `membrane topology` when the target was
+        # `compartment`, which is exactly the leak this exists to close.
+        selected.update({s.key: s for s in
+                         slots.slots_in_group(path[:2] or path, hierarchy=scope)})
+    return tuple(selected.values())
+
+
+def excluded_edges(target: str, scope: str = "biology") -> dict:
+    """``{edge layer: why}`` -- the graph layers a method scored against `target` must not traverse.
+
+    **The guard this closes did not exist until instruction 47, and the gap was not small.**
+    `compartment` is the most-used holdout in this project AND a 118,712-edge layer built by joining
+    genes that share a compartment. A propagation or graph-learning method handed that layer while
+    holding out that label would recover it perfectly, and every column-based guard would pass,
+    because none of them can see an edge.
+
+    **The family is ALWAYS closed, whatever scope is asked for, and that was measured rather than
+    assumed.** Asked at class scope -- which is what every recipe uses -- this banned NOTHING for
+    `compartment`, while `target_family` banned the layer: `Tg_shared_compartment` sits under
+    `molecular relationships > parasite-parasite` in the biology tree, because an edge joining two
+    genes IS a relational measurement, while the `compartment` label sits under
+    `cell organization > localization and topology`. The class of the target therefore does not
+    contain the edge layer built from the target, and a class-scoped guard would have left the
+    biggest leak in the graph wide open.
+    
+    For columns this does not arise: measured association, shared provenance and same-quantity all
+    catch the family by other routes. An edge layer has none of those mechanisms -- there is no
+    column to correlate -- so the family membership is the only thing that can catch it, and it is
+    taken unconditionally.
+    """
+    from . import slots
+    out = {}
+    both = {slot.key: slot for slot in
+            scoped_slots(target, "target_family") + scoped_slots(target, scope)}
+    for slot in both.values():
+        for layer in slots.edge_types(slot):
+            out.setdefault(layer, f"declared family ({slot.key})")
+    return out
+
+
+def all_edge_layers(organism: str = "Tg") -> tuple:
+    """Every edge layer the catalogue declares, which is the vocabulary a recipe may draw from."""
+    from . import slots
+    return tuple(sorted({layer for slot in slots.all_slots(organism)
+                         for layer in slots.edge_types(slot)}))
+
+
 def excluded_detail(nodes: pd.DataFrame, target: str, threshold=0.8,
                     scope="target_family") -> dict:
     """``{column: why}`` -- everything a map scored against `target` must not see, and what caught it.
@@ -171,8 +247,9 @@ def excluded_detail(nodes: pd.DataFrame, target: str, threshold=0.8,
     * **the same quantity measured another way**, which provenance cannot see because the second
       estimate came from a different experiment -- sometimes a different species.
     """
-    if scope not in ("direct", "target_family", "evidence", "biology", "context"):
-        raise ValueError("scope must be direct, target_family, evidence, biology or context")
+    from . import slots
+    if scope not in SCOPES:
+        raise ValueError(f"scope must be one of {', '.join(SCOPES)}")
     out: dict = {}
 
     def note(columns, why):
@@ -189,33 +266,8 @@ def excluded_detail(nodes: pd.DataFrame, target: str, threshold=0.8,
     note([target], "the target itself")
     note(sorted(c for c, v in assoc.items() if v >= threshold), "measured association")
 
-    # The generated hierarchy is the primary declaration.  A target family is the narrow,
-    # leakage-safe default (all direct estimates of the same quantity).  Broader scopes are explicit
-    # sensitivity analyses: omit the whole assay class, biological subject or context branch.
-    from . import slots
-    matched = slots.target_slots(target)
-    if scope != "direct" and matched:
-        if scope == "target_family":
-            selected = {s.key: s for seed in matched
-                        for s in slots.family_slots(seed.target_family)}.values()
-        else:
-            selected = {}
-            for seed in matched:
-                path = getattr(seed, f"{scope}_path")
-                # The CLASS is the first two levels, named rather than derived from the depth.
-                #
-                # This used to be `path[:-1]` -- "everything but the assay-specific last component"
-                # -- which was the class only while the paths were three long. On 2026-08-18 the trees
-                # gained facet levels (stage, host, tissue, condition) so that each could be held out
-                # on its own, and `path[:-1]` silently became a much narrower holdout: it stopped
-                # catching `membrane topology` when the target was `compartment`, which is exactly the
-                # leak this function exists to close. Depth is now a property of the tree, so the
-                # class level has to be stated instead of inferred from it.
-                selected.update({s.key: s for s in
-                                 slots.slots_in_group(path[:2] or path, hierarchy=scope)})
-            selected = selected.values()
-        for slot in selected:
-            note(slots.declared_columns(nodes, slot), f"declared family ({slot.key})")
+    for slot in scoped_slots(target, scope):
+        note(slots.declared_columns(nodes, slot), f"declared family ({slot.key})")
 
     # Shared provenance. `lopit_prob_map` is the posterior of hyperLOPIT's own assignment: not a
     # restatement of the compartment (association 0.29, far under any workable threshold), and not a

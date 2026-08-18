@@ -23,7 +23,7 @@ pip install -e . --no-deps  # the way to decline the ~2 GB of CUDA wheels
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min) -- READ THE NEXT NOTE
 starplast                   # launch
-pytest tests/ -q            # 3,062 tests, headless, no network, ~3.5 min
+pytest tests/ -q            # 3,244 tests, headless, no network, ~8 min
 pytest tests/ -q -m slow    # the real build and the pdoc pass, ~2 min
 ```
 
@@ -401,7 +401,7 @@ real time to find. Tasks 30–34 landed together in v0.31.0.
 
 ```
 Read /mnt/firecuda2/Claude/repo/starplast/instructions/START_HERE.md and HANDOFF.md, then
-continue starplast. The working tree is v0.31.0; 3,062 tests pass headless with every module at
+continue starplast. The working tree is v0.35.0; 3,244 tests pass headless with every module at
 100% coverage. Check `git status` before assuming it has been published. Do not re-derive the design
 decisions in that file.
 Next: <state what you want — e.g. "v2 species switching", "search a new target", or
@@ -412,7 +412,7 @@ Fill the `Next:` line in before sending — leaving the placeholder just costs a
 
 ## State of the application — verified 2026-08-14 (v0.31.0)
 
-**3,062 tests pass headless** (`pytest tests/ -q`, ~4 min) and **every module is at 100% coverage**
+**3,244 tests pass headless** (`pytest tests/ -q`, ~8 min) and **every module is at 100% coverage**
 (9,983 statements). No `pragma: no cover` anywhere: a Qt-thread body is covered by calling it
 directly, and a branch that genuinely cannot run is deleted. Two functions were deleted in the last
 pass on that rule, and writing one of the missing tests found a real defect in `objectives.adjusted`.
@@ -761,20 +761,55 @@ starplast-discover --read bigA_00_guilt_compartment_best
   (perfect > corrupted > shuffled), because those survive the numbers being tuned.
 * Bump the version for feature work; no `Co-Authored-By` trailer.
 
+## Asking a question, which is what 44-47 added (2026-08-18)
+
+A **recipe** is a named biological question: inputs as category addresses, a holdout the map must
+recover, and a **validation holdout** that should behave the same way if the answer is real. It is
+the unit the application now offers -- tab **8 · Questions** -- and `starplast/data/questions.json`
+ships a hundred candidates of which twenty are offered, one per DISTINCT holdout, plus one kept
+deliberately BECAUSE closure refuses it.
+
+Four things here were established by measurement and should not be quietly reversed:
+
+* **Closure runs at CLASS scope for a recipe, not `target_family`.** The narrow default keeps
+  sequence predictors, so a localisation question accepted membrane topology and would have
+  recovered hyperLOPIT by predicting it from signal peptide and TM count.
+* **The inference gate is ENRICHMENT over the label's base rate, not purity.** A fixed purity bar is
+  a different demand for every question -- 0.80 is 25-fold for a 24-class holdout and 2.4-fold for a
+  quantity binned in thirds. The threshold was chosen by scoring 25 candidate gates on how many named
+  genes the CONTROL corroborates, and the answer inverted the assumption: at enrichment >= 2 the
+  corroboration rate FALLS as the purity floor rises (0.30 -> 46%, 0.80 -> 10%), because the purest
+  clusters are small tight ones of rare labels the sparse control cannot evaluate.
+* **`unassigned` is a gene waiting to be named, not a class.** Left as a string it becomes the
+  commonest label in the table and the genes this whole apparatus exists to name are counted as
+  already labelled.
+* **Closure bans EDGE LAYERS too, and the family is closed at any scope.** `compartment` is a
+  118,712-edge layer as well as the commonest holdout, and class scope alone banned nothing because
+  `Tg_shared_compartment` lives under `molecular relationships` while the label lives under `cell
+  organization`. No column guard can see an edge.
+
+**The map is a visualisation, not the best inference engine here, and that is now measured.** On the
+same features behind the same guards, umap+hdbscan recovers the first shipped question's holdout at
+mean F1 0.201 and an L1 logistic regression at 0.420 out of fold. Every method produces a PARTITION
+-- clusters, or out-of-fold predicted classes -- so everything downstream is one code path and two
+methods are compared on one closure, one control and one statistic. Instruction 47 carries the rest.
+
 ## Standing goal, set 2026-08-15: finish every open instruction
 
-Five are open. Suggested order, cheapest-unblocking-first:
+Six are open: **38, 39, 41, 42, 43, 47**. Suggested order, cheapest-unblocking-first:
 
-1. **34 leftovers / coverage back to 100%** — it is 99% now (51 lines, worst `holdout_cv` at 94%).
-   Do this first: everything below lands on top of it, and the project rule has held since 28.
-2. **39 — species tables and host bridges.** Structural, and 40 and 41 both depend on it. Start with
-   the `Toxo_` -> `Tg_` rename while it is still only a string change.
-3. **40 — the slot tree window.** Small, and it is the thing that makes 41 auditable while it runs.
-4. **41 — fill the slots.** The long one. Fix the Plasmodium candidate query FIRST (see the file);
-   the current 16 off-target citations come from `malaria` being used as a standalone query term.
-5. **37 (lighting material lab)** and **38 (pan-apicomplexan archive)** — 38 overlaps 41's fetching;
-   read both before starting either, and fold 38's archive into 41's procedure rather than building
-   two fetchers.
+1. **43 — the sweep's remainder.** Tuning and the negative controls landed; what is left is the
+   every-level driver, the inference artefact, and the biological-relevance score.
+2. **42 — leakage and analysis-mode tests.** Guards the claims 44-47 publish. The sweep controls are
+   now driven headlessly; the one-hot categorical, per-category held-out-and-used, row-alignment and
+   registry-facet tests are not written.
+3. **47 — methods beyond UMAP.** The prerequisite (edge closure) is done and the linear baseline
+   exists; propagation, multiplex community detection, boosting and a relational GNN are not.
+4. **39 — species tables and host bridges.** Its four acceptance criteria are closed as tests; the
+   host tables themselves are still bridge-only.
+5. **41 — fill the slots.** The long one, and 61 of the 64 empty slots are Plasmodium.
+6. **38 — pan-apicomplexan archive.** Overlaps 41's fetching; fold it into 41's procedure rather
+   than building two fetchers.
 
 The atlas of all 222 slots, filled and empty, is published and regenerates from
 `scripts/generate_slot_table.py` plus `starplast/data/slots.json`. As of 2026-08-17 it stands at

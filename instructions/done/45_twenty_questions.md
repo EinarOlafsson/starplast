@@ -1,6 +1,60 @@
 # 45 — A hundred questions, the best twenty, shipped with the program
 
-**Status: open. Requested by the user 2026-08-18. Execute after 44 builds the recipe object.**
+**Status: DONE 2026-08-18.** `starplast/data/questions.json` (100), `starplast/questions.py`,
+`scripts/generate_question_table.py`, `scripts/run_question_catalogue.py`, and tab **8 · Questions**
+in the analysis panel.
+
+## What shipped
+
+**100 candidates, 20 shipped, 1 kept because it fails.** The hundred were written against a
+generated inventory of what this table can actually be asked -- 50 categorical columns with two or
+more classes of at least fifteen members, and 290 numeric columns that reach that once binned --
+rather than against anyone's memory of the catalogue.
+
+**Every verdict is measured rather than asserted.** Each of the 100 is run through the real
+`recipes.close` against the shipped cache by `scripts/generate_question_table.py`, so a question its
+author kept but closure refuses is dropped with the closure's own words, and the published document
+regenerates from the catalogue instead of being maintained beside it.
+
+## The selection rule, which the data chose
+
+Instruction 45 warns that twenty variations of one question is one recipe run twenty times. The rule
+that prevents it is **one question per distinct holdout**: twenty recipes predicting the SAME label
+from twenty input sets differ only in their inputs, while twenty distinct holdouts are twenty
+questions. Applied to the 26 candidates that survived closure it yields exactly 20, and the six it
+sets aside stay in the file marked `covered` with their reasoning intact.
+
+Spread of the twenty, by axis: fitness and essentiality 5, relationships between genes 4, life-cycle
+stage and conversion 3, localisation and export 2, metabolism 2, regulation and chromatin 2, host
+interaction 2.
+
+## Immunity and antigenicity ships NOTHING, and that is the most useful thing here
+
+Every candidate on that axis that survived closure turned out to hold out a **fitness screen** rather
+than an immunity measurement -- "which genes are required to survive in IFN-gamma-activated
+macrophages" is a fitness question wearing an immunity label. They were re-axed to what their holdout
+actually measures rather than shipped under a label that would have made the spread look complete.
+
+The reason the axis is empty is measured: `n_bcell_epitopes` has 34 labelled genes and
+`iedb_epitope_count` has 221, out of 8,140. A cluster needs fifteen labelled genes before it can be
+evaluated at all, and in the instruction-44 worked example no cluster reached that -- the control
+abstained on every one. **A label that cannot reach the floor is not a holdout and not a control.**
+That is an acquisition target stated precisely enough to act on, and it belongs beside the empty
+slots' `blocked_by` verdicts rather than hidden inside a question that quietly returns nothing.
+
+## The two questions their authors got wrong, and how we know
+
+Both were kept by the agent that wrote them and both were refused by closure, for the same reason and
+neither by hand:
+
+* a PVM question controlled by `compartment_best` against a `pvm_proximity_positive` holdout --
+  measured association, so the control is a copy;
+* a cell-cycle question controlled by `cellcycle19092_7h_r1` against `cellcycle_phase` -- declared
+  family, the same experiment's own replicate.
+
+The first is now **shipped deliberately as the recipe expected to fail**, labelled as such in the
+program and in the document. A library where every question works is a library that has been fitted
+to its answers.
 
 ## What to do
 
