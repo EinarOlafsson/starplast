@@ -147,11 +147,16 @@ def excluded_group(nodes: pd.DataFrame, hierarchy: str, path, organism="Tg") -> 
     return out
 
 
-def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8,
-                 scope="target_family") -> set:
-    """The target, everything that restates it, and everything the same experiment produced.
+def excluded_detail(nodes: pd.DataFrame, target: str, threshold=0.8,
+                    scope="target_family") -> dict:
+    """``{column: why}`` -- everything a map scored against `target` must not see, and what caught it.
 
-    Three mechanisms, because each is blind to what the others catch and this guard has now leaked
+    :func:`excluded_for` is this with the reasons dropped, so there is one implementation rather than
+    two. That matters more than it sounds: a guard whose explanation is computed separately from its
+    decision can confidently explain a column it did not actually exclude, and the explanation is the
+    part a reader checks.
+
+    Five mechanisms, because each is blind to what the others catch and this guard has now leaked
     three separate ways:
 
     * **measured association**, for the undeclared copy -- a renamed column, a second inference over
@@ -161,12 +166,28 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8,
       experiment at 0.74;
     * **declared derivation**, for the joint function -- a label that is the argmax of three columns
       shows 0.56-0.66 against each of them separately, so no pairwise statistic can see it;
-    * **shared provenance**, for the same experiment's OTHER outputs, which is neither of the above.
+    * **shared provenance**, for the same experiment's OTHER outputs, which is neither of the above;
+    * **the declared family**, the catalogue's own statement of which slots estimate one quantity;
+    * **the same quantity measured another way**, which provenance cannot see because the second
+      estimate came from a different experiment -- sometimes a different species.
     """
     if scope not in ("direct", "target_family", "evidence", "biology", "context"):
         raise ValueError("scope must be direct, target_family, evidence, biology or context")
+    out: dict = {}
+
+    def note(columns, why):
+        """Record a column with the mechanism that caught it. First mechanism wins.
+
+        First rather than last because the mechanisms run cheapest-and-most-specific first, and a
+        column that is measurably a copy of the target is more usefully reported as that than as one
+        of forty columns in a declared family it also belongs to.
+        """
+        for c in columns:
+            out.setdefault(c, why)
+
     assoc = _association_with_inputs(nodes, {target})
-    out = {target} | {c for c, v in assoc.items() if v >= threshold}
+    note([target], "the target itself")
+    note(sorted(c for c, v in assoc.items() if v >= threshold), "measured association")
 
     # The generated hierarchy is the primary declaration.  A target family is the narrow,
     # leakage-safe default (all direct estimates of the same quantity).  Broader scopes are explicit
@@ -194,7 +215,7 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8,
                                  slots.slots_in_group(path[:2] or path, hierarchy=scope)})
             selected = selected.values()
         for slot in selected:
-            out.update(slots.declared_columns(nodes, slot))
+            note(slots.declared_columns(nodes, slot), f"declared family ({slot.key})")
 
     # Shared provenance. `lopit_prob_map` is the posterior of hyperLOPIT's own assignment: not a
     # restatement of the compartment (association 0.29, far under any workable threshold), and not a
@@ -209,7 +230,8 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8,
     from . import datasets
     same = datasets.provenance(target)
     if same is not None:
-        out |= {c for c in same.columns if c in nodes.columns}
+        note([c for c in same.columns if c in nodes.columns],
+             f"shared experiment ({getattr(same, 'key', getattr(same, 'name', 'same dataset'))})")
 
     # The same QUANTITY, however it was arrived at. Provenance is about which experiment produced a
     # column; this is about what the column is an estimate OF, and the two come apart wherever the
@@ -220,7 +242,8 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8,
     # just under the exclusion threshold, which is what a near-copy does.
     for family in SAME_QUANTITY.values():
         if target in family:
-            out |= {c for c in family if c in nodes.columns}
+            note([c for c in family if c in nodes.columns],
+                 "the same quantity, measured another way")
 
     # Anything the target was DECLARED to be computed from, plus the rest of that column's block.
     # Measured association is pairwise and cannot see a label that is a joint function of several
@@ -229,7 +252,6 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8,
     # taken as a whole because the sources do not stand alone either -- the strongest association to
     # that derived label, 0.72, is a tissue-cyst FPKM column that is not one of its declared sources
     # but measures the same biology.
-    from . import datasets
     declared = set(datasets.derived_sources(target))
     if declared:
         # A declared source may itself be a summary of a registered experiment.  Now that the raw
@@ -239,21 +261,34 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8,
         for source in declared:
             origin = datasets.provenance(source)
             if origin is not None:
-                out |= {c for c in origin.columns if c in nodes.columns}
+                note([c for c in origin.columns if c in nodes.columns],
+                     f"the experiment behind a declared source ({source})")
         for block in BLOCKS:
             cols = set(columns_for(nodes, EmbeddingSpec(blocks=(block,))).get(block, []))
             if cols & declared:
-                out |= cols
-        out |= declared
+                note(sorted(cols), f"the block holding a declared source ({block})")
+        note(sorted(declared), "declared derivation")
 
     # And the reverse direction: a summary or label computed from anything already banned is also
     # banned.  Repeat to a fixed point because a derived output can itself feed another derivation.
     changed = True
     while changed:
         before = len(out)
-        out |= {c for c in datasets.derived_dependents(out) if c in nodes.columns}
+        note(sorted(c for c in datasets.derived_dependents(set(out)) if c in nodes.columns),
+             "computed from an excluded column")
         changed = len(out) != before
     return out
+
+
+def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8,
+                 scope="target_family") -> set:
+    """The target, everything that restates it, and everything the same experiment produced.
+
+    The set of :func:`excluded_detail`. A caller that only has to BAN columns wants this; one that
+    has to say what it banned and why -- a recipe reporting its closure before it builds anything --
+    wants the detail.
+    """
+    return set(excluded_detail(nodes, target, threshold=threshold, scope=scope))
 
 
 def _spec_without(spec: EmbeddingSpec, nodes: pd.DataFrame, banned: set) -> EmbeddingSpec:
