@@ -629,11 +629,29 @@ def build_model(nodes: pd.DataFrame, recipe: Recipe, closure: Closure, log=print
     from . import methods
     from .embedding import build_matrix
     spec = EmbeddingSpec(blocks=closure.blocks, random_state=recipe.seed, **recipe.spec)
-    X, names, kept = build_matrix(nodes, spec, log=lambda *a: None)
+    if recipe.method == "boosted":
+        # Raw, with the gaps intact. Every missing-value policy resolves absence before the model
+        # sees it, and this method's entire argument is that it should not be resolved: a tree learns
+        # a split for the missing branch, so "not measured" becomes evidence.
+        X, names = methods.raw_matrix(nodes, closure.columns)
+        kept = None
+    else:
+        X, names, kept = build_matrix(nodes, spec, log=lambda *a: None)
     sub = nodes.loc[kept] if kept is not None else nodes
     truth = label_series(sub, closure.holdout_column, recipe.holdout_bins)
 
-    if recipe.method.startswith("propagation"):
+    if recipe.method == "multiplex":
+        n_graph = methods.graph_size()
+        if n_graph is not None and len(nodes) != n_graph:
+            return RecipeResult(recipe=recipe, closure=closure, stopped_because=(
+                f"multiplex communities need the full node table the graph was built from: the "
+                f"graph has {n_graph:,} nodes and this table has {len(nodes):,}."))
+        if not closure.layers:
+            return RecipeResult(recipe=recipe, closure=closure, stopped_because=(
+                "leakage closure excluded every edge layer, so there is no graph left to cluster"))
+        fit = methods.multiplex_communities(closure.layers, len(nodes), seed=recipe.seed)
+        sub, truth = nodes, label_series(nodes, closure.holdout_column, recipe.holdout_bins)
+    elif recipe.method.startswith("propagation"):
         _, _, layer = recipe.method.partition(":")
         if not layer:
             # A result rather than an exception, like every other refusal here: "this cannot be
@@ -664,6 +682,8 @@ def build_model(nodes: pd.DataFrame, recipe: Recipe, closure: Closure, log=print
                 f"that table, so a subset would walk between the wrong genes."))
         positions = np.arange(len(nodes))[kept] if kept is not None else np.arange(len(nodes))
         fit = methods.propagation(layer, positions, truth, len(nodes), seed=recipe.seed)
+    elif recipe.method == "boosted":
+        fit = methods.boosted(np.asarray(X), truth, seed=recipe.seed)
     else:
         fit = methods.logistic(np.asarray(X), truth, seed=recipe.seed)
     labels = np.asarray(fit["partition"])
@@ -672,8 +692,13 @@ def build_model(nodes: pd.DataFrame, recipe: Recipe, closure: Closure, log=print
     result = RecipeResult(recipe=recipe, closure=closure, settings=fit["settings"],
                           genes=genes, labels=labels, truth=truth,
                           quality=map_quality(labels))
-    result.coefficients = methods.coefficients(fit["model"], fit["classes"], list(names))
-    if not len(fit["classes"]):
+    result.coefficients = (
+        methods.importances(fit["model"], list(names), np.asarray(X), truth, recipe.seed)
+        if recipe.method == "boosted"
+        else methods.coefficients(fit["model"], fit["classes"], list(names)))
+    # An unsupervised method has no classes to learn: its partition IS the grouping, exactly as the
+    # clustering path's is, so the "nothing to train on" check does not apply to it.
+    if not fit.get("unsupervised") and not len(fit["classes"]):
         result.stopped_because = ("too few labelled genes to train and score a classifier on this "
                                   "holdout")
         return result
@@ -683,9 +708,11 @@ def build_model(nodes: pd.DataFrame, recipe: Recipe, closure: Closure, log=print
     result.inference = infer(labels, truth, np.asarray(sub["gene_id"]),
                              min_enrichment=recipe.min_enrichment,
                              min_precision=recipe.min_precision)
-    if len(result.inference):
+    if len(result.inference) and len(fit["classes"]):
         # The partition's ids are class codes, so the class each one MEANS goes on the row. A table
-        # saying "group 3" where the model said "dense granules" would be unreadable.
+        # saying "group 3" where the model said "dense granules" would be unreadable. An unsupervised
+        # partition has no such mapping: its groups are groups, and `predicted` already names the
+        # label they turned out to carry.
         result.inference["predicted_class"] = [fit["classes"][int(c)] if int(c) >= 0 else ""
                                                for c in result.inference.cluster]
     if closure.control_column:

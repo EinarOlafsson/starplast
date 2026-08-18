@@ -1,6 +1,39 @@
 # 43 — Sweep every category at every level, tune each map, and infer from what recovers
 
-**Status: open. Specified 2026-08-18 by the user, in their own words below.**
+**Status: DONE 2026-08-18.**
+
+## What closed it
+
+* **Every level of every hierarchy** — `search.sweep_levels` runs `sweep_categories` across all three
+  facets and any set of levels, and returns `(table, skipped)` rather than logging the skips away. A
+  sweep that covered nine of thirty categories and reported "nine categories" reads exactly like one
+  that covered everything, and the commonest reason for a skip here is the circularity guard removing
+  every block a category names — which is the fact a reader most needs.
+* **Tuning per map** — `tune_umap` by successive halving and `tune_clustering`/`best_clustering` per
+  embedding, landed earlier in the day. The finding that came with it: HDBSCAN's default
+  excess-of-mass selection collapsed this proteome into 2 clusters on every configuration ever tried;
+  with leaf selection the same embedding gives 37.
+* **Per label AND per cluster** — `recipes.recovery_by_cluster` returns the full label x cluster
+  matrix. `score_recovery` answers "was this label isolated somewhere", which is right for a score and
+  wrong for reading a map: a label split cleanly across three clusters is a finding about
+  sub-structure and comes back as one mediocre best-cluster F1. Pairs with no overlap are kept as
+  zeros, because a missing row reads as "not computed" while a zero says the cluster was checked.
+* **Step 4a, the genes** — `search.sweep_inference` returns the sweep table AND a table of named
+  genes, each carrying its category, the held-out column, the cluster, the enrichment and the purity
+  that produced it. The clustering reaches that function through an `on_clustering` callback rather
+  than riding inside the results row: an array hidden in a DataFrame cell would be carried silently
+  into every CSV downstream.
+* **A biological-relevance score** — `recipes.relevance`, documented as a heuristic, with its four
+  terms as COLUMNS beside the ranking so it never overrides the raw numbers it summarises. Strength
+  (enrichment, saturating at ten-fold so the ranking does not sort by how rare a label is), reach
+  (genes named, saturating at forty so a cluster that swallowed a compartment does not win), novelty
+  (imported from `interpret.novelty` rather than reimplemented) and corroboration by the independent
+  control — the term no other ranking in this project has. An uncorroborated claim is halved rather
+  than zeroed, because several questions have controls too sparse to corroborate anything and
+  zeroing would rank answers by whether their control happened to be dense.
+
+**A predicted gene is never written back into the node table.** It comes out as its own table with
+its provenance, exactly as this instruction required.
 
 ## What the sweep must do
 

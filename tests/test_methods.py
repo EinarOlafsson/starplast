@@ -223,3 +223,128 @@ def test_no_graph_means_no_size_rather_than_an_exception(monkeypatch, tmp_path):
     from starplast import paths
     monkeypatch.setattr(paths, "cache_file", lambda name: str(tmp_path / name))
     assert M.graph_size() is None
+
+
+# --------------------------------------------------------------------------- boosting (47.4)
+def test_the_raw_matrix_leaves_missing_values_missing():
+    """The reason this method exists. Every other path resolves absence before the model sees it --
+    impute, drop the column, drop the gene -- and one of those changes WHICH GENES the labels
+    describe. A tree learns a split for the missing branch instead, so "not measured" is evidence."""
+    frame = pd.DataFrame({"a": [1.0, np.nan, 3.0], "b": [4.0, 5.0, np.nan],
+                          "text": ["x", "y", "z"]})
+    X, names = M.raw_matrix(frame, ["a", "b", "text", "absent"])
+    assert names == ["a", "b"], "a non-numeric or absent column reached the matrix"
+    assert np.isnan(X).sum() == 2, "the gaps were filled by something"
+
+
+def test_no_numeric_column_gives_an_empty_matrix_rather_than_an_error():
+    X, names = M.raw_matrix(pd.DataFrame({"text": ["a", "b"]}), ["text"])
+    assert X.shape == (2, 0) and names == []
+
+
+def test_boosting_learns_from_the_pattern_of_missingness_itself():
+    """The sharpest statement of the point: a column whose VALUES carry nothing but whose ABSENCE
+    tracks the label. Every imputing policy destroys this signal by construction."""
+    n = 300
+    y = np.array(["a"] * (n // 2) + ["b"] * (n - n // 2))
+    rng = np.random.default_rng(0)
+    X = rng.normal(size=(n, 4))
+    X[y == "a", 0] = np.nan                       # missing exactly for class a
+    fit = M.boosted(X, pd.Series(y, dtype="object"), seed=0)
+    agree = np.mean([fit["classes"][p] == v for p, v in zip(fit["partition"], y) if p >= 0])
+    assert agree > 0.9, f"missingness carried the label and was not learned ({agree:.2f})"
+
+
+def test_boosting_is_scored_out_of_fold_like_every_other_supervised_method():
+    rng = np.random.default_rng(0)
+    X = rng.normal(size=(240, 20))
+    y = pd.Series(rng.permutation(["a"] * 120 + ["b"] * 120), dtype="object")
+    fit = M.boosted(X, y, seed=1)
+    agree = np.mean([fit["classes"][p] == v for p, v in zip(fit["partition"], y) if p >= 0])
+    assert agree < 0.70, f"noise was 'recovered' at {agree:.2f}; the partition is not out of fold"
+
+
+def test_importance_is_measured_by_permutation_not_by_split_count():
+    """Split counts are the cheap answer and a misleading one: a column with many distinct values
+    offers more places to split and accumulates a high count without predicting anything."""
+    X, y = _separable(200)
+    fit = M.boosted(X, y, seed=0)
+    table = M.importances(fit["model"], [f"col{i}" for i in range(X.shape[1])], X, y, seed=0)
+    assert set(table.columns) == {"feature", "importance", "sd"}
+    assert table.iloc[0].feature == "col0", "the column carrying the signal is not ranked first"
+    assert table.importance.is_monotonic_decreasing
+
+
+def test_importance_without_a_model_or_data_is_empty_rather_than_an_error():
+    assert M.importances(None, ["a"], None, None).empty
+    X, y = _separable(60)
+    fit = M.boosted(X, y, seed=0)
+    assert M.importances(fit["model"], [], X, y).empty
+    tiny = pd.Series(["a"] * 8 + [None] * 52, dtype="object")
+    assert M.importances(fit["model"], ["c"], X, tiny).empty
+
+
+# --------------------------------------------------------------------------- multiplex (47.3)
+def _two_layer_graph(n=60):
+    """Two layers that agree on one split and disagree on another, which is the whole point of a
+    consensus: the agreed structure must survive and the contested one must not."""
+    half = n // 2
+    a1, b1 = [], []
+    for i in range(half):
+        for j in range(i + 1, half):
+            a1.append(i); b1.append(j)
+    for i in range(half, n):
+        for j in range(i + 1, n):
+            a1.append(i); b1.append(j)
+    a2, b2 = list(a1), list(b1)                     # layer 2 agrees...
+    a2 += [0, 1]; b2 += [n - 1, n - 2]              # ...plus two edges crossing the split
+    return {"A__a": np.array(a1), "A__b": np.array(b1),
+            "B__a": np.array(a2), "B__b": np.array(b2)}
+
+
+def test_one_layers_communities_are_found_and_isolates_join_none():
+    labels = M.layer_communities("A", 60, graph=_two_layer_graph())
+    assert len(set(labels[labels >= 0])) == 2, "the two cliques were not separated"
+    lonely = M.layer_communities("A", 70, graph=_two_layer_graph())
+    assert (lonely[60:] == -1).all(), "a node with no edge was given a community"
+
+
+def test_the_consensus_is_over_partitions_rather_than_a_merged_graph():
+    """Design decision 2: the thirteen edge types are not one graph and are never merged silently.
+    Summing adjacency would let the two attention-biased layers pull every community toward the
+    well-published genes."""
+    out = M.multiplex_communities(["A", "B"], 60, graph=_two_layer_graph())
+    labels = out["partition"]
+    assert out["settings"]["method"] == "multiplex"
+    assert out["settings"]["layers"] == ["A", "B"]
+    groups = {g for g in labels if g >= 0}
+    assert len(groups) == 2, f"the agreed split did not survive the consensus ({len(groups)})"
+    assert labels[0] == labels[1] and labels[-1] == labels[-2]
+    assert labels[0] != labels[-1], "the two cliques were merged"
+
+
+def test_a_layer_that_cannot_see_a_pair_abstains_rather_than_voting_against_it():
+    """Layer sizes here span four orders of magnitude -- `ip_ms` has 64 edges against
+    `compartment`'s 118,712 -- so a small layer must not veto what a large one found."""
+    graph = _two_layer_graph()
+    graph["S__a"], graph["S__b"] = np.array([0]), np.array([1])      # sees two nodes only
+    out = M.multiplex_communities(["A", "S"], 60, graph=graph)
+    labels = out["partition"]
+    assert len({g for g in labels if g >= 0}) == 2, "a tiny layer vetoed the structure"
+
+
+def test_no_layers_gives_no_communities_rather_than_an_error():
+    out = M.multiplex_communities([], 40)
+    assert (out["partition"] == -1).all() and out["settings"]["layers"] == []
+    assert out["unsupervised"]
+
+
+def test_a_community_holding_half_the_graph_is_not_a_community():
+    """The same guard the clustering path applies: a bisection is not structure."""
+    n = 40
+    a, b = [], []
+    for i in range(n):
+        for j in range(i + 1, n):
+            a.append(i); b.append(j)                 # one clique of everything
+    out = M.multiplex_communities(["W"], n, graph={"W__a": np.array(a), "W__b": np.array(b)})
+    assert (out["partition"] == -1).all(), "a single all-inclusive community was kept"

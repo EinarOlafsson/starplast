@@ -708,3 +708,50 @@ def test_relevance_is_sorted_so_the_first_row_is_the_one_to_read(nodes):
                        _named(n=4, enrichment=9.0, agrees=True)], ignore_index=True)
     out = R.relevance(mixed, nodes)
     assert out.relevance.is_monotonic_decreasing and out.enrichment.iloc[0] == 9.0
+
+
+def test_boosting_answers_the_same_recipe_and_reports_what_it_relied_on(nodes):
+    """Same closure, same control, same statistics -- and the matrix is built RAW for this one,
+    because resolving the gaps before the model sees them is what it exists not to do."""
+    res = R.run(nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment",
+                                validation_holdout="cellcycle_phase", method="boosted"),
+                tune=False, log=lambda *a: None)
+    assert res.ok, res.stopped_because
+    assert res.settings["missing"] == "native"
+    assert len(res.coefficients), "the tree reported nothing it relied on"
+    assert set(res.coefficients.columns) == {"feature", "importance", "sd"}
+    assert not res.control.empty
+
+
+def test_multiplex_communities_are_scored_like_any_other_partition(full_nodes, monkeypatch):
+    """The dispatch, with the communities stubbed: greedy modularity over eight layers of an
+    8,140-node graph takes minutes, and what is being tested here is the wiring -- that an
+    unsupervised partition reaches the same scoring, naming and control as every other method."""
+    groups = np.arange(len(full_nodes)) % 30
+    groups[::11] = -1
+    monkeypatch.setattr("starplast.methods.multiplex_communities", lambda *a, **k: {
+        "partition": groups, "classes": [], "model": None, "unsupervised": True,
+        "settings": {"method": "multiplex", "layers": ["xlms"]}})
+    res = R.run(full_nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment",
+                                     validation_holdout="cellcycle_phase", method="multiplex"),
+                tune=False, log=lambda *a: None)
+    assert res.ok, res.stopped_because
+    assert res.settings["method"] == "multiplex"
+    assert res.summary.get("n_labels_scored", 0) > 0
+    assert not res.control.empty
+    assert "predicted_class" not in res.inference.columns, \
+        "an unsupervised partition has no class codes to translate"
+
+
+def test_multiplex_on_a_subset_table_is_refused(nodes):
+    res = R.run(nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment",
+                                method="multiplex"), tune=False, log=lambda *a: None)
+    assert not res.ok and "full node table" in res.stopped_because
+
+
+def test_multiplex_with_every_layer_excluded_says_there_is_no_graph_left(full_nodes, monkeypatch):
+    """Closure can legitimately remove them all, and "no graph" is a finding rather than a crash."""
+    monkeypatch.setattr(R, "all_edge_layers", lambda organism="Tg": ())
+    res = R.run(full_nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment",
+                                     method="multiplex"), tune=False, log=lambda *a: None)
+    assert not res.ok and "no graph left" in res.stopped_because

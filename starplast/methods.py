@@ -265,3 +265,145 @@ def propagation(layer: str, index: np.ndarray, truth: pd.Series, n_nodes: int, s
     return {"partition": partition, "classes": classes, "model": fitted,
             "settings": {"method": f"propagation:{layer}", "restart": RESTART,
                          "iterations": ITERATIONS, "folds": folds}}
+
+
+# --------------------------------------------------------------------------- boosting (47.4)
+def raw_matrix(nodes: pd.DataFrame, columns) -> tuple:
+    """The chosen columns as numbers, with missing values LEFT MISSING.
+
+    Every other method in this project goes through `build_matrix`, whose four missing-value policies
+    all resolve absence one way or another: impute the median, drop the column, drop the gene, or add
+    an indicator. Each is a decision made before the model sees the data, and one of them -- dropping
+    genes -- changes WHICH GENES the labels describe, a bug class this project has already been
+    bitten by.
+
+    A histogram-boosted tree needs none of that: it learns a split for the missing branch directly,
+    so "not measured" becomes evidence rather than a value invented to stand in for it. That is the
+    reason this method is here and not a marginal accuracy gain, so the matrix is built raw.
+    """
+    keep = [c for c in columns if c in nodes.columns
+            and pd.api.types.is_numeric_dtype(nodes[c])]
+    if not keep:
+        return np.zeros((len(nodes), 0)), []
+    return nodes[keep].to_numpy(dtype=float), keep
+
+
+def boosted(X: np.ndarray, truth: pd.Series, seed: int = 42, folds: int = FOLDS,
+            max_iter: int = 200) -> dict:
+    """Histogram gradient boosting, scored out of fold like every other supervised method here.
+
+    `HistGradientBoostingClassifier` rather than a new dependency: it is already in scikit-learn,
+    which this project already requires, and it takes NaN natively. Adding xgboost or lightgbm for
+    the same capability would put two gigabytes of wheels behind a method whose whole argument is
+    that it needs less preprocessing, not more.
+    """
+    from sklearn.ensemble import HistGradientBoostingClassifier
+    model = HistGradientBoostingClassifier(max_iter=max_iter, random_state=seed,
+                                           early_stopping=False)
+    partition, fitted, classes = out_of_fold(X, truth, model, seed=seed, folds=folds)
+    return {"partition": partition, "classes": classes, "model": fitted,
+            "settings": {"method": "boosted", "max_iter": max_iter, "folds": folds,
+                         "missing": "native"}}
+
+
+def importances(fitted, feature_names, X: np.ndarray = None, truth: pd.Series = None,
+                seed: int = 42) -> pd.DataFrame:
+    """Which measurements the tree relied on, by permutation rather than by split count.
+
+    Split counts are the cheap answer and a misleading one: a column with many distinct values offers
+    more places to split and accumulates a high count without predicting anything. Permutation
+    importance asks the question that matters -- how much worse does the model get when this column
+    is shuffled -- and is measured on the fitted model rather than read off its structure.
+    """
+    if fitted is None or X is None or truth is None or not len(feature_names):
+        return pd.DataFrame()
+    from sklearn.inspection import permutation_importance
+    mask, values = _usable(truth)
+    if mask.sum() < 20:
+        return pd.DataFrame()
+    classes = sorted(set(values[mask]))
+    codes = {c: i for i, c in enumerate(classes)}
+    y = np.array([codes[v] for v in values[mask]])
+    out = permutation_importance(fitted, X[mask], y, n_repeats=3, random_state=seed, n_jobs=1)
+    table = pd.DataFrame({"feature": list(feature_names), "importance": out.importances_mean,
+                          "sd": out.importances_std})
+    return table.sort_values("importance", ascending=False).reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- multiplex (47.3)
+def layer_communities(layer: str, n_nodes: int, resolution: float = 1.0, seed: int = 42,
+                      graph=None) -> np.ndarray:
+    """Communities of ONE layer, as a partition over all nodes. Unreached nodes get -1.
+
+    Greedy modularity via networkx rather than Leiden: leidenalg and igraph are not installed here
+    and neither is worth two more dependencies for a method whose purpose is to be COMPARED against
+    the clustering rather than to win. Resolution is exposed because modularity has a resolution
+    limit and a single value would silently decide how big a community is allowed to be.
+    """
+    import networkx as nx
+    import scipy.sparse as sp
+    matrix = sp.triu(layer_matrix(layer, n_nodes, graph=graph), k=1).tocoo()
+    G = nx.Graph()
+    G.add_nodes_from(range(n_nodes))
+    G.add_weighted_edges_from(zip(matrix.row.tolist(), matrix.col.tolist(), matrix.data.tolist()))
+    labels = np.full(n_nodes, -1)
+    groups = nx.community.greedy_modularity_communities(G, weight="weight",
+                                                        resolution=resolution)
+    for i, members in enumerate(groups):
+        if len(members) < 2:
+            continue                    # a community of one is a node with no community
+        labels[list(members)] = i
+    # An isolated node joins no community, and saying so is the point: it carries no relational
+    # evidence, and the enrichment gate downstream must not treat a bag of isolates as a group.
+    degree = np.asarray(layer_matrix(layer, n_nodes, graph=graph).sum(axis=1)).ravel()
+    labels[degree == 0] = -1
+    return labels
+
+
+def multiplex_communities(layers, n_nodes: int, resolution: float = 1.0, seed: int = 42,
+                          graph=None, min_agreement: float = 0.5) -> dict:
+    """Communities that several layers AGREE on, built as a consensus rather than a merged graph.
+
+    Design decision 2 of this project says the thirteen edge types are not one graph and are never
+    merged silently. Summing adjacency matrices would do exactly that, and would let the two
+    attention-biased layers -- which reproduce the literature's popularity contest -- pull every
+    community toward the well-published genes.
+
+    So each layer is clustered ON ITS OWN, and the consensus is over the resulting PARTITIONS: two
+    genes are joined when at least `min_agreement` of the layers that can see them both put them
+    together. A merge is then a statement several independent measurements make, and the layers that
+    cannot see a pair abstain rather than voting no -- which matters here, because layer sizes span
+    four orders of magnitude and `ip_ms` has 64 edges against `compartment`'s 118,712.
+    """
+    import scipy.sparse as sp
+    partitions = [layer_communities(L, n_nodes, resolution=resolution, seed=seed, graph=graph)
+                  for L in layers]
+    if not partitions:
+        return {"partition": np.full(n_nodes, -1), "classes": [], "model": None,
+                "unsupervised": True, "settings": {"method": "multiplex", "layers": []}}
+    together = sp.csr_matrix((n_nodes, n_nodes), dtype=float)
+    seen = sp.csr_matrix((n_nodes, n_nodes), dtype=float)
+    for labels in partitions:
+        for community in np.unique(labels[labels >= 0]):
+            members = np.flatnonzero(labels == community)
+            if len(members) < 2 or len(members) > n_nodes // 2:
+                continue        # a community holding half the graph is a bisection, not a community
+            block = sp.csr_matrix((np.ones(len(members)), (members, np.zeros(len(members), int))),
+                                  shape=(n_nodes, 1))
+            together = together + block @ block.T
+        visible = np.flatnonzero(labels >= 0)
+        block = sp.csr_matrix((np.ones(len(visible)), (visible, np.zeros(len(visible), int))),
+                              shape=(n_nodes, 1))
+        seen = seen + block @ block.T
+    agreement = together.multiply(seen.power(-1.0))
+    agreement.data[np.isnan(agreement.data)] = 0.0
+    consensus = (agreement >= min_agreement).astype(float)
+    consensus.setdiag(0)
+    consensus.eliminate_zeros()
+    n_groups, labels = sp.csgraph.connected_components(consensus, directed=False)
+    sizes = pd.Series(labels).value_counts()
+    singletons = set(sizes[sizes < 2].index)
+    out = np.array([-1 if v in singletons else v for v in labels])
+    return {"partition": out, "classes": [], "model": None, "unsupervised": True,
+            "settings": {"method": "multiplex", "layers": list(layers), "resolution": resolution,
+                         "min_agreement": min_agreement, "groups": int(n_groups)}}

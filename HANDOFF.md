@@ -23,7 +23,7 @@ pip install -e . --no-deps  # the way to decline the ~2 GB of CUDA wheels
 python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
 python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min) -- READ THE NEXT NOTE
 starplast                   # launch
-pytest tests/ -q            # 3,280 tests, headless, no network, ~8 min
+pytest tests/ -q            # 3,327 tests, headless, no network, ~8 min
 pytest tests/ -q -m slow    # the real build and the pdoc pass, ~2 min
 ```
 
@@ -401,7 +401,7 @@ real time to find. Tasks 30–34 landed together in v0.31.0.
 
 ```
 Read /mnt/firecuda2/Claude/repo/starplast/instructions/START_HERE.md and HANDOFF.md, then
-continue starplast. The working tree is v0.36.0; 3,280 tests pass headless with every module at
+continue starplast. The working tree is v0.37.0; 3,327 tests pass headless with every module at
 100% coverage. Check `git status` before assuming it has been published. Do not re-derive the design
 decisions in that file.
 Next: <state what you want — e.g. "v2 species switching", "search a new target", or
@@ -412,7 +412,7 @@ Fill the `Next:` line in before sending — leaving the placeholder just costs a
 
 ## State of the application — verified 2026-08-14 (v0.31.0)
 
-**3,280 tests pass headless** (`pytest tests/ -q`, ~8 min) and **every module is at 100% coverage**
+**3,327 tests pass headless** (`pytest tests/ -q`, ~8 min) and **every module is at 100% coverage**
 (9,983 statements). No `pragma: no cover` anywhere: a Qt-thread body is covered by calling it
 directly, and a branch that genuinely cannot run is deleted. Two functions were deleted in the last
 pass on that rule, and writing one of the missing tests found a real defect in `objectives.adjusted`.

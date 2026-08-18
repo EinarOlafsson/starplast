@@ -1,6 +1,60 @@
 # 42 — Test analysis mode for information leakage, aspect by aspect
 
-**Status: open. Requested 2026-08-18 by the user.**
+**Status: DONE 2026-08-18.** `tests/test_leakage_attacks.py`, plus the panel controls driven in
+`tests/test_questions_tab.py`.
+
+## The attacks, and what they caught
+
+Every test is named for the attack rather than the function, and three of them found real defects
+rather than confirming a guard.
+
+* **A one-hot categorical cannot also be the target.** The categorical route into the matrix is not a
+  block, so the block-dropping guard does not cover it; fed as a one-hot feature, `compartment`
+  separates the clusters it is then scored against by construction. Attacked and closed, with the
+  mirror test that a categorical which is NOT the target survives — a guard that removed every
+  categorical would pass the first test and be useless.
+* **Nothing is both held out and used, asserted PER CATEGORY.** The first version of this test
+  compared block names against a hierarchy path and "found" a leak that was its own arithmetic; the
+  fixed version derives the held blocks from `categories_at`, exactly as the sweep does.
+* **Rows stay aligned after every missing-value policy.** A policy that drops genes changes which
+  genes the labels describe, and scoring a subset against the full table aligns cluster 3 with the
+  wrong genes while every number downstream still looks reasonable.
+* **The negative controls** — a shuffled label must not recover, a random block must not improve any
+  objective — landed earlier in the day and now have a sibling for every new method: the classifier
+  gets the same shuffled-label control, plus one asserting that forty columns of pure noise are not
+  "recovered", which is what proves the partition is genuinely out of fold.
+
+## 6, the facet source: built, measured, and REFUSED — with two real bugs found on the way
+
+The instruction asked for facets to come from the dataset registry rather than the hand-written
+label. That was implemented at two strengths and both were rejected by what they produced:
+
+* **registry-first** rewrote 142 facets, and `transcription · tachyzoite` — a slot whose name AND
+  context both say tachyzoite — became *bradyzoite*. A registry entry describes a DATASET, and a
+  stage series names every stage it covers.
+* **registry-as-fallback** put `ring`, a PLASMODIUM stage, on the Toxoplasma `shared orthogroup`,
+  `shared domain` and `fold confidence` slots. Shared and relational slots declare patterns that
+  resolve to registry entries spanning both organisms.
+
+A check that comes back backwards means refuse the source. But writing the invariant that caught it
+— **no slot may carry another organism's life-cycle stage** — then found two defects in the SHIPPED
+catalogue that had nothing to do with the registry:
+
+1. **`ring` matched inside `conferring`**, so the Toxoplasma slot `resistance-conferring mutation`
+   carried a Plasmodium blood stage. Matching is now whole-word.
+2. **`sexual` matched inside `asexual`**, so **20 Plasmodium slots that measure the ASEXUAL blood
+   stage were filed under the sexual stage** — the biological opposite. Any hold-out addressed at
+   the sexual stage was silently taking the asexual slots with it.
+
+Also fixed: the implied-stage vocabulary is Toxoplasma assay language (HFF, BMDM, peritoneum), and
+the Plasmodium arm mirrors those slots, so six Plasmodium slots carried `tachyzoite (implied)`.
+Stage vocabularies are now per organism.
+
+**One ambiguity is recorded rather than decided by the matcher:** `Pf fitness · in vivo` has the
+context "humanised mouse or CHMI", and its host facet moved from `human` to `mouse` when substring
+matching went away. Both readings are real — CHMI is infection of actual humans, and a humanised
+mouse is a mouse carrying human red cells, which is what the parasite actually inhabits. The right
+fix is 42.6's other half, enriching the slot's context so the label states which it means.
 
 ## Why
 
