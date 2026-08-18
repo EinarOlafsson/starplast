@@ -26,6 +26,17 @@ def nodes():
     return pd.read_parquet(path).sample(n=400, random_state=0).reset_index(drop=True)
 
 
+@pytest.fixture(scope="module")
+def full_nodes():
+    """The WHOLE table. The graph's edge endpoints are positions in it, so anything that walks the
+    graph has to be given it entire; every other test here uses the 400-row sample for speed."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    path = os.path.join(root, "starplast", "data", "nodes.parquet")
+    if not os.path.exists(path):
+        pytest.skip("built node table not present")
+    return pd.read_parquet(path)
+
+
 RNA = ("biology", ("gene expression", "RNA abundance"))
 FITNESS = ("biology", ("parasite phenotype", "fitness and essentiality"))
 LOCALIZATION = ("biology", ("cell organization", "localization and topology"))
@@ -554,3 +565,146 @@ def test_no_alternatives_are_built_unless_asked_for(nodes, monkeypatch):
     res = R.run(nodes, R.Recipe(question="q", inputs=[RNA], holdout="compartment"),
                 tune=False, log=lambda *a: None)
     assert res.alternatives == []
+
+
+# --------------------------------------------------------------------------- method dispatch (47)
+def test_propagation_without_a_named_layer_is_refused_with_the_choices(nodes):
+    """There is no sensible merged default: the layers mean different things and two of them are
+    attention-biased, so a walk over the merged graph carries the literature's popularity contest
+    into every answer."""
+    res = R.run(nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment",
+                                method="propagation"), tune=False, log=lambda *a: None)
+    assert not res.ok and "name the layer" in res.stopped_because
+    assert "xlms" in res.stopped_because
+
+
+def test_propagation_may_not_walk_the_layer_its_holdout_was_built_from(nodes):
+    """The edge guard enforced where it matters rather than merely reported. Diffusing a label across
+    the layer built out of that label recovers it perfectly and means nothing."""
+    res = R.run(nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment",
+                                method="propagation:compartment"), tune=False, log=lambda *a: None)
+    assert not res.ok and "excluded for this holdout" in res.stopped_because
+
+
+def test_an_unknown_layer_is_refused_and_the_real_ones_are_listed(nodes):
+    res = R.run(nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment",
+                                method="propagation:invented"), tune=False, log=lambda *a: None)
+    assert not res.ok and "no layer named" in res.stopped_because
+
+
+def test_a_classifier_answers_the_same_recipe_and_says_what_it_used(nodes):
+    """Every method produces a partition, so everything downstream is one code path. The classifier
+    additionally reports which measurements carried the answer, which a clustering cannot."""
+    res = R.run(nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment",
+                                method="logistic"), tune=False, log=lambda *a: None)
+    assert res.ok, res.stopped_because
+    assert res.summary.get("n_labels_scored", 0) > 0
+    assert len(res.coefficients), "the linear method reported no coefficients"
+    assert set(res.coefficients.columns) == {"label", "feature", "coefficient"}
+    if len(res.inference):
+        assert "predicted_class" in res.inference.columns
+
+
+def test_a_holdout_with_too_few_labels_to_train_on_says_so(nodes):
+    frame = nodes.copy()
+    frame["sparse_label"] = None
+    frame.loc[frame.index[:8], "sparse_label"] = "a"
+    res = R.run(frame, R.Recipe(question="q", inputs=[FITNESS], holdout="sparse_label",
+                                method="logistic"), tune=False, log=lambda *a: None)
+    assert not res.ok and "too few labelled genes" in res.stopped_because
+
+
+def test_a_walk_over_a_subset_is_refused_because_edge_ids_are_positions(nodes):
+    """Found by a test that used the 400-row fixture: the graph's endpoints are positions in the FULL
+    table, so a subset walks between the wrong genes -- and stays in range once the subset is large
+    enough, which is the silent version of the same bug."""
+    res = R.run(nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment",
+                                method="propagation:xlms"), tune=False, log=lambda *a: None)
+    assert not res.ok and "full node table" in res.stopped_because
+
+
+def test_propagation_answers_a_recipe_and_the_control_judges_it_the_same_way(full_nodes):
+    """The unification, asserted end to end: a walk over an edge layer produces a partition, and from
+    there it is the clustering path's own code -- the same scoring, the same naming, and the same
+    independent control on the same groups."""
+    res = R.run(full_nodes, R.Recipe(question="q", inputs=[FITNESS], holdout="compartment",
+                                     validation_holdout="cellcycle_phase",
+                                     method="propagation:xlms"), tune=False, log=lambda *a: None)
+    assert res.ok, res.stopped_because
+    assert res.settings["method"] == "propagation:xlms"
+    assert res.summary.get("n_labels_scored", 0) > 0
+    assert not res.control.empty, "the control was not put on the walk's own groups"
+    assert res.coefficients.empty, "a walk has no per-column weights to report"
+
+
+def test_propagation_answers_a_holdout_too_sparse_for_any_clustering(full_nodes):
+    """The constraint propagation exists to remove. A clustering needs MIN_LABEL labelled genes
+    INSIDE one cluster before it can say anything; a label carried by 40 genes spread over 8,140
+    cannot reach that in any partition, and the whole question is unanswerable by that route.
+    Seeded with the same 40, a walk scores every gene in the graph."""
+    frame = full_nodes.copy()
+    rng = np.random.default_rng(0)
+    picked = rng.choice(len(frame), 40, replace=False)
+    sparse = np.array([None] * len(frame), dtype=object)
+    sparse[picked[:20]] = "near"
+    sparse[picked[20:]] = "far"
+    frame["sparse_label"] = sparse
+    res = R.run(frame, R.Recipe(question="q", inputs=[FITNESS], holdout="sparse_label",
+                                method="propagation:xlms"), tune=False, log=lambda *a: None)
+    assert res.ok, res.stopped_because
+    assert (res.labels >= 0).sum() == len(res.labels), "a walk scores every gene, labelled or not"
+
+
+# --------------------------------------------------------------------------- relevance (43)
+def _named(n=12, enrichment=5.0, agrees=True):
+    return pd.DataFrame({"gene_id": [f"TGME49_{200000+i}" for i in range(n)],
+                         "predicted": ["pvm"] * n, "cluster": [1] * n,
+                         "cluster_precision": [0.6] * n, "enrichment": [enrichment] * n,
+                         "base_rate": [0.12] * n, "n_labelled_in_cluster": [30] * n,
+                         "control_agrees": [agrees] * n})
+
+
+def test_relevance_keeps_its_terms_as_columns_rather_than_folding_them_away(nodes):
+    """Instruction 43 required the score never override the raw numbers it summarises. A reader who
+    disagrees with the weighting re-sorts on the term they care about."""
+    out = R.relevance(_named(), nodes)
+    assert {"strength", "reach", "novelty", "corroborated", "relevance"} <= set(out.columns)
+    assert (out.enrichment == 5.0).all(), "the raw numbers were replaced by the score"
+
+
+def test_a_corroborated_claim_outranks_an_identical_uncorroborated_one(nodes):
+    """The term no other ranking in this project has: the difference between "the map found
+    structure" and "the map found the structure I asked about"."""
+    backed = R.relevance(_named(agrees=True), nodes).relevance.iloc[0]
+    alone = R.relevance(_named(agrees=False), nodes).relevance.iloc[0]
+    assert backed > alone == pytest.approx(backed / 2, rel=1e-6)
+
+
+def test_an_uncorroborated_claim_is_weakened_rather_than_voided(nodes):
+    """Several shipped questions have controls too sparse to corroborate anything at all; scoring
+    those to zero would rank a question's answers by whether its control happened to be dense."""
+    assert R.relevance(_named(agrees=False), nodes).relevance.iloc[0] > 0
+
+
+def test_strength_saturates_so_a_rare_label_does_not_win_by_being_rare(nodes):
+    modest = R.relevance(_named(enrichment=10.0), nodes).strength.iloc[0]
+    extreme = R.relevance(_named(enrichment=300.0), nodes).strength.iloc[0]
+    assert modest == pytest.approx(1.0, abs=0.01) and extreme == pytest.approx(1.0, abs=0.01)
+
+
+def test_reach_saturates_so_a_cluster_that_swallowed_a_compartment_does_not_win(nodes):
+    small = R.relevance(_named(n=40), nodes).reach.iloc[0]
+    huge = R.relevance(_named(n=400), nodes).reach.iloc[0]
+    assert small == pytest.approx(1.0, abs=0.02) and huge == pytest.approx(1.0, abs=0.02)
+
+
+def test_nothing_named_ranks_to_an_empty_table_rather_than_an_error(nodes):
+    assert R.relevance(pd.DataFrame(), nodes).empty
+    assert R.relevance(None, nodes).empty
+
+
+def test_relevance_is_sorted_so_the_first_row_is_the_one_to_read(nodes):
+    mixed = pd.concat([_named(n=4, enrichment=2.0, agrees=False),
+                       _named(n=4, enrichment=9.0, agrees=True)], ignore_index=True)
+    out = R.relevance(mixed, nodes)
+    assert out.relevance.is_monotonic_decreasing and out.enrichment.iloc[0] == 9.0

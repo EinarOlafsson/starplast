@@ -756,7 +756,7 @@ def categories_at(hierarchy: str = "evidence", level: int = 1, organism: str = "
 def sweep_categories(nodes: pd.DataFrame, spec, hierarchy: str = "evidence", level: int = 1,
                      organism: str = "Tg", only=None, algorithm: str = "hdbscan",
                      min_cluster_size: int = 25, should_stop=None, on_result=None,
-                     log=print) -> pd.DataFrame:
+                     on_clustering=None, log=print) -> pd.DataFrame:
     """Hold out each category in turn, rebuild the map without it, and ask whether it comes back.
 
     This is the project's whole argument, run as a procedure instead of by hand. For each category:
@@ -828,6 +828,11 @@ def sweep_categories(nodes: pd.DataFrame, spec, hierarchy: str = "evidence", lev
         rows.append(row)
         if on_result is not None:
             on_result(row, held_rows)
+        # The clustering itself, for a caller that wants to name genes from it. Passed as its own
+        # callback rather than smuggled into the row: the row becomes a DataFrame, and an array
+        # hidden in a cell would be silently carried into every table and CSV downstream.
+        if on_clustering is not None:
+            on_clustering(row, labels, kept, held_columns)
     return pd.DataFrame(rows)
 
 
@@ -962,3 +967,90 @@ def best_clustering(coords, grid: dict = None, log=print) -> dict:
     usable = table[table["usable"]]
     row = (usable if len(usable) else table).iloc[0]
     return row.to_dict()
+
+
+# --------------------------------------------------------------------------- every level (43.1)
+def sweep_levels(nodes: pd.DataFrame, spec, hierarchies=None, levels=(1, 2, 3),
+                 organism: str = "Tg", algorithm: str = "hdbscan", min_cluster_size: int = 25,
+                 should_stop=None, on_result=None, log=print) -> tuple:
+    """Hold out every category at every level of every hierarchy, and say what was skipped and why.
+
+    `sweep_categories` asks the question of ONE level of ONE facet, and which level counts as a
+    class is the reader's choice rather than a fact -- level 1 is "molecular measurements", level 3
+    is "transcript abundance", and both are real questions with different answers. Running one level
+    and reporting it as the answer quietly picks one of those for the reader.
+
+    Returns ``(table, skipped)``. The skips are returned rather than logged away because a sweep that
+    covered nine of thirty categories and said "nine categories" reads exactly like one that covered
+    everything -- and the commonest reason for a skip here is the circularity guard removing every
+    block a category names, which is the fact a reader most needs.
+    """
+    from . import slots
+    hierarchies = tuple(hierarchies or slots.HIERARCHIES)
+    tables, skipped = [], {}
+    for hierarchy in hierarchies:
+        for level in levels:
+            if should_stop is not None and should_stop():
+                log(f"stopped after {len(tables)} sweeps")
+                return (pd.concat(tables, ignore_index=True) if tables else pd.DataFrame()), skipped
+            groups = categories_at(hierarchy, level, organism, blocks=spec.blocks)
+            if not groups:
+                skipped.setdefault("no category at this level", []).append(f"{hierarchy} L{level}")
+                continue
+            log(f"{hierarchy} level {level}: {len(groups)} categories")
+            table = sweep_categories(nodes, spec, hierarchy=hierarchy, level=level,
+                                     organism=organism, algorithm=algorithm,
+                                     min_cluster_size=min_cluster_size, should_stop=should_stop,
+                                     on_result=on_result, log=log)
+            if len(table):
+                tables.append(table)
+            else:
+                skipped.setdefault("every category was skipped", []).append(
+                    f"{hierarchy} L{level}")
+    out = pd.concat(tables, ignore_index=True) if tables else pd.DataFrame()
+    # A deeper level is a finer partition of the same blocks, so the same category can appear at two
+    # levels with the same held-out columns. Kept, and marked, rather than dropped: "this class is
+    # redundant at level 1 and not at level 3" is the finding, and deduplicating would erase it.
+    if len(out):
+        out["level_path"] = out.hierarchy.astype(str) + " L" + out.level.astype(str)
+    for why, what in skipped.items():
+        log(f"skipped ({why}): {', '.join(what)}")
+    return out, skipped
+
+
+def sweep_inference(nodes: pd.DataFrame, spec, hierarchy: str = "evidence", level: int = 1,
+                    organism: str = "Tg", min_cluster_size: int = 25, should_stop=None,
+                    log=print) -> tuple:
+    """The sweep, plus the genes each recovered category would name. Step 4a of instruction 43.
+
+    The sweep answers "does this class of evidence come back", which is a property of the catalogue.
+    This adds the part a biologist reads: for every category that recovered, the UNLABELLED genes in
+    clusters where that category's own labels are concentrated, with the statistics that produced
+    them and a relevance ranking beside -- never instead of -- the raw numbers.
+
+    A gene named here is a PREDICTION and never goes back into the node table as though it were a
+    measurement. It comes out as its own table, carrying the category, the cluster and the
+    enrichment that produced it.
+    """
+    from .recipes import infer, label_series, relevance
+    rows = []
+
+    def collect(row, labels, kept, held_columns):
+        if not row.get("usable"):
+            return
+        sub = nodes.loc[kept] if kept is not None else nodes
+        for column in held_columns:
+            truth = label_series(sub, column)
+            if truth.notna().sum() < 50:
+                continue
+            named = infer(np.asarray(labels), truth, np.asarray(sub["gene_id"]))
+            if len(named):
+                named.insert(0, "category", row["category"])
+                named.insert(1, "held_out_column", column)
+                rows.append(named)
+
+    table = sweep_categories(nodes, spec, hierarchy=hierarchy, level=level, organism=organism,
+                             min_cluster_size=min_cluster_size, should_stop=should_stop,
+                             on_clustering=collect, log=log)
+    named = pd.concat(rows, ignore_index=True) if rows else pd.DataFrame()
+    return table, (relevance(named, nodes) if len(named) else named)

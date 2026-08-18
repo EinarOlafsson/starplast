@@ -146,9 +146,8 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_fitness_in_vivo_gut
   - chemical
     - response or engagement
-      - ring
-        - Tg_resistance_conferring_mutation
       - stage-unspecified
+        - Tg_resistance_conferring_mutation
         - Tg_target_engagement_thermal_shift
   - cell phenotype
     - imaging phenotype
@@ -334,11 +333,9 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - unperturbed
         - Tg_fitness_in_vivo_gut
   - chemical response
-    - ring
-      - drug or compound
-        - Tg_resistance_conferring_mutation
     - stage-unspecified
       - drug or compound
+        - Tg_resistance_conferring_mutation
         - Tg_target_engagement_thermal_shift
   - cellular process
     - stage-unspecified
@@ -548,15 +545,13 @@ Slots are the leaves of three independent trees. A single tree would create fals
           - Tg_lipid_composition
           - Tg_enzyme_classification
         - chemistry
+          - Tg_resistance_conferring_mutation
           - Tg_target_engagement_thermal_shift
         - immunity
           - Tg_t_cell_epitope_content
         - phenotype
           - Tg_host_escrt_recruitment
           - Tg_invasion_and_egress_phenotype
-      - ring
-        - chemistry
-          - Tg_resistance_conferring_mutation
   - mouse
     - macrophage
       - tachyzoite (implied)

@@ -633,7 +633,39 @@ def build_model(nodes: pd.DataFrame, recipe: Recipe, closure: Closure, log=print
     sub = nodes.loc[kept] if kept is not None else nodes
     truth = label_series(sub, closure.holdout_column, recipe.holdout_bins)
 
-    fit = methods.logistic(np.asarray(X), truth, seed=recipe.seed)
+    if recipe.method.startswith("propagation"):
+        _, _, layer = recipe.method.partition(":")
+        if not layer:
+            # A result rather than an exception, like every other refusal here: "this cannot be
+            # asked that way" is a finding about the recipe, and a caller that must catch an
+            # exception to learn it will eventually report it as a crash.
+            return RecipeResult(recipe=recipe, closure=closure, stopped_because=(
+                "name the layer to propagate over, as propagation:<layer>. The layers mean different "
+                "things and two of them are attention-biased, so there is no sensible merged "
+                "default. Available here: " + ", ".join(closure.layers)))
+        if layer in closure.excluded_layers:
+            # The edge guard, enforced where it matters rather than only reported. Diffusing a label
+            # across the layer built out of that label recovers it perfectly and means nothing.
+            return RecipeResult(recipe=recipe, closure=closure, stopped_because=(
+                f"the {layer!r} layer is excluded for this holdout: "
+                f"{closure.excluded_layers[layer]}"))
+        if layer not in closure.layers:
+            return RecipeResult(recipe=recipe, closure=closure, stopped_because=(
+                f"no layer named {layer!r}; this catalogue has "
+                + ", ".join(closure.layers)))
+        # The graph's node ids are POSITIONS IN THE FULL NODE TABLE, so a walk over any other table
+        # maps every edge to the wrong gene -- and silently, since the indices remain in range for a
+        # large enough subset. Refused rather than guessed: there is no correct answer from a sample.
+        n_graph = methods.graph_size()
+        if n_graph is not None and len(nodes) != n_graph:
+            return RecipeResult(recipe=recipe, closure=closure, stopped_because=(
+                f"propagation needs the full node table the graph was built from: the graph has "
+                f"{n_graph:,} nodes and this table has {len(nodes):,}. Edge ids are positions in "
+                f"that table, so a subset would walk between the wrong genes."))
+        positions = np.arange(len(nodes))[kept] if kept is not None else np.arange(len(nodes))
+        fit = methods.propagation(layer, positions, truth, len(nodes), seed=recipe.seed)
+    else:
+        fit = methods.logistic(np.asarray(X), truth, seed=recipe.seed)
     labels = np.asarray(fit["partition"])
     genes = np.zeros(len(nodes), dtype=bool)
     genes[np.arange(len(nodes))[kept] if kept is not None else np.arange(len(nodes))] = True
@@ -784,3 +816,55 @@ class RecipeStore:
             if not any(r.question == recipe.question for r in self.recipes):
                 self.recipes.append(recipe)
         return self.recipes
+
+
+# --------------------------------------------------------------------------- relevance (43)
+#: Genes named from one cluster beyond which more is not better. A claim about forty genes is a
+#: result; a claim about four hundred is usually a cluster that swallowed a compartment.
+GOOD_REACH = 40
+
+#: Enrichment at which strength saturates. Ten-fold concentration is already a strong claim, and
+#: letting a 300-fold rare-label cluster dominate the ranking would rank by rarity rather than by
+#: interest.
+STRONG_ENRICHMENT = 10.0
+
+
+def relevance(inference: pd.DataFrame, nodes: pd.DataFrame) -> pd.DataFrame:
+    """Rank named genes by how much they are worth following up. A HEURISTIC, and it says so.
+
+    Instruction 43 asked for a biological-relevance score and warned that it must never override the
+    raw numbers it summarises, so the four terms are added as COLUMNS and the ranking is one more
+    column beside them. A reader who disagrees with the weighting -- and anyone who cares about one
+    gene family will -- re-sorts on the term they care about instead of arguing with a number they
+    cannot see inside. That is the same contract `interpret.interest` already makes for discovery
+    findings, and `novelty` is imported from there rather than reimplemented.
+
+    The four terms:
+
+    * **strength** -- how concentrated the label is in the cluster, saturating at ten-fold, because
+      beyond that the ranking would be sorting by how rare the label is;
+    * **reach** -- how many genes the cluster names, saturating at forty, because a cluster naming
+      four hundred has usually swallowed a compartment rather than found one;
+    * **novelty** -- how unstudied those genes are. A gene can be unlocalised and still be one of the
+      twenty everybody works on, and predicting its compartment is a smaller contribution than
+      predicting one for a gene with no literature at all;
+    * **corroborated** -- whether the INDEPENDENT control agrees. This is the term with the most
+      claim to be there, and it is the one no other ranking in this project has: it is the difference
+      between "the map found structure" and "the map found the structure I asked about".
+    """
+    from .interpret import novelty
+    if inference is None or not len(inference):
+        return pd.DataFrame()
+    out = inference.copy()
+    enrichment = pd.to_numeric(out.get("enrichment", 1.0), errors="coerce").fillna(1.0)
+    out["strength"] = np.clip(np.log1p(enrichment) / np.log1p(STRONG_ENRICHMENT), 0.0, 1.0)
+    per_cluster = out.groupby("cluster")["gene_id"].transform("size")
+    out["reach"] = np.clip(np.log1p(per_cluster) / np.log1p(GOOD_REACH), 0.0, 1.0)
+    out["novelty"] = [novelty(nodes, [g]) for g in out["gene_id"]]
+    agrees = out.get("control_agrees", pd.Series(False, index=out.index)).fillna(False).astype(bool)
+    # A halving rather than a zeroing: an uncorroborated claim is weaker, not void, and several
+    # questions here have controls too sparse to corroborate anything at all -- scoring those to zero
+    # would rank a question's answers by whether its control happened to be dense.
+    out["corroborated"] = agrees
+    out["relevance"] = out.strength * out.reach * out.novelty * np.where(agrees, 1.0, 0.5)
+    return out.sort_values(["relevance", "strength"], ascending=False).reset_index(drop=True)

@@ -1304,3 +1304,87 @@ def test_leaf_selection_is_recorded_rather_than_searched():
     from starplast import search as SE
     assert SE.TUNE_CLUSTERING["cluster_selection_method"] == "leaf"
     assert "cluster_selection_method" not in SE.CLUSTER_GRID
+
+
+# --------------------------------------------------------------------------- every level (43)
+def _small_spec(nodes, per_category=1):
+    """A spec spanning SEVERAL categories, which is what makes a sweep of it mean anything.
+
+    The obvious version -- the first few usable blocks -- was written first and passed every test
+    below in 0.7 seconds, because the first blocks in the catalogue are all transcription: one
+    category, which the sweep then skips as "everything that was ticked". A sweep with nothing to
+    hold out reports nothing and asserts nothing.
+    """
+    from starplast import search as SE
+    from starplast.embedding import EmbeddingSpec, columns_for
+    chosen = []
+    for _path, blocks in SE.categories_at("evidence", 1, "Tg"):
+        usable = [b for b in blocks if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b)]
+        chosen.extend(usable[:per_category])
+    if len(chosen) < 3:
+        pytest.skip("this fixture cannot fill blocks in enough categories")
+    return EmbeddingSpec(blocks=tuple(chosen))
+
+
+def test_the_sweep_covers_every_level_of_every_hierarchy(nodes_small):
+    """One level is one reader's choice of what counts as a class -- level 1 is "molecular
+    measurements", level 3 is "transcript abundance", and both are real questions with different
+    answers. Running one and reporting it as the answer picks one of those for the reader."""
+    from starplast import search as SE
+    table, skipped = SE.sweep_levels(nodes_small, _small_spec(nodes_small),
+                                     hierarchies=("evidence", "biology"), levels=(1, 2),
+                                     log=lambda *a: None)
+    assert isinstance(skipped, dict)
+    assert len(table), f"the sweep scored nothing, so this asserts nothing; skipped={skipped}"
+    assert set(table.hierarchy) <= {"evidence", "biology"}
+    assert set(table.level) <= {1, 2}
+    assert "level_path" in table.columns
+    assert table.level_path.nunique() > 1, "only one level ran; this is not a sweep of levels"
+
+
+def test_a_stopped_level_sweep_returns_what_it_has(nodes_small):
+    """A stop is a decision that enough has been seen, not an error; throwing away finished levels
+    would make the button unusable."""
+    from starplast import search as SE
+    table, _skipped = SE.sweep_levels(nodes_small, _small_spec(nodes_small),
+                                      hierarchies=("evidence",), levels=(1, 2),
+                                      should_stop=lambda: True, log=lambda *a: None)
+    assert table.empty
+
+
+def test_a_level_with_no_category_is_reported_rather_than_silently_absent(nodes_small):
+    """A sweep that covered nine of thirty categories and said "nine categories" reads exactly like
+    one that covered everything."""
+    from starplast import search as SE
+    _table, skipped = SE.sweep_levels(nodes_small, _small_spec(nodes_small),
+                                      hierarchies=("evidence",), levels=(99,),
+                                      log=lambda *a: None)
+    assert any("no category" in why for why in skipped)
+
+
+def test_the_sweep_can_name_genes_and_rank_them(nodes_small):
+    """Step 4a: the sweep says whether a class of evidence recovers, which is a property of the
+    catalogue; this adds the part a biologist reads."""
+    from starplast import search as SE
+    table, named = SE.sweep_inference(nodes_small, _small_spec(nodes_small), level=1,
+                                      log=lambda *a: None)
+    assert len(table), "the sweep scored nothing, so the inference below asserts nothing"
+    assert isinstance(named, pd.DataFrame)
+    if len(named):
+        assert {"category", "held_out_column", "gene_id", "relevance",
+                "strength", "reach", "novelty"} <= set(named.columns)
+        assert named.relevance.is_monotonic_decreasing
+
+
+def test_the_clustering_is_offered_to_a_caller_without_riding_in_the_table(nodes_small):
+    """An array hidden in a DataFrame cell would be carried silently into every CSV downstream."""
+    from starplast import search as SE
+    seen = []
+    table = SE.sweep_categories(nodes_small, _small_spec(nodes_small), level=1,
+                                on_clustering=lambda row, labels, kept, cols: seen.append(
+                                    (row["category"], len(labels), len(cols))),
+                                log=lambda *a: None)
+    assert len(seen) == len(table)
+    for _cat, n_labels, _n_cols in seen:
+        assert n_labels > 0
+    assert not any(col.startswith("_") for col in table.columns)

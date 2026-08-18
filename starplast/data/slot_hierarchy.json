@@ -185,10 +185,8 @@
         },
         "chemical": {
           "response or engagement": {
-            "ring": {
-              "Tg_resistance_conferring_mutation": {}
-            },
             "stage-unspecified": {
+              "Tg_resistance_conferring_mutation": {},
               "Tg_target_engagement_thermal_shift": {}
             }
           }
@@ -458,13 +456,9 @@
           }
         },
         "chemical response": {
-          "ring": {
-            "drug or compound": {
-              "Tg_resistance_conferring_mutation": {}
-            }
-          },
           "stage-unspecified": {
             "drug or compound": {
+              "Tg_resistance_conferring_mutation": {},
               "Tg_target_engagement_thermal_shift": {}
             }
           }
@@ -750,6 +744,7 @@
                 "Tg_enzyme_classification": {}
               },
               "chemistry": {
+                "Tg_resistance_conferring_mutation": {},
                 "Tg_target_engagement_thermal_shift": {}
               },
               "immunity": {
@@ -758,11 +753,6 @@
               "phenotype": {
                 "Tg_host_escrt_recruitment": {},
                 "Tg_invasion_and_egress_phenotype": {}
-              }
-            },
-            "ring": {
-              "chemistry": {
-                "Tg_resistance_conferring_mutation": {}
               }
             }
           }
@@ -931,7 +921,7 @@
       "molecular measurements": {
         "RNA": {
           "transcript abundance": {
-            "sexual": {
+            "asexual blood stage": {
               "Pf_transcription_asexual_blood_stage": {}
             },
             "ring": {
@@ -953,14 +943,12 @@
               "Pf_transcription_sporozoite": {},
               "Pf_transcription_mosquito_stages": {}
             },
-            "tachyzoite (implied)": {
-              "Pf_transcription_per_cell_cycle_phase": {},
-              "Pf_cell_cycle_timing_label": {}
-            },
             "stage-unspecified": {
+              "Pf_transcription_per_cell_cycle_phase": {},
               "Pf_transcription_under_stress_conversion": {},
               "Pf_transcription_under_tf_or_chromatin_perturbation": {},
               "Pf_transcription_maximum_observed_across_stages": {},
+              "Pf_cell_cycle_timing_label": {},
               "Pf_noncoding_and_antisense_transcription": {},
               "Pf_transcription_dormancy_recrudescence": {}
             },
@@ -974,14 +962,12 @@
         },
         "translation": {
           "ribosome occupancy": {
-            "sexual": {
+            "asexual blood stage": {
               "Pf_translation_asexual_blood_stage": {},
               "Pf_translation_efficiency_asexual_blood_stage": {}
             },
-            "tachyzoite (implied)": {
-              "Pf_translation_per_cell_cycle_phase": {}
-            },
             "stage-unspecified": {
+              "Pf_translation_per_cell_cycle_phase": {},
               "Pf_translation_under_stress": {},
               "Pf_translation_efficiency_extracellular_stress": {},
               "Pf_codon_usage_translation_efficiency": {}
@@ -990,7 +976,7 @@
         },
         "protein": {
           "abundance": {
-            "sexual": {
+            "asexual blood stage": {
               "Pf_protein_abundance_asexual_blood_stage": {},
               "Pf_thermal_stability_melting_temperature_asexual_blood_stage": {},
               "Pf_protein_turnover_asexual_blood_stage": {},
@@ -1001,7 +987,7 @@
             }
           },
           "post-translational state": {
-            "sexual": {
+            "asexual blood stage": {
               "Pf_phosphorylation_asexual_blood_stage": {},
               "Pf_n_myristoylation_asexual_blood_stage": {},
               "Pf_arginine_methylation_asexual_blood_stage": {},
@@ -1025,7 +1011,7 @@
               "Pf_splicing_isoform_use": {},
               "Pf_antigenic_variation_family_expression": {}
             },
-            "sexual": {
+            "asexual blood stage": {
               "Pf_chromatin_state_asexual_blood_stage": {},
               "Pf_rna_modification_asexual_blood_stage": {},
               "Pf_rna_stability_half_life_asexual_blood_stage": {}
@@ -1034,11 +1020,9 @@
         },
         "spatial biology": {
           "localization": {
-            "tachyzoite (implied)": {
-              "Pf_exposure_to_host_cytosol": {},
-              "Pf_secretome_excreted": {}
-            },
             "stage-unspecified": {
+              "Pf_exposure_to_host_cytosol": {},
+              "Pf_secretome_excreted": {},
               "Pf_export_pexel_trafficking": {}
             }
           }
@@ -1073,7 +1057,7 @@
       "perturbational measurements": {
         "genetic screens": {
           "fitness": {
-            "sexual": {
+            "asexual blood stage": {
               "Pf_fitness_asexual_blood_stage": {},
               "Pf_stage_conversion_phenotype_asexual_blood_stage": {}
             },
@@ -1085,23 +1069,19 @@
               "Pf_fitness_oxidative_stress": {},
               "Pf_drug_sensitivity": {},
               "Pf_essentiality_in_a_second_background": {},
-              "Pf_fitness_transmission": {}
+              "Pf_fitness_transmission": {},
+              "Pf_fitness_in_vivo": {}
             },
             "liver stage": {
               "Pf_stage_conversion_phenotype_liver_stage": {},
               "Pf_fitness_liver_stage": {}
-            },
-            "tachyzoite (implied)": {
-              "Pf_fitness_in_vivo": {}
             }
           }
         },
         "chemical": {
           "response or engagement": {
-            "ring": {
-              "Pf_resistance_conferring_mutation": {}
-            },
             "stage-unspecified": {
+              "Pf_resistance_conferring_mutation": {},
               "Pf_target_engagement_thermal_shift": {}
             }
           }
@@ -1186,7 +1166,7 @@
     "biology": {
       "gene expression": {
         "RNA abundance": {
-          "sexual": {
+          "asexual blood stage": {
             "unperturbed": {
               "Pf_transcription_asexual_blood_stage": {}
             }
@@ -1222,22 +1202,18 @@
               "Pf_transcription_mosquito_stages": {}
             }
           },
-          "tachyzoite (implied)": {
+          "stage-unspecified": {
             "unperturbed": {
               "Pf_transcription_per_cell_cycle_phase": {},
-              "Pf_cell_cycle_timing_label": {}
-            }
-          },
-          "stage-unspecified": {
-            "stage conversion": {
-              "Pf_transcription_under_stress_conversion": {}
-            },
-            "unperturbed": {
               "Pf_transcription_under_tf_or_chromatin_perturbation": {},
               "Pf_transcription_maximum_observed_across_stages": {},
+              "Pf_cell_cycle_timing_label": {},
               "Pf_life_cycle_stage_label_derived": {},
               "Pf_noncoding_and_antisense_transcription": {},
               "Pf_transcription_dormancy_recrudescence": {}
+            },
+            "stage conversion": {
+              "Pf_transcription_under_stress_conversion": {}
             }
           },
           "liver stage": {
@@ -1252,29 +1228,25 @@
           }
         },
         "protein synthesis": {
-          "sexual": {
+          "asexual blood stage": {
             "unperturbed": {
               "Pf_translation_asexual_blood_stage": {},
               "Pf_translation_efficiency_asexual_blood_stage": {}
             }
           },
-          "tachyzoite (implied)": {
-            "unperturbed": {
-              "Pf_translation_per_cell_cycle_phase": {}
-            }
-          },
           "stage-unspecified": {
+            "unperturbed": {
+              "Pf_translation_per_cell_cycle_phase": {},
+              "Pf_codon_usage_translation_efficiency": {}
+            },
             "extracellular or starvation": {
               "Pf_translation_under_stress": {},
               "Pf_translation_efficiency_extracellular_stress": {}
-            },
-            "unperturbed": {
-              "Pf_codon_usage_translation_efficiency": {}
             }
           }
         },
         "protein abundance": {
-          "sexual": {
+          "asexual blood stage": {
             "unperturbed": {
               "Pf_protein_abundance_asexual_blood_stage": {},
               "Pf_protein_turnover_asexual_blood_stage": {},
@@ -1293,7 +1265,7 @@
       },
       "protein state": {
         "post-translational modification": {
-          "sexual": {
+          "asexual blood stage": {
             "unperturbed": {
               "Pf_phosphorylation_asexual_blood_stage": {},
               "Pf_n_myristoylation_asexual_blood_stage": {},
@@ -1315,7 +1287,7 @@
       },
       "parasite phenotype": {
         "fitness and essentiality": {
-          "sexual": {
+          "asexual blood stage": {
             "unperturbed": {
               "Pf_fitness_asexual_blood_stage": {}
             },
@@ -1343,6 +1315,7 @@
             },
             "unperturbed": {
               "Pf_fitness_transmission": {},
+              "Pf_fitness_in_vivo": {},
               "Pf_fitness_transferred_from_pb": {},
               "Pf_fitness_transmission_transferred_from_pb": {}
             }
@@ -1355,21 +1328,12 @@
               "Pf_fitness_liver_stage": {},
               "Pf_fitness_liver_stage_transferred_from_pb": {}
             }
-          },
-          "tachyzoite (implied)": {
-            "unperturbed": {
-              "Pf_fitness_in_vivo": {}
-            }
           }
         },
         "chemical response": {
-          "ring": {
-            "drug or compound": {
-              "Pf_resistance_conferring_mutation": {}
-            }
-          },
           "stage-unspecified": {
             "drug or compound": {
+              "Pf_resistance_conferring_mutation": {},
               "Pf_target_engagement_thermal_shift": {}
             }
           }
@@ -1394,7 +1358,7 @@
             "Pf_antigenic_variation_family_expression": {}
           }
         },
-        "sexual": {
+        "asexual blood stage": {
           "unperturbed": {
             "Pf_chromatin_state_asexual_blood_stage": {},
             "Pf_rna_modification_asexual_blood_stage": {},
@@ -1407,13 +1371,9 @@
           "stage-unspecified": {
             "unperturbed": {
               "Pf_membrane_topology": {},
-              "Pf_export_pexel_trafficking": {}
-            }
-          },
-          "tachyzoite (implied)": {
-            "unperturbed": {
               "Pf_exposure_to_host_cytosol": {},
-              "Pf_secretome_excreted": {}
+              "Pf_secretome_excreted": {},
+              "Pf_export_pexel_trafficking": {}
             }
           }
         }
@@ -1499,7 +1459,7 @@
       "in vitro or assay-defined": {
         "no host": {
           "tissue-unspecified": {
-            "sexual": {
+            "asexual blood stage": {
               "transcription": {
                 "Pf_transcription_asexual_blood_stage": {}
               },
@@ -1536,9 +1496,6 @@
             "ring": {
               "transcription": {
                 "Pf_transcription_ring": {}
-              },
-              "chemistry": {
-                "Pf_resistance_conferring_mutation": {}
               }
             },
             "trophozoite": {
@@ -1567,29 +1524,19 @@
                 "Pf_transcription_mosquito_stages": {}
               }
             },
-            "tachyzoite (implied)": {
-              "transcription": {
-                "Pf_transcription_per_cell_cycle_phase": {},
-                "Pf_cell_cycle_timing_label": {}
-              },
-              "translation": {
-                "Pf_translation_per_cell_cycle_phase": {}
-              },
-              "localization": {
-                "Pf_exposure_to_host_cytosol": {},
-                "Pf_secretome_excreted": {}
-              }
-            },
             "stage-unspecified": {
               "transcription": {
+                "Pf_transcription_per_cell_cycle_phase": {},
                 "Pf_transcription_under_stress_conversion": {},
                 "Pf_transcription_under_tf_or_chromatin_perturbation": {},
                 "Pf_transcription_maximum_observed_across_stages": {},
+                "Pf_cell_cycle_timing_label": {},
                 "Pf_life_cycle_stage_label_derived": {},
                 "Pf_noncoding_and_antisense_transcription": {},
                 "Pf_transcription_dormancy_recrudescence": {}
               },
               "translation": {
+                "Pf_translation_per_cell_cycle_phase": {},
                 "Pf_translation_under_stress": {},
                 "Pf_translation_efficiency_extracellular_stress": {}
               },
@@ -1613,6 +1560,10 @@
                 "Pf_chromatin_accessibility": {},
                 "Pf_splicing_isoform_use": {},
                 "Pf_antigenic_variation_family_expression": {}
+              },
+              "localization": {
+                "Pf_exposure_to_host_cytosol": {},
+                "Pf_secretome_excreted": {}
               },
               "relation": {
                 "Pf_co_transcription": {},
@@ -1647,6 +1598,7 @@
                 "Pf_enzyme_classification": {}
               },
               "chemistry": {
+                "Pf_resistance_conferring_mutation": {},
                 "Pf_target_engagement_thermal_shift": {}
               },
               "immunity": {
@@ -1746,9 +1698,9 @@
         }
       },
       "in vivo": {
-        "human": {
+        "mouse": {
           "tissue-unspecified": {
-            "tachyzoite (implied)": {
+            "stage-unspecified": {
               "fitness": {
                 "Pf_fitness_in_vivo": {}
               }

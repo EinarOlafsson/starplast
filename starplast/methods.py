@@ -128,6 +128,11 @@ def coefficients(fitted, classes, feature_names) -> pd.DataFrame:
     if fitted is None:
         return pd.DataFrame()
     clf = fitted[-1] if hasattr(fitted, "__getitem__") else fitted
+    if not (hasattr(clf, "coef_") or hasattr(clf, "estimators_")):
+        # Not every method has coefficients. A propagator's evidence is the graph, and there is no
+        # per-column weight to report -- an empty frame says that, where an exception would claim the
+        # method was broken.
+        return pd.DataFrame()
     # OneVsRestClassifier keeps a model per class rather than one `coef_`, so the per-class weights
     # are stacked back into the shape the rest of this function expects.
     coef = (np.vstack([np.ravel(e[-1].coef_ if hasattr(e, "__getitem__") else e.coef_)
@@ -142,3 +147,121 @@ def coefficients(fitted, classes, feature_names) -> pd.DataFrame:
             rows.append({"label": label, "feature": feature_names[j],
                          "coefficient": float(weights[j])})
     return pd.DataFrame(rows)
+
+
+# --------------------------------------------------------------------------- propagation (47.2)
+#: How much of each step returns to the seed. 0.5 keeps a walk local enough that a label stays near
+#: the genes that carry it; at 0.1 the scores approach the stationary distribution of the graph,
+#: which is a statement about node degree rather than about the label.
+RESTART = 0.5
+
+#: Power iterations. The walk converges geometrically at this restart, and 30 puts the residual far
+#: below the differences the argmax is decided on.
+ITERATIONS = 30
+
+
+def layer_matrix(layer: str, n: int, graph=None):
+    """One edge layer as a symmetric, degree-normalised sparse operator.
+
+    Symmetric normalisation (D^-1/2 W D^-1/2) rather than row-stochastic, because a random walk on
+    the row-stochastic matrix concentrates on hubs -- and the hubs of the two co-mention layers are
+    the genes people write about most. Attention bias is a correctness problem in this project, not a
+    cosmetic one, and the normalisation is the first place it gets in.
+    """
+    import scipy.sparse as sp
+    from . import paths
+    if graph is None:
+        graph = np.load(paths.cache_file("graph.npz"), allow_pickle=True)
+    a, b = graph[f"{layer}__a"], graph[f"{layer}__b"]
+    # `.files` on an npz, plain membership on a mapping: a test builds one of these by hand, and a
+    # loader that only accepts the on-disk shape forces every test through a temporary file.
+    keys = getattr(graph, "files", graph)
+    w = graph[f"{layer}__w"] if f"{layer}__w" in keys else np.ones(len(a))
+    W = sp.coo_matrix((np.asarray(w, dtype=float), (a, b)), shape=(n, n)).tocsr()
+    W = W + W.T                                     # the layers are stored once per undirected edge
+    degree = np.asarray(W.sum(axis=1)).ravel()
+    inv = np.divide(1.0, np.sqrt(degree), out=np.zeros_like(degree), where=degree > 0)
+    D = sp.diags(inv)
+    return D @ W @ D
+
+
+def graph_size():
+    """How many nodes the shipped graph was built over, or None when there is no graph here.
+
+    Edge endpoints are stored as positions in the node table, which makes them meaningless against
+    any other table. This is what lets a caller be told that rather than shown a confident answer
+    about the wrong genes.
+    """
+    import os
+    from . import paths
+    path = paths.cache_file("graph.npz")
+    if not os.path.exists(path):
+        return None
+    return int(np.load(path, allow_pickle=True)["xyz"].shape[0])
+
+
+class Propagator:
+    """Random walk with restart over one edge layer, wearing a classifier's interface.
+
+    Deliberately shaped like an estimator so it can go through `out_of_fold` unchanged: the honesty
+    problem is identical to the classifier's and the solution has to be too. A gene's own seed makes
+    its own score enormous, so scoring a gene the walk was seeded from would report the seeding, not
+    the biology. Every gene is therefore scored by a walk seeded only from the OTHER folds.
+
+    `X` here is a column of node positions rather than features -- the walk's evidence is the graph,
+    not the table -- which is what lets the same cross-validation machinery drive both methods.
+    """
+
+    def __init__(self, matrix, restart: float = RESTART, iterations: int = ITERATIONS):
+        self.matrix, self.restart, self.iterations = matrix, restart, iterations
+        self.scores_ = None
+
+    def fit(self, X, y):
+        """Diffuse each class from the genes that carry it, and keep the resulting fields."""
+        positions = np.asarray(X).ravel().astype(int)
+        classes = sorted(set(int(v) for v in y))
+        fields = []
+        for c in classes:
+            seed = np.zeros(self.matrix.shape[0])
+            members = positions[np.asarray(y) == c]
+            if len(members):
+                seed[members] = 1.0 / len(members)
+            p = seed.copy()
+            for _ in range(self.iterations):
+                p = (1 - self.restart) * (self.matrix @ p) + self.restart * seed
+            fields.append(p)
+        self.scores_, self.classes_ = np.vstack(fields), np.array(classes)
+        return self
+
+    def predict(self, X):
+        """The class whose field is highest at each node.
+
+        A node the walk never reached scores zero for every class; it takes the first class rather
+        than being singled out, and the enrichment gate downstream discards whatever group that
+        produces because an unreached node carries no evidence for anything.
+        """
+        positions = np.asarray(X).ravel().astype(int)
+        return self.classes_[np.argmax(self.scores_[:, positions], axis=0)]
+
+
+def propagation(layer: str, index: np.ndarray, truth: pd.Series, n_nodes: int, seed: int = 42,
+                folds: int = FOLDS, graph=None) -> dict:
+    """Answer by diffusing the label across one edge layer.
+
+    The reason this is worth having is the constraint it removes. A clustering needs fifteen labelled
+    genes inside one cluster before it can say anything, which is why several questions in the
+    shipped catalogue return nothing and why a 221-gene control cannot corroborate anything.
+    Propagation has no such floor: seeded with the genes that ARE labelled, it scores all 8,140 and
+    ranks them.
+
+    One layer, named. The thirteen layers mean thirteen different things and merging them is the
+    mistake this project's second design decision exists to prevent -- and two of them are
+    attention-biased, so a walk over the merged graph would carry the literature's popularity contest
+    into every answer.
+    """
+    matrix = layer_matrix(layer, n_nodes, graph=graph)
+    X = np.asarray(index).reshape(-1, 1)
+    partition, fitted, classes = out_of_fold(X, truth, Propagator(matrix), seed=seed, folds=folds)
+    return {"partition": partition, "classes": classes, "model": fitted,
+            "settings": {"method": f"propagation:{layer}", "restart": RESTART,
+                         "iterations": ITERATIONS, "folds": folds}}

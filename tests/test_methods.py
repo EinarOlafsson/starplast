@@ -115,3 +115,111 @@ def test_a_model_with_one_coefficient_vector_still_reports(monkeypatch):
         coef_ = np.array([[0.5, -0.2]])
     out = M.coefficients(Plain(), ["a", "b"], ["x", "y"])
     assert list(out.feature) == ["x", "y"]
+
+
+# --------------------------------------------------------------------------- propagation (47.2)
+def _line_graph(n=120):
+    """Two disconnected cliques, so a label seeded in one must not reach the other."""
+    a, b = [], []
+    for group in (range(0, n // 2), range(n // 2, n)):
+        members = list(group)
+        for i in members:
+            for j in members:
+                if i < j:
+                    a.append(i); b.append(j)
+    return {"L__a": np.array(a), "L__b": np.array(b)}
+
+
+def test_a_layer_becomes_a_symmetric_normalised_operator():
+    """Symmetric rather than row-stochastic: a random walk on the row-stochastic matrix concentrates
+    on hubs, and the hubs of the co-mention layers are the genes people write about most."""
+    matrix = M.layer_matrix("L", 120, graph=_line_graph())
+    assert matrix.shape == (120, 120)
+    dense = matrix.toarray()
+    assert np.allclose(dense, dense.T), "the operator is not symmetric"
+    assert dense.max() <= 1.0 + 1e-9
+
+
+def test_an_isolated_node_does_not_divide_by_zero():
+    graph = {"L__a": np.array([0]), "L__b": np.array([1])}
+    dense = M.layer_matrix("L", 5, graph=graph).toarray()
+    assert np.isfinite(dense).all() and dense[4].sum() == 0
+
+
+def test_a_label_does_not_diffuse_across_a_disconnected_component():
+    """The claim propagation makes is "these genes are near the labelled ones". If a label reaches a
+    component holding none of its seeds, the score is measuring the walk rather than the graph."""
+    matrix = M.layer_matrix("L", 120, graph=_line_graph())
+    p = M.Propagator(matrix).fit(np.arange(60).reshape(-1, 1), np.zeros(60, dtype=int))
+    assert p.scores_[0][:60].sum() > 0
+    assert p.scores_[0][60:].sum() == pytest.approx(0.0, abs=1e-9)
+
+
+def test_propagation_is_scored_only_on_genes_it_was_not_seeded_from():
+    """A gene's own seed makes its own score enormous, so scoring a seeded gene reports the seeding.
+    Two cliques with opposite labels: the walk must classify held-out members from their neighbours,
+    and it must not do so when the label is unrelated to the graph."""
+    truth = pd.Series(["a"] * 60 + ["b"] * 60, dtype="object")
+    real = M.propagation("L", np.arange(120), truth, 120, graph=_line_graph())
+    agree = np.mean([real["classes"][p] == v for p, v in zip(real["partition"], truth) if p >= 0])
+    assert agree > 0.95, "the cliques carry the label and it was not recovered"
+
+    shuffled = pd.Series(np.random.default_rng(0).permutation(truth.to_numpy()), dtype="object")
+    fake = M.propagation("L", np.arange(120), shuffled, 120, graph=_line_graph())
+    agree_fake = np.mean([fake["classes"][p] == v
+                          for p, v in zip(fake["partition"], shuffled) if p >= 0])
+    assert agree_fake < 0.75, f"a label unrelated to the graph was recovered at {agree_fake:.2f}"
+
+
+def test_a_node_the_walk_never_reached_carries_no_evidence():
+    """It scores zero for every class and takes the first by argmax; the enrichment gate downstream
+    is what discards the group, and this pins that it does not crash on the way."""
+    graph = {"L__a": np.array([0, 1]), "L__b": np.array([1, 2])}
+    matrix = M.layer_matrix("L", 40, graph=graph)
+    p = M.Propagator(matrix).fit(np.array([[0], [1]]), np.array([0, 1]))
+    assert set(p.predict(np.arange(40).reshape(-1, 1))) <= {0, 1}
+
+
+def test_a_propagator_reports_no_coefficients_rather_than_raising():
+    """Not every method has per-column weights. An empty frame says so; an exception would claim the
+    method was broken."""
+    matrix = M.layer_matrix("L", 120, graph=_line_graph())
+    fitted = M.Propagator(matrix).fit(np.arange(60).reshape(-1, 1), np.zeros(60, dtype=int))
+    assert M.coefficients(fitted, ["a"], ["x"]).empty
+
+
+def test_the_settings_name_the_layer_that_was_walked():
+    """A result that does not say which of the thirteen layers produced it cannot be compared with
+    another."""
+    out = M.propagation("L", np.arange(120), pd.Series(["a"] * 60 + ["b"] * 60, dtype="object"),
+                        120, graph=_line_graph())
+    assert out["settings"]["method"] == "propagation:L"
+
+
+def test_the_shipped_graph_loads_and_its_layers_are_walkable():
+    """The default path, which every other test here bypasses by handing in a graph. A loader that
+    only works on hand-built dictionaries would pass this whole file and fail on the first real run."""
+    import os
+    from starplast import paths
+    if not os.path.exists(paths.cache_file("graph.npz")):
+        pytest.skip("built graph not present")
+    matrix = M.layer_matrix("xlms", 8140)
+    assert matrix.shape == (8140, 8140) and matrix.nnz > 0
+    dense_sum = matrix.sum()
+    assert np.isfinite(dense_sum)
+
+
+def test_the_graph_size_is_read_from_the_graph_rather_than_assumed():
+    """What lets a caller be told its table is the wrong one, instead of being shown a confident
+    answer about the wrong genes."""
+    import os
+    from starplast import paths
+    if not os.path.exists(paths.cache_file("graph.npz")):
+        pytest.skip("built graph not present")
+    assert M.graph_size() == 8140
+
+
+def test_no_graph_means_no_size_rather_than_an_exception(monkeypatch, tmp_path):
+    from starplast import paths
+    monkeypatch.setattr(paths, "cache_file", lambda name: str(tmp_path / name))
+    assert M.graph_size() is None

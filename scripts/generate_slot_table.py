@@ -1015,6 +1015,25 @@ EVIDENCE_PATHS = {
 #: stage nobody wrote down is an inference, and an inference that looks like a declaration is how a
 #: reader ends up holding out "everything tachyzoite" while believing the catalogue told them so.
 #: Blocking leakage needs the stage to be THERE; honesty needs it to be visibly inferred.
+#: Which life stages belong to which parasite. A facet is a statement about THIS organism, and the
+#: two vocabularies overlap only where the biology does -- both have a sporozoite and a merozoite,
+#: neither has the other's blood or tissue stages. Without this the Plasmodium arm, which mirrors the
+#: Toxoplasma slots, inherited Toxoplasma stages: `Pf_transcription_per_cell_cycle_phase` came out
+#: as `tachyzoite (implied)`, since "cell cycle" implies tachyzoite in a Toxoplasma catalogue and
+#: nothing at all in a Plasmodium one.
+STAGES_BY_ORGANISM = {
+    "Tg": {"tachyzoite", "bradyzoite", "sporozoite", "oocyst", "merozoite", "sexual",
+           "enteric", "gametocyte"},
+    # Written against LIFE_STAGES verbatim: a first pass spelled these from memory and dropped
+    # `liver stage` and `oocyst` from Plasmodium -- both of which it has, in the mosquito and the
+    # hepatocyte -- so four slots lost a stage they had correctly.
+    "Pf": {"ring", "trophozoite", "schizont", "gametocyte", "ookinete", "sporozoite",
+           "merozoite", "asexual blood stage", "sexual", "liver stage", "oocyst"},
+}
+
+#: Implied stages are read off Toxoplasma assay vocabulary -- HFF, BMDM, peritoneum -- so they are
+#: applied only to that arm. An implication that does not hold in the organism being described is a
+#: guess wearing a fact's clothes.
 IMPLIED_STAGE = {
     "cell-cycle": "tachyzoite", "cell cycle": "tachyzoite", "pseudotime": "tachyzoite",
     "hyperlopit": "tachyzoite", "ortholopit": "tachyzoite", "hff": "tachyzoite",
@@ -1043,26 +1062,101 @@ CONDITIONS = (("interferon", ("ifn", "interferon")),
               ("stage conversion", ("conversion", "differentiation", "checkpoint")))
 
 
-def _facets(name: str, context: str) -> dict:
-    """Everything the catalogue already knows about a slot, as separate facets.
+def registry_text(patterns) -> str:
+    """Everything the dataset REGISTRY knows about the experiment behind a slot, as one string.
+
+    Instruction 42.6, in the user's words: "all information is not saved in the experiment name
+    necessarily". A slot's `name` and `context` are two short strings somebody typed, and a facet
+    nobody happened to type into a label cannot be extracted from it -- so the tree looked complete
+    while missing exactly the information a hold-out needs. The registry entry behind the slot knows
+    more: the dataset's full name, what it provides, its level and kind, and the note explaining what
+    the file actually is.
+
+    Returns "" where no registry entry backs the slot, which is the signal to fall back to the label.
+    """
+    from starplast import datasets
+    seen, parts = set(), []
+    for column in [str(c) for c in (patterns or ())]:
+        entry = datasets.provenance(column)
+        if entry is None or entry.key in seen:
+            continue
+        seen.add(entry.key)
+        parts.extend([entry.name or "", entry.provides or "", entry.level or "", entry.kind or "",
+                      getattr(entry, "note", "") or ""])
+    return " ".join(p for p in parts if p)
+
+
+def _facets(name: str, context: str, registry: str = "", organism: str = "Tg") -> dict:
+    """Everything known about a slot, as separate facets, preferring the REGISTRY over the label.
 
     The tree used to keep one of these and drop the rest, which is why `fitness . in vivo liver` and
     `fitness . in vivo lung` sat in one group: both are mouse, both are tachyzoite, and the organ --
     the only thing separating them -- had nowhere to live. A facet with nowhere to live is a facet
     that cannot be held out, and holding things out is the whole point of the tree.
+
+    **Instruction 42.6 asked for these to come from the dataset REGISTRY rather than the label. That
+    was built, measured, and REFUSED -- twice, at two different strengths.** The reasoning in the
+    instruction is sound and the data does not support it here.
+
+    Registry-first rewrote 142 facets, and the checked ones were wrong: `transcription . tachyzoite`,
+    a slot whose name AND context both say tachyzoite, became bradyzoite. A registry entry describes
+    a DATASET and a stage series names every stage it covers, so first-match returns whichever the
+    prose mentions first; the label describes the SLOT, which is one condition of that dataset.
+
+    Registry-as-fallback -- filling only what the label leaves silent -- looked safe and was not. It
+    put stage `ring`, a PLASMODIUM stage, on the Toxoplasma `shared orthogroup`, `shared domain` and
+    `fold confidence` slots, and `tachyzoite (implied)` on a Plasmodium one. Shared and relational
+    slots declare patterns that resolve to registry entries spanning both organisms and every stage,
+    so the blob is a mixture and first-match crosses species. A check that comes back backwards means
+    refuse the source, and a facet naming the wrong organism's life cycle is as backwards as it gets.
+
+    `registry_text` is kept because the text itself is real and a narrower use of it -- one entry, one
+    slot, no shared patterns -- may be sound. What is not sound is reading facets off a bag of words
+    about several experiments. The other half of 42.6 is the way forward and is unaffected: enrich
+    the slot CONTEXTS so the label stops being lossy.
     """
-    text = f"{name} {context}".lower()
-    stage = next((st for st in LIFE_STAGES if st in text), "")
-    if not stage:
+    label_text = f"{name} {context}".lower()
+
+    def says(where: str, word: str) -> bool:
+        """Whole words only. `ring` is a Plasmodium stage and also the middle of "conferring", which
+        is how the Toxoplasma slot `resistance conferring mutation` came to carry a Plasmodium life
+        stage in its context address. Substring matching has cost this project a slot count before --
+        `sense - asexual blood stages` is a substring of `antisense - ...` -- and it costs a facet
+        here."""
+        return re.search(rf"\b{re.escape(word)}\b", where) is not None
+    registry_text_ = (registry or "").lower()
+    sources = {}
+
+    def pick(finder):
+        """The label, and only the label. See the docstring: the registry was measured and refused."""
+        found = finder(label_text)
+        sources[finder] = "label" if found else "absent"
+        return found
+
+    text = f"{registry_text_} {label_text}".strip()
+    allowed = STAGES_BY_ORGANISM.get(organism, STAGES_BY_ORGANISM["Tg"])
+
+    def find_stage(where):
+        found = next((st for st in LIFE_STAGES if says(where, st) and st in allowed), "")
+        if found:
+            return found
+        if organism != "Tg":
+            return ""                      # the implied map is Toxoplasma assay vocabulary
         for word, implied in IMPLIED_STAGE.items():
-            if word in text:
-                stage = f"{implied} (implied)"
-                break
-    host = next((sp for sp, words in HOST_SPECIES if any(w in text for w in words)), "")
-    tissue = next((t for t in HOST_TISSUE if t in text), "")
-    condition = next((c for c, words in CONDITIONS if any(w in text for w in words)), "")
-    return {"stage": stage or "stage-unspecified", "host": host or "no host",
-            "tissue": tissue or "tissue-unspecified", "condition": condition or "unperturbed"}
+            if says(where, word):
+                return f"{implied} (implied)"
+        return ""
+
+    stage = pick(find_stage)
+    host = pick(lambda where: next(
+        (sp for sp, words in HOST_SPECIES if any(says(where, w) for w in words)), ""))
+    tissue = pick(lambda where: next((t for t in HOST_TISSUE if says(where, t)), ""))
+    condition = pick(lambda where: next(
+        (c for c, words in CONDITIONS if any(says(where, w) for w in words)), ""))
+    out = {"stage": stage or "stage-unspecified", "host": host or "no host",
+           "tissue": tissue or "tissue-unspecified", "condition": condition or "unperturbed"}
+    out["_sources"] = dict(zip(("stage", "host", "tissue", "condition"), sources.values()))
+    return out
 
 
 #: The life-cycle stages, longest first so "bradyzoite checkpoint" matches bradyzoite and "oocyst
@@ -1145,13 +1239,14 @@ def _context_path(context: str) -> tuple:
     return (system, stage)
 
 
-def _context_leaf_faceted(axis: str, name: str, context: str) -> tuple:
+def _context_leaf_faceted(axis: str, name: str, context: str, registry: str = "",
+                          organism: str = "Tg") -> tuple:
     """Where and in what this was measured: system, host species, tissue, stage, then the assay.
 
     Every level is a thing that can leak. Two mouse-organ screens share the mouse; two tachyzoite
     assays share the stage; and until each had its own level, holding out one held out neither.
     """
-    facets = _facets(name, context)
+    facets = _facets(name, context, registry, organism)
     system = _context_path(context)[0]
     return (system, facets["host"], facets["tissue"], facets["stage"], axis)
 
@@ -1237,7 +1332,8 @@ def _definition(row, organism: str) -> dict:
         name, axis, context, unit, fills, policy, candidates = row
     override = SLOT_OVERRIDES.get(name, {})
     role = override.get("role", "never" if axis == "NEVER a feature" else "feature")
-    facets = _facets(name, context)
+    registry = registry_text(fills)
+    facets = _facets(name, context, registry, organism)
     evidence = override.get("evidence_path", EVIDENCE_PATHS.get(axis, ("other", axis)))
     # Evidence gains the same subject level, for the same reason: `molecular measurements > RNA >
     # transcript abundance` held 22 slots, so "hold out every RNA measurement of the bradyzoite" had
@@ -1257,7 +1353,7 @@ def _definition(row, organism: str) -> dict:
     return {"organism": organism, "name": name, "axis": axis, "context": context,
             "unit": unit, "patterns": list(fills), "policy": policy,
             "candidates": list(candidates), "evidence_path": list(evidence),
-            "biology_path": list(biology), "context_path": list(_context_leaf_faceted(axis, name, context)),
+            "biology_path": list(biology), "context_path": list(_context_leaf_faceted(axis, name, context, registry, organism)),
             "target_family": str(override.get("target_family", _slug(name))),
             "target_columns": list(override.get("target_columns", ())), "role": role}
 
