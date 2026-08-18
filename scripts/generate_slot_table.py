@@ -1007,6 +1007,64 @@ EVIDENCE_PATHS = {
 }
 
 
+#: Datasets whose life-cycle stage is not written in their context but is not in doubt either. The
+#: cell-cycle transcriptome and the pseudotime atlas are tachyzoite work; hyperLOPIT is a tachyzoite
+#: preparation; the in vivo mouse screens are acute infection, which is tachyzoite.
+#:
+#: Marked `(implied)` in the tree wherever one of these is used, and that marking is the point. A
+#: stage nobody wrote down is an inference, and an inference that looks like a declaration is how a
+#: reader ends up holding out "everything tachyzoite" while believing the catalogue told them so.
+#: Blocking leakage needs the stage to be THERE; honesty needs it to be visibly inferred.
+IMPLIED_STAGE = {
+    "cell-cycle": "tachyzoite", "cell cycle": "tachyzoite", "pseudotime": "tachyzoite",
+    "hyperlopit": "tachyzoite", "ortholopit": "tachyzoite", "hff": "tachyzoite",
+    "bmdm": "tachyzoite", "macrophage": "tachyzoite", "mouse": "tachyzoite",
+    "peritoneum": "tachyzoite", "lung": "tachyzoite", "spleen": "tachyzoite",
+    "in vivo": "tachyzoite", "acute": "tachyzoite", "esa": "tachyzoite", "pvm": "tachyzoite",
+    "cyst wall": "bradyzoite", "tissue cyst": "bradyzoite", "brain": "bradyzoite",
+    "enteric": "merozoite", "sexual": "merozoite", "feline": "merozoite",
+}
+
+#: The host the parasite is inside, when there is one. Species first, then the cell or tissue: both
+#: are real and a screen in a mouse liver leaks into a screen in a mouse lung through the mouse.
+HOST_SPECIES = (("human", ("hff", "human", "fibroblast", "thp-1", "hela", "sera")),
+                ("mouse", ("mouse", "bmdm", "murine", "brain", "liver", "lung", "spleen",
+                           "peritoneum", "in vivo")),
+                ("cat", ("feline", "cat ", "enteric")))
+HOST_TISSUE = ("brain", "liver", "lung", "spleen", "peritoneum", "gut", "intestine", "muscle",
+               "fibroblast", "macrophage", "monocyte", "neuron", "sera")
+
+#: The condition imposed on top of the stage and the host. Not the assay -- the PERTURBATION.
+CONDITIONS = (("interferon", ("ifn", "interferon")),
+              ("oxidative stress", ("oxidant", "oxidative", "peroxide")),
+              ("drug or compound", ("compound", "drug", "inhibitor", "evolution", "thermal")),
+              ("genetic background", ("background", "knockout", "delta-", "second strain")),
+              ("extracellular or starvation", ("extracellular", "starvation", "egress")),
+              ("stage conversion", ("conversion", "differentiation", "checkpoint")))
+
+
+def _facets(name: str, context: str) -> dict:
+    """Everything the catalogue already knows about a slot, as separate facets.
+
+    The tree used to keep one of these and drop the rest, which is why `fitness . in vivo liver` and
+    `fitness . in vivo lung` sat in one group: both are mouse, both are tachyzoite, and the organ --
+    the only thing separating them -- had nowhere to live. A facet with nowhere to live is a facet
+    that cannot be held out, and holding things out is the whole point of the tree.
+    """
+    text = f"{name} {context}".lower()
+    stage = next((st for st in LIFE_STAGES if st in text), "")
+    if not stage:
+        for word, implied in IMPLIED_STAGE.items():
+            if word in text:
+                stage = f"{implied} (implied)"
+                break
+    host = next((sp for sp, words in HOST_SPECIES if any(w in text for w in words)), "")
+    tissue = next((t for t in HOST_TISSUE if t in text), "")
+    condition = next((c for c, words in CONDITIONS if any(w in text for w in words)), "")
+    return {"stage": stage or "stage-unspecified", "host": host or "no host",
+            "tissue": tissue or "tissue-unspecified", "condition": condition or "unperturbed"}
+
+
 #: The life-cycle stages, longest first so "bradyzoite checkpoint" matches bradyzoite and "oocyst
 #: sporozoite" does not become two groups. Order is the matching order and therefore load-bearing.
 LIFE_STAGES = ("bradyzoite", "tachyzoite", "sporozoite", "oocyst", "merozoite", "gametocyte",
@@ -1085,6 +1143,17 @@ def _context_path(context: str) -> tuple:
                                       "merozoite", "sexual", "gametocyte", "liver stage")
                   if stage in low), "stage-unspecified")
     return (system, stage)
+
+
+def _context_leaf_faceted(axis: str, name: str, context: str) -> tuple:
+    """Where and in what this was measured: system, host species, tissue, stage, then the assay.
+
+    Every level is a thing that can leak. Two mouse-organ screens share the mouse; two tachyzoite
+    assays share the stage; and until each had its own level, holding out one held out neither.
+    """
+    facets = _facets(name, context)
+    system = _context_path(context)[0]
+    return (system, facets["host"], facets["tissue"], facets["stage"], axis)
 
 
 def _context_leaf(axis: str, context: str) -> tuple:
@@ -1168,22 +1237,27 @@ def _definition(row, organism: str) -> dict:
         name, axis, context, unit, fills, policy, candidates = row
     override = SLOT_OVERRIDES.get(name, {})
     role = override.get("role", "never" if axis == "NEVER a feature" else "feature")
+    facets = _facets(name, context)
     evidence = override.get("evidence_path", EVIDENCE_PATHS.get(axis, ("other", axis)))
     # Evidence gains the same subject level, for the same reason: `molecular measurements > RNA >
     # transcript abundance` held 22 slots, so "hold out every RNA measurement of the bradyzoite" had
     # no address. How a thing was measured and what it was measured ON are different questions and
     # the tree has room for both.
     if "evidence_path" not in override:
-        evidence = tuple(evidence) + (_biology_subject(name, context),)
+        # Evidence asks how it was measured, so the subject comes last: the assay tree first, then
+        # what it was pointed at.
+        evidence = tuple(evidence) + (facets["stage"],)
     biology = override.get("biology_path", BIOLOGY_PATHS.get(axis, ("other", axis)))
     # The third level: what the slot is about. Without it the leaf groups mix life-cycle stages, and
     # "hold out everything about the bradyzoite" cannot be asked of a tree that has no bradyzoite.
     if "biology_path" not in override:
-        biology = tuple(biology) + (_biology_subject(name, context),)
+        # Biology asks what this is ABOUT: the stage, then what was done to it. Stage first because a
+        # stage is the strongest biological statement a slot makes.
+        biology = tuple(biology) + (facets["stage"], facets["condition"])
     return {"organism": organism, "name": name, "axis": axis, "context": context,
             "unit": unit, "patterns": list(fills), "policy": policy,
             "candidates": list(candidates), "evidence_path": list(evidence),
-            "biology_path": list(biology), "context_path": list(_context_leaf(axis, context)),
+            "biology_path": list(biology), "context_path": list(_context_leaf_faceted(axis, name, context)),
             "target_family": str(override.get("target_family", _slug(name))),
             "target_columns": list(override.get("target_columns", ())), "role": role}
 

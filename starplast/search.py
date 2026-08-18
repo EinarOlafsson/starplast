@@ -181,10 +181,17 @@ def excluded_for(nodes: pd.DataFrame, target: str, threshold=0.8,
             selected = {}
             for seed in matched:
                 path = getattr(seed, f"{scope}_path")
-                # The final component is assay-specific.  Its parent is the useful class-level
-                # holdout (e.g. all spatial-localisation evidence, not only hyperLOPIT posterior 1).
+                # The CLASS is the first two levels, named rather than derived from the depth.
+                #
+                # This used to be `path[:-1]` -- "everything but the assay-specific last component"
+                # -- which was the class only while the paths were three long. On 2026-08-18 the trees
+                # gained facet levels (stage, host, tissue, condition) so that each could be held out
+                # on its own, and `path[:-1]` silently became a much narrower holdout: it stopped
+                # catching `membrane topology` when the target was `compartment`, which is exactly the
+                # leak this function exists to close. Depth is now a property of the tree, so the
+                # class level has to be stated instead of inferred from it.
                 selected.update({s.key: s for s in
-                                 slots.slots_in_group(path[:-1] or path, hierarchy=scope)})
+                                 slots.slots_in_group(path[:2] or path, hierarchy=scope)})
             selected = selected.values()
         for slot in selected:
             out.update(slots.declared_columns(nodes, slot))

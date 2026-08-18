@@ -26,10 +26,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "transcription"
     ],
@@ -66,10 +69,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "bradyzoite"
+      "bradyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "bradyzoite",
       "transcription"
     ],
@@ -98,11 +104,14 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "sporozoite"
+      "sporozoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "oocyst",
+      "no host",
+      "tissue-unspecified",
+      "sporozoite",
       "transcription"
     ],
     "target_family": "transcription_oocyst_sporozoite",
@@ -140,10 +149,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "merozoite"
+      "merozoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "merozoite",
       "transcription"
     ],
@@ -182,10 +194,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
+      "cat",
+      "gut",
       "sexual",
       "transcription"
     ],
@@ -219,16 +234,19 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "cell cycle"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "cell cycle"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "transcription"
     ],
     "target_family": "transcription_per_cell_cycle_phase",
@@ -256,16 +274,19 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "host interaction"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "host interaction"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
-      "stage-unspecified",
+      "no host",
+      "macrophage",
+      "tachyzoite (implied)",
       "transcription"
     ],
     "target_family": "transcription_in_naive_macrophage",
@@ -285,16 +306,19 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "host interaction"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "host interaction"
+      "tachyzoite (implied)",
+      "interferon"
     ],
     "context_path": [
       "host-cell or host-derived",
-      "stage-unspecified",
+      "no host",
+      "macrophage",
+      "tachyzoite (implied)",
       "transcription"
     ],
     "target_family": "transcription_in_ifn_gamma_macrophage",
@@ -316,16 +340,19 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "brain",
+      "tachyzoite (implied)",
       "transcription"
     ],
     "target_family": "transcription_in_vivo_brain_acute",
@@ -347,16 +374,19 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "brain",
+      "tachyzoite (implied)",
       "transcription"
     ],
     "target_family": "transcription_in_vivo_brain_chronic",
@@ -389,10 +419,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "bradyzoite"
+      "bradyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
+      "mouse",
+      "brain",
       "bradyzoite",
       "transcription"
     ],
@@ -415,16 +448,19 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "in vivo"
+      "bradyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "in vivo"
+      "bradyzoite (implied)",
+      "stage conversion"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "brain",
+      "bradyzoite (implied)",
       "transcription"
     ],
     "target_family": "transcription_primary_brain_cell_differentiation_time_course",
@@ -453,15 +489,18 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "stress and perturbation"
+      "stage-unspecified",
+      "stage conversion"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -495,10 +534,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "tachyzoite"
+      "tachyzoite",
+      "extracellular or starvation"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "transcription"
     ],
@@ -547,15 +589,18 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "stress and perturbation"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -589,10 +634,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "transcription"
     ],
@@ -626,11 +674,14 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "bradyzoite"
+      "bradyzoite",
+      "stage conversion"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "tachyzoite",
+      "no host",
+      "tissue-unspecified",
+      "bradyzoite",
       "transcription"
     ],
     "target_family": "transcription_bradyzoite_checkpoint_perturbation",
@@ -657,10 +708,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -683,16 +737,19 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "cell cycle"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "cell cycle"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "transcription"
     ],
     "target_family": "cell-cycle timing",
@@ -721,10 +778,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -773,10 +833,13 @@
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "translation"
     ],
@@ -810,10 +873,13 @@
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "bradyzoite"
+      "bradyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "bradyzoite",
       "translation"
     ],
@@ -834,16 +900,19 @@
       "molecular measurements",
       "translation",
       "ribosome occupancy",
-      "cell cycle"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "cell cycle"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "translation"
     ],
     "target_family": "translation_per_cell_cycle_phase",
@@ -876,15 +945,18 @@
       "molecular measurements",
       "translation",
       "ribosome occupancy",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "stress and perturbation"
+      "stage-unspecified",
+      "extracellular or starvation"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "translation"
     ],
@@ -925,10 +997,13 @@
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "translation"
     ],
@@ -957,15 +1032,18 @@
       "molecular measurements",
       "translation",
       "ribosome occupancy",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "stress and perturbation"
+      "stage-unspecified",
+      "extracellular or starvation"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "translation"
     ],
@@ -999,10 +1077,13 @@
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "bradyzoite"
+      "bradyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "bradyzoite",
       "translation"
     ],
@@ -1037,11 +1118,14 @@
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "bradyzoite"
+      "bradyzoite",
+      "genetic background"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "tachyzoite",
+      "no host",
+      "tissue-unspecified",
+      "bradyzoite",
       "translation"
     ],
     "target_family": "translation_under_initiation_factor_depletion",
@@ -1074,11 +1158,14 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "bradyzoite"
+      "bradyzoite",
+      "genetic background"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "tachyzoite",
+      "no host",
+      "tissue-unspecified",
+      "bradyzoite",
       "transcription"
     ],
     "target_family": "transcription_under_initiation_factor_depletion",
@@ -1117,10 +1204,13 @@
     "biology_path": [
       "gene expression",
       "protein abundance",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "protein abundance"
     ],
@@ -1154,10 +1244,13 @@
     "biology_path": [
       "gene expression",
       "protein abundance",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "protein abundance"
     ],
@@ -1191,10 +1284,13 @@
     "biology_path": [
       "gene expression",
       "protein abundance",
-      "tachyzoite"
+      "tachyzoite",
+      "drug or compound"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "protein abundance"
     ],
@@ -1226,10 +1322,13 @@
     "biology_path": [
       "gene expression",
       "protein abundance",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "protein abundance"
     ],
@@ -1258,10 +1357,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "PTM"
     ],
@@ -1305,10 +1407,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "PTM"
     ],
@@ -1342,15 +1447,18 @@
       "molecular measurements",
       "protein",
       "post-translational state",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "stress and perturbation"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "PTM"
     ],
@@ -1384,10 +1492,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "PTM"
     ],
@@ -1421,10 +1532,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "PTM"
     ],
@@ -1458,10 +1572,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "PTM"
     ],
@@ -1500,10 +1617,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "PTM"
     ],
@@ -1537,10 +1657,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "PTM"
     ],
@@ -1579,10 +1702,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "PTM"
     ],
@@ -1616,10 +1742,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "PTM"
     ],
@@ -1653,10 +1782,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "PTM"
     ],
@@ -1679,16 +1811,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "host interaction"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "host interaction"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
-      "stage-unspecified",
+      "human",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_hff_in_vitro",
@@ -1710,16 +1845,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "host interaction"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "host interaction"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "mouse",
+      "macrophage",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_naive_macrophage",
@@ -1747,16 +1885,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "host interaction"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "host interaction"
+      "tachyzoite (implied)",
+      "interferon"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "mouse",
+      "macrophage",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_ifn_gamma_macrophage",
@@ -1778,16 +1919,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "peritoneum",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_in_vivo_peritoneum",
@@ -1809,16 +1953,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "lung",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_in_vivo_lung",
@@ -1840,16 +1987,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "liver",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_in_vivo_liver",
@@ -1871,16 +2021,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "spleen",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_in_vivo_spleen",
@@ -1908,15 +2061,18 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stress and perturbation"
+      "stage-unspecified",
+      "oxidative stress"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -1945,16 +2101,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_hyperlopit_unassigned_proteins",
@@ -1977,16 +2136,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_targeted_in_vivo_young_2019",
@@ -2013,10 +2175,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stage-unspecified"
+      "stage-unspecified",
+      "genetic background"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -2044,10 +2209,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -2070,16 +2238,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_gra12_screen_1_in_vivo",
@@ -2101,16 +2272,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_gra12_screen_1_differential",
@@ -2137,10 +2311,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -2163,16 +2340,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_gra12_screen_2_in_vivo",
@@ -2194,16 +2374,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_gra12_screen_2_differential",
@@ -2230,10 +2413,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "bradyzoite"
+      "bradyzoite",
+      "stage conversion"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "bradyzoite",
       "fitness"
     ],
@@ -2264,15 +2450,18 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stress and perturbation"
+      "stage-unspecified",
+      "drug or compound"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -2310,10 +2499,13 @@
     ],
     "biology_path": [
       "gene regulation",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "regulation"
     ],
@@ -2351,11 +2543,14 @@
     ],
     "biology_path": [
       "gene regulation",
-      "bradyzoite"
+      "bradyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "tachyzoite",
+      "no host",
+      "tissue-unspecified",
+      "bradyzoite",
       "regulation"
     ],
     "target_family": "chromatin_state_histone_marks",
@@ -2387,10 +2582,13 @@
     ],
     "biology_path": [
       "gene regulation",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "regulation"
     ],
@@ -2428,10 +2626,13 @@
     ],
     "biology_path": [
       "gene regulation",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "regulation"
     ],
@@ -2460,14 +2661,17 @@
       "molecular measurements",
       "regulation",
       "chromatin and RNA regulation",
-      "non-coding and isoforms"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene regulation",
-      "non-coding and isoforms"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "regulation"
     ],
@@ -2500,10 +2704,13 @@
     ],
     "biology_path": [
       "gene regulation",
-      "tachyzoite"
+      "tachyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "tachyzoite",
       "regulation"
     ],
@@ -2530,16 +2737,19 @@
       "molecular measurements",
       "spatial biology",
       "localization",
-      "stage-unspecified"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "cell organization",
       "localization and topology",
-      "stage-unspecified"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "localization"
     ],
     "target_family": "subcellular localization",
@@ -2571,11 +2781,14 @@
     "biology_path": [
       "cell organization",
       "localization and topology",
-      "stage-unspecified"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "localization"
     ],
     "target_family": "subcellular localization",
@@ -2610,10 +2823,13 @@
     "biology_path": [
       "cell organization",
       "localization and topology",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "localization"
     ],
@@ -2652,16 +2868,19 @@
       "molecular measurements",
       "spatial biology",
       "localization",
-      "host interaction"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "cell organization",
       "localization and topology",
-      "host interaction"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "localization"
     ],
     "target_family": "subcellular localization",
@@ -2689,16 +2908,19 @@
       "molecular measurements",
       "spatial biology",
       "localization",
-      "stage-unspecified"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "cell organization",
       "localization and topology",
-      "stage-unspecified"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "localization"
     ],
     "target_family": "subcellular localization",
@@ -2725,10 +2947,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -2756,10 +2981,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -2787,10 +3015,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -2818,10 +3049,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -2855,10 +3089,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -2897,10 +3134,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -2928,10 +3168,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -2965,15 +3208,18 @@
       "relational measurements",
       "gene-gene",
       "association or interaction",
-      "host interaction"
+      "stage-unspecified"
     ],
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "host interaction"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -2996,16 +3242,19 @@
       "relational measurements",
       "gene-gene",
       "association or interaction",
-      "stage-unspecified"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "relation"
     ],
     "target_family": "subcellular localization",
@@ -3032,10 +3281,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -3063,10 +3315,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -3095,10 +3350,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -3126,10 +3384,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -3157,10 +3418,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -3183,15 +3447,18 @@
       "relational measurements",
       "parasite-host",
       "host effect",
-      "host interaction"
+      "stage-unspecified"
     ],
     "biology_path": [
       "molecular relationships",
       "parasite-host",
-      "host interaction"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "host effect"
     ],
@@ -3218,10 +3485,13 @@
     ],
     "biology_path": [
       "provenance and analysis metadata",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "NEVER a feature"
     ],
@@ -3247,10 +3517,13 @@
     ],
     "biology_path": [
       "provenance and analysis metadata",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "NEVER a feature"
     ],
@@ -3276,10 +3549,13 @@
     ],
     "biology_path": [
       "provenance and analysis metadata",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "NEVER a feature"
     ],
@@ -3309,15 +3585,18 @@
       "relational measurements",
       "parasite-host",
       "host effect",
-      "host interaction"
+      "stage-unspecified"
     ],
     "biology_path": [
       "molecular relationships",
       "parasite-host",
-      "host interaction"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "host effect"
     ],
@@ -3349,10 +3628,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -3381,10 +3663,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -3415,10 +3700,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -3446,10 +3734,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -3478,10 +3769,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -3515,10 +3809,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -3548,10 +3845,13 @@
     ],
     "biology_path": [
       "provenance and analysis metadata",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "NEVER a feature"
     ],
@@ -3581,10 +3881,13 @@
     ],
     "biology_path": [
       "provenance and analysis metadata",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "NEVER a feature"
     ],
@@ -3611,10 +3914,13 @@
     ],
     "biology_path": [
       "metabolism",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "metabolism"
     ],
@@ -3641,10 +3947,13 @@
     ],
     "biology_path": [
       "metabolism",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "metabolism"
     ],
@@ -3671,10 +3980,13 @@
     ],
     "biology_path": [
       "metabolism",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "metabolism"
     ],
@@ -3702,10 +4014,13 @@
     ],
     "biology_path": [
       "metabolism",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "metabolism"
     ],
@@ -3747,11 +4062,14 @@
     "biology_path": [
       "parasite phenotype",
       "chemical response",
-      "ring"
+      "ring",
+      "drug or compound"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "ring",
       "chemistry"
     ],
     "target_family": "resistance_conferring_mutation",
@@ -3778,10 +4096,13 @@
     "biology_path": [
       "parasite phenotype",
       "chemical response",
-      "stage-unspecified"
+      "stage-unspecified",
+      "drug or compound"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "chemistry"
     ],
@@ -3809,10 +4130,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -3835,15 +4159,18 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "non-coding and isoforms"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "non-coding and isoforms"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -3871,10 +4198,13 @@
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "translation"
     ],
@@ -3908,10 +4238,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -3944,10 +4277,13 @@
     ],
     "biology_path": [
       "host recognition",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
+      "human",
+      "sera",
       "stage-unspecified",
       "immunity"
     ],
@@ -3974,10 +4310,13 @@
     ],
     "biology_path": [
       "host recognition",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "immunity"
     ],
@@ -4006,15 +4345,18 @@
       "perturbational measurements",
       "cell phenotype",
       "imaging phenotype",
-      "host interaction"
+      "stage-unspecified"
     ],
     "biology_path": [
       "parasite phenotype",
       "cellular process",
-      "host interaction"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "phenotype"
     ],
@@ -4053,10 +4395,13 @@
     "biology_path": [
       "parasite phenotype",
       "cellular process",
-      "stage-unspecified"
+      "stage-unspecified",
+      "extracellular or starvation"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "phenotype"
     ],
@@ -4090,10 +4435,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stage-unspecified"
+      "stage-unspecified",
+      "genetic background"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -4116,16 +4464,19 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "mouse",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "transcription"
     ],
     "target_family": "transcription_in_vivo_enteric",
@@ -4175,10 +4526,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
+      "mouse",
+      "gut",
       "sexual",
       "fitness"
     ],
@@ -4206,10 +4560,13 @@
     "biology_path": [
       "cell organization",
       "localization and topology",
-      "bradyzoite"
+      "bradyzoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "bradyzoite",
       "localization"
     ],
@@ -4237,10 +4594,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "transcription"
     ],
@@ -4268,11 +4628,14 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "ring"
+      "ring",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "ring",
       "transcription"
     ],
     "target_family": "transcription_ring",
@@ -4300,11 +4663,14 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "trophozoite"
+      "trophozoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "trophozoite",
       "transcription"
     ],
     "target_family": "transcription_trophozoite",
@@ -4331,11 +4697,14 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "schizont"
+      "schizont",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "schizont",
       "transcription"
     ],
     "target_family": "transcription_schizont",
@@ -4362,11 +4731,14 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "ookinete"
+      "ookinete",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "ookinete",
       "transcription"
     ],
     "target_family": "transcription_ookinete",
@@ -4393,10 +4765,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "oocyst"
+      "oocyst",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "oocyst",
       "transcription"
     ],
@@ -4424,10 +4799,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "sporozoite"
+      "sporozoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sporozoite",
       "transcription"
     ],
@@ -4450,16 +4828,19 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "cell cycle"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "cell cycle"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "transcription"
     ],
     "target_family": "transcription_per_cell_cycle_phase",
@@ -4481,15 +4862,18 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "stress and perturbation"
+      "stage-unspecified",
+      "stage conversion"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -4514,15 +4898,18 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "stress and perturbation"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -4550,10 +4937,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -4574,16 +4964,19 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "cell cycle"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "cell cycle"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "transcription"
     ],
     "target_family": "cell-cycle timing",
@@ -4612,10 +5005,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -4646,10 +5042,13 @@
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "translation"
     ],
@@ -4670,16 +5069,19 @@
       "molecular measurements",
       "translation",
       "ribosome occupancy",
-      "cell cycle"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "cell cycle"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "translation"
     ],
     "target_family": "translation_per_cell_cycle_phase",
@@ -4699,15 +5101,18 @@
       "molecular measurements",
       "translation",
       "ribosome occupancy",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "stress and perturbation"
+      "stage-unspecified",
+      "extracellular or starvation"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "translation"
     ],
@@ -4733,10 +5138,13 @@
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "translation"
     ],
@@ -4757,15 +5165,18 @@
       "molecular measurements",
       "translation",
       "ribosome occupancy",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "stress and perturbation"
+      "stage-unspecified",
+      "extracellular or starvation"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "translation"
     ],
@@ -4791,10 +5202,13 @@
     "biology_path": [
       "gene expression",
       "protein abundance",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "protein abundance"
     ],
@@ -4820,10 +5234,13 @@
     "biology_path": [
       "gene expression",
       "protein abundance",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "protein abundance"
     ],
@@ -4849,10 +5266,13 @@
     "biology_path": [
       "gene expression",
       "protein abundance",
-      "sexual"
+      "sexual",
+      "drug or compound"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "protein abundance"
     ],
@@ -4878,10 +5298,13 @@
     "biology_path": [
       "gene expression",
       "protein abundance",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "protein abundance"
     ],
@@ -4910,10 +5333,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "PTM"
     ],
@@ -4934,15 +5360,18 @@
       "molecular measurements",
       "protein",
       "post-translational state",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "stress and perturbation"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "PTM"
     ],
@@ -4971,10 +5400,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "PTM"
     ],
@@ -5002,10 +5434,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "PTM"
     ],
@@ -5031,10 +5466,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "PTM"
     ],
@@ -5063,10 +5501,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "PTM"
     ],
@@ -5092,10 +5533,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "PTM"
     ],
@@ -5121,10 +5565,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "PTM"
     ],
@@ -5150,10 +5597,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "PTM"
     ],
@@ -5181,10 +5631,13 @@
     "biology_path": [
       "protein state",
       "post-translational modification",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "PTM"
     ],
@@ -5212,10 +5665,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "fitness"
     ],
@@ -5241,10 +5697,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "gametocyte"
+      "gametocyte",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "gametocyte",
       "fitness"
     ],
@@ -5265,15 +5724,18 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stress and perturbation"
+      "stage-unspecified",
+      "oxidative stress"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -5299,10 +5761,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "sexual"
+      "sexual",
+      "stage conversion"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "fitness"
     ],
@@ -5328,10 +5793,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "liver stage"
+      "liver stage",
+      "stage conversion"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "mouse",
+      "liver",
       "liver stage",
       "fitness"
     ],
@@ -5357,10 +5825,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "gametocyte"
+      "gametocyte",
+      "stage conversion"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "gametocyte",
       "fitness"
     ],
@@ -5381,15 +5852,18 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "stress and perturbation"
+      "stage-unspecified"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stress and perturbation"
+      "stage-unspecified",
+      "drug or compound"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -5414,10 +5888,13 @@
     ],
     "biology_path": [
       "gene regulation",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "regulation"
     ],
@@ -5442,10 +5919,13 @@
     ],
     "biology_path": [
       "gene regulation",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "regulation"
     ],
@@ -5470,10 +5950,13 @@
     ],
     "biology_path": [
       "gene regulation",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "regulation"
     ],
@@ -5498,10 +5981,13 @@
     ],
     "biology_path": [
       "gene regulation",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "regulation"
     ],
@@ -5525,14 +6011,17 @@
       "molecular measurements",
       "regulation",
       "chromatin and RNA regulation",
-      "non-coding and isoforms"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene regulation",
-      "non-coding and isoforms"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "regulation"
     ],
@@ -5557,10 +6046,13 @@
     ],
     "biology_path": [
       "gene regulation",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "regulation"
     ],
@@ -5589,10 +6081,13 @@
     "biology_path": [
       "cell organization",
       "localization and topology",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "localization"
     ],
@@ -5613,16 +6108,19 @@
       "molecular measurements",
       "spatial biology",
       "localization",
-      "host interaction"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "cell organization",
       "localization and topology",
-      "host interaction"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "localization"
     ],
     "target_family": "subcellular localization",
@@ -5642,16 +6140,19 @@
       "molecular measurements",
       "spatial biology",
       "localization",
-      "stage-unspecified"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "cell organization",
       "localization and topology",
-      "stage-unspecified"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "localization"
     ],
     "target_family": "subcellular localization",
@@ -5678,10 +6179,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -5707,10 +6211,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -5736,10 +6243,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -5767,10 +6277,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -5796,10 +6309,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -5825,10 +6341,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -5854,10 +6373,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -5880,15 +6402,18 @@
       "relational measurements",
       "gene-gene",
       "association or interaction",
-      "host interaction"
+      "stage-unspecified"
     ],
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "host interaction"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -5916,10 +6441,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -5947,10 +6475,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -5976,10 +6507,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -6005,10 +6539,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -6034,10 +6571,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -6060,15 +6600,18 @@
       "relational measurements",
       "parasite-host",
       "host effect",
-      "host interaction"
+      "stage-unspecified"
     ],
     "biology_path": [
       "molecular relationships",
       "parasite-host",
-      "host interaction"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "host effect"
     ],
@@ -6092,10 +6635,13 @@
     ],
     "biology_path": [
       "provenance and analysis metadata",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "NEVER a feature"
     ],
@@ -6119,10 +6665,13 @@
     ],
     "biology_path": [
       "provenance and analysis metadata",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "NEVER a feature"
     ],
@@ -6146,10 +6695,13 @@
     ],
     "biology_path": [
       "provenance and analysis metadata",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "NEVER a feature"
     ],
@@ -6170,15 +6722,18 @@
       "relational measurements",
       "parasite-host",
       "host effect",
-      "host interaction"
+      "stage-unspecified"
     ],
     "biology_path": [
       "molecular relationships",
       "parasite-host",
-      "host interaction"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "host effect"
     ],
@@ -6209,10 +6764,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -6241,10 +6799,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -6273,10 +6834,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -6305,10 +6869,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -6340,10 +6907,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -6371,10 +6941,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
@@ -6398,10 +6971,13 @@
     ],
     "biology_path": [
       "provenance and analysis metadata",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "NEVER a feature"
     ],
@@ -6434,10 +7010,13 @@
     ],
     "biology_path": [
       "provenance and analysis metadata",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "NEVER a feature"
     ],
@@ -6478,10 +7057,13 @@
     ],
     "biology_path": [
       "metabolism",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "metabolism"
     ],
@@ -6522,10 +7104,13 @@
     ],
     "biology_path": [
       "metabolism",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "metabolism"
     ],
@@ -6566,10 +7151,13 @@
     ],
     "biology_path": [
       "metabolism",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "metabolism"
     ],
@@ -6598,10 +7186,13 @@
     ],
     "biology_path": [
       "metabolism",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "metabolism"
     ],
@@ -6653,11 +7244,14 @@
     "biology_path": [
       "parasite phenotype",
       "chemical response",
-      "ring"
+      "ring",
+      "drug or compound"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "stage-unspecified",
+      "no host",
+      "tissue-unspecified",
+      "ring",
       "chemistry"
     ],
     "target_family": "resistance_conferring_mutation",
@@ -6698,10 +7292,13 @@
     "biology_path": [
       "parasite phenotype",
       "chemical response",
-      "stage-unspecified"
+      "stage-unspecified",
+      "drug or compound"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "chemistry"
     ],
@@ -6743,10 +7340,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -6785,15 +7385,18 @@
       "molecular measurements",
       "RNA",
       "transcript abundance",
-      "non-coding and isoforms"
+      "stage-unspecified"
     ],
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "non-coding and isoforms"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -6821,10 +7424,13 @@
     "biology_path": [
       "gene expression",
       "protein synthesis",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "reference or computational",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "translation"
     ],
@@ -6860,10 +7466,13 @@
     "biology_path": [
       "molecular relationships",
       "parasite-parasite",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "relation"
     ],
@@ -6911,10 +7520,13 @@
     ],
     "biology_path": [
       "host recognition",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
+      "human",
+      "sera",
       "stage-unspecified",
       "immunity"
     ],
@@ -6957,10 +7569,13 @@
     ],
     "biology_path": [
       "host recognition",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "immunity"
     ],
@@ -6987,15 +7602,18 @@
       "perturbational measurements",
       "cell phenotype",
       "imaging phenotype",
-      "host interaction"
+      "stage-unspecified"
     ],
     "biology_path": [
       "parasite phenotype",
       "cellular process",
-      "host interaction"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "phenotype"
     ],
@@ -7042,10 +7660,13 @@
     "biology_path": [
       "parasite phenotype",
       "cellular process",
-      "stage-unspecified"
+      "stage-unspecified",
+      "extracellular or starvation"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "phenotype"
     ],
@@ -7092,10 +7713,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stage-unspecified"
+      "stage-unspecified",
+      "genetic background"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -7123,10 +7747,13 @@
     "biology_path": [
       "gene expression",
       "protein abundance",
-      "sexual"
+      "sexual",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "sexual",
       "protein abundance"
     ],
@@ -7168,11 +7795,14 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "liver stage"
+      "liver stage",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
-      "stage-unspecified",
+      "mouse",
+      "liver",
+      "liver stage",
       "transcription"
     ],
     "target_family": "transcription_liver_stage",
@@ -7213,11 +7843,14 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "sporozoite"
+      "sporozoite",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
-      "oocyst",
+      "no host",
+      "tissue-unspecified",
+      "sporozoite",
       "transcription"
     ],
     "target_family": "transcription_mosquito_stages",
@@ -7260,10 +7893,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "gametocyte"
+      "gametocyte",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "gametocyte",
       "transcription"
     ],
@@ -7305,10 +7941,13 @@
     "biology_path": [
       "gene expression",
       "RNA abundance",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "transcription"
     ],
@@ -7350,11 +7989,14 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "liver stage"
+      "liver stage",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
-      "stage-unspecified",
+      "mouse",
+      "liver",
+      "liver stage",
       "fitness"
     ],
     "target_family": "fitness_liver_stage",
@@ -7395,10 +8037,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -7419,16 +8064,19 @@
       "perturbational measurements",
       "genetic screens",
       "fitness",
-      "in vivo"
+      "tachyzoite (implied)"
     ],
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "in vivo"
+      "tachyzoite (implied)",
+      "unperturbed"
     ],
     "context_path": [
       "in vivo",
-      "stage-unspecified",
+      "human",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
       "fitness"
     ],
     "target_family": "fitness_in_vivo",
@@ -7452,10 +8100,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -7480,10 +8131,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "liver stage"
+      "liver stage",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "mouse",
+      "liver",
       "liver stage",
       "fitness"
     ],
@@ -7508,10 +8162,13 @@
     "biology_path": [
       "parasite phenotype",
       "fitness and essentiality",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "fitness"
     ],
@@ -7552,10 +8209,13 @@
     ],
     "biology_path": [
       "gene regulation",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "regulation"
     ],
@@ -7595,15 +8255,18 @@
       "molecular measurements",
       "spatial biology",
       "localization",
-      "host interaction"
+      "stage-unspecified"
     ],
     "biology_path": [
       "cell organization",
       "localization and topology",
-      "host interaction"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "localization"
     ],
@@ -7640,15 +8303,18 @@
       "relational measurements",
       "parasite-host",
       "host effect",
-      "host interaction"
+      "stage-unspecified"
     ],
     "biology_path": [
       "molecular relationships",
       "parasite-host",
-      "host interaction"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "host-cell or host-derived",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "host effect"
     ],
@@ -7690,10 +8356,13 @@
     "biology_path": [
       "intrinsic properties",
       "sequence structure and evolution",
-      "stage-unspecified"
+      "stage-unspecified",
+      "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
       "stage-unspecified",
       "sequence"
     ],
