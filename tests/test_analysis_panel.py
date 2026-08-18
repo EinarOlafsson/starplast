@@ -2281,30 +2281,13 @@ def test_a_search_that_cannot_be_written_is_still_a_search(panel, monkeypatch):
 
 
 # --------------------------------------------------------------------------- picking feature blocks
-def test_the_feature_blocks_are_one_list_and_not_96_check_boxes(panel):
-    """The reason the report kept coming back as "I can still only choose one at a time": separate
-    check-box WIDGETS cannot be dragged across -- there is nothing between them to rubber-band -- so
-    choosing blocks for a map meant 96 individual clicks. As rows in one list a drag works."""
-    from PyQt6 import QtWidgets
-    from starplast.embedding import SLOT_BLOCKS
-    from starplast.theme import CheckList
-    assert isinstance(panel.blocks, CheckList)
-    assert panel.blocks.count() == len(SLOT_BLOCKS) == 96
+def test_the_feature_blocks_are_not_96_separate_check_boxes(panel):
+    """The report that started this: separate check-box WIDGETS cannot be dragged across, so choosing
+    blocks meant 96 individual clicks. They became one list, and then -- at that length -- a category
+    tree, because what a reader wants to say is "all the transcription evidence"."""
+    from starplast.theme import CheckTree
+    assert isinstance(panel.blocks, CheckTree)
     assert not hasattr(panel, "block_cb"), "the old per-block check boxes are still being built"
-
-
-def test_a_drag_and_a_right_click_tick_a_run_of_blocks(panel):
-    """The ask, on the list that prompted it."""
-    from PyQt6 import QtCore
-    blocks = panel.blocks
-    blocks.set_checked([])
-    for i in range(10):
-        blocks.item(i).setSelected(True)
-    menu = blocks.build_menu()
-    next(a for a in menu.actions() if a.text().startswith("Check selected")).trigger()
-    assert len(blocks.checked()) == 10
-    assert len(panel.spec().blocks) == 10, "the ticked blocks did not reach the embedding spec"
-    blocks.set_checked([])
 
 
 def test_a_block_this_cache_cannot_fill_is_greyed_rather_than_hidden(panel):
@@ -2312,20 +2295,111 @@ def test_a_block_this_cache_cannot_fill_is_greyed_rather_than_hidden(panel):
     existing at all, which is a different claim."""
     from PyQt6 import QtCore
     from starplast.embedding import EmbeddingSpec, columns_for
-    for item in panel.blocks.items():
-        name = item.data(QtCore.Qt.ItemDataRole.UserRole)
+    for item in panel.blocks.leaves():
+        name = item.data(0, QtCore.Qt.ItemDataRole.UserRole)
         has = bool(columns_for(panel.nodes, EmbeddingSpec(blocks=(name,))).get(name, []))
         enabled = bool(item.flags() & QtCore.Qt.ItemFlag.ItemIsEnabled)
         assert enabled == has, f"{name}: columns={has} but enabled={enabled}"
 
 
-def test_the_default_blocks_survive_the_move_to_a_list(panel):
+def test_the_default_blocks_survive_the_move_to_a_tree(panel):
     assert set(panel.spec().blocks) == {"Tg_transcription_tachyzoite", "Tg_fitness_hff_in_vitro",
                                         "Tg_fold_confidence_disorder"}
 
 
 def test_block_states_reports_every_block_not_only_the_ticked_ones(panel):
     states = panel.block_states()
-    assert len(states) == panel.blocks.count()
+    assert len(states) == len(panel.blocks.leaves())
     assert set(states.values()) <= {True, False}
     assert sum(states.values()) == len(panel.spec().blocks)
+
+
+# --------------------------------------------------------------------------- categories, not slots
+def test_the_blocks_are_a_category_tree_not_a_flat_list(panel):
+    """96 rows is past the length where a list is a set of choices. What a reader wants to say is
+    "all the transcription evidence" -- a statement about a LEVEL of the slot hierarchy."""
+    from starplast.embedding import SLOT_BLOCKS
+    from starplast.theme import CheckTree
+    assert isinstance(panel.blocks, CheckTree)
+    assert len(panel.blocks.leaves()) == len(SLOT_BLOCKS) == 96
+    assert panel.blocks.topLevelItemCount() < 10, "the top level is not a set of categories"
+
+
+def test_the_tree_carries_only_feature_blocks(panel):
+    """The hierarchy addresses all 119 Toxoplasma slots. A target label or a bookkeeping slot is not
+    something a map can be built on, and showing it greyed would read as "measured but unavailable"."""
+    from PyQt6 import QtCore
+    from starplast.embedding import SLOT_BLOCKS
+    names = {i.data(0, QtCore.Qt.ItemDataRole.UserRole) for i in panel.blocks.leaves()}
+    assert names == set(SLOT_BLOCKS)
+
+
+def test_ticking_a_category_ticks_everything_under_it(panel):
+    from PyQt6 import QtCore
+    tree = panel.blocks
+    tree.set_checked([])
+    group = tree.topLevelItem(0)
+    under = {i.data(0, QtCore.Qt.ItemDataRole.UserRole) for i in tree.leaves(group)}
+    group.setCheckState(0, QtCore.Qt.CheckState.Checked)
+    assert set(panel.spec().blocks) == under
+    assert group.checkState(0) == QtCore.Qt.CheckState.Checked
+    tree.set_checked([])
+
+
+def test_a_partly_ticked_category_says_partly(panel):
+    """A group that lied in either direction would be worse than no group."""
+    from PyQt6 import QtCore
+    tree = panel.blocks
+    group = next(tree.topLevelItem(i) for i in range(tree.topLevelItemCount())
+                 if len(tree.leaves(tree.topLevelItem(i))) > 2)
+    leaves = [x for x in tree.leaves(group) if x.flags() & QtCore.Qt.ItemFlag.ItemIsEnabled]
+    tree.set_checked([leaves[0].data(0, QtCore.Qt.ItemDataRole.UserRole)])
+    assert group.checkState(0) == QtCore.Qt.CheckState.PartiallyChecked
+    tree.set_checked([])
+
+
+def test_hold_a_category_out_in_one_action(panel):
+    """The hold-out question: build the map on all the evidence EXCEPT this, then ask whether this
+    comes back. Doing it by hand across 96 boxes is how a reader holds out something they did not
+    mean to."""
+    from PyQt6 import QtCore
+    tree = panel.blocks
+    group = tree.topLevelItem(0)
+    held = {i.data(0, QtCore.Qt.ItemDataRole.UserRole) for i in tree.leaves(group)}
+    action = next(a for a in tree.build_menu(group).actions() if "EXCEPT" in a.text())
+    action.trigger()
+    chosen = set(panel.spec().blocks)
+    assert chosen, "holding one category out left nothing to build a map from"
+    assert not (chosen & held), "the held-out category is still feeding the map"
+    usable = {i.data(0, QtCore.Qt.ItemDataRole.UserRole) for i in tree.leaves()
+              if i.flags() & QtCore.Qt.ItemFlag.ItemIsEnabled}
+    assert chosen == usable - held
+    tree.set_checked([])
+
+
+def test_switching_hierarchy_keeps_the_same_choice(panel):
+    """The ticks belong to the BLOCKS, not to the tree. `evidence` and `context` are the same choice
+    seen from another angle, so re-addressing must not change what the map is built on."""
+    tree = panel.blocks
+    group = tree.topLevelItem(0)
+    group.setCheckState(0, __import__("PyQt6.QtCore", fromlist=["Qt"]).Qt.CheckState.Checked)
+    before = set(panel.spec().blocks)
+    for hierarchy in ("context", "biology", "evidence"):
+        panel._hierarchy.setCurrentText(hierarchy)
+        assert set(panel.spec().blocks) == before, hierarchy
+    tree.set_checked([])
+
+
+def test_a_block_with_no_columns_cannot_be_ticked_by_a_category(panel):
+    """Ticking a category must not select something the cache cannot fill."""
+    from PyQt6 import QtCore
+    tree = panel.blocks
+    dead = [i for i in tree.leaves() if not (i.flags() & QtCore.Qt.ItemFlag.ItemIsEnabled)]
+    if not dead:
+        pytest.skip("this cache fills every block")
+    action = next(a for a in tree.build_menu(tree.topLevelItem(0)).actions() if a.text() == "Check all")
+    action.trigger()
+    chosen = set(panel.spec().blocks)
+    for item in dead:
+        assert item.data(0, QtCore.Qt.ItemDataRole.UserRole) not in chosen
+    tree.set_checked([])

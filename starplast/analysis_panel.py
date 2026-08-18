@@ -25,8 +25,21 @@ from PyQt6 import QtCore, QtWidgets
 
 from .embedding import (BLOCKS, SLOT_BLOCKS, EmbeddingSpec, NA_POLICIES, SCALINGS, columns_for,
                         variance_share)
-from .theme import (CMAPS, POINT_MODES, POINT_STYLES, THEMES, CheckList, cmaps_of,
-                    kind_for_column)
+from .theme import (CMAPS, POINT_MODES, POINT_STYLES, THEMES, CheckList, CheckTree,
+                    cmaps_of, kind_for_column)
+
+
+def _prune(node: dict, keep: set) -> dict:
+    """The hierarchy with only the leaves in `keep`, and no branch left empty by the pruning."""
+    out = {}
+    for key, child in (node or {}).items():
+        if child:
+            kept = _prune(child, keep)
+            if kept:
+                out[key] = kept
+        elif key in keep:
+            out[key] = {}
+    return out
 
 
 def _scrolled(page: QtWidgets.QWidget) -> QtWidgets.QScrollArea:
@@ -371,7 +384,8 @@ class AnalysisPanel(QtWidgets.QWidget):
                 btn.setToolTip(wrap_tip(tip))
         for cb, name in getattr(self, "_block_rows", lambda: [])():
             cols = columns_for(self.nodes, EmbeddingSpec(blocks=(name,))).get(name, [])
-            cb.setToolTip(wrap_tip(
+            # A tree item takes a COLUMN; a widget does not. These are rows in a tree now.
+            cb.setToolTip(0, wrap_tip(
                 f"Feed the {name} block into the map: {len(cols)} columns"
                 + (f", including {', '.join(cols[:4])}" if cols else "")
                 + ". Anything fed in here cannot afterwards be used as evidence about the "
@@ -417,24 +431,37 @@ class AnalysisPanel(QtWidgets.QWidget):
         # clicks, and the group box was 2,490 px tall on its own. As a list, a drag selects a run of
         # them and the right-click menu ticks the lot; `theme.CheckList` carries that behaviour and the
         # class list in the main window uses the same widget.
-        self.blocks = CheckList()
-        self.blocks.setMinimumHeight(160)
+        # A TREE, not a list. 96 rows is past the length where a list is a set of choices; what a
+        # reader wants to say is "all the transcription evidence" or "everything except the fitness
+        # screens", and both are statements about a LEVEL of the slot hierarchy -- which already
+        # exists, already has three addressings of the same slots, and already knows every block's
+        # place in each. Nothing here invents a grouping: `slots.relationship_tree` is the grouping.
+        from . import slots as S
+        self._hierarchy = QtWidgets.QComboBox()
+        self._hierarchy.addItems(list(S.HIERARCHIES))
+        self._hierarchy.setToolTip(
+            "How the blocks are grouped. The same blocks at three different addresses: `evidence` by "
+            "how a thing was measured, `biology` by what it is about, `context` by where and when.\n\n"
+            "Which one to pick depends on what is being held out. Holding out 'everything measured by "
+            "mass spectrometry' is an evidence question; holding out 'everything about the bradyzoite' "
+            "is a context one, and the same block belongs to both.")
+        self._hierarchy.currentTextChanged.connect(self._rebuild_blocks)
+        bl.addWidget(self._hierarchy)
+
+        self.blocks = CheckTree()
+        self.blocks.setMinimumHeight(220)
         self.blocks.setToolTip(
-            "Which measurement blocks build the map. Drag across several rows and right-click to tick "
-            "them together, or click one row's box; space toggles whatever is selected.\n\n"
+            "Which measurement blocks build the map. Tick a CATEGORY to tick everything under it; a "
+            "category only partly ticked shows partly.\n\n"
+            "Right-click a category for 'check everything EXCEPT this', which is the hold-out: build "
+            "the map on all the evidence but this one, then ask on the Inference tab whether this one "
+            "comes back. Doing that by hand across 96 boxes is how a reader holds out something they "
+            "did not mean to.\n\n"
             "A block with no columns in this cache is greyed and cannot be ticked. Anything fed in "
             "here cannot afterwards be evidence about the clusters it produced.")
-        defaults = {"Tg_transcription_tachyzoite", "Tg_fitness_hff_in_vitro",
-                    "Tg_fold_confidence_disorder"}
-        for b in SLOT_BLOCKS:
-            cols = columns_for(self.nodes, EmbeddingSpec(blocks=(b,))).get(b, [])
-            item = self.blocks.add(f"{b}  ({len(cols)} columns)", b)
-            if not cols:
-                # Greyed rather than absent: a block this cache cannot fill is a fact about the cache,
-                # and hiding it would read as the block not existing.
-                item.setFlags(item.flags() & ~QtCore.Qt.ItemFlag.ItemIsEnabled)
-            elif b in defaults:
-                item.setCheckState(QtCore.Qt.CheckState.Checked)
+        self._block_columns = {
+            b: columns_for(self.nodes, EmbeddingSpec(blocks=(b,))).get(b, []) for b in SLOT_BLOCKS}
+        self._rebuild_blocks()
         bl.addWidget(self.blocks, 1)
         # Imported columns get their own block, added when something is imported: a block that is
         # always there and always empty is a control that does nothing.
@@ -492,20 +519,43 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.imported_cb.setChecked(bool(self.imported_columns))
         return self.imported_columns
 
+    DEFAULT_BLOCKS = ("Tg_transcription_tachyzoite", "Tg_fitness_hff_in_vitro",
+                      "Tg_fold_confidence_disorder")
+
+    def _rebuild_blocks(self, *_):
+        """Re-address the same blocks under another hierarchy, keeping what is ticked.
+
+        The ticks belong to the BLOCKS, not to the tree, so switching from `evidence` to `context`
+        must not silently change what the map will be built on -- it is the same choice seen from
+        another angle.
+        """
+        from . import slots as S
+        keep = self.blocks.checked() or list(self.DEFAULT_BLOCKS)
+        hierarchy = self._hierarchy.currentText()
+        # Pruned to the FEATURE BLOCKS. The hierarchy addresses all 119 Tg slots, but a target label
+        # or a bookkeeping slot is not something a map can be built on, and showing them greyed here
+        # would read as "measured but unavailable" rather than "not a feature".
+        tree = _prune(S.relationship_tree("Tg", hierarchy), set(SLOT_BLOCKS))
+        self.blocks.build(tree,
+                          label=lambda key: f"{key}  ({len(self._block_columns.get(key, []))} columns)",
+                          enabled=lambda key: bool(self._block_columns.get(key)))
+        self.blocks.set_checked(keep, emit=False)
+        return self.blocks.checked()
+
     def _block_rows(self):
         """(row, block name) for every feature block, so the tooltip pass can reach them.
 
         The blocks were 96 separate check boxes and are now rows in one list; this keeps the tooltip
         pass reading the same pairs rather than teaching it about list widgets.
         """
-        return [(item, item.data(QtCore.Qt.ItemDataRole.UserRole))
-                for item in self.blocks.items()]
+        return [(item, item.data(0, QtCore.Qt.ItemDataRole.UserRole))
+                for item in self.blocks.leaves()]
 
     def block_states(self) -> dict:
         """Every feature block and whether it is ticked. The read-only replacement for `block_cb`."""
-        return {item.data(QtCore.Qt.ItemDataRole.UserRole):
-                item.checkState() == QtCore.Qt.CheckState.Checked
-                for item in self.blocks.items()}
+        return {item.data(0, QtCore.Qt.ItemDataRole.UserRole):
+                item.checkState(0) == QtCore.Qt.CheckState.Checked
+                for item in self.blocks.leaves()}
 
     def spec(self) -> EmbeddingSpec:
         """The EmbeddingSpec described by the current controls."""

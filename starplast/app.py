@@ -1451,15 +1451,6 @@ class Window(QtWidgets.QMainWindow):
 
         # ---- View
         v = mb.addMenu("&View")
-        a = v.addAction("Slot tree…")
-        a.setToolTip(
-            "Every slot, its address in each of the three hierarchies, and what fills it -- with the "
-            "empty ones coloured, because they are the map of what has not been measured.\n\n"
-            "It reads the catalog's own functions rather than a copy of them, so it cannot report a "
-            "clean catalog while the build sees a broken one, and it shows BOTH arms whichever one "
-            "this window is displaying.")
-        a.triggered.connect(self.open_slot_tree)
-        v.addSeparator()
         lvl = v.addMenu("Level of detail")
         lvl.setToolTipsVisible(True)
         self.level_group = QtGui.QActionGroup(self)
@@ -1588,11 +1579,30 @@ class Window(QtWidgets.QMainWindow):
 
         # ---- Tools
         t = mb.addMenu("&Tools")
+        t.setToolTipsVisible(True)
+        # A toggle beside the panel toggles, not a "…" that only ever opens. It sits with the other
+        # things you show and hide, which is where a reader looks for it.
+        self.slot_tree_act = t.addAction("Slot tree")
+        self.slot_tree_act.setCheckable(True)
+        self.slot_tree_act.setShortcut("Ctrl+T")
+        self.slot_tree_act.setToolTip(
+            "Every slot, its address in each of the three hierarchies, and what fills it -- with the "
+            "empty ones coloured, because they are the map of what has not been measured.\n\n"
+            "It reads the catalog's own functions rather than a copy of them, so it cannot report a "
+            "clean catalog while the build sees a broken one, and it shows BOTH arms whichever one "
+            "this window is displaying.")
+        self.slot_tree_act.toggled.connect(self.toggle_slot_tree)
+        t.addSeparator()
         for dock in (self.console_dock, self.jobs_dock, self.chat_dock,
                      getattr(self, "analysis_dock", None), getattr(self, "gallery_dock", None),
                      self.right_dock):
             if dock is not None:
                 t.addAction(dock.toggleViewAction())
+
+        # The same action in both menus, deliberately. It was asked for in Tools and found in View, and
+        # one QAction in two places keeps a single tick rather than two that can disagree.
+        v.addSeparator()
+        v.addAction(self.slot_tree_act)
 
         h = mb.addMenu("&Help")
         h.addAction("What this map does and does not show").triggered.connect(self.explain_map)
@@ -2524,6 +2534,13 @@ class Window(QtWidgets.QMainWindow):
         self._prefs.raise_()
         self._prefs.activateWindow()
         return self._prefs
+
+    def toggle_slot_tree(self, on: bool):
+        """Show or hide the slot tree. The menu item is a checkbox, so it has to be able to close it."""
+        window = self.open_slot_tree() if on else getattr(self, "_slot_tree", None)
+        if window is not None:
+            window.setVisible(bool(on))
+        return window
 
     def open_slot_tree(self):
         """The slot tree, in a window of its own. Shown rather than exec'd, and kept on `self`.

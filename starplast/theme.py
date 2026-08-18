@@ -450,6 +450,176 @@ class CheckList(QtWidgets.QListWidget):
         return menu
 
 
+class CheckTree(QtWidgets.QTreeWidget):
+    """A tree of tick boxes where ticking a CATEGORY ticks everything under it.
+
+    The flat list this replaces had 96 rows, one per feature block, and at that length the list stops
+    being a set of choices and becomes a scroll. What a reader actually wants to say is "all the
+    transcription evidence", or "everything except the fitness screens" -- and both of those are
+    statements about a LEVEL of the slot hierarchy, which already exists and already has the addresses.
+
+    Three properties make it usable for the thing it is for, which is choosing what a map is built on
+    before holding something out of it:
+
+    * **Ticking a group ticks its descendants**, and a group whose children are only partly ticked
+      shows partially rather than lying in either direction.
+    * **`checked()` returns LEAVES only.** A group is a way of saying something about its leaves, not a
+      thing that can itself feed a map.
+    * **"Everything except this"** is one action, because that is the hold-out question -- build the
+      map on all the evidence but this, then ask whether this comes back -- and doing it by hand on 96
+      boxes is how a reader ends up holding out something they did not mean to.
+    """
+
+    checkedChanged = QtCore.pyqtSignal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setHeaderHidden(True)
+        self.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
+        self.customContextMenuRequested.connect(self._menu)
+        self.itemChanged.connect(self._changed)
+        self._quiet = False
+
+    # ------------------------------------------------------------------ building
+    def build(self, tree: dict, label=None, enabled=None) -> int:
+        """Fill from a nested dict: keys are names, empty values are leaves. Returns the leaf count."""
+        self._quiet = True
+        self.clear()
+        made = self._add(self.invisibleRootItem(), tree, label or (lambda k: k), enabled)
+        self._quiet = False
+        self.expandToDepth(0)
+        return made
+
+    def _add(self, parent, node, label, enabled) -> int:
+        made = 0
+        for key, child in (node or {}).items():
+            item = QtWidgets.QTreeWidgetItem([label(key) if not child else key])
+            item.setData(0, QtCore.Qt.ItemDataRole.UserRole, key)
+            item.setFlags(item.flags() | QtCore.Qt.ItemFlag.ItemIsUserCheckable)
+            item.setCheckState(0, QtCore.Qt.CheckState.Unchecked)
+            parent.addChild(item)
+            if child:
+                made += self._add(item, child, label, enabled)
+            else:
+                made += 1
+                if enabled is not None and not enabled(key):
+                    item.setFlags(item.flags() & ~QtCore.Qt.ItemFlag.ItemIsEnabled)
+        return made
+
+    # ------------------------------------------------------------------ state
+    def leaves(self, under=None) -> list:
+        """Every leaf row, or every leaf beneath one node. Leaves are the blocks; groups are addresses."""
+        out, stack = [], [under or self.invisibleRootItem()]
+        while stack:
+            node = stack.pop()
+            for i in range(node.childCount()):
+                child = node.child(i)
+                (stack if child.childCount() else out).append(child)
+        return out
+
+    def checked(self) -> list:
+        """The ticked LEAVES, in tree order. A group is not itself an answer."""
+        return [i.data(0, QtCore.Qt.ItemDataRole.UserRole) for i in self.leaves()
+                if i.checkState(0) == QtCore.Qt.CheckState.Checked]
+
+    def set_checked(self, values, emit: bool = True) -> list:
+        """Tick exactly these leaves and nothing else, as one change, skipping any that are disabled."""
+        wanted = {str(v) for v in values}
+        self._quiet = True
+        for item in self.leaves():
+            usable = bool(item.flags() & QtCore.Qt.ItemFlag.ItemIsEnabled)
+            item.setCheckState(0, QtCore.Qt.CheckState.Checked
+                               if usable and str(item.data(0, QtCore.Qt.ItemDataRole.UserRole)) in wanted
+                               else QtCore.Qt.CheckState.Unchecked)
+        self._refresh_parents()
+        self._quiet = False
+        if emit:
+            self.checkedChanged.emit()
+        return self.checked()
+
+    def _changed(self, item, _column=0):
+        """Push a group's new state down to its leaves, then recompute every group."""
+        if self._quiet:
+            return
+        self._quiet = True
+        if item.childCount():
+            state = item.checkState(0)
+            for leaf in self.leaves(item):
+                if leaf.flags() & QtCore.Qt.ItemFlag.ItemIsEnabled:
+                    leaf.setCheckState(0, state)
+        self._refresh_parents()
+        self._quiet = False
+        self.checkedChanged.emit()
+
+    def _refresh_parents(self):
+        """A group is checked when all its usable leaves are, partial when some are."""
+        def walk(node):
+            for i in range(node.childCount()):
+                child = node.child(i)
+                if not child.childCount():
+                    continue
+                walk(child)
+                usable = [x for x in self.leaves(child)
+                          if x.flags() & QtCore.Qt.ItemFlag.ItemIsEnabled]
+                on = sum(1 for x in usable
+                         if x.checkState(0) == QtCore.Qt.CheckState.Checked)
+                child.setCheckState(0, QtCore.Qt.CheckState.Checked if usable and on == len(usable)
+                                    else QtCore.Qt.CheckState.PartiallyChecked if on
+                                    else QtCore.Qt.CheckState.Unchecked)
+        walk(self.invisibleRootItem())
+
+    # ------------------------------------------------------------------ the menu
+    def _menu(self, pos):
+        return self.build_menu(self.itemAt(pos), self.viewport().mapToGlobal(pos))
+
+    def build_menu(self, item=None, at=None) -> QtWidgets.QMenu:
+        """Shown only when given somewhere to appear, so a test can read it without a modal loop."""
+        menu = QtWidgets.QMenu(self)
+        name = item.text(0) if item is not None else ""
+        act = menu.addAction(f"Check everything under “{name}”")
+        act.setEnabled(item is not None)
+        act.triggered.connect(lambda: self._apply(self.leaves(item), True))
+        act = menu.addAction(f"Uncheck everything under “{name}”")
+        act.setEnabled(item is not None)
+        act.triggered.connect(lambda: self._apply(self.leaves(item), False))
+        menu.addSeparator()
+        # The hold-out, in one click. Build the map on all the evidence EXCEPT this category, then ask
+        # whether this category comes back -- which is the only question a held-out feature answers.
+        act = menu.addAction(f"Check everything EXCEPT “{name}”  (hold this out)")
+        act.setEnabled(item is not None)
+        act.triggered.connect(lambda: self._except(item))
+        menu.addSeparator()
+        menu.addAction("Check all").triggered.connect(lambda: self._apply(self.leaves(), True))
+        menu.addAction("Clear all").triggered.connect(lambda: self._apply(self.leaves(), False))
+        if at is not None:
+            menu.exec(at)
+        return menu
+
+    def _apply(self, items, on: bool):
+        self._quiet = True
+        for item in items:
+            if item.flags() & QtCore.Qt.ItemFlag.ItemIsEnabled:
+                item.setCheckState(0, QtCore.Qt.CheckState.Checked if on
+                                   else QtCore.Qt.CheckState.Unchecked)
+        self._refresh_parents()
+        self._quiet = False
+        self.checkedChanged.emit()
+
+    def _except(self, item):
+        """Everything ticked but this branch -- the hold-out."""
+        held = {id(x) for x in self.leaves(item)}
+        self._quiet = True
+        for leaf in self.leaves():
+            if leaf.flags() & QtCore.Qt.ItemFlag.ItemIsEnabled:
+                leaf.setCheckState(0, QtCore.Qt.CheckState.Unchecked if id(leaf) in held
+                                   else QtCore.Qt.CheckState.Checked)
+        self._refresh_parents()
+        self._quiet = False
+        self.checkedChanged.emit()
+        return self.checked()
+
+
 class Switch(QtWidgets.QWidget):
     """A boolean slider, the shape and colors of `spacr.gui_elements.spacrSwitch`.
 

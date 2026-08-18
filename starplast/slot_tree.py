@@ -141,15 +141,18 @@ def _side_tables(organism: str) -> dict:
     return out
 
 
-def audit(organism: str, nodes=None, tables=None, graph=None) -> dict:
+def audit(organism: str, nodes=None, tables=None, graph=None, rows: dict = None) -> dict:
     """The four counts this window exists to make impossible to miss.
 
     Computed with the same functions the pipeline uses, so the window cannot report a clean catalog
     while the build sees a broken one.
     """
     catalog = S.all_slots(organism)
-    empty = sum(1 for s in catalog
-                if not S.is_filled(s, nodes=nodes, graph=graph, tables=tables))
+    # `rows` is the map the window already built. Given it, this walks it instead of asking the
+    # catalog the same 119 questions a second time.
+    empty = (sum(1 for r in rows.values() if not r["filled"]) if rows else
+             sum(1 for s in catalog
+                 if not S.is_filled(s, nodes=nodes, graph=graph, tables=tables)))
     citation = sum(1 for s in catalog for c in (s.candidates or ())
                    if not _accession_of(c))
     double = orphan = 0
@@ -158,7 +161,9 @@ def audit(organism: str, nodes=None, tables=None, graph=None) -> dict:
         for slot in catalog:
             if slot.unit != S.RESOLVABLE_UNIT:
                 continue
-            for column in S.declared_columns(nodes, slot):
+            columns = rows[slot.name]["columns"] if rows and slot.name in rows else \
+                S.declared_columns(nodes, slot)
+            for column in columns:
                 claimed.setdefault(column, []).append(slot.name)
         double = sum(1 for names in claimed.values() if len(names) > 1)
         # A column claimed by a `role="never"` slot is described -- bookkeeping the catalog knows
@@ -211,6 +216,7 @@ class SlotTree(QtWidgets.QWidget):
         self.graph = graph
         self.tables = tables or {}
         self._explicit = nodes is not None
+        self._row_cache = {}
         layout = QtWidgets.QVBoxLayout(self)
 
         controls = QtWidgets.QHBoxLayout()
@@ -269,7 +275,16 @@ class SlotTree(QtWidgets.QWidget):
             self.tables = source.get("tables") or {}
         hierarchy = self.hierarchy.currentText()
         catalog = S.all_slots(organism)
-        self._rows = {s.name: _slot_row(s, self.nodes, self.tables, self.graph) for s in catalog}
+        # Mapped once per organism, not once per keystroke. A row is `is_filled` plus
+        # `declared_columns` plus `resolve` for one slot -- pattern matching over 393 columns and a
+        # notna() count -- and none of it depends on which hierarchy is showing or what is typed in
+        # the filter. Recomputing all 119 on every rebuild made a rebuild take a second, and the
+        # filter rebuilds on every keystroke, so typing "bradyzoite" cost about ten.
+        cached = self._row_cache.get(organism)
+        if cached is None:
+            cached = {s.name: _slot_row(s, self.nodes, self.tables, self.graph) for s in catalog}
+            self._row_cache[organism] = cached
+        self._rows = cached
         # The key a tree node carries is the LAST element of the slot's own hierarchy path. Rebuilding
         # it from the name instead -- replacing " · " and spaces with underscores -- looked equivalent
         # and was not: 53 of 119 slots failed to match and rendered as empty GROUP rows, which is a
@@ -298,13 +313,19 @@ class SlotTree(QtWidgets.QWidget):
         kept = [k for k in kept if k is not None]
         if not kept and needle:
             return None
-        leaves = self._leaves(item)
-        filled = sum(1 for i in leaves if i.data(0, QtCore.Qt.ItemDataRole.UserRole + 1))
-        item.setText(1, f"{filled}/{len(leaves)}")
-        item.setText(4, f"{len(leaves) - filled} empty" if leaves else "")
-        genes = [i.data(0, QtCore.Qt.ItemDataRole.UserRole + 2) for i in leaves]
-        genes = [g for g in genes if g]
-        item.setText(2, f"max {max(genes):,}" if genes else "")
+        # Accumulated from the children as they are made, rather than re-walking the whole subtree
+        # once per group. `_leaves` from every group is quadratic in the catalog, and the catalog is
+        # the thing that keeps growing.
+        leaves = filled = best = 0
+        for child in kept:
+            n, f, g = child.data(0, QtCore.Qt.ItemDataRole.UserRole + 3) or (1, 0, 0)
+            leaves += n
+            filled += f
+            best = max(best, g)
+        item.setData(0, QtCore.Qt.ItemDataRole.UserRole + 3, (leaves, filled, best))
+        item.setText(1, f"{filled}/{leaves}")
+        item.setText(4, f"{leaves - filled} empty" if leaves else "")
+        item.setText(2, f"max {best:,}" if best else "")
         parent.addChild(item)
         return item
 
@@ -324,6 +345,9 @@ class SlotTree(QtWidgets.QWidget):
         item.setData(0, QtCore.Qt.ItemDataRole.UserRole, slot.name)
         item.setData(0, QtCore.Qt.ItemDataRole.UserRole + 1, row["filled"])
         item.setData(0, QtCore.Qt.ItemDataRole.UserRole + 2, genes or 0)
+        # (leaves, filled, best genes) so a parent can add its children up without walking them.
+        item.setData(0, QtCore.Qt.ItemDataRole.UserRole + 3,
+                     (1, 1 if row["filled"] else 0, genes or 0))
         if not row["filled"]:
             # The empty rows are the point of the window, so they are marked rather than left to be
             # noticed. Colour from the palette: a hex here would stay dark on the light theme.
@@ -360,7 +384,7 @@ class SlotTree(QtWidgets.QWidget):
     # ------------------------------------------------------------------ reporting
     def _show_alarms(self, organism: str) -> str:
         """The four counts, in words, above the tree."""
-        got = audit(organism, self.nodes, self.tables, self.graph)
+        got = audit(organism, self.nodes, self.tables, self.graph, rows=self._rows)
         parts = []
         for key, (label, _tip) in ALARMS.items():
             parts.append(f"<b>{got[key]}</b> {label}")
