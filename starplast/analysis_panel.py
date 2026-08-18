@@ -439,6 +439,10 @@ class AnalysisPanel(QtWidgets.QWidget):
         from . import slots as S
         self._hierarchy = QtWidgets.QComboBox()
         self._hierarchy.addItems(list(S.HIERARCHIES))
+        # Biology by default. The question being asked here is which BIOLOGY a map is built on and
+        # which is held out, and `evidence` -- how a thing was measured -- is the answer to a
+        # different question. It was only the default because it is first in the tuple.
+        self._hierarchy.setCurrentText("biology")
         self._hierarchy.setToolTip(
             "How the blocks are grouped. The same blocks at three different addresses: `evidence` by "
             "how a thing was measured, `biology` by what it is about, `context` by where and when.\n\n"

@@ -98,10 +98,20 @@ def test_a_missing_or_broken_catalog_is_an_explicit_empty_catalog(monkeypatch, t
 def test_slots_are_leaves_in_three_independent_hierarchies():
     measured = next(s for s in slots.all_slots("Tg") if s.name == "localization · measured")
     topology = next(s for s in slots.all_slots("Tg") if s.name == "membrane topology")
-    assert measured.biology_path == topology.biology_path
+    assert measured.biology_path[:2] == topology.biology_path[:2]
     assert measured.evidence_path != topology.evidence_path
-    assert measured.key in slots.relationship_tree("Tg", "biology") \
-        ["cell organization"]["localization and topology"]
+    # Walked rather than indexed at a fixed depth. The trees gained a subject level on 2026-08-18 --
+    # before it, `gene expression > RNA abundance` held 23 slots with tachyzoite and bradyzoite mixed,
+    # so "hold out everything about the bradyzoite" had no address -- and a test that hardcodes the
+    # depth asserts the tree's shape rather than the property, which is that a slot is a LEAF at its
+    # own address in every hierarchy.
+    for hierarchy in slots.HIERARCHIES:
+        for slot in (measured, topology):
+            node = slots.relationship_tree("Tg", hierarchy)
+            for step in slots.hierarchy_path(slot, hierarchy):
+                assert step in node, f"{slot.name}: {step} missing from the {hierarchy} tree"
+                node = node[step]
+            assert node == {}, f"{slot.name} is not a leaf in {hierarchy}"
     assert topology in slots.slots_in_group(("intrinsic and reference", "sequence-derived"),
                                             hierarchy="evidence")
 
@@ -518,3 +528,35 @@ def test_host_columns_never_appear_in_a_parasite_embedding():
     for slot in slots.all_slots():
         if slot.unit == "host_gene":
             assert slot.role != "feature", f"{slot.name} would feed a parasite map"
+
+
+def test_no_leaf_group_lumps_the_life_cycle_stages_together():
+    """Reported 2026-08-18: tachyzoite and bradyzoite datasets sat in one leaf group, so "hold out
+    everything about the bradyzoite" had no address to hold out.
+
+    The biology tree was a two-level lookup keyed on the AXIS alone -- `gene expression > RNA
+    abundance` held 23 of the 119 Toxoplasma slots -- and context was worse, with 55 in `in vitro or
+    assay-defined > stage-unspecified`. All three now carry a subject level.
+    """
+    from collections import defaultdict
+    stages = {"tachyzoite", "bradyzoite"}
+    for hierarchy in slots.HIERARCHIES:
+        groups = defaultdict(list)
+        for slot in slots.all_slots("Tg"):
+            groups[tuple(slots.hierarchy_path(slot, hierarchy)[:-1])].append(slot)
+        for path, members in groups.items():
+            # A slot naming BOTH stages is a stage-conversion slot and belongs to whichever group it
+            # was assigned; what must not happen is a tachyzoite-ONLY slot sharing a group with a
+            # bradyzoite-ONLY one, because then neither stage can be held out without the other.
+            only = set()
+            for slot in members:
+                text = f"{slot.name} {slot.context}".lower()
+                named = {stage for stage in stages if stage in text}
+                if len(named) == 1:
+                    only |= named
+            assert len(only) < 2, (
+                f"{hierarchy}: {' > '.join(path)} puts a {sorted(only)[0]}-only slot and a "
+                f"{sorted(only)[1]}-only slot in one leaf group")
+        biggest = max(len(m) for m in groups.values())
+        assert biggest <= 20, (
+            f"{hierarchy}: one leaf group holds {biggest} slots, which cannot be held out as a class")

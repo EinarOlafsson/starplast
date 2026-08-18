@@ -12,119 +12,159 @@ Slots are the leaves of three independent trees. A single tree would create fals
 - molecular measurements
   - RNA
     - transcript abundance
-      - Tg_transcription_tachyzoite
-      - Tg_transcription_bradyzoite_tissue_cyst
-      - Tg_transcription_oocyst_sporozoite
-      - Tg_transcription_merozoite
-      - Tg_transcription_sexual_stages
-      - Tg_transcription_per_cell_cycle_phase
-      - Tg_transcription_in_naive_macrophage
-      - Tg_transcription_in_ifn_gamma_macrophage
-      - Tg_transcription_in_vivo_brain_acute
-      - Tg_transcription_in_vivo_brain_chronic
-      - Tg_transcription_purified_bradyzoite_in_vivo
-      - Tg_transcription_primary_brain_cell_differentiation_time_course
-      - Tg_transcription_under_stress_conversion
-      - Tg_transcription_extracellular_lytic_stress
-      - Tg_transcription_under_tf_or_chromatin_perturbation
-      - Tg_transcription_under_rna_processing_perturbation
-      - Tg_transcription_bradyzoite_checkpoint_perturbation
-      - Tg_transcription_maximum_observed_across_stages
-      - Tg_cell_cycle_timing_label
-      - Tg_transcription_under_initiation_factor_depletion
-      - Tg_noncoding_and_antisense_transcription
-      - Tg_transcription_in_vivo_enteric
+      - tachyzoite
+        - Tg_transcription_tachyzoite
+        - Tg_transcription_extracellular_lytic_stress
+        - Tg_transcription_under_rna_processing_perturbation
+      - bradyzoite
+        - Tg_transcription_bradyzoite_tissue_cyst
+        - Tg_transcription_purified_bradyzoite_in_vivo
+        - Tg_transcription_bradyzoite_checkpoint_perturbation
+        - Tg_transcription_under_initiation_factor_depletion
+      - sporozoite
+        - Tg_transcription_oocyst_sporozoite
+      - merozoite
+        - Tg_transcription_merozoite
+      - sexual
+        - Tg_transcription_sexual_stages
+      - cell cycle
+        - Tg_transcription_per_cell_cycle_phase
+        - Tg_cell_cycle_timing_label
+      - host interaction
+        - Tg_transcription_in_naive_macrophage
+        - Tg_transcription_in_ifn_gamma_macrophage
+      - in vivo
+        - Tg_transcription_in_vivo_brain_acute
+        - Tg_transcription_in_vivo_brain_chronic
+        - Tg_transcription_primary_brain_cell_differentiation_time_course
+        - Tg_transcription_in_vivo_enteric
+      - stress and perturbation
+        - Tg_transcription_under_stress_conversion
+        - Tg_transcription_under_tf_or_chromatin_perturbation
+      - stage-unspecified
+        - Tg_transcription_maximum_observed_across_stages
+      - non-coding and isoforms
+        - Tg_noncoding_and_antisense_transcription
   - translation
     - ribosome occupancy
-      - Tg_translation_tachyzoite
-      - Tg_translation_bradyzoite
-      - Tg_translation_per_cell_cycle_phase
-      - Tg_translation_under_stress
-      - Tg_translation_efficiency_tachyzoite
-      - Tg_translation_efficiency_extracellular_stress
-      - Tg_translation_efficiency_bradyzoite
-      - Tg_translation_under_initiation_factor_depletion
-      - Tg_codon_usage_translation_efficiency
+      - tachyzoite
+        - Tg_translation_tachyzoite
+        - Tg_translation_efficiency_tachyzoite
+      - bradyzoite
+        - Tg_translation_bradyzoite
+        - Tg_translation_efficiency_bradyzoite
+        - Tg_translation_under_initiation_factor_depletion
+      - cell cycle
+        - Tg_translation_per_cell_cycle_phase
+      - stress and perturbation
+        - Tg_translation_under_stress
+        - Tg_translation_efficiency_extracellular_stress
+      - stage-unspecified
+        - Tg_codon_usage_translation_efficiency
   - protein
     - abundance
-      - Tg_protein_abundance_tachyzoite
-      - Tg_protein_abundance_other_life_stages
-      - Tg_thermal_stability_melting_temperature
-      - Tg_protein_turnover
+      - tachyzoite
+        - Tg_protein_abundance_tachyzoite
+        - Tg_thermal_stability_melting_temperature
+        - Tg_protein_turnover
+      - stage-unspecified
+        - Tg_protein_abundance_other_life_stages
     - post-translational state
-      - Tg_phosphorylation_site_count
-      - Tg_phosphorylation_quantitative
-      - Tg_phosphorylation_kinase_substrate
-      - Tg_acetylation
-      - Tg_n_myristoylation
-      - Tg_arginine_methylation
-      - Tg_lactylation
-      - Tg_s_nitrosylation
-      - Tg_ubiquitination_sumoylation
-      - Tg_glycosylation
-      - Tg_palmitoylation
+      - tachyzoite
+        - Tg_phosphorylation_site_count
+        - Tg_phosphorylation_quantitative
+        - Tg_n_myristoylation
+        - Tg_arginine_methylation
+        - Tg_lactylation
+        - Tg_s_nitrosylation
+        - Tg_ubiquitination_sumoylation
+        - Tg_glycosylation
+        - Tg_palmitoylation
+      - stress and perturbation
+        - Tg_phosphorylation_kinase_substrate
+      - stage-unspecified
+        - Tg_acetylation
   - regulation
     - chromatin and RNA regulation
-      - Tg_tf_binding_per_factor
-      - Tg_chromatin_state_histone_marks
-      - Tg_chromatin_accessibility
-      - Tg_rna_modification_m6a_5mc
-      - Tg_splicing_isoform_use
-      - Tg_rna_stability_half_life
+      - stage-unspecified
+        - Tg_tf_binding_per_factor
+        - Tg_chromatin_accessibility
+      - bradyzoite
+        - Tg_chromatin_state_histone_marks
+      - tachyzoite
+        - Tg_rna_modification_m6a_5mc
+        - Tg_rna_stability_half_life
+      - non-coding and isoforms
+        - Tg_splicing_isoform_use
   - spatial biology
     - localization
-      - Tg_localization_measured
-      - Tg_exposure_to_host_cytosol
-      - Tg_secretome_excreted
-      - Tg_cyst_wall_composition
+      - stage-unspecified
+        - Tg_localization_measured
+        - Tg_secretome_excreted
+      - host interaction
+        - Tg_exposure_to_host_cytosol
+      - bradyzoite
+        - Tg_cyst_wall_composition
   - metabolism
     - metabolite or flux
-      - Tg_metabolite_levels
-      - Tg_metabolic_flux
-      - Tg_lipid_composition
-      - Tg_enzyme_classification
+      - stage-unspecified
+        - Tg_metabolite_levels
+        - Tg_metabolic_flux
+        - Tg_lipid_composition
+        - Tg_enzyme_classification
 - metadata and derived outputs
   - derived target labels
     - life-cycle stage
       - Tg_life_cycle_stage_label_derived
   - excluded from embeddings
-    - Tg_downloaded_study_membership
-    - Tg_analysis_derived_structural_holes
-    - Tg_assay_confidence_and_significance
-    - Tg_literature_attention
-    - Tg_gene_identity_and_annotation
+    - stage-unspecified
+      - Tg_downloaded_study_membership
+      - Tg_analysis_derived_structural_holes
+      - Tg_assay_confidence_and_significance
+      - Tg_literature_attention
+      - Tg_gene_identity_and_annotation
 - perturbational measurements
   - genetic screens
     - fitness
-      - Tg_fitness_hff_in_vitro
-      - Tg_fitness_naive_macrophage
-      - Tg_fitness_ifn_gamma_macrophage
-      - Tg_fitness_in_vivo_peritoneum
-      - Tg_fitness_in_vivo_lung
-      - Tg_fitness_in_vivo_liver
-      - Tg_fitness_in_vivo_spleen
-      - Tg_fitness_oxidative_stress
-      - Tg_fitness_hyperlopit_unassigned_proteins
-      - Tg_fitness_targeted_in_vivo_young_2019
-      - Tg_genetic_interaction_delta_gra17
-      - Tg_fitness_gra12_screen_1_in_vitro
-      - Tg_fitness_gra12_screen_1_in_vivo
-      - Tg_fitness_gra12_screen_1_differential
-      - Tg_fitness_gra12_screen_2_in_vitro
-      - Tg_fitness_gra12_screen_2_in_vivo
-      - Tg_fitness_gra12_screen_2_differential
-      - Tg_stage_conversion_phenotype
-      - Tg_drug_sensitivity
-      - Tg_essentiality_in_a_second_background
-      - Tg_fitness_in_vivo_gut
+      - host interaction
+        - Tg_fitness_hff_in_vitro
+        - Tg_fitness_naive_macrophage
+        - Tg_fitness_ifn_gamma_macrophage
+      - in vivo
+        - Tg_fitness_in_vivo_peritoneum
+        - Tg_fitness_in_vivo_lung
+        - Tg_fitness_in_vivo_liver
+        - Tg_fitness_in_vivo_spleen
+        - Tg_fitness_hyperlopit_unassigned_proteins
+        - Tg_fitness_targeted_in_vivo_young_2019
+        - Tg_fitness_gra12_screen_1_in_vivo
+        - Tg_fitness_gra12_screen_1_differential
+        - Tg_fitness_gra12_screen_2_in_vivo
+        - Tg_fitness_gra12_screen_2_differential
+      - stress and perturbation
+        - Tg_fitness_oxidative_stress
+        - Tg_drug_sensitivity
+      - stage-unspecified
+        - Tg_genetic_interaction_delta_gra17
+        - Tg_fitness_gra12_screen_1_in_vitro
+        - Tg_fitness_gra12_screen_2_in_vitro
+        - Tg_essentiality_in_a_second_background
+      - bradyzoite
+        - Tg_stage_conversion_phenotype
+      - sexual
+        - Tg_fitness_in_vivo_gut
   - chemical
     - response or engagement
-      - Tg_resistance_conferring_mutation
-      - Tg_target_engagement_thermal_shift
+      - ring
+        - Tg_resistance_conferring_mutation
+      - stage-unspecified
+        - Tg_target_engagement_thermal_shift
   - cell phenotype
     - imaging phenotype
-      - Tg_host_escrt_recruitment
-      - Tg_invasion_and_egress_phenotype
+      - host interaction
+        - Tg_host_escrt_recruitment
+      - stage-unspecified
+        - Tg_invasion_and_egress_phenotype
 - intrinsic and reference
   - orthology-derived
     - localization transfer
@@ -134,15 +174,185 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - Tg_membrane_topology
   - sequence and evolution
     - gene attributes
-      - Tg_domain_content
-      - Tg_fold_confidence_disorder
-      - Tg_conservation_breadth
-      - Tg_paralogy
-      - Tg_sequence_basics
-      - Tg_strain_variation
+      - stage-unspecified
+        - Tg_domain_content
+        - Tg_fold_confidence_disorder
+        - Tg_conservation_breadth
+        - Tg_paralogy
+        - Tg_sequence_basics
+        - Tg_strain_variation
 - relational measurements
   - gene-gene
     - association or interaction
+      - stage-unspecified
+        - Tg_co_transcription
+        - Tg_co_translation
+        - Tg_co_fitness
+        - Tg_interaction_crosslink_ms
+        - Tg_interaction_ip_ms_parasite_parasite
+        - Tg_interaction_proximity_labelling
+        - Tg_interaction_structural_similarity
+        - Tg_shared_compartment
+        - Tg_shared_orthogroup
+        - Tg_shared_domain
+        - Tg_interaction_degree_crosslink_ms
+        - Tg_interaction_degree_ip_ms
+        - Tg_interaction_degree_structural_similarity
+        - Tg_rna_binding_protein_targets
+        - Tg_complex_membership
+      - host interaction
+        - Tg_interaction_with_host_proteins
+  - parasite-host
+    - host effect
+      - host interaction
+        - Tg_host_interaction_degree
+        - Tg_host_transcriptional_effect_per_effector
+  - host immunity
+    - recognition
+      - stage-unspecified
+        - Tg_seroreactivity_antigenicity
+        - Tg_t_cell_epitope_content
+
+## Toxoplasma — biology
+
+- gene expression
+  - RNA abundance
+    - tachyzoite
+      - Tg_transcription_tachyzoite
+      - Tg_transcription_extracellular_lytic_stress
+      - Tg_transcription_under_rna_processing_perturbation
+    - bradyzoite
+      - Tg_transcription_bradyzoite_tissue_cyst
+      - Tg_transcription_purified_bradyzoite_in_vivo
+      - Tg_transcription_bradyzoite_checkpoint_perturbation
+      - Tg_transcription_under_initiation_factor_depletion
+    - sporozoite
+      - Tg_transcription_oocyst_sporozoite
+    - merozoite
+      - Tg_transcription_merozoite
+    - sexual
+      - Tg_transcription_sexual_stages
+    - cell cycle
+      - Tg_transcription_per_cell_cycle_phase
+      - Tg_cell_cycle_timing_label
+    - host interaction
+      - Tg_transcription_in_naive_macrophage
+      - Tg_transcription_in_ifn_gamma_macrophage
+    - in vivo
+      - Tg_transcription_in_vivo_brain_acute
+      - Tg_transcription_in_vivo_brain_chronic
+      - Tg_transcription_primary_brain_cell_differentiation_time_course
+      - Tg_transcription_in_vivo_enteric
+    - stress and perturbation
+      - Tg_transcription_under_stress_conversion
+      - Tg_transcription_under_tf_or_chromatin_perturbation
+    - stage-unspecified
+      - Tg_transcription_maximum_observed_across_stages
+      - Tg_life_cycle_stage_label_derived
+    - non-coding and isoforms
+      - Tg_noncoding_and_antisense_transcription
+  - protein synthesis
+    - tachyzoite
+      - Tg_translation_tachyzoite
+      - Tg_translation_efficiency_tachyzoite
+    - bradyzoite
+      - Tg_translation_bradyzoite
+      - Tg_translation_efficiency_bradyzoite
+      - Tg_translation_under_initiation_factor_depletion
+    - cell cycle
+      - Tg_translation_per_cell_cycle_phase
+    - stress and perturbation
+      - Tg_translation_under_stress
+      - Tg_translation_efficiency_extracellular_stress
+    - stage-unspecified
+      - Tg_codon_usage_translation_efficiency
+  - protein abundance
+    - tachyzoite
+      - Tg_protein_abundance_tachyzoite
+      - Tg_thermal_stability_melting_temperature
+      - Tg_protein_turnover
+    - stage-unspecified
+      - Tg_protein_abundance_other_life_stages
+- protein state
+  - post-translational modification
+    - tachyzoite
+      - Tg_phosphorylation_site_count
+      - Tg_phosphorylation_quantitative
+      - Tg_n_myristoylation
+      - Tg_arginine_methylation
+      - Tg_lactylation
+      - Tg_s_nitrosylation
+      - Tg_ubiquitination_sumoylation
+      - Tg_glycosylation
+      - Tg_palmitoylation
+    - stress and perturbation
+      - Tg_phosphorylation_kinase_substrate
+    - stage-unspecified
+      - Tg_acetylation
+- parasite phenotype
+  - fitness and essentiality
+    - host interaction
+      - Tg_fitness_hff_in_vitro
+      - Tg_fitness_naive_macrophage
+      - Tg_fitness_ifn_gamma_macrophage
+    - in vivo
+      - Tg_fitness_in_vivo_peritoneum
+      - Tg_fitness_in_vivo_lung
+      - Tg_fitness_in_vivo_liver
+      - Tg_fitness_in_vivo_spleen
+      - Tg_fitness_hyperlopit_unassigned_proteins
+      - Tg_fitness_targeted_in_vivo_young_2019
+      - Tg_fitness_gra12_screen_1_in_vivo
+      - Tg_fitness_gra12_screen_1_differential
+      - Tg_fitness_gra12_screen_2_in_vivo
+      - Tg_fitness_gra12_screen_2_differential
+    - stress and perturbation
+      - Tg_fitness_oxidative_stress
+      - Tg_drug_sensitivity
+    - stage-unspecified
+      - Tg_genetic_interaction_delta_gra17
+      - Tg_fitness_gra12_screen_1_in_vitro
+      - Tg_fitness_gra12_screen_2_in_vitro
+      - Tg_essentiality_in_a_second_background
+    - bradyzoite
+      - Tg_stage_conversion_phenotype
+    - sexual
+      - Tg_fitness_in_vivo_gut
+  - chemical response
+    - ring
+      - Tg_resistance_conferring_mutation
+    - stage-unspecified
+      - Tg_target_engagement_thermal_shift
+  - cellular process
+    - host interaction
+      - Tg_host_escrt_recruitment
+    - stage-unspecified
+      - Tg_invasion_and_egress_phenotype
+- gene regulation
+  - stage-unspecified
+    - Tg_tf_binding_per_factor
+    - Tg_chromatin_accessibility
+  - bradyzoite
+    - Tg_chromatin_state_histone_marks
+  - tachyzoite
+    - Tg_rna_modification_m6a_5mc
+    - Tg_rna_stability_half_life
+  - non-coding and isoforms
+    - Tg_splicing_isoform_use
+- cell organization
+  - localization and topology
+    - stage-unspecified
+      - Tg_localization_measured
+      - Tg_localization_transferred
+      - Tg_membrane_topology
+      - Tg_secretome_excreted
+    - host interaction
+      - Tg_exposure_to_host_cytosol
+    - bradyzoite
+      - Tg_cyst_wall_composition
+- molecular relationships
+  - parasite-parasite
+    - stage-unspecified
       - Tg_co_transcription
       - Tg_co_translation
       - Tg_co_fitness
@@ -150,7 +360,6 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - Tg_interaction_ip_ms_parasite_parasite
       - Tg_interaction_proximity_labelling
       - Tg_interaction_structural_similarity
-      - Tg_interaction_with_host_proteins
       - Tg_shared_compartment
       - Tg_shared_orthogroup
       - Tg_shared_domain
@@ -159,290 +368,211 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - Tg_interaction_degree_structural_similarity
       - Tg_rna_binding_protein_targets
       - Tg_complex_membership
+    - host interaction
+      - Tg_interaction_with_host_proteins
   - parasite-host
-    - host effect
+    - host interaction
       - Tg_host_interaction_degree
       - Tg_host_transcriptional_effect_per_effector
-  - host immunity
-    - recognition
-      - Tg_seroreactivity_antigenicity
-      - Tg_t_cell_epitope_content
-
-## Toxoplasma — biology
-
-- gene expression
-  - RNA abundance
-    - Tg_transcription_tachyzoite
-    - Tg_transcription_bradyzoite_tissue_cyst
-    - Tg_transcription_oocyst_sporozoite
-    - Tg_transcription_merozoite
-    - Tg_transcription_sexual_stages
-    - Tg_transcription_per_cell_cycle_phase
-    - Tg_transcription_in_naive_macrophage
-    - Tg_transcription_in_ifn_gamma_macrophage
-    - Tg_transcription_in_vivo_brain_acute
-    - Tg_transcription_in_vivo_brain_chronic
-    - Tg_transcription_purified_bradyzoite_in_vivo
-    - Tg_transcription_primary_brain_cell_differentiation_time_course
-    - Tg_transcription_under_stress_conversion
-    - Tg_transcription_extracellular_lytic_stress
-    - Tg_transcription_under_tf_or_chromatin_perturbation
-    - Tg_transcription_under_rna_processing_perturbation
-    - Tg_transcription_bradyzoite_checkpoint_perturbation
-    - Tg_transcription_maximum_observed_across_stages
-    - Tg_cell_cycle_timing_label
-    - Tg_life_cycle_stage_label_derived
-    - Tg_transcription_under_initiation_factor_depletion
-    - Tg_noncoding_and_antisense_transcription
-    - Tg_transcription_in_vivo_enteric
-  - protein synthesis
-    - Tg_translation_tachyzoite
-    - Tg_translation_bradyzoite
-    - Tg_translation_per_cell_cycle_phase
-    - Tg_translation_under_stress
-    - Tg_translation_efficiency_tachyzoite
-    - Tg_translation_efficiency_extracellular_stress
-    - Tg_translation_efficiency_bradyzoite
-    - Tg_translation_under_initiation_factor_depletion
-    - Tg_codon_usage_translation_efficiency
-  - protein abundance
-    - Tg_protein_abundance_tachyzoite
-    - Tg_protein_abundance_other_life_stages
-    - Tg_thermal_stability_melting_temperature
-    - Tg_protein_turnover
-- protein state
-  - post-translational modification
-    - Tg_phosphorylation_site_count
-    - Tg_phosphorylation_quantitative
-    - Tg_phosphorylation_kinase_substrate
-    - Tg_acetylation
-    - Tg_n_myristoylation
-    - Tg_arginine_methylation
-    - Tg_lactylation
-    - Tg_s_nitrosylation
-    - Tg_ubiquitination_sumoylation
-    - Tg_glycosylation
-    - Tg_palmitoylation
-- parasite phenotype
-  - fitness and essentiality
-    - Tg_fitness_hff_in_vitro
-    - Tg_fitness_naive_macrophage
-    - Tg_fitness_ifn_gamma_macrophage
-    - Tg_fitness_in_vivo_peritoneum
-    - Tg_fitness_in_vivo_lung
-    - Tg_fitness_in_vivo_liver
-    - Tg_fitness_in_vivo_spleen
-    - Tg_fitness_oxidative_stress
-    - Tg_fitness_hyperlopit_unassigned_proteins
-    - Tg_fitness_targeted_in_vivo_young_2019
-    - Tg_genetic_interaction_delta_gra17
-    - Tg_fitness_gra12_screen_1_in_vitro
-    - Tg_fitness_gra12_screen_1_in_vivo
-    - Tg_fitness_gra12_screen_1_differential
-    - Tg_fitness_gra12_screen_2_in_vitro
-    - Tg_fitness_gra12_screen_2_in_vivo
-    - Tg_fitness_gra12_screen_2_differential
-    - Tg_stage_conversion_phenotype
-    - Tg_drug_sensitivity
-    - Tg_essentiality_in_a_second_background
-    - Tg_fitness_in_vivo_gut
-  - chemical response
-    - Tg_resistance_conferring_mutation
-    - Tg_target_engagement_thermal_shift
-  - cellular process
-    - Tg_host_escrt_recruitment
-    - Tg_invasion_and_egress_phenotype
-- gene regulation
-  - Tg_tf_binding_per_factor
-  - Tg_chromatin_state_histone_marks
-  - Tg_chromatin_accessibility
-  - Tg_rna_modification_m6a_5mc
-  - Tg_splicing_isoform_use
-  - Tg_rna_stability_half_life
-- cell organization
-  - localization and topology
-    - Tg_localization_measured
-    - Tg_localization_transferred
-    - Tg_membrane_topology
-    - Tg_exposure_to_host_cytosol
-    - Tg_secretome_excreted
-    - Tg_cyst_wall_composition
-- molecular relationships
-  - parasite-parasite
-    - Tg_co_transcription
-    - Tg_co_translation
-    - Tg_co_fitness
-    - Tg_interaction_crosslink_ms
-    - Tg_interaction_ip_ms_parasite_parasite
-    - Tg_interaction_proximity_labelling
-    - Tg_interaction_structural_similarity
-    - Tg_interaction_with_host_proteins
-    - Tg_shared_compartment
-    - Tg_shared_orthogroup
-    - Tg_shared_domain
-    - Tg_interaction_degree_crosslink_ms
-    - Tg_interaction_degree_ip_ms
-    - Tg_interaction_degree_structural_similarity
-    - Tg_rna_binding_protein_targets
-    - Tg_complex_membership
-  - parasite-host
-    - Tg_host_interaction_degree
-    - Tg_host_transcriptional_effect_per_effector
 - provenance and analysis metadata
-  - Tg_downloaded_study_membership
-  - Tg_analysis_derived_structural_holes
-  - Tg_assay_confidence_and_significance
-  - Tg_literature_attention
-  - Tg_gene_identity_and_annotation
+  - stage-unspecified
+    - Tg_downloaded_study_membership
+    - Tg_analysis_derived_structural_holes
+    - Tg_assay_confidence_and_significance
+    - Tg_literature_attention
+    - Tg_gene_identity_and_annotation
 - intrinsic properties
   - sequence structure and evolution
-    - Tg_domain_content
-    - Tg_fold_confidence_disorder
-    - Tg_conservation_breadth
-    - Tg_paralogy
-    - Tg_sequence_basics
-    - Tg_strain_variation
+    - stage-unspecified
+      - Tg_domain_content
+      - Tg_fold_confidence_disorder
+      - Tg_conservation_breadth
+      - Tg_paralogy
+      - Tg_sequence_basics
+      - Tg_strain_variation
 - metabolism
-  - Tg_metabolite_levels
-  - Tg_metabolic_flux
-  - Tg_lipid_composition
-  - Tg_enzyme_classification
+  - stage-unspecified
+    - Tg_metabolite_levels
+    - Tg_metabolic_flux
+    - Tg_lipid_composition
+    - Tg_enzyme_classification
 - host recognition
-  - Tg_seroreactivity_antigenicity
-  - Tg_t_cell_epitope_content
+  - stage-unspecified
+    - Tg_seroreactivity_antigenicity
+    - Tg_t_cell_epitope_content
 
 ## Toxoplasma — context
 
 - in vitro or assay-defined
   - tachyzoite
-    - Tg_transcription_tachyzoite
-    - Tg_transcription_extracellular_lytic_stress
-    - Tg_transcription_under_rna_processing_perturbation
-    - Tg_transcription_bradyzoite_checkpoint_perturbation
-    - Tg_translation_tachyzoite
-    - Tg_translation_efficiency_tachyzoite
-    - Tg_translation_under_initiation_factor_depletion
-    - Tg_transcription_under_initiation_factor_depletion
-    - Tg_protein_abundance_tachyzoite
-    - Tg_thermal_stability_melting_temperature
-    - Tg_protein_turnover
-    - Tg_phosphorylation_site_count
-    - Tg_phosphorylation_quantitative
-    - Tg_n_myristoylation
-    - Tg_arginine_methylation
-    - Tg_lactylation
-    - Tg_s_nitrosylation
-    - Tg_ubiquitination_sumoylation
-    - Tg_glycosylation
-    - Tg_palmitoylation
-    - Tg_chromatin_state_histone_marks
-    - Tg_rna_modification_m6a_5mc
-    - Tg_rna_stability_half_life
+    - transcription
+      - Tg_transcription_tachyzoite
+      - Tg_transcription_extracellular_lytic_stress
+      - Tg_transcription_under_rna_processing_perturbation
+      - Tg_transcription_bradyzoite_checkpoint_perturbation
+      - Tg_transcription_under_initiation_factor_depletion
+    - translation
+      - Tg_translation_tachyzoite
+      - Tg_translation_efficiency_tachyzoite
+      - Tg_translation_under_initiation_factor_depletion
+    - protein abundance
+      - Tg_protein_abundance_tachyzoite
+      - Tg_thermal_stability_melting_temperature
+      - Tg_protein_turnover
+    - PTM
+      - Tg_phosphorylation_site_count
+      - Tg_phosphorylation_quantitative
+      - Tg_n_myristoylation
+      - Tg_arginine_methylation
+      - Tg_lactylation
+      - Tg_s_nitrosylation
+      - Tg_ubiquitination_sumoylation
+      - Tg_glycosylation
+      - Tg_palmitoylation
+    - regulation
+      - Tg_chromatin_state_histone_marks
+      - Tg_rna_modification_m6a_5mc
+      - Tg_rna_stability_half_life
   - bradyzoite
-    - Tg_transcription_bradyzoite_tissue_cyst
-    - Tg_translation_bradyzoite
-    - Tg_translation_efficiency_bradyzoite
-    - Tg_stage_conversion_phenotype
-    - Tg_cyst_wall_composition
+    - transcription
+      - Tg_transcription_bradyzoite_tissue_cyst
+    - translation
+      - Tg_translation_bradyzoite
+      - Tg_translation_efficiency_bradyzoite
+    - fitness
+      - Tg_stage_conversion_phenotype
+    - localization
+      - Tg_cyst_wall_composition
   - oocyst
-    - Tg_transcription_oocyst_sporozoite
+    - transcription
+      - Tg_transcription_oocyst_sporozoite
   - merozoite
-    - Tg_transcription_merozoite
+    - transcription
+      - Tg_transcription_merozoite
   - stage-unspecified
-    - Tg_transcription_per_cell_cycle_phase
-    - Tg_transcription_under_stress_conversion
-    - Tg_transcription_under_tf_or_chromatin_perturbation
-    - Tg_transcription_maximum_observed_across_stages
-    - Tg_cell_cycle_timing_label
-    - Tg_life_cycle_stage_label_derived
-    - Tg_translation_per_cell_cycle_phase
-    - Tg_translation_under_stress
-    - Tg_translation_efficiency_extracellular_stress
-    - Tg_protein_abundance_other_life_stages
-    - Tg_phosphorylation_kinase_substrate
-    - Tg_acetylation
-    - Tg_fitness_naive_macrophage
-    - Tg_fitness_ifn_gamma_macrophage
-    - Tg_fitness_oxidative_stress
-    - Tg_genetic_interaction_delta_gra17
-    - Tg_fitness_gra12_screen_1_in_vitro
-    - Tg_fitness_gra12_screen_2_in_vitro
-    - Tg_drug_sensitivity
-    - Tg_tf_binding_per_factor
-    - Tg_chromatin_accessibility
-    - Tg_splicing_isoform_use
-    - Tg_localization_measured
-    - Tg_localization_transferred
-    - Tg_exposure_to_host_cytosol
-    - Tg_secretome_excreted
-    - Tg_co_transcription
-    - Tg_co_translation
-    - Tg_co_fitness
-    - Tg_interaction_crosslink_ms
-    - Tg_interaction_ip_ms_parasite_parasite
-    - Tg_interaction_proximity_labelling
-    - Tg_shared_compartment
-    - Tg_interaction_degree_crosslink_ms
-    - Tg_interaction_degree_ip_ms
-    - Tg_downloaded_study_membership
-    - Tg_analysis_derived_structural_holes
-    - Tg_assay_confidence_and_significance
-    - Tg_host_transcriptional_effect_per_effector
-    - Tg_strain_variation
-    - Tg_literature_attention
-    - Tg_gene_identity_and_annotation
-    - Tg_metabolite_levels
-    - Tg_metabolic_flux
-    - Tg_lipid_composition
-    - Tg_enzyme_classification
-    - Tg_resistance_conferring_mutation
-    - Tg_target_engagement_thermal_shift
-    - Tg_rna_binding_protein_targets
-    - Tg_noncoding_and_antisense_transcription
-    - Tg_complex_membership
-    - Tg_t_cell_epitope_content
-    - Tg_host_escrt_recruitment
-    - Tg_invasion_and_egress_phenotype
-    - Tg_essentiality_in_a_second_background
+    - transcription
+      - Tg_transcription_per_cell_cycle_phase
+      - Tg_transcription_under_stress_conversion
+      - Tg_transcription_under_tf_or_chromatin_perturbation
+      - Tg_transcription_maximum_observed_across_stages
+      - Tg_cell_cycle_timing_label
+      - Tg_life_cycle_stage_label_derived
+      - Tg_noncoding_and_antisense_transcription
+    - translation
+      - Tg_translation_per_cell_cycle_phase
+      - Tg_translation_under_stress
+      - Tg_translation_efficiency_extracellular_stress
+    - protein abundance
+      - Tg_protein_abundance_other_life_stages
+    - PTM
+      - Tg_phosphorylation_kinase_substrate
+      - Tg_acetylation
+    - fitness
+      - Tg_fitness_naive_macrophage
+      - Tg_fitness_ifn_gamma_macrophage
+      - Tg_fitness_oxidative_stress
+      - Tg_genetic_interaction_delta_gra17
+      - Tg_fitness_gra12_screen_1_in_vitro
+      - Tg_fitness_gra12_screen_2_in_vitro
+      - Tg_drug_sensitivity
+      - Tg_essentiality_in_a_second_background
+    - regulation
+      - Tg_tf_binding_per_factor
+      - Tg_chromatin_accessibility
+      - Tg_splicing_isoform_use
+    - localization
+      - Tg_localization_measured
+      - Tg_localization_transferred
+      - Tg_exposure_to_host_cytosol
+      - Tg_secretome_excreted
+    - relation
+      - Tg_co_transcription
+      - Tg_co_translation
+      - Tg_co_fitness
+      - Tg_interaction_crosslink_ms
+      - Tg_interaction_ip_ms_parasite_parasite
+      - Tg_interaction_proximity_labelling
+      - Tg_shared_compartment
+      - Tg_interaction_degree_crosslink_ms
+      - Tg_interaction_degree_ip_ms
+      - Tg_rna_binding_protein_targets
+      - Tg_complex_membership
+    - NEVER a feature
+      - Tg_downloaded_study_membership
+      - Tg_analysis_derived_structural_holes
+      - Tg_assay_confidence_and_significance
+      - Tg_literature_attention
+      - Tg_gene_identity_and_annotation
+    - host effect
+      - Tg_host_transcriptional_effect_per_effector
+    - sequence
+      - Tg_strain_variation
+    - metabolism
+      - Tg_metabolite_levels
+      - Tg_metabolic_flux
+      - Tg_lipid_composition
+      - Tg_enzyme_classification
+    - chemistry
+      - Tg_resistance_conferring_mutation
+      - Tg_target_engagement_thermal_shift
+    - immunity
+      - Tg_t_cell_epitope_content
+    - phenotype
+      - Tg_host_escrt_recruitment
+      - Tg_invasion_and_egress_phenotype
 - in vivo
   - sexual
-    - Tg_transcription_sexual_stages
-    - Tg_fitness_in_vivo_gut
+    - transcription
+      - Tg_transcription_sexual_stages
+    - fitness
+      - Tg_fitness_in_vivo_gut
   - stage-unspecified
-    - Tg_transcription_in_vivo_brain_acute
-    - Tg_transcription_in_vivo_brain_chronic
-    - Tg_transcription_primary_brain_cell_differentiation_time_course
-    - Tg_fitness_in_vivo_peritoneum
-    - Tg_fitness_in_vivo_lung
-    - Tg_fitness_in_vivo_liver
-    - Tg_fitness_in_vivo_spleen
-    - Tg_fitness_hyperlopit_unassigned_proteins
-    - Tg_fitness_targeted_in_vivo_young_2019
-    - Tg_fitness_gra12_screen_1_in_vivo
-    - Tg_fitness_gra12_screen_1_differential
-    - Tg_fitness_gra12_screen_2_in_vivo
-    - Tg_fitness_gra12_screen_2_differential
-    - Tg_transcription_in_vivo_enteric
+    - transcription
+      - Tg_transcription_in_vivo_brain_acute
+      - Tg_transcription_in_vivo_brain_chronic
+      - Tg_transcription_primary_brain_cell_differentiation_time_course
+      - Tg_transcription_in_vivo_enteric
+    - fitness
+      - Tg_fitness_in_vivo_peritoneum
+      - Tg_fitness_in_vivo_lung
+      - Tg_fitness_in_vivo_liver
+      - Tg_fitness_in_vivo_spleen
+      - Tg_fitness_hyperlopit_unassigned_proteins
+      - Tg_fitness_targeted_in_vivo_young_2019
+      - Tg_fitness_gra12_screen_1_in_vivo
+      - Tg_fitness_gra12_screen_1_differential
+      - Tg_fitness_gra12_screen_2_in_vivo
+      - Tg_fitness_gra12_screen_2_differential
   - bradyzoite
-    - Tg_transcription_purified_bradyzoite_in_vivo
+    - transcription
+      - Tg_transcription_purified_bradyzoite_in_vivo
 - host-cell or host-derived
   - stage-unspecified
-    - Tg_transcription_in_naive_macrophage
-    - Tg_transcription_in_ifn_gamma_macrophage
-    - Tg_fitness_hff_in_vitro
-    - Tg_interaction_with_host_proteins
-    - Tg_host_interaction_degree
-    - Tg_seroreactivity_antigenicity
+    - transcription
+      - Tg_transcription_in_naive_macrophage
+      - Tg_transcription_in_ifn_gamma_macrophage
+    - fitness
+      - Tg_fitness_hff_in_vitro
+    - relation
+      - Tg_interaction_with_host_proteins
+    - host effect
+      - Tg_host_interaction_degree
+    - immunity
+      - Tg_seroreactivity_antigenicity
 - reference or computational
   - stage-unspecified
-    - Tg_membrane_topology
-    - Tg_interaction_structural_similarity
-    - Tg_shared_orthogroup
-    - Tg_shared_domain
-    - Tg_interaction_degree_structural_similarity
-    - Tg_domain_content
-    - Tg_fold_confidence_disorder
-    - Tg_conservation_breadth
-    - Tg_paralogy
-    - Tg_sequence_basics
-    - Tg_codon_usage_translation_efficiency
+    - localization
+      - Tg_membrane_topology
+    - relation
+      - Tg_interaction_structural_similarity
+      - Tg_shared_orthogroup
+      - Tg_shared_domain
+      - Tg_interaction_degree_structural_similarity
+    - sequence
+      - Tg_domain_content
+      - Tg_fold_confidence_disorder
+      - Tg_conservation_breadth
+      - Tg_paralogy
+      - Tg_sequence_basics
+    - translation
+      - Tg_codon_usage_translation_efficiency

@@ -1006,6 +1006,49 @@ EVIDENCE_PATHS = {
     "NEVER a feature": ("metadata and derived outputs", "excluded from embeddings"),
 }
 
+
+#: The life-cycle stages, longest first so "bradyzoite checkpoint" matches bradyzoite and "oocyst
+#: sporozoite" does not become two groups. Order is the matching order and therefore load-bearing.
+LIFE_STAGES = ("bradyzoite", "tachyzoite", "sporozoite", "oocyst", "merozoite", "gametocyte",
+               "sexual", "liver stage", "ookinete", "schizont", "trophozoite", "ring",
+               "asexual blood stage", "cyst")
+
+#: What a slot is ABOUT, when it is not about a stage. Checked after the stages, so a slot naming both
+#: -- "transcription in IFN-gamma macrophage" -- is grouped by the stage it measures if it names one.
+BIOLOGY_SUBJECTS = (
+    ("host interaction", ("macrophage", "host", "hff", "neuron", "erythrocyte", "hepatocyte",
+                          "fibroblast", "ifn")),
+    ("stress and perturbation", ("stress", "perturbation", "depletion", "knockout", "knockdown",
+                                 "inhibitor", "drug", "compound", "oxidative", "heat", "starvation")),
+    ("cell cycle", ("cell-cycle", "cell cycle", "division", "mitosis")),
+    ("non-coding and isoforms", ("antisense", "noncoding", "non-coding", "splicing", "isoform")),
+    ("in vivo", ("in vivo", "mouse", "brain", "lung", "liver", "spleen", "peritoneum", "gut",
+                 "feline", "enteric")),
+)
+
+
+def _biology_subject(name: str, context: str) -> str:
+    """The third level of the biology tree: what this slot is about, not how it was measured.
+
+    Added 2026-08-18. Before it, the biology tree was a two-level lookup keyed on the AXIS alone, so
+    every transcription slot landed in one leaf: `gene expression > RNA abundance` held 23 slots with
+    tachyzoite, bradyzoite, macrophage, brain and IFN-gamma mixed together. A tree whose leaf groups
+    mix life-cycle stages cannot answer "hold out everything about the bradyzoite", which is the
+    question the biology addressing exists for.
+
+    Stage first, because a stage is the strongest biological statement a slot makes; a slot naming
+    both a stage and a host cell is grouped by the stage.
+    """
+    text = f"{name} {context}".lower()
+    for stage in LIFE_STAGES:
+        if stage in text:
+            return stage
+    for subject, words in BIOLOGY_SUBJECTS:
+        if any(word in text for word in words):
+            return subject
+    return "stage-unspecified"
+
+
 BIOLOGY_PATHS = {
     "transcription": ("gene expression", "RNA abundance"),
     "translation": ("gene expression", "protein synthesis"),
@@ -1042,6 +1085,17 @@ def _context_path(context: str) -> tuple:
                                       "merozoite", "sexual", "gametocyte", "liver stage")
                   if stage in low), "stage-unspecified")
     return (system, stage)
+
+
+def _context_leaf(axis: str, context: str) -> tuple:
+    """The context address, with WHAT WAS MEASURED as its third level.
+
+    Two levels were not enough: `in vitro or assay-defined > stage-unspecified` held 55 of the 119
+    Toxoplasma slots, which is a group that says only "not in an animal and no stage named". A
+    context tree exists so a reader can hold out a system or a stage, and a group holding half the
+    catalogue cannot be held out as anything.
+    """
+    return _context_path(context) + (axis,)
 
 
 # Explicit outcomes and same-quantity families drive leakage closure.  A family is intentionally
@@ -1115,11 +1169,21 @@ def _definition(row, organism: str) -> dict:
     override = SLOT_OVERRIDES.get(name, {})
     role = override.get("role", "never" if axis == "NEVER a feature" else "feature")
     evidence = override.get("evidence_path", EVIDENCE_PATHS.get(axis, ("other", axis)))
+    # Evidence gains the same subject level, for the same reason: `molecular measurements > RNA >
+    # transcript abundance` held 22 slots, so "hold out every RNA measurement of the bradyzoite" had
+    # no address. How a thing was measured and what it was measured ON are different questions and
+    # the tree has room for both.
+    if "evidence_path" not in override:
+        evidence = tuple(evidence) + (_biology_subject(name, context),)
     biology = override.get("biology_path", BIOLOGY_PATHS.get(axis, ("other", axis)))
+    # The third level: what the slot is about. Without it the leaf groups mix life-cycle stages, and
+    # "hold out everything about the bradyzoite" cannot be asked of a tree that has no bradyzoite.
+    if "biology_path" not in override:
+        biology = tuple(biology) + (_biology_subject(name, context),)
     return {"organism": organism, "name": name, "axis": axis, "context": context,
             "unit": unit, "patterns": list(fills), "policy": policy,
             "candidates": list(candidates), "evidence_path": list(evidence),
-            "biology_path": list(biology), "context_path": list(_context_path(context)),
+            "biology_path": list(biology), "context_path": list(_context_leaf(axis, context)),
             "target_family": str(override.get("target_family", _slug(name))),
             "target_columns": list(override.get("target_columns", ())), "role": role}
 
