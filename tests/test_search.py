@@ -1013,3 +1013,93 @@ def test_the_sweep_only_holds_out_what_was_ticked(nodes_small):
     chosen = tuple(usable[:3])
     groups = SE.categories_at("evidence", 1, blocks=chosen)
     assert {b for _p, blocks in groups for b in blocks} <= set(chosen)
+
+
+# --------------------------------------------------------------------------- the sweep must not lie
+def test_each_degeneracy_guard_fires_for_its_own_reason():
+    """Three ways a clustering fails, and the reason is returned rather than a boolean because a
+    reader deciding what to change needs to know which one fired."""
+    import numpy as np
+    from starplast.clustering import degenerate
+    assert "cluster" in degenerate(np.array([0] * 50 + [1] * 50))
+    assert "bisection" in degenerate(np.array([0] * 70 + [1] * 15 + [2] * 10 + [-1] * 5))
+    assert "density minimum" in degenerate(np.array([0] * 30 + [1] * 30 + [2] * 40))
+    assert degenerate(np.array([])) == "no genes were clustered"
+    healthy = np.array([0] * 20 + [1] * 20 + [2] * 20 + [3] * 20 + [4] * 15 + [-1] * 5)
+    assert degenerate(healthy) == ""
+
+
+def test_the_sweep_refuses_to_score_a_degenerate_clustering(nodes_small):
+    """The property that makes this instrument honest. A recovery score is a claim about STRUCTURE;
+    computed on a clustering that merely bisected a continuum it is a sentence about nothing, and it
+    reads exactly like a real result."""
+    import numpy as np
+    from starplast import search as SE
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for
+    usable = tuple(b for b in SLOT_BLOCKS
+                   if columns_for(nodes_small, EmbeddingSpec(blocks=(b,))).get(b))
+    if len(usable) < 4:
+        pytest.skip("this fixture cannot fill enough blocks")
+    out = SE.sweep_categories(nodes_small, EmbeddingSpec(blocks=usable), level=1,
+                              log=lambda *a: None)
+    assert {"usable", "why_not", "best_score"} <= set(out.columns)
+    for _, row in out.iterrows():
+        if row["usable"]:
+            assert row["why_not"] == ""
+        else:
+            assert row["why_not"], "a row was rejected without saying why"
+            assert np.isnan(row["best_score"]), "an unusable row still carries a score"
+            assert not row["recovered"], "an unusable row was called recovered"
+
+
+def test_the_shipped_map_cannot_currently_support_a_recovery_claim():
+    """Measured on the real table, and recorded as a test because it is a finding rather than a bug.
+
+    Every block set tried -- 3 blocks, 10, 30, all 95 -- and every parameter setting -- n_neighbors
+    5/15/30, min_dist 0.0/0.25, min_cluster_size 5 to 60 -- gives 2 to 5 clusters with 52% to 97% of
+    genes in the largest and essentially no noise. HDBSCAN leaving no noise while cutting a cloud in
+    half is the signature of slicing a continuum.
+
+    If this test starts FAILING, the clustering has begun finding real structure and the sweep's
+    numbers become meaningful. That is a result worth being told about, which is why it is asserted in
+    this direction rather than skipped.
+    """
+    import os
+    import numpy as np
+    from starplast.clustering import cluster, degenerate
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for, embed
+    from starplast import paths
+    path = paths.cache_file("nodes.parquet")
+    if not os.path.exists(path):
+        pytest.skip("built node table not present")
+    nodes = pd.read_parquet(path)
+    blocks = ("Tg_transcription_tachyzoite", "Tg_fitness_hff_in_vitro",
+              "Tg_fold_confidence_disorder")
+    coords, _names, _kept = embed(nodes, EmbeddingSpec(blocks=blocks), log=lambda *a: None)
+    labels = cluster(np.asarray(coords), algorithm="hdbscan", min_cluster_size=25)
+    assert degenerate(labels), (
+        "the default map now clusters non-degenerately -- the sweep's scores have become meaningful "
+        "and this test should be replaced by one asserting the recovery it can now measure")
+
+
+def test_the_sweep_never_scores_a_category_with_columns_it_was_built_from(nodes_small):
+    """The whole argument depends on this: the held-out columns must not be among the ones the map saw.
+    `battery` marks anything the map used as `used` or `derived`, and only `held_out` rows are scored,
+    but the sweep must not hand it an overlap in the first place."""
+    from starplast import search as SE
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for
+    usable = tuple(b for b in SLOT_BLOCKS
+                   if columns_for(nodes_small, EmbeddingSpec(blocks=(b,))).get(b))
+    if len(usable) < 4:
+        pytest.skip("this fixture cannot fill enough blocks")
+    spec = EmbeddingSpec(blocks=usable)
+    for path, held in SE.categories_at("evidence", 1, blocks=spec.blocks):
+        remaining = tuple(b for b in spec.blocks if b not in set(held))
+        if not remaining:
+            continue
+        held_cols = {c for cols in
+                     columns_for(nodes_small, EmbeddingSpec(blocks=tuple(held))).values() for c in cols}
+        used_cols = {c for cols in
+                     columns_for(nodes_small, EmbeddingSpec(blocks=remaining)).values() for c in cols}
+        assert not (held_cols & used_cols), (
+            f"{' > '.join(path)}: {len(held_cols & used_cols)} columns are both held out and used")

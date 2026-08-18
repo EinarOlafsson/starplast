@@ -501,3 +501,43 @@ def describe(summary: pd.DataFrame, detail: pd.DataFrame, top=6, min_score=0.15,
                     f"low in cluster {int(lo.cluster)} (median {lo['median']:.2f}) "
                     f"[eps2={r.score:.2f}, q={getattr(r, 'q', float('nan')):.1e}]")
     return out
+
+
+#: When a clustering cannot support a recovery claim, and why each bound is where it is.
+#:
+#: Measured on the shipped table 2026-08-18: every block set tried -- 3 blocks, 10, 30, all 95 -- and
+#: every parameter setting -- n_neighbors 5/15/30, min_dist 0.0/0.25, min_cluster_size 5 to 60 --
+#: produced 2 to 5 clusters with 52% to 97% of genes in the largest and 0.0% to 0.2% noise. HDBSCAN
+#: leaving essentially NO noise while splitting a cloud into two near-equal halves is the signature of
+#: cutting a continuum, not of finding groups.
+#:
+#: This matters because a recovery score computed on such a clustering looks exactly like a real
+#: result. "Category X scores 0.24" is a sentence about structure, and if the structure is an
+#: arbitrary bisection then the sentence is about nothing.
+DEGENERATE = {
+    "dominant": 0.50,      # one cluster holding half the genes is a bisection, not a cluster
+    "too_few": 3,          # fewer than three clusters cannot distinguish a category from a split
+    "no_noise": 0.005,     # HDBSCAN assigning ~everything means it found no density minimum
+}
+
+
+def degenerate(labels) -> str:
+    """Why this clustering cannot support a recovery claim, or "" when it can.
+
+    Returned as a REASON rather than a boolean so a caller can report which guard fired -- the three
+    fail in different ways and a reader deciding what to change needs to know which.
+    """
+    labels = np.asarray(labels)
+    if not len(labels):
+        return "no genes were clustered"
+    ids = [int(i) for i in set(labels.tolist()) if i >= 0]
+    if len(ids) < DEGENERATE["too_few"]:
+        return f"only {len(ids)} cluster(s); fewer than {DEGENERATE['too_few']} cannot separate a category from a split"
+    largest = max(int((labels == i).sum()) for i in ids)
+    share = largest / len(labels)
+    if share > DEGENERATE["dominant"]:
+        return f"one cluster holds {100 * share:.0f}% of genes, which is a bisection rather than structure"
+    noise = float((labels < 0).mean())
+    if noise < DEGENERATE["no_noise"]:
+        return f"noise is {100 * noise:.1f}%, so every gene was assigned and no density minimum was found"
+    return ""

@@ -674,10 +674,16 @@ def sweep_categories(nodes: pd.DataFrame, spec, hierarchy: str = "evidence", lev
     does not is either independent information or noise, and the two are told apart by looking, not by
     this function -- which is why the per-feature table comes back rather than only a score.
 
+    **A row whose clustering is degenerate is not scored at all.** `best_score` comes back NaN with
+    `usable=False` and `why_not` saying which guard fired. Measured on the shipped table, every block
+    set and every parameter setting tried produces a degenerate clustering today, so this is the
+    common case rather than a corner: without the guard the sweep would report a column of plausible
+    numbers computed on arbitrary bisections.
+
     `should_stop` is asked between categories and a stopped sweep RETURNS what it has, for the same
     reason `search` does: a stop is a decision that enough has been seen, not an error.
     """
-    from .clustering import battery, cluster
+    from .clustering import battery, cluster, degenerate
     from .embedding import EmbeddingSpec, columns_for, embed
     groups = categories_at(hierarchy, level, organism, blocks=spec.blocks)
     if only:
@@ -708,15 +714,23 @@ def sweep_categories(nodes: pd.DataFrame, spec, hierarchy: str = "evidence", lev
         coords, _names, kept = embed(nodes, without, log=lambda *a: None)
         labels = cluster(np.asarray(coords), algorithm=algorithm, min_cluster_size=min_cluster_size)
         sub = nodes.loc[kept] if kept is not None else nodes
+        # A recovery score is a claim about STRUCTURE. Computed on a clustering that merely bisected a
+        # continuum it is a sentence about nothing, and it reads exactly like a real result -- so the
+        # clustering is checked first and a failing one is reported rather than scored.
+        unusable = degenerate(labels)
         scored, _detail = battery(sub, labels, used_features=used, features=held_columns,
                                   log=lambda *a: None)
         held_rows = scored[scored.evidence == "held_out"] if len(scored) else scored
         best = float(held_rows["score"].max()) if len(held_rows) else float("nan")
+        if unusable:
+            log(f"{' > '.join(path)}: NOT SCORED -- {unusable}")
         row = {"category": " > ".join(path), "hierarchy": hierarchy, "level": level,
                "blocks_held_out": len(held), "columns_held_out": len(held_columns),
                "columns_used": len(used), "clusters": int(len({int(x) for x in labels if x >= 0})),
-               "tested": int(len(held_rows)), "best_score": best,
-               "recovered": bool(len(held_rows) and best >= 0.30)}
+               "tested": int(len(held_rows)),
+               "best_score": float("nan") if unusable else best,
+               "usable": not unusable, "why_not": unusable,
+               "recovered": bool(not unusable and len(held_rows) and best >= 0.30)}
         rows.append(row)
         if on_result is not None:
             on_result(row, held_rows)
