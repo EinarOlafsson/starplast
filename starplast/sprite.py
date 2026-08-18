@@ -251,7 +251,14 @@ void main() {{
     vec3 color = diffuseFill + direct * (metal ? 1.35 : 1.0) +
                  environment * envFresnel * (metal ? 1.20 : (glass ? 0.78 : 0.48));
     // A dark body with a bright edge: the reading that says "transparent" at 8 pixels across.
-    if (glass) color = mix(albedo * 0.22, color, 0.80) + envFresnel * 0.32;
+    //
+    // Pushed harder after measuring it through the PRODUCTION renderer rather than the CPU fallback.
+    // On the fallback glass sat 0.070 from glossy and looked safely distinct; on screen, over the
+    // pixels that actually carry genes, the two differed on only 49% of them while every other pair
+    // differed on 89-100%. Roughness alone does not separate two dielectrics at seven pixels across --
+    // the highlight is a couple of pixels either way. What separates them is the BODY: glass is dark
+    // where glossy is lit, and bright only at the silhouette.
+    if (glass) color = mix(albedo * 0.08, color, 0.62) + envFresnel * 0.75;
     // Retroreflective sheen -- brightest where the ball turns away, which is what makes cloth read as
     // cloth. Strengthened when the near-duplicates went, since this is now the only matte 3D finish.
     if (velvet) color += albedo * pow(1.0 - nDotV, 1.8) * 0.62;

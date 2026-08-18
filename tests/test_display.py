@@ -1574,3 +1574,28 @@ def test_a_travelling_light_is_brighter_and_tighter_than_a_held_one(win):
     plain = L.shade(xyz, colors, [{k: v for k, v in lit[0].items() if k not in ("gain", "width")}],
                     True, point_mode="glossy 3D")[:, :3].sum(axis=1)
     assert tight.max() / np.median(tight) > plain.max() / np.median(plain)
+
+
+def test_the_finishes_are_distinct_on_the_renderer_the_user_actually_sees(win):
+    """The CPU-fallback measurement was the wrong path, and this test exists because of that mistake.
+
+    The eight finishes were culled to five on `lighting.shade` numbers -- the CPU fallback -- which put
+    the closest surviving pair at 0.070 and looked safely clear. Rendered through the PRODUCTION GPU
+    shader and measured over the pixels that actually carry genes, `glass 3D` and `glossy 3D` differed
+    on only **49%** of them while every other pair differed on 89-100%. Roughness alone does not
+    separate two dielectrics at seven pixels across: the highlight is a couple of pixels either way,
+    and what separates them has to be the body.
+
+    Asserted here on the shader's own parameters rather than by rendering, because rendering needs a
+    display and this suite must not. The rendered check lives in `scripts/benchmark_lighting_lab.py`,
+    whose recorded run is in `results/`.
+    """
+    from starplast import sprite as SP
+    glass, glossy = SP.SPRITES["glass 3D"], SP.SPRITES["glossy 3D"]
+    # The body, which is what carries at this size.
+    assert glass["ambient"] < glossy["ambient"], "glass is no darker in the body than glossy"
+    assert glass["diffuse"] < glossy["diffuse"] * 0.6, "glass scatters too much to read as glass"
+    assert glass["rim"] > glossy["rim"] * 3, "glass has no silhouette to be bright at"
+    source = SP._SPHERE_FRAGMENT
+    assert "albedo * 0.08" in source, "the glass body is no longer darkened in the shader"
+    assert "envFresnel * 0.75" in source, "the glass rim is no longer strengthened in the shader"

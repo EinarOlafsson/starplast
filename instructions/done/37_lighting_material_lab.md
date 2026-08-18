@@ -1,4 +1,18 @@
-# Continuous flashlight, material lab, and ray-rendering comparison — open
+# Continuous flashlight, material lab, and ray-rendering comparison — DONE 2026-08-17
+
+Items 1-5 were satisfied by earlier sessions plus the finish work of 2026-08-17. Item 6 -- the
+headless cross-product render -- was run on 2026-08-17 through the production renderer:
+**8,640 combinations painted, 0 GPU failures**, both ray transports pixel-stable over 12 frames
+(1 unique hash each), median 14.2 and 14.5 ms. Recorded in `results/lighting_lab_2026_08_17/`.
+
+**What that run found, and it corrected a claim made the same day.** The eight finishes had been
+culled to five on `lighting.shade` numbers -- the CPU fallback -- which put the closest surviving pair
+at 0.070 and read as safely distinct. Measured through the GPU shader over the pixels that actually
+carry genes, `glass 3D` and `glossy 3D` differed on only **49%** of them, while every other pair
+differed on 89-100%. Roughness alone does not separate two dielectrics at seven pixels across: the
+highlight is a couple of pixels either way. Darkening the glass body and strengthening its silhouette
+took that pair to **82%**, and every pair is now at 82% or better. A test pins the shader parameters,
+and the rendered check stays in the benchmark because this suite must not need a display.
 
 ## State
 
