@@ -1103,3 +1103,88 @@ def test_the_sweep_never_scores_a_category_with_columns_it_was_built_from(nodes_
                      columns_for(nodes_small, EmbeddingSpec(blocks=remaining)).values() for c in cols}
         assert not (held_cols & used_cols), (
             f"{' > '.join(path)}: {len(held_cols & used_cols)} columns are both held out and used")
+
+
+# --------------------------------------------------------------------------- negative controls (42)
+def _map_and_labels(nodes, blocks=None):
+    """One embedding and its clustering, for tests that ask what a score means."""
+    import numpy as np
+    from starplast.clustering import cluster
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for, embed
+    blocks = blocks or tuple(b for b in SLOT_BLOCKS
+                             if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b))[:12]
+    coords, _names, kept = embed(nodes, EmbeddingSpec(blocks=blocks), log=lambda *a: None)
+    labels = cluster(np.asarray(coords), algorithm="hdbscan", min_cluster_size=10)
+    sub = nodes.loc[kept] if kept is not None else nodes
+    return sub, np.asarray(labels)
+
+
+def test_a_shuffled_target_does_not_recover(nodes_small):
+    """The sharpest test of the whole instrument. If a label that has been shuffled -- destroying any
+    relationship to the genes while keeping its class sizes exactly -- still "recovers", then the
+    score is measuring the CLUSTERING's shape rather than the label, and every recovery number the
+    sweep has ever produced means nothing.
+
+    Compared against the real label rather than an absolute threshold, because a score's floor
+    depends on how many classes there are and how big they are, and a fixed number would be a
+    different test on a different column.
+    """
+    import numpy as np
+    from starplast import objectives
+    sub, labels = _map_and_labels(nodes_small)
+    truth = sub["compartment"].astype(str)
+    if truth.nunique() < 3 or len({int(x) for x in labels if x >= 0}) < 2:
+        pytest.skip("this slice has no structure to score")
+    real = objectives.score(labels, truth, objective="mean_f1")["score"]
+    rng = np.random.default_rng(0)
+    shuffled = [objectives.score(labels, pd.Series(rng.permutation(truth.to_numpy()),
+                                                   index=truth.index),
+                                 objective="mean_f1")["score"] for _ in range(5)]
+    assert max(shuffled) < real or real < 0.05, (
+        f"a shuffled label scored {max(shuffled):.3f} against the real label's {real:.3f}; the score "
+        f"is reading the clustering's shape rather than the label")
+
+
+def test_a_random_block_does_not_improve_recovery_beyond_noise(nodes_small):
+    """A column of noise added as evidence must not make a map better at recovering a real label. If
+    it does, the objective is rewarding dimensionality rather than information."""
+    import numpy as np
+    from starplast import objectives
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for, embed
+    from starplast.clustering import cluster
+    usable = tuple(b for b in SLOT_BLOCKS
+                   if columns_for(nodes_small, EmbeddingSpec(blocks=(b,))).get(b))[:8]
+    if len(usable) < 4:
+        pytest.skip("this fixture cannot fill enough blocks")
+    truth = nodes_small["compartment"].astype(str)
+    rng = np.random.default_rng(7)
+    noisy = nodes_small.copy()
+    for i in range(5):
+        noisy[f"pure_noise_{i}"] = rng.normal(size=len(noisy))
+    scores = {}
+    for label, frame, extra in (("real", nodes_small, ()),
+                                ("with noise", noisy, tuple(f"pure_noise_{i}" for i in range(5)))):
+        spec = EmbeddingSpec(blocks=usable, extra_columns=extra)
+        coords, _n, kept = embed(frame, spec, log=lambda *a: None)
+        labels = cluster(np.asarray(coords), algorithm="hdbscan", min_cluster_size=10)
+        t = truth.loc[kept] if kept is not None else truth
+        scores[label] = objectives.score(np.asarray(labels), t, objective="mean_f1")["score"]
+    assert scores["with noise"] <= scores["real"] + 0.10, (
+        f"five columns of pure noise raised recovery from {scores['real']:.3f} to "
+        f"{scores['with noise']:.3f}; the objective is rewarding dimensionality, not information")
+
+
+def test_holding_out_everything_produces_no_score_rather_than_a_default(nodes_small):
+    """A sweep with nothing left to build from must decline, not return a number."""
+    from starplast import search as SE
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for
+    usable = tuple(b for b in SLOT_BLOCKS
+                   if columns_for(nodes_small, EmbeddingSpec(blocks=(b,))).get(b))
+    if not usable:
+        pytest.skip("this fixture fills no blocks")
+    one_category = SE.categories_at("evidence", 1, blocks=usable)[0]
+    only = tuple(one_category[1])
+    out = SE.sweep_categories(nodes_small, EmbeddingSpec(blocks=only), level=1,
+                              log=lambda *a: None)
+    assert out.empty or not out["usable"].any(), (
+        "holding out everything that was ticked still produced a usable score")
