@@ -1273,3 +1273,34 @@ def test_leaf_selection_is_what_makes_the_shipped_map_clusterable():
         "excess-of-mass now clusters this map; the leaf finding should be re-measured"
     assert not degenerate(cluster(X, **SE.TUNE_CLUSTERING)), \
         "leaf selection no longer finds structure in the shipped map"
+
+
+def test_clustering_is_tuned_per_map_and_is_cheap(nodes_small):
+    """Separate from the UMAP search because the costs differ by orders of magnitude: an embedding
+    takes tens of seconds and a reclustering of it takes a fraction of one. Tuned jointly, the budget
+    would go on re-deriving the same coordinates."""
+    import numpy as np
+    from starplast import search as SE
+    from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for, embed
+    usable = tuple(b for b in SLOT_BLOCKS
+                   if columns_for(nodes_small, EmbeddingSpec(blocks=(b,))).get(b))[:8]
+    if len(usable) < 4:
+        pytest.skip("this fixture cannot fill enough blocks")
+    coords, _n, _k = embed(nodes_small, EmbeddingSpec(blocks=usable, min_dist=0.0),
+                           log=lambda *a: None)
+    grid = {"min_cluster_size": (10, 25), "min_samples": (None, 5)}
+    table = SE.tune_clustering(coords, grid=grid, log=lambda *a: None)
+    assert len(table) == 4, "not every clustering setting was tried"
+    assert table["score"].is_monotonic_decreasing, "the table is not ranked"
+    for _, row in table.iterrows():
+        assert bool(row["usable"]) == (row["why_not"] == "")
+    best = SE.best_clustering(coords, grid=grid, log=lambda *a: None)
+    assert "min_cluster_size" in best
+
+
+def test_leaf_selection_is_recorded_rather_than_searched():
+    """Excess-of-mass merged this proteome into two clusters on every configuration ever tried.
+    Including it as a candidate would spend half the search on settings measured to fail."""
+    from starplast import search as SE
+    assert SE.TUNE_CLUSTERING["cluster_selection_method"] == "leaf"
+    assert "cluster_selection_method" not in SE.CLUSTER_GRID

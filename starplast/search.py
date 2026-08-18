@@ -831,3 +831,47 @@ def tune_umap(nodes: pd.DataFrame, spec, grid: dict = None, sample: int = 1500,
         log(f"{settings}: {got['clusters']} clusters on all {len(nodes)} genes")
     return pd.concat([table, pd.DataFrame(full)], ignore_index=True).sort_values(
         ["stage", "score"], ascending=[False, False]).reset_index(drop=True)
+
+
+#: The clustering settings searched per map. Small on purpose: this runs once per UMAP, and the point
+#: of tuning it separately is that it is CHEAP -- reclustering an existing embedding costs a fraction
+#: of building one -- so the map search can stay coarse while this one stays thorough.
+#:
+#: `leaf` is not a candidate but a constant. Excess-of-mass merged this proteome into two clusters on
+#: every configuration ever tried; including it here would spend half the search on settings already
+#: measured to fail. It is recorded rather than searched.
+CLUSTER_GRID = {"min_cluster_size": (10, 15, 25, 40, 60), "min_samples": (None, 5, 10)}
+
+
+def tune_clustering(coords, grid: dict = None, should_stop=None, log=print) -> pd.DataFrame:
+    """Search clustering settings on one finished embedding, ranked by `map_quality`.
+
+    Separate from `tune_umap` because the costs differ by orders of magnitude: an embedding of 8,140
+    genes takes tens of seconds and a reclustering of it takes a fraction of one. Tuning them jointly
+    would rebuild the map for every clustering setting and spend the entire budget re-deriving the
+    same coordinates.
+    """
+    from .clustering import cluster
+    grid = grid or CLUSTER_GRID
+    X = np.asarray(coords)
+    rows = []
+    for values in itertools.product(*grid.values()):
+        if should_stop is not None and should_stop():
+            log(f"clustering search stopped after {len(rows)} settings")
+            break
+        settings = {k: v for k, v in zip(grid, values) if v is not None}
+        labels = cluster(X, **{**TUNE_CLUSTERING, **settings})
+        rows.append({**{k: (v if v is not None else "auto")
+                        for k, v in zip(grid, values)}, **map_quality(labels)})
+    table = pd.DataFrame(rows)
+    return table.sort_values("score", ascending=False).reset_index(drop=True) if len(table) else table
+
+
+def best_clustering(coords, grid: dict = None, log=print) -> dict:
+    """The best clustering settings for one map, or the least bad with a reason when none is usable."""
+    table = tune_clustering(coords, grid=grid, log=log)
+    if table.empty:
+        return {"usable": False, "why_not": "no clustering settings were tried"}
+    usable = table[table["usable"]]
+    row = (usable if len(usable) else table).iloc[0]
+    return row.to_dict()
