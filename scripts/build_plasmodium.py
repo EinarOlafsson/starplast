@@ -29,7 +29,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from starplast import paths, pf_graph, plasmodium  # noqa: E402
+from starplast import host, paths, pf_graph, plasmodium  # noqa: E402
 
 #: A coverage change smaller than this in either direction is not worth a line of output. It is ONE
 #: gene: the 4-gene regression that motivated this check would have printed.
@@ -90,6 +90,27 @@ def main(argv=None, log=print) -> int:
     root = args.dataset_root or paths.dataset_root()
     table = paths.cache_file(plasmodium.TABLE)
     graph = paths.cache_file(pf_graph.GRAPH)
+    # The host table first, because a host slot is graded against it and the Plasmodium arm is what
+    # brought a tissue proteome into this project. Merged rather than overwritten: `build_graph`
+    # writes the Toxoplasma pulldown's columns into the same file, and the two owners share a key
+    # rather than a column.
+    tissue = host.erythrocyte_proteome(root, log=log)
+    if not tissue.empty:
+        host_path = paths.cache_file("host_proteins.parquet")
+        existing = pd.read_parquet(host_path) if os.path.exists(host_path) else pd.DataFrame()
+        if len(existing):
+            keep = [c for c in existing.columns if c not in tissue.columns or c in ("host_id",)]
+            merged = existing[keep].merge(tissue, on="host_id", how="outer")
+            # `host_name` comes from both sides; the one already there wins, since it is what the
+            # bridges were written against.
+            if "host_name_x" in merged.columns:
+                merged["host_name"] = merged["host_name_x"].fillna(merged["host_name_y"])
+                merged = merged.drop(columns=["host_name_x", "host_name_y"])
+        else:
+            merged = tissue
+        merged.to_parquet(host_path, index=False)
+        log(f"wrote {host_path}  ({len(merged):,} host proteins, {len(merged.columns)} columns)")
+
     new = plasmodium.build_all(root, log=log)
     if new.empty:
         log("build produced nothing -- is the PlasmoDB gene report under reference/plasmodb?")

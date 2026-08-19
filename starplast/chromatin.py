@@ -78,7 +78,12 @@ def track_means(path: str, windows: pd.DataFrame) -> pd.Series:
     whatever the submitters happened to load. A ratio to the track's own mean is comparable between
     them and is what makes averaging replicates meaningful.
     """
-    import pyBigWig
+    try:
+        import pyBigWig
+    except ImportError as missing:                # a build-only reader, and a compiled package
+        raise ImportError(
+            "reading a bigWig track needs pyBigWig, which this project does not require because "
+            "only the build reads one: pip install pyBigWig") from missing
     bw = pyBigWig.open(path)
     try:
         header = bw.header()

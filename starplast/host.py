@@ -376,3 +376,53 @@ def load(base: str, name: str = HOST_TABLE) -> pd.DataFrame:
     """A shipped host table, or an empty frame if it has not been built."""
     path = os.path.join(base, "starplast", "data", name)
     return pd.read_parquet(path) if os.path.exists(path) else pd.DataFrame()
+
+
+# --------------------------------------------------------------------------- host tissue proteomes
+#: The red blood cell the blood stage lives in, measured as two fractions of one preparation.
+#: `(folder, pmid, file)`; the sheets are named for the fractions.
+ERYTHROCYTE = ("erythrocyte", "41654503", "41597_2026_6792_MOESM2_ESM.xlsx")
+ERYTHROCYTE_FRACTIONS = {"Membrane extract": "rbc_membrane_psms",
+                         "Cytoplasmic extract": "rbc_cytoplasm_psms"}
+
+
+def erythrocyte_proteome(dataset_root: str, log=print) -> pd.DataFrame:
+    """Human red blood cell proteins, by fraction, keyed the way the host table is keyed.
+
+    A host tissue reference rather than a bridge: these are the proteins present in the cell the
+    parasite lives in, which is the question instruction 39's host slots ask and which no pulldown
+    can answer -- a pulldown says what a bait touched, not what is there to touch.
+
+    The two fractions are kept apart because they are different measurements: a protein in the
+    membrane extract is at the surface the parasite invades through, one in the cytoplasm is in the
+    haemoglobin soup around it. Self-validating in the way a fractionation should be -- spectrin
+    beta heads the membrane list, haemoglobin alpha heads the cytoplasmic one.
+    """
+    folder, pmid, name = ERYTHROCYTE
+    path = os.path.join(dataset_root, "host", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    frames = []
+    for sheet, column in ERYTHROCYTE_FRACTIONS.items():
+        if sheet not in book.sheet_names:
+            continue
+        d = book.parse(sheet)
+        if not {"Accession", "Gene", "# PSMs"} <= set(d.columns):
+            continue
+        part = pd.DataFrame({
+            "host_id": d["Accession"].astype(str).str.strip(),
+            # A row can name several genes (`HBA1; HBA2`); the host table keys on the accession and
+            # keeps the string as given rather than choosing one of them.
+            "host_name": d["Gene"].astype(str).str.strip(),
+            column: pd.to_numeric(d["# PSMs"], errors="coerce")})
+        frames.append(part[part["host_id"].str.match(r"^[A-Z0-9]{6,10}$", na=False)])
+    if not frames:
+        return pd.DataFrame()
+    out = frames[0]
+    for part in frames[1:]:
+        out = out.merge(part, on=["host_id", "host_name"], how="outer")
+    out = out.drop_duplicates("host_id").reset_index(drop=True)
+    found = {c: int(out[c].notna().sum()) for c in ERYTHROCYTE_FRACTIONS.values() if c in out}
+    log(f"erythrocyte proteome: {len(out):,} human proteins ({found})")
+    return out

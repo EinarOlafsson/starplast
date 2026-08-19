@@ -104,6 +104,13 @@ def domain_edges(nodes: pd.DataFrame) -> tuple:
     return _pairs_within_groups(members)
 
 
+#: The ribosome-footprint arm of the profiling deposit, in cycle order. Co-translation is built on
+#: these and never on the mRNA arm beside them: what is ON a ribosome is the measurement, and the
+#: transcript level is the thing it is not.
+RPF_COLUMNS = ("riboseq_rpf_ring", "riboseq_rpf_early_trophozoite", "riboseq_rpf_late_trophozoite",
+               "riboseq_rpf_schizont", "riboseq_rpf_merozoite")
+
+
 def correlation_edges(nodes: pd.DataFrame, columns=STAGE_COLUMNS,
                       threshold: float = CORRELATION, neighbours: int = NEIGHBOURS) -> tuple:
     """Genes whose abundance moves together, keeping each gene's strongest neighbours."""
@@ -145,7 +152,27 @@ def build(nodes: pd.DataFrame, log=print, dataset_root: str | None = None) -> di
     if len(a):
         out["coexpression__a"], out["coexpression__b"], out["coexpression__w"] = a, b, w
         log(f"coexpression: {len(a):,} edges (top-{NEIGHBOURS} neighbours, r >= {CORRELATION})")
+    # The same construction over ribosome footprints, which is a different layer rather than a copy:
+    # it shares 173 of its 8,048 edges with co-expression (Jaccard 0.002), and what says it is
+    # measuring co-translation is that ribosomal proteins pair with each other in 7.9% of its edges
+    # against a chance rate of 0.08%. They are made together stoichiometrically. The Toxoplasma arm's
+    # layer of the same name reports the same two facts, which is what makes the arms comparable.
+    a, b, w = correlation_edges(nodes, columns=RPF_COLUMNS)
+    if len(a):
+        out["cotranslation__a"], out["cotranslation__b"], out["cotranslation__w"] = a, b, w
+        log(f"cotranslation: {len(a):,} edges over ribosome footprints at {len(RPF_COLUMNS)} "
+            f"points of the cycle")
     if dataset_root:
+        # The co-mention layer, scanned here rather than handed over from the node build. The scan
+        # costs about ten seconds and the alternative is module-level state shared between two
+        # builders, which is the kind of coupling that makes a graph and a table disagree quietly.
+        from .plasmodium import literature_layer
+        _columns, literature_edges, _mentions = literature_layer(
+            nodes, os.path.dirname(os.path.abspath(dataset_root)), log=log)
+        for label, arrays in literature_edges.items():
+            a, b, w, residual = arrays
+            out[f"{label}__a"], out[f"{label}__b"] = a, b
+            out[f"{label}__w"], out[f"{label}__r"] = w, residual
         a, b, w = crosslink_edges(nodes, dataset_root, log=log)
         if len(a):
             out["xlms__a"], out["xlms__b"], out["xlms__w"] = a, b, w

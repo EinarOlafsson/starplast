@@ -2525,3 +2525,126 @@ Not acquisitions, so they will never fall to a sweep. In the order their prerequ
    statistics — and neither needs a fetch.
 
 Worth doing 4 first for that reason, and worth NOT doing 2 before 1.
+
+## Forty-fifth pass: the constructions, and the environment the user actually runs
+
+Run entirely in `~/anaconda3/envs/starplast` — the interpreter the user runs the application on,
+which turned out to matter more than expected. **Seven tests failed there that pass in the suite's
+own environment**, and every one was a real gap rather than a quirk:
+
+* **`networkx` is imported by shipped code and was never declared**, so multiplex community
+  detection was reaching the program only because something else happened to install it. `scipy` and
+  `matplotlib` were in the same position. All three are declared now, and a test walks every import
+  in the package against the dependency list — the general form of the `xlrd` lesson, which would
+  have caught that one, `pypdf`, and these three.
+* **A test that blocked UMAP to check the PCA fallback blocked only one of the two implementations.**
+  With the CUDA stack installed — which this project's own default install now provides — cuml ran
+  the embedding and the fallback never happened. It passed where the wheels were absent and failed
+  where they were present.
+* **`@on_gpu` skips when NO backend exists**, so a torch-specific test ran on a machine carrying cuml
+  and not torch, and died on the import. There is an `@on_torch` now.
+* **`gpu.pairwise_distances` imported cupy unconditionally** after its torch branch, so the switch
+  being on with no library installed raised ImportError instead of computing. It falls back to SciPy.
+* And one real pandas-3 difference: `.astype(str)` keeps NA, so a category count read 5 where the
+  window showed 6. The application already has `as_text` for exactly this; the test was not using it.
+
+### `Pf_fitness · transferred from Pb`, filled — with the orthology supplied by the source
+
+**PMID 28708996**, the PlasmoGEM barcoded-knockout screen of *P. berghei*: 2,578 mutants, and its own
+table names a *falciparum* ortholog per row. No falciparum gene is named by two berghei ones, so the
+join is one-to-one and nothing is dropped for ambiguity — and, more importantly, **the orthology is
+not mine**. Forty rows name a transcript rather than a gene and are stripped, the same suffix the
+phosphosite loader already handles; kept whole they would have vanished for not matching an accession.
+
+The check a transfer must pass, against the receiving arm's own screen: berghei-essential genes have
+a median piggyBac mutagenesis index of **0.160**, slow ones **0.394**, dispensable ones **0.996** —
+monotonic across two species and two unrelated methods (barcoded knockouts in mice against saturation
+mutagenesis in culture, p = 7e-107), with 65 of 71 ribosomal proteins essential. The twelve mutants
+the screen calls `Insufficient data` keep their confidence and lose their phenotype: that phrase is
+the absence of a measurement, not a middle value.
+
+### The arm gets a literature layer, which is what five empty slots were really waiting for
+
+43,482 *P. falciparum* abstracts, fetched by `scripts/fetch_pubmed_corpus.py`. **NCBI stops at ten
+thousand twice over** — esearch will not page past it, and efetch answers `400` for a `retstart`
+beyond it — and both limits are silent: the first version of that script fetched 9,989 abstracts and
+reported success. It slices the query by YEAR now, which no year of this literature comes near, and a
+year that did exceed the cap would be reported rather than truncated.
+
+The scan is the Toxoplasma arm's, unchanged — `identity` for who is named, `corpus` for what a
+document is, `literature` for the counting and the attention correction — so the two arms' attention
+numbers mean the same thing. What is organism-specific is now an ARGUMENT rather than a constant:
+
+* the accession shapes, because this literature cites `PF3D7_1133400`, `PFA0110w`, `PF13_0222` and
+  `MAL1P4.01` in the same paragraph;
+* the symbol prefix, because papers write `PfCDPK1` as often as `CDPK1`, exactly as they write
+  `TgGRA16`.
+
+Hard-coded to Toxoplasma, `build_index` registered **9 of the 9,106 previous accessions** and the
+corpus read as one that never mentions a gene. That is the shape of every silent-loss bug this
+campaign has found: it does not fail, it returns nothing and looks like an empty field.
+
+### Two more layers the new data made possible
+
+**`Pf_co-translation`**, from the ribosome footprints shipped two passes ago: 8,048 edges over 771
+genes. It is a different layer from co-transcription rather than a copy — 173 shared edges, Jaccard
+0.002 — and what says it measures co-translation is that ribosomal proteins pair with each other in
+**7.9% of its edges against a chance rate of 0.08%**. They are made together stoichiometrically. The
+Toxoplasma layer of the same name reports both facts, which is what makes the arms comparable.
+
+**`Pf_host proteome · human erythrocyte`** — the first host tissue reference either arm has carried,
+and the thing instruction 39's 48 host slots have been waiting for. 5,264 human proteins in two
+fractions (PMID 41654503): a proteome of the cell the blood stage lives in answers a question no
+pulldown can, because a pulldown says what a bait touched and this says what was there to touch.
+Self-validating as a fractionation should be — spectrin beta heads the membrane list, haemoglobin
+alpha the cytoplasmic one. The atlas learned to grade a `host_gene` slot against the host table and
+its own denominator, which it could not do before.
+
+### Three slots closed as constructions this arm cannot run
+
+* `Pf_downloaded-study membership` — the Toxoplasma column counts parsed interaction-study
+  supplements over a corpus of 97; this arm has one interactome and it answers its own slot.
+* `Pf_assay confidence and significance` — no column of the arm's 116 carries a p-value or an FDR,
+  and the one confidence number it has belongs to the transfer slot that ships it.
+* `Pf_analysis-derived structural holes` — blocked on a LEG, not on data: a hole needs two
+  INDEPENDENT agreements, and this arm has co-expression and co-translation, which are two
+  RNA-and-ribosome measurements of overlapping biology. It needs a second fitness screen.
+
+### Where the arm stands after this pass
+
+**Toxoplasma 116 of 143. Plasmodium 54 of 128. Combined 170 of 271** — gene 149/198, pair 17/19,
+metabolite 3/6, and **host_gene 1/48**, the first host slot either arm has ever filled.
+
+The literature layer's own check, which is the one that says whether an attention layer is measuring
+attention: the most-published genes come out **MSP1 (999 abstracts), MDR1 (983), HRP2 (715), MSP2
+(613), AMA1 (588), K13 (365), PfEMP1 (291), EBA-175 (255), RESA (238), MSP3, RH5, TRAP** — the
+malaria field's canonical list, in an order any malaria researcher would recognise. 1,180 of 5,720
+genes are named at all; 438 focal, 742 substantive.
+
+And a column that was not shipped, caught by the guard written two passes ago: `n_papers_incidental`
+was zero for all 5,720 genes, because that tier means a mention in a BODY or a CAPTION and this arm
+loads abstracts only. A tier the corpus cannot produce is not a measured absence, so the column is
+dropped and the loader says why.
+
+### `Pf_fitness · liver stage transferred from Pb`, and the transmission half that was not shipped
+
+The same consortium's 2019 barcode screen (PMID 31730853) follows mutants through three transitions:
+blood to midgut, midgut to salivary gland, and salivary gland back to blood -- the last of which
+spans the liver. Its table is *berghei*-keyed with no *falciparum* column, so the mapping comes from
+the 2017 blood-stage table, which is the same consortium's own pairing rather than an orthology this
+project derived.
+
+Two care points. The value shipped is the authors' **blood-stage-corrected** figure, because the
+transition ends in blood and the uncorrected column would call every blood-essential gene
+liver-essential. And 507 genes are dropped for `no power` -- too few barcodes to say anything, which
+is not a measurement of no effect, and which included some of the most extreme numbers in the sheet.
+
+754 genes carry a liver phenotype, 180 reduced, and the validation is the set the field would name:
+LISP1, the UIS/ETRAMP early transcribed membrane proteins and perforin-like protein 1 all come out
+reduced.
+
+**The two mosquito transitions are in the same file and are NOT shipped.** The markers available to
+check them -- P25, P28, SOAP, chitinase -- are precisely the ones known to be redundant or
+background-dependent, so nothing in the data confirms the direction. A transmission slot filled on an
+axis no check could confirm is what this campaign refuses, and the file is already on disk for
+whoever finds a marker set that works.

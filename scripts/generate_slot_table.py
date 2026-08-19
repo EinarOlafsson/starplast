@@ -1535,6 +1535,28 @@ PF_PATTERNS = {
     # three-hourly series. Its amplitude ships with it, because a phase without one invites reading
     # a flat profile's angle as a time.
     "cell-cycle timing label": ["idc_peak_hour", "idc_cycling_amplitude"],
+    # The transfer instruction 39 specifies, filled at last. Its columns are prefixed `pb_` so that
+    # nothing can read them as a falciparum measurement, and its slot shares `target_family` with the
+    # measured fitness slot, so holding one out holds out both.
+    "fitness · transferred from Pb": ["pb_transferred_phenotype", "pb_transferred_growth_rate",
+                                      "pb_transfer_confidence"],
+    # The liver transition of the same consortium's barcode screen, mapped through the blood-stage
+    # table's own ortholog column. Blood-stage-corrected, because the transition ENDS in blood and
+    # an uncorrected drop would call every blood-essential gene liver-essential.
+    "fitness · liver stage transferred from Pb": ["pb_transferred_liver_log2fc",
+                                                  "pb_transferred_liver_reduced"],
+    # The arm's first literature layer. `n_fulltext` and `lit_tier` are deliberately absent from the
+    # pattern list: this corpus is abstracts only, and a pattern claiming a column that does not
+    # exist is how a slot comes to look better covered than it is.
+    "literature attention": ["n_publications", "n_papers_", "attention_depth"],
+    # Ribosome footprints covarying across the cycle. A different layer from co-transcription, not a
+    # copy of it: 173 shared edges of 8,048, and ribosomal proteins pair with each other a hundred
+    # times more often than chance.
+    "co-translation": ["edge:cotranslation"],
+    # The first host tissue reference either arm has carried. A proteome of the cell the blood stage
+    # lives in answers a question no pulldown can: a pulldown says what a bait touched, this says
+    # what was there to touch.
+    "host proteome · human erythrocyte": ["rbc_membrane_psms", "rbc_cytoplasm_psms"],
     # Pair slots, answered by the Plasmodium graph rather than by columns. Its indices point into
     # pf_nodes.parquet and mean nothing in the Toxoplasma graph, which is why there are two files.
     # Predicted, not measured, and the slot's context says "erythrocyte cytosol" -- a sequence model
@@ -1750,6 +1772,35 @@ BLOCKED = {
     # one of them the assay its slot names. They are kept in `instructions/open/41_candidates_v3.json`
     # as the record of the search and deliberately NOT merged into the catalog: a wrong candidate is
     # worse than an empty slot.
+    # --- Plasmodium, and these three are not acquisitions at all: they are constructions the
+    # Toxoplasma arm runs, checked against what this arm has to run them ON.
+    "Pf_downloaded-study membership": (
+        "missing",
+        "Checked against the construction rather than by searching: the Toxoplasma column counts how "
+        "many DOWNLOADED interaction-study supplements name each gene, over a corpus of 97 of them "
+        "parsed by `interaction_studies`. This arm has one interactome, and it already answers its "
+        "own slot. Counting how many of the map's datasets measured a gene would be a different "
+        "quantity wearing the same slot's name (2026-08-19).",
+        "A corpus of parsed Plasmodium interaction-study supplements, of the kind the Toxoplasma arm "
+        "has, with per-study membership per gene."),
+    "Pf_assay confidence and significance": (
+        "missing",
+        "No column of this arm's 116 carries a p-value, q-value or FDR (2026-08-19). The one "
+        "confidence-like number it does have -- the PlasmoGEM screen's own confidence in each call -- "
+        "belongs to the transfer slot that ships it, and a column claimed twice is the leakage this "
+        "catalog exists to prevent.",
+        "A dataset that publishes per-gene significance, as the Toxoplasma host-transcription screen "
+        "does with `hosttx_padj`."),
+    "Pf_analysis-derived structural holes": (
+        "missing",
+        "Blocked on a leg rather than on data: a hole is a pair the measurements agree about AND the "
+        "literature has never mentioned together, and the Toxoplasma rule requires the two "
+        "agreements to be INDEPENDENT -- co-expression and co-fitness. This arm now has the "
+        "literature (an abstract corpus) and co-expression, but one fitness screen, so there is no "
+        "co-fitness layer; using co-translation as the second leg would be two RNA-and-ribosome "
+        "measurements of overlapping biology, which is one fact counted twice (2026-08-19).",
+        "A second genome-scale fitness screen in P. falciparum, which would give a co-fitness layer "
+        "and with it the second independent leg."),
     "Pf_thermal stability (melting temperature) · asexual blood stage": (
         "missing",
         "GEO for Plasmodium thermal proteome profiling, PRIDE for the same, and PubMed for CETSA "
@@ -1993,13 +2044,14 @@ def _write_markdown(rows, path=OUT_MD) -> None:
 
 
 def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=None,
-          pf_graph=None, pf_bridges=None) -> list:
+          pf_graph=None, pf_bridges=None, hosts=None) -> list:
     """One row per slot. `metabolites` is the table whose rows are compounds; slots declaring
     `unit="metabolite"` are graded against it and against its own denominator."""
     metabolites = pd.DataFrame() if metabolites is None else metabolites
     bridges = pd.DataFrame() if bridges is None else bridges
     pf_nodes = pd.DataFrame() if pf_nodes is None else pf_nodes
     pf_bridges = pd.DataFrame() if pf_bridges is None else pf_bridges
+    hosts = pd.DataFrame() if hosts is None else hosts
     """Definitions with measured cache coverage attached."""
     import numpy as np
     n_genes, rows = len(nodes), []
@@ -2034,6 +2086,14 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
             covered = int(len(set(np.concatenate([g[f"{edges[0]}__a"],
                                                   g[f"{edges[0]}__b"]])))) if has else 0
             detail = f"{pairs:,} pairs"
+        elif unit == "host_gene" and len(hosts):
+            # Graded against the HOST table and its own denominator. These rows are human proteins,
+            # so scoring them out of the parasite's gene count would report a complete tissue
+            # proteome as a fraction of the wrong organism -- the same rule the metabolite and
+            # Plasmodium branches already follow, one unit further out.
+            covered, cols = coverage(hosts, columns)
+            positive = evidence(hosts, cols)
+            detail = f"{len(cols)} columns of {len(hosts):,} host proteins" if cols else ""
         elif unit == "metabolite" and definition["organism"] == "Tg":
             # Resolved against the metabolite table, whose rows are compounds. Graded on its own
             # denominator: 400 of 1,102 metabolites is most of what anyone has measured, and scoring
@@ -2054,7 +2114,9 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
             covered, cols, detail = 0, [], ""
         if positive is None:
             positive = covered
-        if unit == "metabolite":
+        if unit == "host_gene":
+            denominator = len(hosts)
+        elif unit == "metabolite":
             denominator = len(metabolites)
         elif definition["organism"] == "Pf":
             denominator = len(pf_nodes)
@@ -2158,7 +2220,9 @@ def main() -> int:
     pf_graph = np.load(_pg, allow_pickle=True) if os.path.exists(_pg) else None
     _pb = paths.cache_file("pf_host_bridges.parquet")
     pf_bridges = pd.read_parquet(_pb) if os.path.exists(_pb) else pd.DataFrame()
-    rows = _rows(definitions, nodes, z, metabolites, bridges, pf_nodes, pf_graph, pf_bridges)
+    _hp = paths.cache_file("host_proteins.parquet")
+    hosts = pd.read_parquet(_hp) if os.path.exists(_hp) else pd.DataFrame()
+    rows = _rows(definitions, nodes, z, metabolites, bridges, pf_nodes, pf_graph, pf_bridges, hosts)
     toxo_rows = [row for row in rows if row["organism"] == "Tg"]
     pf_rows = [row for row in rows if row["organism"] == "Pf"]
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)

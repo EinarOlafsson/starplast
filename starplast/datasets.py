@@ -1426,6 +1426,96 @@ REGISTRY = [
                  "families are the place to distrust it. Keyed on pre-2012 accessions and resolved "
                  "through `plasmodb_identity`; the deposit's `-a`/`-b` split entries are dropped "
                  "rather than summed, since RPKM is already length-normalised."),
+    Dataset("pf_berghei_liver_transfer", "P. berghei liver-stage fitness, transferred to falciparum",
+            "DNA", "CRISPR_screen",
+            "How a berghei knockout fares through the liver, carried onto its falciparum ortholog",
+            ("pb_transferred_liver_log2fc", "pb_transferred_liver_reduced"),
+            "754 falciparum genes; 180 reduced", pmid="31730853",
+            accession="Cell 2019 Table S2 (PlasmoGEM liver stage)",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6904910/supplementaryFiles",
+            path="datasets/reference/plasmodb/pb_transfer/31730853/mmc2.xlsx",
+            note="Two borrowings, both deliberate. The falciparum id comes from the BLOOD-STAGE "
+                 "screen's table -- the same consortium pairing the same mutants -- rather than "
+                 "from an orthology this project derived. And the value is the authors' own "
+                 "blood-stage-CORRECTED figure for the salivary-gland-to-blood transition, because "
+                 "that transition ends in blood and the uncorrected column would call every "
+                 "blood-essential gene liver-essential. The sheet has two header rows and repeats "
+                 "`Log2-FC / SD / Power` per transition, so columns are read by position and the "
+                 "loader refuses the file if the transition is not where it expects it. 507 genes "
+                 "are dropped for `no power`: too few barcodes to say anything, which is not a "
+                 "measurement of no effect. Validated on the genes the field would name -- LISP1, "
+                 "the UIS/ETRAMP early transcribed membrane proteins and perforin-like protein 1 "
+                 "all come out reduced, which is the textbook set for liver development and "
+                 "hepatocyte egress. The same file's two MOSQUITO transitions are NOT shipped: the "
+                 "markers available to check them (P25, P28, SOAP, chitinase) are the redundant "
+                 "ones, so nothing in the data confirms the direction, and a transmission slot "
+                 "filled on an unchecked axis is what this campaign refuses."),
+    Dataset("host_erythrocyte_proteome", "Human red blood cell proteome, by fraction",
+            "reference", "proteomics",
+            "Which human proteins are present in the cell the blood stage lives in",
+            ("rbc_membrane_psms", "rbc_cytoplasm_psms"),
+            "5,264 human proteins: 4,777 membrane, 2,350 cytoplasmic", pmid="41654503",
+            accession="Sci Data 06792 Supplementary Table S1",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12992542/supplementaryFiles",
+            path="datasets/host/erythrocyte/41654503/41597_2026_6792_MOESM2_ESM.xlsx",
+            note="The first HOST TISSUE reference in this project, and the thing instruction 39's "
+                 "host slots have been waiting for: a proteome of the cell the parasite lives in "
+                 "answers a question no pulldown can, since a pulldown says what a bait touched and "
+                 "this says what was there to touch. The two fractions are kept apart because they "
+                 "are different measurements -- a protein in the membrane extract is at the surface "
+                 "the merozoite invades through, one in the cytoplasm is in the haemoglobin around "
+                 "it. Self-validating as a fractionation should be: spectrin beta heads the "
+                 "membrane list and haemoglobin alpha the cytoplasmic one. Rows are HUMAN proteins "
+                 "keyed by UniProt accession and live in the host table, never in a parasite one; a "
+                 "row can name several genes (`HBA1; HBA2`) and the string is kept as given rather "
+                 "than one of them chosen."),
+    Dataset("pf_literature", "Plasmodium falciparum abstract corpus (COMPUTED layer)",
+            "reference", "literature",
+            "Who is named in the malaria literature, how deeply, and which genes appear together",
+            ("n_publications", "n_papers_focal", "n_papers_substantive", "attention_depth",
+             "edge:comention"),
+            "43,482 abstracts; 732 genes named in the first 10,000", accession="PubMed",
+            url="https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
+            path=".claude/skills/plasmodium-scientist/corpus/pubmed_plasmodium.jsonl",
+            note="Fetched by `scripts/fetch_pubmed_corpus.py`, which slices the query by YEAR "
+                 "because NCBI stops at ten thousand twice over: esearch will not page past it and "
+                 "efetch answers 400 for a retstart beyond it. Both limits are silent -- the first "
+                 "version of that script fetched 9,989 abstracts of 43,482 and reported success. "
+                 "The scan itself is the Toxoplasma arm's, unchanged: `identity` for who is named, "
+                 "`corpus` for what a document is, `literature` for the counting and the attention "
+                 "correction, so the two arms' attention numbers mean the same thing. What is "
+                 "organism-specific is the accession shapes -- this literature cites `PF3D7_`, "
+                 "`PFA0110w`, `PF13_0222` and `MAL1P4.01` in the same paragraph -- and the `Pf` "
+                 "symbol prefix, both of which are now arguments to `identity.build_index` rather "
+                 "than constants in it. Hard-coded to Toxoplasma they registered 9 of 9,106 "
+                 "previous accessions and the corpus read as one that never mentions a gene. "
+                 "Abstracts only: there is no `incidental` tier, since that means a mention in a "
+                 "body or a caption, and no full-text corpus is loaded for this arm."),
+    Dataset("pf_berghei_transfer", "P. berghei knockout fitness, transferred to falciparum",
+            "DNA", "CRISPR_screen",
+            "Relative growth of berghei knockouts, carried onto their falciparum orthologs",
+            ("pb_transferred_phenotype", "pb_transferred_growth_rate", "pb_transfer_confidence"),
+            "2,448 falciparum genes of 2,578 berghei mutants", pmid="28708996",
+            accession="Cell 2017 Table S1 (PlasmoGEM)",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5509546/supplementaryFiles",
+            path="datasets/reference/plasmodb/pb_transfer/28708996/mmc1.xlsx",
+            note="A TRANSFER, and it says so in every column name, because instruction 39 requires "
+                 "one to be visible rather than folded into the measured slot -- transfer berghei "
+                 "fitness onto falciparum, hold out falciparum fitness and recover it, and you have "
+                 "measured orthology. What makes this one safe is that the orthology is not ours: "
+                 "the screen's own table names a falciparum gene per row, and no falciparum gene is "
+                 "named by two berghei ones, so nothing is dropped for ambiguity and nothing is "
+                 "derived. Forty rows name a transcript rather than a gene and are stripped, the "
+                 "same suffix the phosphosite loader handles; kept whole they would have vanished "
+                 "for not matching an accession. CHECKED AGAINST THE RECEIVING ARM'S OWN SCREEN, "
+                 "which is the check a transfer has to pass: berghei-essential genes have a median "
+                 "piggyBac mutagenesis index of 0.160, slow ones 0.394 and dispensable ones 0.996 "
+                 "-- monotonic across two species and two unrelated methods, barcoded knockouts in "
+                 "mice against saturation mutagenesis in culture, p = 7e-107 -- and 65 of 71 "
+                 "ribosomal proteins come out essential. The 12 mutants the screen calls "
+                 "`Insufficient data` keep their confidence and lose their phenotype and growth "
+                 "rate: that phrase is the absence of a measurement, not a middle value. The other "
+                 "3,272 falciparum genes are UNSCREENED, not dispensable, and stay missing."),
     Dataset("pf_idc_timing", "Plasmodium intraerythrocytic cycle timing", "transcription", "RNAseq",
             "When in the 48-hour cycle each transcript peaks, and how strongly it cycles",
             ("idc_peak_hour", "idc_cycling_amplitude"),

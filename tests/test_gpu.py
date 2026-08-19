@@ -20,6 +20,10 @@ from starplast import gpu  # noqa: E402
 
 HAVE = any(gpu.available()[k] for k in ("cuml", "cupy", "torch"))
 on_gpu = pytest.mark.skipif(not HAVE, reason="no GPU backend on this machine")
+# And one per backend, because "a GPU backend exists" is not the same claim as "this backend does".
+# The user's own environment carries cuml and not torch, so a torch test guarded by `on_gpu` ran and
+# died on the import -- a machine-shaped failure with nothing wrong on it.
+on_torch = pytest.mark.skipif(not gpu.available()["torch"], reason="torch is not installed here")
 
 
 def test_what_is_available_is_reported_rather_than_assumed():
@@ -381,7 +385,7 @@ def test_a_real_cupy_reports_its_device_count(monkeypatch):
     assert gpu.available()["cupy"] is False
 
 
-@on_gpu
+@on_torch
 def test_the_torch_path_is_the_accurate_one(monkeypatch):
     """The matrix-multiplication shortcut cancels badly in float32 for points that are close
     together, which is most pairs in an embedding: 5.6e-4 of relative error against 1e-7 for the
@@ -485,3 +489,19 @@ def test_every_cuml_algorithm_has_a_resolver(monkeypatch):
                                                     "device": "fake"})
     assert all(f() is not None for f in (gpu.umap_class, gpu.hdbscan_class, gpu.kmeans_class,
                                          gpu.dbscan_class, gpu.tsne_class))
+
+
+def test_distances_fall_back_to_the_cpu_when_no_backend_is_installed(monkeypatch):
+    """The switch can be on while the libraries are absent, and this path used to import cupy anyway.
+
+    An ImportError three frames down is the wrong answer to "give me the distances": the caller
+    asked a mathematical question, and the accurate CPU answer is a worse day rather than a failure.
+    """
+    import numpy as np
+    from scipy.spatial.distance import pdist, squareform
+    monkeypatch.setenv(gpu.ENV_GPU, "1")
+    monkeypatch.setattr(gpu, "available", lambda: {"cuml": False, "cupy": False, "torch": False,
+                                                   "device": ""})
+    monkeypatch.setattr(gpu, "worth_it", lambda X: True)
+    X = np.random.RandomState(0).normal(size=(40, 3))
+    assert np.allclose(gpu.pairwise_distances(X), squareform(pdist(X)))

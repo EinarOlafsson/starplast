@@ -501,3 +501,42 @@ def test_alg2_is_reached_by_every_bait():
     b = H.load(ROOT, H.BRIDGE_TABLE)
     reach = b.groupby("host_id")["gene_id"].nunique()
     assert reach.get("O75340", 0) == b["gene_id"].nunique(), reach.sort_values().tail().to_dict()
+
+
+# --------------------------------------------------------------------------- host tissue proteomes
+def _rbc_book(tmp_path, rows=None, fractions=None):
+    """The red-cell proteome as its paper ships it: one sheet per fraction."""
+    folder = tmp_path / "host" / H.ERYTHROCYTE[0] / H.ERYTHROCYTE[1]
+    folder.mkdir(parents=True)
+    rows = rows if rows is not None else {
+        "Membrane extract": [("P11277", "SPTB", 500), ("P02724", "GYPA", 120)],
+        "Cytoplasmic extract": [("P69905", "HBA1; HBA2", 900), ("P11277", "SPTB", 40)]}
+    with pd.ExcelWriter(folder / H.ERYTHROCYTE[2]) as writer:
+        for sheet, values in rows.items():
+            pd.DataFrame(values, columns=["Accession", "Gene", "# PSMs"]).to_excel(
+                writer, sheet_name=sheet, index=False)
+    return str(tmp_path)
+
+
+def test_the_two_fractions_stay_two_measurements(tmp_path):
+    """A protein at the surface the merozoite invades through and one in the haemoglobin around it
+    are not the same observation, so they are not the same column."""
+    d = H.erythrocyte_proteome(_rbc_book(tmp_path), log=lambda *a: None).set_index("host_id")
+    assert d.loc["P11277", "rbc_membrane_psms"] == 500
+    assert d.loc["P11277", "rbc_cytoplasm_psms"] == 40
+    assert pd.isna(d.loc["P02724", "rbc_cytoplasm_psms"]), "absent from a fraction is not zero in it"
+
+
+def test_a_row_naming_several_genes_keeps_the_string_it_was_given(tmp_path):
+    """`HBA1; HBA2` is what the source says. Choosing one would be inventing a fact about which."""
+    d = H.erythrocyte_proteome(_rbc_book(tmp_path), log=lambda *a: None).set_index("host_id")
+    assert d.loc["P69905", "host_name"] == "HBA1; HBA2"
+
+
+def test_a_missing_or_wrong_shaped_erythrocyte_file_is_empty(tmp_path):
+    assert H.erythrocyte_proteome(str(tmp_path), log=lambda *a: None).empty
+    root = _rbc_book(tmp_path, rows={"Membrane extract": []})
+    folder = os.path.join(root, "host", H.ERYTHROCYTE[0], H.ERYTHROCYTE[1])
+    pd.DataFrame({"something": [1]}).to_excel(os.path.join(folder, H.ERYTHROCYTE[2]),
+                                              sheet_name="Membrane extract", index=False)
+    assert H.erythrocyte_proteome(root, log=lambda *a: None).empty

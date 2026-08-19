@@ -39,6 +39,18 @@ KINDS = ("accession", "accession_prev", "accession_strain", "symbol", "alias")
 # Any Toxoplasma-style accession: TGME49_208830, TGGT1_208830, TGVEG_208830, old TGME49_008830.
 ACC_RX = re.compile(r"\bTG[A-Z0-9]{2,6}_(\d{5,6})[A-Za-z]?\b", re.I)
 
+# The same idea for *Plasmodium falciparum*, whose literature uses four forms in one paragraph: the
+# current accession, and three generations of older ones. Only the current form carries a numeric
+# suffix that means anything, so it is the only group -- the rest resolve through `lookup`, which is
+# where the identity table's `previous_ids` put them.
+#
+#   PF3D7_1133400   current
+#   PFA0110w        pre-2012, chromosome and position
+#   PF13_0222       pre-2012, the other spelling
+#   MAL1P4.01       the MAL contigs, older still
+PF_ACC_RX = re.compile(r"\b(?:PF3D7_(\d{6,7})|PF[A-Z]\d{4}[wc]|PF\d{2}_\d{4}|MAL\d+P\d+\.\d+)\b",
+                       re.I)
+
 # Word-ish tokens for symbol lookup. Hyphens are kept so "GRA-16" survives tokenisation and is then
 # normalized to "GRA16"; a giant regex alternation over ~3,000 symbols is far slower than set lookup.
 #
@@ -84,6 +96,15 @@ class GeneIndex:
     ambiguous: dict = field(default_factory=dict)       # key -> {gene_id, ...}
     suffix: dict = field(default_factory=dict)          # accession numeric suffix -> gene_id
     strict: set = field(default_factory=set)            # keys that only match an upper-case surface form
+    # What an accession LOOKS like, and what a current one starts with. Fields rather than module
+    # constants because the second parasite's literature spells them differently -- and an index that
+    # hard-codes one organism's pattern silently finds nothing in the other's papers, which reads
+    # exactly like a corpus that never mentions any gene.
+    accession_rx: object = ACC_RX
+    canonical_prefix: str = "TGME49"
+    # The prefix a paper writes in front of a symbol: TgGRA16, PfEMP1, PfCDPK1. Never an English
+    # word, so the prefixed form skips the upper-case restriction the bare symbol needs.
+    symbol_prefix: str = "Tg"
 
     # ------------------------------------------------------------------ construction
     def _add(self, key: str, gene_id: str, kind: str, strict: bool = False) -> None:
@@ -130,7 +151,7 @@ class GeneIndex:
         if not text:
             return
         spans = []
-        for m in ACC_RX.finditer(text):
+        for m in self.accession_rx.finditer(text):
             spans.append(m.span())
             # Registered accessions (current, previous, and strain forms) resolve through `lookup`, which
             # carries the right kind. The suffix map is only a fallback for a strain accession that the
@@ -140,7 +161,7 @@ class GeneIndex:
                 gid = self.suffix.get(m.group(1))
                 if gid is None:
                     continue
-                hit = (gid, "accession" if norm(m.group(0)).startswith("TGME49")
+                hit = (gid, "accession" if norm(m.group(0)).startswith(norm(self.canonical_prefix))
                        else "accession_strain")
             yield hit
         for m in TOKEN_RX.finditer(text):
@@ -161,9 +182,16 @@ class GeneIndex:
             yield hit
 
 
-def build_index(node_ids, identity_tsv: str, log=print) -> GeneIndex:
-    """Build a GeneIndex over `node_ids` from the ToxoDB identity table."""
-    ix = GeneIndex(canonical=set(node_ids))
+def build_index(node_ids, identity_tsv: str, log=print, accession_rx=ACC_RX,
+                canonical_prefix: str = "TGME49", symbol_prefix: str = "Tg") -> GeneIndex:
+    """Build a GeneIndex over `node_ids` from a VEuPathDB identity table.
+
+    The table's shape is the same on both sites -- `gene_id`, `gene_name`, `previous_ids` -- so the
+    only thing that differs between arms is what an accession looks like in prose, which is why that
+    is an argument rather than a constant.
+    """
+    ix = GeneIndex(canonical=set(node_ids), accession_rx=accession_rx,
+                   canonical_prefix=canonical_prefix, symbol_prefix=symbol_prefix)
 
     # Accession suffix map: current ME49 accessions define the suffix space that every other accession
     # form (old ids, GT1/VEG) resolves into.
@@ -194,7 +222,11 @@ def build_index(node_ids, identity_tsv: str, log=print) -> GeneIndex:
             # ToxoGeneChip models are also registered for structured dataset joins (GPL7186); the
             # free-text matcher cannot mistake them for prose because its token regex does not span
             # the leading number and dot. Other historical gene-model systems remain excluded.
-            m = re.fullmatch(r"TG[A-Z0-9]{2,6}_(\d{5,6})[A-Za-z]?", p, re.I)
+            # The index's own accession pattern decides what an accession IS. Hard-coded to the
+            # Toxoplasma one, this registered 9 of the Plasmodium table's 9,106 previous ids -- so
+            # the older names its literature actually cites (`PFA0110w`, `PF13_0222`, `MAL1P4.01`)
+            # resolved to nothing, and the corpus looked like one that never mentions a gene.
+            m = ix.accession_rx.fullmatch(p)
             old_chip = re.fullmatch(r"\d+\.m\d+", p, re.I)
             if (m or old_chip) and norm(p) != norm(gid):
                 ix._add(p, gid, "accession_prev")
@@ -205,8 +237,8 @@ def build_index(node_ids, identity_tsv: str, log=print) -> GeneIndex:
             n_sym += 1
             # The Tg- prefix convention: papers write TgGRA16 as often as GRA16. The prefixed form is
             # never an English word, so it does not need the upper-case restriction.
-            if not norm(sym).startswith("TG"):
-                ix._add("TG" + sym, gid, "alias")
+            if not norm(sym).startswith(norm(ix.symbol_prefix)):
+                ix._add(ix.symbol_prefix + sym, gid, "alias")
 
     log(f"identity: {len(ix.canonical):,} genes; {len(ix.lookup):,} resolvable strings "
         f"({n_sym:,} symbols, {n_prev:,} previous accessions offered); "

@@ -211,6 +211,12 @@ def pairwise_distances(X):
         # direct computation. The direct mode is slower and still far faster than the CPU.
         return torch.cdist(t, t, compute_mode="donot_use_mm_for_euclid_dist"
                            ).detach().cpu().numpy().astype(np.float64)
+    if not have["cupy"]:
+        # Neither backend is here, and this function is reachable with the switch on and no library
+        # installed. SciPy rather than an ImportError: the caller asked for distances, and the
+        # accurate CPU answer is a worse day, not a failure.
+        from scipy.spatial.distance import squareform, pdist
+        return squareform(pdist(X))
     import cupy
     # float64 here for the same reason, since cupy has no direct mode: the squared-norm identity is
     # the only formulation available, so the precision has to come from the dtype.

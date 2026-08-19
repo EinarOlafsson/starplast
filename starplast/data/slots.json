@@ -9115,7 +9115,9 @@
     "axis": "relation",
     "context": "ribosome profiling",
     "unit": "pair",
-    "patterns": [],
+    "patterns": [
+      "edge:cotranslation"
+    ],
     "policy": "separate",
     "candidates": [
       [
@@ -10178,7 +10180,11 @@
     "axis": "NEVER a feature",
     "context": "PubMed / PMC",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "n_publications",
+      "n_papers_",
+      "attention_depth"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -11463,7 +11469,11 @@
     "axis": "fitness",
     "context": "P. berghei, PlasmoGEM",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "pb_transferred_phenotype",
+      "pb_transferred_growth_rate",
+      "pb_transfer_confidence"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -11494,7 +11504,10 @@
     "axis": "fitness",
     "context": "P. berghei liver stage",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "pb_transferred_liver_log2fc",
+      "pb_transferred_liver_reduced"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -11790,7 +11803,10 @@
     "axis": "host effect",
     "context": "human erythrocyte; asexual blood stage and merozoite",
     "unit": "host_gene",
-    "patterns": [],
+    "patterns": [
+      "rbc_membrane_psms",
+      "rbc_cytoplasm_psms"
+    ],
     "policy": "average",
     "candidates": [],
     "evidence_path": [

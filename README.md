@@ -133,6 +133,8 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | In-vivo fitness of hyperLOPIT-unassigned proteins | Two targeted libraries tested during mouse infection | measured at build time | Tachibana Y et al., CRISPR screens identify genes essential for in vivo virulence among proteins of hyperLOPIT-unassigned localization. mBio 2024; PMID [39082802](https://pubmed.ncbi.nlm.nih.gov/39082802/); `GSE253884;GSE253885` |
 | Macrophage CRISPR screens | Naive BMDM and IFN-gamma survival | 7,402 (90.9%) | Wang Y et al., Genome-wide screens identify Toxoplasma gondii determinants of parasite fitness in IFN-gamma-activated murine macrophages. Nat Commun 2020;11:5258; PMID [33067458](https://pubmed.ncbi.nlm.nih.gov/33067458/) |
 | Oxidative-stress CRISPR screen | Screening score per gene under oxidative challenge | 7,384 genes (91%) | PMID [34163449](https://pubmed.ncbi.nlm.nih.gov/34163449/); `PMC8216390 Data Sheet 1` |
+| P. berghei knockout fitness, transferred to falciparum | Relative growth of berghei knockouts, carried onto their falciparum orthologs | 2,448 falciparum genes of 2,578 berghei mutants | PMID [28708996](https://pubmed.ncbi.nlm.nih.gov/28708996/); `Cell 2017 Table S1 (PlasmoGEM)` |
+| P. berghei liver-stage fitness, transferred to falciparum | How a berghei knockout fares through the liver, carried onto its falciparum ortholog | 754 falciparum genes; 180 reduced | PMID [31730853](https://pubmed.ncbi.nlm.nih.gov/31730853/); `Cell 2019 Table S2 (PlasmoGEM liver stage)` |
 | Promoter accessibility (ATAC-seq, COMPUTED) | Mean ATAC coverage over the promoter, relative to the genome mean | 7,988 genes (98%) | `GSE313048` |
 | Young 2019 in vivo screen | In vivo fitness | 115 | Young J et al., A CRISPR platform for targeted in vivo screens identifies Toxoplasma gondii virulence factors in mice. Nat Commun 2019;10:3963; PMID [31481656](https://pubmed.ncbi.nlm.nih.gov/31481656/) |
 
@@ -234,6 +236,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Drug sensitivity per gene (CURATED) | Knockouts with a measured shift in sensitivity to a named compound | 3 genes, 2 compounds | PMID [41025776](https://pubmed.ncbi.nlm.nih.gov/41025776/); `mBio, PMID 41025776` |
 | Enteric / sexual-cycle fitness per gene (CURATED) | Gene disruptions carried through the feline stage with oocyst output measured | 8 genes, 4 studies | PMID [28288194](https://pubmed.ncbi.nlm.nih.gov/28288194/); `PMIDs 28288194, 30728393, 36809045 and PMC12942651` |
 | Enzyme classification (ToxoDB) | EC number per gene, and whether it has one | 1,313 enzymes of 8,140 genes | `ToxoDB ME49` |
+| Human red blood cell proteome, by fraction | Which human proteins are present in the cell the blood stage lives in | 5,264 human proteins: 4,777 membrane, 2,350 cytoplasmic | PMID [41654503](https://pubmed.ncbi.nlm.nih.gov/41654503/); `Sci Data 06792 Supplementary Table S1` |
 | IEDB epitopes mapped to genes (via ToxoDB) | How many IEDB epitopes ToxoDB maps to this gene | 221 genes | `ToxoDB / IEDB` |
 | InterPro domains | Domain identity and count | 8,140 | *citation not yet confirmed* |
 | Membrane lipid composition of parasite vesicles | Lipid species abundance, and its proportion against the host cell | 194 lipid species | PMID [41716462](https://pubmed.ncbi.nlm.nih.gov/41716462/); `Front Cell Infect Microbiol 1745625 Tables 1-3` |
@@ -248,6 +251,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Plasmodium enzyme classification (PlasmoDB) | EC number per gene, curated and orthology-derived kept apart | 1,220 curated, 335 more from orthology | `PlasmoDB ec_numbers and ec_numbers_derived` |
 | Plasmodium export prediction (ExportPred) | Predicted export to the erythrocyte, as an ordinal confidence tier | 440 genes called at some threshold, 191 at the default | `PlasmoDB GenesByExportPrediction` |
 | Plasmodium falciparum 3D7 gene attributes | The second species: sequence, orthology, domains, strain SNPs and piggyBac fitness | 5,720 P. falciparum genes | `PlasmoDB GenesByTaxon attributesTabular` |
+| Plasmodium falciparum abstract corpus (COMPUTED layer) | Who is named in the malaria literature, how deeply, and which genes appear together | 43,482 abstracts; 732 genes named in the first 10,000 | `PubMed` |
 | Plasmodium host interaction degree (COMPUTED) | How many host proteins a gene was crosslinked to, where it was looked at | 117 genes seen, 10 with a host partner | *citation not yet confirmed* |
 | Plasmodium model confidence and disorder (AlphaFold DB) | Mean pLDDT per protein, and the fraction of it at each confidence band | 5,098 of 5,720 genes | `AlphaFold DB API, per UniProt accession` |
 | Plasmodium relation layers (COMPUTED) | Gene pairs sharing an orthogroup or a domain, and pairs whose stages covary | 1,741 + 24,123 + 63,158 pairs | *citation not yet confirmed* |

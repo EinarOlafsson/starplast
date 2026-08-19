@@ -16,6 +16,7 @@ os.environ.setdefault("PYQTGRAPH_QT_LIB", "PyQt6")
 from PyQt6 import QtCore, QtWidgets  # noqa: E402
 
 import starplast.app as A  # noqa: E402
+from starplast import app as APP  # noqa: E402
 from starplast.app import category_columns as category_columns_for  # noqa: E402
 
 
@@ -167,7 +168,11 @@ def test_an_identifier_column_is_not_offered_as_a_category(win):
 def test_switching_category_rebuilds_the_list_and_the_filter(win):
     win.on_category_changed("cellcycle_phase")
     assert win.category == "cellcycle_phase"
-    assert win.comp_list.count() == win.nodes.cellcycle_phase.astype(str).nunique()
+    # Through the application's own text helper, not `.astype(str)`: under pandas 3 that cast keeps
+    # NA, so the count excluded the unlabelled genes the list shows as "" and this read 5 against 6.
+    # `as_text` is what the window itself uses, and a test that asks the question a different way is
+    # testing a different question.
+    assert win.comp_list.count() == APP.as_text(win.nodes.cellcycle_phase).nunique()
     win.comp_list.item(0).setCheckState(QtCore.Qt.CheckState.Checked)
     vis = win.visible_mask()
     assert 0 < vis.sum() < win.n, "the filter is not restricting anything"

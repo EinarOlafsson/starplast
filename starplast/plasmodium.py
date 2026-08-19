@@ -326,6 +326,14 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
                                                                      "bait": "prey"})])
         degree = both.drop_duplicates().groupby("bait")["prey"].nunique()
         nodes["n_ip_ms_partners"] = nodes["gene_id"].map(degree)
+    transferred = berghei_fitness(dataset_root, log=log)
+    if not transferred.empty:
+        # Left missing for a gene the berghei screen never carried: 2,448 of 5,720 have an ortholog
+        # in it, and the rest are not dispensable, they are unscreened.
+        nodes = nodes.merge(transferred, on="gene_id", how="left")
+    liver = berghei_liver_fitness(dataset_root, log=log)
+    if not liver.empty:
+        nodes = nodes.merge(liver, on="gene_id", how="left")
     timing = idc_peak(dataset_root, log=log)
     if not timing.empty:
         # Left missing for a gene whose profile does not cycle: a flat series still has an angle,
@@ -379,6 +387,14 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     if not ec.empty:
         nodes = nodes.merge(ec, on="gene_id", how="left")
         nodes["has_ec"] = nodes["has_ec"].notna() & (nodes["has_ec"] == True)  # noqa: E712
+    columns, _edges, mentions = literature_layer(nodes, os.path.dirname(os.path.abspath(dataset_root)),
+                                                log=log)
+    if not columns.empty:
+        nodes = nodes.merge(columns, on="gene_id", how="left")
+        from . import paths
+        # The auditable intermediate, exactly as the Toxoplasma arm keeps one: every literature
+        # figure downstream can be recomputed from this without re-reading 43,000 abstracts.
+        mentions.to_parquet(paths.cache_file("pf_mentions.parquet"), index=False)
     codons_here = codon_usage(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), log=log)
     if not codons_here.empty:
         nodes = nodes.merge(codons_here, left_on="gene_id", right_index=True, how="left")
@@ -1050,6 +1066,220 @@ IDC_PERIOD = 48.0
 #: A profile that does not cycle still has an angle, and shipping one would be a number where there
 #: is no measurement.
 IDC_MIN_AMPLITUDE = 0.4
+
+
+# --------------------------------------------------------------------------- transferred fitness
+#: The PlasmoGEM barcoded-knockout screen of *P. berghei*, whose own table carries the *falciparum*
+#: ortholog per row. `(folder, pmid, file, sheet)`.
+PB_TRANSFER = ("pb_transfer", "28708996", "mmc1.xlsx", "Table S1")
+
+#: The screen's own verdict on a gene it could not call. Left missing rather than read as a middle
+#: value: "insufficient data" is the absence of a measurement, not a slow-growth phenotype.
+PB_UNCALLED = "Insufficient data"
+
+
+def berghei_fitness(dataset_root: str, log=print) -> pd.DataFrame:
+    """*P. berghei* knockout fitness, carried onto *falciparum* by the SOURCE's own ortholog column.
+
+    This is a transfer, and instruction 39 requires transfers to be visible rather than folded into
+    the measured slot -- so the columns say `pb_` and the slot says `transferred from Pb`. What makes
+    this one safe is that the orthology is not mine: the screen's table names a *falciparum* gene per
+    row, and no *falciparum* gene is named by two *berghei* ones, so the join is one-to-one and
+    nothing has to be dropped for ambiguity.
+
+    It is checked against the receiving arm's OWN screen, which is the check a transfer has to pass:
+    genes the *berghei* screen calls essential have a median piggyBac mutagenesis index of 0.160,
+    slow-growing ones 0.394 and dispensable ones 0.996 -- a monotonic ordering across two species and
+    two unrelated methods (barcoded knockouts in mice against saturation mutagenesis in culture),
+    with 65 of 71 ribosomal proteins essential. Backwards, it would be refused.
+    """
+    folder, pmid, name, sheet = PB_TRANSFER
+    path = os.path.join(dataset_root, "reference", "plasmodb", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if sheet not in book.sheet_names:
+        return pd.DataFrame()
+    d = book.parse(sheet)
+    needed = {"P. falciparum ID", "Phenotype", "Relative growth rate", "Confidence"}
+    if not needed <= set(d.columns):
+        return pd.DataFrame()
+    # Forty rows name a TRANSCRIPT (`PF3D7_0108400.1`). The suffix is stripped, as the phosphosite
+    # loader already does for the same source of ids -- kept whole, those forty genes would have been
+    # dropped for not matching an accession pattern, which is a silent loss dressed as strictness.
+    d = d.assign(gene_id=d["P. falciparum ID"].astype(str).str.strip()
+                 .str.replace(r"\.\d+$", "", regex=True))
+    d = d[d["gene_id"].str.match(r"^PF3D7_\w+$", na=False)]
+    if d.empty:
+        return pd.DataFrame()
+    ambiguous = d["gene_id"].duplicated(keep=False)
+    if ambiguous.any():
+        log(f"pb transfer: {int(ambiguous.sum())} falciparum genes named by more than one berghei "
+            f"gene, withdrawn")
+        d = d[~ambiguous]
+    uncalled = d["Phenotype"].astype(str).str.strip() == PB_UNCALLED
+    out = pd.DataFrame({
+        "gene_id": d["gene_id"].to_numpy(),
+        "pb_transferred_phenotype": d["Phenotype"].where(~uncalled).to_numpy(),
+        "pb_transferred_growth_rate": pd.to_numeric(
+            d["Relative growth rate"], errors="coerce").where(~uncalled).to_numpy(),
+        "pb_transfer_confidence": pd.to_numeric(d["Confidence"], errors="coerce").to_numpy()})
+    log(f"pb transfer: {len(out):,} falciparum genes carry a berghei knockout phenotype; "
+        f"{int(uncalled.sum())} the screen could not call are left missing")
+    return out.reset_index(drop=True)
+
+
+#: The liver-stage and transmission barcode screen, whose table is Pb-keyed and carries no
+#: falciparum column -- so the mapping comes from the blood-stage screen above, which is the same
+#: consortium's own pairing rather than an orthology this project derived.
+PB_LIVER = ("pb_transfer", "31730853", "mmc2.xlsx", "Sheet1")
+
+#: Column offsets in that sheet, which has two header rows and repeats `Log2-FC / SD / Power` per
+#: transition. Read by POSITION because the second header row gives every group the same three
+#: names; the first row is what says which transition a group is.
+PB_LIVER_COLUMNS = {"pb_liver_log2fc": 21, "pb_liver_power": 23}
+
+#: The transition that spans the liver: salivary gland to the second blood infection, corrected for
+#: blood-stage fitness. Uncorrected, a gene needed in blood looks liver-essential because the
+#: transition ENDS in blood.
+PB_LIVER_TRANSITION = "SG-B2 data, normalized, BS fitness-corrected"
+
+#: `no power` means the barcodes were too few to say anything, which is not a measurement of zero
+#: effect. Those rows keep no value.
+PB_NO_POWER = "no power"
+
+
+def berghei_liver_fitness(dataset_root: str, log=print) -> pd.DataFrame:
+    """Liver-stage fitness of *berghei* knockouts, carried onto *falciparum* orthologs.
+
+    Two things make this safe, and both are borrowed rather than invented. The falciparum id comes
+    from the blood-stage screen's own table -- the same consortium pairing the same mutants -- and
+    the value is the SG-B2 transition corrected for blood-stage fitness by the authors, because the
+    transition ends in blood and an uncorrected drop would call every blood-essential gene
+    liver-essential.
+
+    Validated on the genes the field would name: LISP1, the UIS/ETRAMP early transcribed membrane
+    proteins, and perforin-like protein 1 all come out reduced across this transition, which is the
+    textbook set for liver-stage development and hepatocyte egress.
+    """
+    folder, pmid, name, sheet = PB_LIVER
+    path = os.path.join(dataset_root, "reference", "plasmodb", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    raw = pd.read_excel(path, sheet_name=sheet, header=None)
+    if raw.shape[1] < max(PB_LIVER_COLUMNS.values()) + 1 or len(raw) < 3:
+        return pd.DataFrame()
+    if str(raw.iloc[0, PB_LIVER_COLUMNS["pb_liver_log2fc"]]).strip() != PB_LIVER_TRANSITION:
+        log("pb liver: the sheet's columns are not where this loader expects them")
+        return pd.DataFrame()
+    body = raw.iloc[2:].reset_index(drop=True)
+    mapping = _berghei_to_falciparum(dataset_root)
+    if not mapping:
+        log("pb liver: no blood-stage table to map berghei ids onto falciparum ones")
+        return pd.DataFrame()
+    gene = body.iloc[:, 0].astype(str).str.strip().map(mapping)
+    value = pd.to_numeric(body.iloc[:, PB_LIVER_COLUMNS["pb_liver_log2fc"]], errors="coerce")
+    power = body.iloc[:, PB_LIVER_COLUMNS["pb_liver_power"]].astype(str).str.strip()
+    keep = gene.notna() & value.notna() & (power != PB_NO_POWER)
+    out = pd.DataFrame({"gene_id": gene[keep].to_numpy(),
+                        "pb_transferred_liver_log2fc": value[keep].to_numpy(),
+                        "pb_transferred_liver_reduced": (power[keep] == "reduced").to_numpy()})
+    out = out.drop_duplicates("gene_id").reset_index(drop=True)
+    log(f"pb liver: {len(out):,} falciparum genes carry a liver-stage phenotype; "
+        f"{int(out['pb_transferred_liver_reduced'].sum())} are reduced, "
+        f"{int((~keep & gene.notna()).sum())} dropped for having no power to say")
+    return out
+
+
+def _berghei_to_falciparum(dataset_root: str) -> dict:
+    """{berghei id: falciparum id}, from the blood-stage screen's own ortholog column."""
+    folder, pmid, name, sheet = PB_TRANSFER
+    path = os.path.join(dataset_root, "reference", "plasmodb", folder, pmid, name)
+    if not os.path.exists(path):
+        return {}
+    d = pd.read_excel(path, sheet_name=sheet)
+    if "P. berghei current ID" not in d.columns or "P. falciparum ID" not in d.columns:
+        return {}
+    pb = d["P. berghei current ID"].astype(str).str.strip()
+    pf = d["P. falciparum ID"].astype(str).str.strip().str.replace(r"\.\d+$", "", regex=True)
+    ok = pf.str.match(r"^PF3D7_\w+$", na=False)
+    return dict(zip(pb[ok], pf[ok]))
+
+
+# --------------------------------------------------------------------------- literature
+#: The abstract corpus, outside the package for the same reason the Toxoplasma one is: it is 21 MB of
+#: somebody else's text, it grows, and every number derived from it is a snapshot. Relative to the
+#: dataset tree's parent, which is where the skills corpora live on this machine.
+LITERATURE_CORPUS = os.path.join(".claude", "skills", "plasmodium-scientist", "corpus",
+                                 "pubmed_plasmodium.jsonl")
+
+
+def gene_index(nodes: pd.DataFrame, log=print):
+    """The identity index for reading *falciparum* genes out of free text.
+
+    The same builder the Toxoplasma arm uses, with this organism's accession shapes -- current
+    `PF3D7_`, and the three older forms its literature still cites -- and this organism's identity
+    table. Sharing the builder is the point: symbol matching in prose is where a literature layer
+    goes wrong, and one implementation means one set of rules to get right, not two.
+    """
+    from . import identity, paths
+    return identity.build_index(nodes["gene_id"], paths.cache_file(IDENTITY_TABLE), log=log,
+                                accession_rx=identity.PF_ACC_RX, canonical_prefix="PF3D7",
+                                symbol_prefix="Pf")
+
+
+def literature_layer(nodes: pd.DataFrame, base: str, log=print) -> tuple:
+    """Scan the abstract corpus for gene mentions; return node columns and co-mention edges.
+
+    Composed entirely of the machinery the other arm already uses -- `identity` for who is named,
+    `corpus` for what a document is, `literature` for the counting and the attention correction --
+    so the two arms' attention numbers mean the same thing. What is Plasmodium-specific is the index
+    and the corpus path.
+
+    Returns `(columns, edges, mentions)`: a frame keyed by gene, the co-mention layer in the graph's
+    array shape, and the auditable intermediate every figure can be recomputed from.
+    """
+    from collections import Counter
+    from . import corpus, literature
+    path = os.path.join(base, LITERATURE_CORPUS)
+    if not os.path.exists(path):
+        log(f"literature: no corpus at {path}; run scripts/fetch_pubmed_corpus.py")
+        return pd.DataFrame(), {}, pd.DataFrame()
+    index = gene_index(nodes, log=log)
+    documents = list(corpus.iter_abstracts(path))
+    log(f"literature: {len(documents):,} abstracts")
+    mentions, co, meta = literature.scan(documents, index, log=log)
+    if mentions.empty:
+        return pd.DataFrame(), {}, mentions
+    counts = literature.publication_counts(mentions, "abstract")
+    depth = literature.attention_depth(mentions)
+    columns = pd.DataFrame({"gene_id": nodes["gene_id"].to_numpy()})
+    columns["n_publications"] = columns["gene_id"].map(counts).fillna(0).astype(int)
+    for name in depth.columns:
+        mapped = columns["gene_id"].map(depth[name])
+        columns[name] = mapped.fillna(0).astype(int) if name.startswith("n_") else mapped.fillna("")
+    # A tier this corpus cannot produce is not shipped. `incidental` means a mention in a body or a
+    # caption, and this arm loads abstracts only -- so the column would be zero for all 5,720 genes,
+    # which is a column that says the same thing about everything and reads as a measured absence.
+    empty = [c for c in columns.columns
+             if c.startswith("n_papers_") and not columns[c].any()]
+    if empty:
+        columns = columns.drop(columns=empty)
+        log(f"literature: no {', '.join(t.replace('n_papers_', '') for t in empty)} tier from "
+            f"abstracts alone, so those columns are not shipped")
+    position = {gene: i for i, gene in enumerate(nodes["gene_id"])}
+    edges = {}
+    pairs = literature.comention_edges(co.get("abstract", Counter()), meta, "abstract")
+    if pairs:
+        edges["comention"] = (
+            np.array([position[a] for a, _, _, _ in pairs], dtype=int),
+            np.array([position[b] for _, b, _, _ in pairs], dtype=int),
+            np.array([w for _, _, w, _ in pairs], dtype=float),
+            np.array([r for _, _, _, r in pairs], dtype=float))
+        log(f"comention: {len(pairs):,} edges (raw and attention-corrected)")
+    named = int((columns["n_publications"] > 0).sum())
+    log(f"literature: {named:,} of {len(columns):,} genes are named in at least one abstract")
+    return columns, edges, mentions
 
 
 # --------------------------------------------------------------------------- strain identity

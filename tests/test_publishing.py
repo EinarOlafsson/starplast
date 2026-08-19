@@ -463,3 +463,61 @@ def test_fetching_without_a_key_says_how_to_get_one(monkeypatch):
         FN.fetch("Toxoplasma gondii ME49", ["primary_key"])
     assert FN.API_KEY_ENV in str(caught.value)
     assert "COMMITTED" in str(caught.value) or "committed" in str(caught.value)
+
+
+def test_every_unguarded_import_in_the_package_is_a_declared_dependency():
+    """The rule behind three separate incidents, stated once.
+
+    `xlrd` was offered by the importer and never declared; `pypdf` arrived with the interactome;
+    `networkx` had been imported by the multiplex community detection all along and reached the
+    program only because something else pulled it in -- on the interpreter the user actually runs it
+    was simply absent, and four tests failed for a reason that had nothing to do with the code.
+
+    An import inside a `try` is a different statement: it says the feature is optional and the code
+    handles its absence. Those are exempt, which is why the GPU backends and the HDBSCAN fallback do
+    not have to be declared.
+    """
+    import ast
+    import os
+    import sys
+    import tomllib
+
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    declared = tomllib.load(open(os.path.join(root, "pyproject.toml"), "rb"))["project"]["dependencies"]
+    names = {d.split(">=")[0].split("==")[0].split("[")[0].strip().lower() for d in declared}
+    # Import name -> distribution name, where they differ.
+    distribution = {"sklearn": "scikit-learn", "umap": "umap-learn", "opengl": "pyopengl",
+                    "pyqt6": "pyqt6", "pil": "pillow", "yaml": "pyyaml"}
+    # Deliberately optional, each behind a check the code makes before importing -- an early return
+    # on `available()`, or a `try`. Listed by name rather than inferred from syntax, because a guard
+    # can be written four ways and a list of four packages is reviewable.
+    optional = {"torch": "GPU distances; gpu.available() is asked first",
+                "cuml": "GPU UMAP and clustering; same check",
+                "cupy": "GPU array work; same check",
+                "hdbscan": "the fallback when scikit-learn is too old",
+                "pybigwig": "reading coverage tracks, which only the build does",
+                "huggingface_hub": "publishing a release, which the application never does"}
+    names |= set(optional)
+    undeclared = {}
+    for folder, _dirs, files in os.walk(os.path.join(root, "starplast")):
+        for name in files:
+            if not name.endswith(".py"):
+                continue
+            path = os.path.join(folder, name)
+            tree = ast.parse(open(path, encoding="utf8").read(), path)
+            guarded = {node for outer in ast.walk(tree)
+                       if isinstance(outer, ast.Try) for node in ast.walk(outer)}
+            for node in ast.walk(tree):
+                if node in guarded:
+                    continue
+                modules = ([alias.name for alias in node.names] if isinstance(node, ast.Import)
+                           else [node.module] if isinstance(node, ast.ImportFrom)
+                           and node.level == 0 and node.module else [])
+                for module in modules:
+                    top = module.split(".")[0]
+                    if not top or top == "starplast" or top in sys.stdlib_module_names:
+                        continue
+                    key = distribution.get(top.lower(), top.lower())
+                    if key not in names:
+                        undeclared.setdefault(key, os.path.relpath(path, root))
+    assert not undeclared, f"imported without a guard and not declared: {undeclared}"

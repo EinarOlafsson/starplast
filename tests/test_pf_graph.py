@@ -476,3 +476,40 @@ def test_the_layer_reaches_the_built_graph(monkeypatch, tmp_path):
                                                                np.array([])))
     layers = G.build(_xl_nodes(), log=lambda *a: None, dataset_root=str(tmp_path))
     assert list(layers["ip_ms__a"]) == [0] and list(layers["ip_ms__b"]) == [1]
+
+
+# --------------------------------------------------------------------------- co-translation
+def test_co_translation_is_built_from_footprints_and_not_from_the_mrna_beside_them():
+    """The deposit ships both arms; only one of them is what is ON a ribosome."""
+    assert all(c.startswith("riboseq_rpf_") for c in G.RPF_COLUMNS)
+    assert len(G.RPF_COLUMNS) == 5
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_the_shipped_co_translation_layer_pairs_ribosomal_proteins():
+    """What says a correlation layer is measuring co-translation rather than covariance.
+
+    Ribosomal proteins are made together stoichiometrically, so they should pair with each other far
+    above chance -- 7.9% of this layer's edges against a chance rate of 0.08%. The Toxoplasma layer
+    of the same name reports the same fact, which is what makes the two arms comparable.
+    """
+    nodes = pd.read_parquet(NODES)
+    a, b, _w = G.correlation_edges(nodes, columns=G.RPF_COLUMNS)
+    assert len(a) > 1000
+    ribo = nodes["product"].fillna("").str.contains(r"\bribosomal protein\b", case=False,
+                                                    regex=True).to_numpy()
+    together = (ribo[a] & ribo[b]).mean()
+    chance = (ribo.mean()) ** 2
+    assert together > chance * 20, f"{together:.4f} against a chance rate of {chance:.4f}"
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_co_translation_is_a_different_layer_from_co_transcription():
+    """Otherwise it is a second name for one measurement. 173 shared edges of 8,048 is not that."""
+    nodes = pd.read_parquet(NODES)
+    a, b, _ = G.correlation_edges(nodes, columns=G.RPF_COLUMNS)
+    ca, cb, _ = G.correlation_edges(nodes)
+    mine = {(min(x, y), max(x, y)) for x, y in zip(a, b)}
+    theirs = {(min(x, y), max(x, y)) for x, y in zip(ca, cb)}
+    jaccard = len(mine & theirs) / len(mine | theirs)
+    assert jaccard < 0.05, f"Jaccard {jaccard:.3f}: the two layers are nearly the same edges"

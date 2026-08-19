@@ -11,6 +11,7 @@ come out dispensable in culture and hypervariable between strains.
 """
 from __future__ import annotations
 
+import json
 import os
 import sys
 
@@ -2351,3 +2352,251 @@ def test_build_all_folds_in_the_cycle_timing(tmp_path, monkeypatch):
     d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
     assert d.loc["PF3D7_0100100", "idc_peak_hour"] == 45.7
     assert pd.isna(d.loc["PF3D7_0100200", "idc_peak_hour"])
+
+
+# --------------------------------------------------------------------------- transferred fitness
+def _pb_book(tmp_path, rows=None):
+    """The PlasmoGEM screen's own table: one row per berghei mutant, naming its falciparum ortholog."""
+    folder = tmp_path / "reference" / "plasmodb" / P.PB_TRANSFER[0] / P.PB_TRANSFER[1]
+    folder.mkdir(parents=True)
+    rows = rows if rows is not None else [
+        ("PBANKA_0100", "PF3D7_0100100", "Essential", 0.05, 6.1),
+        ("PBANKA_0200", "PF3D7_0100200.1", "Dispensable", 1.01, 5.4),
+        ("PBANKA_0300", "PF3D7_0100300", P.PB_UNCALLED, 0.4, 0.2)]
+    pd.DataFrame(rows, columns=["P. berghei current ID", "P. falciparum ID", "Phenotype",
+                                "Relative growth rate", "Confidence"]).to_excel(
+        folder / P.PB_TRANSFER[2], sheet_name=P.PB_TRANSFER[3], index=False)
+    return str(tmp_path)
+
+
+def test_a_transcript_suffix_does_not_lose_the_gene(tmp_path):
+    """Forty rows of the real table name `PF3D7_0108400.1`. Matched whole they simply vanish."""
+    d = P.berghei_fitness(_pb_book(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert "PF3D7_0100200" in d.index
+    assert d.loc["PF3D7_0100200", "pb_transferred_phenotype"] == "Dispensable"
+
+
+def test_a_mutant_the_screen_could_not_call_keeps_its_confidence_and_loses_its_phenotype(tmp_path):
+    """`Insufficient data` is the absence of a measurement, not a middle value between essential and
+    dispensable -- and the confidence stays, because how sure the screen was is still a fact."""
+    d = P.berghei_fitness(_pb_book(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert pd.isna(d.loc["PF3D7_0100300", "pb_transferred_phenotype"])
+    assert pd.isna(d.loc["PF3D7_0100300", "pb_transferred_growth_rate"])
+    assert d.loc["PF3D7_0100300", "pb_transfer_confidence"] == 0.2
+
+
+def test_a_falciparum_gene_named_by_two_berghei_genes_is_withdrawn(tmp_path):
+    """The real table has none, which is what makes this transfer safe -- so the guard is here for
+    the release that introduces one rather than for today."""
+    root = _pb_book(tmp_path, rows=[
+        ("PBANKA_0100", "PF3D7_0100100", "Essential", 0.05, 6.1),
+        ("PBANKA_0101", "PF3D7_0100100", "Dispensable", 1.02, 5.9),
+        ("PBANKA_0200", "PF3D7_0100200", "Slow", 0.5, 5.0)])
+    said = []
+    d = P.berghei_fitness(root, log=said.append).set_index("gene_id")
+    assert list(d.index) == ["PF3D7_0100200"]
+    assert any("withdrawn" in m for m in said)
+
+
+def test_a_missing_transfer_file_sheet_or_column_is_empty(tmp_path):
+    assert P.berghei_fitness(str(tmp_path), log=lambda *a: None).empty
+    root = _pb_book(tmp_path)
+    folder = os.path.join(root, "reference", "plasmodb", P.PB_TRANSFER[0], P.PB_TRANSFER[1])
+    pd.DataFrame({"other": [1]}).to_excel(os.path.join(folder, P.PB_TRANSFER[2]),
+                                          sheet_name=P.PB_TRANSFER[3], index=False)
+    assert P.berghei_fitness(root, log=lambda *a: None).empty
+    pd.DataFrame({"other": [1]}).to_excel(os.path.join(folder, P.PB_TRANSFER[2]),
+                                          sheet_name="another", index=False)
+    assert P.berghei_fitness(root, log=lambda *a: None).empty
+
+
+def test_build_all_leaves_unscreened_genes_missing_for_the_transfer(tmp_path, monkeypatch):
+    root = _dataset_root(tmp_path)
+    monkeypatch.setattr(P, "berghei_fitness", lambda *a, **k: pd.DataFrame(
+        {"gene_id": ["PF3D7_0100100"], "pb_transferred_phenotype": ["Essential"],
+         "pb_transferred_growth_rate": [0.05], "pb_transfer_confidence": [6.1]}))
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "pb_transferred_phenotype"] == "Essential"
+    assert pd.isna(d.loc["PF3D7_0100200", "pb_transferred_phenotype"])
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_the_transferred_phenotype_agrees_with_the_arms_own_screen():
+    """The check a transfer has to pass, and the reason this one was shipped.
+
+    Two species and two unrelated methods: barcoded knockouts in mice against piggyBac saturation
+    mutagenesis in culture. A low mutagenesis index means a gene resists disruption, so the ordering
+    has to run essential < slow < dispensable. Backwards, the transfer would be measuring orthology.
+    """
+    d = pd.read_parquet(NODES)
+    mis = {name: d.loc[d["pb_transferred_phenotype"] == name, "piggybac_mis"].median()
+           for name in ("Essential", "Slow", "Dispensable")}
+    assert mis["Essential"] < mis["Slow"] < mis["Dispensable"], mis
+    ribo = d["product"].fillna("").str.contains(r"\bribosomal protein\b", case=False, regex=True)
+    called = d.loc[ribo & d["pb_transferred_phenotype"].notna(), "pb_transferred_phenotype"]
+    assert (called == "Essential").mean() > 0.8, called.value_counts().to_dict()
+
+
+def test_a_transfer_table_with_no_falciparum_ids_is_empty(tmp_path):
+    """A join that matches nothing looks exactly like a dataset with no coverage, so it says so."""
+    root = _pb_book(tmp_path, rows=[("PBANKA_0100", "not an accession", "Essential", 0.05, 6.1)])
+    assert P.berghei_fitness(root, log=lambda *a: None).empty
+
+
+# --------------------------------------------------------------------------- the literature layer
+def test_the_index_reads_this_organisms_accessions_and_not_the_other_ones(tmp_path, monkeypatch):
+    """Four spellings in one literature, and the index has to know all four.
+
+    `PF3D7_1133400` is current; `PFA0110w`, `PF13_0222` and `MAL1P4.01` are three generations of
+    older names that papers still cite. Built with the Toxoplasma accession pattern -- which is what
+    `build_index` used to hard-code -- 9 of 9,106 previous ids registered and the corpus read as one
+    that never mentions a gene.
+    """
+    table = tmp_path / "plasmodb_identity.tsv"
+    pd.DataFrame({"gene_id": ["PF3D7_1133400"], "gene_name": ["AMA1"],
+                  "previous_ids": ["Previous IDs: PFA0110w;PF13_0222;MAL1P4.01"],
+                  "product": ["apical membrane antigen 1"]}).to_csv(table, sep="\t", index=False)
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: str(table))
+    index = P.gene_index(pd.DataFrame({"gene_id": ["PF3D7_1133400"]}), log=lambda *a: None)
+    for form in ("PF3D7_1133400", "PFA0110w", "PF13_0222", "MAL1P4.01"):
+        found = list(index.find(f"we deleted {form} in this strain"))
+        assert found and found[0][0] == "PF3D7_1133400", form
+
+
+def test_the_prefixed_symbol_convention_follows_the_organism(tmp_path, monkeypatch):
+    """Papers write PfEMP1 and PfCDPK1 as often as the bare symbol, exactly as they write TgGRA16."""
+    table = tmp_path / "plasmodb_identity.tsv"
+    pd.DataFrame({"gene_id": ["PF3D7_0217500"], "gene_name": ["CDPK1"],
+                  "previous_ids": ["N/A"], "product": ["calcium-dependent protein kinase 1"]}).to_csv(
+        table, sep="\t", index=False)
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: str(table))
+    index = P.gene_index(pd.DataFrame({"gene_id": ["PF3D7_0217500"]}), log=lambda *a: None)
+    assert [g for g, _ in index.find("PfCDPK1 is essential for invasion")] == ["PF3D7_0217500"]
+
+
+def test_no_corpus_is_an_empty_layer_that_says_where_to_get_one(tmp_path):
+    columns, edges, mentions = P.literature_layer(
+        pd.DataFrame({"gene_id": ["PF3D7_0100100"]}), str(tmp_path), log=lambda *a: None)
+    assert columns.empty and not edges and mentions.empty
+
+
+def _liver_book(tmp_path, rows=None, transition=None):
+    """The liver screen's sheet, with its two header rows and repeated column names."""
+    folder = tmp_path / "reference" / "plasmodb" / P.PB_LIVER[0] / P.PB_LIVER[1]
+    folder.mkdir(parents=True, exist_ok=True)
+    width = max(P.PB_LIVER_COLUMNS.values()) + 1
+    top = [""] * width
+    top[0] = "Gene ID"
+    top[P.PB_LIVER_COLUMNS["pb_liver_log2fc"]] = transition or P.PB_LIVER_TRANSITION
+    second = [""] * width
+    second[P.PB_LIVER_COLUMNS["pb_liver_log2fc"]] = "Log2-FC"
+    second[P.PB_LIVER_COLUMNS["pb_liver_power"]] = "Power"
+    rows = rows if rows is not None else [("PBANKA_0100", -3.2, "reduced"),
+                                          ("PBANKA_0200", 0.1, "not reduced"),
+                                          ("PBANKA_0300", -9.9, P.PB_NO_POWER)]
+    body = []
+    for pb, value, power in rows:
+        line = [""] * width
+        line[0] = pb
+        line[P.PB_LIVER_COLUMNS["pb_liver_log2fc"]] = value
+        line[P.PB_LIVER_COLUMNS["pb_liver_power"]] = power
+        body.append(line)
+    pd.DataFrame([top, second] + body).to_excel(
+        folder / P.PB_LIVER[2], sheet_name=P.PB_LIVER[3], index=False, header=False)
+    return str(tmp_path)
+
+
+def test_the_liver_transfer_maps_through_the_blood_screens_own_ortholog_column(tmp_path):
+    """The mapping is the consortium's, not ours -- which is the only reason a transfer is safe."""
+    root = _liver_book(tmp_path)
+    _pb_book(tmp_path, rows=[("PBANKA_0100", "PF3D7_0100100", "Essential", 0.05, 6.1),
+                             ("PBANKA_0200", "PF3D7_0100200", "Dispensable", 1.0, 5.5),
+                             ("PBANKA_0300", "PF3D7_0100300", "Slow", 0.5, 5.0)])
+    d = P.berghei_liver_fitness(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "pb_transferred_liver_reduced"]
+    assert not d.loc["PF3D7_0100200", "pb_transferred_liver_reduced"]
+
+
+def test_a_mutant_with_no_power_carries_no_liver_value(tmp_path):
+    """Too few barcodes to say anything is not a measurement of no effect -- and this one would have
+    been the most extreme value in the column."""
+    root = _liver_book(tmp_path)
+    _pb_book(tmp_path, rows=[("PBANKA_0300", "PF3D7_0100300", "Slow", 0.5, 5.0)])
+    d = P.berghei_liver_fitness(root, log=lambda *a: None)
+    assert "PF3D7_0100300" not in set(d["gene_id"])
+
+
+def test_the_liver_loader_refuses_a_sheet_whose_columns_moved(tmp_path):
+    """Read by position, because every transition repeats the same three column names. A file whose
+    groups have shifted would otherwise be read as the wrong transition entirely."""
+    root = _liver_book(tmp_path, transition="MG-SG data, normalized")
+    _pb_book(tmp_path, rows=[("PBANKA_0100", "PF3D7_0100100", "Essential", 0.05, 6.1)])
+    said = []
+    assert P.berghei_liver_fitness(root, log=said.append).empty
+    assert any("not where this loader expects" in m for m in said)
+
+
+def test_build_all_folds_in_the_liver_transfer_and_the_literature(tmp_path, monkeypatch):
+    """Both are left-joined and neither fills: a gene absent from a screen was not screened, and a
+    gene absent from the literature has not been written about -- which is a fact, not a zero."""
+    root = _dataset_root(tmp_path)
+    monkeypatch.setattr(P, "berghei_liver_fitness", lambda *a, **k: pd.DataFrame(
+        {"gene_id": ["PF3D7_0100100"], "pb_transferred_liver_log2fc": [-3.2],
+         "pb_transferred_liver_reduced": [True]}))
+    monkeypatch.setattr(P, "literature_layer", lambda *a, **k: (
+        pd.DataFrame({"gene_id": ["PF3D7_0100100", "PF3D7_0100200"], "n_publications": [7, 0],
+                      "attention_depth": ["focal", ""]}), {}, pd.DataFrame({"gene_id": ["x"]})))
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "pb_transferred_liver_log2fc"] == -3.2
+    assert pd.isna(d.loc["PF3D7_0100200", "pb_transferred_liver_log2fc"])
+    assert d.loc["PF3D7_0100100", "n_publications"] == 7
+
+
+def test_the_liver_loader_needs_the_blood_table_for_its_mapping(tmp_path):
+    """Its own file has no falciparum column at all, so without that mapping there is nothing to
+    carry the phenotypes onto -- and it says which file is missing rather than returning empty."""
+    root = _liver_book(tmp_path)
+    said = []
+    assert P.berghei_liver_fitness(root, log=said.append).empty
+    assert any("no blood-stage table" in m for m in said)
+
+
+def test_a_literature_scan_that_names_nobody_ships_no_columns(tmp_path, monkeypatch):
+    """An empty scan is a corpus problem, and inventing zero-filled columns would hide it."""
+    corpus = tmp_path / P.LITERATURE_CORPUS
+    corpus.parent.mkdir(parents=True)
+    corpus.write_text('{"pmid": "1", "title": "no gene here", "abstract": "nothing at all"}\n')
+    identity_table = _identity(tmp_path, rows=[("PF3D7_0100100", "X", "N/A", "p")])
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: identity_table)
+    columns, edges, mentions = P.literature_layer(
+        pd.DataFrame({"gene_id": ["PF3D7_0100100"]}), str(tmp_path), log=lambda *a: None)
+    assert columns.empty and not edges
+
+
+def test_a_two_gene_abstract_becomes_a_mention_a_count_and_an_edge(tmp_path, monkeypatch):
+    """The whole layer on a corpus of three papers, which is the smallest thing that can produce a
+    co-mention: two genes named in the same abstract, twice, is an edge; once is not."""
+    corpus = tmp_path / P.LITERATURE_CORPUS
+    corpus.parent.mkdir(parents=True)
+    papers = [
+        {"pmid": "1", "title": "AMA1 and MSP1 in invasion", "abstract": "PF3D7_1133400 binds RON2."},
+        {"pmid": "2", "title": "A study of AMA1", "abstract": "AMA1 and MSP1 were both measured."},
+        {"pmid": "3", "title": "Something else", "abstract": "No genes here at all."}]
+    corpus.write_text("\n".join(json.dumps(p) for p in papers) + "\n")
+    identity_table = _identity(tmp_path, rows=[
+        ("PF3D7_1133400", "AMA1", "Previous IDs: PFA0110w", "apical membrane antigen 1"),
+        ("PF3D7_0930300", "MSP1", "N/A", "merozoite surface protein 1")])
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: identity_table)
+    nodes = pd.DataFrame({"gene_id": ["PF3D7_1133400", "PF3D7_0930300"]})
+    columns, edges, mentions = P.literature_layer(nodes, str(tmp_path), log=lambda *a: None)
+    counts = columns.set_index("gene_id")["n_publications"]
+    # Two papers name each: AMA1 by its accession in one and its symbol in the other, MSP1 by symbol
+    # in both. That the accession and the symbol land on one gene is the identity layer working.
+    assert counts["PF3D7_1133400"] == 2 and counts["PF3D7_0930300"] == 2
+    assert not mentions.empty
+    assert "comention" in edges, "two papers naming both genes is an edge"
+    assert "n_papers_incidental" not in columns.columns, "abstracts cannot produce that tier"

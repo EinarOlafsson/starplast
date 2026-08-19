@@ -13,7 +13,7 @@ build-backend = "setuptools.build_meta"
 # been REMOVED, because once the code carries CUDA that name could only install it anyway and would
 # have been a name that lies. Skipping the wheels now means `--no-deps`, or a platform without them.
 name = "starplast-core"
-version = "0.40.0"
+version = "0.41.0"
 description = "A 3D browser for the Toxoplasma gondii knowledge map (the code; install starplast)"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -38,6 +38,15 @@ dependencies = [
     # are pages of a supplementary PDF, and pure Python beats a poppler binary that a second machine
     # may not have.
     "pypdf>=4.0",
+    # Three that shipped code imports without a guard, and that were reaching the program only
+    # because something else happened to pull them in. `networkx` and `scipy` are the multiplex
+    # community detection and the sparse graphs under it; `matplotlib` draws the recipe report and
+    # the logos. Found by auditing every import in the package against this list on the interpreter
+    # the user actually runs, where `networkx` was simply absent and four tests failed for a reason
+    # that had nothing to do with the code.
+    "networkx>=3.0",
+    "scipy>=1.10",
+    "matplotlib>=3.7",
     # The CUDA stack, in the DEFAULT dependencies. `pip install -e .` giving a CPU-only program on a
     # machine with a CUDA card was the wrong default for the one thing this program is slow at, and a
     # checkout is exactly where the person installing it knows their own hardware.

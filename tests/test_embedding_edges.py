@@ -332,8 +332,12 @@ def test_without_umap_the_embedding_falls_back_to_pca_and_says_so(monkeypatch):
     real = builtins.__import__
 
     def no_umap(name, *a, **k):
-        if name == "umap":
-            raise ImportError("no umap here")
+        # BOTH implementations, which is what "no UMAP" means. Blocking only `umap` leaves the cuml
+        # path, so on a machine with the CUDA stack installed -- which is what this project's own
+        # default install now gives -- the GPU ran the embedding and the fallback never happened.
+        # The test passed where the wheels were absent and failed where they were present.
+        if name == "umap" or name.startswith("cuml"):
+            raise ImportError(f"no {name} here")
         return real(name, *a, **k)
 
     monkeypatch.setattr(builtins, "__import__", no_umap)
