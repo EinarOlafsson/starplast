@@ -795,6 +795,38 @@ starplast-discover --read bigA_00_guilt_compartment_best
    a bridge slot. The host tables are still not openable -- they are reached only through bridges,
    which is instruction 39's remaining half.
 
+0b. **FIXED 2026-08-19, and it was breaking the app and not only the suite: pyqtgraph 0.14 refuses
+   to draw.** Its `GLViewWidget.initializeGL` raises `RuntimeError: pyqtgraph.opengl: Requires >=
+   OpenGL 2.1` when `QSurfaceFormat.version()` is below 2.1 -- and Qt's untouched default format
+   reports 2.0 on every driver, whatever the hardware can do. The message prints the DRIVER string
+   (`4.6.0 NVIDIA`, `4.5 Mesa`), which reads as though the card were the problem; the number being
+   tested is the one the application never asked for. `sprite.ensure_gl_format()` sets a default
+   format of at least 2.1 and `app.py` calls it at import, before any GL widget exists -- after the
+   first context is created a default format applies to nothing.
+
+   Found because the shared `spacr` conda environment was rebuilt under the suite and arrived with
+   pyqtgraph 0.14, numpy 2.x, scipy 1.18 and scikit-learn 1.9. Three more real incompatibilities came
+   with it, each fixed where the fault was rather than pinned away:
+
+   * `ndarray.ptp()` is gone in numpy 2 (`np.ptp(a)` now).
+   * `scipy.stats.kruskal` returns NaN for identical inputs where it used to raise, so
+     `clustering.continuous_feature` scored a constant column with a NaN effect size and gave every
+     cluster a direction. It tests the DATA now: a non-finite statistic is the absence of an effect,
+     not a small one.
+   * scikit-learn 1.9's histogram binner takes a sliding window of two over a column's distinct
+     values, so a column that is constant *within one cross-validation fold* raises `window shape
+     cannot be larger than input array shape` from inside a joblib worker. `methods._DropConstant`
+     is a pipeline step, which is the only place that can be right: the guard has to run per fit,
+     and a filter over the whole matrix does not protect the fold that breaks.
+
+   Two GL tests were also written against 0.13's `GLScatterPlotItem.shader`, an attribute 0.14
+   removed. They now select that renderer explicitly rather than inheriting whichever is installed --
+   the same rule `test_gl_compat.py` already states for `projectionMatrix`.
+
+   The suite pins software GL (`LIBGL_ALWAYS_SOFTWARE`, `QT_OPENGL=software`, `__GLX_VENDOR_LIBRARY_NAME`)
+   rather than leaving it to whichever graphics stack the machine has, which is what made these
+   failures look machine-specific.
+
 1. **The suite segfaulted once, unreproducibly, on 2026-08-17.** `pytest tests/` dumped core after
    printing its extension-module list (PyQt6, OpenGL, torch); two immediate re-runs, with random and
    with fixed ordering, both passed all 2,947. Recorded rather than chased because it is a Qt/GL

@@ -383,6 +383,13 @@ def test_pyqtgraph_014_get_shader_seam_prepares_material_and_keeps_flat_stock(qa
 
 
 def test_paint_uses_pbr_and_falls_back_once_if_the_driver_rejects_it(qapp, monkeypatch, capsys):
+    """The 0.13 path, chosen explicitly rather than inherited from whatever is installed.
+
+    `shader` is an attribute of pyqtgraph 0.13's fixed-function scatter and 0.14 removed it, so a
+    test that reads it is a test of the older renderer -- and one that only says so by accident
+    fails on an upgrade for a reason that has nothing to do with the behaviour being checked. The
+    0.14 seam is `getShaderProgram`, tested above.
+    """
     painted = []
 
     def parent_paint(item):
@@ -394,6 +401,7 @@ def test_paint_uses_pbr_and_falls_back_once_if_the_driver_rejects_it(qapp, monke
     monkeypatch.setattr(SP.GL, "glActiveTexture", lambda *_: None)
     monkeypatch.setattr(SP.GL, "glBindTexture", lambda *_: None)
     item = SP.ShadedScatter(pos=np.ones((2, 3)), size=5.0)
+    item._vbo_renderer = False
     pbr = SP._SphereProgram()
     stock = object()
     item._pbr = pbr
@@ -415,6 +423,7 @@ def test_flat_fallback_never_looks_up_the_removed_point_sprite_name(qapp, monkey
     monkeypatch.setattr(SP.shaders, "getShaderProgram",
                         lambda *_: pytest.fail("private pointSprite registry was consulted"))
     item = SP.ShadedScatter(pos=np.ones((2, 3)), size=5.0)
+    item._vbo_renderer = False          # the renderer whose scatter HAS a `shader` attribute
     stock = object()
     item._stock_shader = stock
     item.paint()

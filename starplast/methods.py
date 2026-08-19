@@ -288,6 +288,40 @@ def raw_matrix(nodes: pd.DataFrame, columns) -> tuple:
     return nodes[keep].to_numpy(dtype=float), keep
 
 
+class _DropConstant:
+    """Drop columns with fewer than two distinct finite values, measured on the data it is fit to.
+
+    A column with one value cannot produce a split, so this changes no answer -- and since
+    scikit-learn 1.9 it cannot even be BINNED: the histogram binner takes a sliding window of two
+    over a column's distinct values and raises `window shape cannot be larger than input array
+    shape`, which names neither the column nor the cause. NaN does not count as a value, because the
+    boosted model treats missingness as a direction at a split rather than as a level.
+    """
+
+    def fit(self, X, y=None):
+        """Record which columns vary in this matrix."""
+        self.keep_ = [j for j in range(X.shape[1])
+                      if np.unique(X[np.isfinite(X[:, j]), j]).size > 1]
+        self.dropped_ = [j for j in range(X.shape[1]) if j not in self.keep_]
+        return self
+
+    def transform(self, X):
+        """Take those columns, in order."""
+        return X[:, self.keep_]
+
+    def fit_transform(self, X, y=None):
+        """Fit and transform in one pass, which is what a pipeline calls."""
+        return self.fit(X, y).transform(X)
+
+    def get_params(self, deep=True):
+        """No parameters, but a pipeline clones its steps and clone() asks."""
+        return {}
+
+    def set_params(self, **_):
+        """Likewise, and there is nothing to set."""
+        return self
+
+
 def boosted(X: np.ndarray, truth: pd.Series, seed: int = 42, folds: int = FOLDS,
             max_iter: int = 200) -> dict:
     """Histogram gradient boosting, scored out of fold like every other supervised method here.
@@ -298,12 +332,20 @@ def boosted(X: np.ndarray, truth: pd.Series, seed: int = 42, folds: int = FOLDS,
     that it needs less preprocessing, not more.
     """
     from sklearn.ensemble import HistGradientBoostingClassifier
-    model = HistGradientBoostingClassifier(max_iter=max_iter, random_state=seed,
-                                           early_stopping=False)
+    from sklearn.pipeline import make_pipeline
+    # The constant-column guard is INSIDE the estimator, which is the only place that can be right:
+    # a column can be constant within one cross-validation fold and varying in the next, so a filter
+    # applied once to the whole matrix does not protect the fold that actually breaks. A pipeline
+    # step remembers the columns it kept, so `predict` and permutation importance both still take
+    # the full matrix and every score stays aligned with its own column name.
+    model = make_pipeline(_DropConstant(),
+                          HistGradientBoostingClassifier(max_iter=max_iter, random_state=seed,
+                                                         early_stopping=False))
     partition, fitted, classes = out_of_fold(X, truth, model, seed=seed, folds=folds)
+    dropped = len(getattr(fitted[0], "dropped_", [])) if fitted is not None else 0
     return {"partition": partition, "classes": classes, "model": fitted,
             "settings": {"method": "boosted", "max_iter": max_iter, "folds": folds,
-                         "missing": "native"}}
+                         "missing": "native", "constant_features_dropped": int(dropped)}}
 
 
 def importances(fitted, feature_names, X: np.ndarray = None, truth: pd.Series = None,

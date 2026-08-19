@@ -396,6 +396,25 @@ def _upload_shader_values(program, values: dict) -> None:
     GL.glUniform4fv(uniform("uLightControl"), MAX_LIGHTS, values["controls"])
 
 
+def ensure_gl_format(minimum=(2, 1)) -> None:
+    """Ask for a surface format pyqtgraph 0.14 will accept, before any GL widget exists.
+
+    0.14 refuses to initialise a `GLViewWidget` when `QSurfaceFormat.version()` is below 2.1 -- and
+    Qt's DEFAULT format reports 2.0 whatever the driver can do, so on an untouched application the
+    check fires on hardware that exceeds the requirement many times over. The error message prints
+    the driver string (`4.6.0 NVIDIA`, `4.5 Mesa`), which reads as though the card were at fault; the
+    number being tested is the one the application asked for and never set.
+
+    Called at import of the module that builds the window, because a default format applied after the
+    first context exists is applied to nothing. Idempotent, and it never LOWERS a version somebody
+    else has already requested.
+    """
+    fmt = QtGui.QSurfaceFormat.defaultFormat()
+    if (fmt.majorVersion(), fmt.minorVersion()) < minimum:
+        fmt.setVersion(*minimum)
+        QtGui.QSurfaceFormat.setDefaultFormat(fmt)
+
+
 def disc_alpha(w: int = WIDTH) -> np.ndarray:
     """The round edge, antialiased over the last texel. pyqtgraph's own formula.
 

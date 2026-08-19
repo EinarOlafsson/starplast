@@ -159,7 +159,7 @@ def test_edge_alpha_encodes_weight(win):
                if getattr(it, "color", None) is not None and np.asarray(it.color).ndim == 2]
     assert colors, "edges drawn with a single flat color, not a per-edge color array"
     alphas = np.concatenate([c[:, 3] for c in colors])
-    assert alphas.ptp() > 0.01, "edge alpha does not vary with weight"
+    assert np.ptp(alphas) > 0.01, "edge alpha does not vary with weight"
 
 
 def test_measured_binding_and_structure_layers_present(win):

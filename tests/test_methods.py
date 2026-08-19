@@ -348,3 +348,31 @@ def test_a_community_holding_half_the_graph_is_not_a_community():
             a.append(i); b.append(j)                 # one clique of everything
     out = M.multiplex_communities(["W"], n, graph={"W__a": np.array(a), "W__b": np.array(b)})
     assert (out["partition"] == -1).all(), "a single all-inclusive community was kept"
+
+
+# --------------------------------------------------------------------------- constant columns
+def test_a_column_with_one_value_is_dropped_and_nan_is_not_a_value():
+    """It cannot produce a split, and since scikit-learn 1.9 it cannot be binned either."""
+    X = np.array([[1.0, 5.0, np.nan],
+                  [2.0, 5.0, 7.0],
+                  [3.0, 5.0, np.nan]])
+    step = M._DropConstant().fit(X)
+    assert step.keep_ == [0] and step.dropped_ == [1, 2]
+    assert step.transform(X).shape == (3, 1)
+
+
+def test_boosting_survives_a_column_that_is_constant_in_one_fold_only(monkeypatch):
+    """Which is why the guard sits inside the estimator rather than over the whole matrix.
+
+    The failure it prevents is not a wrong answer but a crash with no author: scikit-learn's binner
+    raises `window shape cannot be larger than input array shape` from inside a joblib worker, three
+    frames below anything this project wrote.
+    """
+    rs = np.random.RandomState(0)
+    X = rs.normal(size=(80, 3))
+    truth = pd.Series(["a", "b"] * 40)
+    # Constant among the first fold's training rows, varying elsewhere.
+    X[:40, 2] = 1.0
+    fit = M.boosted(X, truth, folds=4)
+    assert set(fit["partition"]) <= {0, 1}
+    assert fit["settings"]["constant_features_dropped"] >= 0

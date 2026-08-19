@@ -13,6 +13,17 @@ os.environ.setdefault("PYQTGRAPH_QT_LIB", "PyQt6")
 os.environ.setdefault("PYTEST_QT_API", "PyQt6")
 # The GL widget needs a platform plugin; offscreen keeps the suite headless.
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+# And a SOFTWARE GL context, which the suite has always used by accident and now uses on purpose.
+# pyqtgraph 0.14 parses the driver's version string as a float, so an NVIDIA context reporting
+# `4.6.0 NVIDIA 580.173.02` raises "Requires >= OpenGL 2.1" on a driver that plainly exceeds it --
+# and every GL test then fails on a machine that has a card, while passing on one that does not.
+# Software GL also makes the render comparisons reproducible, which is what they are for.
+os.environ.setdefault("LIBGL_ALWAYS_SOFTWARE", "1")
+# Mesa reads the variable above; a machine whose GLX vendor library is NVIDIA's does not, so Qt is
+# told directly as well. Both, because either one alone leaves the suite passing or failing
+# according to which graphics stack the machine happens to have.
+os.environ.setdefault("QT_OPENGL", "software")
+os.environ.setdefault("__GLX_VENDOR_LIBRARY_NAME", "mesa")
 
 
 # Preferences persist through QSettings, and a test run must not write into the settings file of

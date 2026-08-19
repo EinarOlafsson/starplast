@@ -32,6 +32,14 @@ import pyqtgraph.opengl as gl  # noqa: E402
 
 from . import lod  # noqa: E402
 from . import paths  # noqa: E402
+from . import sprite as _sprite  # noqa: E402
+
+# Before any GL widget is built, and at import rather than in `main`, because the window is
+# constructed directly by the suite and by anything embedding it. pyqtgraph 0.14 refuses a
+# GLViewWidget whose surface format reports less than OpenGL 2.1, and Qt's untouched default reports
+# 2.0 on every driver -- so without this the map fails to draw on hardware that exceeds the
+# requirement, and says the driver is at fault while doing it.
+_sprite.ensure_gl_format()
 from .chat import ChatPanel  # noqa: E402
 from .console import ConsolePanel  # noqa: E402
 from .jobs import FAILED, JobRunner  # noqa: E402

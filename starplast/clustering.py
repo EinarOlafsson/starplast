@@ -271,6 +271,12 @@ def continuous_feature(labels: np.ndarray, values: pd.Series) -> tuple:
         h, p = kruskal(*groups)
     except ValueError:
         return None, []
+    # A feature with no variance cannot separate anything, and the test for that has to be on the
+    # DATA rather than on the library's behaviour: scipy used to raise for identical inputs and now
+    # returns NaN, so the older guard let a constant column through with a NaN score and a
+    # `direction` for every cluster. NaN is not a small effect; it is the absence of one.
+    if not np.isfinite(h) or not np.isfinite(p):
+        return None, []
     n, k = len(val), len(groups)
     eps2 = float((h - k + 1) / max(n - k, 1))          # epsilon-squared, bounded effect size
     overall = np.median(val)
