@@ -2195,3 +2195,67 @@ One loader change worth carrying: the header row of that sheet sits at a fixed o
 sheet's own title, so a re-issued supplement with a different layout used to take the whole build
 down with an `IndexError` from the parser. It reports and returns empty now. A build that cannot read
 one file should lose one column, not the table.
+
+## Fortieth pass: the atlas reads the right candidate file, and fifteen proposals are refused in writing
+
+**No change to the counts: Toxoplasma 116 of 143, Plasmodium 46 of 128, combined 162 of 271.** What
+changed is which questions have a lead somebody can act on.
+
+### The atlas was reading the wrong file, and part of another one had never been read at all
+
+`generate_slot_table.py` merged `instructions/done/31_candidates.json`. Two things were wrong with
+that, and the second is worse than the first:
+
+* **All 66 of its Plasmodium proposals come from the query this instruction condemned in writing** —
+  the one with `malaria[Title/Abstract]` as a standalone term. Checked, not assumed: every one of the
+  66 records that query in its own `query` field. The acceptance note here says to keep those
+  nowhere, so they are dropped rather than ranked below better candidates.
+* **Its Toxoplasma keys are prefixed `Toxo::` while a slot key is `Tg::<name>`**, so **131 Toxoplasma
+  proposals have never attached to a single slot**. Nothing errored; the atlas simply showed no
+  candidates for those questions. That is the fourth silent no-op this campaign has found from a key
+  that does not match — after the species guard, the substring stage matcher, and the regex-keyed
+  crosslink layer. They are NOT revived here: reviving them would put unverified PubMed hits on
+  Toxoplasma slots whose verdicts say the measurement does not exist, and the checking has to come
+  first.
+
+The atlas now merges `41_candidates_v2.json` and `41_candidates.json` — the GEO and PRIDE sweeps,
+whose **476 Plasmodium proposals all carry an accession**, against zero of the 66 it replaces. 38 of
+the 54 empty Pf gene slots now carry a lead that can be fetched. `31_candidates.json` stays as the
+offline title cache the citation test reads.
+
+### Three empty Toxoplasma slots gained candidates, so all fifteen were opened
+
+A candidate on a slot whose verdict says *searched to the bottom* tells the next person two different
+things at once. Every one was therefore read against its sample metadata rather than its title, and
+**all fifteen were refused**:
+
+* `Tg_transcription · in IFN-gamma macrophage` — eight GEO series, and not one is the parasite inside
+  an activated macrophage: GCN5b/PHD1 knockdowns in HFF, their ChIP-seq and ATAC-seq siblings, a
+  hypothetical-protein knockout in EXTRACELLULAR tachyzoites, a redox-adaptation experiment under
+  actinomycin D, a host-cell-LINE comparison, and two AP2 knockdowns. The term that matched sits in
+  the summaries, not in the samples.
+* `Tg_translation · per cell-cycle phase` — six ribosome-profiling series, which are the same ones
+  the recorded sweep already opened one at a time: a 5'UTR MPRA, unsynchronised profiling, eIF4E1
+  depletion driving bradyzoite formation, and two host-context series already shipped as their own
+  datasets. None is synchronised or sorted.
+* `Tg_protein turnover` — PXD033642, which is the Ca²⁺-responsive **thermal-shift** proteome
+  (PMID 35976251) that already fills `Tg_target engagement / thermal shift`. Melting behaviour is not
+  a degradation rate, and this one was attached by hand rather than by a sweep.
+
+All three verdicts stand, and now they stand on top of a published record of what was opened.
+
+### `REFUSED_CANDIDATES`, one level down from `BLOCKED`
+
+A proposal somebody has read and rejected is not an open lead, and dropping it silently hides that it
+was ever checked. The refusals are keyed `(slot, accession)` with a sentence saying **what the
+deposit actually is** — "not relevant" is not a reason — they are filtered out of every candidate
+list wherever the proposal came from, and the generated atlas publishes them as their own table.
+
+The filter had to be widened once during this pass, which is the useful detail: applied only to the
+merged sweeps it still published the thermal-shift proteome, because that candidate is written beside
+the slot DEFINITION. A refusal is a claim about a deposit, so where the proposal came from cannot
+change the answer.
+
+Three tests: every refusal names a slot that exists and says what the deposit is; no refused
+candidate reappears in the catalog from any source; and no empty Toxoplasma slot publishes an
+unexamined proposal beside a verdict.

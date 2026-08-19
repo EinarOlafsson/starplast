@@ -591,7 +591,10 @@ def test_a_shared_question_does_not_hand_its_toxoplasma_citations_to_plasmodium(
     slot may only carry candidates that were written for the Plasmodium arm.
     """
     gst = _generator()
+    # Both sources out of the way -- the PubMed title cache and the repository sweeps -- so what is
+    # left is only what a slot DEFINITION carries, which is the half this test is about.
     monkeypatch.setattr(gst, "CANDIDATES_JSON", "/nonexistent/no_candidates.json")
+    monkeypatch.setattr(gst, "CANDIDATE_FILES", ())
     own = {row[0] for row in gst.NEW_PLASMODIUM}
     borrowed = {row["name"]: row["candidates"] for row in gst.all_slots("Pf")
                 if row["candidates"] and row["name"] not in own}
@@ -612,3 +615,52 @@ def test_no_plasmodium_candidate_names_the_other_parasite():
     offenders = [(slot.name, c) for slot in slots.all_slots("Pf")
                  for c in slot.candidates if names.search(" ".join(str(p) for p in c))]
     assert not offenders, f"Plasmodium slots citing Toxoplasma work: {offenders}"
+
+
+def test_every_refused_candidate_names_a_real_slot_and_says_what_the_deposit_is():
+    """A refusal is a claim about a deposit, so it has to survive a typo in either half.
+
+    `REFUSED_CANDIDATES` is one level down from `BLOCKED`: the slot verdict says nobody has made the
+    measurement, and this says which proposals were opened while checking that. A key naming a slot
+    that does not exist would silently stop refusing anything.
+    """
+    gst = _generator()
+    names = {f"{row['organism']}_{row['name']}" for row in gst.all_slots()}
+    for (slot, accession), why in gst.REFUSED_CANDIDATES.items():
+        assert slot in names, f"refusal names a slot that does not exist: {slot}"
+        assert accession, f"{slot} refuses a candidate with no accession"
+        assert len(why) > 30, f"{slot}/{accession} does not say what the deposit is"
+
+
+def test_a_refused_candidate_does_not_reappear_in_the_catalog(monkeypatch):
+    """Whatever proposed it. The refusal is about what the deposit IS, so its source cannot matter.
+
+    Both halves are checked: the merged repository sweeps, and the candidates written by hand beside
+    a slot definition. The Ca2+ thermal-shift proteome on `Tg_protein turnover` is the second kind,
+    and it was still being published after the first filter went in.
+    """
+    gst = _generator()
+    for row in gst.all_slots():
+        slot = f"{row['organism']}_{row['name']}"
+        for pmid, accession, _note in row["candidates"]:
+            assert (slot, accession or pmid) not in gst.REFUSED_CANDIDATES, (
+                f"{slot} still publishes {accession or pmid}, which was opened and refused")
+
+
+def test_an_empty_slot_whose_verdict_says_searched_carries_no_unexamined_candidate():
+    """The two must not contradict each other in the published table.
+
+    A slot whose verdict says the sweep went to the bottom, sitting beside six proposals nobody has
+    opened, tells the next person two different things. Every candidate on an empty Toxoplasma slot
+    has therefore been read: they are either gone (refused, with a reason) or they fill it.
+    """
+    import csv
+    import os
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "instructions", "done", "31_slots_toxoplasma.csv")
+    if not os.path.exists(path):
+        pytest.skip("slot table not generated")
+    with open(path, encoding="utf8") as fh:
+        unread = [r["slot"] for r in csv.DictReader(fh)
+                  if r["grade"] == "-" and "verify assay" in (r["candidates"] or "")]
+    assert not unread, f"empty slots publishing unexamined proposals beside a verdict: {unread}"

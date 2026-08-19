@@ -35,7 +35,13 @@ OUT_PF_MD = os.path.join(_ROOT, "instructions", "done", "31_slots_plasmodium.md"
 OUT_JSON = os.path.join(_ROOT, "starplast", "data", "slots.json")
 OUT_HIERARCHY_JSON = os.path.join(_ROOT, "starplast", "data", "slot_hierarchy.json")
 OUT_HIERARCHY_MD = os.path.join(_ROOT, "instructions", "done", "31_slot_hierarchy.md")
+#: The earlier PubMed sweep. A title cache now, not a source of candidates -- see
+#: `_merge_candidate_references`.
 CANDIDATES_JSON = os.path.join(_ROOT, "instructions", "done", "31_candidates.json")
+
+#: The repository sweeps, newest first. Every proposal in these carries a GEO or PRIDE accession.
+CANDIDATE_FILES = (os.path.join(_ROOT, "instructions", "open", "41_candidates_v2.json"),
+                   os.path.join(_ROOT, "instructions", "open", "41_candidates.json"))
 
 PROSE = """# Slots: one place per question, and a choice about what fills it
 
@@ -280,22 +286,52 @@ REFERENCES = {
 }
 
 
-def _merge_candidate_references() -> dict:
-    """Load proposal titles into the offline reference index, when a proposal file exists."""
-    if not os.path.exists(CANDIDATES_JSON):
+def _load(path: str) -> dict:
+    """One proposal file, or nothing if it is absent or unreadable."""
+    if not os.path.exists(path):
         return {}
     try:
-        proposals = json.load(open(CANDIDATES_JSON, encoding="utf8"))
+        return json.load(open(path, encoding="utf8"))
     except (OSError, ValueError):
         return {}
-    for group in proposals.values():
+
+
+def _merge_candidate_references() -> dict:
+    """Every proposal file, merged, with its titles loaded into the offline reference index.
+
+    Which files, and why these:
+
+    * `41_candidates_v2.json` and `41_candidates.json` are the REPOSITORY sweeps -- GEO and PRIDE
+      indexes -- and every one of their 476 Plasmodium proposals carries an accession. A candidate
+      with an accession can be fetched and checked; one without is a citation nobody can act on.
+    * `31_candidates.json` is the earlier PubMed sweep, and it is now a TITLE CACHE only. Its 66
+      Plasmodium proposals all come from the query instruction 41 condemned in writing -- the one
+      with `malaria[Title/Abstract]` as a standalone term, which sweeps in red-cell physiology,
+      mosquito immunity and essential-oil screens -- and its own acceptance note says to keep those
+      nowhere. They are dropped rather than ranked below the accession-carrying ones, because a
+      wrong candidate is worse than an empty slot.
+
+    Recorded while doing this, because it is the same silent-no-op shape the campaign keeps meeting:
+    that file's Toxoplasma keys are prefixed `Toxo::` while a slot key is `Tg::<name>`, so **131
+    Toxoplasma proposals have never attached to any slot**. Nothing errored, and the atlas simply
+    showed no candidates for those questions. They are not revived here: reviving them would put
+    unverified PubMed hits on Toxoplasma slots whose verdicts say the measurement does not exist,
+    which is the claim that would need checking first, not publishing first.
+    """
+    merged: dict = {}
+    for path in CANDIDATE_FILES:
+        for key, group in _load(path).items():
+            for proposal in group:
+                if proposal not in merged.setdefault(key, []):
+                    merged[key].append(proposal)
+    for group in list(merged.values()) + list(_load(CANDIDATES_JSON).values()):
         for proposal in group:
             pmid = str(proposal.get("pmid", ""))
             if pmid and proposal.get("title"):
                 REFERENCES.setdefault(pmid, (str(proposal.get("year", "")),
                                               str(proposal.get("journal", "")),
                                               str(proposal["title"])))
-    return proposals
+    return merged
 
 
 # Rendering and tests must remain useful offline; candidate metadata is cached in the repository.
@@ -1557,16 +1593,28 @@ def all_slots(organism: str | None = None) -> list:
     out = toxo + pf
     if organism:
         out = [row for row in out if row["organism"] == organism]
-    if os.path.exists(CANDIDATES_JSON):
-        proposals = _merge_candidate_references()
+    proposals = _merge_candidate_references()
+    if proposals:
         for row in out:
             key = f"{row['organism']}::{row['name']}"
+            slot_key = f"{row['organism']}_{row['name']}"
             for proposal in proposals.get(key, []):
                 pmid = str(proposal.get("pmid", ""))
-                candidate = (pmid, str(proposal.get("accession", "")),
+                accession = str(proposal.get("accession", ""))
+                if (slot_key, accession or pmid) in REFUSED_CANDIDATES:
+                    continue                 # opened, read, and refused -- see REFUSED_CANDIDATES
+                candidate = (pmid, accession,
                              str(proposal.get("note") or proposal.get("title", "")))
                 if candidate not in row["candidates"]:
                     row["candidates"].append(candidate)
+    # Applied to every candidate a row ends up with, not only the merged ones: the refusals are
+    # about what a deposit IS, so where the proposal came from cannot change the answer. The one
+    # attached by hand -- the Ca2+ thermal-shift proteome on `Tg_protein turnover` -- is exactly the
+    # case that proves it.
+    for row in out:
+        slot_key = f"{row['organism']}_{row['name']}"
+        row["candidates"] = [c for c in row["candidates"]
+                             if (slot_key, c[1] or c[0]) not in REFUSED_CANDIDATES]
     return out
 
 
@@ -1594,6 +1642,55 @@ def coverage(nodes, patterns):
 #: `missing` means the measurement has not been made in this organism. `unreachable` means it has
 #: been made and the data cannot be got at. The two want completely different next actions -- one
 #: waits for an experiment, the other for a login.
+#: Candidates that were OPENED and do not answer the slot they were proposed for, keyed by
+#: (slot key, accession) with the reason. One level down from `BLOCKED`, and it exists for the same
+#: reason: a proposal that somebody has already read and refused must not read as an open lead, or
+#: the next sweep opens it again. It is also the only honest way to publish a repository sweep --
+#: those lists are built by matching an ASSAY TERM against an axis, so a slot gets candidates that
+#: were never about its question, and dropping them silently would hide the fact that they were
+#: checked at all.
+#:
+#: A refusal names what the deposit actually is. "Not relevant" is not a reason.
+REFUSED_CANDIDATES = {
+    # Eight GEO series proposed for the IFN-gamma macrophage slot, opened 2026-08-19. Not one is a
+    # transcriptome of the parasite inside an activated macrophage: the term that matched is in the
+    # summaries, not in the samples. The slot's verdict stands.
+    ("Tg_transcription · in IFN-gamma macrophage", "GSE313582"):
+        "GCN5b/PHD1 knockdown transcriptome in RH Ku80 tachyzoites, HFF host, no macrophage",
+    ("Tg_transcription · in IFN-gamma macrophage", "GSE313273"):
+        "ChIP-seq of GCN5b, PHD1, MORC, HDAC3 and histone marks; not a transcriptome at all",
+    ("Tg_transcription · in IFN-gamma macrophage", "GSE313048"):
+        "ATAC-seq of GCN5b knockdown tachyzoites in HFF monolayers",
+    ("Tg_transcription · in IFN-gamma macrophage", "GSE334992"):
+        "RNA-seq of purified EXTRACELLULAR tachyzoites, wild type against one knockout, no host",
+    ("Tg_transcription · in IFN-gamma macrophage", "GSE329845"):
+        "TgPRO knockout against wild type under actinomycin D; a redox-adaptation experiment",
+    ("Tg_transcription · in IFN-gamma macrophage", "GSE300509"):
+        "ME49 grown on different host cell LINES; the host axis is cell line, not activation state",
+    ("Tg_transcription · in IFN-gamma macrophage", "GSE275112"):
+        "AP2XII-8 knockdown and CUT&Tag; a cell-cycle transcription factor in HFF",
+    ("Tg_transcription · in IFN-gamma macrophage", "GSE266204"):
+        "AP2XII-9 knockdown and CUT&Tag; likewise",
+    # The six ribosome-profiling series proposed for the cell-cycle translation slot are the same
+    # nine that the recorded sweep already opened one at a time. None is synchronised or sorted.
+    ("Tg_translation · per cell-cycle phase", "GSE302108"):
+        "5'UTR MPRA -- reporter constructs, not the endogenous translatome",
+    ("Tg_translation · per cell-cycle phase", "GSE302107"):
+        "ribosome profiling of unsynchronised tachyzoites; no cell-cycle axis",
+    ("Tg_translation · per cell-cycle phase", "GSE243206"):
+        "eIF4E1 depletion driving bradyzoite formation; a stage axis, not a cycle axis",
+    ("Tg_translation · per cell-cycle phase", "GSE129869"):
+        "host-context ribosome profiling, already shipped as its own dataset",
+    ("Tg_translation · per cell-cycle phase", "GSE99395"):
+        "intracellular against extracellular ribosome profiling, already shipped",
+    ("Tg_translation · per cell-cycle phase", "GSE43722"):
+        "the unfolded protein response; a stress axis",
+    # And the one proposed for protein turnover is the study that already fills a different slot.
+    ("Tg_protein turnover", "PXD033642"):
+        "the Ca2+-responsive thermal-shift proteome (PMID 35976251), which already fills "
+        "`Tg_target engagement / thermal shift`; melting behaviour is not a degradation rate",
+}
+
 BLOCKED = {
     "Tg_transcription · in IFN-gamma macrophage": (
         "missing",
@@ -1749,6 +1846,21 @@ def _write_markdown(rows, path=OUT_MD) -> None:
             name = (f"[PMID {key}](https://pubmed.ncbi.nlm.nih.gov/{key}/)" if key.isdigit()
                     else f"`{key}`")
             lines.append(f"| {name} | {'; '.join(sorted(set(slots)))} |")
+        lines.append("")
+
+    # Opened and refused, published rather than dropped. A sweep that returns a candidate which does
+    # not answer the slot has still told you something -- that this deposit is not the one -- and
+    # writing it down is what stops the next sweep proposing it again.
+    refused = [(slot, acc, why) for (slot, acc), why in REFUSED_CANDIDATES.items()
+               if any(r["slot"] == slot for r in rows)]
+    if refused:
+        lines.append("### Candidates opened and refused\n")
+        lines.append("A proposal somebody has read and rejected is not an open lead. Each row says "
+                     "what the deposit actually is, so the next sweep does not re-open it.\n")
+        lines.append("| slot | accession | what it actually is |")
+        lines.append("|---|---|---|")
+        for slot, acc, why in sorted(refused):
+            lines.append(f"| {slot} | `{acc}` | {why} |")
         lines.append("")
     open(path, "w", encoding="utf8").write("\n".join(lines))
 
