@@ -315,6 +315,17 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
         # at the ring and 1,174 at the merozoite -- and every gap is a gene the deposit did not
         # report, which is silence about the measurement rather than an absence of ribosomes.
         nodes = nodes.merge(ribo, on="gene_id", how="left")
+    partners = ip_ms(dataset_root, log=log)
+    if not partners.empty:
+        # Degree over the undirected pairs, so a bait counts its partners and a partner counts the
+        # baits that pulled it down. Left missing for every gene outside the experiment: four
+        # pulldowns are not a survey of the proteome, and a zero here would say "nothing binds this"
+        # about a protein nobody tested.
+        both = pd.concat([partners[["bait", "prey"]],
+                          partners[["prey", "bait"]].rename(columns={"prey": "bait",
+                                                                     "bait": "prey"})])
+        degree = both.drop_duplicates().groupby("bait")["prey"].nunique()
+        nodes["n_ip_ms_partners"] = nodes["gene_id"].map(degree)
     kinase = kinase_substrates(dataset_root, log=log)
     if not kinase.empty:
         # Left-joined and not completed: a gene with no CDPK1-dependent site either has none or was
@@ -842,6 +853,118 @@ def kinase_substrates(dataset_root: str, log=print) -> pd.DataFrame:
     out["cdpk1_dependent_sites"] = out["gene_id"].map(counts)
     log(f"kinase substrates: {len(out):,} genes carry {sum(counts.values())} CDPK1-dependent sites; "
         f"{unmatched} windows matched no protein and {ambiguous} matched more than one")
+    return out
+
+
+# --------------------------------------------------------------------------- measured binding
+#: The EPIC interactome: four co-immunoprecipitations against their own controls, published as pages
+#: of a supplementary PDF rather than as a table. `(folder, pmid, file)`.
+IP_MS = ("ip_ms", "28691708", "ncomms16044-s1.pdf")
+
+#: The accession of each bait that HAS one. `PfEMP1B` is a transgene built from a var gene and
+#: appears in no row, so its pulldown cannot become a parasite-parasite pair -- see the loader.
+IP_MS_BAITS = {"PV1-HA": "PF3D7_1129100", "PV2-HA": "PF3D7_1226900",
+               "EXP3-HA": "PF3D7_1024800", "PfEMP1B": None}
+
+#: A table starts on the page whose column header names its bait and its control; a page carrying
+#: only the caption continues it. Both are read, and they have to agree.
+IP_MS_HEADER = re.compile(r"(PfEMP1B|PV1-HA|PV2-HA|EXP3-HA)\s+(?:PfEMP1F|WT)")
+IP_MS_CAPTION = re.compile(r"Supplementary Table \d\s*\|\s*Mass spectrometry analysis of "
+                           r"(PfEMP1B|PV1-HA|PV2-HA|EXP3-HA)")
+#: Anchored to the END of a record. Annotations carry numbers -- `exported protein 3`, `HSP70-2`,
+#: `Pfj2` -- so matching the FIRST run of digits reads an annotation's own number as a count and
+#: shifts every column by one, silently. Anchored, the eight counts are the last eight numbers in
+#: the record, and a row carrying seven is refused rather than padded from its own name.
+#:
+#: A stricter version of this refused `heat shock protein DnaJ homologue, Pfj2`, whose annotation
+#: legitimately ends in a digit -- one silent corruption traded for one honest loss, which is the
+#: wrong trade when the anchor alone gets both right.
+IP_MS_ROW = re.compile(r"^\s*(.*?)\s*((?:\d+\s+){7}\d+)\s*([<>]?[\d.]+)?\s*$")
+
+#: The last row on a page is followed by the table's false-discovery-rate line, which is not part of
+#: the record and would otherwise stop it anchoring to the end.
+IP_MS_TAIL = re.compile(r"False discovery rate")
+
+
+def ip_ms(dataset_root: str, log=print) -> pd.DataFrame:
+    """Co-immunoprecipitation pairs: which parasite proteins came down with each tagged bait.
+
+    The source is a PDF, and its CAPTIONS are wrong -- the table headed *parasite interacting
+    proteins* holds human ones and the table headed *human* holds parasite ones. So nothing here
+    reads a caption for what a table contains. The bait comes from the column header, which names
+    the pulldown and its control, and the organism comes from the identifier space: `PF3D7_` rows are
+    parasite, `*_HUMAN` rows are host and are not read here.
+
+    **The check that licenses the whole assignment: a bait must be the first row of its own table.**
+    PV1 tops the PV1 pulldown at 97 and 120 spectra, PV2 tops PV2's, EXP3 tops EXP3's. A page whose
+    first row is not its bait is a CONTINUATION page, which is a different claim and is recorded as
+    one; a page that starts a table and fails the check is refused, because the alternative is
+    attributing one protein's partners to another.
+
+    Two things are deliberately not represented. `PfEMP1B` is a transgene made from a var gene and
+    has no accession in the table, so its 38 rows cannot become parasite-parasite pairs and are
+    counted rather than guessed at. And a row carrying seven counts instead of eight (PIESP2, in the
+    PV2 pulldown) is dropped: the missing number could be either arm.
+    """
+    folder, pmid, name = IP_MS
+    path = os.path.join(dataset_root, "reference", "plasmodb", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    try:
+        from pypdf import PdfReader
+    except ImportError:                  # pragma: no cover - declared in pyproject, guarded anyway
+        log("ip_ms: pypdf is not installed, so the interactome PDF cannot be read")
+        return pd.DataFrame()
+    reader = PdfReader(path)
+    rows, bait, started, unnamed, malformed = [], None, set(), 0, 0
+    for page in reader.pages:
+        text = " ".join(page.extract_text().split())
+        parts = re.split(r"(PF3D7_\w+)", text)
+        if len(parts) < 3:
+            continue
+        head, cap = IP_MS_HEADER.search(text), IP_MS_CAPTION.search(text)
+        if head:
+            bait = head.group(1)
+        elif cap:
+            bait = cap.group(1)
+        if bait is None:
+            continue
+        found = []
+        for accession, body in zip(parts[1::2], parts[2::2]):
+            hit = IP_MS_ROW.match(IP_MS_TAIL.split(body)[0])
+            if not hit:
+                malformed += 1
+                continue
+            counts = [int(n) for n in hit.group(2).split()]
+            # The eight counts are TWO experiments of four: bait rep 1, bait rep 2, control rep 1,
+            # control rep 2. Splitting them down the middle sums experiment 1 against experiment 2
+            # instead of bait against control -- which reads as an "enriched" partner with 145
+            # spectra in the untagged line, and is only obvious because that is impossible.
+            bait_counts = counts[0] + counts[1] + counts[4] + counts[5]
+            control_counts = counts[2] + counts[3] + counts[6] + counts[7]
+            found.append((accession, hit.group(1).strip(), bait_counts, control_counts))
+        if not found:
+            continue
+        own = IP_MS_BAITS[bait]
+        if bait not in started:
+            started.add(bait)
+            if own is not None and found[0][0] != own:
+                log(f"ip_ms: {bait}'s table does not start with {own}, so it is refused")
+                continue
+        if own is None:
+            unnamed += len(found)
+            continue
+        for accession, product, in_bait, in_control in found:
+            if accession != own:
+                rows.append({"bait": own, "prey": accession, "product": product,
+                             "spectra_bait": in_bait, "spectra_control": in_control})
+    out = (pd.DataFrame(rows).drop_duplicates(["bait", "prey"]).reset_index(drop=True)
+           if rows else pd.DataFrame())
+    # Logged even when nothing was paired, because "no pairs" and "no pairs, and here is what was
+    # read instead" are different reports and only the second one can be acted on.
+    log(f"ip_ms: {len(out):,} pairs over {out.bait.nunique() if len(out) else 0} baits and "
+        f"{out.prey.nunique() if len(out) else 0} partners; {unnamed} rows from the transgene bait "
+        f"have no accession to pair, {malformed} rows carried the wrong number of counts")
     return out
 
 

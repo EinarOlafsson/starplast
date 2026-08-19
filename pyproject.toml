@@ -34,6 +34,10 @@ dependencies = [
     # their own tables -- so without this the error is pandas' ImportError rather than anything the
     # program said, and it appears at build time or on someone else's spreadsheet.
     "xlrd>=2.0.1",
+    # And `pypdf` for the sources that exist only as a PDF. One does: the EPIC interactome's tables
+    # are pages of a supplementary PDF, and pure Python beats a poppler binary that a second machine
+    # may not have.
+    "pypdf>=4.0",
     # The CUDA stack, in the DEFAULT dependencies. `pip install -e .` giving a CPU-only program on a
     # machine with a CUDA card was the wrong default for the one thing this program is slow at, and a
     # checkout is exactly where the person installing it knows their own hardware.

@@ -2103,3 +2103,153 @@ def test_build_all_records_host_degree_where_the_crosslink_data_reaches(tmp_path
     d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
     assert d.loc["PF3D7_0100100", "n_host_targets"] == 1
     assert pd.isna(d.loc["PF3D7_0100200", "n_host_targets"])
+
+
+# --------------------------------------------------------------------------- the IP-MS interactome
+class _Page:
+    """One page of a supplementary PDF, as the loader consumes it."""
+
+    def __init__(self, text):
+        self._text = text
+
+    def extract_text(self):
+        return self._text
+
+
+def _pdf(tmp_path, pages, monkeypatch):
+    """Stand in for the published PDF: the loader only ever asks a page for its text."""
+    folder = tmp_path / "reference" / "plasmodb" / P.IP_MS[0] / P.IP_MS[1]
+    folder.mkdir(parents=True)
+    (folder / P.IP_MS[2]).write_bytes(b"%PDF-1.4 stub")
+    import pypdf
+    monkeypatch.setattr(pypdf, "PdfReader",
+                        lambda path: type("R", (), {"pages": [_Page(t) for t in pages]})())
+    return str(tmp_path)
+
+
+_PV1_PAGE = ("Gene ID Annotation Number of significant ms/ms spectra Experiment 1 Experiment 2 "
+             "Avg. fold change PV1-HA WT PV1-HA WT 1 2 1 2 1 2 1 2 "
+             "PF3D7_1129100 parasitophorous vacuolar protein 1 (PV1) 97 120 0 0 94 105 0 0 >104 "
+             "PF3D7_1024800 exported protein 3 (EXP3) 90 107 0 0 68 77 0 0 >85.5")
+
+
+def test_the_bait_is_read_from_the_column_header_and_must_top_its_own_table(tmp_path, monkeypatch):
+    """The source's captions are wrong -- `parasite interacting proteins` heads a table of human
+    ones -- so the bait comes from the header and the assignment is checked against the data: a
+    pulldown's own bait is its first and strongest row."""
+    root = _pdf(tmp_path, [_PV1_PAGE], monkeypatch)
+    d = P.ip_ms(root, log=lambda *a: None)
+    assert list(d["bait"]) == ["PF3D7_1129100"]
+    assert list(d["prey"]) == ["PF3D7_1024800"], "the bait's own row is not an edge"
+
+
+def test_a_table_that_does_not_start_with_its_bait_is_refused(tmp_path, monkeypatch):
+    """Attributing one protein's partners to another is the failure this check exists to prevent."""
+    swapped = _PV1_PAGE.replace("PF3D7_1129100 parasitophorous vacuolar protein 1 (PV1)",
+                                "PF3D7_0000001 something else entirely")
+    root = _pdf(tmp_path, [swapped], monkeypatch)
+    said = []
+    assert P.ip_ms(root, log=said.append).empty
+    assert any("does not start with" in m for m in said)
+
+
+def test_the_eight_counts_are_two_experiments_of_four_not_two_halves(tmp_path, monkeypatch):
+    """The trap that shipped for ten minutes: bait, bait, control, control -- twice.
+
+    Split down the middle it compares experiment 1 with experiment 2, and reports EXP3 as an
+    enriched partner carrying 145 spectra in the untagged control. Read correctly it is 342 against
+    zero, which is what an enrichment table looks like.
+    """
+    root = _pdf(tmp_path, [_PV1_PAGE], monkeypatch)
+    row = P.ip_ms(root, log=lambda *a: None).iloc[0]
+    assert row["spectra_bait"] == 90 + 107 + 68 + 77
+    assert row["spectra_control"] == 0
+
+
+def test_a_row_with_seven_counts_is_dropped_and_counted(tmp_path, monkeypatch):
+    """The missing number could be either arm, so the row is refused rather than shifted.
+
+    Its annotation ends in `(PIESP2)` in the file, which is what makes the anchored match refuse it:
+    the eight counts have to be the LAST eight numbers in the record. An earlier version also
+    required the annotation to end in a non-digit, and that refused `heat shock protein DnaJ
+    homologue, Pfj2` -- a complete row whose name simply ends in a 2.
+    """
+    # Copied from the file: seven counts, and an annotation ending in a digit-bearing name, which
+    # is the pair of properties that let this row look complete.
+    short = (_PV1_PAGE + " PF3D7_0501200 parasite-infected erythrocyte surface protein 2 (PIESP2) "
+             "0 0 0 3 2 0 0 >1.67")
+    root = _pdf(tmp_path, [short], monkeypatch)
+    said = []
+    d = P.ip_ms(root, log=said.append)
+    assert "PF3D7_0501200" not in set(d["prey"])
+    assert any("wrong number of counts" in m for m in said)
+
+
+def test_the_transgene_bait_contributes_no_pairs_and_says_how_many(tmp_path, monkeypatch):
+    """PfEMP1B is built from a var gene and has no accession in the table; 38 real rows cannot be
+    paired, and counting them is the difference between a limitation and a silence."""
+    page = ("Gene ID Annotation Experiment 1 Experiment 2 PfEMP1B PfEMP1F PfEMP1B PfEMP1F "
+            "PF3D7_1024800 exported protein 3 (EXP3) 5 6 0 0 7 8 0 0 >6 "
+            "PF3D7_0917900 heat shock protein 70 (HSP70-2) 3 4 0 0 5 6 0 0 >4")
+    root = _pdf(tmp_path, [page], monkeypatch)
+    said = []
+    assert P.ip_ms(root, log=said.append).empty
+    assert any("2 rows from the transgene bait" in m for m in said)
+
+
+def test_a_missing_interactome_pdf_is_an_empty_frame(tmp_path):
+    assert P.ip_ms(str(tmp_path), log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_no_shipped_ip_ms_pair_is_richer_in_its_control_than_in_its_bait():
+    """The check that caught the column-order fault, kept against the shipped file."""
+    import starplast.plasmodium as PL
+    root = os.path.join(ROOT, "datasets")
+    pairs = PL.ip_ms(root, log=lambda *a: None)
+    if pairs.empty:
+        pytest.skip("the interactome PDF is not on this machine")
+    assert (pairs["spectra_bait"] > pairs["spectra_control"]).all()
+    assert pairs["spectra_control"].median() == 0
+
+
+def test_an_annotation_ending_in_a_digit_is_still_a_complete_row(tmp_path, monkeypatch):
+    """`Pfj2` is a protein name, not a count. The regression the strict version would have caused."""
+    page = ("Gene ID PV1-HA WT PV1-HA WT "
+            "PF3D7_1129100 parasitophorous vacuolar protein 1 (PV1) 97 120 0 0 94 105 0 0 >104 "
+            "PF3D7_1108700 heat shock protein DnaJ homologue, Pfj2 0 0 0 0 3 6 0 0 >2.25")
+    root = _pdf(tmp_path, [page], monkeypatch)
+    d = P.ip_ms(root, log=lambda *a: None)
+    assert "PF3D7_1108700" in set(d["prey"])
+    assert int(d.set_index("prey").loc["PF3D7_1108700", "spectra_bait"]) == 3 + 6
+
+
+def test_build_all_counts_ip_ms_partners_both_ways_and_leaves_the_rest_missing(tmp_path,
+                                                                               monkeypatch):
+    """Degree over undirected pairs: a bait counts its partners, a partner counts its baits.
+
+    Missing everywhere else, because four pulldowns are not a survey of the proteome and a zero
+    would say `nothing binds this` about a protein nobody tested.
+    """
+    root = _dataset_root(tmp_path)
+    monkeypatch.setattr(P, "ip_ms", lambda *a, **k: pd.DataFrame(
+        [("PF3D7_0100100", "PF3D7_0100200", "x", 40, 0)],
+        columns=["bait", "prey", "product", "spectra_bait", "spectra_control"]))
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "n_ip_ms_partners"] == 1
+    assert d.loc["PF3D7_0100200", "n_ip_ms_partners"] == 1
+
+
+def test_pages_before_a_table_and_pages_with_no_readable_row_are_skipped(tmp_path, monkeypatch):
+    """A PDF is mostly not tables: accessions appear in figure legends and in prose.
+
+    Neither case may inherit a bait -- one has none yet, and the other would attach its unreadable
+    rows to whatever table came before it.
+    """
+    prose = "Figure 3. Localisation of PF3D7_1129100 and PF3D7_1024800 in infected erythrocytes."
+    unreadable = ("Gene ID PV1-HA WT PV1-HA WT "
+                  "PF3D7_1129100 parasitophorous vacuolar protein 1 (PV1) not measured")
+    root = _pdf(tmp_path, [prose, unreadable], monkeypatch)
+    said = []
+    assert P.ip_ms(root, log=said.append).empty
+    assert any("1 rows carried the wrong number of counts" in m for m in said)

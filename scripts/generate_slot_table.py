@@ -1527,6 +1527,10 @@ PF_PATTERNS = {
     # PfCDPK1 is knocked down. The Toxoplasma arm answers the same slot from the gain side, with
     # thiophosphorylation, which is why the two columns are named differently.
     "phosphorylation · kinase-substrate": ["cdpk1_dependent_sites"],
+    # The pair slot is answered by the graph layer and the gene slot by the degree column, from one
+    # source: co-immunoprecipitation against an untagged or differently-tagged control.
+    "interaction · IP-MS, parasite-parasite": ["edge:ip_ms"],
+    "interaction degree · IP-MS": ["n_ip_ms_partners"],
     # Pair slots, answered by the Plasmodium graph rather than by columns. Its indices point into
     # pf_nodes.parquet and mean nothing in the Toxoplasma graph, which is why there are two files.
     # Predicted, not measured, and the slot's context says "erythrocyte cytosol" -- a sequence model

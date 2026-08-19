@@ -434,3 +434,45 @@ def test_a_host_pair_with_no_crosslink_count_defaults_to_one(tmp_path):
 def test_host_degree_refuses_a_sheet_without_the_protein_columns(tmp_path):
     root = _bridge_root(tmp_path, [("a", "b", 1)], cols=False)
     assert len(G.host_degree(_xl_nodes(), root, log=lambda *a: None)) == 0
+
+
+# --------------------------------------------------------------------------- the IP-MS layer
+def _ip_ms_pairs(monkeypatch, rows):
+    """Stand in for the interactome loader; the layer's job is the indexing, not the parsing."""
+    import starplast.plasmodium as PL
+    monkeypatch.setattr(PL, "ip_ms", lambda *a, **k: pd.DataFrame(
+        rows, columns=["bait", "prey", "product", "spectra_bait", "spectra_control"]))
+
+
+def test_the_ip_ms_layer_indexes_pairs_and_drops_a_self_pair(monkeypatch, tmp_path):
+    """A protein does not bind itself into the graph, and a bait's own row is one of those."""
+    _ip_ms_pairs(monkeypatch, [("PF3D7_010000", "PF3D7_010001", "x", 40, 0),
+                               ("PF3D7_010000", "PF3D7_010000", "itself", 90, 0),
+                               ("PF3D7_010001", "PF3D7_010000", "x", 12, 0)])
+    a, b, w = G.ip_ms_edges(_xl_nodes(), str(tmp_path), log=lambda *a: None)
+    assert list(zip(a, b)) == [(0, 1)], "the reciprocal pull-down is the same undirected edge"
+    assert list(w) == [40.0], "and it keeps the stronger evidence"
+
+
+def test_a_partner_absent_from_the_table_is_not_indexed(monkeypatch, tmp_path):
+    """Indices are positions in `pf_nodes.parquet`; a gene with no row has no position to use."""
+    _ip_ms_pairs(monkeypatch, [("PF3D7_010000", "PF3D7_999999", "not in the table", 40, 0)])
+    a, b, w = G.ip_ms_edges(_xl_nodes(), str(tmp_path), log=lambda *a: None)
+    assert not len(a)
+
+
+def test_no_interactome_gives_no_layer(monkeypatch, tmp_path):
+    import starplast.plasmodium as PL
+    monkeypatch.setattr(PL, "ip_ms", lambda *a, **k: pd.DataFrame())
+    assert not len(G.ip_ms_edges(_xl_nodes(), str(tmp_path), log=lambda *a: None)[0])
+    _ip_ms_pairs(monkeypatch, [("PF3D7_010000", "PF3D7_010001", "x", 40, 0)])
+    assert not len(G.ip_ms_edges(pd.DataFrame(), str(tmp_path), log=lambda *a: None)[0])
+
+
+def test_the_layer_reaches_the_built_graph(monkeypatch, tmp_path):
+    """`build` is where a layer becomes part of the file, and a layer nobody adds draws nothing."""
+    _ip_ms_pairs(monkeypatch, [("PF3D7_010000", "PF3D7_010001", "x", 40, 0)])
+    monkeypatch.setattr(G, "crosslink_edges", lambda *a, **k: (np.array([]), np.array([]),
+                                                               np.array([])))
+    layers = G.build(_xl_nodes(), log=lambda *a: None, dataset_root=str(tmp_path))
+    assert list(layers["ip_ms__a"]) == [0] and list(layers["ip_ms__b"]) == [1]

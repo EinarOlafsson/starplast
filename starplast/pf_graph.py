@@ -149,6 +149,9 @@ def build(nodes: pd.DataFrame, log=print, dataset_root: str | None = None) -> di
         a, b, w = crosslink_edges(nodes, dataset_root, log=log)
         if len(a):
             out["xlms__a"], out["xlms__b"], out["xlms__w"] = a, b, w
+        a, b, w = ip_ms_edges(nodes, dataset_root, log=log)
+        if len(a):
+            out["ip_ms__a"], out["ip_ms__b"], out["ip_ms__w"] = a, b, w
     return out
 
 
@@ -208,7 +211,7 @@ def _classify(cell, known: set, owners: dict) -> tuple:
 
 
 def crosslink_edges(nodes: pd.DataFrame, dataset_root: str, log=print) -> tuple:
-    """Protein pairs joined by a measured crosslink, weighted by how many were found.
+    r"""Protein pairs joined by a measured crosslink, weighted by how many were found.
 
     Two filters matter here and neither is optional. The experiment crosslinked PARASITE INSIDE
     ERYTHROCYTE, so a third of the pairs have a human protein at one or both ends -- spectrin, band 3,
@@ -264,6 +267,41 @@ def crosslink_edges(nodes: pd.DataFrame, dataset_root: str, log=print) -> tuple:
     return (np.array([p[0] for p in pairs], dtype=int),
             np.array([p[1] for p in pairs], dtype=int),
             np.array([counts[p] for p in pairs], dtype=float))
+
+
+def ip_ms_edges(nodes: pd.DataFrame, dataset_root: str, log=print) -> tuple:
+    """Bait-to-partner edges from the co-immunoprecipitations, weighted by spectra in the bait.
+
+    Named `ip_ms` to match the Toxoplasma layer answering the same slot -- and, as everywhere on this
+    arm, the shared name is why the species guard exists: these indices are positions in
+    `pf_nodes.parquet` and mean different genes in the other graph.
+
+    A bait's own row is not an edge (a protein does not bind itself into the graph), and the pairs
+    are undirected here even though the experiment is not: `A pulled down B` and `B pulled down A`
+    are one line between two genes, and the direction is kept in the table the loader returns rather
+    than in the layer.
+    """
+    from .plasmodium import ip_ms
+    empty = (np.array([], dtype=int),) * 2 + (np.array([], dtype=float),)
+    pairs_table = ip_ms(dataset_root, log=log)
+    if pairs_table.empty or nodes.empty:
+        return empty
+    index = {gene: i for i, gene in enumerate(nodes["gene_id"].astype(str))}
+    weight = {}
+    for bait, prey, spectra in zip(pairs_table["bait"], pairs_table["prey"],
+                                   pairs_table["spectra_bait"]):
+        a, b = index.get(bait), index.get(prey)
+        if a is None or b is None or a == b:
+            continue
+        pair = (min(a, b), max(a, b))
+        weight[pair] = max(weight.get(pair, 0.0), float(spectra))
+    if not weight:
+        return empty
+    pairs = sorted(weight)
+    log(f"ip_ms: {len(pairs)} bait-partner edges over {len(set(pairs_table['bait']))} pulldowns")
+    return (np.array([p[0] for p in pairs], dtype=int),
+            np.array([p[1] for p in pairs], dtype=int),
+            np.array([weight[p] for p in pairs], dtype=float))
 
 
 def host_bridge(nodes: pd.DataFrame, dataset_root: str, log=print) -> pd.DataFrame:

@@ -2346,3 +2346,60 @@ first place.
 cell-cycle timing label has to come from GEO (`GSE58402`-style deposits still work, and the IDC
 series named in the v2 candidates are there) or wait. Worth knowing before planning a pass around
 PlasmoDB attributes, which is what the sixteenth pass did.
+
+## Forty-second pass: the EPIC interactome, read out of a PDF whose captions are wrong
+
+**Toxoplasma 116 of 143. Plasmodium 48 of 128. Combined 164 of 271** — gene 145/198, pair 16/19,
+metabolite 3/6, host_gene 0/48. Two slots, one source: `Pf_interaction · IP-MS,
+parasite-parasite` (98 edges) and `Pf_interaction degree · IP-MS` (65 genes), the arm's weakest axis.
+
+**PMID 28691708** immunoprecipitates four tagged baits against their own controls — PfEMP1B against
+PfEMP1F, and PV1, PV2 and EXP3 each against wild type — and publishes the results as **pages of a
+supplementary PDF**. Its PRIDE deposit (PXD006155) is 100 files of raw and search output with no
+per-protein table, which is the usual shape here.
+
+### The captions are wrong, so nothing reads a caption
+
+Supplementary Table 1 is headed *parasite interacting proteins* and holds human ones; Table 2 is
+headed *human* and holds parasite ones. That is the sixth time in this campaign that a source's own
+LABEL was the thing to distrust.
+
+What is reliable is the column header, which names the pulldown and its control, and the identifier
+space: `PF3D7_` rows are parasite, `*_HUMAN` rows are host. And there is a check that settles the
+assignment beyond argument — **a bait must top its own table**. PV1 leads the PV1 pulldown at 97 and
+120 spectra, PV2 leads PV2's, EXP3 leads EXP3's. A page whose first row is not its bait is a
+continuation page rather than a new table, which is a different claim and recorded as one; a page
+that starts a table and fails the check is refused, because the alternative is attributing one
+protein's partners to another.
+
+Read TWO ways before it was trusted: pypdf and poppler independently give 38, 44, 13, 11 and 37 rows
+on the five table pages. `pypdf` is now a dependency — pure Python beats a poppler binary the second
+machine may not have.
+
+### Two parsing traps, and the check that caught the worse one
+
+**The eight counts are two experiments of four** — bait, bait, control, control — so splitting them
+down the middle compares experiment 1 with experiment 2. Done that way, EXP3 comes out of the PV1
+pulldown as an enriched partner carrying **145 spectra in the untagged control**, which is
+impossible; read correctly it is 342 against zero. No pair now has more spectra in its control than
+in its bait, and the median control is 0. That check is a test.
+
+**And an annotation carries numbers.** Matching the first run of digits reads `exported protein 3`'s
+own 3 as a count and shifts every column by one, silently. The counts are anchored to the END of the
+record instead. A stricter version — the annotation must not end in a digit — was written and
+reverted: it refused `heat shock protein DnaJ homologue, Pfj2`, a complete row whose name simply ends
+in a 2. One silent corruption traded for one honest loss is the wrong trade when the anchor alone
+gets both right. Both rows are pinned by tests.
+
+### What is deliberately not carried
+
+* The **38 rows of the PfEMP1B pulldown**. The bait is a transgene built from a *var* gene and has no
+  accession in the table, so those rows cannot become parasite-parasite pairs. Counted and reported
+  rather than dropped in silence — the difference between a stated limitation and a gap.
+* **One row with seven counts** (PIESP2, PV2 pulldown). The missing number could be either arm.
+* The **human** rows, which are a host bridge rather than an edge and belong to the bridge slot that
+  instruction 39 defines. They are the obvious next use of this same source.
+
+Degree is missing outside the experiment: four pulldowns are not a survey of the proteome, and a zero
+would say *nothing binds this* about a protein nobody tested — the same rule the EV proteome forced
+two passes ago.
