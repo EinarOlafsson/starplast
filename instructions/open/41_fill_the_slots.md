@@ -2259,3 +2259,90 @@ change the answer.
 Three tests: every refusal names a slot that exists and says what the deposit is; no refused
 candidate reappears in the catalog from any source; and no empty Toxoplasma slot publishes an
 unexamined proposal beside a verdict.
+
+## Forty-first pass: the atlas prints two numbers, and the second one found a column of zeros
+
+**No change to the counts: Toxoplasma 116 of 143, Plasmodium 46 of 128, combined 162 of 271.**
+
+### The question this settles
+
+Four Plasmodium slots read **100% coverage** while their measurements reached 2,503, 1,145, 144 and
+503 genes. That is the flag-and-count convention working as designed — the flag answers *was this
+protein ever seen phosphorylated* for every gene, and for a pooled proteome-wide re-analysis "no" is
+a real answer — but the atlas printed one number and it was the flag's.
+
+The fix is not a new grading rule, which would have to guess which absences are informative. It is a
+second number: `genes` is how many have an ANSWER, and **`of which yes`** appears wherever that
+answer is a yes/no and most of them are no. Twelve slots differ, and each difference is worth seeing:
+Pf phosphorylation 5,720/2,503, acetylation 5,720/1,127, palmitoylation 5,720/503, lactylation
+5,720/144, and on the Toxoplasma side `exposure to host cytosol` 1,274/73.
+
+A column counts as a yes/no by DTYPE or by CONTENT — a column holding nothing but zeros and ones is a
+flag whatever it is stored as, which is how the Toxoplasma columns that predate the convention are
+caught. The risk of the content rule (a real quantity that happens to take only 0 and 1) costs
+nothing, because the number is printed BESIDE coverage rather than instead of it.
+
+### What it found: a shipped column that was zero for all 8,140 genes
+
+`n_host_targets` — how many host proteins a parasite gene is known to bind — was **0 for every gene
+in the shipped Toxoplasma cache**, and `Tg_host interaction degree` graded **A at 100% coverage** on
+it. The curated table was sitting in the same directory naming 14 genes.
+
+The cause is one line of the build: when `interaction_studies.host_interactions` returns empty, the
+fallback wrote `nodes["n_host_targets"] = 0`. That says *no protein in this parasite has a known
+host partner*, on the evidence of a file that failed to load — absence rendered as measurement, in
+the project whose first rule forbids it. The fallback now leaves the column **out** and says so; a
+slot with no data should read empty, not answered-and-negative.
+
+The shipped column was repaired from the curated table beside it rather than by rebuilding the whole
+Toxoplasma cache, and diffed both ways: 14 genes gained a count, none lost one, and the counts are
+GRA16, ROP16, ROP18, GRA24 and the rest — the genes a reader would expect. Where the curated table
+IS present, zero stays meaningful: it is a reading of the whole literature, and its silence is an
+answer.
+
+**A test now refuses any shipped column that holds one value for every gene.** Deliberately narrow:
+a column covering three genes may legitimately be constant — the curated resistance table describes
+one gene — so it only fires when a column claims to have measured every gene and still says one
+thing. Both caches pass; five constant columns in the Toxoplasma table cover one to three genes each
+and are exactly what they should be.
+
+### Two rendering faults the merged sweeps exposed
+
+Every candidate used to be a PMID, so the renderer wrapped whatever it found in a PubMed URL:
+`pubmed.ncbi.nlm.nih.gov/GSE58402`. Accessions now link to their own repository — GEO, PRIDE and
+ArrayExpress each to itself — because a citation the reader cannot follow is the same failure as one
+they cannot download. And the candidates field is semicolon-joined while the sweeps' note contains a
+semicolon, so `from the GEO index; verify assay and parasite-gene shape` rendered as TWO candidates,
+the second being the fragment `verify assay and parasite-gene shape)` — a proposal with no accession,
+in the table that exists to say which proposals can be fetched. Both are pinned by tests.
+
+**A test asserted the old behaviour**, which is worth recording because it is how the defect survived:
+`test_no_curated_host_table_gives_zero_rather_than_missing` pinned the fallback that writes a zero
+per gene, with no docstring saying why. It is now
+`test_no_curated_host_table_leaves_the_column_out_rather_than_writing_zeros` and carries the
+distinction the original lacked — zero is the right answer for a gene the curated table does not
+name, and the wrong answer when the table itself did not load.
+
+### VEuPathDB closed its reports mid-pass, which is now the campaign's main acquisition risk
+
+While scouting the Plasmodium IDC time course for the cell-cycle slot, the WDK tabular report started
+answering **`401 Valid API Key required for this endpoint`** — to a call that had succeeded hours
+earlier in the same session, fetching the PlasmoDB identity table. A guest session does not help: the
+service issues one and then answers `403 This endpoint is only available to registered users, and
+requires an API key`.
+
+That endpoint is how this project gets the ToxoDB and PlasmoDB identity tables and every WDK
+attribute report — six Toxoplasma slots and most of the Plasmodium node table came through it.
+Nothing breaks today, because every one of those tables is COMMITTED, but the campaign can no longer
+fetch a new attribute report without a registered account's key.
+
+`fetch_names` takes one from `VEUPATHDB_API_KEY` and sends it as the `Auth-Key` header, and refuses
+with instructions when it is unset rather than letting a 401 arrive from inside urllib.
+`datasets.fetchable` reports those datasets as unfetchable-without-a-key instead of claiming they
+download, which is the same honesty rule that made it report landing pages as unfetchable in the
+first place.
+
+**What this changes for the queue:** the PlasmoDB route is closed until someone pastes a key, so the
+cell-cycle timing label has to come from GEO (`GSE58402`-style deposits still work, and the IDC
+series named in the v2 candidates are there) or wait. Worth knowing before planning a pass around
+PlasmoDB attributes, which is what the sixteenth pass did.

@@ -1630,6 +1630,42 @@ def coverage(nodes, patterns):
     return int(nodes[cols].notna().any(axis=1).sum()), cols
 
 
+def evidence(nodes, cols) -> int:
+    """How many genes the slot says something POSITIVE about, which is a different number.
+
+    Coverage counts genes with an answer. For a mass-spectrometry slot the answer for most of the
+    proteome is *no* -- the flag is completed False, because "was this protein ever seen
+    phosphorylated" is a question about the evidence and the answer is no -- so `Pf_phosphorylation`
+    reads 100% coverage while its site count reaches 2,503 genes. Both statements are true and the
+    atlas printed only the first, which reads as though the measurement covered everything.
+
+    So a boolean contributes its TRUEs and everything else contributes its non-missing values. The
+    two numbers together say what a reader needs: how many genes have an answer, and how many of
+    those answers are yes.
+    """
+    if not cols:
+        return 0
+    import numpy as np
+    import pandas as pd
+    hit = np.zeros(len(nodes), dtype=bool)
+    for c in cols:
+        col = nodes[c]
+        values = col.dropna()
+        # A flag by DTYPE or by content: a column holding nothing but zeros and ones is a yes/no
+        # whatever it is stored as, and the Toxoplasma arm stores several that way (`73 positives of
+        # 1,201 genes assayed`). Read as a measurement, its zeros would count as evidence of
+        # something. The risk on the other side -- a real quantity that happens to take only 0 and 1
+        # -- costs nothing here, because the atlas prints this number BESIDE coverage rather than
+        # instead of it.
+        if pd.api.types.is_bool_dtype(col) or (
+                len(values) and pd.api.types.is_numeric_dtype(col)
+                and set(np.unique(values.to_numpy())) <= {0, 1}):
+            hit |= col.fillna(0).to_numpy(dtype=float).astype(bool)
+        else:
+            hit |= col.notna().to_numpy()
+    return int(hit.sum())
+
+
 #: Why an empty slot is empty, and what would fill it.
 #:
 #: A dash in the grade column says a slot has no data and says nothing about why, so a slot nobody
@@ -1775,6 +1811,24 @@ def grade(frac: float, filled: bool, unit: str) -> str:
     return "A" if frac >= 0.8 else ("B" if frac >= 0.2 else "C")
 
 
+def _accession_link(accession: str) -> str:
+    """A repository accession as a link to THAT repository.
+
+    Every candidate used to be a PMID, so the renderer wrapped whatever it found in a PubMed URL.
+    The sweeps that now fill this table are GEO and PRIDE indexes, and `pubmed.ncbi.nlm.nih.gov/
+    GSE58402` is a link to nothing -- a citation the reader cannot follow is the same failure as one
+    that cannot be downloaded.
+    """
+    acc = accession.strip()
+    if re.fullmatch(r"GSE\d+", acc):
+        return f"[{acc}](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={acc})"
+    if re.fullmatch(r"PXD\d+", acc):
+        return f"[{acc}](https://www.ebi.ac.uk/pride/archive/projects/{acc})"
+    if re.fullmatch(r"E-MTAB-\d+", acc):
+        return f"[{acc}](https://www.ebi.ac.uk/biostudies/arrayexpress/studies/{acc})"
+    return f"`{acc}`"
+
+
 def _cited(row) -> str:
     """The candidates for one slot, each as its title, year and accession -- not a bare PMID.
 
@@ -1786,18 +1840,18 @@ def _cited(row) -> str:
         token = token.strip()
         if not token:
             continue
-        if not token.startswith("PMID "):
-            out.append(token)
-            continue
-        parts = token.split()
-        pmid = parts[1]
-        rest = " ".join(parts[2:])
-        acc = rest.split("(")[0].strip()
-        year, journal, title = REFERENCES.get(pmid, ("", "", ""))
-        link = f"[{pmid}](https://pubmed.ncbi.nlm.nih.gov/{pmid}/)"
-        bits = [f"**{title}**" if title else "", f"({journal} {year})".strip() if journal else year,
-                link, f"`{acc}`" if acc else ""]
-        out.append(" ".join(b for b in bits if b))
+        note = token.split("(", 1)[1].rstrip(")").strip() if "(" in token else ""
+        head = token.split("(", 1)[0].strip()
+        pmid = head.split()[1] if head.startswith("PMID ") and len(head.split()) > 1 else ""
+        acc = " ".join(head.split()[2:]) if pmid else head
+        year, journal, title = REFERENCES.get(pmid, ("", "", "")) if pmid else ("", "", "")
+        bits = [f"**{title}**" if title else "",
+                f"({journal} {year})".strip() if journal else year,
+                f"[{pmid}](https://pubmed.ncbi.nlm.nih.gov/{pmid}/)" if pmid else "",
+                _accession_link(acc) if acc else "",
+                f"— {note}" if note and not title else ""]
+        rendered = " ".join(b for b in bits if b)
+        out.append(rendered or token)
     return "<br>".join(out)
 
 
@@ -1810,15 +1864,19 @@ def _write_markdown(rows, path=OUT_MD) -> None:
     counts = {g: sum(1 for r in rows if r["grade"] == g) for g in ("A", "B", "C", "-")}
     lines.append(f"**{len(rows)} slots: {counts['A']} covered well, {counts['B']} partly, "
                  f"{counts['C']} thinly, {counts['-']} empty.**\n")
+    lines.append("`genes` is how many have an ANSWER; `of which yes` appears where that answer is a "
+                 "yes/no and most of them are no. A phosphorylation slot answered for every gene "
+                 "because the flag is completed False is not a phosphoproteome of every gene, and "
+                 "the atlas used to print only the first number.\n")
     for axis, group in by_axis.items():
         lines.append(f"### {axis}\n")
-        lines.append("| slot | context | grade | genes | coverage | filled by | policy | "
-                     "candidates to fill or improve it |")
-        lines.append("|---|---|---|---|---|---|---|---|")
+        lines.append("| slot | context | grade | genes | of which yes | coverage | filled by | "
+                     "policy | candidates to fill or improve it |")
+        lines.append("|---|---|---|---|---|---|---|---|---|")
         for r in group:
             lines.append(f"| {r['slot']} | {r['context']} | **{r['grade']}** | "
-                         f"{r['genes'] or ''} | {r['coverage']} | `{r['filled_by']}` | "
-                         f"{r['policy']} | {_cited(r) or '—'} |")
+                         f"{r['genes'] or ''} | {r.get('positive') or ''} | {r['coverage']} | "
+                         f"`{r['filled_by']}` | {r['policy']} | {_cited(r) or '—'} |")
         lines.append("")
 
     # One dataset, several slots -- the many-to-many, read off the table itself.
@@ -1884,6 +1942,9 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
         columns = [value for value in fills
                    if not value.startswith("edge:") and not value.startswith("bridge:")]
         crossing = [v.split(":", 1)[1] for v in fills if v.startswith("bridge:")]
+        # `None` until a branch measures it; a slot filled by edges or by a bridge has no column to
+        # ask, so its positive count IS its coverage and is filled in after the chain.
+        positive = None
         if crossing:
             # A bridge is graded on the pairs it carries and the parasite genes it reaches, because
             # its other end is not in this table at all. Each arm against its own bridge file: a
@@ -1912,14 +1973,18 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
             detail = f"{len(cols)} columns of {len(metabolites):,} metabolites" if cols else ""
         elif definition["organism"] == "Tg":
             covered, cols = coverage(nodes, columns)
+            positive = evidence(nodes, cols)
             detail = f"{len(cols)} columns" if cols else ""
         elif definition["organism"] == "Pf" and len(pf_nodes):
             # Graded against the Plasmodium table and ITS gene count. Scoring 5,720 falciparum
             # genes out of 8,140 gondii ones would report a complete column as 70% covered.
             covered, cols = coverage(pf_nodes, columns)
+            positive = evidence(pf_nodes, cols)
             detail = f"{len(cols)} columns" if cols else ""
         else:
             covered, cols, detail = 0, [], ""
+        if positive is None:
+            positive = covered
         if unit == "metabolite":
             denominator = len(metabolites)
         elif definition["organism"] == "Pf":
@@ -1934,9 +1999,17 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
             "slot": key, "axis": axis, "context": context,
             "unit": unit, "grade": grade(frac, bool(covered), unit), "genes": covered,
             "coverage": f"{frac:.1%}" if covered else "",
+            # Printed beside coverage rather than instead of it: a slot answered for every gene
+            # because most answers are "no" is not the same as one measured across every gene.
+            "positive": positive if positive != covered else "",
             "filled_by": ", ".join([f"bridge:{c}" for c in crossing] or edges or columns), "detail": detail, "policy": policy,
-            "candidates": "; ".join(f"PMID {p} {a}".strip() + (f" ({note})" if note else "")
-                                    for p, a, note in cands),
+            # Semicolons inside a note are replaced, because the field itself is semicolon-joined:
+            # `from the GEO index; verify assay and parasite-gene shape` used to split into two
+            # candidates, one of them the fragment `verify assay and parasite-gene shape)`.
+            "candidates": "; ".join(
+                (f"PMID {p} {a}".strip() if p else a.strip() or note.replace(";", ","))
+                + (f" ({note.replace(';', ',')})" if note and (p or a.strip()) else "")
+                for p, a, note in cands),
             "candidate_titles": " | ".join(
                 f"{p}: {REFERENCES.get(p, ('', '', note))[2]}" if p else note
                 for p, a, note in cands),

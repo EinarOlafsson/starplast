@@ -167,3 +167,25 @@ def test_the_compartment_share_of_the_shipped_matrix_is_what_the_explainers_say(
     comp = pd.get_dummies(nodes.compartment.astype(str)).to_numpy(dtype=float) * 0.5
     share = comp.var(0).sum() / (X.var(0).sum() + comp.var(0).sum())
     assert 0.005 < share < 0.02, f"compartment now carries {share:.1%}, not the 1.1% quoted"
+
+
+def test_no_shipped_column_says_the_same_thing_about_every_gene():
+    """A column measured for the whole proteome and holding one value is not a measurement.
+
+    `n_host_targets` shipped as 0 for all 8,140 genes -- the build's fallback wrote a zero per gene
+    when the curated table failed to load, so the cache asserted that no protein in this parasite has
+    a known host partner, on the evidence of a file that did not open. The curated table was sitting
+    beside it naming 14 genes, and the slot graded A at 100% coverage on the column.
+
+    The rule is narrow on purpose: a column covering a handful of genes may legitimately hold one
+    value (the curated resistance table describes one gene), so this only fires when a column claims
+    to have measured EVERY gene and still says one thing.
+    """
+    for name in ("nodes.parquet", "pf_nodes.parquet"):
+        path = paths.cache_file(name)
+        if not os.path.exists(path):
+            continue
+        table = pd.read_parquet(path)
+        flat = [c for c in table.columns
+                if table[c].notna().all() and table[c].nunique(dropna=True) == 1]
+        assert not flat, f"{name}: columns with one value for every gene: {flat}"

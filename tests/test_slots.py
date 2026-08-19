@@ -664,3 +664,37 @@ def test_an_empty_slot_whose_verdict_says_searched_carries_no_unexamined_candida
         unread = [r["slot"] for r in csv.DictReader(fh)
                   if r["grade"] == "-" and "verify assay" in (r["candidates"] or "")]
     assert not unread, f"empty slots publishing unexamined proposals beside a verdict: {unread}"
+
+
+def test_a_repository_accession_links_to_its_own_repository():
+    """Every candidate used to be a PMID, so the renderer wrapped whatever it found in a PubMed URL.
+
+    The sweeps that now fill this table are GEO and PRIDE indexes, and
+    `pubmed.ncbi.nlm.nih.gov/GSE58402` is a link to nothing. A citation the reader cannot follow is
+    the same failure as one they cannot download.
+    """
+    gst = _generator()
+    assert "geo/query/acc.cgi?acc=GSE58402" in gst._accession_link("GSE58402")
+    assert "pride/archive/projects/PXD006925" in gst._accession_link("PXD006925")
+    assert "arrayexpress/studies/E-MTAB-1234" in gst._accession_link("E-MTAB-1234")
+    assert gst._accession_link("Sci Rep 19722 S2") == "`Sci Rep 19722 S2`"
+
+
+def test_a_candidates_note_cannot_split_itself_into_a_second_candidate():
+    """The field is semicolon-joined and the sweeps' note contains a semicolon.
+
+    `from the GEO index; verify assay and parasite-gene shape` rendered as two candidates, the second
+    of them the fragment `verify assay and parasite-gene shape)` -- which then read as a proposal
+    with no accession at all, in the very table that exists to say which proposals can be fetched.
+    """
+    import csv
+    import os
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "instructions", "done", "31_slots.csv")
+    if not os.path.exists(path):
+        pytest.skip("slot table not generated")
+    with open(path, encoding="utf8") as fh:
+        fragments = [(r["slot"], token.strip()) for r in csv.DictReader(fh)
+                     for token in (r["candidates"] or "").split(";")
+                     if token.strip().startswith("verify ")]
+    assert not fragments, f"note fragments rendered as candidates: {fragments[:3]}"

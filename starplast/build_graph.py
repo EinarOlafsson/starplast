@@ -377,10 +377,17 @@ def build_edges(nodes: pd.DataFrame):
     host = interaction_studies.host_interactions(BASE, resolve=lambda a: _resolve_symbol(a), log=log)
     if not host.empty:
         host.to_parquet(os.path.join(OUT, "host_interactions.parquet"), index=False)
+        # Zero where the curated table names no partner, because that table is a reading of the whole
+        # literature and its silence is an answer. That reasoning holds ONLY when the table is there.
         nodes["n_host_targets"] = nodes.gene_id.map(
             host.groupby("gene_id").host_target.nunique()).fillna(0).astype(int)
     else:
-        nodes["n_host_targets"] = 0
+        # And when it is not, the column is left OUT rather than filled with zeros. Writing 0 for
+        # every gene said "no host partner is known for any protein in this parasite" on the evidence
+        # of a file that failed to load -- absence rendered as measurement, in the project whose first
+        # rule forbids it. It shipped that way: the cache carried 8,140 zeros while the curated table
+        # sat beside it naming 14 genes, and the slot graded A at 100% coverage on it.
+        log("host targets: the curated table did not load, so the column is left out entirely")
 
     # Derived last, because these are defined over the other edge types.
     hole = structural_holes(edges, nodes)

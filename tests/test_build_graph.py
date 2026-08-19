@@ -283,8 +283,14 @@ def quiet(monkeypatch):
     monkeypatch.setattr(BG, "log", lambda *a, **k: None)
 
 
-def _build_edges(monkeypatch, nodes, tmp_path, lit=None):
-    """Run build_edges with the file-reading layers stubbed out."""
+def _build_edges(monkeypatch, nodes, tmp_path, lit=None, log=None):
+    """Run build_edges with the file-reading layers stubbed out.
+
+    `log` captures what the build says, which for one branch is the whole point: a column that is
+    left out has to announce itself or its absence is indistinguishable from a build that never ran.
+    """
+    if log is not None:
+        monkeypatch.setattr(BG, "log", log)
     monkeypatch.setattr(BG, "literature_layer", lambda n: (lit or {}))
     monkeypatch.setattr(BG.interactions, "load_toxonet", lambda *a, **k: ({}, pd.DataFrame()))
     monkeypatch.setattr(BG.interactions, "crosslink_models", lambda *a, **k: pd.DataFrame())
@@ -393,10 +399,24 @@ def test_curated_host_targets_are_counted_per_gene(monkeypatch, tmp_path, quiet)
     assert os.path.exists(tmp_path / "host_interactions.parquet")
 
 
-def test_no_curated_host_table_gives_zero_rather_than_missing(monkeypatch, tmp_path, quiet):
+def test_no_curated_host_table_leaves_the_column_out_rather_than_writing_zeros(monkeypatch,
+                                                                                tmp_path, quiet):
+    """This asserted the opposite until 2026-08-19, and the opposite had shipped.
+
+    Zero is the right answer for a gene the curated table does not name, because that table is a
+    reading of the whole literature and its silence is an answer. It is the wrong answer when the
+    table itself did not load: the cache then said *no protein in this parasite has a known host
+    partner*, on the evidence of a file that failed to open. It did exactly that -- 8,140 zeros
+    shipped beside a curated table naming 14 genes, and `Tg_host interaction degree` graded A at 100%
+    coverage on them.
+
+    A slot with no data has to read empty, which it can only do if the column is absent.
+    """
     nodes = _nodes(6)
-    _build_edges(monkeypatch, nodes, tmp_path)
-    assert nodes.n_host_targets.tolist() == [0] * 6
+    said = []
+    _build_edges(monkeypatch, nodes, tmp_path, log=said.append)
+    assert "n_host_targets" not in nodes.columns
+    assert any("curated table did not load" in m for m in said), "and it has to say so"
 
 
 def test_crosslink_models_are_written_where_they_exist(monkeypatch, tmp_path, quiet):
