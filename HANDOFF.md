@@ -175,7 +175,7 @@ are dense-granule proteins, which are disordered, so this is expected rather tha
 
 **3e. Standalone means every measurement ships; coordinates are the one exception.** (Added v1.3.) The
 cache is 30 MB and carries 393 columns for all 8,140 Toxoplasma genes, and lives INSIDE the package.
-Beside it sits the Plasmodium cache -- `pf_nodes.parquet`, 98 columns for 5,720 genes, and
+Beside it sits the Plasmodium cache -- `pf_nodes.parquet`, 109 columns for 5,720 genes, and
 `pf_graph.npz` -- which is a separate table and graph on purpose and never joined to the first
 (`starplast/data/`) so a wheel carries it and `paths.py` resolves it with no configuration. An earlier `keep` allowlist silently shipped
 3 of 18 RNA columns and 7 of 8 fitness screens; the build now ships every column that survives, with an
@@ -401,16 +401,27 @@ real time to find. Tasks 30–34 landed together in v0.31.0.
 
 ```
 Read /mnt/firecuda2/Claude/repo/starplast/instructions/START_HERE.md and HANDOFF.md, then
-continue starplast. The working tree is v0.38.0; 3,328 tests pass headless with every module at
+continue starplast. The working tree is v0.39.0; 3,361 tests pass headless with every module at
 100% coverage. Check `git status` before assuming it has been published. Do not re-derive the design
 decisions in that file.
 Next: <state what you want>.
 ```
 
-**The obvious next move, 2026-08-19:** instruction 41, and seventeen empty Plasmodium slots are past
-discovery — they already carry resolved candidate studies, so the work is fetch, verify, key to Pf
-accessions, load, and diff the cache BOTH WAYS. The queue is listed in
-`instructions/open/41_fill_the_slots.md`. The other 37 empty Pf slots still need the search.
+**The obvious next move, 2026-08-19:** instruction 41, and the queue is
+`instructions/open/41_candidates_v2.json` — 76 Plasmodium keys of GEO- and PRIDE-indexed candidates
+WITH accessions, covering 39 of the empty Pf slots. It is not the file the atlas merges, which is why
+it was missed: the atlas merges `31_candidates.json`, whose Pf entries are PubMed proposals carrying
+`verify assay and parasite-gene shape`. Read every candidate rather than counting it — the v2 lists
+are built by matching an axis term, so the `S-nitrosylation` and `chromatin accessibility` entries
+are RNA-seq studies, and the 31 lists proposed *Anopheles* immunity papers, a *Chromera velia*
+motility paper and a leishmaniasis diagnostic for Pf slots.
+
+The previous handoff said seventeen Pf slots were "past discovery" because they carried resolved
+candidates. Seven of those citations were **Toxoplasma papers**, published on Pf slots by a
+generator bug now fixed, and most of the rest are off-target proposals. Discovery on those slots was
+never started. The work per slot is unchanged: fetch, verify the source says what its label claims,
+key to Pf accessions, load, and diff the cache BOTH WAYS — `scripts/build_plasmodium.py` now does the
+last step and refuses to write a build that lost anything.
 
 Fill the `Next:` line in before sending — leaving the placeholder just costs a round trip.
 
@@ -483,7 +494,7 @@ but not committed — it happened to 42, 43 and 47. If a "DONE" record looks emp
 
 ## State of the application — verified 2026-08-14 (v0.31.0)
 
-**3,328 tests pass headless** (`pytest tests/ -q`, ~8 min) and **every module is at 100% coverage**
+**3,361 tests pass headless** (`pytest tests/ -q`, ~9 min) and **every module is at 100% coverage**
 (9,983 statements). No `pragma: no cover` anywhere: a Qt-thread body is covered by calling it
 directly, and a branch that genuinely cannot run is deleted. Two functions were deleted in the last
 pass on that rule, and writing one of the missing tests found a real defect in `objectives.adjusted`.
@@ -807,8 +818,8 @@ starplast-discover --read bigA_00_guilt_compartment_best
 ## 5. Future scope, not an open numbered task
 
 * **The malaria map is now built, and still separate.** Superseded 2026-08-17: a Plasmodium node
-  table (`pf_nodes.parquet`, 5,720 genes) and its own graph (`pf_graph.npz`) exist, and 34 of 103
-  Pf slots are filled from sixteen datasets and two computed layers. `plasmodium.build_all` assembles
+  table (`pf_nodes.parquet`, 5,720 genes, 109 columns) and its own graph (`pf_graph.npz`) exist, and
+  45 of 128 Pf slots are filled from nineteen datasets and two computed layers. `plasmodium.build_all` assembles
   the whole table from the dataset root, so it is reproducible rather than the product of a prompt. The concern that produced the original "deliberately no Pf node table" is
   unchanged and is now enforced rather than avoided: nothing is merged, no measurement crosses
   species, and there is still no combined-organism view. What makes that safe is the species guard
@@ -882,9 +893,11 @@ Six are open: **38, 39, 41, 42, 43, 47**. Suggested order, cheapest-unblocking-f
 6. **38 — pan-apicomplexan archive.** Overlaps 41's fetching; fold it into 41's procedure rather
    than building two fetchers.
 
-The atlas of all 222 slots, filled and empty, is published and regenerates from
-`scripts/generate_slot_table.py` plus `starplast/data/slots.json`. As of 2026-08-17 it stands at
-**157 filled: Toxoplasma 116 of 119, Plasmodium 41 of 103.**
+The atlas of all 271 slots, filled and empty, is published and regenerates from
+`scripts/generate_slot_table.py` plus `starplast/data/slots.json`. As of 2026-08-18 it stands at
+**161 filled: Toxoplasma 116 of 143, Plasmodium 45 of 128** — and read it per unit, since one
+headline over four denominators hides which one moved: gene 143/198, pair 15/19, metabolite 3/6,
+host_gene 0/48.
 
 The Plasmodium arm went 0 to 34 in one session. Eight sources were built and then refused or shipped
 one step further back, which is where most of the care went and is worth reading before adding the

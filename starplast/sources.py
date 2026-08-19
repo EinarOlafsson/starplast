@@ -47,6 +47,7 @@ import pandas as pd
 UA = {"User-Agent": "starplast (research; einar.olafsson@gmail.com)"}
 
 GEO_SUPPL = "https://ftp.ncbi.nlm.nih.gov/geo/series/{stub}nnn/{gse}/suppl/"
+GEO_SAMPLE = "https://ftp.ncbi.nlm.nih.gov/geo/samples/{stub}nnn/{gsm}/suppl/{name}"
 PRIDE_FILES = "https://www.ebi.ac.uk/pride/ws/archive/v3/projects/{acc}/files"
 
 QUANT_TYPES = ("counts", "fpkm", "tpm", "log_intensity", "ratio", "lfc", "ibaq", "lfq")
@@ -106,6 +107,59 @@ def geo_supplementary(gse: str, out_dir: str, log=print) -> list:
         open(dest, "wb").write(data)
         got.append(dest)
         log(f"  {gse}/{n}  {len(data)/1e6:.1f} MB")
+    return got
+
+
+def geo_sample_files(gse: str, out_dir: str, suffix: str, log=print) -> list:
+    """Per-SAMPLE processed files from a GEO series, chosen by suffix.
+
+    `geo_supplementary` reads the series-level directory, which for many deposits holds only a
+    `_RAW.tar` of everything -- 139 MB for the ten 25 kB tables that are actually wanted. The
+    processed per-gene files sit under each sample instead, and the series' own `filelist.txt` names
+    every one of them, so which files exist is READ rather than guessed. The one thing derived is the
+    directory a named file lives in, which GEO forms from the sample accession the file name starts
+    with; a derivation that is wrong 404s immediately, which is the failure mode to prefer.
+
+    Skipped names are logged and counted. A fetcher that silently returns fewer files than the
+    deposit holds is the shape of bug that cost this project a *Cryptosporidium* corpus.
+    """
+    stub = gse[:-3]
+    try:
+        listing = _get(GEO_SUPPL.format(stub=stub, gse=gse) + "filelist.txt").decode("utf8", "replace")
+    except (urllib.error.URLError, OSError) as e:
+        log(f"{gse}: file list failed ({e})")
+        return []
+    names, skipped = [], 0
+    for line in listing.splitlines()[1:]:
+        parts = line.split("\t")
+        if len(parts) < 2 or parts[0].strip().lower() != "file":
+            continue
+        name = parts[1].strip()
+        if not name.endswith(suffix):
+            skipped += 1
+            continue
+        if not re.match(r"^GSM\d+_", name):
+            log(f"  {name}: no sample accession in the name, skipped")
+            skipped += 1
+            continue
+        names.append(name)
+    os.makedirs(out_dir, exist_ok=True)
+    got = []
+    for name in names:
+        gsm = name.split("_", 1)[0]
+        dest = os.path.join(out_dir, name)
+        if os.path.exists(dest) and os.path.getsize(dest) > 0:
+            got.append(dest)
+            continue
+        url = GEO_SAMPLE.format(stub=gsm[:-3], gsm=gsm, name=name)
+        try:
+            data = _get(url)
+        except (urllib.error.URLError, OSError) as e:
+            log(f"  {name}: {e}")
+            continue
+        open(dest, "wb").write(data)
+        got.append(dest)
+    log(f"{gse}: {len(got)} files matching {suffix!r}, {skipped} other entries in the deposit")
     return got
 
 

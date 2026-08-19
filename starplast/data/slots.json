@@ -5588,7 +5588,8 @@
     "context": "cell cycle",
     "unit": "gene",
     "patterns": [
-      "steady_state_"
+      "steady_state_",
+      "riboseq_mrna_"
     ],
     "policy": "separate",
     "candidates": [],
@@ -5830,7 +5831,9 @@
     "axis": "translation",
     "context": "cell cycle",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "riboseq_rpf_"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -6901,7 +6904,9 @@
     "axis": "localization",
     "context": "ESA",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "ev_studies"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [

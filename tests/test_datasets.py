@@ -327,12 +327,20 @@ def test_the_toxodb_route_writes_the_identity_table(monkeypatch, tmp_path):
     from starplast import paths
     monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
     monkeypatch.setattr(D, "local_path", lambda k: None)
-    monkeypatch.setattr("starplast.fetch_names.fetch",
-                        lambda org, attrs: "Gene ID\tGene Name or Symbol\nTGME49_1\tGRA16\n")
+    asked = {}
+
+    def fake_fetch(org, attrs, url=None):
+        asked["organism"], asked["url"] = org, url
+        return "Gene ID\tGene Name or Symbol\nTGME49_1\tGRA16\n"
+
+    monkeypatch.setattr("starplast.fetch_names.fetch", fake_fetch)
     out = D.ensure("toxodb_identity", log=lambda *_: None)
     assert out and os.path.exists(out)
     assert open(out).read().startswith("gene_id\tgene_name")
     assert "toxodb_identity" in D.recorded_checksums()
+    # The organism and the site travel together. Since the malaria arm joined this route, asking the
+    # wrong site for the right organism would return an empty report rather than an error.
+    assert asked["organism"] == "Toxoplasma gondii ME49" and "toxodb.org" in asked["url"]
 
 
 def test_kind_names_an_assay_never_a_provenance_word():
@@ -402,3 +410,53 @@ def test_a_failed_toxodb_request_reports_rather_than_raising(monkeypatch, tmp_pa
     msgs = []
     assert D.ensure("toxodb_identity", log=msgs.append) is None
     assert any("ToxoDB request failed" in m for m in msgs)
+
+
+# --------------------------------------------------------------------------- the second site
+def test_the_plasmodb_identity_table_is_fetchable_by_its_own_route():
+    """Same WDK report, different site. Reported as unfetchable it would understate the arm."""
+    ok, how = D.fetchable("plasmodb_identity")
+    assert ok and how == "plasmodb"
+
+
+def test_the_plasmodb_route_asks_the_malaria_site_for_the_malaria_organism(monkeypatch, tmp_path):
+    """The organism and the URL travel together, or the second arm silently fetches the first one."""
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    monkeypatch.setattr(D, "local_path", lambda k: None)
+    asked = {}
+
+    def fake_fetch(organism, attributes, url=None):
+        asked["organism"], asked["url"] = organism, url
+        return "Gene ID\tGene Name or Symbol\nPF3D7_0100100\tVAR\n"
+
+    monkeypatch.setattr("starplast.fetch_names.fetch", fake_fetch)
+    out = D.ensure("plasmodb_identity", log=lambda *_: None)
+    assert out and open(out).read().startswith("gene_id\tgene_name")
+    assert asked["organism"] == "Plasmodium falciparum 3D7"
+    assert "plasmodb.org" in asked["url"]
+
+
+def test_a_deposit_whose_tables_sit_under_its_samples_says_so(monkeypatch, tmp_path):
+    """A GEO series can hold its per-gene tables under each sample and only a tar at series level.
+
+    The suffix is declared in the registry rather than inferred, because "fetch every per-sample
+    file" would pull the coverage tracks -- 139 MB of wiggle for 250 kB of numbers.
+    """
+    from starplast import paths
+    monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
+    monkeypatch.setattr(D, "local_path", lambda k: None)
+    seen = {}
+
+    def fake_samples(acc, out_dir, suffix, log=print):
+        seen["acc"], seen["suffix"] = acc, suffix
+        p = os.path.join(out_dir, f"GSM1_{suffix}")
+        os.makedirs(out_dir, exist_ok=True)
+        open(p, "w").write("gene\tvalue\n")
+        return [p]
+
+    monkeypatch.setattr("starplast.sources.geo_sample_files", fake_samples)
+    monkeypatch.setattr("starplast.sources.geo_supplementary",
+                        lambda *a, **k: pytest.fail("the series listing was used instead"))
+    out = D.ensure("pf_riboseq", log=lambda *_: None)
+    assert out and seen["acc"] == "GSE58402" and seen["suffix"] == "_rpkm.txt.gz"

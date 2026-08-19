@@ -1471,11 +1471,22 @@ PF_PATTERNS = {
     "transcription · oocyst": ["expr_oocyst"],
     "transcription · sporozoite": ["expr_sporozoite"],
     "transcription · asexual blood stage": ["expr_asexual_blood"],
-    "transcription · per cell-cycle phase": ["steady_state_"],
+    "transcription · per cell-cycle phase": ["steady_state_", "riboseq_mrna_"],
     # Polysome-associated RNA is what is ON ribosomes: a translation readout rather than a transcript
     # level. Its steady-state partner from the same experiment is what makes that distinction
     # measurable instead of assumed, which is why both halves are kept.
     "translation · asexual blood stage": ["polysomal_"],
+    # Ribosome profiling: how much ribosome is ON a transcript, per gene, at five points of the
+    # cycle. A different instrument from the polysome arm above and a stronger one -- footprints
+    # are the ribosome's own position rather than the RNA it came down with -- so it answers the
+    # per-phase question the polysomal series could not. Its mRNA arm joins the transcription slot
+    # one line up as a second dataset, never a second slot: both arms measure ONE experiment's two
+    # conditions, and the ratio between them is not shipped.
+    "translation · per cell-cycle phase": ["riboseq_rpf_"],
+    # Vesicle proteomics, which is the instrument this question has data for. The column names say
+    # `extracellular vesicle` rather than `secreted` and the slot is still the secretome one: the
+    # question is what the parasite puts outside itself, and this is the evidence that exists.
+    "secretome / excreted": ["ev_studies"],
     # Pair slots, answered by the Plasmodium graph rather than by columns. Its indices point into
     # pf_nodes.parquet and mean nothing in the Toxoplasma graph, which is why there are two files.
     # Predicted, not measured, and the slot's context says "erythrocyte cytosol" -- a sequence model

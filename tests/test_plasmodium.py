@@ -1650,3 +1650,323 @@ def test_build_all_folds_in_the_enzyme_classification(tmp_path):
         os.path.join(base, P.EC_TABLE), sep="\t", index=False)
     d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
     assert d.loc["PF3D7_0100100", "has_ec"] and not d.loc["PF3D7_0100200", "has_ec"]
+
+
+# --------------------------------------------------------------------------- gene identity
+def _identity(tmp_path, rows=None):
+    """A PlasmoDB identity table, in the shape `fetch_names` writes."""
+    rows = rows if rows is not None else [
+        ("PF3D7_0102200", "X", "Previous IDs: PFA0110w;MAL1P4.09", "a protein"),
+        ("PF3D7_0102300", "Y", "Previous IDs: PF13_0222", "another protein"),
+    ]
+    path = tmp_path / "plasmodb_identity.tsv"
+    pd.DataFrame(rows, columns=["gene_id", "gene_name", "previous_ids", "product"]).to_csv(
+        path, sep="\t", index=False)
+    return str(path)
+
+
+def test_a_previous_accession_resolves_to_the_current_gene(tmp_path):
+    index = P.previous_id_index(_identity(tmp_path))
+    assert index["pfa0110w"] == "PF3D7_0102200"
+    assert index["mal1p4.09"] == "PF3D7_0102200"
+    assert index["pf13_0222"] == "PF3D7_0102300"
+
+
+def test_an_old_id_claimed_by_two_genes_resolves_to_neither(tmp_path):
+    """66 real ones, and every one is a gene model that was SPLIT, seen from the other side.
+
+    A measurement made against the old model belongs to both halves and to neither in particular.
+    Assigning it to whichever row came first would put real numbers on an arbitrary gene, which is
+    the failure the Toxoplasma layer withdraws 153 strings to avoid.
+    """
+    index = P.previous_id_index(_identity(tmp_path, rows=[
+        ("PF3D7_0109850", "A", "Previous IDs: PFA0485w", "half one"),
+        ("PF3D7_0109950", "B", "Previous IDs: PFA0485w", "half two"),
+        ("PF3D7_0102300", "C", "Previous IDs: PF13_0222", "unambiguous"),
+    ]))
+    assert "pfa0485w" not in index
+    assert index["pf13_0222"] == "PF3D7_0102300"
+
+
+def test_a_current_accession_outranks_another_genes_history(tmp_path):
+    """Files mix both forms, and a live id must not be captured by some other gene's past."""
+    index = P.previous_id_index(_identity(tmp_path, rows=[
+        ("PF3D7_0102200", "X", "Previous IDs: PF3D7_0102300", "renamed onto a live id"),
+        ("PF3D7_0102300", "Y", "N/A", "the live gene itself"),
+    ]))
+    assert index["pf3d7_0102300"] == "PF3D7_0102300"
+
+
+def test_a_missing_or_headerless_identity_table_is_an_empty_index(tmp_path):
+    assert P.previous_id_index(str(tmp_path / "absent.tsv")) == {}
+    path = tmp_path / "wrong.tsv"
+    pd.DataFrame({"something": ["else"]}).to_csv(path, sep="\t", index=False)
+    assert P.previous_id_index(str(path)) == {}
+
+
+# --------------------------------------------------------------------------- ribosome profiling
+def _riboseq_dir(tmp_path, tables=None):
+    """The deposit's per-sample RPKM files, keyed the way 2014 keyed them."""
+    folder = tmp_path / "translation" / P.RIBOSEQ[0] / P.RIBOSEQ[1]
+    folder.mkdir(parents=True)
+    tables = tables if tables is not None else {
+        "GSM1410291_mRNA_1_rpkm.txt.gz": {"pfa0110w": 100.0, "pf13_0222": 10.0},
+        "GSM1410296_ribosome_footprints_1_rpkm.txt.gz": {"pfa0110w": 400.0, "pf13_0222": 5.0},
+    }
+    for name, values in tables.items():
+        pd.DataFrame(list(values.items())).to_csv(
+            folder / name, sep="\t", header=False, index=False, compression="gzip")
+    return folder
+
+
+def test_riboseq_resolves_pre_2012_accessions_and_names_its_arms(tmp_path, monkeypatch):
+    """The join that found zero rows before the identity layer existed."""
+    _riboseq_dir(tmp_path)
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]),
+                        "cache_file", lambda name: _identity(tmp_path))
+    d = P.riboseq(str(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert list(d.columns) == ["riboseq_mrna_ring", "riboseq_rpf_ring"]
+    assert d.loc["PF3D7_0102200", "riboseq_rpf_ring"] == 400.0
+    assert d.loc["PF3D7_0102300", "riboseq_mrna_ring"] == 10.0
+
+
+def test_riboseq_withdraws_two_source_ids_landing_on_one_gene(tmp_path, monkeypatch):
+    """The deposit splits some genes into `-a` and `-b` segments, and merges are the same problem.
+
+    RPKM is already length-normalised, so neither summing two segments nor averaging them means
+    anything. Both rows are dropped and the gene keeps no value for that stage.
+    """
+    _riboseq_dir(tmp_path, tables={"GSM1410291_mRNA_1_rpkm.txt.gz": {
+        "pfa0110w": 100.0, "mal1p4.09": 60.0, "pf13_0222": 10.0}})
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]),
+                        "cache_file", lambda name: _identity(tmp_path))
+    d = P.riboseq(str(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert "PF3D7_0102200" not in d.index, "two ids for one gene were averaged rather than withdrawn"
+    assert d.loc["PF3D7_0102300", "riboseq_mrna_ring"] == 10.0
+
+
+def test_riboseq_without_its_directory_or_its_index_is_empty(tmp_path, monkeypatch):
+    assert P.riboseq(str(tmp_path), log=lambda *a: None).empty
+    _riboseq_dir(tmp_path)
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]),
+                        "cache_file", lambda name: str(tmp_path / "absent.tsv"))
+    said = []
+    assert P.riboseq(str(tmp_path), log=said.append).empty
+    assert any("fetch_names" in m for m in said), "a missing identity table must say how to get one"
+
+
+def test_riboseq_ignores_files_that_are_not_the_per_gene_tables(tmp_path, monkeypatch):
+    """The deposit also carries coverage tracks and UTR beds; only the RPKM tables are read."""
+    folder = _riboseq_dir(tmp_path)
+    (folder / "GSM1410291_mRNA_1_minus.wig.gz").write_bytes(b"not a table")
+    (folder / "filelist.txt").write_text("Archive/File\tName\n")
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]),
+                        "cache_file", lambda name: _identity(tmp_path))
+    d = P.riboseq(str(tmp_path), log=lambda *a: None)
+    assert list(d.columns) == ["gene_id", "riboseq_mrna_ring", "riboseq_rpf_ring"]
+
+
+def test_build_all_leaves_an_unmeasured_gene_missing_for_ribosome_profiling(tmp_path, monkeypatch):
+    """61% coverage, uneven across the cycle. A gap is silence, not an absence of ribosomes."""
+    root = _dataset_root(tmp_path)
+    _riboseq_dir(tmp_path, tables={"GSM1410296_ribosome_footprints_1_rpkm.txt.gz": {
+        "pfa0110w": 400.0}})
+    ident = _identity(tmp_path, rows=[("PF3D7_0100100", "X", "Previous IDs: PFA0110w", "p")])
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]),
+                        "cache_file", lambda name: ident)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "riboseq_rpf_ring"] == 400.0
+    assert pd.isna(d.loc["PF3D7_0100200", "riboseq_rpf_ring"])
+
+
+# --------------------------------------------------------------------------- what the data says
+RIBO_STAGES = ("ring", "early_trophozoite", "late_trophozoite", "schizont", "merozoite")
+
+
+def _ribosomal(nodes):
+    """Ribosomal proteins by product annotation, whole-word, in whichever arm's table."""
+    return nodes["product"].fillna("").str.contains(r"\bribosomal protein\b", case=False, regex=True)
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_ribosome_footprints_pile_up_on_ribosomal_proteins_at_every_stage():
+    """The check that says the measurement behaves, and it is an ordering rather than a total.
+
+    Ribosomal proteins are the most heavily translated things in a growing cell. If this came out
+    the other way the footprints would be measuring something else, and no amount of coverage would
+    make the column worth shipping.
+    """
+    d = pd.read_parquet(NODES)
+    ribo = _ribosomal(d)
+    for stage in RIBO_STAGES:
+        v = np.log1p(d[f"riboseq_rpf_{stage}"])
+        seen = v.notna()
+        assert v[seen & ribo].median() > v[seen & ~ribo].median() + 1.0, (
+            f"{stage}: ribosomal proteins do not carry more footprint than the rest")
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_the_riboseq_stage_labels_agree_with_the_independent_stage_series():
+    """Labels are the deposit's own, so they are checked against a study that shares no sample.
+
+    Four of the five stages have a counterpart in the PlasmoDB seven-stage series, and each has to
+    correlate highest with its own. The merozoite has no counterpart there and is deliberately not
+    asserted: its best match is the ring, which is the neighbouring point of the cycle -- a free
+    merozoite is a ring that has not invaded yet -- and calling that a failure would be reading a
+    missing column as a wrong label.
+    """
+    d = pd.read_parquet(NODES)
+    for stage in RIBO_STAGES[:4]:
+        mine = np.log1p(d[f"riboseq_mrna_{stage}"])
+        theirs = {c: np.log1p(d[c]) for c in d.columns
+                  if c.startswith("expr_") and c not in ("expr_max", "expr_asexual_blood")}
+        scores = {c: mine.corr(v, method="spearman") for c, v in theirs.items()}
+        best = max(scores, key=scores.get)
+        assert best == f"expr_{stage}", f"{stage} looks most like {best} (rho {scores[best]:.2f})"
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_translation_efficiency_is_not_a_column_on_either_arm():
+    """Computed twice, from two instruments, and refused twice. The conditions ship; the ratio does not.
+
+    The polysome arms gave a translation efficiency that correlated NEGATIVELY with codon adaptation
+    where the textbook expects positive, and ribosome profiling -- a different instrument, a
+    different strain and a decade earlier -- reproduces it (rho -0.01 to -0.12), while also putting
+    ribosomal proteins BELOW the rest at the schizont. Two checks disagreeing is the contradictory
+    case, whose answer is to ship the conditions rather than the contrast.
+    """
+    d = pd.read_parquet(NODES)
+    assert not [c for c in d.columns if "translation_efficiency" in c or c.startswith("riboseq_te")]
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_the_codon_index_separates_ribosomal_proteins_in_one_arm_and_not_the_other():
+    """Where the contradiction above actually lives, found because the construction is SHARED.
+
+    `codons.codon_usage` builds CAI against each arm's own ribosomal proteins, so the reference set
+    should score at the top of its own index. In Toxoplasma it does. In *P. falciparum* it does not
+    separate at all -- which says the quantity failing to behave in the translation-efficiency check
+    is the codon index, not the footprints, and it is a property of an AT-rich genome rather than a
+    bug in either arm. One implementation makes that comparable; two would have made it noise.
+    """
+    pf = pd.read_parquet(NODES)
+    tg_path = os.path.join(ROOT, "starplast", "data", "nodes.parquet")
+    if not os.path.exists(tg_path):
+        pytest.skip("Toxoplasma table not built")
+    tg = pd.read_parquet(tg_path)
+    tg_gap = (tg.loc[_ribosomal(tg), "codon_cai_ribosomal"].median()
+              - tg.loc[~_ribosomal(tg), "codon_cai_ribosomal"].median())
+    pf_gap = (pf.loc[_ribosomal(pf), "codon_cai_ribosomal"].median()
+              - pf.loc[~_ribosomal(pf), "codon_cai_ribosomal"].median())
+    assert tg_gap > 0.03, "the Toxoplasma index stopped ranking its own reference set at the top"
+    assert abs(pf_gap) < 0.01, "the Plasmodium index now separates: re-read the TE refusal"
+
+
+# --------------------------------------------------------------------------- extracellular vesicles
+def _secretome_book(tmp_path, rows=None):
+    """The paper's compilation sheet: a union of two EV preparations, with its reference list."""
+    folder = tmp_path / "post_translation" / P.SECRETOME[0] / P.SECRETOME[1]
+    folder.mkdir(parents=True)
+    rows = rows if rows is not None else [
+        ("PFA0110w", 1, 1), ("PF13_0222", 1, 0), ("PF3D7_0102500", 0, 1),
+        ("Mantel PY et al: Malaria-infected erythrocyte-derived microvesicles. "
+         "Cell Host Microbe 2013, 13(5):521-534.", None, None)]
+    pd.DataFrame(rows, columns=["geneid", *P.SECRETOME_STUDIES]).to_excel(
+        folder / P.SECRETOME[2], sheet_name=P.SECRETOME_SHEET, index=False)
+    return folder
+
+
+def test_the_vesicle_sheet_counts_preparations_and_drops_its_own_references(tmp_path, monkeypatch):
+    """A citation carries accessions, so resolution goes through the index rather than a regex."""
+    _secretome_book(tmp_path)
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: _identity(tmp_path, rows=[
+                            ("PF3D7_0102200", "X", "Previous IDs: PFA0110w", "p"),
+                            ("PF3D7_0102300", "Y", "Previous IDs: PF13_0222", "q"),
+                            ("PF3D7_0102500", "Z", "N/A", "r")]))
+    d = P.secretome(str(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0102200", "ev_studies"] == 2
+    assert d.loc["PF3D7_0102300", "ev_studies"] == 1
+    assert len(d) == 3, "the reference line was read as a gene"
+
+
+def test_a_missing_vesicle_file_sheet_or_column_is_an_empty_frame(tmp_path, monkeypatch):
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: _identity(tmp_path))
+    assert P.secretome(str(tmp_path), log=lambda *a: None).empty
+    folder = _secretome_book(tmp_path, rows=[("PFA0110w", 1, 1)])
+    pd.DataFrame({"geneid": ["PFA0110w"]}).to_excel(
+        folder / P.SECRETOME[2], sheet_name="something else", index=False)
+    assert P.secretome(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_a_gene_no_vesicle_preparation_reported_stays_unknown(tmp_path, monkeypatch):
+    """The column that is deliberately NOT here is a False flag for the other 5,536 genes.
+
+    The other mass-spectrometry columns on this arm do complete a boolean, because they pool
+    proteome-wide assays where "never observed" is an answer. This is one preparation from one
+    isolate, and the genes it did not report are six times less expressed than the ones it did, so a
+    False would be a detection limit written down as a negative result -- and the atlas would have
+    graded the slot A at 100% coverage for an experiment that identified 184 proteins.
+    """
+    root = _dataset_root(tmp_path)
+    _secretome_book(tmp_path, rows=[("PFA0110w", 1, 1)])
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: _identity(tmp_path, rows=[
+                            ("PF3D7_0100100", "X", "Previous IDs: PFA0110w", "p")]))
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "ev_studies"] == 2
+    assert pd.isna(d.loc["PF3D7_0100200", "ev_studies"])
+    assert not [c for c in d.columns if c.startswith("in_extracellular")]
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_the_vesicle_proteome_leans_secretory_and_leans_abundant():
+    """Both directions are asserted, because only one of them is a reason to trust the column.
+
+    A secretome should carry signal peptides, and this one does. It is ALSO six times more expressed
+    than the rest of the proteome, which is what mass spectrometry on a vesicle preparation returns
+    and is why the column is named for detection rather than for secretion. Pinning the confound
+    keeps it from quietly disappearing out of the prose.
+    """
+    d = pd.read_parquet(NODES)
+    ev = d["ev_studies"].notna()
+    assert d.loc[ev, "has_signal_peptide"].mean() > d.loc[~ev, "has_signal_peptide"].mean() * 1.5
+    assert d.loc[ev, "expr_asexual_blood"].median() > d.loc[~ev, "expr_asexual_blood"].median() * 2
+
+
+def test_a_riboseq_directory_holding_only_tracks_yields_nothing(tmp_path, monkeypatch):
+    """The deposit's wiggle files are 40 MB and are not per-gene tables. Neither is filelist.txt."""
+    folder = tmp_path / "translation" / P.RIBOSEQ[0] / P.RIBOSEQ[1]
+    folder.mkdir(parents=True)
+    (folder / "GSM1410291_mRNA_1_minus.wig.gz").write_bytes(b"not a table")
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]),
+                        "cache_file", lambda name: _identity(tmp_path))
+    assert P.riboseq(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_a_vesicle_sheet_without_its_study_columns_is_refused(tmp_path):
+    """The membership columns ARE the measurement here; a sheet without them is a different table."""
+    folder = tmp_path / "post_translation" / P.SECRETOME[0] / P.SECRETOME[1]
+    folder.mkdir(parents=True)
+    pd.DataFrame({"geneid": ["PF3D7_0102200"], "something else": [1]}).to_excel(
+        folder / P.SECRETOME[2], sheet_name=P.SECRETOME_SHEET, index=False)
+    assert P.secretome(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_the_vesicle_sheet_needs_the_identity_index_and_says_which_one(tmp_path, monkeypatch):
+    _secretome_book(tmp_path)
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]),
+                        "cache_file", lambda name: str(tmp_path / "absent.tsv"))
+    said = []
+    assert P.secretome(str(tmp_path), log=said.append).empty
+    assert any("fetch_names" in m for m in said)
+
+
+def test_a_vesicle_sheet_whose_ids_resolve_to_nothing_is_empty_rather_than_wrong(tmp_path,
+                                                                                monkeypatch):
+    """A join that matches nothing looks exactly like a dataset with no coverage, so it says so."""
+    _secretome_book(tmp_path, rows=[("not_an_accession", 1, 1)])
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]),
+                        "cache_file", lambda name: _identity(tmp_path))
+    assert P.secretome(str(tmp_path), log=lambda *a: None).empty

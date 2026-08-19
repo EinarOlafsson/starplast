@@ -177,6 +177,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Host-context parasite ribosome profiling | Parasite ribosome footprints, RNA and translation efficiency in two HFF states | measured at build time | Holmes MJ et al., Simultaneous Ribosome Profiling of Human Host Cells Infected with Toxoplasma gondii. mSphere 2019;4:e00292-19; PMID [31167946](https://pubmed.ncbi.nlm.nih.gov/31167946/); `GSE129869` |
 | Intracellular/extracellular ribosome profiling | Ribosome footprints, matched RNA and relative translation efficiency | measured at build time | Hassan MA et al., Comparative ribosome profiling uncovers a dominant role for translational control in Toxoplasma gondii. BMC Genomics 2017;18:961; PMID [29228904](https://pubmed.ncbi.nlm.nih.gov/29228904/); `GSE99395` |
 | Oocyst developmental-stage iTRAQ proteome | iTRAQ abundance ratios across oocyst developmental stages | 2,079 (25.5%) | Possenti A et al., Proteomic Differences between Developmental Stages of Toxoplasma gondii Revealed by iTRAQ-Based Quantitative Proteomics. Front Microbiol 2017;8:1732; PMID [28626452](https://pubmed.ncbi.nlm.nih.gov/28626452/); `PXD003765` |
+| Plasmodium ribosome profiling across the asexual cycle | Ribosome-footprint and mRNA density per gene at five points of the blood-stage cycle | 3,501 genes (61%), 2,182 at the ring and 1,174 at the merozoite | PMID [25493618](https://pubmed.ncbi.nlm.nih.gov/25493618/); `GSE58402` |
 | Pru proteome and IP abundance | Median log2 iBAQ across replicates | 748 (9.2%) | `PXD043808, PXD065585` |
 
 ### Post-translation — properties of the folded protein
@@ -204,6 +205,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | PVM proximity labelling | Whether the study placed this protein at the parasitophorous vacuole membrane | 1,274 genes (73 positive) | PMID [34749525](https://pubmed.ncbi.nlm.nih.gov/34749525/); `mBio 00260-21 Data Set S1` |
 | Phosphosite counts | Count of phosphosites per protein, no positions | 1,175 (14.4%) | Treeck M et al. 2011 -- CONFIRM against the file on disk |
 | Plasmodium N-myristoylome (NMT-inhibitor sensitive) | Proteins whose click-chemistry capture drops when N-myristoyltransferase is blocked | 16 substrates of 609 assayed | PMID [34695132](https://pubmed.ncbi.nlm.nih.gov/34695132/); `PLoS Biol 3001408 S11` |
+| Plasmodium extracellular vesicle proteome | Parasite proteins found in extracellular vesicles, and how many preparations found them | 184 proteins, 53 of them in both preparations | PMID [28944300](https://pubmed.ncbi.nlm.nih.gov/28944300/); `Wellcome Open Res 11910 S2 (PRIDE PXD006925)` |
 | Plasmodium lysine acetylome | Acetylated lysines per gene, and whether the gene was seen acetylated at all | 1,145 genes, 2,163 localised sites | PMID [26813983](https://pubmed.ncbi.nlm.nih.gov/26813983/); `Sci Rep 19722 S2` |
 | Plasmodium lysine lactylome (resolved from NF54) | Lactylated lysines per gene, reported against NF54 and resolved to 3D7 | 144 genes | PMID [41417877](https://pubmed.ncbi.nlm.nih.gov/41417877/); `PLoS Genet 1011991 S1` |
 | Plasmodium palmitome (observed only) | Proteins observed S-palmitoylated, with the motif prediction deliberately excluded | 503 proteins | PMID [36250062](https://pubmed.ncbi.nlm.nih.gov/36250062/); `Front Cell Infect Microbiol Table 3` |
@@ -234,6 +236,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Membrane lipid composition of parasite vesicles | Lipid species abundance, and its proportion against the host cell | 194 lipid species | PMID [41716462](https://pubmed.ncbi.nlm.nih.gov/41716462/); `Front Cell Infect Microbiol 1745625 Tables 1-3` |
 | Metabolome and isotope labelling under iron deprivation | Steady-state metabolite levels and the fraction labelled from glucose or glutamine | 1,102 metabolites | PMID [41925342](https://pubmed.ncbi.nlm.nih.gov/41925342/); `mBio 03788-25 Tables S3 and S5` |
 | OrthoMCL orthogroups | Orthogroup assignment and cross-species bridge | 16,793 groups | `OrthoMCL release 6.21` |
+| PlasmoDB gene identity | Symbols, previous IDs, product descriptions for the Plasmodium arm | 5,791 P. falciparum 3D7 transcripts | `PlasmoDB 3D7` |
 | Plasmodium T-cell epitopes (IEDB) | Distinct T-cell epitope sequences per gene | 44 antigens, 1,542 distinct epitopes | `IEDB tcell_search` |
 | Plasmodium antibody epitopes (IEDB) | Distinct antibody epitope sequences per gene | 434 antigens, 7,366 distinct epitopes | `IEDB bcell_search` |
 | Plasmodium codon usage (COMPUTED) | Effective number of codons, GC3, and CAI against the ribosomal proteins | 5,318 genes | `PlasmoDB-68 Pfalciparum3D7 AnnotatedCDSs` |
@@ -251,6 +254,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Strain variation (ToxoDB HTS SNPs) | SNPs per gene across every sequenced strain, split by effect | 8,140 genes (100%) | `ToxoDB ME49` |
 | ToxoDB gene identity | Symbols, previous IDs, product descriptions | 8,843 ME49 genes | `ToxoDB ME49` |
 | Validated resistance-conferring mutations (CURATED) | Mutations shown to CAUSE drug resistance by putting them back into a clean background | 1 gene, 3 substitutions, 3 compounds | PMID [24533298](https://pubmed.ncbi.nlm.nih.gov/24533298/); `Int J Parasitol Drugs Drug Resist, PMIDs 24533298 and 25941623` |
+
 ## Licence and citing
 
 Cite the original studies, not this table. The repository redistributes derived facts and the identity

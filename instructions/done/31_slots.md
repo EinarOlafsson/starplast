@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**271 slots: 94 covered well, 19 partly, 46 thinly, 112 empty.**
+**271 slots: 94 covered well, 20 partly, 47 thinly, 110 empty.**
 
 ### transcription
 
@@ -95,7 +95,7 @@ quantity were approximating on 2026-08-13.
 | Pf_transcription · ookinete | ookinete | **A** | 5720 | 100.0% | `expr_ookinete` | one | — |
 | Pf_transcription · oocyst | oocyst | **A** | 5720 | 100.0% | `expr_oocyst` | one | — |
 | Pf_transcription · sporozoite | sporozoite | **A** | 5720 | 100.0% | `expr_sporozoite` | one | — |
-| Pf_transcription · per cell-cycle phase | cell cycle | **A** | 5720 | 100.0% | `steady_state_` | separate | — |
+| Pf_transcription · per cell-cycle phase | cell cycle | **A** | 5720 | 100.0% | `steady_state_, riboseq_mrna_` | separate | — |
 | Pf_transcription · under stress / conversion | alkaline, stress | **A** | 5720 | 100.0% | `febrile_` | separate | — |
 | Pf_transcription · under TF or chromatin perturbation | perturbation | **A** | 5544 | 96.9% | `sir2_wt_, sir2a_ko_, sir2b_ko_` | separate | — |
 | Pf_transcription · maximum observed across stages | cross-stage summary | **A** | 5720 | 100.0% | `expr_max` | one | — |
@@ -121,7 +121,7 @@ quantity were approximating on 2026-08-13.
 | Tg_translation · under initiation-factor depletion | eIF1.2 knockout, tachyzoite and pre-bradyzoite | **A** | 7880 | 96.8% | `rpf245775_eif12ko_, te245775_eif12ko_` | separate | **Translation initiation factor eIF1.2 promotes Toxoplasma stage conversion by regulating levels of key differentiation factors.** (Nature communications 2024) [38782906](https://pubmed.ncbi.nlm.nih.gov/38782906/) `GSE245775` |
 | Tg_codon usage / translation efficiency | sequence-derived | **A** | 8140 | 100.0% | `codon_` | one | — |
 | Pf_translation · asexual blood stage | asexual blood stage | **A** | 5720 | 100.0% | `polysomal_` | separate | — |
-| Pf_translation · per cell-cycle phase | cell cycle | **-** |  |  | `` | one | — |
+| Pf_translation · per cell-cycle phase | cell cycle | **B** | 3501 | 61.2% | `riboseq_rpf_` | one | — |
 | Pf_translation · under stress | extracellular stress or iron | **-** |  |  | `` | separate | — |
 | Pf_translation efficiency · asexual blood stage | asexual blood stage | **-** |  |  | `` | separate | — |
 | Pf_translation efficiency · extracellular stress | extracellular stress | **-** |  |  | `` | separate | — |
@@ -237,7 +237,7 @@ quantity were approximating on 2026-08-13.
 | Tg_cyst wall composition | bradyzoite cyst wall | **C** | 56 | 0.7% | `cyst_wall_` | separate | — |
 | Pf_membrane topology | sequence | **A** | 5720 | 100.0% | `n_tm, is_tm, has_signal_peptide` | one | — |
 | Pf_exposure to host cytosol | PVM, export | **-** |  |  | `` | fill | — |
-| Pf_secretome / excreted | ESA | **-** |  |  | `` | one | — |
+| Pf_secretome / excreted | ESA | **C** | 184 | 3.2% | `ev_studies` | one | — |
 | Pf_export / PEXEL trafficking | erythrocyte cytosol | **A** | 5720 | 100.0% | `export_pred_tier, is_exported` | one | **Plasmodium vivax cysteine-rich protective antigen (PvCyRPA), an important element for vaccine strategies targeting P. vivax, interacts with human erythrocyte surface.** (Acta tropica 2025) [41205844](https://pubmed.ncbi.nlm.nih.gov/41205844/)<br>verify assay and parasite-gene shape)<br>**RALP1 is essential for schizont maturation and erythrocyte invasion in Plasmodium falciparum.** (Parasites & vectors 2026) [41792842](https://pubmed.ncbi.nlm.nih.gov/41792842/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
 
 ### relation

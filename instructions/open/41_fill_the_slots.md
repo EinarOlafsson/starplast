@@ -1947,3 +1947,208 @@ environment — so neither test ever guaranteed the absence it is named for. The
 repo's dataset tree happened not to contain those two files, and they broke the moment it did. Both
 now patch `paths.dataset_roots` to name exactly one root. Setting an env var is not isolation when the
 resolver has other candidates.
+
+## Thirty-ninth pass: the queue was partly a bug, and the first measured translation on this arm
+
+**Toxoplasma 116 of 143. Plasmodium 44 of 128. Combined 160 of 271** — per unit, gene 142/198,
+pair 15/19, metabolite 3/6, host_gene 0/48.
+
+### The work queue this session opened with was partly an artefact
+
+The handoff said seventeen Plasmodium slots were past discovery because they already carried
+resolved candidate studies. Reading the candidates rather than counting them says otherwise, in two
+separate ways.
+
+**Seven of them were Toxoplasma papers**, published on Plasmodium slots by the generator.
+`NEW_SHARED` holds the questions both parasites have, and BOTH of its per-slot fields are about
+Toxoplasma: a pattern names a column of the Toxoplasma node table, and a citation was found while
+filling the Toxoplasma copy of the question. The patterns were already stripped on the way to the Pf
+arm — `codon_` flipped the Pf codon-usage slot the day three Toxoplasma sequence columns arrived —
+and the candidates were not. So `Pf_resistance-conferring mutation` cited two TgMAPK1 papers,
+`Pf_invasion and egress phenotype` a Toxoplasma splitCas9 screen, `Pf_complex membership` a
+Toxoplasma crosslinking interactome, `Pf_seroreactivity` the Toxoplasma IEDB query,
+`Pf_host ESCRT recruitment` an unpublished Toxoplasma imaging screen, and
+`Pf_essentiality in a second background` a Toxoplasma differentiation-reporter series.
+
+That is the **fifth** place this same rule has had to be enforced, after `declared_columns`,
+`resolve`, `is_filled`'s edge branch and its bridge branch. Where the two arms share a NAME, only the
+DATA may say which parasite something is about — and a citation's organism is data too.
+
+**The rest carry `automatically proposed; verify assay and parasite-gene shape`, and the warning is
+earned.** `Pf_RNA-binding protein targets` proposes two *Anopheles* antibacterial-immunity papers;
+`Pf_invasion and egress phenotype` a *Chromera velia* motility paper; `Pf_essentiality in a second
+background` a leishmaniasis diagnostic; `Pf_transcription · liver stage` a human hepatocyte circadian
+study; `Pf_target engagement` an essential-oil antioxidant screen. Discovery on those slots is not
+done. It was never started.
+
+**What IS past discovery is a different file.** `instructions/open/41_candidates_v2.json` holds 76 Pf
+keys of GEO- and PRIDE-indexed candidates WITH accessions, and the atlas does not merge it — it
+merges `31_candidates.json`, the PubMed-proposal file. 39 of the empty Pf slots appear there. That is
+the queue worth working, and it still needs each candidate read rather than counted: its
+`S-nitrosylation` and `chromatin accessibility` lists are RNA-seq studies, because the proposer
+matched an axis term rather than an assay.
+
+Two tests now, because one of them cannot see the whole fault. The structural one rebuilds the Pf
+catalog with the candidate file out of the way and refuses any candidate that was not written for the
+Plasmodium arm; it catches all six slots. The text one reads the shipped catalog for a whole-word
+Toxoplasma name and catches exactly one, because the ESCRT citation names no organism at all.
+
+### `Pf_translation · per cell-cycle phase`, filled by ribosome profiling
+
+**GSE58402** (PMID 25493618), five points of the intraerythrocytic cycle, both arms of the
+experiment: ribosome footprints and matched mRNA, as RPKM per gene. 3,501 genes, 61%, and uneven
+across the cycle — 2,182 at the ring, 1,174 at the merozoite. The slot was previously answerable
+only through polysome-associated RNA, which is what is ON ribosomes rather than how much ribosome is
+on it; this is the first MEASURED translation on this arm.
+
+The mRNA arm joins `Pf_transcription · per cell-cycle phase` as a second dataset beside the
+polysomal study's steady-state arm — the same question, a second instrument — and never as a second
+slot. One experiment's two conditions do not become two questions.
+
+**Stage labels are the deposit's own, so they were checked against a study sharing no sample.** Each
+of ring, early trophozoite, late trophozoite and schizont correlates highest with its own stage in
+the independent PlasmoDB seven-stage series (rho 0.65–0.77). The merozoite has no counterpart there
+and lands on the ring, which is the neighbouring point of the cycle rather than a contradiction — a
+free merozoite is a ring that has not invaded yet — and the test asserts the four, not the five.
+
+**The measurement behaves**: ribosomal proteins carry far more footprint than everything else at
+every stage (median log1p 5.6–7.9 against 3.5–4.1, p ≤ 2e-18).
+
+Strain **W2**, not 3D7. The gene set is 3D7's, so nothing is mis-joined, but the surface-antigen
+families are where a strain difference would show and that is where to distrust this column.
+
+### The second arm gets an identity layer, because the first source that needed one found zero genes
+
+The deposit is keyed on **pre-2012 accessions** — `PFE0630c`, `PF13_0222` — and the Plasmodium arm
+had no identity layer at all. A string join found **0 of its 3,629 ids**. This is precisely the
+failure the Toxoplasma layer exists to prevent (the 2019 in-vivo screen, 0 of 8,140 unresolved and
+168 resolved), met on the second arm for the first time.
+
+`fetch_names` now fetches PlasmoDB's identity report through the same WDK service and the same code
+path, into its own committed file — two identifier spaces in one index is the merge this project
+refuses everywhere else. 9,106 previous ids resolve; **66 are claimed by two current genes each**,
+which is what a gene model being SPLIT looks like from the other side, and those are withdrawn rather
+than assigned to whichever row came first. A current accession outranks another gene's history, since
+most files mix both forms.
+
+Three things are refused rather than resolved, about 100 ids of 3,629: the ambiguous ones above, the
+deposit's `-a`/`-b` split entries (RPKM is already length-normalised, so neither summing nor
+averaging two segments means anything), and two source ids landing on one current gene inside one
+file, which is a merge with the same problem.
+
+### Translation efficiency, computed a second time and refused a second time
+
+The thirty-fifth pass computed TE from the polysomal and steady-state arms and refused it: ribosomal
+proteins came out right, but TE correlated NEGATIVELY with codon adaptation where the textbook
+expects positive, and the entry closed with *"something dominates that relationship which I cannot
+name"*.
+
+Ribosome profiling reproduces it — different instrument, different strain, a decade earlier:
+rho(TE, CAI) is −0.01 to −0.12 across the five stages, and the RPF LEVEL itself is −0.15 against CAI
+at every stage, so it is not the ratio's fault. The ribosomal-protein check also inverts at the
+schizont (TE −0.65 against −0.12 for everything else). Two checks disagreeing is the **contradictory**
+case, whose answer is to ship the conditions rather than the contrast. Both conditions ship. TE does
+not.
+
+**But the replication says where to look, and this one is worth keeping.** `codon_cai_ribosomal` is
+built against each arm's own ribosomal proteins by one shared construction. In Toxoplasma the
+reference set scores at the top of its own index (0.771 against 0.714, p = 4e-22). In *P. falciparum*
+**it does not separate at all** (0.710 against 0.717, p = 0.37), while ENC does, weakly (36.5 against
+37.6). So the quantity failing to behave in the TE check is the CODON INDEX, not the footprints —
+an AT-rich genome compressing codon-usage signal, not a bug in either arm. That is only visible
+because the two arms share one implementation; two would have made it noise. A test now pins both
+directions.
+
+### The rebuild, and the check that has to travel with it
+
+`scripts/build_plasmodium.py` is new, and it exists because `build_all` made the TABLE reproducible
+while leaving the INVOCATION to whatever was typed at a prompt — including the diff, which is the
+part that matters. It builds, diffs against the shipped cache on columns gained, columns LOST and
+per-column coverage in BOTH directions, and **refuses to write** if anything went backwards;
+`--allow-loss "why"` is the override and it requires a sentence, so that a loss someone accepted and
+a loss nobody noticed cannot look the same in the history.
+
+This build: **+10 columns, −0, 5,720 genes unchanged, no column's coverage moved in either
+direction.** That is what a correct additive build looks like, and it is the first one here that
+said so by itself.
+
+The graph was diffed too, and it should be: every edge layer is byte-for-byte the same number of
+edges (`orthogroup` 1,741, `domain` 24,123, `coexpression` 63,158, `xlms` 79) because those are built
+from declared columns rather than from every numeric one — and **`xyz` moved**, because two of the
+ten new columns clear the >50% coverage floor `embed_features` applies to this arm and the layout
+therefore has 73 features instead of 71. A new measurement re-laying the map is the design working,
+not a regression, but it is the kind of change that should never be discovered later.
+
+### One thing to carry into the next fetch
+
+`sources.geo_sample_files` is new: many deposits keep their per-gene tables under each SAMPLE and
+only a `_RAW.tar` at series level, and `geo_supplementary` reads the series directory. This one reads
+the deposit's own `filelist.txt`, takes the files whose names end in a declared suffix, and derives
+only the directory a named file lives in — a derivation that is wrong 404s immediately, which is the
+failure mode to prefer over the one that silently skipped nineteen *Cryptosporidium* organisms.
+Skipped names are logged and counted. 139 MB of coverage tracks stayed where they were.
+
+### `Pf_secretome / excreted`, filled — and the coverage number it nearly published
+
+Second fill of the pass, from the same queue: **PXD006925 / PMID 28944300**, extracellular vesicles
+purified from a Kenyan clinical isolate. The deposit is raw-only — 24 RAW files and no RESULT — so
+the per-protein numbers come from the paper's supplement, which is the usual shape here.
+
+The sheet worth reading is the paper's own compilation: the union of two independent EV preparations
+with a membership column each, so *how many studies saw this* is a fact in the file rather than a
+join someone has to get right. 184 proteins, 53 of them in both. Its other columns are seroreactivity
+and antibody-array results from unrelated studies — claims about immunity, not about vesicles — and
+are deliberately not read; they belong to other slots. The sheet's trailing rows are its reference
+list, and citations contain accessions, which is why resolution goes through the identity index
+rather than a `PF3D7_` regex.
+
+The column is named `ev_studies`, not `is_secreted`: vesicle proteomics is the instrument this
+question has data for, and the second name would assert a route the measurement does not establish.
+
+**Checked in both directions, and only one of them is a reason to trust it.** 20.1% of the 184 carry
+a signal peptide against 10.2% of the proteome (p = 8e-05); exported proteins run 6.0% against 3.3%,
+same direction and not significant at this size; RESA, KAHRP, MSP1 and Ag332 are all present. It is
+**also** six times more expressed than the rest of the proteome (median blood-stage expression 71.3
+against 12.2, p = 8e-31). That is what mass spectrometry on a vesicle preparation returns, it is the
+same confound as hyperLOPIT tracking abundance on the other arm, and a test now pins both directions
+so the caveat cannot quietly leave the prose.
+
+**The number this nearly published.** Shipped first with a companion boolean completed as False for
+every other gene — the convention the other mass-spectrometry columns on this arm follow — the atlas
+graded the slot **A at 100% coverage** for an experiment that identified 184 proteins. Those columns
+pool proteome-wide assays, where "never observed" is an answer; this is one preparation from one
+isolate, and the genes it did not report are the six-times-less-expressed ones, so a False there is
+a detection limit written down as a negative result. The flag was dropped, the count alone ships, and
+the slot reads **C at 3.2%**, beside the Toxoplasma secretome slot at C and 2.0%.
+
+Worth someone's attention, and not changed here because it would alter shipped columns: the same
+flag-and-count convention is why `Pf_phosphorylation`, `Pf_acetylation`, `Pf_lactylation` and
+`Pf_palmitoylation` all read **100% coverage** while their counts cover 2,503, 1,145, 144 and 503
+genes. For a pooled proteome-wide re-analysis that is defensible — the yes/no question really was
+asked of every gene — but the atlas prints one number and it is the flag's.
+
+**The refusal guard fired on its first real use**, and it was right to: dropping the boolean lost a
+column, `scripts/build_plasmodium.py` refused to write, and the build went through only under
+`--allow-loss "the False-filled EV flag was absence rendered as measurement; the count alone is
+shipped"`. That sentence is now in the shell history and in this file, which is the difference the
+override exists to make.
+
+**Where the atlas stands after both fills: Toxoplasma 116 of 143, Plasmodium 45 of 128, combined 161
+of 271** — gene 143/198, pair 15/19, metabolite 3/6, host_gene 0/48.
+
+### What the next pass should take, in order
+
+1. **`Pf_phosphorylation · kinase-substrate`** — PXD005207 (PfCDPK1) and PXD009465 (PfPK7) are both
+   raw-only, so it is the papers' supplements again; the Toxoplasma arm answers the same question
+   with `cdpk1_thiophospho_peptides`, so the shape is known.
+2. **`Pf_interaction degree · IP-MS`** — PXD008219 (Kelch13/Eps15/clathrin), PXD006155 (EPIC),
+   PXD008208 (MSRP6). Pair-indexed, which is the axis this arm is weakest on.
+3. **`Pf_glycosylation · asexual blood stage`** — PXD033470, C-mannosylation of TSR-domain adhesins;
+   a PARTIAL deposit, so again the supplement.
+4. **`Pf_cell-cycle timing label`** — the one derived label the arm is missing, and the sources
+   exist: a 48-point IDC series, or the single-cell atlas the v2 list proposes. The construction is
+   already shared with the Toxoplasma arm (`cellcycle.stage_enrichment`), which is the reason to do
+   it rather than invent a second one.
+
+All four are in `41_candidates_v2.json` with accessions. None of the four is in the seventeen-slot
+queue this session opened with.

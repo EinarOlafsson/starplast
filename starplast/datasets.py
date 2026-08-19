@@ -55,6 +55,10 @@ class Dataset:
     path: str | None = None      # where it lands under toxoplasma_projects/
     derived_from: tuple = ()     # node columns this was COMPUTED from, if it is a derivation
     note: str = ""
+    # GEO deposits whose processed tables sit under each SAMPLE rather than under the series: the
+    # suffix that names them. Declared rather than inferred, because "fetch every per-sample file"
+    # would pull the coverage tracks too -- 139 MB of wiggle for 250 kB of per-gene numbers.
+    geo_file_suffix: str | None = None
 
 
 # Springer and PLOS serve supplementary directly; PMC's /bin/ path 404s.
@@ -63,6 +67,8 @@ PLOS = "https://journals.plos.org/plospathogens/article/file?id=10.1371/{doi}.{s
 EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/supplementaryFiles"
 TOXODB = ("https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon"
           "/reports/attributesTabular")
+PLASMODB = ("https://plasmodb.org/plasmo/service/record-types/transcript/searches/GenesByTaxon"
+            "/reports/attributesTabular")
 
 # Exact shipped columns for multi-column assays.  These are deliberately explicit rather than
 # prefixes: provenance is a statement about which measurements a dataset produced, and a future
@@ -1371,6 +1377,83 @@ REGISTRY = [
                  "schizont are highly correlated with one another and rarely win by a margin, while "
                  "the mosquito stages are separable. The margin rule is working; the interpretation "
                  "is what needs care."),
+    Dataset("plasmodb_identity", "PlasmoDB gene identity", "reference", "identity",
+            "Symbols, previous IDs, product descriptions for the Plasmodium arm",
+            ("gene_id", "product"), "5,791 P. falciparum 3D7 transcripts", accession="PlasmoDB 3D7",
+            url=PLASMODB, path="starplast/data/plasmodb_identity.tsv",
+            note="The Plasmodium arm's identity layer, fetched 2026-08-18 through the same WDK "
+                 "report as the ToxoDB tables and kept in its own file -- two identifier spaces in "
+                 "one index is the merge this project refuses everywhere else. It exists because "
+                 "the first Pf source keyed on anything but current accessions joined ZERO rows: "
+                 "the 2014 ribosome-profiling deposit reports the pre-2012 chromosome-based ids "
+                 "(`PFE0630c`, `PF13_0222`), and a string join found none of its 3,629 genes. 9,106 "
+                 "previous ids resolve; 66 are claimed by two current genes each -- a gene model "
+                 "SPLIT, seen from the other side -- and those are withdrawn rather than assigned "
+                 "to whichever came first, the same rule the Toxoplasma layer applies to 153 "
+                 "strings."),
+    Dataset("pf_riboseq", "Plasmodium ribosome profiling across the asexual cycle",
+            "translation", "riboseq",
+            "Ribosome-footprint and mRNA density per gene at five points of the blood-stage cycle",
+            ("riboseq_rpf_ring", "riboseq_rpf_early_trophozoite", "riboseq_rpf_late_trophozoite",
+             "riboseq_rpf_schizont", "riboseq_rpf_merozoite",
+             "riboseq_mrna_ring", "riboseq_mrna_early_trophozoite",
+             "riboseq_mrna_late_trophozoite", "riboseq_mrna_schizont", "riboseq_mrna_merozoite"),
+            "3,501 genes (61%), 2,182 at the ring and 1,174 at the merozoite", pmid="25493618",
+            accession="GSE58402", geo_file_suffix="_rpkm.txt.gz",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE58nnn/GSE58402/suppl/",
+            path="datasets/translation/riboseq/25493618/",
+            note="The first MEASURED translation on this arm: the slot was previously answerable "
+                 "only through polysome-associated RNA, which is what is on ribosomes rather than "
+                 "how much ribosome is on it. Both arms of the experiment ship as conditions and "
+                 "the ratio between them does NOT, which is the second time this project has "
+                 "computed a Plasmodium translation efficiency and refused it -- and this time on a "
+                 "different instrument, a different strain and a different decade. Ribosomal "
+                 "proteins carry far more footprint than the rest at every stage (median log1p 5.6 "
+                 "to 7.9 against 3.5 to 4.1, p <= 2e-18), which is the check that says the "
+                 "measurement behaves; but the ratio puts them BELOW the rest at the schizont, and "
+                 "correlates negatively with codon adaptation at every stage (rho -0.01 to -0.12), "
+                 "where the textbook expectation is positive. Two checks disagreeing is the "
+                 "contradictory case, whose answer is to ship the conditions. What the replication "
+                 "adds is where to look: `codon_cai_ribosomal` does not separate the very "
+                 "ribosomal proteins it is built from in this genome (0.710 against 0.717, "
+                 "p = 0.37) while it does in Toxoplasma (0.771 against 0.714, p = 4e-22), so the "
+                 "quantity that fails to behave is the codon index, not the footprints. Stage "
+                 "labels are the deposit's own and are CHECKED against the independent PlasmoDB "
+                 "stage series: ring, early trophozoite, late trophozoite and schizont each "
+                 "correlate highest with their own stage (rho 0.65 to 0.77). The merozoite arm has "
+                 "no counterpart there and lands on the ring, which is the neighbouring point of "
+                 "the cycle rather than a contradiction. Strain W2, not 3D7, so the surface-antigen "
+                 "families are the place to distrust it. Keyed on pre-2012 accessions and resolved "
+                 "through `plasmodb_identity`; the deposit's `-a`/`-b` split entries are dropped "
+                 "rather than summed, since RPKM is already length-normalised."),
+    Dataset("pf_secretome", "Plasmodium extracellular vesicle proteome",
+            "post_translation", "proteomics",
+            "Parasite proteins found in extracellular vesicles, and how many preparations found them",
+            ("ev_studies",), "184 proteins, 53 of them in both preparations", pmid="28944300",
+            accession="Wellcome Open Res 11910 S2 (PRIDE PXD006925)",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5583745/supplementaryFiles",
+            path="datasets/post_translation/secretome/28944300/"
+                 "5c097a1c-efe5-4ed8-b97b-f9ba656268a6.xlsx",
+            note="The columns say `extracellular vesicle` and not `secreted`, because the second "
+                 "word would assert a route this measurement does not establish. The sheet read is "
+                 "the paper's own compilation: the union of two independent EV preparations with a "
+                 "membership column each, so 'how many studies saw this' is a fact in the file "
+                 "rather than a join. Its other columns are seroreactivity and antibody-array "
+                 "results from unrelated studies -- claims about immunity, not about vesicles -- "
+                 "and are deliberately not read. The deposit itself is raw-only (24 RAW files, no "
+                 "RESULT), which is the usual shape here: per-protein numbers come from the "
+                 "supplement. Checked in the direction a secretome should go -- 20.1% carry a "
+                 "signal peptide against 10.2% of the proteome (p = 8e-05), exported proteins run "
+                 "6.0% against 3.3% (p = 0.06, same direction and not significant at 184 genes) -- "
+                 "and RESA, KAHRP, MSP1 and Ag332 are all present. The confound that must travel "
+                 "with the column is abundance: EV genes have a median blood-stage expression of "
+                 "71.3 against 12.2 for the rest (p = 8e-31), so this is what mass spectrometry "
+                 "found in a vesicle preparation and not a list of what the parasite exports. Same "
+                 "caveat as hyperLOPIT assignment on the other arm, and for the same reason. "
+                 "Absence is unknown and stays missing. A companion boolean completed with "
+                 "False would have read as 5,720 genes tested and 5,536 negative, and graded the "
+                 "slot A at 100% for an experiment that identified 184 proteins -- so this one "
+                 "ships a single column whose presence is the evidence."),
     Dataset("pf_isoforms", "Plasmodium long-read transcript models", "transcription", "nanopore",
             "Transcript models per gene, and how many the annotation does not contain",
             ("n_transcript_models", "novel_transcript_models"),
@@ -1892,6 +1975,8 @@ def fetchable(key: str) -> tuple:
         # page while the data is entirely fetchable -- fetch_names has done it all along. Reporting it
         # as unfetchable understated what a clean machine can rebuild by one dataset.
         return True, "toxodb"
+    if d.url.startswith(PLASMODB):
+        return True, "plasmodb"                  # the same POST, on the malaria site
     if d.accession and d.accession.startswith("GSE"):
         return True, "geo"                       # the FTP supplementary listing, not the landing page
     if any(h in d.url for h in _PAGE_HOSTS):
@@ -1923,16 +2008,19 @@ def ensure(key: str, log=print) -> str | None:
     dest = os.path.join(paths.dataset_root(create=True), "_downloads", key)
     os.makedirs(dest, exist_ok=True)
     if how == "geo":
-        got = sources.geo_supplementary(d.accession, dest, log=log)
+        got = (sources.geo_sample_files(d.accession, dest, d.geo_file_suffix, log=log)
+               if d.geo_file_suffix else sources.geo_supplementary(d.accession, dest, log=log))
         return got[0] if got else None
 
-    if how == "toxodb":
+    if how in ("toxodb", "plasmodb"):
         from . import fetch_names
+        organism, url = (("Toxoplasma gondii ME49", fetch_names.URL) if how == "toxodb"
+                         else ("Plasmodium falciparum 3D7", fetch_names.PLASMODB_URL))
         out = os.path.join(dest, os.path.basename(d.path or f"{key}.tsv"))
         try:
-            fetch_names.write(fetch_names.fetch("Toxoplasma gondii ME49",
+            fetch_names.write(fetch_names.fetch(organism,
                                                 ["primary_key", "gene_name", "gene_previous_ids",
-                                                 "gene_product"]), out)
+                                                 "gene_product"], url), out)
         except Exception as e:                    # noqa: BLE001 -- any transport failure is the same
             log(f"{key}: ToxoDB request failed ({e})")
             return None

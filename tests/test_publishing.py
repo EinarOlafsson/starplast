@@ -303,12 +303,21 @@ def test_the_request_body_asks_for_the_attributes_it_needs(monkeypatch):
     assert "Toxoplasma gondii ME49" in seen["body"]
 
 
-def test_main_writes_all_three_identity_tables(monkeypatch, tmp_path):
+def test_main_writes_an_identity_table_for_each_arm(monkeypatch, tmp_path):
+    """Four tables now: three ToxoDB and one PlasmoDB, each fetched from its own site.
+
+    The Plasmodium one is separate rather than appended, for the reason the whole arm is separate:
+    two identifier spaces in one index is the merge this project refuses everywhere else.
+    """
+    asked = []
     monkeypatch.setattr(FN, "OUT", str(tmp_path))
-    monkeypatch.setattr(FN, "fetch", lambda org, attrs: "Gene ID\tGene Name or Symbol\nTGME49_1\tX\n")
+    monkeypatch.setattr(FN, "fetch", lambda org, attrs, url=FN.URL: (
+        asked.append((org, url)) or "Gene ID\tGene Name or Symbol\nTGME49_1\tX\n"))
     FN.main()
-    assert sorted(os.listdir(tmp_path)) == ["toxodb_identity.tsv", "toxodb_strain_gt1.tsv",
-                                            "toxodb_strain_veg.tsv"]
+    assert sorted(os.listdir(tmp_path)) == ["plasmodb_identity.tsv", "toxodb_identity.tsv",
+                                            "toxodb_strain_gt1.tsv", "toxodb_strain_veg.tsv"]
+    assert asked[-1] == ("Plasmodium falciparum 3D7", FN.PLASMODB_URL)
+    assert all("toxodb" in url for _, url in asked[:-1])
 
 
 # --------------------------------------------------------------------------- module entry point
@@ -347,6 +356,9 @@ def test_fetch_names_runs_as_a_module(monkeypatch, tmp_path):
     runpy.run_module("starplast.fetch_names", run_name="__main__")
     assert os.path.exists(os.path.join(tmp_path, "toxodb_identity.tsv"))
     assert open(os.path.join(tmp_path, "toxodb_identity.tsv")).read().startswith("gene_id")
+    # And the Plasmodium arm's, which the same one-off now produces: it had no identity layer at all
+    # until a deposit keyed on pre-2012 accessions joined zero of its 3,629 genes.
+    assert os.path.exists(os.path.join(tmp_path, FN.PLASMODB_IDENTITY))
 
 
 # --------------------------------------------------------------------------- the GPU install

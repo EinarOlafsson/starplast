@@ -239,6 +239,84 @@ def test_one_failed_file_does_not_lose_the_others(tmp_path, monkeypatch):
     assert len(got) == 1 and got[0].endswith("FPKM.xlsx")
 
 
+# --------------------------------------------------------------------------- GEO, per sample
+_FILELIST = (
+    "#Archive/File\tName\tTime\tSize\tType\n"
+    "Archive\tGSE58402_RAW.tar\t12/02/2014\t139581440\tTAR\n"
+    "File\tGSM1410291_mRNA_1_rpkm.txt.gz\t06/11/2014\t24370\tTXT\n"
+    "File\tGSM1410291_mRNA_1_minus.wig.gz\t06/11/2014\t10160005\tWIG\n"
+    "File\tGSM1410296_ribosome_footprints_1_rpkm.txt.gz\t06/11/2014\t24401\tTXT\n"
+    "File\tstray_rpkm.txt.gz\t06/11/2014\t100\tTXT\n")
+
+
+def test_per_sample_files_are_read_from_the_deposits_own_list(tmp_path, monkeypatch):
+    """The series directory of this deposit holds one 139 MB tar; the wanted tables are 25 kB each.
+
+    Which files exist is READ from filelist.txt rather than guessed. Only the directory a named file
+    sits in is derived, from the sample accession the name starts with -- and a wrong derivation 404s
+    at once, which is the failure mode to prefer.
+    """
+    grabbed = []
+
+    def fake_get(url, timeout=300):
+        if url.endswith("filelist.txt"):
+            return _FILELIST.encode()
+        grabbed.append(url)
+        return b"payload"
+
+    monkeypatch.setattr(S, "_get", fake_get)
+    got = S.geo_sample_files("GSE58402", str(tmp_path), "_rpkm.txt.gz", log=lambda *_: None)
+    assert len(got) == 2, "the wiggle tracks and the tar came along"
+    assert all(os.path.exists(p) for p in got)
+    assert any("/geo/samples/GSM1410nnn/GSM1410291/suppl/" in u for u in grabbed)
+
+
+def test_a_file_with_no_sample_accession_is_skipped_and_counted(tmp_path, monkeypatch):
+    monkeypatch.setattr(S, "_get",
+                        lambda url, timeout=300: _FILELIST.encode()
+                        if url.endswith("filelist.txt") else b"x")
+    msgs = []
+    got = S.geo_sample_files("GSE58402", str(tmp_path), "_rpkm.txt.gz", log=msgs.append)
+    assert not any("stray" in p for p in got)
+    assert any("stray_rpkm.txt.gz" in m for m in msgs), "a skipped file has to be named"
+    assert any("2 other entries" in m for m in msgs), "and the rest counted"
+
+
+def test_an_already_downloaded_sample_file_is_not_fetched_again(tmp_path, monkeypatch):
+    (tmp_path / "GSM1410291_mRNA_1_rpkm.txt.gz").write_bytes(b"already here")
+    calls = []
+
+    def fake_get(url, timeout=300):
+        calls.append(url)
+        return _FILELIST.encode() if url.endswith("filelist.txt") else b"x"
+
+    monkeypatch.setattr(S, "_get", fake_get)
+    got = S.geo_sample_files("GSE58402", str(tmp_path), "_rpkm.txt.gz", log=lambda *_: None)
+    assert len(got) == 2 and len(calls) == 2, "the list, and the one file not already here"
+
+
+def test_a_failed_sample_list_or_file_loses_only_what_failed(tmp_path, monkeypatch):
+    monkeypatch.setattr(S, "_get", _boom)
+    msgs = []
+    assert S.geo_sample_files("GSE58402", str(tmp_path), "_rpkm.txt.gz", log=msgs.append) == []
+    assert any("file list failed" in m for m in msgs)
+
+    def one_bad(url, timeout=300):
+        if url.endswith("filelist.txt"):
+            return _FILELIST.encode()
+        if "GSM1410296" in url:
+            raise OSError("connection reset")
+        return b"payload"
+
+    monkeypatch.setattr(S, "_get", one_bad)
+    got = S.geo_sample_files("GSE58402", str(tmp_path), "_rpkm.txt.gz", log=lambda *_: None)
+    assert len(got) == 1 and "GSM1410291" in got[0]
+
+
+def _boom(url, timeout=300):
+    raise urllib.error.URLError("offline")
+
+
 # --------------------------------------------------------------------------- PRIDE
 def _pride_payload(categories):
     return json.dumps([

@@ -30,6 +30,7 @@ having no entry is a statement about what was run, not about the proteins.
 from __future__ import annotations
 
 import os
+import re
 
 import numpy as np
 import pandas as pd
@@ -308,6 +309,21 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
         # Left-joined without filling: a gene with no long-read model was not sequenced deeply
         # enough to say, which is not the same as having one transcript.
         nodes = nodes.merge(iso, on="gene_id", how="left")
+    ribo = riboseq(dataset_root, log=log)
+    if not ribo.empty:
+        # Left-joined and never filled. Coverage is 61% and uneven across the cycle -- 2,182 genes
+        # at the ring and 1,174 at the merozoite -- and every gap is a gene the deposit did not
+        # report, which is silence about the measurement rather than an absence of ribosomes.
+        nodes = nodes.merge(ribo, on="gene_id", how="left")
+    vesicles = secretome(dataset_root, log=log)
+    if not vesicles.empty:
+        # Left-joined and deliberately NOT completed with a False flag, which is what the other
+        # mass-spectrometry columns on this arm do. Those pool proteome-wide assays, where "never
+        # observed" is an answer; this is one vesicle preparation from one isolate, and the genes
+        # it did not report are six times less expressed than the ones it did. A False there would
+        # be the absence-as-measurement this project exists to refuse -- the same fault as reading
+        # hyperLOPIT `unassigned` as a compartment.
+        nodes = nodes.merge(vesicles, on="gene_id", how="left")
     mapping = strain_map(os.path.join(base, NF54_TABLE), nodes)
     lac = lactylome(dataset_root, mapping, log=log) if mapping else pd.DataFrame()
     if not lac.empty:
@@ -596,6 +612,164 @@ def acetylome(dataset_root: str, log=print) -> pd.DataFrame:
     log(f"acetylome: {len(out):,} genes seen acetylated, "
         f"{int(counts.sum()):,} sites localised at >= {ACETYL_LOCALISATION}")
     return out
+
+
+# --------------------------------------------------------------------------- gene identity
+#: PlasmoDB's identity table: current accession, symbol, previous accessions, product. Committed
+#: beside the ToxoDB ones and never merged with them -- see `fetch_names`.
+IDENTITY_TABLE = "plasmodb_identity.tsv"
+
+
+def previous_id_index(path: str) -> dict:
+    """{any accession this genome has used, lowercased} -> the current `PF3D7_` id.
+
+    The Plasmodium arm went without an identity layer for as long as every source happened to be
+    keyed on current accessions, and the first one that was not joined nothing at all: a 2014
+    ribosome-profiling deposit reports `PFE0630c` and `PF13_0222`, the chromosome-based ids that
+    were current before the 2012 renaming, and the string join found zero of its 3,629 genes.
+
+    Two rules, both taken from the Toxoplasma layer rather than reinvented:
+
+    * **Ambiguity is withdrawn, never guessed.** 66 old ids are claimed by two current genes each,
+      which is what a gene model being SPLIT looks like from the other side; a measurement made
+      against the old model belongs to neither half in particular, so the string resolves to
+      nothing and the cost is countable rather than invisible.
+    * **A current accession outranks a previous one.** A file mixing both -- most do -- must not
+      have a live id captured by some other gene's history.
+    """
+    if not os.path.exists(path):
+        return {}
+    d = pd.read_csv(path, sep="\t", dtype=str)
+    if "gene_id" not in d.columns:
+        return {}
+    owners: dict = {}
+    for gene, ids in zip(d["gene_id"], d.get("previous_ids", pd.Series([""] * len(d))).fillna("")):
+        for token in re.split(r"[;,]", str(ids).replace("Previous IDs:", "")):
+            token = token.strip().lower()
+            if token and token != "n/a":
+                owners.setdefault(token, set()).add(gene)
+    index = {token: next(iter(genes)) for token, genes in owners.items() if len(genes) == 1}
+    index.update({str(g).lower(): g for g in d["gene_id"]})
+    return index
+
+
+# --------------------------------------------------------------------------- ribosome profiling
+#: Where the deposit lands under the dataset archive, and the five points of the cycle it covers.
+#: The numbers are the deposit's own sample order; the names are the stages its sample records give.
+RIBOSEQ = ("riboseq", "25493618")
+RIBOSEQ_STAGES = {"1": "ring", "2": "early_trophozoite", "3": "late_trophozoite",
+                  "4": "schizont", "5": "merozoite"}
+RIBOSEQ_ARMS = {"mRNA": "mrna", "ribosome_footprints": "rpf"}
+RIBOSEQ_FILE = re.compile(r"^GSM\d+_(mRNA|ribosome_footprints)_([1-5])_rpkm\.txt\.gz$")
+
+
+def riboseq(dataset_root: str, log=print) -> pd.DataFrame:
+    """Ribosome-footprint and mRNA density per gene at five points of the asexual cycle.
+
+    The measurement `Pf_translation - per cell-cycle phase` asks for: how much ribosome is on a
+    transcript, per gene, at each stage of the intraerythrocytic cycle. Both arms of the experiment
+    are read and both are kept as CONDITIONS. The ratio between them -- translation efficiency -- is
+    deliberately NOT computed here; `RIBOSEQ_TE_REFUSED` in the registry note says what happened
+    when it was.
+
+    Three things are refused rather than resolved, and together they cost about 100 of 3,629 ids:
+
+    * an id claimed by two current genes (`previous_id_index` withdraws it);
+    * the deposit's `-a` / `-b` split entries, which report two segments of one gene -- RPKM is
+      already length-normalised, so neither summing nor averaging them means anything;
+    * two source ids landing on one current gene inside one file, which is a MERGE seen from the
+      other side and has the same problem.
+    """
+    folder, pmid = RIBOSEQ
+    base = os.path.join(dataset_root, "translation", folder, pmid)
+    if not os.path.isdir(base):
+        return pd.DataFrame()
+    from . import paths
+    index = previous_id_index(paths.cache_file(IDENTITY_TABLE))
+    if not index:
+        log("riboseq: no PlasmoDB identity table -- run python -m starplast.fetch_names")
+        return pd.DataFrame()
+    columns, unresolved, collided = {}, set(), 0
+    for name in sorted(os.listdir(base)):
+        hit = RIBOSEQ_FILE.match(name)
+        if not hit:
+            continue
+        arm, stage = RIBOSEQ_ARMS[hit.group(1)], RIBOSEQ_STAGES[hit.group(2)]
+        d = pd.read_csv(os.path.join(base, name), sep="\t", header=None,
+                        names=["source_id", "rpkm"], dtype={"source_id": str})
+        d["source_id"] = d["source_id"].str.strip().str.lower()
+        d["gene_id"] = d["source_id"].map(index)
+        unresolved |= set(d.loc[d["gene_id"].isna(), "source_id"])
+        d = d.dropna(subset=["gene_id"])
+        duplicated = d["gene_id"].duplicated(keep=False)
+        collided += int(duplicated.sum())
+        d = d[~duplicated]
+        columns[f"riboseq_{arm}_{stage}"] = pd.to_numeric(
+            d.set_index("gene_id")["rpkm"], errors="coerce")
+    if not columns:
+        return pd.DataFrame()
+    out = pd.DataFrame(columns).sort_index()
+    out.index.name = "gene_id"
+    log(f"riboseq: {len(out):,} genes over {len(columns)} arms x stages, "
+        f"{len(unresolved)} ids unresolved, {collided} withdrawn for landing on one gene twice")
+    return out.reset_index()
+
+
+# --------------------------------------------------------------------------- secreted proteins
+#: Extracellular vesicles purified from a Kenyan clinical isolate, and the same paper's compilation
+#: of which proteins a second EV proteome also reported. The compilation is the sheet worth reading:
+#: it is the union of two independent preparations with a membership column each, so "how many
+#: studies saw this" is a fact in the file rather than a join someone has to get right.
+SECRETOME = ("secretome", "28944300", "5c097a1c-efe5-4ed8-b97b-f9ba656268a6.xlsx")
+SECRETOME_SHEET = "Combined list of PfEVs antigens"
+
+#: The two EV proteomes the sheet crosses. Its other columns are seroreactivity and antibody-array
+#: results from unrelated studies -- claims about immunity, not about vesicles -- and they belong to
+#: other slots, so they are deliberately not read here.
+SECRETOME_STUDIES = ("PfEVs_9605", "PfEVs_Mantel CHM 2013")
+
+
+def secretome(dataset_root: str, log=print) -> pd.DataFrame:
+    """Parasite proteins found in extracellular vesicles, and how many EV proteomes found them.
+
+    The slot asks what this parasite puts outside itself. Vesicle proteomics is one instrument for
+    that question and it is the one with data, so the column says `extracellular vesicle` rather
+    than `secreted`: the second word would assert a route this measurement does not establish.
+
+    ONE column, and no companion flag. A boolean completed with False for every other gene would
+    have read as 5,720 genes tested and 5,536 negative, and the atlas would have graded the slot A
+    at 100% coverage -- for an experiment that identified 184 proteins. The count being present IS
+    the flag, and its absence is unknown.
+
+    The sheet's trailing rows are its reference list, which is why resolution goes through the
+    identity index rather than a `PF3D7_` regex -- the citations contain accessions.
+    """
+    folder, pmid, name = SECRETOME
+    path = os.path.join(dataset_root, "post_translation", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if SECRETOME_SHEET not in book.sheet_names:
+        return pd.DataFrame()
+    d = book.parse(SECRETOME_SHEET)
+    if "geneid" not in d.columns or not set(SECRETOME_STUDIES) <= set(d.columns):
+        return pd.DataFrame()
+    from . import paths
+    index = previous_id_index(paths.cache_file(IDENTITY_TABLE))
+    if not index:
+        log("secretome: no PlasmoDB identity table -- run python -m starplast.fetch_names")
+        return pd.DataFrame()
+    d = d.assign(gene_id=d["geneid"].astype(str).str.strip().str.lower().map(index))
+    d = d.dropna(subset=["gene_id"]).drop_duplicates("gene_id")
+    if d.empty:
+        return pd.DataFrame()
+    seen = d[list(SECRETOME_STUDIES)].apply(pd.to_numeric, errors="coerce").fillna(0)
+    out = pd.DataFrame({"gene_id": d["gene_id"].to_numpy(),
+                        "ev_studies": seen.gt(0).sum(axis=1).astype(int).to_numpy()})
+    out = out[out["ev_studies"] > 0]
+    log(f"secretome: {len(out):,} proteins in extracellular vesicles, "
+        f"{int((out['ev_studies'] > 1).sum())} of them in both preparations")
+    return out.sort_values("gene_id").reset_index(drop=True)
 
 
 # --------------------------------------------------------------------------- strain identity
