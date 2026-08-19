@@ -15,7 +15,8 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from starplast import datasets as D  # noqa: E402
+from starplast import datasets as D
+from starplast import fetch_names as FN  # noqa: E402
 
 
 # --------------------------------------------------------------------------- shape
@@ -315,15 +316,32 @@ def test_an_already_downloaded_file_is_re_verified_rather_than_trusted(monkeypat
     assert any("CHECKSUM MISMATCH" in m for m in msgs)
 
 
-def test_the_toxodb_identity_table_is_fetchable_despite_its_url_looking_like_a_page():
+def test_the_toxodb_identity_table_is_fetchable_despite_its_url_looking_like_a_page(monkeypatch):
     """Its tabular report is a POST with a JSON body, so the URL alone looks like a landing page while
     the data is entirely fetchable -- fetch_names has done it all along. Reported as unfetchable, it
-    understated what a clean machine can rebuild."""
+    understated what a clean machine can rebuild.
+
+    With a key, since VEuPathDB closed these reports to anonymous use in August 2026."""
+    monkeypatch.setenv(FN.API_KEY_ENV, "a-key")
     ok, how = D.fetchable("toxodb_identity")
     assert ok and how == "toxodb"
 
 
+def test_without_a_veupathdb_key_the_report_is_reported_as_unfetchable(monkeypatch):
+    """The honest answer once the endpoint closed: not "yes" and not a 401 three frames down.
+
+    A call that had worked hours earlier came back `401 Valid API Key required for this endpoint`,
+    and a guest session does not help -- the service issues one and then answers 403. Saying
+    fetchable would be the same overstatement the old "unfetchable" was, one direction over.
+    """
+    monkeypatch.delenv(FN.API_KEY_ENV, raising=False)
+    for key in ("toxodb_identity", "plasmodb_identity"):
+        ok, how = D.fetchable(key)
+        assert not ok and FN.API_KEY_ENV in how
+
+
 def test_the_toxodb_route_writes_the_identity_table(monkeypatch, tmp_path):
+    monkeypatch.setenv(FN.API_KEY_ENV, "a-key")
     from starplast import paths
     monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
     monkeypatch.setattr(D, "local_path", lambda k: None)
@@ -399,6 +417,7 @@ def test_every_entry_states_what_kind_of_data_it_is():
 
 
 def test_a_failed_toxodb_request_reports_rather_than_raising(monkeypatch, tmp_path):
+    monkeypatch.setenv(FN.API_KEY_ENV, "a-key")
     from starplast import paths
     monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))
     monkeypatch.setattr(D, "local_path", lambda k: None)
@@ -413,13 +432,15 @@ def test_a_failed_toxodb_request_reports_rather_than_raising(monkeypatch, tmp_pa
 
 
 # --------------------------------------------------------------------------- the second site
-def test_the_plasmodb_identity_table_is_fetchable_by_its_own_route():
+def test_the_plasmodb_identity_table_is_fetchable_by_its_own_route(monkeypatch):
     """Same WDK report, different site. Reported as unfetchable it would understate the arm."""
+    monkeypatch.setenv(FN.API_KEY_ENV, "a-key")
     ok, how = D.fetchable("plasmodb_identity")
     assert ok and how == "plasmodb"
 
 
 def test_the_plasmodb_route_asks_the_malaria_site_for_the_malaria_organism(monkeypatch, tmp_path):
+    monkeypatch.setenv(FN.API_KEY_ENV, "a-key")
     """The organism and the URL travel together, or the second arm silently fetches the first one."""
     from starplast import paths
     monkeypatch.setenv(paths.ENV_DATASETS, str(tmp_path))

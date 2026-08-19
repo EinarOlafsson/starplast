@@ -1995,13 +1995,17 @@ def fetchable(key: str) -> tuple:
     d = get(key)
     if not d.url:
         return False, "no download URL recorded"
-    if d.url.startswith(TOXODB):
-        # ToxoDB's tabular report is a POST with a JSON body, so the URL alone looks like a landing
-        # page while the data is entirely fetchable -- fetch_names has done it all along. Reporting it
-        # as unfetchable understated what a clean machine can rebuild by one dataset.
-        return True, "toxodb"
-    if d.url.startswith(PLASMODB):
-        return True, "plasmodb"                  # the same POST, on the malaria site
+    if d.url.startswith((TOXODB, PLASMODB)):
+        # A POST with a JSON body, so the URL alone looks like a landing page while the data is
+        # entirely fetchable -- fetch_names has done it all along. It now needs an API key: VEuPathDB
+        # closed these reports to anonymous use in August 2026, and a guest session is not enough.
+        # Saying "yes, with a key you do not have" would be the same overstatement the old
+        # "unfetchable" was, one direction over.
+        from . import fetch_names
+        site = "toxodb" if d.url.startswith(TOXODB) else "plasmodb"
+        if not fetch_names.api_key():
+            return False, f"needs a VEuPathDB API key ({fetch_names.API_KEY_ENV})"
+        return True, site
     if d.accession and d.accession.startswith("GSE"):
         return True, "geo"                       # the FTP supplementary listing, not the landing page
     if any(h in d.url for h in _PAGE_HOSTS):

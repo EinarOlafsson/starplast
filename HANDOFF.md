@@ -20,12 +20,26 @@ Terminal entry point: `starplast`
 cd /mnt/firecuda2/Claude/repo/starplast        # the working copy on this machine
 pip install -e .            # entry point AND the CUDA stack, on linux/x86_64 -- see below
 pip install -e . --no-deps  # the way to decline the ~2 GB of CUDA wheels
-python -m starplast.fetch_names   # one-off: ToxoDB identity tables (needs network)
+python -m starplast.fetch_names   # one-off: ToxoDB and PlasmoDB identity tables -- NEEDS AN API KEY
 python -m starplast.build_graph   # one-off: rebuilds starplast/data/ (~5 min) -- READ THE NEXT NOTE
 starplast                   # launch
 pytest tests/ -q            # 3,328 tests, headless, no network, ~8 min
 pytest tests/ -q -m slow    # the real build and the pdoc pass, ~2 min
 ```
+
+**VEuPathDB now requires an API key, since 2026-08-19.** Its tabular reports -- the ToxoDB and
+PlasmoDB identity tables, and every attribute report this project fetches through the WDK service --
+answer `401 Valid API Key required for this endpoint` to anonymous callers. A guest session does not
+help: the service issues one and then answers 403. Register on either site, copy the key from
+Profile ▸ Web Services Access, and export it:
+
+```bash
+export VEUPATHDB_API_KEY=<your key>
+```
+
+Nothing in a build depends on this, because the identity tables are committed; the key is needed only
+to REFRESH them, and `datasets.fetchable` now says so rather than claiming those datasets can be
+downloaded. Discovered mid-session, by a call that had succeeded hours earlier.
 
 **`build_graph` needs six trees under one parent, and says nothing when they are missing.** `BASE` is
 the parent of the first dataset root, and loaders join it several different ways, so all of these must
@@ -368,6 +382,7 @@ neither of them says what the other 51 genes are.
 | `../.claude/skills/toxoplasma-scientist/corpus/pubmed_toxoplasma.jsonl` | **33,924 abstracts** with MeSH |
 | `/mnt/wd4tb/skill_corpora/toxoplasma-scientist/*.xml` | open-access full texts, **6,667 at last build** (machine-local) |
 | `starplast/data/toxodb_identity.tsv`, `starplast/data/toxodb_strain_{gt1,veg}.tsv` | symbols, previous IDs, GT1/VEG accessions (committed; `fetch_names.py`) |
+| `starplast/data/plasmodb_identity.tsv` | the same for *P. falciparum* 3D7: symbols, previous IDs, products (committed) |
 | `../toxonet/data/interim/edges_v3.parquet` | **xlms / ip_ms / struct edges, already keyed by TGME49_** |
 | `../starpath_{interactions.csv,crosslinks.json}` | crosslink pairs, residue positions, RH88->ME49 aliases |
 | `../starpath_crosslink_mining/crosslink_satisfaction.csv` | do the Chai-1 models explain the crosslinks |

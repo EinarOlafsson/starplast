@@ -41,14 +41,44 @@ RENAME = {"Gene ID": "gene_id", "Gene Name or Symbol": "gene_name",
           "Product Description": "product"}
 
 
+#: VEuPathDB closed this endpoint to anonymous use, discovered 2026-08-19 when a call that had
+#: worked hours earlier came back `401 Valid API Key required for this endpoint`. A guest session is
+#: not enough -- the service issues one and then answers 403 -- so the key of a registered account is
+#: now required, and it goes in this header.
+API_KEY_ENV = "VEUPATHDB_API_KEY"
+API_KEY_HEADER = "Auth-Key"
+
+#: What to tell someone who has not set one. The URL is the site's own, so it stays right when the
+#: page moves; the instruction is the part that is easy to get wrong.
+API_KEY_HELP = (
+    "VEuPathDB now requires an API key for its tabular reports. Register at toxodb.org or "
+    "plasmodb.org, copy the key from Profile > Web Services Access, and set it in the environment:\n"
+    f"    export {API_KEY_ENV}=<your key>\n"
+    "The identity tables this fetches are COMMITTED, so a build works without it; the key is only "
+    "needed to refresh them.")
+
+
+def api_key() -> str:
+    """The configured VEuPathDB key, or an empty string."""
+    return os.environ.get(API_KEY_ENV, "").strip()
+
+
 def fetch(organism: str, attributes: list, url: str = URL) -> str:
-    """Retrieve a tabular attribute report from ToxoDB or PlasmoDB for one organizm."""
+    """Retrieve a tabular attribute report from ToxoDB or PlasmoDB for one organizm.
+
+    Raises `PermissionError` with instructions when no API key is configured, rather than letting
+    the request come back 401 from three frames down with a message about an endpoint.
+    """
+    key = api_key()
+    if not key:
+        raise PermissionError(API_KEY_HELP)
     body = {"searchConfig": {"parameters": {"organism": json.dumps([organism])}},
             "reportConfig": {"attributes": attributes, "includeHeader": True,
                              "attachmentType": "plain"}}
     req = urllib.request.Request(
         url, data=json.dumps(body).encode(),
-        headers={"Content-Type": "application/json", "User-Agent": "starplast (research)"})
+        headers={"Content-Type": "application/json", "User-Agent": "starplast (research)",
+                 API_KEY_HEADER: key})
     return urllib.request.urlopen(req, timeout=900).read().decode("utf8", "replace")
 
 

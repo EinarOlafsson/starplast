@@ -29,7 +29,7 @@ Rebuilding the cache from the published sources is a separate job and needs the 
 
 ```bash
 python -m starplast.paths            # where data is being resolved from, and what is missing
-python -m starplast.fetch_names      # one-off: ToxoDB symbols, previous and strain accessions
+python -m starplast.fetch_names      # one-off: identity tables; needs VEUPATHDB_API_KEY (they ship committed)
 python -m starplast.build_graph      # ~5 min; writes the cache
 pytest tests/ -q                     # headless, no network
 ```

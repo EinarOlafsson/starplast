@@ -298,6 +298,7 @@ def test_the_request_body_asks_for_the_attributes_it_needs(monkeypatch):
         return Resp()
 
     monkeypatch.setattr(FN.urllib.request, "urlopen", fake_urlopen)
+    monkeypatch.setenv(FN.API_KEY_ENV, "a-key")
     FN.fetch("Toxoplasma gondii ME49", ["primary_key", "gene_previous_ids"])
     assert "gene_previous_ids" in seen["body"]
     assert "Toxoplasma gondii ME49" in seen["body"]
@@ -339,6 +340,7 @@ def test_fetch_names_runs_as_a_module(monkeypatch, tmp_path):
     module would silently write to the real cache instead."""
     from starplast import paths
     monkeypatch.setenv(paths.ENV_CACHE, str(tmp_path))
+    monkeypatch.setenv(FN.API_KEY_ENV, "a-key")
 
     class Resp:
         def read(self):
@@ -447,3 +449,17 @@ def test_the_program_says_how_to_install_the_gpu_stack():
     text = gpu.describe()
     if not any(gpu.available()[k] for k in ("cuml", "cupy", "torch")):
         assert "starplast-gpu" in text or "starplast[gpu]" in text
+
+
+def test_fetching_without_a_key_says_how_to_get_one(monkeypatch):
+    """VEuPathDB closed these reports to anonymous use in August 2026, mid-session.
+
+    The failure to avoid is the one that arrives as `HTTPError: 401` from inside urllib, three
+    frames below anything this project wrote, on a machine where the committed tables mean nothing
+    is actually broken. The message names the environment variable and says the tables are shipped.
+    """
+    monkeypatch.delenv(FN.API_KEY_ENV, raising=False)
+    with pytest.raises(PermissionError) as caught:
+        FN.fetch("Toxoplasma gondii ME49", ["primary_key"])
+    assert FN.API_KEY_ENV in str(caught.value)
+    assert "COMMITTED" in str(caught.value) or "committed" in str(caught.value)
