@@ -254,6 +254,34 @@
             "stage-unspecified": {
               "Tg_host_interaction_degree": {},
               "Tg_host_transcriptional_effect_per_effector": {}
+            },
+            "tachyzoite": {
+              "Tg_host_proteome_human_fibroblast": {},
+              "Tg_host_transcriptome_human_fibroblast": {},
+              "Tg_host_surface_receptor_repertoire_human_fibroblast": {},
+              "Tg_host_response_to_infection_human_fibroblast": {},
+              "Tg_host_proteome_human_monocyte": {},
+              "Tg_host_transcriptome_human_monocyte": {},
+              "Tg_host_surface_receptor_repertoire_human_monocyte": {},
+              "Tg_host_response_to_infection_human_monocyte": {},
+              "Tg_host_proteome_mouse_bone_marrow_macrophage": {},
+              "Tg_host_transcriptome_mouse_bone_marrow_macrophage": {},
+              "Tg_host_surface_receptor_repertoire_mouse_bone_marrow_macrophage": {},
+              "Tg_host_response_to_infection_mouse_bone_marrow_macrophage": {}
+            },
+            "bradyzoite": {
+              "Tg_host_proteome_mouse_brain": {},
+              "Tg_host_transcriptome_mouse_brain": {},
+              "Tg_host_surface_receptor_repertoire_mouse_brain": {},
+              "Tg_host_response_to_infection_mouse_brain": {},
+              "Tg_host_proteome_mouse_skeletal_muscle": {},
+              "Tg_host_transcriptome_mouse_skeletal_muscle": {},
+              "Tg_host_surface_receptor_repertoire_mouse_skeletal_muscle": {},
+              "Tg_host_response_to_infection_mouse_skeletal_muscle": {},
+              "Tg_host_proteome_human_neuron": {},
+              "Tg_host_transcriptome_human_neuron": {},
+              "Tg_host_surface_receptor_repertoire_human_neuron": {},
+              "Tg_host_response_to_infection_human_neuron": {}
             }
           }
         },
@@ -549,6 +577,38 @@
               "Tg_host_interaction_degree": {},
               "Tg_host_transcriptional_effect_per_effector": {}
             }
+          },
+          "tachyzoite": {
+            "unperturbed": {
+              "Tg_host_proteome_human_fibroblast": {},
+              "Tg_host_transcriptome_human_fibroblast": {},
+              "Tg_host_surface_receptor_repertoire_human_fibroblast": {},
+              "Tg_host_response_to_infection_human_fibroblast": {},
+              "Tg_host_proteome_human_monocyte": {},
+              "Tg_host_transcriptome_human_monocyte": {},
+              "Tg_host_surface_receptor_repertoire_human_monocyte": {},
+              "Tg_host_response_to_infection_human_monocyte": {},
+              "Tg_host_proteome_mouse_bone_marrow_macrophage": {},
+              "Tg_host_transcriptome_mouse_bone_marrow_macrophage": {},
+              "Tg_host_surface_receptor_repertoire_mouse_bone_marrow_macrophage": {},
+              "Tg_host_response_to_infection_mouse_bone_marrow_macrophage": {}
+            }
+          },
+          "bradyzoite": {
+            "unperturbed": {
+              "Tg_host_proteome_mouse_brain": {},
+              "Tg_host_transcriptome_mouse_brain": {},
+              "Tg_host_surface_receptor_repertoire_mouse_brain": {},
+              "Tg_host_response_to_infection_mouse_brain": {},
+              "Tg_host_proteome_mouse_skeletal_muscle": {},
+              "Tg_host_transcriptome_mouse_skeletal_muscle": {},
+              "Tg_host_surface_receptor_repertoire_mouse_skeletal_muscle": {},
+              "Tg_host_response_to_infection_mouse_skeletal_muscle": {},
+              "Tg_host_proteome_human_neuron": {},
+              "Tg_host_transcriptome_human_neuron": {},
+              "Tg_host_surface_receptor_repertoire_human_neuron": {},
+              "Tg_host_response_to_infection_human_neuron": {}
+            }
           }
         }
       },
@@ -766,6 +826,18 @@
               }
             }
           }
+        },
+        "human": {
+          "monocyte": {
+            "tachyzoite": {
+              "host effect": {
+                "Tg_host_proteome_human_monocyte": {},
+                "Tg_host_transcriptome_human_monocyte": {},
+                "Tg_host_surface_receptor_repertoire_human_monocyte": {},
+                "Tg_host_response_to_infection_human_monocyte": {}
+              }
+            }
+          }
         }
       },
       "in vivo": {
@@ -789,6 +861,12 @@
             "bradyzoite": {
               "transcription": {
                 "Tg_transcription_purified_bradyzoite_in_vivo": {}
+              },
+              "host effect": {
+                "Tg_host_proteome_mouse_brain": {},
+                "Tg_host_transcriptome_mouse_brain": {},
+                "Tg_host_surface_receptor_repertoire_mouse_brain": {},
+                "Tg_host_response_to_infection_mouse_brain": {}
               }
             },
             "bradyzoite (implied)": {
@@ -840,6 +918,26 @@
               }
             }
           },
+          "macrophage": {
+            "tachyzoite": {
+              "host effect": {
+                "Tg_host_proteome_mouse_bone_marrow_macrophage": {},
+                "Tg_host_transcriptome_mouse_bone_marrow_macrophage": {},
+                "Tg_host_surface_receptor_repertoire_mouse_bone_marrow_macrophage": {},
+                "Tg_host_response_to_infection_mouse_bone_marrow_macrophage": {}
+              }
+            }
+          },
+          "muscle": {
+            "bradyzoite": {
+              "host effect": {
+                "Tg_host_proteome_mouse_skeletal_muscle": {},
+                "Tg_host_transcriptome_mouse_skeletal_muscle": {},
+                "Tg_host_surface_receptor_repertoire_mouse_skeletal_muscle": {},
+                "Tg_host_response_to_infection_mouse_skeletal_muscle": {}
+              }
+            }
+          },
           "gut": {
             "sexual": {
               "fitness": {
@@ -882,6 +980,26 @@
             "stage-unspecified": {
               "immunity": {
                 "Tg_seroreactivity_antigenicity": {}
+              }
+            }
+          },
+          "fibroblast": {
+            "tachyzoite": {
+              "host effect": {
+                "Tg_host_proteome_human_fibroblast": {},
+                "Tg_host_transcriptome_human_fibroblast": {},
+                "Tg_host_surface_receptor_repertoire_human_fibroblast": {},
+                "Tg_host_response_to_infection_human_fibroblast": {}
+              }
+            }
+          },
+          "neuron": {
+            "bradyzoite": {
+              "host effect": {
+                "Tg_host_proteome_human_neuron": {},
+                "Tg_host_transcriptome_human_neuron": {},
+                "Tg_host_surface_receptor_repertoire_human_neuron": {},
+                "Tg_host_response_to_infection_human_neuron": {}
               }
             }
           }
@@ -1150,6 +1268,40 @@
               "Pf_host_interaction_degree": {},
               "Pf_host_transcriptional_effect_per_effector": {},
               "Pf_host_receptor_binding": {}
+            },
+            "merozoite": {
+              "Pf_host_proteome_human_erythrocyte": {},
+              "Pf_host_transcriptome_human_erythrocyte": {},
+              "Pf_host_surface_receptor_repertoire_human_erythrocyte": {},
+              "Pf_host_response_to_infection_human_erythrocyte": {}
+            },
+            "gametocyte": {
+              "Pf_host_proteome_human_bone_marrow": {},
+              "Pf_host_transcriptome_human_bone_marrow": {},
+              "Pf_host_surface_receptor_repertoire_human_bone_marrow": {},
+              "Pf_host_response_to_infection_human_bone_marrow": {}
+            },
+            "liver stage": {
+              "Pf_host_proteome_human_hepatocyte": {},
+              "Pf_host_transcriptome_human_hepatocyte": {},
+              "Pf_host_surface_receptor_repertoire_human_hepatocyte": {},
+              "Pf_host_response_to_infection_human_hepatocyte": {}
+            },
+            "sporozoite": {
+              "Pf_host_proteome_human_dermis": {},
+              "Pf_host_transcriptome_human_dermis": {},
+              "Pf_host_surface_receptor_repertoire_human_dermis": {},
+              "Pf_host_response_to_infection_human_dermis": {},
+              "Pf_host_proteome_anopheles_salivary_gland": {},
+              "Pf_host_transcriptome_anopheles_salivary_gland": {},
+              "Pf_host_surface_receptor_repertoire_anopheles_salivary_gland": {},
+              "Pf_host_response_to_infection_anopheles_salivary_gland": {}
+            },
+            "oocyst": {
+              "Pf_host_proteome_anopheles_midgut": {},
+              "Pf_host_transcriptome_anopheles_midgut": {},
+              "Pf_host_surface_receptor_repertoire_anopheles_midgut": {},
+              "Pf_host_response_to_infection_anopheles_midgut": {}
             }
           }
         },
@@ -1407,6 +1559,50 @@
               "Pf_host_transcriptional_effect_per_effector": {},
               "Pf_host_receptor_binding": {}
             }
+          },
+          "merozoite": {
+            "unperturbed": {
+              "Pf_host_proteome_human_erythrocyte": {},
+              "Pf_host_transcriptome_human_erythrocyte": {},
+              "Pf_host_surface_receptor_repertoire_human_erythrocyte": {},
+              "Pf_host_response_to_infection_human_erythrocyte": {}
+            }
+          },
+          "gametocyte": {
+            "unperturbed": {
+              "Pf_host_proteome_human_bone_marrow": {},
+              "Pf_host_transcriptome_human_bone_marrow": {},
+              "Pf_host_surface_receptor_repertoire_human_bone_marrow": {},
+              "Pf_host_response_to_infection_human_bone_marrow": {}
+            }
+          },
+          "liver stage": {
+            "unperturbed": {
+              "Pf_host_proteome_human_hepatocyte": {},
+              "Pf_host_transcriptome_human_hepatocyte": {},
+              "Pf_host_surface_receptor_repertoire_human_hepatocyte": {},
+              "Pf_host_response_to_infection_human_hepatocyte": {}
+            }
+          },
+          "sporozoite": {
+            "unperturbed": {
+              "Pf_host_proteome_human_dermis": {},
+              "Pf_host_transcriptome_human_dermis": {},
+              "Pf_host_surface_receptor_repertoire_human_dermis": {},
+              "Pf_host_response_to_infection_human_dermis": {},
+              "Pf_host_proteome_anopheles_salivary_gland": {},
+              "Pf_host_transcriptome_anopheles_salivary_gland": {},
+              "Pf_host_surface_receptor_repertoire_anopheles_salivary_gland": {},
+              "Pf_host_response_to_infection_anopheles_salivary_gland": {}
+            }
+          },
+          "oocyst": {
+            "unperturbed": {
+              "Pf_host_proteome_anopheles_midgut": {},
+              "Pf_host_transcriptome_anopheles_midgut": {},
+              "Pf_host_surface_receptor_repertoire_anopheles_midgut": {},
+              "Pf_host_response_to_infection_anopheles_midgut": {}
+            }
           }
         }
       },
@@ -1516,12 +1712,24 @@
             "oocyst": {
               "transcription": {
                 "Pf_transcription_oocyst": {}
+              },
+              "host effect": {
+                "Pf_host_proteome_anopheles_midgut": {},
+                "Pf_host_transcriptome_anopheles_midgut": {},
+                "Pf_host_surface_receptor_repertoire_anopheles_midgut": {},
+                "Pf_host_response_to_infection_anopheles_midgut": {}
               }
             },
             "sporozoite": {
               "transcription": {
                 "Pf_transcription_sporozoite": {},
                 "Pf_transcription_mosquito_stages": {}
+              },
+              "host effect": {
+                "Pf_host_proteome_anopheles_salivary_gland": {},
+                "Pf_host_transcriptome_anopheles_salivary_gland": {},
+                "Pf_host_surface_receptor_repertoire_anopheles_salivary_gland": {},
+                "Pf_host_response_to_infection_anopheles_salivary_gland": {}
               }
             },
             "stage-unspecified": {
@@ -1629,6 +1837,26 @@
               }
             }
           }
+        },
+        "human": {
+          "tissue-unspecified": {
+            "gametocyte": {
+              "host effect": {
+                "Pf_host_proteome_human_bone_marrow": {},
+                "Pf_host_transcriptome_human_bone_marrow": {},
+                "Pf_host_surface_receptor_repertoire_human_bone_marrow": {},
+                "Pf_host_response_to_infection_human_bone_marrow": {}
+              }
+            },
+            "sporozoite": {
+              "host effect": {
+                "Pf_host_proteome_human_dermis": {},
+                "Pf_host_transcriptome_human_dermis": {},
+                "Pf_host_surface_receptor_repertoire_human_dermis": {},
+                "Pf_host_response_to_infection_human_dermis": {}
+              }
+            }
+          }
         }
       },
       "reference or computational": {
@@ -1680,6 +1908,26 @@
             "stage-unspecified": {
               "immunity": {
                 "Pf_seroreactivity_antigenicity": {}
+              }
+            }
+          },
+          "tissue-unspecified": {
+            "merozoite": {
+              "host effect": {
+                "Pf_host_proteome_human_erythrocyte": {},
+                "Pf_host_transcriptome_human_erythrocyte": {},
+                "Pf_host_surface_receptor_repertoire_human_erythrocyte": {},
+                "Pf_host_response_to_infection_human_erythrocyte": {}
+              }
+            }
+          },
+          "liver": {
+            "liver stage": {
+              "host effect": {
+                "Pf_host_proteome_human_hepatocyte": {},
+                "Pf_host_transcriptome_human_hepatocyte": {},
+                "Pf_host_surface_receptor_repertoire_human_hepatocyte": {},
+                "Pf_host_response_to_infection_human_hepatocyte": {}
               }
             }
           }

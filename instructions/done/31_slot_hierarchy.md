@@ -196,6 +196,32 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - stage-unspecified
         - Tg_host_interaction_degree
         - Tg_host_transcriptional_effect_per_effector
+      - tachyzoite
+        - Tg_host_proteome_human_fibroblast
+        - Tg_host_transcriptome_human_fibroblast
+        - Tg_host_surface_receptor_repertoire_human_fibroblast
+        - Tg_host_response_to_infection_human_fibroblast
+        - Tg_host_proteome_human_monocyte
+        - Tg_host_transcriptome_human_monocyte
+        - Tg_host_surface_receptor_repertoire_human_monocyte
+        - Tg_host_response_to_infection_human_monocyte
+        - Tg_host_proteome_mouse_bone_marrow_macrophage
+        - Tg_host_transcriptome_mouse_bone_marrow_macrophage
+        - Tg_host_surface_receptor_repertoire_mouse_bone_marrow_macrophage
+        - Tg_host_response_to_infection_mouse_bone_marrow_macrophage
+      - bradyzoite
+        - Tg_host_proteome_mouse_brain
+        - Tg_host_transcriptome_mouse_brain
+        - Tg_host_surface_receptor_repertoire_mouse_brain
+        - Tg_host_response_to_infection_mouse_brain
+        - Tg_host_proteome_mouse_skeletal_muscle
+        - Tg_host_transcriptome_mouse_skeletal_muscle
+        - Tg_host_surface_receptor_repertoire_mouse_skeletal_muscle
+        - Tg_host_response_to_infection_mouse_skeletal_muscle
+        - Tg_host_proteome_human_neuron
+        - Tg_host_transcriptome_human_neuron
+        - Tg_host_surface_receptor_repertoire_human_neuron
+        - Tg_host_response_to_infection_human_neuron
   - host immunity
     - recognition
       - stage-unspecified
@@ -397,6 +423,34 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - unperturbed
         - Tg_host_interaction_degree
         - Tg_host_transcriptional_effect_per_effector
+    - tachyzoite
+      - unperturbed
+        - Tg_host_proteome_human_fibroblast
+        - Tg_host_transcriptome_human_fibroblast
+        - Tg_host_surface_receptor_repertoire_human_fibroblast
+        - Tg_host_response_to_infection_human_fibroblast
+        - Tg_host_proteome_human_monocyte
+        - Tg_host_transcriptome_human_monocyte
+        - Tg_host_surface_receptor_repertoire_human_monocyte
+        - Tg_host_response_to_infection_human_monocyte
+        - Tg_host_proteome_mouse_bone_marrow_macrophage
+        - Tg_host_transcriptome_mouse_bone_marrow_macrophage
+        - Tg_host_surface_receptor_repertoire_mouse_bone_marrow_macrophage
+        - Tg_host_response_to_infection_mouse_bone_marrow_macrophage
+    - bradyzoite
+      - unperturbed
+        - Tg_host_proteome_mouse_brain
+        - Tg_host_transcriptome_mouse_brain
+        - Tg_host_surface_receptor_repertoire_mouse_brain
+        - Tg_host_response_to_infection_mouse_brain
+        - Tg_host_proteome_mouse_skeletal_muscle
+        - Tg_host_transcriptome_mouse_skeletal_muscle
+        - Tg_host_surface_receptor_repertoire_mouse_skeletal_muscle
+        - Tg_host_response_to_infection_mouse_skeletal_muscle
+        - Tg_host_proteome_human_neuron
+        - Tg_host_transcriptome_human_neuron
+        - Tg_host_surface_receptor_repertoire_human_neuron
+        - Tg_host_response_to_infection_human_neuron
 - provenance and analysis metadata
   - stage-unspecified
     - unperturbed
@@ -558,6 +612,14 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - fitness
           - Tg_fitness_naive_macrophage
           - Tg_fitness_ifn_gamma_macrophage
+  - human
+    - monocyte
+      - tachyzoite
+        - host effect
+          - Tg_host_proteome_human_monocyte
+          - Tg_host_transcriptome_human_monocyte
+          - Tg_host_surface_receptor_repertoire_human_monocyte
+          - Tg_host_response_to_infection_human_monocyte
 - in vivo
   - cat
     - gut
@@ -573,6 +635,11 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - bradyzoite
         - transcription
           - Tg_transcription_purified_bradyzoite_in_vivo
+        - host effect
+          - Tg_host_proteome_mouse_brain
+          - Tg_host_transcriptome_mouse_brain
+          - Tg_host_surface_receptor_repertoire_mouse_brain
+          - Tg_host_response_to_infection_mouse_brain
       - bradyzoite (implied)
         - transcription
           - Tg_transcription_primary_brain_cell_differentiation_time_course
@@ -603,6 +670,20 @@ Slots are the leaves of three independent trees. A single tree would create fals
           - Tg_fitness_gra12_screen_2_differential
         - transcription
           - Tg_transcription_in_vivo_enteric
+    - macrophage
+      - tachyzoite
+        - host effect
+          - Tg_host_proteome_mouse_bone_marrow_macrophage
+          - Tg_host_transcriptome_mouse_bone_marrow_macrophage
+          - Tg_host_surface_receptor_repertoire_mouse_bone_marrow_macrophage
+          - Tg_host_response_to_infection_mouse_bone_marrow_macrophage
+    - muscle
+      - bradyzoite
+        - host effect
+          - Tg_host_proteome_mouse_skeletal_muscle
+          - Tg_host_transcriptome_mouse_skeletal_muscle
+          - Tg_host_surface_receptor_repertoire_mouse_skeletal_muscle
+          - Tg_host_response_to_infection_mouse_skeletal_muscle
     - gut
       - sexual
         - fitness
@@ -629,6 +710,20 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - stage-unspecified
         - immunity
           - Tg_seroreactivity_antigenicity
+    - fibroblast
+      - tachyzoite
+        - host effect
+          - Tg_host_proteome_human_fibroblast
+          - Tg_host_transcriptome_human_fibroblast
+          - Tg_host_surface_receptor_repertoire_human_fibroblast
+          - Tg_host_response_to_infection_human_fibroblast
+    - neuron
+      - bradyzoite
+        - host effect
+          - Tg_host_proteome_human_neuron
+          - Tg_host_transcriptome_human_neuron
+          - Tg_host_surface_receptor_repertoire_human_neuron
+          - Tg_host_response_to_infection_human_neuron
 - reference or computational
   - no host
     - tissue-unspecified

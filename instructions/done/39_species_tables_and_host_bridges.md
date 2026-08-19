@@ -1,6 +1,76 @@
 # 39 — One table per species, host tables beside them, and bridges rather than merges
 
-**Status: open. Design settled 2026-08-15 with the user; implementation not started.**
+**Status: structure DONE 2026-08-18; the host DATA is an acquisition campaign.**
+
+## What closed
+
+All four acceptance criteria are tests, from 2026-08-18: the column partition holds per species (run
+per species it failed first time -- seven orphaned Plasmodium columns, which the slot tree's orphan
+alarm surfaced one day after it was built), a transferred column does not survive its own family's
+hold-out, a bridge slot names both ends, and host columns never appear in a parasite embedding.
+
+**The 48 host slots are now declared, and they are declared EMPTY with a verdict each.** Six host
+contexts per arm, four questions each:
+
+    Tg   human fibroblast, human monocyte, mouse bone-marrow macrophage,
+         mouse brain, mouse skeletal muscle, human neuron
+    Pf   human erythrocyte, human bone marrow, human hepatocyte, human dermis,
+         Anopheles midgut, Anopheles salivary gland
+
+Per tissue rather than per host species, as this instruction requires: for Plasmodium the mosquito
+and the human are sequential hosts rather than alternatives, and a fibroblast and a neuron are not
+interchangeable for Toxoplasma. Averaging them answers neither.
+
+The four questions per tissue carry different policies for a reason. A proteome and a transcriptome
+are AVERAGED because replicates of one thing should be. A surface/receptor repertoire is FILLED
+because absence is the answer -- a receptor nobody detected is the finding. A response to infection
+is kept SEPARATE because the disagreement between infected and uninfected IS the signal.
+
+**A host_gene slot can never be a parasite feature, and that is now a rule rather than 48 overrides.**
+The claim it protects: "cluster 5 is 71% IMC" assumes every ROW is a parasite gene.
+
+## The number moved, and reading it as a fall would be wrong
+
+The combined atlas went 159/223 to 159/271. The parasite-gene slots did not move -- they are still
+141 of 198. The generator now reports per unit as well as combined, because four units in one
+headline hides which one changed:
+
+    gene        141/198   71%
+    host_gene     0/ 48    0%
+    metabolite    3/  6   50%
+    pair         15/ 19   79%
+
+Declaring 48 questions we cannot yet answer LOWERS the headline and RAISES what the catalogue knows
+about itself, which is the same trade the empty parasite slots already make.
+
+## The first host source is downloaded and verified, and verifying it corrected the plan
+
+**Human Protein Atlas consensus tissue RNA**, retrieved 2026-08-18 through the archive machinery so
+it carries a checksum and a manifest row: 5,293,680 bytes, sha256 `b001903da23f...`, 1,026,292 rows,
+**20,162 genes across 51 tissues**.
+
+Read rather than assumed, and the reading matters: **our twelve host contexts are a mixture of
+TISSUES and CELL TYPES, and HPA splits those across two different files.**
+
+| host slot | in HPA consensus tissue? | what actually serves it |
+|---|---|---|
+| human bone marrow | **yes** | this file |
+| human dermis | **yes**, as `skin` | this file |
+| human fibroblast, monocyte, neuron, hepatocyte, erythrocyte | **no** — cell types, not tissues | `rna_single_cell_type.tsv.zip`, 16 MB, reachable |
+| mouse brain, skeletal muscle, bone-marrow macrophage | **no** — HPA is human only | Tabula Muris |
+| Anopheles midgut, salivary gland | **no** | VectorBase |
+
+So one resource does not fill the axis, and the `would_fill_it` verdicts written an hour earlier said
+"HPA and GTEx" for slots HPA cannot serve. That is the distinction between naming a resource and
+checking it, and it is the same lesson this project keeps relearning at a different level: a source's
+own label -- "tissue" -- did not mean what the slot needed.
+
+## What remains: acquisition
+
+Every host slot names its resource in `would_fill_it` -- HPA, GTEx, PRIDE, Tabula Muris, VectorBase --
+and the work is resolving accessions, downloading, and keying to host identifiers. The host table
+today is 652 proteins from one MYR1 pulldown: a bridge between two tables, not a proteome of any
+tissue.
 
 ## The shape
 

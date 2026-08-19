@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**119 slots: 62 covered well, 16 partly, 38 thinly, 3 empty.**
+**143 slots: 62 covered well, 16 partly, 38 thinly, 27 empty.**
 
 ### transcription
 
@@ -203,6 +203,30 @@ quantity were approximating on 2026-08-13.
 |---|---|---|---|---|---|---|---|
 | Tg_host interaction degree | curated parasite-host interactions | **A** | 8140 | 100.0% | `n_host_targets` | one | — |
 | Tg_host transcriptional effect per effector | dual perturb-seq | **C** | 252 | 3.1% | `hosttx_T2, hosttx_signature_` | separate | **High-throughput identification of Toxoplasma gondii effector proteins that target host cell transcription.** (Cell host & microbe 2023) [37827122](https://pubmed.ncbi.nlm.nih.gov/37827122/) `GSE229505` |
+| Tg_host proteome · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  | `` | average | — |
+| Tg_host transcriptome · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  | `` | average | — |
+| Tg_host surface / receptor repertoire · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  | `` | fill | — |
+| Tg_host response to infection · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  | `` | separate | — |
+| Tg_host proteome · human monocyte | human monocyte; tachyzoite, infected monocyte | **-** |  |  | `` | average | — |
+| Tg_host transcriptome · human monocyte | human monocyte; tachyzoite, infected monocyte | **-** |  |  | `` | average | — |
+| Tg_host surface / receptor repertoire · human monocyte | human monocyte; tachyzoite, infected monocyte | **-** |  |  | `` | fill | — |
+| Tg_host response to infection · human monocyte | human monocyte; tachyzoite, infected monocyte | **-** |  |  | `` | separate | — |
+| Tg_host proteome · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **-** |  |  | `` | average | — |
+| Tg_host transcriptome · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **-** |  |  | `` | average | — |
+| Tg_host surface / receptor repertoire · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **-** |  |  | `` | fill | — |
+| Tg_host response to infection · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **-** |  |  | `` | separate | — |
+| Tg_host proteome · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  | `` | average | — |
+| Tg_host transcriptome · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  | `` | average | — |
+| Tg_host surface / receptor repertoire · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  | `` | fill | — |
+| Tg_host response to infection · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  | `` | separate | — |
+| Tg_host proteome · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  | `` | average | — |
+| Tg_host transcriptome · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  | `` | average | — |
+| Tg_host surface / receptor repertoire · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  | `` | fill | — |
+| Tg_host response to infection · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  | `` | separate | — |
+| Tg_host proteome · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  | `` | average | — |
+| Tg_host transcriptome · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  | `` | average | — |
+| Tg_host surface / receptor repertoire · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  | `` | fill | — |
+| Tg_host response to infection · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  | `` | separate | — |
 
 ### NEVER a feature
 

@@ -579,6 +579,64 @@ def _pf_mirror(rows):
 
 #: Malaria-specific slots: questions with no Toxoplasma counterpart, kept out of the shared list so
 #: the shared list stays a statement about apicomplexan biology rather than a union of two lists.
+#: The host contexts each parasite stage actually lives in, and the resource that would fill a slot
+#: about them. Instruction 39, and the tissue is the unit rather than the host SPECIES: "one slot per
+#: host species, not a warm-blooded host fill" -- for Plasmodium the mosquito and the human are
+#: sequential hosts rather than alternatives, and for Toxoplasma a fibroblast and a neuron are not
+#: interchangeable. Averaging them answers neither.
+#:
+#: These are declared EMPTY on purpose. The host table today is 652 proteins from one MYR1 pulldown --
+#: a bridge, not a tissue proteome -- so every slot below names a question the map keeps raising and
+#: cannot settle: is the host partner this parasite protein binds even present in the tissue this
+#: stage lives in?
+HOST_CONTEXTS_TG = (
+    ("human fibroblast", "tachyzoite, in vitro HFF"),
+    ("human monocyte", "tachyzoite, infected monocyte"),
+    ("mouse bone-marrow macrophage", "tachyzoite, BMDM"),
+    ("mouse brain", "bradyzoite, chronic CNS infection"),
+    ("mouse skeletal muscle", "bradyzoite, chronic muscle infection"),
+    ("human neuron", "bradyzoite, neuronal cyst"),
+)
+HOST_CONTEXTS_PF = (
+    ("human erythrocyte", "asexual blood stage and merozoite"),
+    ("human bone marrow", "gametocyte, sequestered"),
+    ("human hepatocyte", "liver stage and hypnozoite"),
+    ("human dermis", "sporozoite, after the bite"),
+    ("Anopheles midgut", "ookinete and oocyst"),
+    ("Anopheles salivary gland", "sporozoite, before the bite"),
+)
+
+#: What can be asked about a host tissue, and what would answer it. The policies differ for a reason:
+#: a proteome and a transcriptome of one tissue are averaged because replicates of the same thing
+#: should be; a receptor repertoire is FILLED because absence is the answer -- a receptor nobody
+#: detected is the finding; and a response to infection is kept SEPARATE because the disagreement
+#: between infected and uninfected IS the signal and averaging destroys it.
+HOST_FAMILIES = (
+    ("host proteome", "average",
+     "PRIDE tissue and cell-type proteomes; Human Protein Atlas protein-level tissue data"),
+    ("host transcriptome", "average",
+     "GTEx and the Human Protein Atlas for human tissue; Tabula Muris for mouse; VectorBase for "
+     "Anopheles"),
+    ("host surface / receptor repertoire", "fill",
+     "surface-proteome and cell-surface-capture studies in PRIDE, checked against HPA membrane "
+     "annotation; this is what a binding claim gets checked against"),
+    ("host response to infection", "separate",
+     "dual RNA-seq and infected-versus-uninfected series in GEO and ArrayExpress, kept as the "
+     "contrast rather than the condition"),
+)
+
+
+def _host_slots(contexts):
+    """One slot per (tissue, question). Generated rather than written out forty times, so that
+    adding a tissue is one line and cannot half-happen."""
+    out = []
+    for tissue, occupancy in contexts:
+        for family, policy, _resource in HOST_FAMILIES:
+            out.append((f"{family} · {tissue}", "host effect", f"{tissue}; {occupancy}",
+                        "host_gene", [], policy))
+    return out
+
+
 NEW_PLASMODIUM = [
     # The compositional half of PXD016378, and its own slot rather than `protein abundance`, which
     # stays empty on purpose. Row sums are constant (12.07 +/- 0.20) and the stages anti-correlate,
@@ -619,10 +677,10 @@ NEW_PLASMODIUM = [
     ("export / PEXEL trafficking", "localization", "erythrocyte cytosol", "gene", [], "one"),
     ("host receptor binding", "host effect", "endothelium, erythrocyte", "gene", [], "separate"),
     ("field variation and resistance markers", "sequence", "clinical isolates", "gene", [], "one"),
-]
+] + _host_slots(HOST_CONTEXTS_PF)
 
 #: Toxoplasma-specific slots, for the same reason in the other direction.
-NEW_TOXOPLASMA = [
+NEW_TOXOPLASMA = _host_slots(HOST_CONTEXTS_TG) + [
     ("transcription · in vivo enteric", "transcription", "feline enterocyte", "gene",
      ["ees_vs_tachyzoite_log2"], "one"),
     # CURATED, and the third slot filled that way. The sweeps that closed this looked for a POOLED
@@ -1331,7 +1389,12 @@ def _definition(row, organism: str) -> dict:
     else:
         name, axis, context, unit, fills, policy, candidates = row
     override = SLOT_OVERRIDES.get(name, {})
-    role = override.get("role", "never" if axis == "NEVER a feature" else "feature")
+    # A host_gene slot can NEVER be a parasite feature, and that is a property of the unit rather
+    # than a choice per slot -- so it is a rule here instead of 48 identical overrides. The claim it
+    # protects: "cluster 5 is 71% IMC" assumes every ROW is a parasite gene, and a host table's
+    # columns entering a parasite embedding would break that silently.
+    role = override.get("role", "never" if axis == "NEVER a feature" or unit == "host_gene"
+                        else "feature")
     registry = registry_text(fills)
     facets = _facets(name, context, registry, organism)
     evidence = override.get("evidence_path", EVIDENCE_PATHS.get(axis, ("other", axis)))
@@ -1547,6 +1610,36 @@ BLOCKED = {
         "this slot read as filled by a column that is one amino acid in disguise. They are refused.",
         "Pulse-SILAC or a cycloheximide chase with proteome-wide degradation rates."),
 }
+
+
+def _host_verdicts():
+    """A verdict for every host slot, composed from the resource table rather than typed 48 times.
+
+    The slot atlas refuses an empty slot without one, and rightly: an empty slot with no verdict is
+    indistinguishable from a slot nobody has looked at, while one carrying `blocked_by`, `searched`
+    and `would_fill_it` is a stated acquisition target. These are all "missing" rather than
+    "searched to the bottom" -- the resources exist and are public, and what is absent is the work of
+    resolving, downloading and keying them to host identifiers, which is instruction 39's remaining
+    half rather than a gap in the literature.
+    """
+    out = {}
+    for organism, contexts in (("Tg", HOST_CONTEXTS_TG), ("Pf", HOST_CONTEXTS_PF)):
+        for tissue, occupancy in contexts:
+            for family, _policy, resource in HOST_FAMILIES:
+                out[f"{organism}_{family} \u00b7 {tissue}"] = (
+                    "missing",
+                    f"Not yet swept. The host table today is 652 proteins from one MYR1 pulldown -- "
+                    f"a bridge between two tables, not a proteome of {tissue}.",
+                    f"{resource}. Rows are host genes, keyed to UniProt or Ensembl, and they never "
+                    f"enter a parasite embedding as feature columns: a parasite map whose rows were "
+                    f"partly host genes would break every claim of the form \u201ccluster 5 is 71% "
+                    f"IMC\u201d, which assumes the rows are parasite genes. This one answers "
+                    f"whether the host partner a {occupancy} protein binds is present in "
+                    f"{tissue} at all.")
+    return out
+
+
+BLOCKED.update(_host_verdicts())
 
 
 def grade(frac: float, filled: bool, unit: str) -> str:
@@ -1802,6 +1895,17 @@ def main() -> int:
     print(f"  A {sum(1 for r in rows if r['grade'] == 'A')}   "
           f"B {sum(1 for r in rows if r['grade'] == 'B')}   "
           f"C {sum(1 for r in rows if r['grade'] == 'C')}   empty {empty}")
+    # Per unit as well as combined, because they are different denominators answering different
+    # questions. Adding 48 host-tissue slots on 2026-08-18 took the combined figure from 159/223 to
+    # 159/271, and reading that as a fall in parasite coverage would be wrong: the parasite-gene
+    # slots did not move. A single headline number over four units hides which one changed.
+    by_unit = {}
+    for row in rows:
+        filled, total = by_unit.get(row["unit"], (0, 0))
+        by_unit[row["unit"]] = (filled + (row["grade"] != "-"), total + 1)
+    for unit, (filled, total) in sorted(by_unit.items()):
+        print(f"    {unit:11} {filled:3}/{total:3}"
+              + (f"  {100 * filled / total:3.0f}%" if total else ""))
     return len(rows)
 
 

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**104 slots: 32 covered well, 3 partly, 8 thinly, 61 empty.**
+**128 slots: 32 covered well, 3 partly, 8 thinly, 85 empty.**
 
 ### transcription
 
@@ -187,6 +187,30 @@ quantity were approximating on 2026-08-13.
 | Pf_host interaction degree | curated parasite-host interactions | **C** | 117 | 2.0% | `n_host_targets` | one | — |
 | Pf_host transcriptional effect per effector | dual perturb-seq | **-** |  |  | `` | separate | — |
 | Pf_host receptor binding | endothelium, erythrocyte | **-** |  |  | `` | separate | **MAHRP2 is required for tether formation and cytoadherence in Plasmodium falciparum infected red blood cells.** (Frontiers in cellular and infection microbiology 2026) [42291314](https://pubmed.ncbi.nlm.nih.gov/42291314/)<br>verify assay and parasite-gene shape)<br>**Predictive value of PfEMP1 antibody profiles for the course of controlled human malaria infections.** (PLoS pathogens 2026) [42341059](https://pubmed.ncbi.nlm.nih.gov/42341059/)<br>verify assay and parasite-gene shape)<br>**G6PD deficiency and the exportome of plasmodium falciparum FCB-2: a comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.** (Parasitology research 2026) [42390622](https://pubmed.ncbi.nlm.nih.gov/42390622/)<br>verify assay and parasite-gene shape) |
+| Pf_host proteome · human erythrocyte | human erythrocyte; asexual blood stage and merozoite | **-** |  |  | `` | average | — |
+| Pf_host transcriptome · human erythrocyte | human erythrocyte; asexual blood stage and merozoite | **-** |  |  | `` | average | — |
+| Pf_host surface / receptor repertoire · human erythrocyte | human erythrocyte; asexual blood stage and merozoite | **-** |  |  | `` | fill | — |
+| Pf_host response to infection · human erythrocyte | human erythrocyte; asexual blood stage and merozoite | **-** |  |  | `` | separate | — |
+| Pf_host proteome · human bone marrow | human bone marrow; gametocyte, sequestered | **-** |  |  | `` | average | — |
+| Pf_host transcriptome · human bone marrow | human bone marrow; gametocyte, sequestered | **-** |  |  | `` | average | — |
+| Pf_host surface / receptor repertoire · human bone marrow | human bone marrow; gametocyte, sequestered | **-** |  |  | `` | fill | — |
+| Pf_host response to infection · human bone marrow | human bone marrow; gametocyte, sequestered | **-** |  |  | `` | separate | — |
+| Pf_host proteome · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  | `` | average | — |
+| Pf_host transcriptome · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  | `` | average | — |
+| Pf_host surface / receptor repertoire · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  | `` | fill | — |
+| Pf_host response to infection · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  | `` | separate | — |
+| Pf_host proteome · human dermis | human dermis; sporozoite, after the bite | **-** |  |  | `` | average | — |
+| Pf_host transcriptome · human dermis | human dermis; sporozoite, after the bite | **-** |  |  | `` | average | — |
+| Pf_host surface / receptor repertoire · human dermis | human dermis; sporozoite, after the bite | **-** |  |  | `` | fill | — |
+| Pf_host response to infection · human dermis | human dermis; sporozoite, after the bite | **-** |  |  | `` | separate | — |
+| Pf_host proteome · Anopheles midgut | Anopheles midgut; ookinete and oocyst | **-** |  |  | `` | average | — |
+| Pf_host transcriptome · Anopheles midgut | Anopheles midgut; ookinete and oocyst | **-** |  |  | `` | average | — |
+| Pf_host surface / receptor repertoire · Anopheles midgut | Anopheles midgut; ookinete and oocyst | **-** |  |  | `` | fill | — |
+| Pf_host response to infection · Anopheles midgut | Anopheles midgut; ookinete and oocyst | **-** |  |  | `` | separate | — |
+| Pf_host proteome · Anopheles salivary gland | Anopheles salivary gland; sporozoite, before the bite | **-** |  |  | `` | average | — |
+| Pf_host transcriptome · Anopheles salivary gland | Anopheles salivary gland; sporozoite, before the bite | **-** |  |  | `` | average | — |
+| Pf_host surface / receptor repertoire · Anopheles salivary gland | Anopheles salivary gland; sporozoite, before the bite | **-** |  |  | `` | fill | — |
+| Pf_host response to infection · Anopheles salivary gland | Anopheles salivary gland; sporozoite, before the bite | **-** |  |  | `` | separate | — |
 
 ### NEVER a feature
 
