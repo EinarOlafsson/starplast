@@ -416,7 +416,7 @@ real time to find. Tasks 30–34 landed together in v0.31.0.
 
 ```
 Read /mnt/firecuda2/Claude/repo/starplast/instructions/START_HERE.md and HANDOFF.md, then
-continue starplast. The working tree is v0.39.0; 3,371 tests pass headless with every module at
+continue starplast. The working tree is v0.40.0; 3,378 tests pass headless with every module at
 100% coverage. Check `git status` before assuming it has been published. Do not re-derive the design
 decisions in that file.
 Next: <state what you want>.
@@ -509,7 +509,7 @@ but not committed — it happened to 42, 43 and 47. If a "DONE" record looks emp
 
 ## State of the application — verified 2026-08-14 (v0.31.0)
 
-**3,371 tests pass headless** (`pytest tests/ -q`, ~9 min) and **every module is at 100% coverage**
+**3,378 tests pass headless** (`pytest tests/ -q`, ~9 min) and **every module is at 100% coverage**
 (9,983 statements). No `pragma: no cover` anywhere: a Qt-thread body is covered by calling it
 directly, and a branch that genuinely cannot run is deleted. Two functions were deleted in the last
 pass on that rule, and writing one of the missing tests found a real defect in `objectives.adjusted`.
