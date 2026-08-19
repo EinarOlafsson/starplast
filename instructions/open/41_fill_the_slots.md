@@ -1,6 +1,43 @@
 # 41 — Fill as many slots as possible: Toxoplasma, Plasmodium, and host
 
-**Status: open. Requested 2026-08-15.** This is the acquisition campaign. 39 defines the tables and
+**Status: open. Requested 2026-08-15.**
+
+## The work queue, as it stands 2026-08-18: seventeen slots are past discovery
+
+Checked rather than assumed, and it changes what the next session should do first. Of the 54 empty
+Plasmodium gene slots, **seventeen already carry resolved candidate studies** from the earlier
+candidate passes -- accession, title, year and journal, merged onto the slot by
+`_merge_candidate_references`. For these the remaining work is fetch, verify, key to Pf accessions
+and load; discovery is done.
+
+| slot | candidates | first candidate |
+|---|---|---|
+| `Pf_resistance-conferring mutation` | 8 | 24533298: Identification of mutations in TgMAPK1 of Toxoplasma gondii conferring resista |
+| `Pf_invasion and egress phenotype` | 7 | 35538310: A splitCas9 phenotypic screen in Toxoplasma gondii identifies proteins involve |
+| `Pf_essentiality in a second background` | 7 | eight passages in the differentiation reporter strain | 41686849: LAMP-coupled CRISPR-Ca |
+| `Pf_metabolite levels` | 6 | 38928131: Mechanisms Underlying the Effects of Chloroquine on Red Blood Cells Metabolism |
+| `Pf_metabolic flux` | 6 | 35064153: Metabolic adjustments of blood-stage Plasmodium falciparum in response to subl |
+| `Pf_lipid composition` | 6 | 41964222: Deoxy-Piezo1 hyperactivity elevates pump-leak fluxes and lactate production in |
+| `Pf_target engagement / thermal shift` | 6 | 42451739: Essential Oil of Symplocos chinensis (Lour.) Druce: Chemical Composition, Anti |
+| `Pf_RNA-binding protein targets` | 6 | 33207342: The Route of Infection Influences the Contribution of Key Immunity Genes to An |
+| `Pf_transcription · liver stage` | 6 | 38657074: Autonomous circadian rhythms in the human hepatocyte regulate hepatic drug met |
+| `Pf_transcription · mosquito stages` | 6 | 41510253: A divergent Plasmodium NEK4 acts as a key regulator driving the early events o |
+| `Pf_transcription · dormancy / recrudescence` | 6 | 42374402: Mapping the intellectual landscape of malaria drug repurposing: a systematic a |
+| `Pf_fitness · liver stage` | 6 | 39714137: Autophagy protein Atg7 is essential for maintaining malaria parasite cellular  |
+| `Pf_fitness · transmission` | 6 | 42457405: Engineered promoter system enables high-efficiency transgenic CRISPR editing i |
+| `Pf_antigenic variation family expression` | 6 | 34389510: Plasmodium falciparum SET2 domain is allosterically regulated by its PHD-like  |
+| `Pf_host receptor binding` | 6 | 42291314: MAHRP2 is required for tether formation and cytoadherence in Plasmodium falcip |
+| `Pf_field variation and resistance markers` | 6 | 42557356: Genomic surveillance reveals co-occurrence of Plasmodium falciparum drug resis |
+| `Pf_host ESCRT recruitment` | 1 | pooled image-based CRISPR screen of secretory proteins |
+
+The other 37 empty Pf slots have no resolved candidate and still need the search.
+
+**The dangerous step is the load, not the download.** `build_graph` exits 0 while losing data, so
+every fill must diff the rebuilt cache against the previous one on columns gained, columns LOST, and
+per-column coverage in BOTH directions -- presence alone has already missed a 4-gene regression and a
+1,306-value wipe in columns that still existed, and coverage going UP is how two identity-layer bugs
+surfaced.
+ This is the acquisition campaign. 39 defines the tables and
 40 the window to check them in; this one puts data in.
 
 ## Where it stands
