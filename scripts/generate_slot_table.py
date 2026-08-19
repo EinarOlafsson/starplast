@@ -515,20 +515,32 @@ STUDY_SPECIFIC = ("gra1", "gra2", "delta-", "screen 1", "screen 2", "hyperlopit"
                   "ortholopit", "(young", "(sidik", "(barylyuk")
 
 
-def _no_toxoplasma_columns(row):
-    """A shared slot asked of Plasmodium, with the column patterns stripped.
+def _no_toxoplasma_content(row):
+    """A shared slot asked of Plasmodium, with everything Toxoplasma-specific stripped.
 
-    `NEW_SHARED` is the list of questions both parasites have, and a pattern written there is a
-    column of the TOXOPLASMA node table -- that is the only table these patterns can refer to. Left
-    in place, the Plasmodium copy of the slot claims Toxoplasma's columns and reads as filled by data
-    about the other organism. `codon_` did exactly that: three Toxoplasma sequence columns flipped
-    the Plasmodium codon-usage slot to filled the day they were added.
+    `NEW_SHARED` is the list of questions both parasites have, and BOTH of the per-slot fields
+    written there are about Toxoplasma. A pattern is a column of the TOXOPLASMA node table -- that
+    is the only table these patterns can refer to -- and a candidate is a Toxoplasma paper, because
+    the citation was found while filling the Toxoplasma copy of the question.
 
-    `_pf_mirror` already drops patterns for the same reason. This is the same rule for the other two
-    lists that reach the Plasmodium arm.
+    Left in place, the patterns make the Plasmodium slot read as filled by data about the other
+    organism: `codon_` did exactly that, flipping the Plasmodium codon-usage slot the day three
+    Toxoplasma sequence columns were added. The candidates are the same fault one field over, and
+    they shipped: `Pf_resistance-conferring mutation` published two TgMAPK1 papers as the studies
+    that would fill it, `Pf_invasion and egress phenotype` a Toxoplasma splitCas9 screen, and
+    `Pf_complex membership` a Toxoplasma crosslinking interactome -- seven citations across five
+    slots, each naming the wrong parasite. A wrong candidate is worse than an empty slot, because an
+    empty slot is honest, and this one had a work queue built on top of it.
+
+    This is the fifth place the same rule has had to be enforced, after `declared_columns`,
+    `resolve`, `is_filled`'s edge branch and its bridge branch: where the two arms share a NAME, the
+    thing that distinguishes them must be the DATA. `_pf_mirror` already drops both fields; this is
+    the same rule for the other list that reaches the Plasmodium arm.
     """
     row = list(row)
     row[4] = []
+    if len(row) > 6:
+        row[6] = []
     return tuple(row)
 
 
@@ -1524,7 +1536,7 @@ def all_slots(organism: str | None = None) -> list:
     toxo = ([_definition(row, "Tg") for row in SLOTS]
             + [_definition(row, "Tg") for row in NEW_SHARED + NEW_TOXOPLASMA])
     pf = ([_definition(_with_pf_patterns(row), "Pf") for row in _pf_mirror(SLOTS)]
-          + [_definition(_with_pf_patterns(_no_toxoplasma_columns(row)), "Pf")
+          + [_definition(_with_pf_patterns(_no_toxoplasma_content(row)), "Pf")
              for row in NEW_SHARED]
           + [_definition(_with_pf_patterns(row), "Pf") for row in NEW_PLASMODIUM])
     out = toxo + pf

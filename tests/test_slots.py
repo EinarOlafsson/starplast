@@ -560,3 +560,55 @@ def test_no_leaf_group_lumps_the_life_cycle_stages_together():
         biggest = max(len(m) for m in groups.values())
         assert biggest <= 20, (
             f"{hierarchy}: one leaf group holds {biggest} slots, which cannot be held out as a class")
+
+
+def _generator():
+    """The slot-table generator, loaded from scripts/ where it lives."""
+    import importlib.util
+    import os
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    spec = importlib.util.spec_from_file_location(
+        "gst", os.path.join(root, "scripts", "generate_slot_table.py"))
+    gst = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gst)
+    return gst
+
+
+def test_a_shared_question_does_not_hand_its_toxoplasma_citations_to_plasmodium(monkeypatch):
+    """A candidate written beside a shared slot is a Toxoplasma paper, and it shipped as a Pf one.
+
+    `NEW_SHARED` holds the questions both parasites have, and both of its per-slot fields are about
+    Toxoplasma: a pattern names a column of the Toxoplasma table, and a citation was found while
+    filling the Toxoplasma copy. The patterns were already stripped -- `codon_` flipped the
+    Plasmodium codon-usage slot the day it arrived -- and the candidates were not, so five Pf slots
+    published seven Toxoplasma studies as the work that would fill them: two TgMAPK1 resistance
+    papers, a Toxoplasma splitCas9 screen, a Toxoplasma crosslinking interactome, the Toxoplasma
+    IEDB epitope query and an unpublished Toxoplasma imaging screen.
+
+    That is worse than an empty slot, which is at least honest, and a work queue had been built on
+    top of it. The check is structural rather than a search for the word Toxoplasma, because the
+    ESCRT citation names no organism at all: with the candidate file out of the way, a Plasmodium
+    slot may only carry candidates that were written for the Plasmodium arm.
+    """
+    gst = _generator()
+    monkeypatch.setattr(gst, "CANDIDATES_JSON", "/nonexistent/no_candidates.json")
+    own = {row[0] for row in gst.NEW_PLASMODIUM}
+    borrowed = {row["name"]: row["candidates"] for row in gst.all_slots("Pf")
+                if row["candidates"] and row["name"] not in own}
+    assert not borrowed, (
+        f"Plasmodium slots carrying citations written for the Toxoplasma arm: {borrowed}")
+
+
+def test_no_plasmodium_candidate_names_the_other_parasite():
+    """The same rule against the shipped catalog, where a hand-typed citation would also land.
+
+    The structural test above cannot see a Toxoplasma paper added to the Plasmodium arm's own
+    candidate file, so this one reads what the package actually ships. Whole-word matching, because
+    `Tg` is inside `TgAMA1` and inside nothing else that matters, and substring matching has now cost
+    this project three separate incidents.
+    """
+    import re
+    names = re.compile(r"\b(toxoplasma|gondii|tgme49|tggt1|tgveg)\b", re.I)
+    offenders = [(slot.name, c) for slot in slots.all_slots("Pf")
+                 for c in slot.candidates if names.search(" ".join(str(p) for p in c))]
+    assert not offenders, f"Plasmodium slots citing Toxoplasma work: {offenders}"
