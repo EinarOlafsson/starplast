@@ -2403,3 +2403,125 @@ gets both right. Both rows are pinned by tests.
 Degree is missing outside the experiment: four pulldowns are not a survey of the proteome, and a zero
 would say *nothing binds this* about a protein nobody tested — the same rule the EV proteome forced
 two passes ago.
+
+## Forty-third pass: the cycle is a circle, and a refusal that took three reasons
+
+**Toxoplasma 116 of 143. Plasmodium 49 of 128. Combined 165 of 271** — gene 146/198, pair 16/19.
+
+### `Pf_cell-cycle timing label`, filled by a phase rather than by an argmax
+
+**GSE163144** (PMID 34668757) synchronises parasites at invasion and samples every three hours for
+48 hours: sixteen timepoints, two replicates, in a square that crosses two haemoglobin genotypes with
+two parasite lines. Only one cell of that square is a reference — **3D7 in normal (HbAA) red cells** —
+and which sample is which comes from the deposit's metadata file, since the sample titles encode the
+genotype and not the hour. The values are TPM and sum to 1e6 exactly, checked rather than assumed.
+
+**The argmax was wrong, and it announced itself.** Taking each gene's largest timepoint put 53% of
+the genome in the last two hours or the first, and placed AMA1 and PTRAMP — textbook invasion
+transcripts — at hour 3. Both facts have one cause: *the axis wraps*. Hour 48 is hour 0 of the next
+cycle, a culture synchronised at invasion still carries the merozoite's mRNA, and an argmax on a
+linear axis splits the invasion peak between the two ends.
+
+So the peak is the phase of the first Fourier harmonic, which is the standard reading of a
+cell-cycle transcriptome and has no ends to pile against. `cellcycle.cyclic_phase` lives in the
+shared module rather than in the Plasmodium loader, because the construction is not about either
+parasite: it is what a time course around a closed loop means. The markers then land where the
+biology says — MSP1 45.7 h, SERA5 42.9 h, RhopH2 36.2 h, KAHRP 25.1 h, SBP1 15.1 h — and AMA1 at
+2.5 h, which is **five hours from MSP1 across the wrap**, not forty-three hours away from it.
+
+**Read it as a circle** is now a test, and worth stating twice: the assertion is that MSP1 and AMA1
+are adjacent, which looks false to anyone reading the column as a line.
+
+461 genes are left missing because their first harmonic explains less than 40% of their variation. A
+flat profile still has an angle, and shipping it would put a number where there is no measurement.
+The slot reads A at 85.3%, and early-phase genes are the ring-enriched ones in an independent stage
+series — the check that the phase is measuring the cycle rather than the sampling.
+
+### `Pf_glycosylation` opened and refused, on three counts at once
+
+PXD033470 was the queue's candidate. The paper (PMID 35906227) is real and its data are good, but it
+does not answer this slot: the C-mannosylation is measured on **recombinant** SPATR and MTRAP rather
+than on parasite protein, the substrate set is defined by **TSR-domain content** — a prediction, the
+same trap as the palmitome's "palmitoylable" sheet — and the biology is the **transmission stages**,
+not the asexual blood stage the slot names. Recorded in `REFUSED_CANDIDATES` with all three reasons,
+so the next sweep does not re-open it.
+
+### Three fetch routes, and which of them survive a bad day
+
+EPMC's supplementary-file service was down for most of this session (503/504, intermittently), and it
+is the route every paper-supplement dataset here uses. Two alternatives were tested:
+
+* **PMC's own site** serves the file list but gates the download behind a JavaScript cookie — an
+  automated fetch gets a *Preparing to download* page, which is HTML that would land in the archive
+  as a spreadsheet if nobody looked.
+* **The publisher's static host works** — `static-content.springer.com/esm/art%3A10.1038%2F<doi>/…`
+  — but only for a browser user-agent; it answers 403 to this project's descriptive one. Worth
+  knowing before concluding that a supplement is unreachable.
+
+GEO and E-utilities answered all day. That is the practical ordering for the next pass: repository
+first, publisher second, and EPMC when it is up.
+
+## Forty-fourth pass: what the remaining empty Plasmodium slots are actually waiting for
+
+The queue said "37 empty Pf slots still need the search". Classified against the Toxoplasma arm —
+which fills most of them and therefore says what each one takes — the 44 slots with no candidate
+break down as:
+
+| how many | what they are waiting for |
+|---|---|
+| **24** | host tissue references (erythrocyte, bone marrow, hepatocyte, dermis, *Anopheles* midgut and salivary gland) — instruction 39's other half, and a different acquisition entirely |
+| **3** | a *P. berghei* → *P. falciparum* orthology transfer, not a search |
+| **6** | a CONSTRUCTION this project already runs on the other arm: structural similarity and its degree (Foldseek over the models), literature attention, analysis-derived structural holes, downloaded-study membership, assay confidence |
+| **11** | a genuine acquisition, which is what a sweep can help with |
+
+Only the last group was swept, and that is the point of writing the table: searching PubMed for
+`analysis-derived structural holes` returns noise that then has to be refused one entry at a time,
+which is how the previous sweep put *Anopheles* immunity papers on an RNA-binding slot.
+
+### The sweep, and why none of its 29 proposals was merged
+
+GEO, PRIDE and PubMed, with the assay terms of each slot's axis (2026-08-19). Six of the eleven
+returned nothing at all. The other five returned 29 proposals — **and the same six chromatin and
+transcriptome series answer both `thermal stability` and `protein turnover`**, which is a search
+telling you the assay does not exist in this organism rather than offering leads. Not one of the 29
+is the assay its slot names.
+
+So nothing is merged. The proposals stay in `instructions/open/41_candidates_v3.json` as the record
+of what was searched, and six slots gain a `BLOCKED` verdict instead — the same discipline the
+Toxoplasma arm has carried since the seventh pass, now started on this one. Each says what was
+searched, on what date, and what would fill it:
+
+* `thermal stability` — no melting curve for this parasite; the Toxoplasma arm's comes from mineCETSA.
+* `protein turnover` — no pulse-SILAC, no chase, no degradation rates. Same verdict the Toxoplasma
+  arm reached across 233 ProteomeXchange deposits.
+* `arginine methylation` — histone R-methylation IS measured here (H3R2me2s ChIP), which is a
+  chromatin mark and a different slot, not a per-protein methylproteome.
+* `translation · under stress` — nothing at all, not even off-target hits; the arm's ribo-seq is
+  unstressed and its polysomal series is an unperturbed IDC course.
+* `fitness · oxidative stress` — piggyBac is scored in standard culture; no oxidative-challenge screen.
+* `exposure to host cytosol` — no PVM proximity labelling. The arm's export column is a sequence
+  model, and a prediction answering for an experiment is what this slot exists to refuse.
+
+`propose_datasets.py` now takes `--organism` and `--slot`, so a sweep can be aimed at the slots a
+sweep can serve.
+
+### What the six construction slots would take, since they are now the biggest remaining group
+
+Not acquisitions, so they will never fall to a sweep. In the order their prerequisites chain:
+
+1. **A Plasmodium literature corpus.** `Pf_literature attention` is filled on the Toxoplasma arm from
+   33,924 abstracts with MeSH; the malaria literature is larger and E-utilities can fetch it, but it
+   is a real download and a real identity problem — Pf gene symbols in prose are worse than
+   Toxoplasma's, since `MSP1`, `AMA1` and `EBA175` are shared across species.
+2. **`Pf_analysis-derived structural holes` depends on that**, because a hole is a pair the
+   measurements agree about and *no abstract mentions together*. Without a corpus there is no
+   absence to measure, and the construction would silently become "co-expression plus co-fitness",
+   which is not the same claim at all.
+3. **`Pf_interaction · structural similarity` and its degree** need Foldseek over the Plasmodium
+   AlphaFold models — the arm already carries `alphafold_accession` and `mean_plddt`, so the models
+   are identified; what is missing is the all-against-all run and the disk for it.
+4. **`Pf_downloaded-study membership` and `Pf_assay confidence and significance`** are the cheap two:
+   both are read off things this project already has — the dataset registry and the per-dataset
+   statistics — and neither needs a fetch.
+
+Worth doing 4 first for that reason, and worth NOT doing 2 before 1.

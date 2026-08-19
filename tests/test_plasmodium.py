@@ -2253,3 +2253,101 @@ def test_pages_before_a_table_and_pages_with_no_readable_row_are_skipped(tmp_pat
     said = []
     assert P.ip_ms(root, log=said.append).empty
     assert any("1 rows carried the wrong number of counts" in m for m in said)
+
+
+# --------------------------------------------------------------------------- the cell cycle
+def _idc(tmp_path, samples, genes=("PF3D7_0100100", "PF3D7_0100200")):
+    """A time course as the deposit ships it: one CSV per sample, plus its own metadata file."""
+    folder = tmp_path / "transcription" / P.IDC[0] / P.IDC[1]
+    folder.mkdir(parents=True)
+    blocks = []
+    for gsm, (hour, genotype, strain, values) in samples.items():
+        pd.DataFrame({"ORF": list(genes), gsm: values}).to_csv(
+            folder / f"{gsm}_sample.csv.gz", index=False, compression="gzip")
+        blocks.append(f"^SAMPLE = {gsm}\n"
+                      f"!Sample_characteristics_ch1 = hemoglobin genotype: {genotype}\n"
+                      f"!Sample_characteristics_ch1 = strain: {strain}\n"
+                      f"!Sample_characteristics_ch1 = hours post-invasion: {hour}\n")
+    (folder / P.IDC_METADATA).write_text("".join(blocks))
+    return str(tmp_path)
+
+
+def _cycle(peak, hours, high=100.0, low=1.0):
+    return [low + (high - low) * (0.5 + 0.5 * np.cos(2 * np.pi * (h - peak) / 48)) for h in hours]
+
+
+def test_only_the_reference_arm_of_the_experiment_is_read(tmp_path):
+    """The deposit crosses two haemoglobin genotypes with two parasite lines, and only one cell of
+    that square is unperturbed: the laboratory strain in normal red cells. The rest is the study's
+    variable, and reading it would time a gene under sickle-trait stress."""
+    samples = {"GSM1": (3, "HbAA", "3D7", [1, 1]), "GSM2": (6, "HbAS", "3D7", [1, 1]),
+               "GSM3": (9, "HbAA", "FUP", [1, 1]), "GSM4": (12, "HbAA", "3D7", [1, 1])}
+    root = _idc(tmp_path, samples)
+    hours = P.idc_samples(os.path.join(root, "transcription", P.IDC[0], P.IDC[1], P.IDC_METADATA))
+    assert hours == {"GSM1": 3.0, "GSM4": 12.0}
+
+
+def test_a_gene_is_timed_by_its_phase_and_a_flat_one_is_not(tmp_path):
+    hours = list(range(3, 49, 3))
+    samples = {f"GSM{i}": (h, "HbAA", "3D7", [_cycle(45, [h])[0], 50.0])
+               for i, h in enumerate(hours)}
+    d = P.idc_peak(_idc(tmp_path, samples), log=lambda *a: None).set_index("gene_id")
+    assert abs(d.loc["PF3D7_0100100", "idc_peak_hour"] - 45) < 3
+    assert "PF3D7_0100200" not in d.index, "a flat profile was given an hour"
+
+
+def test_a_series_too_short_to_be_a_cycle_is_refused(tmp_path):
+    samples = {f"GSM{i}": (h, "HbAA", "3D7", [10.0, 5.0]) for i, h in enumerate((3, 6, 9))}
+    said = []
+    assert P.idc_peak(_idc(tmp_path, samples), log=said.append).empty
+    assert any("not a cycle" in m for m in said)
+
+
+def test_no_time_course_is_an_empty_frame(tmp_path):
+    assert P.idc_peak(str(tmp_path), log=lambda *a: None).empty
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_the_shipped_phases_put_the_invasion_genes_together_across_the_wrap():
+    """Read as a line these numbers look wrong, which is the point of asserting them.
+
+    MSP1 lands at 45.7 h and AMA1 at 2.5 h -- five hours apart around a 48-hour circle, both in the
+    invasion window, and forty-three hours apart to anyone reading the column as a line.
+    """
+    d = pd.read_parquet(NODES).set_index("gene_id")
+    msp1 = d.loc["PF3D7_0930300", "idc_peak_hour"]
+    ama1 = d.loc["PF3D7_1133400", "idc_peak_hour"]
+    gap = abs(msp1 - ama1)
+    assert min(gap, 48 - gap) < 8, "the two invasion transcripts are not adjacent on the circle"
+    assert d.loc["PF3D7_0202000", "idc_peak_hour"] > 18, "KAHRP should peak after the ring"
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_early_phase_genes_are_the_ring_enriched_ones():
+    """Checked against a study that shares no sample with this one."""
+    d = pd.read_parquet(NODES)
+    early = d[d["idc_peak_hour"].between(6, 18)]
+    late = d[d["idc_peak_hour"].between(33, 45)]
+    assert early["expr_ring"].median() > late["expr_ring"].median() * 2
+    assert late["expr_schizont"].median() > early["expr_schizont"].median()
+
+
+def test_a_one_column_sample_file_is_skipped_rather_than_read_as_expression(tmp_path):
+    """A CSV with no values is not a sample, and reading its index as numbers would be worse."""
+    hours = list(range(3, 49, 3))
+    samples = {f"GSM{i}": (h, "HbAA", "3D7", [_cycle(45, [h])[0], 50.0]) for i, h in enumerate(hours)}
+    root = _idc(tmp_path, samples)
+    folder = os.path.join(root, "transcription", P.IDC[0], P.IDC[1])
+    pd.DataFrame({"ORF": ["PF3D7_0100100"]}).to_csv(
+        os.path.join(folder, "GSM0_sample.csv.gz"), index=False, compression="gzip")
+    d = P.idc_peak(root, log=lambda *a: None)
+    assert len(d) == 1, "the empty file changed the answer"
+
+
+def test_build_all_folds_in_the_cycle_timing(tmp_path, monkeypatch):
+    root = _dataset_root(tmp_path)
+    monkeypatch.setattr(P, "idc_peak", lambda *a, **k: pd.DataFrame(
+        {"gene_id": ["PF3D7_0100100"], "idc_peak_hour": [45.7], "idc_cycling_amplitude": [0.86]}))
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "idc_peak_hour"] == 45.7
+    assert pd.isna(d.loc["PF3D7_0100200", "idc_peak_hour"])

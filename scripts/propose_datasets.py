@@ -189,11 +189,25 @@ def main(argv=None) -> int:
     parser.add_argument("--retmax", type=int, default=8)
     parser.add_argument("--max-slots", type=int, default=0,
                         help="limit work for a smoke test; zero searches every empty slot")
+    parser.add_argument("--organism", default=None, help="Tg or Pf; both by default")
+    # Because most empty slots are not waiting for a search. Of the 44 Plasmodium slots with no
+    # candidate, 24 are host tissue references, 3 are cross-species transfers and 6 are filled on the
+    # Toxoplasma arm by a COMPUTATION this project runs -- structural similarity, literature
+    # attention, structural holes. Searching PubMed for those returns noise that then has to be
+    # refused one entry at a time, which is how the last sweep put Anopheles immunity papers on an
+    # RNA-binding slot.
+    parser.add_argument("--slot", action="append", default=[],
+                        help="search only these slot names (repeatable, substring match)")
     parser.add_argument("--delay", type=float, default=0.34,
                         help="seconds between NCBI calls (3 requests/s without an API key)")
     args = parser.parse_args(argv)
     definitions = [row for row in slots.all_slots() if not row["patterns"]
                    and row["axis"] != "NEVER a feature"]
+    if args.organism:
+        definitions = [row for row in definitions if row["organism"] == args.organism]
+    if args.slot:
+        definitions = [row for row in definitions
+                       if any(fragment.lower() in row["name"].lower() for fragment in args.slot)]
     if args.max_slots:
         definitions = definitions[:args.max_slots]
     proposals = {}

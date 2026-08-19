@@ -154,6 +154,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Novel transcript models (Nanopore, via ToxoDB) | How many novel TALON transcript models long reads support for this gene | 798 genes (10%) | `ToxoDB Stuart/Ralph nanopore` |
 | Oocyst sporulation series | Unsporulated / sporulating / sporulated, 2 replicates (6 columns) | 7,974 (98.0%) | `GSE206344` |
 | Plasmodium falciparum life-stage and polysomal RNA | Transcript abundance across seven life stages, and what is on ribosomes | 5,720 P. falciparum genes | `PlasmoDB: Su seven stages, Bunnik polysomal IDC, Gomez-Diaz mosquito stages` |
+| Plasmodium intraerythrocytic cycle timing | When in the 48-hour cycle each transcript peaks, and how strongly it cycles | 5,038 genes timed of 5,499; 461 do not cycle strongly enough to place | PMID [34668757](https://pubmed.ncbi.nlm.nih.gov/34668757/); `GSE163144` |
 | Plasmodium long-read transcript models | Transcript models per gene, and how many the annotation does not contain | 1,857 genes, 2,498 models, 238 novel | PMID [40316999](https://pubmed.ncbi.nlm.nih.gov/40316999/); `Malar J 05376 Supplementary Data 2` |
 | Plasmodium peak expression and stage label (DERIVED) | Maximum expression across stages, and which stage a gene belongs to | 5,720 genes for the maximum, 310 labelled | *citation not yet confirmed* |
 | Plasmodium transcription at febrile temperature | Wild type and two mutants at 37 C and at the 41 C of a malarial fever | 5,791 genes | `PlasmoDB Pfal3D7 Febrile temps RNA-Seq` |

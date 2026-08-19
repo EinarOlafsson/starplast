@@ -152,6 +152,36 @@ STAGE_COLUMNS = {
 MIN_MARGIN = 0.5     # z-units the winning stage must lead by before the call is made
 
 
+def cyclic_phase(profiles: pd.DataFrame, period: float | None = None) -> pd.DataFrame:
+    """When in a CYCLE each row peaks, and how strongly, from a time course sampled around it.
+
+    Written for the Plasmodium intraerythrocytic cycle and kept here because the construction is not
+    about either parasite: it is what a time course over a closed loop means. The columns are hours
+    and the axis wraps -- hour 48 of one cycle is hour 0 of the next -- so the peak cannot be the
+    largest column. Taking it that way splits a late peak between the last timepoint and the first,
+    and it does: AMA1 and PTRAMP, textbook invasion transcripts, come out at hour 3 because a
+    culture synchronised at invasion still carries the merozoite's mRNA.
+
+    The first Fourier harmonic gives a phase instead, which is the standard reading of a cell-cycle
+    transcriptome and has no ends to pile against. `amplitude` is that harmonic's share of the row's
+    total variation, so a flat or noisy profile scores near zero and can be excluded on a number
+    rather than on a guess.
+    """
+    hours = np.asarray([float(c) for c in profiles.columns], dtype=float)
+    period = float(period if period is not None else hours.max() - hours.min() + np.diff(np.sort(hours)).mean())
+    values = profiles.to_numpy(dtype=float)
+    centred = values - np.nanmean(values, axis=1, keepdims=True)
+    angle = 2 * np.pi * hours / period
+    cosine = np.nansum(centred * np.cos(angle), axis=1)
+    sine = np.nansum(centred * np.sin(angle), axis=1)
+    phase = np.mod(np.arctan2(sine, cosine), 2 * np.pi) * period / (2 * np.pi)
+    power = np.hypot(cosine, sine)
+    spread = np.sqrt(np.nansum(centred ** 2, axis=1)) * np.sqrt(len(hours) / 2)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        amplitude = np.where(spread > 0, power / spread, 0.0)
+    return pd.DataFrame({"phase": phase, "amplitude": amplitude}, index=profiles.index)
+
+
 def stage_enrichment(nodes: pd.DataFrame, log=print, stages: dict | None = None) -> pd.DataFrame:
     """Assign each gene the stage its expression is highest in. DERIVED, never evidence.
 

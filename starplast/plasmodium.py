@@ -326,6 +326,11 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
                                                                      "bait": "prey"})])
         degree = both.drop_duplicates().groupby("bait")["prey"].nunique()
         nodes["n_ip_ms_partners"] = nodes["gene_id"].map(degree)
+    timing = idc_peak(dataset_root, log=log)
+    if not timing.empty:
+        # Left missing for a gene whose profile does not cycle: a flat series still has an angle,
+        # and shipping it would put a number where there is no measurement.
+        nodes = nodes.merge(timing, on="gene_id", how="left")
     kinase = kinase_substrates(dataset_root, log=log)
     if not kinase.empty:
         # Left-joined and not completed: a gene with no CDPK1-dependent site either has none or was
@@ -966,6 +971,85 @@ def ip_ms(dataset_root: str, log=print) -> pd.DataFrame:
         f"{out.prey.nunique() if len(out) else 0} partners; {unnamed} rows from the transgene bait "
         f"have no accession to pair, {malformed} rows carried the wrong number of counts")
     return out
+
+
+# --------------------------------------------------------------------------- the cell cycle
+#: A 48-hour intraerythrocytic time course sampled every three hours. `(folder, pmid)`; the deposit's
+#: own metadata file sits beside the per-sample tables and is what says which sample is which.
+IDC = ("idc_timecourse", "34668757")
+IDC_METADATA = "GSE163144_family.soft"
+
+#: The arm to read. The experiment crosses two haemoglobin genotypes with two parasite lines, and
+#: only one cell of that square is an unperturbed reference: the laboratory strain in normal red
+#: cells. Sickle-trait cells are the study's variable, and FUP is a different parasite.
+IDC_GENOTYPE = "HbAA"
+IDC_STRAIN = "3D7"
+
+
+def idc_samples(path: str) -> dict:
+    """{GSM: hours post-invasion} for the reference arm of the time course, from the deposit's own
+    metadata rather than from the sample titles, which encode the genotype and not the hour."""
+    if not os.path.exists(path):
+        return {}
+    out = {}
+    for block in open(path, encoding="utf8", errors="replace").read().split("^SAMPLE = ")[1:]:
+        gsm = block.split("\n", 1)[0].strip()
+        traits = dict(re.findall(r"!Sample_characteristics_ch1 = ([^:]+): (.+)", block))
+        hour = traits.get("hours post-invasion", "N/A").strip()
+        if (traits.get("hemoglobin genotype") == IDC_GENOTYPE
+                and traits.get("strain") == IDC_STRAIN and hour not in ("", "N/A")):
+            out[gsm] = float(hour)
+    return out
+
+
+def idc_peak(dataset_root: str, log=print) -> pd.DataFrame:
+    """When in the 48-hour cycle each gene's transcript peaks, from a three-hourly series.
+
+    The slot asks for a cell-cycle timing label, and this is the measurement behind one: sixteen
+    timepoints three hours apart, two replicates, one parasite line in unmodified red cells. The
+    peak hour is the timepoint of the highest mean expression, which is a summary of a measurement
+    rather than a model of one -- and it is left MISSING where a gene never rises, since the hour of
+    a flat profile is noise wearing a number.
+    """
+    folder, pmid = IDC
+    base = os.path.join(dataset_root, "transcription", folder, pmid)
+    hours = idc_samples(os.path.join(base, IDC_METADATA))
+    if not hours:
+        return pd.DataFrame()
+    columns = {}
+    for name in sorted(os.listdir(base)):
+        gsm = name.split("_", 1)[0]
+        if gsm not in hours or not name.endswith(".csv.gz"):
+            continue
+        table = pd.read_csv(os.path.join(base, name))
+        if table.shape[1] < 2:
+            continue
+        table.columns = ["gene_id"] + list(table.columns[1:])
+        series = pd.to_numeric(table.iloc[:, 1], errors="coerce")
+        columns.setdefault(hours[gsm], []).append(series.set_axis(table["gene_id"].astype(str)))
+    if len(columns) < 8:
+        log(f"idc: only {len(columns)} timepoints found, which is not a cycle")
+        return pd.DataFrame()
+    means = pd.DataFrame({hour: pd.concat(reps, axis=1).mean(axis=1)
+                          for hour, reps in sorted(columns.items())})
+    from . import cellcycle
+    fitted = cellcycle.cyclic_phase(means, period=IDC_PERIOD)
+    timed = fitted["amplitude"] >= IDC_MIN_AMPLITUDE
+    out = pd.DataFrame({"gene_id": means.index[timed],
+                        "idc_peak_hour": fitted.loc[timed, "phase"].to_numpy().round(1),
+                        "idc_cycling_amplitude": fitted.loc[timed, "amplitude"].to_numpy()})
+    log(f"idc: {len(out):,} genes are timed across {len(means.columns)} timepoints; "
+        f"{int((~timed).sum())} do not cycle strongly enough to place")
+    return out.reset_index(drop=True)
+
+
+#: The cycle's length, which is what makes the axis wrap: hour 48 is hour 0 of the next round.
+IDC_PERIOD = 48.0
+
+#: How much of a gene's variation the first harmonic has to explain before its phase means anything.
+#: A profile that does not cycle still has an angle, and shipping one would be a number where there
+#: is no measurement.
+IDC_MIN_AMPLITUDE = 0.4
 
 
 # --------------------------------------------------------------------------- strain identity

@@ -1531,6 +1531,10 @@ PF_PATTERNS = {
     # source: co-immunoprecipitation against an untagged or differently-tagged control.
     "interaction · IP-MS, parasite-parasite": ["edge:ip_ms"],
     "interaction degree · IP-MS": ["n_ip_ms_partners"],
+    # A measured phase, not a stage guess: the hour of the cycle at which a transcript peaks, from a
+    # three-hourly series. Its amplitude ships with it, because a phase without one invites reading
+    # a flat profile's angle as a time.
+    "cell-cycle timing label": ["idc_peak_hour", "idc_cycling_amplitude"],
     # Pair slots, answered by the Plasmodium graph rather than by columns. Its indices point into
     # pf_nodes.parquet and mean nothing in the Toxoplasma graph, which is why there are two files.
     # Predicted, not measured, and the slot's context says "erythrocyte cytosol" -- a sequence model
@@ -1725,6 +1729,13 @@ REFUSED_CANDIDATES = {
         "intracellular against extracellular ribosome profiling, already shipped",
     ("Tg_translation · per cell-cycle phase", "GSE43722"):
         "the unfolded protein response; a stress axis",
+    # Opened 2026-08-19 for `Pf_glycosylation`, and refused on three counts at once: the modification
+    # is measured on RECOMBINANT protein, the substrate list is a domain prediction, and the biology
+    # is the mosquito stages rather than the blood stage the slot names.
+    ("Pf_glycosylation · asexual blood stage", "PXD033470"):
+        "tryptophan C-mannosylation shown on recombinant SPATR and MTRAP, with the substrate set "
+        "defined by TSR-domain content rather than measured in the parasite, and in the "
+        "transmission stages rather than the asexual blood stage",
     # And the one proposed for protein turnover is the study that already fills a different slot.
     ("Tg_protein turnover", "PXD033642"):
         "the Ca2+-responsive thermal-shift proteome (PMID 35976251), which already fills "
@@ -1732,6 +1743,60 @@ REFUSED_CANDIDATES = {
 }
 
 BLOCKED = {
+    # --- Plasmodium, swept 2026-08-19 through GEO, PRIDE and PubMed with the axis's assay terms.
+    # The sweep is recorded per slot because of what it returned: the SAME six chromatin and RNA-seq
+    # series for `thermal stability` and for `protein turnover`, which is a search saying the assay
+    # does not exist in this organism rather than offering leads. 29 proposals over six slots, not
+    # one of them the assay its slot names. They are kept in `instructions/open/41_candidates_v3.json`
+    # as the record of the search and deliberately NOT merged into the catalog: a wrong candidate is
+    # worse than an empty slot.
+    "Pf_thermal stability (melting temperature) · asexual blood stage": (
+        "missing",
+        "GEO for Plasmodium thermal proteome profiling, PRIDE for the same, and PubMed for CETSA "
+        "or meltome in a malaria parasite (2026-08-19). GEO returns chromatin and transcriptome "
+        "series ranked by recency -- GSE326228, GSE302727, GSE267361 and three more, none of them a "
+        "melting curve. The Toxoplasma arm has one (mineCETSA, PMID 35976251); this organism does "
+        "not.",
+        "A thermal proteome profile of asexual blood-stage parasites: melting temperature per "
+        "protein, with or without a compound."),
+    "Pf_protein turnover · asexual blood stage": (
+        "missing",
+        "The same sweep, and it returns the same six series as thermal stability, which is the "
+        "shape of a search with nothing to find (2026-08-19). No pulse-SILAC, no cycloheximide "
+        "chase and no degradation-rate table for P. falciparum in GEO or PRIDE. The Toxoplasma arm "
+        "reached the same verdict across 233 ProteomeXchange deposits.",
+        "Pulse-SILAC or a cycloheximide chase with proteome-wide degradation rates."),
+    "Pf_arginine methylation · asexual blood stage": (
+        "missing",
+        "GEO, PRIDE and PubMed for an arginine-methylproteome of P. falciparum (2026-08-19). The "
+        "sweep returns lactylation and chromatin studies -- GSE304394, GSE212052, GSE215426 -- "
+        "because the assay term matches any post-translational study. Histone arginine methylation "
+        "is measured in this organism (H3R2me2s ChIP, GSE214535), which is a chromatin mark rather "
+        "than a per-protein methylproteome and answers a different slot.",
+        "An R-methyl peptide enrichment with sites per protein, of the kind the Toxoplasma arm "
+        "carries from ToxoDB."),
+    "Pf_translation · under stress": (
+        "missing",
+        "GEO and PubMed for ribosome profiling or polysome sequencing of P. falciparum under a "
+        "named stress (2026-08-19): nothing returned at all, not even off-target hits. The arm's "
+        "one ribo-seq deposit (GSE58402, now shipped) is unstressed, and the polysomal series is an "
+        "unperturbed IDC time course.",
+        "Ribosome profiling of parasites under heat shock, artemisinin or nutrient limitation, with "
+        "its own unstressed control."),
+    "Pf_fitness · oxidative stress": (
+        "missing",
+        "GEO and PubMed for a pooled screen scored under oxidative challenge in P. falciparum "
+        "(2026-08-19): nothing returned. piggyBac saturation mutagenesis is scored in standard "
+        "culture, and the Toxoplasma arm's counterpart comes from a dedicated screen that has no "
+        "malaria equivalent.",
+        "A pooled mutant screen scored under peroxide or an equivalent oxidative challenge."),
+    "Pf_exposure to host cytosol": (
+        "missing",
+        "GEO, PRIDE and PubMed for proximity labelling at the parasitophorous vacuole membrane in "
+        "P. falciparum (2026-08-19): nothing returned. The slot wants a measured exportome, and the "
+        "arm's `export / PEXEL trafficking` column is a sequence model -- a prediction answering "
+        "for an experiment is the substitution this slot exists to refuse.",
+        "BioID or TurboID from a PVM-anchored bait, with the labelled proteins listed."),
     "Tg_transcription · in IFN-gamma macrophage": (
         "missing",
         "All 56 ToxoDB RNA-seq datasets, all 180 datasets, GEO's Toxoplasma+interferon series. The "

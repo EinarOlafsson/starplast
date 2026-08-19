@@ -249,3 +249,34 @@ def test_the_registry_records_the_measured_study_with_its_citation():
     assert d.pmid == "32065584"
     assert d.citation and "eLife" in d.citation
     assert "cellcycle_phase" in d.columns
+
+
+# --------------------------------------------------------------------------- phase on a closed loop
+def test_a_cycle_has_no_ends_so_the_peak_is_a_phase_and_not_a_column():
+    """The construction the Plasmodium time course needed, kept here because it is not about either
+    parasite: it is what a time course around a closed loop means.
+
+    Hour 48 is hour 0 of the next cycle, so an argmax splits a peak that straddles the wrap. These
+    two genes peak four hours apart across that boundary, and any reading that puts them 44 hours
+    apart is reading a circle as a line.
+    """
+    import numpy as np
+    hours = np.arange(3, 49, 3)
+    frame = pd.DataFrame(
+        {float(h): [10 + 5 * np.cos(2 * np.pi * (h - 46) / 48),
+                    10 + 5 * np.cos(2 * np.pi * (h - 2) / 48),
+                    7.0] for h in hours},
+        index=["just_before", "just_after", "flat"])
+    out = CC.cyclic_phase(frame, period=48.0)
+    gap = abs(out.loc["just_before", "phase"] - out.loc["just_after", "phase"])
+    assert min(gap, 48 - gap) < 6, "the wrap was read as a 44-hour separation"
+    assert out.loc["flat", "amplitude"] < 0.01, "a flat profile still has an angle; it must not rank"
+    assert out.loc["just_before", "amplitude"] > 0.9
+
+
+def test_the_phase_of_a_pure_cosine_is_where_it_peaks():
+    import numpy as np
+    hours = np.arange(0, 48, 4)
+    frame = pd.DataFrame({float(h): [np.cos(2 * np.pi * (h - 20) / 48)] for h in hours},
+                         index=["peaks_at_20"])
+    assert abs(CC.cyclic_phase(frame, period=48.0).loc["peaks_at_20", "phase"] - 20) < 1

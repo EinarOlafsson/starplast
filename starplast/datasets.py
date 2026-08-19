@@ -1426,6 +1426,35 @@ REGISTRY = [
                  "families are the place to distrust it. Keyed on pre-2012 accessions and resolved "
                  "through `plasmodb_identity`; the deposit's `-a`/`-b` split entries are dropped "
                  "rather than summed, since RPKM is already length-normalised."),
+    Dataset("pf_idc_timing", "Plasmodium intraerythrocytic cycle timing", "transcription", "RNAseq",
+            "When in the 48-hour cycle each transcript peaks, and how strongly it cycles",
+            ("idc_peak_hour", "idc_cycling_amplitude"),
+            "5,038 genes timed of 5,499; 461 do not cycle strongly enough to place",
+            pmid="34668757", accession="GSE163144", geo_file_suffix=".csv.gz",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE163nnn/GSE163144/suppl/",
+            # NOT a `derived_from`, though a computation sits inside the loader. That field names
+            # shipped COLUMNS this was computed from, so the leakage closure can exclude an input
+            # together with its output; these columns are computed from the deposit's own sample
+            # files, which are not columns of anything. Declaring the deposit there would point the
+            # guard at a string no dataset provides.
+            path="datasets/transcription/idc_timecourse/34668757/",
+            note="Sixteen timepoints three hours apart across 48 hours, two replicates, read from "
+                 "ONE cell of the deposit's square: the 3D7 line in normal (HbAA) red cells. The "
+                 "study's variable is sickle-trait haemoglobin and its second line is FUP, so the "
+                 "other three cells are perturbations rather than a reference -- and which sample is "
+                 "which comes from the deposit's own metadata file rather than from the sample "
+                 "titles, which encode the genotype and not the hour. Samples are TPM and sum to "
+                 "1e6 exactly, checked rather than assumed. The peak is a PHASE, not the largest "
+                 "column: the axis wraps, since hour 48 is hour 0 of the next cycle, and an argmax "
+                 "splits the invasion peak between the last timepoint and the first -- it put AMA1 "
+                 "and PTRAMP, textbook invasion transcripts, at hour 3, where a culture "
+                 "synchronised at invasion is still carrying the merozoite's mRNA. Fitted through "
+                 "the first Fourier harmonic (`cellcycle.cyclic_phase`, shared rather than written "
+                 "here) the markers land where the biology says: MSP1 45.7 h, SERA5 42.9 h, RhopH2 "
+                 "36.2 h, KAHRP 25.1 h, SBP1 15.1 h -- and AMA1 at 2.5 h, which is five hours from "
+                 "MSP1 across the wrap and not the other way round. READ IT AS A CIRCLE. Genes "
+                 "whose first harmonic explains less than 40% of their variation are left missing, "
+                 "because a flat profile still has an angle."),
     Dataset("pf_ip_ms", "Plasmodium co-immunoprecipitation interactome (EPIC)",
             "post_translation", "IP-MS",
             "Which parasite proteins came down with each tagged bait, against its own control",
