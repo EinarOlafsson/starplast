@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**128 slots: 32 covered well, 4 partly, 9 thinly, 83 empty.**
+**128 slots: 32 covered well, 4 partly, 10 thinly, 82 empty.**
 
 ### transcription
 
@@ -110,7 +110,7 @@ quantity were approximating on 2026-08-13.
 | slot | context | grade | genes | coverage | filled by | policy | candidates to fill or improve it |
 |---|---|---|---|---|---|---|---|
 | Pf_phosphorylation · asexual blood stage | asexual blood stage | **A** | 5720 | 100.0% | `n_phosphosites, has_phospho` | one | — |
-| Pf_phosphorylation · kinase-substrate | perturbation | **-** |  |  | `` | separate | — |
+| Pf_phosphorylation · kinase-substrate | perturbation | **C** | 62 | 1.1% | `cdpk1_dependent_sites` | separate | — |
 | Pf_acetylation | life stages | **A** | 5720 | 100.0% | `n_acetylsites, has_acetyl` | one | — |
 | Pf_N-myristoylation · asexual blood stage | asexual blood stage | **C** | 609 | 10.6% | `is_myristoylated` | one | — |
 | Pf_arginine methylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |

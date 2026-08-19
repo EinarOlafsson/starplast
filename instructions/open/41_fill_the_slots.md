@@ -2152,3 +2152,46 @@ of 271** — gene 143/198, pair 15/19, metabolite 3/6, host_gene 0/48.
 
 All four are in `41_candidates_v2.json` with accessions. None of the four is in the seventeen-slot
 queue this session opened with.
+
+### `Pf_phosphorylation · kinase-substrate`, filled by keying on sequence
+
+Third fill of the pass, and the one that needed a key nothing in this project had. **PMID 28680058**
+(Kumar et al., Nat Commun 2017) knocks PfCDPK1 down conditionally and reports the phosphosites that
+disappear. Its supplement numbers those sites in the 2017 annotation — `3885720(S422)` — which is
+neither a current accession nor anything PlasmoDB's previous-id list carries, so the identity layer
+built earlier this pass cannot touch it.
+
+**What the file does give is the 15-residue window around each site, and a window is an identifier
+when it occurs in exactly one protein.** Translating the CDS table this project already ships:
+**73 of 79 windows match one gene, 6 match none, none matches two.** The six that match nothing are
+genes absent from the CDS table; the rule for two remains what it is everywhere else — drop, do not
+assign. `codons.translate` is a new function beside the codon code rather than a second genetic code
+written out in a loader, which is the same reason `cellcycle.stage_enrichment` and `codons.codon_usage`
+are shared between the arms.
+
+**A sequence mapping has to be checked against something the sequence did not decide, and it was,
+twice.** The paper's product descriptions agree with the current annotation for 69 of the 73 rows;
+of the four that do not, two are re-annotations since 2017 (a *conserved membrane protein* is now
+basal complex protein bleb, a *formin 2* is now an Eps15-like protein) and two are artefacts of my
+word matcher splitting on a digit (`sec7`, `gbp130`). And the resulting gene set reproduces the
+paper's own conclusion from the other end: **14.5% of the 62 genes are motor, IMC or invasion
+machinery against 1.6% of the proteome**, with GAP45, myosin A, actin I and IMC1c/1g among them.
+That is the paper's finding — CDPK1 signalling runs through the invasion motor — recovered through a
+translation and a substring search rather than through its accessions.
+
+The column is `cdpk1_dependent_sites` and it is named for DEPENDENCE, not for substrate: a site lost
+under knockdown may be phosphorylated by this kinase or by something downstream of it, and the file
+cannot tell them apart. The Toxoplasma arm answers the same slot from the other direction, with
+thiophosphorylation labelling a kinase's own substrates, which is why the two columns are not named
+alike. The paper's PfPKA-R result comes from targeted experiments rather than this sheet and is not
+claimed here.
+
+62 genes, 73 sites; the slot reads C at 1.1%. Build: **+1 column, −0, nothing else moved.**
+
+**Where the atlas stands after three fills: Toxoplasma 116 of 143, Plasmodium 46 of 128, combined 162
+of 271** — gene 144/198, pair 15/19, metabolite 3/6, host_gene 0/48.
+
+One loader change worth carrying: the header row of that sheet sits at a fixed offset under the
+sheet's own title, so a re-issued supplement with a different layout used to take the whole build
+down with an `IndexError` from the parser. It reports and returns empty now. A build that cannot read
+one file should lose one column, not the table.

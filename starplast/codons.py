@@ -51,6 +51,20 @@ for _codon, _aa in CODE.items():
 DEGENERATE = {aa: codons for aa, codons in SYNONYMS.items() if len(codons) > 1}
 
 
+def translate(cds: str) -> str:
+    """A coding sequence to its protein, in frame 1, with the terminator trimmed.
+
+    Here because a phosphosite table can key on nothing this project's identity index carries -- the
+    CDPK1 supplement reports numeric ids from a 2017 annotation -- while giving the 15-residue window
+    around each site. A window is an identifier if it occurs in exactly one protein, and checking
+    that requires the proteome the CDS table already ships. Anything that is not a clean triplet of
+    ACGT becomes `X`, so a match is never made across a gap that was silently closed.
+    """
+    seq = str(cds).strip().upper().replace("U", "T")
+    return "".join(CODE.get(seq[i:i + 3], "X")
+                   for i in range(0, len(seq) - 2, 3)).rstrip("*")
+
+
 def codon_counts(cds: str) -> dict:
     """Codons in frame, skipping anything that is not a clean triplet of ACGT."""
     seq = cds.strip().upper().replace("U", "T")

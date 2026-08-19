@@ -267,3 +267,19 @@ def test_resolving_previous_accessions_survives_a_duplicate_rule_other_than_the_
                           log=lambda *_: None)
     assert list(out.index) == ["TGME49_208830", "TGME49_208840"]
     assert float(out.loc["TGME49_208830", "imported_score"]) == 9.0
+
+
+def test_every_format_the_importer_offers_has_a_reader_declared():
+    """`.xls` was offered and its reader was not declared, which is an ImportError with no author.
+
+    The gap surfaced when a Plasmodium supplement in that format was registered and the loader ran
+    on the interpreter the user actually uses. It is the same class of fault either way: the program
+    says it can read a format, and whether it can depends on what else happens to be installed.
+    """
+    import os
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    declared = open(os.path.join(root, "pyproject.toml"), encoding="utf8").read()
+    readers = {".xlsx": "openpyxl", ".xls": "xlrd", ".parquet": "pyarrow"}
+    for ext, package in readers.items():
+        assert ext in I.READABLE, f"{ext} stopped being offered; drop it from this test too"
+        assert package in declared, f"{ext} is offered but {package} is not a declared dependency"

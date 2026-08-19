@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**271 slots: 94 covered well, 20 partly, 47 thinly, 110 empty.**
+**271 slots: 94 covered well, 20 partly, 48 thinly, 109 empty.**
 
 ### transcription
 
@@ -157,7 +157,7 @@ quantity were approximating on 2026-08-13.
 | Tg_glycosylation | tachyzoite | **C** | 394 | 4.8% | `n_o_fucosyl_peptides` | one | **Novel antibodies detect nucleocytoplasmic O-fucose in protist pathogens, cellular slime molds, and plants.** (mSphere 2025) [39912628](https://pubmed.ncbi.nlm.nih.gov/39912628/) `PXD056853` |
 | Tg_palmitoylation | tachyzoite | **C** | 488 | 6.0% | `palmitome_` | separate | **Global Analysis of Palmitoylated Proteins in Toxoplasma gondii.** (Cell host & microbe 2015) [26468752](https://pubmed.ncbi.nlm.nih.gov/26468752/) `ToxoDB Foe palmitome` |
 | Pf_phosphorylation · asexual blood stage | asexual blood stage | **A** | 5720 | 100.0% | `n_phosphosites, has_phospho` | one | — |
-| Pf_phosphorylation · kinase-substrate | perturbation | **-** |  |  | `` | separate | — |
+| Pf_phosphorylation · kinase-substrate | perturbation | **C** | 62 | 1.1% | `cdpk1_dependent_sites` | separate | — |
 | Pf_acetylation | life stages | **A** | 5720 | 100.0% | `n_acetylsites, has_acetyl` | one | — |
 | Pf_N-myristoylation · asexual blood stage | asexual blood stage | **C** | 609 | 10.6% | `is_myristoylated` | one | — |
 | Pf_arginine methylation · asexual blood stage | asexual blood stage | **-** |  |  | `` | one | — |

@@ -1487,6 +1487,10 @@ PF_PATTERNS = {
     # `extracellular vesicle` rather than `secreted` and the slot is still the secretome one: the
     # question is what the parasite puts outside itself, and this is the evidence that exists.
     "secretome / excreted": ["ev_studies"],
+    # Which kinase phosphorylates what, answered from the loss side: sites that disappear when
+    # PfCDPK1 is knocked down. The Toxoplasma arm answers the same slot from the gain side, with
+    # thiophosphorylation, which is why the two columns are named differently.
+    "phosphorylation · kinase-substrate": ["cdpk1_dependent_sites"],
     # Pair slots, answered by the Plasmodium graph rather than by columns. Its indices point into
     # pf_nodes.parquet and mean nothing in the Toxoplasma graph, which is why there are two files.
     # Predicted, not measured, and the slot's context says "erythrocyte cytosol" -- a sequence model

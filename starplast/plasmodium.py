@@ -315,6 +315,11 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
         # at the ring and 1,174 at the merozoite -- and every gap is a gene the deposit did not
         # report, which is silence about the measurement rather than an absence of ribosomes.
         nodes = nodes.merge(ribo, on="gene_id", how="left")
+    kinase = kinase_substrates(dataset_root, log=log)
+    if not kinase.empty:
+        # Left-joined and not completed: a gene with no CDPK1-dependent site either has none or was
+        # never quantified in those five replicates, and the file does not say which.
+        nodes = nodes.merge(kinase, on="gene_id", how="left")
     vesicles = secretome(dataset_root, log=log)
     if not vesicles.empty:
         # Left-joined and deliberately NOT completed with a False flag, which is what the other
@@ -770,6 +775,74 @@ def secretome(dataset_root: str, log=print) -> pd.DataFrame:
     log(f"secretome: {len(out):,} proteins in extracellular vesicles, "
         f"{int((out['ev_studies'] > 1).sum())} of them in both preparations")
     return out.sort_values("gene_id").reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- kinase substrates
+#: Sites that LOSE phosphorylation when PfCDPK1 is knocked down. The Toxoplasma arm answers the same
+#: question from the other direction, with thiophosphorylation labelling a kinase's own substrates.
+KINASE_SUBSTRATE = ("kinase_substrate", "28680058", "41467_2017_53_MOESM3_ESM.xls")
+KINASE_SUBSTRATE_SHEET = "List of hypophosphyrlated sites"
+
+#: The header sits on the third row, under the sheet's own title.
+KINASE_SUBSTRATE_HEADER = 2
+
+#: The window the deposit gives around each site, and the only usable key in the file.
+KINASE_SUBSTRATE_WINDOW = "Phosphowindow"
+
+
+def kinase_substrates(dataset_root: str, log=print) -> pd.DataFrame:
+    """Phosphosites per gene that depend on PfCDPK1, keyed by SEQUENCE because nothing else works.
+
+    The supplement reports sites as numeric ids from the 2017 annotation (`3885720(S422)`), which
+    neither the current accessions nor PlasmoDB's previous-id list carry. What it does give is the
+    15-residue window around each site, and a window is an identifier when it occurs in exactly one
+    protein: 73 of 79 match one gene, 6 match none, and none matches two. A window matching more
+    than one protein is dropped rather than assigned, the same rule the accession index follows.
+
+    The column is named for DEPENDENCE, not for substrate. A site that loses phosphorylation when a
+    kinase is knocked down may be phosphorylated by that kinase or by something downstream of it,
+    and the file cannot tell the two apart.
+    """
+    folder, pmid, name = KINASE_SUBSTRATE
+    path = os.path.join(dataset_root, "post_translation", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if KINASE_SUBSTRATE_SHEET not in book.sheet_names:
+        return pd.DataFrame()
+    try:
+        d = book.parse(KINASE_SUBSTRATE_SHEET, header=KINASE_SUBSTRATE_HEADER)
+    except (IndexError, ValueError, StopIteration):
+        # The header row is at a fixed offset under the sheet's own title, so a re-issued supplement
+        # with a different layout must report rather than take the build down with it.
+        log("kinase substrates: the sheet is not laid out as this loader expects")
+        return pd.DataFrame()
+    if KINASE_SUBSTRATE_WINDOW not in d.columns:
+        return pd.DataFrame()
+    from . import codons, paths
+    cds_path = paths.cache_file(CDS_TABLE)
+    if not os.path.exists(cds_path):
+        log("kinase substrates: no CDS table, so a window cannot be resolved to a gene")
+        return pd.DataFrame()
+    cds = pd.read_csv(cds_path, sep="\t")
+    proteins = {gene: codons.translate(seq) for gene, seq in zip(cds["gene_id"], cds["cds"])}
+    counts: dict = {}
+    unmatched = ambiguous = 0
+    for window in d[KINASE_SUBSTRATE_WINDOW].dropna():
+        window = str(window).strip().upper()
+        owners = [gene for gene, seq in proteins.items() if window in seq]
+        if len(owners) != 1:
+            unmatched += len(owners) == 0
+            ambiguous += len(owners) > 1
+            continue
+        counts[owners[0]] = counts.get(owners[0], 0) + 1
+    if not counts:
+        return pd.DataFrame()
+    out = pd.DataFrame({"gene_id": sorted(counts)})
+    out["cdpk1_dependent_sites"] = out["gene_id"].map(counts)
+    log(f"kinase substrates: {len(out):,} genes carry {sum(counts.values())} CDPK1-dependent sites; "
+        f"{unmatched} windows matched no protein and {ambiguous} matched more than one")
+    return out
 
 
 # --------------------------------------------------------------------------- strain identity

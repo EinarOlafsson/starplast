@@ -175,7 +175,7 @@ are dense-granule proteins, which are disordered, so this is expected rather tha
 
 **3e. Standalone means every measurement ships; coordinates are the one exception.** (Added v1.3.) The
 cache is 30 MB and carries 393 columns for all 8,140 Toxoplasma genes, and lives INSIDE the package.
-Beside it sits the Plasmodium cache -- `pf_nodes.parquet`, 109 columns for 5,720 genes, and
+Beside it sits the Plasmodium cache -- `pf_nodes.parquet`, 110 columns for 5,720 genes, and
 `pf_graph.npz` -- which is a separate table and graph on purpose and never joined to the first
 (`starplast/data/`) so a wheel carries it and `paths.py` resolves it with no configuration. An earlier `keep` allowlist silently shipped
 3 of 18 RNA columns and 7 of 8 fitness screens; the build now ships every column that survives, with an
@@ -401,7 +401,7 @@ real time to find. Tasks 30–34 landed together in v0.31.0.
 
 ```
 Read /mnt/firecuda2/Claude/repo/starplast/instructions/START_HERE.md and HANDOFF.md, then
-continue starplast. The working tree is v0.39.0; 3,361 tests pass headless with every module at
+continue starplast. The working tree is v0.39.0; 3,371 tests pass headless with every module at
 100% coverage. Check `git status` before assuming it has been published. Do not re-derive the design
 decisions in that file.
 Next: <state what you want>.
@@ -494,7 +494,7 @@ but not committed — it happened to 42, 43 and 47. If a "DONE" record looks emp
 
 ## State of the application — verified 2026-08-14 (v0.31.0)
 
-**3,361 tests pass headless** (`pytest tests/ -q`, ~9 min) and **every module is at 100% coverage**
+**3,371 tests pass headless** (`pytest tests/ -q`, ~9 min) and **every module is at 100% coverage**
 (9,983 statements). No `pragma: no cover` anywhere: a Qt-thread body is covered by calling it
 directly, and a branch that genuinely cannot run is deleted. Two functions were deleted in the last
 pass on that rule, and writing one of the missing tests found a real defect in `objectives.adjusted`.
@@ -818,8 +818,8 @@ starplast-discover --read bigA_00_guilt_compartment_best
 ## 5. Future scope, not an open numbered task
 
 * **The malaria map is now built, and still separate.** Superseded 2026-08-17: a Plasmodium node
-  table (`pf_nodes.parquet`, 5,720 genes, 109 columns) and its own graph (`pf_graph.npz`) exist, and
-  45 of 128 Pf slots are filled from nineteen datasets and two computed layers. `plasmodium.build_all` assembles
+  table (`pf_nodes.parquet`, 5,720 genes, 110 columns) and its own graph (`pf_graph.npz`) exist, and
+  46 of 128 Pf slots are filled from twenty datasets and two computed layers. `plasmodium.build_all` assembles
   the whole table from the dataset root, so it is reproducible rather than the product of a prompt. The concern that produced the original "deliberately no Pf node table" is
   unchanged and is now enforced rather than avoided: nothing is merged, no measurement crosses
   species, and there is still no combined-organism view. What makes that safe is the species guard
@@ -895,8 +895,8 @@ Six are open: **38, 39, 41, 42, 43, 47**. Suggested order, cheapest-unblocking-f
 
 The atlas of all 271 slots, filled and empty, is published and regenerates from
 `scripts/generate_slot_table.py` plus `starplast/data/slots.json`. As of 2026-08-18 it stands at
-**161 filled: Toxoplasma 116 of 143, Plasmodium 45 of 128** — and read it per unit, since one
-headline over four denominators hides which one moved: gene 143/198, pair 15/19, metabolite 3/6,
+**162 filled: Toxoplasma 116 of 143, Plasmodium 46 of 128** — and read it per unit, since one
+headline over four denominators hides which one moved: gene 144/198, pair 15/19, metabolite 3/6,
 host_gene 0/48.
 
 The Plasmodium arm went 0 to 34 in one session. Eight sources were built and then refused or shipped

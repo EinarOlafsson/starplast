@@ -222,3 +222,10 @@ def test_bias_tracks_expression_the_way_translational_selection_says_it_must():
     j = X.join(n["expr_tachy"].dropna(), how="inner")
     assert spearmanr(j["codon_cai_ribosomal"], j["expr_tachy"]).statistic > 0.2
     assert spearmanr(j["codon_enc"], j["expr_tachy"]).statistic < -0.1
+
+
+def test_translation_marks_what_it_could_not_read_rather_than_closing_the_gap():
+    """A window is matched against this output, so a silently closed gap would be a false match."""
+    assert C.translate("ATGGCTTTTTAA") == "MAF"
+    assert C.translate("atgnnnttt") == "MXF"
+    assert C.translate("ATGGC") == "M", "a trailing partial codon is dropped, not guessed"

@@ -1970,3 +1970,136 @@ def test_a_vesicle_sheet_whose_ids_resolve_to_nothing_is_empty_rather_than_wrong
     monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]),
                         "cache_file", lambda name: _identity(tmp_path))
     assert P.secretome(str(tmp_path), log=lambda *a: None).empty
+
+
+# --------------------------------------------------------------------------- kinase substrates
+def _kinase_book(tmp_path, windows=None):
+    """The supplement's hypophosphorylation sheet, title row and all."""
+    folder = tmp_path / "post_translation" / P.KINASE_SUBSTRATE[0] / P.KINASE_SUBSTRATE[1]
+    folder.mkdir(parents=True)
+    windows = windows if windows is not None else ["MAFKKMAF", "GGWWGG"]
+    frame = pd.DataFrame({"Protein Description": ["x"] * len(windows),
+                          P.KINASE_SUBSTRATE_WINDOW: windows})
+    with pd.ExcelWriter(folder / P.KINASE_SUBSTRATE[2]) as writer:
+        # Two title rows above the header, which is where the file keeps them.
+        pd.DataFrame([["Supplementary Data 2a"], [None]]).to_excel(
+            writer, sheet_name=P.KINASE_SUBSTRATE_SHEET, header=False, index=False)
+        frame.to_excel(writer, sheet_name=P.KINASE_SUBSTRATE_SHEET, index=False,
+                       startrow=P.KINASE_SUBSTRATE_HEADER)
+    return folder
+
+
+def _cds(tmp_path, sequences):
+    path = tmp_path / P.CDS_TABLE
+    pd.DataFrame({"gene_id": list(sequences), "cds": list(sequences.values())}).to_csv(
+        path, sep="\t", index=False)
+    return str(path)
+
+
+def test_a_site_window_that_names_one_protein_is_counted(tmp_path, monkeypatch):
+    """The only usable key in the file: its accessions are from an annotation nobody carries."""
+    _kinase_book(tmp_path, windows=["MAFKK", "MAFKK", "GGWW"])
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: _cds(tmp_path, {
+                            "PF3D7_0100100": "ATGGCTTTTAAAAAA",     # MAFKK
+                            "PF3D7_0100200": "GGAGGATGGTGGAAA"}))   # GGWWK
+    d = P.kinase_substrates(str(tmp_path), log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "cdpk1_dependent_sites"] == 2
+    assert d.loc["PF3D7_0100200", "cdpk1_dependent_sites"] == 1
+
+
+def test_a_window_in_two_proteins_is_dropped_rather_than_assigned(tmp_path, monkeypatch):
+    """Same rule as the accession index: a key that names two genes names neither."""
+    _kinase_book(tmp_path, windows=["MAFKK", "GGWW"])
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: _cds(tmp_path, {
+                            "PF3D7_0100100": "ATGGCTTTTAAAAAA",
+                            "PF3D7_0100200": "ATGGCTTTTAAAAAA",     # the same window, second gene
+                            "PF3D7_0100300": "GGAGGATGGTGGAAA"}))
+    said = []
+    d = P.kinase_substrates(str(tmp_path), log=said.append).set_index("gene_id")
+    assert list(d.index) == ["PF3D7_0100300"]
+    assert any("1 matched more than one" in m for m in said), "the cost has to be reported"
+
+
+def test_kinase_substrates_needs_the_file_the_sheet_the_column_and_the_proteome(tmp_path,
+                                                                                monkeypatch):
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: _cds(tmp_path, {"PF3D7_0100100": "ATGGCTTTTAAAAAA"}))
+    assert P.kinase_substrates(str(tmp_path), log=lambda *a: None).empty
+    folder = _kinase_book(tmp_path, windows=["NOTINANYPROTEIN"])
+    assert P.kinase_substrates(str(tmp_path), log=lambda *a: None).empty, "no window matched"
+    pd.DataFrame({"other": [1]}).to_excel(folder / P.KINASE_SUBSTRATE[2],
+                                          sheet_name=P.KINASE_SUBSTRATE_SHEET, index=False)
+    said = []
+    assert P.kinase_substrates(str(tmp_path), log=said.append).empty
+    assert any("not laid out" in m for m in said), (
+        "a re-issued supplement with a different layout must report, not raise")
+    pd.DataFrame({"other": [1] * 5}).to_excel(folder / P.KINASE_SUBSTRATE[2],
+                                          sheet_name="another sheet", index=False)
+    assert P.kinase_substrates(str(tmp_path), log=lambda *a: None).empty
+    _kinase_book(tmp_path.parent / "no_cds", windows=["MAFKK"])
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: str(tmp_path / "absent.tsv.gz"))
+    said = []
+    assert P.kinase_substrates(str(tmp_path.parent / "no_cds"), log=said.append).empty
+    assert any("CDS table" in m for m in said)
+
+
+@pytest.mark.skipif(not os.path.exists(NODES), reason="Plasmodium table not built")
+def test_the_cdpk1_set_recovers_the_papers_own_conclusion():
+    """The mapping is by sequence, so it is checked against something the sequence did not decide.
+
+    The paper's finding is that CDPK1 signalling runs through the invasion motor. The genes this
+    loader recovers are nine times more likely to be motor, IMC or invasion machinery than the
+    proteome at large -- reached from the other end, through a 15-residue window and a translation.
+    """
+    d = pd.read_parquet(NODES)
+    machinery = d["product"].fillna("").str.contains(
+        r"myosin|glideosome|inner membrane complex|\bimc\b|actin|gap45|gap50|mtip", case=False,
+        regex=True)
+    hit = d["cdpk1_dependent_sites"].notna()
+    assert hit.sum() > 50
+    assert machinery[hit].mean() > machinery.mean() * 4
+
+
+def test_a_kinase_sheet_without_the_window_column_is_refused(tmp_path):
+    """The window IS the key here, so a sheet that lost it is not a version of this table."""
+    folder = tmp_path / "post_translation" / P.KINASE_SUBSTRATE[0] / P.KINASE_SUBSTRATE[1]
+    folder.mkdir(parents=True)
+    pd.DataFrame({"a": range(6), "b": range(6)}).to_excel(
+        folder / P.KINASE_SUBSTRATE[2], sheet_name=P.KINASE_SUBSTRATE_SHEET, index=False)
+    assert P.kinase_substrates(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_build_all_folds_in_the_kinase_dependent_sites(tmp_path, monkeypatch):
+    root = _dataset_root(tmp_path)
+    _kinase_book(tmp_path, windows=["MAFKK"])
+    monkeypatch.setattr(__import__("starplast.paths", fromlist=["x"]), "cache_file",
+                        lambda name: (_cds(tmp_path, {"PF3D7_0100100": "ATGGCTTTTAAAAAA"})
+                                      if str(name).endswith(".gz") else _identity(tmp_path)))
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "cdpk1_dependent_sites"] == 1
+    assert pd.isna(d.loc["PF3D7_0100200", "cdpk1_dependent_sites"])
+
+
+def test_build_all_records_host_degree_where_the_crosslink_data_reaches(tmp_path):
+    """The one line of the assembly that needed a crosslink file to run, and now has one.
+
+    Three states, not two: a gene seen in the crosslink experiment gets a count -- zero included,
+    since being crosslinked only to parasite proteins is an observation -- and a gene the experiment
+    never saw stays missing rather than being called zero.
+    """
+    from starplast import pf_graph as G
+    root = _dataset_root(tmp_path)
+    base = tmp_path / "reference" / "plasmodb"
+    (base / G.CROSSLINK[0] / G.CROSSLINK[1]).mkdir(parents=True)
+    pd.DataFrame([("PF3D7_0100100", "Q1")], columns=["Gene ID", "UniProt ID(s)"]).to_csv(
+        base / P.UNIPROT_TABLE, sep="\t", index=False)
+    pd.DataFrame([("sp|Q1|Parasite", "sp|P02768|HumanAlbumin", 3)],
+                 columns=["Protein1", "Protein2", "Num_Crosslinks"]).to_excel(
+        base / G.CROSSLINK[0] / G.CROSSLINK[1] / G.CROSSLINK[2],
+        sheet_name=G.CROSSLINK_SHEET, index=False)
+    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assert d.loc["PF3D7_0100100", "n_host_targets"] == 1
+    assert pd.isna(d.loc["PF3D7_0100200", "n_host_targets"])
