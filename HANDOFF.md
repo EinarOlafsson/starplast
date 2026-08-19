@@ -404,11 +404,82 @@ Read /mnt/firecuda2/Claude/repo/starplast/instructions/START_HERE.md and HANDOFF
 continue starplast. The working tree is v0.38.0; 3,328 tests pass headless with every module at
 100% coverage. Check `git status` before assuming it has been published. Do not re-derive the design
 decisions in that file.
-Next: <state what you want — e.g. "v2 species switching", "search a new target", or
-"curate hit lists from the 65 PDF-only interaction studies">.
+Next: <state what you want>.
 ```
 
+**The obvious next move, 2026-08-19:** instruction 41, and seventeen empty Plasmodium slots are past
+discovery — they already carry resolved candidate studies, so the work is fetch, verify, key to Pf
+accessions, load, and diff the cache BOTH WAYS. The queue is listed in
+`instructions/open/41_fill_the_slots.md`. The other 37 empty Pf slots still need the search.
+
 Fill the `Next:` line in before sending — leaving the placeholder just costs a round trip.
+
+## Session of 2026-08-18 — what changed, and the four things not to rebuild
+
+Seven instructions closed: 39, 42, 43, 44, 45, 46, 47. 17 commits, v0.31.0 → v0.38.0, 3,062 → 3,328
+tests, every new module at 100% coverage with no `pragma`.
+
+### The result that should change what gets built next
+
+**The UMAP is the interface, not the inference engine — measured, across all twenty shipped
+questions, same closure and same control for every method** (`instructions/done/47_method_comparison.csv`):
+
+| method | mean F1 | genes named | corroborated |
+|---|---|---|---|
+| propagation · struct | 0.530 | 975 | 645 (66%) |
+| propagation · xlms | 0.504 | 630 | 189 (30%) |
+| logistic (L1) | 0.501 | 4,105 | 2,752 (67%) |
+| boosted (first question) | 0.552 | — | — |
+| **umap + hdbscan** | **0.126** | 942 | 433 (46%) |
+
+Read it carefully before concluding anything. It compares methods on ONE task — how well a partition
+aligns with a held-out label — and for a classifier the partition IS its prediction of that label, so
+it is being scored on the thing it optimised. The UMAP never sees the label at all. A structure that
+recovers `compartment` without having been shown it is a different and stronger claim than a model
+that was trained on it; what the table says is that for NAMING GENES from a known label, the map is
+the weakest tool here, and that four other methods are available behind the same guards.
+
+Two findings inside it matter more than the ranking. `xlms` — 2,842 edges of measured crosslink
+proximity — beats the entire 361-column feature matrix embedded and clustered, which says relational
+structure carries the signal and is a vindication of "position means similarity" rather than a
+refutation. And `struct` names 645 corroborated genes of 975, because Foldseek similarity needs no
+orthology and reaches lineage-specific effectors every homology route misses.
+
+### Do not rebuild these four. Each was built, measured, and refused
+
+* **Facets from the dataset registry** (42.6). Registry-first rewrote 142 facets and turned
+  `transcription · tachyzoite` into *bradyzoite* — a registry entry describes a DATASET and a stage
+  series names every stage. Registry-as-fallback put `ring`, a Plasmodium stage, on three Toxoplasma
+  slots, because shared slots resolve to entries spanning both organisms.
+* **A relational GNN** (47). Its own gate was "only if the baseline says the simpler methods are
+  leaving something on the table". The baseline now exists and says the opposite.
+* **A looser inference gate** to make all twenty questions answer. Measured: at enrichment ≥ 2 the
+  corroboration rate FALLS as the purity floor rises (0.30 → 46%, 0.80 → 10%), and the old
+  purity-0.8 rule named 2,382 genes of which the control corroborated **17**. Eleven honest silences
+  beat eleven fitted answers.
+* **`would_fill_it` verdicts naming HPA for host slots HPA cannot serve** — caught an hour after
+  writing them by fetching the file. HPA consensus tissue has no fibroblast, monocyte, neuron or
+  hepatocyte: those are cell types, in a different HPA file. It has no mouse and no Anopheles at all.
+
+### Two bugs that were live in the shipped catalogue, both substring matching
+
+`sexual` is a substring of `asexual`, so **20 Plasmodium slots measuring the ASEXUAL blood stage were
+filed under the sexual stage** — any hold-out addressed at `sexual` was silently taking them. And
+`ring` is inside `conferring`, so the Toxoplasma slot `resistance-conferring mutation` carried a
+Plasmodium blood stage. Matching is whole-word now and stage vocabularies are per organism.
+
+### The slot atlas moved for a good reason
+
+159/223 → 159/271, because 48 host-tissue slots were declared empty with a verdict each. The
+parasite-gene slots did not move. The generator reports per unit now, since one headline over four
+denominators hides which one changed:
+
+    gene 141/198 · pair 15/19 · metabolite 3/6 · host_gene 0/48
+
+### One process trap, hit three times
+
+`git mv` moves the INDEXED copy. Instruction records edited between staging and moving were written
+but not committed — it happened to 42, 43 and 47. If a "DONE" record looks empty, that is why.
 
 ## State of the application — verified 2026-08-14 (v0.31.0)
 
