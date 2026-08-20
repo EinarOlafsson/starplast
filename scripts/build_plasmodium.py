@@ -36,16 +36,22 @@ from starplast import host, paths, pf_graph, plasmodium  # noqa: E402
 NOTABLE = 1
 
 
-def diff(old: pd.DataFrame, new: pd.DataFrame) -> dict:
-    """What changed between two builds, in both directions."""
+def diff(old: pd.DataFrame, new: pd.DataFrame, key: str = "gene_id") -> dict:
+    """What changed between two builds, in both directions.
+
+    `key` is the column that identifies a row, because this is now run over the host table too and
+    its rows are proteins. Writing a host table with the gene key would compare two empty sets and
+    report every dropped protein as nothing at all.
+    """
     old_cols, new_cols = set(old.columns), set(new.columns)
     shared = sorted(old_cols & new_cols)
     coverage = {c: (int(old[c].notna().sum()), int(new[c].notna().sum())) for c in shared}
     return {"gained": sorted(new_cols - old_cols),
             "lost": sorted(old_cols - new_cols),
             "rows": (len(old), len(new)),
-            "genes_lost": sorted(set(old.get("gene_id", [])) - set(new.get("gene_id", []))),
-            "genes_gained": sorted(set(new.get("gene_id", [])) - set(old.get("gene_id", []))),
+            "key": key,
+            "genes_lost": sorted(set(old.get(key, [])) - set(new.get(key, []))),
+            "genes_gained": sorted(set(new.get(key, [])) - set(old.get(key, []))),
             "fell": {c: v for c, v in coverage.items() if v[1] - v[0] <= -NOTABLE},
             "rose": {c: v for c, v in coverage.items() if v[1] - v[0] >= NOTABLE}}
 
@@ -58,14 +64,15 @@ def report(d: dict, log=print) -> None:
         log(f"  + {c}")
     for c in d["lost"]:
         log(f"  - {c}   <-- LOST")
+    noun = "genes" if d.get("key", "gene_id") == "gene_id" else "rows"
     for c, (before, after) in sorted(d["fell"].items()):
-        log(f"  ! {c}: {before:,} -> {after:,} genes   <-- coverage FELL")
+        log(f"  ! {c}: {before:,} -> {after:,} {noun}   <-- coverage FELL")
     for c, (before, after) in sorted(d["rose"].items()):
-        log(f"  ^ {c}: {before:,} -> {after:,} genes")
+        log(f"  ^ {c}: {before:,} -> {after:,} {noun}")
     if d["genes_lost"]:
-        log(f"  genes dropped: {len(d['genes_lost'])} ({', '.join(d['genes_lost'][:5])} ...)")
+        log(f"  {noun} dropped: {len(d['genes_lost'])} ({', '.join(d['genes_lost'][:5])} ...)")
     if d["genes_gained"]:
-        log(f"  genes added: {len(d['genes_gained'])}")
+        log(f"  {noun} added: {len(d['genes_gained'])}")
 
 
 def regressions(d: dict) -> list:
@@ -74,7 +81,8 @@ def regressions(d: dict) -> list:
     out += [f"coverage fell in {c}: {before:,} -> {after:,}"
             for c, (before, after) in sorted(d["fell"].items())]
     if d["genes_lost"]:
-        out.append(f"{len(d['genes_lost'])} genes dropped from the table")
+        noun = "genes" if d.get("key", "gene_id") == "gene_id" else "rows"
+        out.append(f"{len(d['genes_lost'])} {noun} dropped from the table")
     return out
 
 
@@ -90,26 +98,30 @@ def main(argv=None, log=print) -> int:
     root = args.dataset_root or paths.dataset_root()
     table = paths.cache_file(plasmodium.TABLE)
     graph = paths.cache_file(pf_graph.GRAPH)
-    # The host table first, because a host slot is graded against it and the Plasmodium arm is what
-    # brought a tissue proteome into this project. Merged rather than overwritten: `build_graph`
-    # writes the Toxoplasma pulldown's columns into the same file, and the two owners share a key
-    # rather than a column.
-    tissue = host.erythrocyte_proteome(root, log=log)
+    # The host table first, because a host slot is graded against it. It is not a Plasmodium file
+    # -- a mouse macrophage surfaceome answers a Toxoplasma slot -- but this is the one build that
+    # already assembles it, and splitting it out would give two scripts one output. Merged rather
+    # than overwritten: `build_graph` writes the Toxoplasma pulldown's columns into the same file,
+    # and the owners share a key rather than a column.
+    tissue = host.tissue_references(root, log=log)
     if not tissue.empty:
         host_path = paths.cache_file("host_proteins.parquet")
         existing = pd.read_parquet(host_path) if os.path.exists(host_path) else pd.DataFrame()
+        merged = host.merge_tissue(existing, tissue)
+        # Diffed like the gene table, and for the same reason: this merge silently dropped 311 host
+        # symbols the first time it ran, and nothing said so because nothing was looking.
         if len(existing):
-            keep = [c for c in existing.columns if c not in tissue.columns or c in ("host_id",)]
-            merged = existing[keep].merge(tissue, on="host_id", how="outer")
-            # `host_name` comes from both sides; the one already there wins, since it is what the
-            # bridges were written against.
-            if "host_name_x" in merged.columns:
-                merged["host_name"] = merged["host_name_x"].fillna(merged["host_name_y"])
-                merged = merged.drop(columns=["host_name_x", "host_name_y"])
-        else:
-            merged = tissue
-        merged.to_parquet(host_path, index=False)
-        log(f"wrote {host_path}  ({len(merged):,} host proteins, {len(merged.columns)} columns)")
+            host_diff = diff(existing, merged, key="host_id")
+            log("host table:")
+            report(host_diff, log=log)
+            problems = regressions(host_diff)
+            if problems and not args.allow_loss:
+                log("REFUSING to write the host table. " + "; ".join(problems))
+                return 2
+        if not args.dry_run:
+            merged.to_parquet(host_path, index=False)
+            log(f"wrote {host_path}  ({len(merged):,} host proteins, "
+                f"{len(merged.columns)} columns)")
 
     new = plasmodium.build_all(root, log=log)
     if new.empty:

@@ -1469,6 +1469,89 @@ REGISTRY = [
                  "keyed by UniProt accession and live in the host table, never in a parasite one; a "
                  "row can name several genes (`HBA1; HBA2`) and the string is kept as given rather "
                  "than one of them chosen."),
+    Dataset("pf_foldseek_struct", "Foldseek structural similarity (Plasmodium)",
+            "post_translation", "structure",
+            "Which parasite proteins fold alike, without asking whether they are related",
+            ("n_struct_similar", "edge:struct"),
+            "4,571 pairs / 1,620 genes at TM >= 0.7",
+            # Same declaration as the Toxoplasma layer: the models are the input, and `mean_plddt`
+            # is the column that says this project has them.
+            derived_from=("mean_plddt",),
+            note="COMPUTED HERE by `scripts/run_foldseek.py`, so there is nothing to download; the "
+                 "models come from the AlphaFold reference proteome UP000001450 (5,168 of them). "
+                 "TM-align rather than foldseek's faster 3Di+AA mode, and the same TM >= 0.7 cut "
+                 "as the Toxoplasma layer, because two arms whose `structural similarity` means "
+                 "two different numbers cannot be compared. The threshold is applied by the "
+                 "LOADER, not the search, so the shipped pair table keeps everything above the "
+                 "e-value cut and the cut can be revisited without re-running an hour of "
+                 "alignment.\n\n"
+                 "PREFILTERED, not exhaustive, and that is a caveat rather than a detail. The "
+                 "exhaustive search -- every one of the 26.7 million pairs TM-aligned -- was "
+                 "attempted twice and finished neither time, so no exhaustive result exists to "
+                 "compare this against and it CANNOT be claimed that no pair was missed. Two "
+                 "things argue the loss is small: at TM >= 0.7 the 3Di k-mer prefilter is "
+                 "retaining exactly what it was built to retain, and the per-query cap provably "
+                 "does not bind -- the busiest query returned 159 rows against a ceiling of 300. "
+                 "If a later run needs certainty, the tell that the cap has started to bind is "
+                 "queries returning exactly `--max-seqs` rows.\n\n"
+                 "Validated on what it should and should not say: structural neighbours share an "
+                 "orthogroup 13.9% of the time against 0.35% for random pairs, a 39-fold "
+                 "enrichment, which is the positive control; and 3,937 of the 4,571 pairs (86%) "
+                 "join genes in DIFFERENT orthogroups, which is the layer's whole reason to "
+                 "exist. The Toxoplasma claim that it `reaches genes homology cannot` does NOT "
+                 "transfer verbatim: PlasmoDB gives all 5,720 genes an orthogroup, so there are "
+                 "none without one to reach, and the cross-orthogroup share is the honest form of "
+                 "that statement here."),
+    Dataset("host_erythrocyte_surface", "Human red blood cell SURFACE proteome, by population",
+            "reference", "proteomics",
+            "Which host proteins are reachable from outside the cell the merozoite invades",
+            ("rbc_surface_copies_uk", "rbc_surface_copies_senegal",
+             "rbc_surface_found_uk", "rbc_surface_found_senegal"),
+            "267 plasma-membrane proteins, 230 in both populations", pmid="31552303",
+            accession="Commun Biol 0596 Supplementary Data 2A",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6754445/supplementaryFiles",
+            path="datasets/host/erythrocyte/31552303/42003_2019_596_MOESM6_ESM.xlsx",
+            note="Plasma membrane profiling, so this is the OUTSIDE of an intact red cell rather "
+                 "than everything in it -- a different question from the fractionated proteome "
+                 "beside it, and the one an invasion receptor slot asks. The authors' stated aim "
+                 "is candidate Plasmodium receptors. The two donor populations, nine UK and nine "
+                 "Senegalese, ship as their own columns because the difference IS the result: "
+                 "averaging a Duffy-positive population with a Duffy-negative one would erase the "
+                 "best-known receptor polymorphism in malaria. A zero is the paper's own encoding "
+                 "for `not identified in this population`, which is why the found flags ship "
+                 "beside the counts -- for ACKR1 the zero is the West African Duffy-negative "
+                 "phenotype and not a detection failure, and only the flag separates those. "
+                 "Reconciles with the paper's own sheets: 230 proteins in both populations, 11 in "
+                 "UK donors only, 26 in Senegalese donors only. Self-validating against numbers "
+                 "measured long before mass spectrometry -- band 3 at 1.3 million copies per cell "
+                 "and glycophorin A at 3.3 million, with basigin present in both populations."),
+    Dataset("host_macrophage_surfaceome", "Mouse bone-marrow macrophage cell-surface repertoire",
+            "reference", "proteomics",
+            "Which host proteins are EXPOSED on the surface of the macrophage a tachyzoite invades",
+            ("bmdm_surface_detected", "bmdm_surface_intensity"),
+            "1,296 mouse surface proteins, 150 of them on primary BMDM", pmid="25894527",
+            accession="PLoS ONE 0121314 S1 File",
+            url="https://journals.plos.org/plosone/article/file?id=10.1371/"
+                "journal.pone.0121314.s002&type=supplementary",
+            path="datasets/host/cspa/25894527/S1_File.xlsx",
+            note="Cell-surface capture, so this is a REPERTOIRE and not a proteome: a protein here "
+                 "is on the outside of an intact cell, which is the surface the parasite meets, "
+                 "rather than merely present somewhere in it. The row space is every protein the "
+                 "atlas saw on the surface of ANY mouse cell type, which makes a `False` a real "
+                 "negative -- the same capture ran on macrophages and did not find it -- and that "
+                 "is what instruction 39 means by a repertoire slot being FILLED rather than "
+                 "averaged. The shipped flag is a NULLABLE boolean: the host table also holds "
+                 "human red cell rows where the question was never asked, and a plain bool would "
+                 "turn those into `False`. Of the 41 human and 31 mouse cell types in the atlas, "
+                 "this is the only one either parasite lives in -- there is no erythrocyte, no "
+                 "hepatocyte and no primary fibroblast in it, so it fills one slot and not six. "
+                 "The lab's own copy of the file is a git-lfs pointer served as the spreadsheet "
+                 "(132 bytes that open as nothing); the journal's supplement is the same bytes and "
+                 "is what this fetches. The deposit's two matrices disagree for twelve proteins, "
+                 "nine with a macrophage intensity and no detection mark and three the other way; "
+                 "either sheet counts as the authors having measured it there, and the count of "
+                 "disagreements is logged rather than smoothed. Self-validating: the strongest "
+                 "signals are Emr1 (F4/80), Siglec1 (CD169), Itgb2, Cd47 and H2-K1."),
     Dataset("pf_literature", "Plasmodium falciparum abstract corpus (COMPUTED layer)",
             "reference", "literature",
             "Who is named in the malaria literature, how deeply, and which genes appear together",

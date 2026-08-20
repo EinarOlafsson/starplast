@@ -194,6 +194,7 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Crosslinking MS interactome | How many proteins this one crosslinks to | 494 proteins | PMID [40874616](https://pubmed.ncbi.nlm.nih.gov/40874616/); `mBio 02159-25 supplementary file s0004` |
 | Cyst wall interactome | Strongest bait signal and how many baits saw the protein | 56 proteins | PMID [32019789](https://pubmed.ncbi.nlm.nih.gov/32019789/); `PMC7002340 Data Set S1` |
 | Foldseek structural similarity | TM-align over Toxoplasma AlphaFold models, TM >= 0.7 | 11,684 pairs / 2,338 genes | *citation not yet confirmed* |
+| Foldseek structural similarity (Plasmodium) | Which parasite proteins fold alike, without asking whether they are related | 4,571 pairs / 1,620 genes at TM >= 0.7 | *citation not yet confirmed* |
 | Host proteins at the vacuole | How enriched a host protein is at the parasitophorous vacuole | 12 host proteins | PMID [34898650](https://pubmed.ncbi.nlm.nih.gov/34898650/); `PLoS Pathogens 1010138 supplementary table` |
 | IP-MS of tagged baits | Replicated pulldown vs untagged control | 64 pairs / 48 genes | `PXD043808, PXD065585` |
 | IP-MS supplement membership corpus | Number of downloaded pulldown studies whose supplement names each gene | measured at build time | *citation not yet confirmed* |
@@ -236,11 +237,13 @@ generated from `starplast.datasets.REGISTRY`; a test fails if it drifts from the
 | Drug sensitivity per gene (CURATED) | Knockouts with a measured shift in sensitivity to a named compound | 3 genes, 2 compounds | PMID [41025776](https://pubmed.ncbi.nlm.nih.gov/41025776/); `mBio, PMID 41025776` |
 | Enteric / sexual-cycle fitness per gene (CURATED) | Gene disruptions carried through the feline stage with oocyst output measured | 8 genes, 4 studies | PMID [28288194](https://pubmed.ncbi.nlm.nih.gov/28288194/); `PMIDs 28288194, 30728393, 36809045 and PMC12942651` |
 | Enzyme classification (ToxoDB) | EC number per gene, and whether it has one | 1,313 enzymes of 8,140 genes | `ToxoDB ME49` |
+| Human red blood cell SURFACE proteome, by population | Which host proteins are reachable from outside the cell the merozoite invades | 267 plasma-membrane proteins, 230 in both populations | PMID [31552303](https://pubmed.ncbi.nlm.nih.gov/31552303/); `Commun Biol 0596 Supplementary Data 2A` |
 | Human red blood cell proteome, by fraction | Which human proteins are present in the cell the blood stage lives in | 5,264 human proteins: 4,777 membrane, 2,350 cytoplasmic | PMID [41654503](https://pubmed.ncbi.nlm.nih.gov/41654503/); `Sci Data 06792 Supplementary Table S1` |
 | IEDB epitopes mapped to genes (via ToxoDB) | How many IEDB epitopes ToxoDB maps to this gene | 221 genes | `ToxoDB / IEDB` |
 | InterPro domains | Domain identity and count | 8,140 | *citation not yet confirmed* |
 | Membrane lipid composition of parasite vesicles | Lipid species abundance, and its proportion against the host cell | 194 lipid species | PMID [41716462](https://pubmed.ncbi.nlm.nih.gov/41716462/); `Front Cell Infect Microbiol 1745625 Tables 1-3` |
 | Metabolome and isotope labelling under iron deprivation | Steady-state metabolite levels and the fraction labelled from glucose or glutamine | 1,102 metabolites | PMID [41925342](https://pubmed.ncbi.nlm.nih.gov/41925342/); `mBio 03788-25 Tables S3 and S5` |
+| Mouse bone-marrow macrophage cell-surface repertoire | Which host proteins are EXPOSED on the surface of the macrophage a tachyzoite invades | 1,296 mouse surface proteins, 150 of them on primary BMDM | PMID [25894527](https://pubmed.ncbi.nlm.nih.gov/25894527/); `PLoS ONE 0121314 S1 File` |
 | OrthoMCL orthogroups | Orthogroup assignment and cross-species bridge | 16,793 groups | `OrthoMCL release 6.21` |
 | PlasmoDB gene identity | Symbols, previous IDs, product descriptions for the Plasmodium arm | 5,791 P. falciparum 3D7 transcripts | `PlasmoDB 3D7` |
 | Plasmodium T-cell epitopes (IEDB) | Distinct T-cell epitope sequences per gene | 44 antigens, 1,542 distinct epitopes | `IEDB tcell_search` |

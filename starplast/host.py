@@ -426,3 +426,180 @@ def erythrocyte_proteome(dataset_root: str, log=print) -> pd.DataFrame:
     found = {c: int(out[c].notna().sum()) for c in ERYTHROCYTE_FRACTIONS.values() if c in out}
     log(f"erythrocyte proteome: {len(out):,} human proteins ({found})")
     return out
+
+
+#: The Cell Surface Protein Atlas, `(folder, pmid, file)`. Cell-surface capture on 41 human and 31
+#: mouse cell types; only one of them is a tissue this project's parasites live in, and it is the
+#: primary mouse bone-marrow-derived macrophage the tachyzoite is grown in.
+CSPA = ("cspa", "25894527", "S1_File.xlsx")
+#: The sheets, and the column each one calls the macrophage. They are named differently in the two
+#: matrices, which is why both are written out rather than derived from the tissue name.
+CSPA_SHEETS = {"annotation": "Table_A", "mouse_matrix": "Table_C", "mouse_intensity": "Table_F"}
+CSPA_BMDM = {"mouse_matrix": "Macrophages (BM-der.)", "mouse_intensity": "BMd_Macrophages"}
+
+
+def surface_repertoire(dataset_root: str, log=print) -> pd.DataFrame:
+    """The surface proteins of a primary mouse bone-marrow macrophage, with their absences.
+
+    A repertoire rather than a proteome, and the difference is the point: cell-surface capture
+    labels what is exposed on an intact cell, so a protein here is at the surface the tachyzoite
+    meets rather than merely present somewhere in the cell. The row space is every protein the atlas
+    saw on the surface of ANY mouse cell type, so a `False` is a real negative -- the same capture
+    ran on macrophages and did not find it -- which is what instruction 39 means by a repertoire
+    slot being FILLED rather than averaged.
+
+    The deposit's two matrices disagree for twelve proteins: nine carry a macrophage intensity in
+    the abundance sheet with no mark in the detection matrix, and three are marked without one. A
+    protein either sheet places on the macrophage is counted present, because both are the authors'
+    own record of having measured it there, and the disagreement is logged rather than smoothed.
+
+    Self-validating: the strongest signals are Emr1 (F4/80), Siglec1 (CD169), Itgb2, Cd47 and
+    H2-K1 -- the surface a macrophage is identified by.
+    """
+    folder, pmid, name = CSPA
+    path = os.path.join(dataset_root, "host", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if not set(CSPA_SHEETS.values()) <= set(book.sheet_names):
+        return pd.DataFrame()
+
+    def _columns(frame):
+        frame.columns = [str(c).strip() for c in frame.columns]
+        return frame
+
+    matrix = _columns(book.parse(CSPA_SHEETS["mouse_matrix"]))
+    intensity = _columns(book.parse(CSPA_SHEETS["mouse_intensity"]))
+    annotation = _columns(book.parse(CSPA_SHEETS["annotation"]))
+    if CSPA_BMDM["mouse_matrix"] not in matrix.columns or \
+            CSPA_BMDM["mouse_intensity"] not in intensity.columns:
+        return pd.DataFrame()
+
+    # One row per accession. The annotation sheet lists a protein once per peptide, so it is
+    # collapsed before it can multiply the matrix it is joined to.
+    mouse = annotation[annotation["organism"].astype(str).str.strip().str.lower() == "mouse"]
+    symbols = (mouse.drop_duplicates("ID_link").set_index("ID_link")["ENTREZ gene symbol"]
+               .astype(str).str.strip())
+    values = (intensity.set_index("Protein")[CSPA_BMDM["mouse_intensity"]]
+              .groupby(level=0).max().dropna())
+    ids = matrix["ID_link"].astype(str).str.strip()
+    out = pd.DataFrame({
+        "host_id": ids,
+        "host_name": [symbols.get(i, "") for i in ids],
+        "bmdm_surface_intensity": [values.get(i, np.nan) for i in ids]})
+    out["marked"] = (matrix[CSPA_BMDM["mouse_matrix"]] == 1).to_numpy()
+    # Nullable boolean on purpose. This column joins a table that also holds human red cell rows,
+    # where the question was never asked, and a plain numpy bool would turn those into `False` --
+    # "cell-surface capture looked and did not find it" said about a cell it never touched. The
+    # dtype also survives the parquet round trip as a boolean, which is what makes the atlas count
+    # its TRUEs rather than its rows.
+    out["bmdm_surface_detected"] = (out["marked"]
+                                    | out["bmdm_surface_intensity"].notna()).astype("boolean")
+    out = out[out["host_id"].str.fullmatch(
+        r"[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}")]
+    out = out.drop_duplicates("host_id").reset_index(drop=True)
+    disagree = int((out["marked"] != out["bmdm_surface_intensity"].notna()).sum())
+    out = out.drop(columns=["marked"])
+    quantified = int(out["bmdm_surface_intensity"].notna().sum())
+    present = int(out["bmdm_surface_detected"].sum())
+    log(f"macrophage surfaceome: {present} of {len(out):,} mouse surface proteins on BMDM "
+        f"({quantified} with an intensity, {disagree} where the two sheets disagree)")
+    return out
+
+
+def merge_tissue(existing: pd.DataFrame, new: pd.DataFrame) -> pd.DataFrame:
+    """One host table, several owners, and a shared key rather than a shared column.
+
+    `build_graph` writes the Toxoplasma pulldown's columns into the same file a tissue reference
+    writes into, and a tissue of one host species has no accession in common with a tissue of
+    another. Joined on the key so both survive: a column the new frame does not carry keeps its
+    old values, and a row it does not mention keeps existing.
+    """
+    if new.empty:
+        return existing
+    if not len(existing):
+        return new
+    # `host_id` and `host_name` are the key and its label rather than measurements, so they are
+    # kept from BOTH sides and reconciled below. Dropping the old `host_name` because the new frame
+    # also carries one is how 311 bridge proteins lost their symbols in the shipped table.
+    keep = [c for c in existing.columns
+            if c not in new.columns or c in ("host_id", "host_name")]
+    merged = existing[keep].merge(new, on="host_id", how="outer")
+    # `host_name` comes from both sides; the one already there wins, since it is what the bridges
+    # were written against.
+    if "host_name_x" in merged.columns:
+        merged["host_name"] = merged["host_name_x"].fillna(merged["host_name_y"])
+        merged = merged.drop(columns=["host_name_x", "host_name_y"])
+    return merged
+
+
+#: The red cell SURFACE, `(folder, pmid, file)`, and the sheet holding all 267 plasma-membrane
+#: proteins. A different question from the fractionation above: plasma membrane profiling asks what
+#: is on the outside of an intact cell, and the merozoite's receptors are exactly there.
+RBC_SURFACE = ("erythrocyte", "31552303", "42003_2019_596_MOESM6_ESM.xlsx")
+RBC_SURFACE_SHEET = "Data S2A"
+#: Column in the sheet -> column shipped. The two donor populations are kept APART: the paper's
+#: finding is that they differ, and averaging a Duffy-positive population with a Duffy-negative one
+#: would erase the single best-known receptor polymorphism in malaria.
+RBC_SURFACE_COLUMNS = {"Estimated copies/cell UK sample": "rbc_surface_copies_uk",
+                       "Estimated copies/cell Senegal sample": "rbc_surface_copies_senegal",
+                       "Found in UK sample": "rbc_surface_found_uk",
+                       "Found in Senegal sample": "rbc_surface_found_senegal"}
+
+
+def surface_receptors(dataset_root: str, log=print) -> pd.DataFrame:
+    """The red blood cell surface, per donor population, in copies per cell.
+
+    The invasion interface. `erythrocyte_proteome` says what is in the cell; this says what is
+    reachable from outside it, which is the question a receptor slot asks and the reason the study
+    was done -- the authors' stated aim is candidate Plasmodium receptors.
+
+    Both populations ship as their own columns because the difference IS the result. A zero is the
+    paper's own encoding for "not identified in this population's donors", which is why the found
+    flags ship beside the counts: for ACKR1 the zero is the Duffy-negative phenotype of West Africa
+    rather than a detection failure, and nothing but the flag lets a reader tell those apart.
+
+    Self-validating against numbers measured long before mass spectrometry: band 3 comes out at
+    1.3 million copies per cell and glycophorin A at 3.3 million, the two most abundant proteins of
+    the red cell membrane; basigin, the receptor PfRH5 must bind, is present in both populations;
+    CR1 and the Duffy antigen are far lower in the Senegalese donors, which is what the population
+    genetics of malaria says they should be.
+    """
+    folder, pmid, name = RBC_SURFACE
+    path = os.path.join(dataset_root, "host", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    book = pd.ExcelFile(path)
+    if RBC_SURFACE_SHEET not in book.sheet_names:
+        return pd.DataFrame()
+    d = book.parse(RBC_SURFACE_SHEET)
+    d.columns = [str(c).strip() for c in d.columns]
+    if not {"Uniprot", "Name"} | set(RBC_SURFACE_COLUMNS) <= set(d.columns):
+        return pd.DataFrame()
+    out = pd.DataFrame({"host_id": d["Uniprot"].astype(str).str.strip(),
+                        "host_name": d["Name"].astype(str).str.strip()})
+    for source, column in RBC_SURFACE_COLUMNS.items():
+        values = pd.to_numeric(d[source], errors="coerce")
+        out[column] = values.astype("boolean") if column.startswith("rbc_surface_found") else values
+    out = out[out["host_id"].str.fullmatch(
+        r"[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}")]
+    out = out.drop_duplicates("host_id").reset_index(drop=True)
+    both = int((out["rbc_surface_found_uk"].fillna(False)
+                & out["rbc_surface_found_senegal"].fillna(False)).sum())
+    log(f"red cell surface: {len(out):,} plasma-membrane proteins, {both} in both populations "
+        f"({int(out['rbc_surface_found_uk'].fillna(False).sum())} UK, "
+        f"{int(out['rbc_surface_found_senegal'].fillna(False).sum())} Senegal)")
+    return out
+
+
+#: Every tissue reference the project has loaded, newest last. A tissue is one entry, so adding one
+#: is a line here plus its loader rather than an edit to a build script.
+TISSUE_REFERENCES = ("erythrocyte_proteome", "surface_receptors", "surface_repertoire")
+
+
+def tissue_references(dataset_root: str, log=print) -> pd.DataFrame:
+    """The host tissues, merged onto one key. Empty if none of them are on disk."""
+    out = pd.DataFrame()
+    for name in TISSUE_REFERENCES:
+        out = merge_tissue(out, globals()[name](dataset_root, log=log))
+    return out

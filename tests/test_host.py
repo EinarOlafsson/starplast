@@ -540,3 +540,183 @@ def test_a_missing_or_wrong_shaped_erythrocyte_file_is_empty(tmp_path):
     pd.DataFrame({"something": [1]}).to_excel(os.path.join(folder, H.ERYTHROCYTE[2]),
                                               sheet_name="Membrane extract", index=False)
     assert H.erythrocyte_proteome(root, log=lambda *a: None).empty
+
+
+# --------------------------------------------------------------- the macrophage surface repertoire
+def _cspa_book(tmp_path, marked=("P11835",), intensity=None, sheets=None):
+    """The Cell Surface Protein Atlas as its paper ships it: an annotation sheet and two matrices
+    that do not agree with each other."""
+    folder = tmp_path / "host" / H.CSPA[0] / H.CSPA[1]
+    folder.mkdir(parents=True, exist_ok=True)
+    intensity = {"Q61549": 18.9} if intensity is None else intensity
+    ids = ["P11835", "Q61549", "P02468"]
+    annotation = pd.DataFrame({
+        "organism": ["Mouse"] * 4 + ["Human"],
+        "ID_link": ids + ["P11835", "P01730"],
+        "ENTREZ gene symbol": ["Itgb2", "Emr1", "Lamc1", "Itgb2", "CD4"]})
+    matrix = pd.DataFrame({
+        "organisme\n": ["mouse"] * 3,
+        "ID_link\n": ids,
+        H.CSPA_BMDM["mouse_matrix"]: [1.0 if i in marked else None for i in ids],
+        "Astroglia": [1.0, None, 1.0]})
+    values = pd.DataFrame({"Protein": ids,
+                           H.CSPA_BMDM["mouse_intensity"]: [intensity.get(i) for i in ids],
+                           "Astroglia": [15.0, None, 16.0]})
+    frames = {H.CSPA_SHEETS["annotation"]: annotation,
+              H.CSPA_SHEETS["mouse_matrix"]: matrix,
+              H.CSPA_SHEETS["mouse_intensity"]: values}
+    with pd.ExcelWriter(folder / H.CSPA[2]) as writer:
+        for sheet, frame in frames.items():
+            if sheets is None or sheet in sheets:
+                frame.to_excel(writer, sheet_name=sheet, index=False)
+        if sheets is not None and not set(frames) & set(sheets):
+            annotation.to_excel(writer, sheet_name="other", index=False)
+    return str(tmp_path)
+
+
+def test_a_protein_the_capture_missed_is_a_negative_not_a_gap(tmp_path):
+    """The row space is every protein the atlas saw on ANY mouse cell, so a False here means the
+    same capture ran on macrophages and did not find it. That is the answer, not its absence."""
+    d = H.surface_repertoire(_cspa_book(tmp_path), log=lambda *a: None).set_index("host_id")
+    assert bool(d.loc["P11835", "bmdm_surface_detected"]) is True
+    assert bool(d.loc["P02468", "bmdm_surface_detected"]) is False
+    assert pd.isna(d.loc["P02468", "bmdm_surface_intensity"]), "no intensity is not an intensity"
+
+
+def test_either_sheet_placing_a_protein_on_the_macrophage_counts(tmp_path):
+    """The deposit's two matrices disagree for twelve proteins. An intensity IS the authors having
+    measured it there, so it counts, and the reverse counts too."""
+    d = H.surface_repertoire(_cspa_book(tmp_path), log=lambda *a: None).set_index("host_id")
+    assert bool(d.loc["Q61549", "bmdm_surface_detected"]) is True, "intensity, no detection mark"
+    assert d.loc["Q61549", "bmdm_surface_intensity"] == pytest.approx(18.9)
+    assert pd.isna(d.loc["P11835", "bmdm_surface_intensity"]), "detection mark, no intensity"
+
+
+def test_the_flag_is_nullable_so_another_tissue_is_not_a_negative(tmp_path):
+    """A plain bool would make every human red cell row read as 'looked at and not found'."""
+    d = H.surface_repertoire(_cspa_book(tmp_path), log=lambda *a: None)
+    assert str(d["bmdm_surface_detected"].dtype) == "boolean"
+    merged = H.merge_tissue(pd.DataFrame({"host_id": ["P69905"], "host_name": ["HBA1"]}), d)
+    assert pd.isna(merged.set_index("host_id").loc["P69905", "bmdm_surface_detected"])
+
+
+def test_only_the_mouse_half_of_the_atlas_names_these_rows(tmp_path):
+    """The annotation sheet holds both species and lists a protein once per peptide; a human row
+    with the same accession must not name a mouse one, and neither may multiply it."""
+    d = H.surface_repertoire(_cspa_book(tmp_path), log=lambda *a: None)
+    assert len(d) == 3 and d["host_id"].is_unique
+    assert d.set_index("host_id").loc["P11835", "host_name"] == "Itgb2"
+
+
+def test_a_missing_or_wrong_shaped_surface_file_is_empty(tmp_path):
+    assert H.surface_repertoire(str(tmp_path), log=lambda *a: None).empty
+    assert H.surface_repertoire(_cspa_book(tmp_path, sheets=["nothing"]),
+                                log=lambda *a: None).empty
+
+
+def test_a_surface_file_without_the_macrophage_column_is_empty(tmp_path):
+    root = _cspa_book(tmp_path)
+    folder = os.path.join(root, "host", H.CSPA[0], H.CSPA[1])
+    with pd.ExcelWriter(os.path.join(folder, H.CSPA[2])) as writer:
+        for sheet in H.CSPA_SHEETS.values():
+            pd.DataFrame({"ID_link": ["P11835"], "Protein": ["P11835"], "organism": ["Mouse"],
+                          "ENTREZ gene symbol": ["Itgb2"]}).to_excel(
+                writer, sheet_name=sheet, index=False)
+    assert H.surface_repertoire(root, log=lambda *a: None).empty
+
+
+def test_the_merge_keeps_the_symbols_the_bridges_were_written_against(tmp_path):
+    """Dropping the old `host_name` because the new frame also carries one is how 311 bridge
+    proteins lost their symbols in the shipped table."""
+    existing = pd.DataFrame({"host_id": ["O75340"], "host_name": ["PDCD6"],
+                             "pv_enrichment_log2": [5.9]})
+    new = pd.DataFrame({"host_id": ["P11277"], "host_name": ["SPTB"], "rbc_membrane_psms": [500.0]})
+    merged = H.merge_tissue(existing, new).set_index("host_id")
+    assert merged.loc["O75340", "host_name"] == "PDCD6"
+    assert merged.loc["P11277", "host_name"] == "SPTB"
+    assert merged.loc["O75340", "pv_enrichment_log2"] == pytest.approx(5.9)
+
+
+def test_merging_nothing_either_way_changes_nothing():
+    frame = pd.DataFrame({"host_id": ["O75340"], "host_name": ["PDCD6"]})
+    assert H.merge_tissue(frame, pd.DataFrame()).equals(frame)
+    assert H.merge_tissue(pd.DataFrame(), frame).equals(frame)
+
+
+def test_every_tissue_reference_is_a_loader_this_module_has(tmp_path):
+    """`TISSUE_REFERENCES` is what a build iterates; a name with no function behind it would fail
+    at build time rather than here."""
+    for name in H.TISSUE_REFERENCES:
+        assert callable(getattr(H, name)), name
+    assert H.tissue_references(str(tmp_path), log=lambda *a: None).empty
+
+
+def test_the_tissues_merge_onto_one_key(tmp_path):
+    _rbc_book(tmp_path)
+    _cspa_book(tmp_path)
+    out = H.tissue_references(str(tmp_path), log=lambda *a: None).set_index("host_id")
+    assert out.loc["P11277", "rbc_membrane_psms"] == 500
+    assert bool(out.loc["P11835", "bmdm_surface_detected"]) is True
+    assert pd.isna(out.loc["P11277", "bmdm_surface_detected"]), "a red cell was never captured"
+
+
+# --------------------------------------------------------------------- the red cell surface itself
+def _surface_book(tmp_path, rows=None, sheet=None):
+    """The red cell surface as its paper ships it: one wide sheet, two donor populations."""
+    folder = tmp_path / "host" / H.RBC_SURFACE[0] / H.RBC_SURFACE[1]
+    folder.mkdir(parents=True, exist_ok=True)
+    rows = rows if rows is not None else [
+        ("Q16570", "ACKR1", 13452.5, 0.0, 1, 0),
+        ("P02730", "SLC4A1", 1304561.5, 2422530.8, 1, 1),
+        ("not an id", "junk", 1.0, 1.0, 1, 1)]
+    frame = pd.DataFrame(rows, columns=["Uniprot", "Name"] + list(H.RBC_SURFACE_COLUMNS))
+    with pd.ExcelWriter(folder / H.RBC_SURFACE[2]) as writer:
+        frame.to_excel(writer, sheet_name=sheet or H.RBC_SURFACE_SHEET, index=False)
+    return str(tmp_path)
+
+
+def test_the_two_donor_populations_stay_two_columns(tmp_path):
+    """Averaging a Duffy-positive population with a Duffy-negative one would erase the best-known
+    receptor polymorphism in malaria, which is the finding the study exists for."""
+    d = H.surface_receptors(_surface_book(tmp_path), log=lambda *a: None).set_index("host_id")
+    assert d.loc["Q16570", "rbc_surface_copies_uk"] == pytest.approx(13452.5)
+    assert d.loc["Q16570", "rbc_surface_copies_senegal"] == 0.0
+    assert bool(d.loc["Q16570", "rbc_surface_found_uk"]) is True
+    assert bool(d.loc["Q16570", "rbc_surface_found_senegal"]) is False
+
+
+def test_a_zero_keeps_the_flag_that_says_what_kind_of_zero_it_is(tmp_path):
+    """The source writes 0 for `not identified in this population`. Without the flag beside it, a
+    phenotype and a detection failure are the same number."""
+    d = H.surface_receptors(_surface_book(tmp_path), log=lambda *a: None).set_index("host_id")
+    assert str(d["rbc_surface_found_senegal"].dtype) == "boolean"
+    assert d.loc["P02730", "rbc_surface_copies_senegal"] > 0
+    assert bool(d.loc["P02730", "rbc_surface_found_senegal"]) is True
+
+
+def test_a_surface_row_that_is_not_an_accession_is_dropped(tmp_path):
+    d = H.surface_receptors(_surface_book(tmp_path), log=lambda *a: None)
+    assert set(d["host_id"]) == {"Q16570", "P02730"}
+
+
+def test_a_missing_or_wrong_shaped_surface_receptor_file_is_empty(tmp_path):
+    assert H.surface_receptors(str(tmp_path), log=lambda *a: None).empty
+    assert H.surface_receptors(_surface_book(tmp_path, sheet="Data S9Z"),
+                               log=lambda *a: None).empty
+    root = _surface_book(tmp_path)
+    folder = os.path.join(root, "host", H.RBC_SURFACE[0], H.RBC_SURFACE[1])
+    pd.DataFrame({"Uniprot": ["Q16570"]}).to_excel(
+        os.path.join(folder, H.RBC_SURFACE[2]), sheet_name=H.RBC_SURFACE_SHEET, index=False)
+    assert H.surface_receptors(root, log=lambda *a: None).empty
+
+
+def test_the_surface_and_the_contents_of_a_red_cell_are_different_columns(tmp_path):
+    """One tissue, two questions. A protein reachable from outside is not the same observation as a
+    protein present somewhere inside, and 55 of the surface proteins are not in the fractionation
+    at all."""
+    _rbc_book(tmp_path)
+    _surface_book(tmp_path)
+    out = H.tissue_references(str(tmp_path), log=lambda *a: None).set_index("host_id")
+    assert out.loc["P11277", "rbc_membrane_psms"] == 500
+    assert pd.isna(out.loc["P11277", "rbc_surface_copies_uk"]), "not on the surface list"
+    assert out.loc["P02730", "rbc_surface_copies_uk"] == pytest.approx(1304561.5)

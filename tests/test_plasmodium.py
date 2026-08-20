@@ -2600,3 +2600,53 @@ def test_a_two_gene_abstract_becomes_a_mention_a_count_and_an_edge(tmp_path, mon
     assert not mentions.empty
     assert "comention" in edges, "two papers naming both genes is an edge"
     assert "n_papers_incidental" not in columns.columns, "abstracts cannot produce that tier"
+
+
+# --------------------------------------------------------------------------- structural similarity
+def _struct_table(tmp_path, rows=None, uniprot=None):
+    """The Foldseek pair table as `scripts/run_foldseek.py` writes it, plus the UniProt map."""
+    base = tmp_path / "reference" / "plasmodb"
+    (base / P.STRUCT_TABLE[0]).mkdir(parents=True, exist_ok=True)
+    rows = rows if rows is not None else [("Q8I2A0", "P19597", 0.91), ("Q8I2A0", "C6KT06", 0.42),
+                                          ("P19597", "Q8I2A0", 0.88)]
+    pd.DataFrame(rows, columns=["accession_a", "accession_b", "alntmscore"]).to_csv(
+        base / P.STRUCT_TABLE[0] / P.STRUCT_TABLE[1], sep="\t", index=False)
+    uniprot = uniprot if uniprot is not None else [
+        ("PF3D7_0104000", "Q8I2A0"), ("PF3D7_0304600", "P19597"), ("PF3D7_0616500", "C6KT06")]
+    pd.DataFrame(uniprot, columns=["Gene ID", "UniProt ID(s)"]).to_csv(
+        base / P.UNIPROT_TABLE, sep="\t", index=False)
+    return str(tmp_path)
+
+
+def test_structural_pairs_are_thresholded_and_made_undirected(tmp_path):
+    """TM-align is not symmetric, so an all-against-all search reports A->B and B->A with different
+    scores. One unordered pair, keeping the better -- and the weaker pair does not survive the cut."""
+    d = P.structure_similarity(_struct_table(tmp_path), log=lambda *a: None)
+    assert len(d) == 1
+    row = d.iloc[0]
+    assert {row.gene_a, row.gene_b} == {"PF3D7_0104000", "PF3D7_0304600"}
+    assert row.tm == 0.91
+
+
+def test_the_threshold_lives_in_the_loader_and_not_in_the_search(tmp_path, monkeypatch):
+    """Because the search is an hour of compute and the cut-off is a judgement. Lowering it here
+    re-reads a table; lowering it in the search would mean running it again."""
+    root = _struct_table(tmp_path)
+    monkeypatch.setattr(P, "STRUCT_TM", 0.4)
+    assert len(P.structure_similarity(root, log=lambda *a: None)) == 2
+
+
+def test_a_model_whose_accession_names_two_genes_is_not_placed(tmp_path):
+    """The same rule the epitope layer follows: an accession pointing at two genes names neither."""
+    root = _struct_table(tmp_path, uniprot=[("PF3D7_0104000", "Q8I2A0"),
+                                            ("PF3D7_9999999", "Q8I2A0"),
+                                            ("PF3D7_0304600", "P19597")])
+    assert P.structure_similarity(root, log=lambda *a: None).empty
+
+
+def test_no_pair_table_or_no_uniprot_map_is_an_empty_layer(tmp_path):
+    assert P.structure_similarity(str(tmp_path), log=lambda *a: None).empty
+    root = _struct_table(tmp_path, uniprot=[])
+    said = []
+    assert P.structure_similarity(root, log=said.append).empty
+    assert any("UniProt" in m for m in said)

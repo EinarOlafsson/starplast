@@ -513,3 +513,20 @@ def test_co_translation_is_a_different_layer_from_co_transcription():
     theirs = {(min(x, y), max(x, y)) for x, y in zip(ca, cb)}
     jaccard = len(mine & theirs) / len(mine | theirs)
     assert jaccard < 0.05, f"Jaccard {jaccard:.3f}: the two layers are nearly the same edges"
+
+
+# --------------------------------------------------------------------------- structural similarity
+def test_the_struct_layer_indexes_pairs_and_ignores_genes_it_has_no_row_for(monkeypatch, tmp_path):
+    """Indices are positions in `pf_nodes.parquet`, so a gene with no row has no position to use."""
+    import starplast.plasmodium as PL
+    monkeypatch.setattr(PL, "structure_similarity", lambda *a, **k: pd.DataFrame(
+        [("PF3D7_010000", "PF3D7_010001", 0.91), ("PF3D7_010000", "PF3D7_999999", 0.95)],
+        columns=["gene_a", "gene_b", "tm"]))
+    a, b, w = G.structure_edges(_xl_nodes(), str(tmp_path), log=lambda *a: None)
+    assert list(zip(a, b)) == [(0, 1)] and list(w) == [0.91]
+
+
+def test_no_structural_pairs_gives_no_layer(monkeypatch, tmp_path):
+    import starplast.plasmodium as PL
+    monkeypatch.setattr(PL, "structure_similarity", lambda *a, **k: pd.DataFrame())
+    assert not len(G.structure_edges(_xl_nodes(), str(tmp_path), log=lambda *a: None)[0])

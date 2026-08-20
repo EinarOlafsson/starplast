@@ -674,14 +674,51 @@ HOST_FAMILIES = (
 )
 
 
+#: Which shipped host columns answer which host slot, keyed `"<family> · <tissue>"` so one table
+#: serves both arms -- the Plasmodium patterns cannot carry these, because a mouse macrophage
+#: surfaceome answers a Toxoplasma slot and would never be looked up there.
+HOST_COLUMNS = {
+    # A proteome of the cell the blood stage lives in answers a question no pulldown can: a pulldown
+    # says what a bait touched, this says what was there to touch.
+    "host proteome · human erythrocyte": ["rbc_membrane_psms", "rbc_cytoplasm_psms"],
+    # Cell-surface capture, so a protein here is EXPOSED rather than merely present, and the FALSE
+    # entries are the point: the same capture ran on macrophages and did not find them.
+    "host surface / receptor repertoire · mouse bone-marrow macrophage":
+        ["bmdm_surface_detected", "bmdm_surface_intensity"],
+    # Plasma membrane profiling of primary red cells, in copies per cell, and the two donor
+    # populations stay apart because the difference is the result: Duffy is 13,000 copies in the UK
+    # donors and absent from the Senegalese ones.
+    "host surface / receptor repertoire · human erythrocyte":
+        ["rbc_surface_copies_uk", "rbc_surface_copies_senegal",
+         "rbc_surface_found_uk", "rbc_surface_found_senegal"],
+}
+
+
+def host_row_space(hosts, tissue: str):
+    """The rows a host slot about `tissue` is graded against.
+
+    Not the whole host table: it holds several tissues of several species, and scoring a mouse
+    macrophage surfaceome out of a table that is mostly human red cell would report a complete
+    repertoire as 2% covered -- the same denominator error the Plasmodium branch already refuses one
+    unit in. A tissue's row space is the rows any of ITS columns have a value for.
+    """
+    have = list(getattr(hosts, "columns", ()))
+    columns = [c for slot, cols in HOST_COLUMNS.items()
+               if slot.endswith(f"· {tissue}") for c in cols if c in have]
+    if not columns:
+        return hosts.iloc[:0] if hasattr(hosts, "iloc") else hosts
+    return hosts[hosts[columns].notna().any(axis=1)]
+
+
 def _host_slots(contexts):
     """One slot per (tissue, question). Generated rather than written out forty times, so that
     adding a tissue is one line and cannot half-happen."""
     out = []
     for tissue, occupancy in contexts:
         for family, policy, _resource in HOST_FAMILIES:
-            out.append((f"{family} · {tissue}", "host effect", f"{tissue}; {occupancy}",
-                        "host_gene", [], policy))
+            name = f"{family} · {tissue}"
+            out.append((name, "host effect", f"{tissue}; {occupancy}",
+                        "host_gene", list(HOST_COLUMNS.get(name, ())), policy))
     return out
 
 
@@ -1553,10 +1590,10 @@ PF_PATTERNS = {
     # copy of it: 173 shared edges of 8,048, and ribosomal proteins pair with each other a hundred
     # times more often than chance.
     "co-translation": ["edge:cotranslation"],
-    # The first host tissue reference either arm has carried. A proteome of the cell the blood stage
-    # lives in answers a question no pulldown can: a pulldown says what a bait touched, this says
-    # what was there to touch.
-    "host proteome · human erythrocyte": ["rbc_membrane_psms", "rbc_cytoplasm_psms"],
+    # Foldseek over this proteome's own AlphaFold models, at the Toxoplasma layer's threshold so the
+    # two arms' "structural similarity" is one quantity.
+    "interaction · structural similarity": ["edge:struct"],
+    "interaction degree · structural similarity": ["n_struct_similar"],
     # Pair slots, answered by the Plasmodium graph rather than by columns. Its indices point into
     # pf_nodes.parquet and mean nothing in the Toxoplasma graph, which is why there are two files.
     # Predicted, not measured, and the slot's context says "erythrocyte cytosol" -- a sequence model
@@ -1687,8 +1724,12 @@ def evidence(nodes, cols) -> int:
         # something. The risk on the other side -- a real quantity that happens to take only 0 and 1
         # -- costs nothing here, because the atlas prints this number BESIDE coverage rather than
         # instead of it.
-        if pd.api.types.is_bool_dtype(col) or (
-                len(values) and pd.api.types.is_numeric_dtype(col)
+        if pd.api.types.is_bool_dtype(col):
+            # `fillna(False)` rather than `fillna(0)`: a nullable boolean refuses the integer, and
+            # the host table carries one -- a tissue's column is missing, not False, on the rows of
+            # every other tissue.
+            hit |= col.fillna(False).to_numpy(dtype=bool)
+        elif (len(values) and pd.api.types.is_numeric_dtype(col)
                 and set(np.unique(values.to_numpy())) <= {0, 1}):
             hit |= col.fillna(0).to_numpy(dtype=float).astype(bool)
         else:
@@ -1772,6 +1813,18 @@ BLOCKED = {
     # one of them the assay its slot names. They are kept in `instructions/open/41_candidates_v3.json`
     # as the record of the search and deliberately NOT merged into the catalog: a wrong candidate is
     # worse than an empty slot.
+    # --- The host tissue this arm now carries, and the slot beside it that biology answers.
+    "Pf_host transcriptome · human erythrocyte": (
+        "missing",
+        "Not for want of searching: a mature human red blood cell is ENUCLEATE and has essentially "
+        "no transcriptome, which is why the proteome above exists and this does not. What is "
+        "published under that name is one of two other things -- reticulocyte RNA, which is the "
+        "residue a cell carries out of the marrow, or whole-blood sequencing, which is mostly "
+        "leukocyte. Either would answer a different slot, and putting one here would make the map "
+        "say the host cell transcribes during infection (2026-08-19).",
+        "Reticulocyte RNA-seq, filed as its own tissue rather than as the erythrocyte, or a "
+        "host-side dual RNA-seq that separates the residual transcripts from leukocyte "
+        "contamination."),
     # --- Plasmodium, and these three are not acquisitions at all: they are constructions the
     # Toxoplasma arm runs, checked against what this arm has to run them ON.
     "Pf_downloaded-study membership": (
@@ -1906,10 +1959,13 @@ def _host_verdicts():
     for organism, contexts in (("Tg", HOST_CONTEXTS_TG), ("Pf", HOST_CONTEXTS_PF)):
         for tissue, occupancy in contexts:
             for family, _policy, resource in HOST_FAMILIES:
-                out[f"{organism}_{family} \u00b7 {tissue}"] = (
+                name = f"{family} \u00b7 {tissue}"
+                if name in HOST_COLUMNS:
+                    continue          # answered; a verdict here would outlive the gap it described
+                out[f"{organism}_{name}"] = (
                     "missing",
-                    f"Not yet swept. The host table today is 652 proteins from one MYR1 pulldown -- "
-                    f"a bridge between two tables, not a proteome of {tissue}.",
+                    f"Not yet swept. What the host table holds for this tissue is nothing -- the "
+                    f"bridges are a join between two tables, not a proteome of {tissue}.",
                     f"{resource}. Rows are host genes, keyed to UniProt or Ensembl, and they never "
                     f"enter a parasite embedding as feature columns: a parasite map whose rows were "
                     f"partly host genes would break every claim of the form \u201ccluster 5 is 71% "
@@ -2087,13 +2143,15 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
                                                   g[f"{edges[0]}__b"]])))) if has else 0
             detail = f"{pairs:,} pairs"
         elif unit == "host_gene" and len(hosts):
-            # Graded against the HOST table and its own denominator. These rows are human proteins,
+            # Graded against the HOST table and its own denominator. These rows are host proteins,
             # so scoring them out of the parasite's gene count would report a complete tissue
             # proteome as a fraction of the wrong organism -- the same rule the metabolite and
-            # Plasmodium branches already follow, one unit further out.
-            covered, cols = coverage(hosts, columns)
-            positive = evidence(hosts, cols)
-            detail = f"{len(cols)} columns of {len(hosts):,} host proteins" if cols else ""
+            # Plasmodium branches already follow, one unit further out. And against THIS tissue's
+            # rows rather than the whole table, which holds several tissues of several species.
+            space = host_row_space(hosts, slot.split(" · ")[-1])
+            covered, cols = coverage(space, columns)
+            positive = evidence(space, cols)
+            detail = f"{len(cols)} columns of {len(space):,} host proteins" if cols else ""
         elif unit == "metabolite" and definition["organism"] == "Tg":
             # Resolved against the metabolite table, whose rows are compounds. Graded on its own
             # denominator: 400 of 1,102 metabolites is most of what anyone has measured, and scoring
@@ -2115,7 +2173,8 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
         if positive is None:
             positive = covered
         if unit == "host_gene":
-            denominator = len(hosts)
+            tissue = slot.split(" · ")[-1]
+            denominator = len(host_row_space(hosts, tissue)) if len(hosts) else 0
         elif unit == "metabolite":
             denominator = len(metabolites)
         elif definition["organism"] == "Pf":

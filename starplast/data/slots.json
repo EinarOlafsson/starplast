@@ -5357,7 +5357,10 @@
     "axis": "host effect",
     "context": "mouse bone-marrow macrophage; tachyzoite, BMDM",
     "unit": "host_gene",
-    "patterns": [],
+    "patterns": [
+      "bmdm_surface_detected",
+      "bmdm_surface_intensity"
+    ],
     "policy": "fill",
     "candidates": [],
     "evidence_path": [
@@ -9411,7 +9414,9 @@
     "axis": "relation",
     "context": "Foldseek",
     "unit": "pair",
-    "patterns": [],
+    "patterns": [
+      "edge:struct"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -9684,7 +9689,9 @@
     "axis": "relation",
     "context": "Foldseek",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "n_struct_similar"
+    ],
     "policy": "one",
     "candidates": [],
     "evidence_path": [
@@ -11870,7 +11877,12 @@
     "axis": "host effect",
     "context": "human erythrocyte; asexual blood stage and merozoite",
     "unit": "host_gene",
-    "patterns": [],
+    "patterns": [
+      "rbc_surface_copies_uk",
+      "rbc_surface_copies_senegal",
+      "rbc_surface_found_uk",
+      "rbc_surface_found_senegal"
+    ],
     "policy": "fill",
     "candidates": [],
     "evidence_path": [

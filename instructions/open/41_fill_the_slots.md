@@ -2648,3 +2648,17 @@ check them -- P25, P28, SOAP, chitinase -- are precisely the ones known to be re
 background-dependent, so nothing in the data confirms the direction. A transmission slot filled on an
 axis no check could confirm is what this campaign refuses, and the file is already on disk for
 whoever finds a marker set that works.
+
+## What the third sweep returned, and why the generator does not read it
+
+`41_candidates_v3.json` is on disk and `CANDIDATE_FILES` does not include it. That is deliberate,
+and this paragraph exists so the next pass does not read the omission as an oversight and wire it
+in. The six slots it covers -- thermal stability, protein turnover, arginine methylation, host
+ESCRT recruitment, fitness in vivo, and liver-stage fitness transferred from *P. berghei* -- were
+swept, and what came back was the keyword's neighbours rather than the question's answers: a
+chromatin-domain proteome offered for a melting-temperature slot, an H3R2me2s ChIP series offered
+for a knockout screen. Each of those slots carries a `BLOCKED` verdict written in the same pass,
+which says what was searched and what would fill it. Publishing the sweep's leftovers beside that
+verdict would say two opposite things at once -- nobody has made this measurement, and here are six
+studies that would fill it -- and the second is the one a work queue gets built on. The file is
+kept as the record of what the sweep saw, not as a queue.

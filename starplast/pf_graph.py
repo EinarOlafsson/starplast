@@ -179,6 +179,10 @@ def build(nodes: pd.DataFrame, log=print, dataset_root: str | None = None) -> di
         a, b, w = ip_ms_edges(nodes, dataset_root, log=log)
         if len(a):
             out["ip_ms__a"], out["ip_ms__b"], out["ip_ms__w"] = a, b, w
+        a, b, w = structure_edges(nodes, dataset_root, log=log)
+        if len(a):
+            out["struct__a"], out["struct__b"], out["struct__w"] = a, b, w
+            log(f"struct: {len(a):,} edges at TM >= 0.7")
     return out
 
 
@@ -329,6 +333,32 @@ def ip_ms_edges(nodes: pd.DataFrame, dataset_root: str, log=print) -> tuple:
     return (np.array([p[0] for p in pairs], dtype=int),
             np.array([p[1] for p in pairs], dtype=int),
             np.array([weight[p] for p in pairs], dtype=float))
+
+
+def structure_edges(nodes: pd.DataFrame, dataset_root: str, log=print) -> tuple:
+    """Pairs whose AlphaFold models superpose, as a layer of this graph.
+
+    Named `struct` to match the Toxoplasma layer answering the same slot, and built at the same
+    TM-score so the two mean one thing. It is the layer that needs no orthology, which in this
+    genome matters more than in the other one: most of what is exported has no detectable homolog.
+    """
+    from .plasmodium import structure_similarity
+    empty = (np.array([], dtype=int),) * 2 + (np.array([], dtype=float),)
+    pairs = structure_similarity(dataset_root, log=log)
+    if pairs.empty or nodes.empty:
+        return empty
+    index = {gene: i for i, gene in enumerate(nodes["gene_id"].astype(str))}
+    a, b, w = [], [], []
+    for gene_a, gene_b, tm in zip(pairs["gene_a"], pairs["gene_b"], pairs["tm"]):
+        one, two = index.get(gene_a), index.get(gene_b)
+        if one is None or two is None or one == two:
+            continue
+        a.append(min(one, two))
+        b.append(max(one, two))
+        w.append(float(tm))
+    if not a:
+        return empty
+    return np.array(a, dtype=int), np.array(b, dtype=int), np.array(w, dtype=float)
 
 
 def host_bridge(nodes: pd.DataFrame, dataset_root: str, log=print) -> pd.DataFrame:

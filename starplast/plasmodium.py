@@ -331,6 +331,20 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
         # Left missing for a gene the berghei screen never carried: 2,448 of 5,720 have an ortholog
         # in it, and the rest are not dispensable, they are unscreened.
         nodes = nodes.merge(transferred, on="gene_id", how="left")
+    similar = structure_similarity(dataset_root, log=log)
+    if not similar.empty:
+        # Degree over the undirected pairs. Zero where a gene has a model and no structural
+        # neighbour -- which is a real answer, since the search looked -- and missing where the
+        # proteome has no model for it at all.
+        modelled = set(similar["gene_a"]) | set(similar["gene_b"])
+        counted = pd.concat([similar[["gene_a", "gene_b"]],
+                             similar[["gene_b", "gene_a"]].rename(
+                                 columns={"gene_b": "gene_a", "gene_a": "gene_b"})])
+        degree = counted.groupby("gene_a")["gene_b"].nunique()
+        nodes["n_struct_similar"] = nodes["gene_id"].map(degree).where(
+            nodes["gene_id"].isin(modelled) | nodes["alphafold_accession"].notna(), other=np.nan)
+        nodes["n_struct_similar"] = nodes["n_struct_similar"].fillna(
+            pd.Series(0, index=nodes.index).where(nodes["alphafold_accession"].notna()))
     liver = berghei_liver_fitness(dataset_root, log=log)
     if not liver.empty:
         nodes = nodes.merge(liver, on="gene_id", how="left")
@@ -1204,6 +1218,57 @@ def _berghei_to_falciparum(dataset_root: str) -> dict:
     pf = d["P. falciparum ID"].astype(str).str.strip().str.replace(r"\.\d+$", "", regex=True)
     ok = pf.str.match(r"^PF3D7_\w+$", na=False)
     return dict(zip(pb[ok], pf[ok]))
+
+
+# --------------------------------------------------------------------------- structural similarity
+#: The Foldseek pair table, written by `scripts/run_foldseek.py` from the proteome's AlphaFold
+#: models. `(folder, file)` under the PlasmoDB reference tree.
+STRUCT_TABLE = ("structures", "pf_struct_pairs.tsv")
+
+#: The TM-score two structures must reach to be one edge. 0.7 is the Toxoplasma layer's threshold and
+#: is kept rather than tuned: the point of the second arm is that a number means the same thing in
+#: both, and a layer built at a different cut-off would not be comparable to anything.
+STRUCT_TM = 0.7
+
+
+def structure_similarity(dataset_root: str, log=print) -> pd.DataFrame:
+    """Gene pairs whose AlphaFold models superpose, from an all-against-all TM-align search.
+
+    The layer that reaches what the others cannot: structural similarity needs no orthology, so it
+    finds relatives among the lineage-specific proteins where a sequence search returns nothing --
+    which in this genome is most of the exported families.
+
+    The search itself is a build step (`scripts/run_foldseek.py`) and its output is archived, so the
+    threshold lives HERE. Raising or lowering it is a re-read of a table rather than an hour of
+    compute, and the table keeps every pair the search reported.
+    """
+    folder, name = STRUCT_TABLE
+    path = os.path.join(dataset_root, "reference", "plasmodb", folder, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    d = pd.read_csv(path, sep="\t")
+    if not {"accession_a", "accession_b", "alntmscore"} <= set(d.columns):
+        return pd.DataFrame()
+    owners = uniprot_index(os.path.join(dataset_root, "reference", "plasmodb", UNIPROT_TABLE))
+    if not owners:
+        log("structures: no UniProt table, so model accessions cannot be resolved to genes")
+        return pd.DataFrame()
+    score = pd.to_numeric(d["alntmscore"], errors="coerce")
+    keep = d.assign(tm=score)[score >= STRUCT_TM]
+    keep = keep.assign(gene_a=keep["accession_a"].map(owners), gene_b=keep["accession_b"].map(owners))
+    keep = keep.dropna(subset=["gene_a", "gene_b"])
+    keep = keep[keep["gene_a"] != keep["gene_b"]]
+    if keep.empty:
+        return pd.DataFrame()
+    # One row per unordered pair, keeping the better score: an all-against-all search reports A->B
+    # and B->A, and TM-align is not symmetric, so the two differ slightly.
+    pair = pd.DataFrame({"gene_a": keep[["gene_a", "gene_b"]].min(axis=1),
+                         "gene_b": keep[["gene_a", "gene_b"]].max(axis=1),
+                         "tm": keep["tm"].to_numpy()})
+    out = pair.groupby(["gene_a", "gene_b"], as_index=False)["tm"].max()
+    log(f"structures: {len(out):,} pairs at TM >= {STRUCT_TM} over "
+        f"{len(set(out.gene_a) | set(out.gene_b)):,} genes")
+    return out
 
 
 # --------------------------------------------------------------------------- literature

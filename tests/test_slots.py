@@ -698,3 +698,73 @@ def test_a_candidates_note_cannot_split_itself_into_a_second_candidate():
                      for token in (r["candidates"] or "").split(";")
                      if token.strip().startswith("verify ")]
     assert not fragments, f"note fragments rendered as candidates: {fragments[:3]}"
+
+
+def test_a_host_slot_is_graded_against_its_own_tissue():
+    """The host table holds several tissues of several species on one key.
+
+    Scoring a mouse macrophage surfaceome out of a table that is mostly human red cell would report
+    a complete repertoire as 2% covered, and -- worse in the other direction -- adding the mouse
+    rows would make the red cell proteome's coverage FALL without a single value changing. A
+    tissue's row space is the rows its own columns have a value for.
+    """
+    import numpy as np
+    gst = _generator()
+    hosts = pd.DataFrame({
+        "host_id": ["P11277", "P69905", "P11835", "Q61549"],
+        "rbc_membrane_psms": [500.0, np.nan, np.nan, np.nan],
+        "rbc_cytoplasm_psms": [40.0, 900.0, np.nan, np.nan],
+        "bmdm_surface_detected": pd.array([None, None, True, False], dtype="boolean")})
+    assert len(gst.host_row_space(hosts, "human erythrocyte")) == 2
+    assert len(gst.host_row_space(hosts, "mouse bone-marrow macrophage")) == 2
+    assert len(gst.host_row_space(hosts, "human dermis")) == 0, "no columns is no row space"
+
+
+def test_a_repertoire_prints_how_many_it_actually_found():
+    """Coverage is how many rows have an answer and most of the answers are no. Printing only the
+    first reads as though the capture found the whole surfaceome on a macrophage."""
+    gst = _generator()
+    hosts = pd.DataFrame({
+        "host_id": ["P11835", "Q61549", "P02468"],
+        "bmdm_surface_detected": pd.array([True, True, False], dtype="boolean")})
+    assert gst.coverage(hosts, ["bmdm_surface_detected"])[0] == 3
+    assert gst.evidence(hosts, ["bmdm_surface_detected"]) == 2
+
+
+def test_a_host_slot_with_columns_carries_no_stale_verdict():
+    """`_host_verdicts` writes one for every tissue and family, and a slot that has since been
+    filled would keep publishing the sentence saying nobody had looked."""
+    gst = _generator()
+    for slot in gst.HOST_COLUMNS:
+        for organism in ("Tg", "Pf"):
+            assert f"{organism}_{slot}" not in gst.BLOCKED, slot
+
+
+def test_every_host_column_named_by_the_catalog_is_in_the_host_table():
+    """A pattern naming a column nothing writes leaves the slot empty and says nothing about why."""
+    gst = _generator()
+    from starplast import paths
+    path = paths.cache_file("host_proteins.parquet")
+    if not os.path.exists(path):
+        pytest.skip("host table not built")
+    have = set(pd.read_parquet(path).columns)
+    missing = {slot: [c for c in cols if c not in have]
+               for slot, cols in gst.HOST_COLUMNS.items()
+               if any(c not in have for c in cols)}
+    assert not missing, missing
+
+
+def test_the_generator_reads_the_candidate_files_it_means_to():
+    """`41_candidates_v3.json` sits beside the two that are read, and is left out on purpose --
+    its six slots carry BLOCKED verdicts from the same pass, and its proposals are the keyword's
+    neighbours rather than the question's answers. A test says so, because a missing filename in a
+    tuple reads exactly like a typo."""
+    gst = _generator()
+    read = {os.path.basename(p) for p in gst.CANDIDATE_FILES}
+    assert read == {"41_candidates_v2.json", "41_candidates.json"}, read
+    unused = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                          "instructions", "open", "41_candidates_v3.json")
+    if os.path.exists(unused):
+        doc = open(os.path.join(os.path.dirname(unused), "41_fill_the_slots.md"),
+                   encoding="utf8").read()
+        assert "41_candidates_v3.json" in doc, "the unread sweep file is not explained anywhere"

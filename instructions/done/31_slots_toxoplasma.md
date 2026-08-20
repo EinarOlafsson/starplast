@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**143 slots: 62 covered well, 16 partly, 38 thinly, 27 empty.**
+**143 slots: 63 covered well, 16 partly, 38 thinly, 26 empty.**
 
 `genes` is how many have an ANSWER; `of which yes` appears where that answer is a yes/no and most of them are no. A phosphorylation slot answered for every gene because the flag is completed False is not a phosphoproteome of every gene, and the atlas used to print only the first number.
 
@@ -215,7 +215,7 @@ quantity were approximating on 2026-08-13.
 | Tg_host response to infection · human monocyte | human monocyte; tachyzoite, infected monocyte | **-** |  |  |  | `` | separate | — |
 | Tg_host proteome · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **-** |  |  |  | `` | average | — |
 | Tg_host transcriptome · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **-** |  |  |  | `` | average | — |
-| Tg_host surface / receptor repertoire · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **-** |  |  |  | `` | fill | — |
+| Tg_host surface / receptor repertoire · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **A** | 1296 | 150 | 100.0% | `bmdm_surface_detected, bmdm_surface_intensity` | fill | — |
 | Tg_host response to infection · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **-** |  |  |  | `` | separate | — |
 | Tg_host proteome · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  |  | `` | average | — |
 | Tg_host transcriptome · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  |  | `` | average | — |
