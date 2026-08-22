@@ -1970,6 +1970,53 @@ BLOCKED = {
 }
 
 
+#: Host slots swept and found blocked for a REASON, overriding the generic "not yet swept" the
+#: generator writes for the rest. A generic verdict and a specific one are opposite states: the
+#: first says nobody has looked, the second says what was looked at and why it did not answer.
+HOST_VERDICTS = {
+    ("Anopheles midgut", "Anopheles salivary gland"): (
+        "unreachable",
+        "Swept 2026-08-22. VectorBase holds the tissue expression and its gene reports stopped "
+        "answering anonymous callers, so it needs a VEuPathDB API key that is not set here. The "
+        "EBI Expression Atlas has exactly one Anopheles experiment and it is a Trypanosoma "
+        "infection contrast, not a baseline tissue. Salivary-gland and midgut proteomes exist in "
+        "the literature for A. stephensi, A. albimanus and A. campestris; the gambiae ones are "
+        "older and keyed to identifiers that predate AGAP.",
+        "Either a VEuPathDB API key, or a published gambiae midgut / salivary-gland table keyed to "
+        "AGAP accessions. Note the SECOND blocker before starting: the host table keys on REVIEWED "
+        "UniProt accessions and Anopheles has 301 reviewed entries against 14,559 total, so the "
+        "identifier contract does not reach this organism. It needs the reference proteome as the "
+        "canonical-accession source rather than Swiss-Prot, which is a change to "
+        "`host.uniprot_index` and should be made deliberately rather than discovered mid-load."),
+    ("human dermis",): (
+        "missing",
+        "Swept 2026-08-22. GTEx v10 carries `Skin_Sun_Exposed_Lower_leg` and "
+        "`Skin_Not_Sun_Exposed_Suprapubic`, and both are SKIN -- epidermis and dermis together -- "
+        "rather than the dermis the sporozoite is injected into. Shipping skin under a dermis "
+        "label is the same substitution this campaign measured and refused for cell types.",
+        "A dermis-specific proteome or transcriptome, separated from epidermis; or a decision to "
+        "widen the slot to `human skin`, which is a change to the QUESTION and so belongs to "
+        "instruction 39 rather than to whoever is loading data."),
+    ("human neuron",): (
+        "missing",
+        "Swept 2026-08-22. The reachable neuron baselines are iPSC-derived SENSORY neurons "
+        "(E-ENAD-33) and hESC differentiations, not the CNS neurons a bradyzoite encysts in. GTEx "
+        "brain regions are tissue rather than cell type, which is the substitution refused here "
+        "before.",
+        "A CNS-neuron transcriptome or proteome measured per cell type -- iPSC-derived cortical "
+        "neurons or a sorted-nuclei brain dataset -- rather than a brain region or a sensory "
+        "neuron."),
+}
+
+
+def _host_verdict_override(tissue: str):
+    """The specific verdict for a tissue somebody actually swept, or None."""
+    for tissues, verdict in HOST_VERDICTS.items():
+        if tissue in tissues:
+            return verdict
+    return None
+
+
 def _host_verdicts():
     """A verdict for every host slot, composed from the resource table rather than typed 48 times.
 
@@ -1987,6 +2034,10 @@ def _host_verdicts():
                 name = f"{family} \u00b7 {tissue}"
                 if name in HOST_COLUMNS:
                     continue          # answered; a verdict here would outlive the gap it described
+                specific = _host_verdict_override(tissue)
+                if specific:
+                    out[f"{organism}_{name}"] = specific
+                    continue
                 out[f"{organism}_{name}"] = (
                     "missing",
                     f"Not yet swept. What the host table holds for this tissue is nothing -- the "
