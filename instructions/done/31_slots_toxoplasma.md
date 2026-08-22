@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**143 slots: 63 covered well, 16 partly, 38 thinly, 26 empty.**
+**144 slots: 67 covered well, 16 partly, 38 thinly, 23 empty.**
 
 `genes` is how many have an ANSWER; `of which yes` appears where that answer is a yes/no and most of them are no. A phosphorylation slot answered for every gene because the flag is completed False is not a phosphoproteome of every gene, and the atlas used to print only the first number.
 
@@ -206,7 +206,7 @@ quantity were approximating on 2026-08-13.
 | Tg_host interaction degree | curated parasite-host interactions | **A** | 8140 |  | 100.0% | `n_host_targets` | one | — |
 | Tg_host transcriptional effect per effector | dual perturb-seq | **C** | 252 |  | 3.1% | `hosttx_T2, hosttx_signature_` | separate | **High-throughput identification of Toxoplasma gondii effector proteins that target host cell transcription.** (Cell host & microbe 2023) [37827122](https://pubmed.ncbi.nlm.nih.gov/37827122/) [GSE229505](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE229505) |
 | Tg_host proteome · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  |  | `` | average | — |
-| Tg_host transcriptome · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  |  | `` | average | — |
+| Tg_host transcriptome · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **A** | 19087 |  | 100.0% | `fibroblast_tpm` | average | — |
 | Tg_host surface / receptor repertoire · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  |  | `` | fill | — |
 | Tg_host response to infection · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  |  | `` | separate | — |
 | Tg_host proteome · human monocyte | human monocyte; tachyzoite, infected monocyte | **-** |  |  |  | `` | average | — |
@@ -218,17 +218,18 @@ quantity were approximating on 2026-08-13.
 | Tg_host surface / receptor repertoire · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **A** | 1296 | 150 | 100.0% | `bmdm_surface_detected, bmdm_surface_intensity` | fill | — |
 | Tg_host response to infection · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **-** |  |  |  | `` | separate | — |
 | Tg_host proteome · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  |  | `` | average | — |
-| Tg_host transcriptome · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  |  | `` | average | — |
+| Tg_host transcriptome · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **A** | 9763 |  | 100.0% | `brain_tpm` | average | — |
 | Tg_host surface / receptor repertoire · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  |  | `` | fill | — |
 | Tg_host response to infection · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  |  | `` | separate | — |
 | Tg_host proteome · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  |  | `` | average | — |
-| Tg_host transcriptome · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  |  | `` | average | — |
+| Tg_host transcriptome · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **A** | 8635 |  | 100.0% | `skeletal_muscle_tpm` | average | — |
 | Tg_host surface / receptor repertoire · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  |  | `` | fill | — |
 | Tg_host response to infection · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  |  | `` | separate | — |
 | Tg_host proteome · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  |  | `` | average | — |
 | Tg_host transcriptome · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  |  | `` | average | — |
 | Tg_host surface / receptor repertoire · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  |  | `` | fill | — |
 | Tg_host response to infection · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  |  | `` | separate | — |
+| Tg_host protein recruitment to the vacuole | parasitophorous vacuole; tachyzoite in HFF | **A** | 12 |  | 100.0% | `pv_enrichment_log2` | one | **Toxoplasma gondii exploits the host ESCRT machinery for parasite uptake of host cytosolic proteins.** (PLoS Pathog 2021) [34898650](https://pubmed.ncbi.nlm.nih.gov/34898650/) `PLoS Pathog` |
 
 ### NEVER a feature
 

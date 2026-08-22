@@ -592,9 +592,171 @@ def surface_receptors(dataset_root: str, log=print) -> pd.DataFrame:
     return out
 
 
+# ------------------------------------------------------------------ keying a host table by gene id
+#: `species -> (the full id mapping, the reviewed entry list)`. Both are needed and neither is
+#: enough: the mapping file is the only one carrying Ensembl GENE ids, and it is 74% ambiguous
+#: because it lists every TrEMBL fragment beside the canonical entry; the reviewed list says which
+#: accession is the canonical one. Together they are 0.9% ambiguous.
+UNIPROT_IDMAP = {"human": ("HUMAN_9606_idmapping.dat.gz", "reviewed_human.tsv.gz"),
+                 "mouse": ("MOUSE_10090_idmapping.dat.gz", "reviewed_mouse.tsv.gz")}
+UNIPROT_ROOT = os.path.join("reference", "uniprot")
+
+
+def uniprot_index(dataset_root: str, species: str = "human", log=print) -> dict:
+    """Ensembl gene id and gene symbol, each to ONE reviewed UniProt accession.
+
+    The host table keys on UniProt, and the tissue resources do not: GTEx is Ensembl, most
+    expression atlases are Ensembl or symbol. Without this every one of them would have to be keyed
+    by hand, or joined on a symbol string, which is how the wrong gene gets a number.
+
+    Reviewed-only on purpose. `ENSG00000166913` maps to ten accessions in the raw file, nine of
+    them TrEMBL fragments of the same protein; restricted to Swiss-Prot it maps to `P31946`, which
+    is what anybody means by YWHAB. An id that STILL points at two reviewed proteins after that is
+    genuinely ambiguous and is dropped rather than guessed -- 199 of 22,044 for human.
+    """
+    import gzip
+    import zlib
+
+    names = UNIPROT_IDMAP.get(species)
+    if not names:
+        return {"by_ensembl": {}, "by_symbol": {}}
+    mapping = os.path.join(dataset_root, UNIPROT_ROOT, names[0])
+    entries = os.path.join(dataset_root, UNIPROT_ROOT, names[1])
+    if not (os.path.exists(mapping) and os.path.exists(entries)):
+        return {"by_ensembl": {}, "by_symbol": {}}
+    # A half-downloaded gzip raises rather than returning what it managed to read, and one of these
+    # is fetched from an endpoint that truncates under load. A partial reviewed list is WORSE than
+    # none: every accession missing from it silently demotes a real gene to ambiguous. So a
+    # truncated file is refused outright and the index comes back empty, which the callers already
+    # treat as "not available" rather than as "this gene does not exist".
+    reviewed, by_symbol = set(), {}
+    try:
+        with gzip.open(entries, "rt") as fh:
+            next(fh, None)
+            for line in fh:
+                parts = line.rstrip("\n").split("\t")
+                reviewed.add(parts[0])
+                if len(parts) > 1 and parts[1]:
+                    by_symbol.setdefault(parts[1], parts[0])
+        seen = {}
+        with gzip.open(mapping, "rt") as fh:
+            for line in fh:
+                parts = line.rstrip("\n").split("\t")
+                if len(parts) != 3 or parts[1] != "Ensembl":
+                    continue
+                accession = parts[0].split("-")[0]      # an isoform is the same gene
+                if accession in reviewed:
+                    seen.setdefault(parts[2].split(".")[0], set()).add(accession)
+    except (EOFError, OSError, zlib.error) as e:
+        # `zlib.error` is not an OSError, so a file whose gzip header survives the truncation and
+        # whose body does not lands here and nowhere else.
+        log(f"uniprot index ({species}): {e}; the file is incomplete, so no index is built")
+        return {"by_ensembl": {}, "by_symbol": {}}
+    by_ensembl = {k: next(iter(v)) for k, v in seen.items() if len(v) == 1}
+    dropped = len(seen) - len(by_ensembl)
+    log(f"uniprot index ({species}): {len(by_ensembl):,} Ensembl genes, {len(by_symbol):,} symbols; "
+        f"{dropped} Ensembl ids dropped for naming two reviewed proteins")
+    return {"by_ensembl": by_ensembl, "by_symbol": by_symbol}
+
+
+#: `(folder, pmid, file)` and the tissues taken from it. GTEx measures many tissues and this project
+#: needs two of them, and which two is a judgement worth writing down: `Cells_Cultured_fibroblasts`
+#: IS the cell Toxoplasma is grown in, and v10's `Liver_Hepatocyte` is laser-captured hepatocyte
+#: rather than liver tissue, which is the difference between answering the slot and substituting for
+#: it. `Liver` and `Skin_*` are deliberately NOT taken: a liver is not a hepatocyte and skin is not
+#: dermis, and filling a cell-type slot with the organ around it is the substitution this campaign
+#: refused when it measured the Human Protein Atlas for the same purpose.
+GTEX = ("gtex", "32913098", "GTEx_Analysis_v10_RNASeQCv2.4.2_gene_median_tpm.gct.gz")
+GTEX_TISSUES = {"Cells_Cultured_fibroblasts": "fibroblast_tpm",
+                "Liver_Hepatocyte": "hepatocyte_tpm"}
+
+
+def gtex_transcriptome(dataset_root: str, log=print) -> pd.DataFrame:
+    """Median TPM in the host cells two of these parasites live in.
+
+    A transcriptome rather than a proteome, and the slot family keeps them apart because they
+    disagree often enough that averaging them would be a claim rather than a summary.
+    """
+    import gzip
+
+    folder, pmid, name = GTEX
+    path = os.path.join(dataset_root, "host", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    with gzip.open(path, "rt") as fh:
+        next(fh, None), next(fh, None)          # `#1.2` and the shape line
+        d = pd.read_csv(fh, sep="\t")
+    if "Name" not in d.columns:
+        return pd.DataFrame()
+    wanted = {k: v for k, v in GTEX_TISSUES.items() if k in d.columns}
+    if not wanted:
+        return pd.DataFrame()
+    index = uniprot_index(dataset_root, "human", log=log)["by_ensembl"]
+    ensembl = d["Name"].astype(str).str.split(".").str[0]
+    accession = ensembl.map(index)
+    out = pd.DataFrame({"host_id": accession,
+                        "host_name": d["Description"].astype(str).str.strip()})
+    for tissue, column in wanted.items():
+        out[column] = pd.to_numeric(d[tissue], errors="coerce")
+    unresolved = int(accession.isna().sum())
+    out = out[accession.notna()].drop_duplicates("host_id").reset_index(drop=True)
+    log(f"gtex: {len(out):,} human genes over {len(wanted)} tissues "
+        f"({unresolved:,} of {len(d):,} rows had no reviewed UniProt accession and are left out)")
+    return out
+
+
+#: FANTOM5's mouse CAGE atlas, `(folder, pmid, file)`, and the columns taken from it.
+#:
+#: BRAIN is the mean of the four ADULT brain regions the atlas measures. That is an average across
+#: regions rather than across replicates, which the `average` policy permits and which this slot
+#: wants: the question is whether a host partner is present in the brain a bradyzoite encysts in,
+#: and a cyst is not confined to one region. Adult only, because the infection this slot describes
+#: is chronic.
+#:
+#: SKELETAL MUSCLE has one column in the whole atlas and it is JUVENILE. Biceps femoris is skeletal
+#: muscle, so the tissue is right and the age is not; it ships with the age said out loud here and
+#: in the registry rather than being quietly relabelled adult, and rather than being refused, since
+#: what the slot asks -- is this protein present in muscle at all -- is not a question a few weeks
+#: of mouse age turns over.
+FANTOM5_MOUSE = ("fantom5", "24670764", "E-MTAB-3579-mouse-tissue-tpm.tsv")
+FANTOM5_BRAIN = ("adult, cerebral cortex", "adult, cerebellum",
+                 "adult, hippocampal formation", "adult, olfactory brain")
+FANTOM5_MUSCLE = "juvenile, muscle (biceps femoris)"
+
+
+def mouse_tissue_transcriptome(dataset_root: str, log=print) -> pd.DataFrame:
+    """Mouse brain and skeletal muscle expression, the two tissues a bradyzoite persists in."""
+    folder, pmid, name = FANTOM5_MOUSE
+    path = os.path.join(dataset_root, "host", folder, pmid, name)
+    if not os.path.exists(path):
+        return pd.DataFrame()
+    d = pd.read_csv(path, sep="\t", comment="#")
+    if "Gene ID" not in d.columns:
+        return pd.DataFrame()
+    index = uniprot_index(dataset_root, "mouse", log=log)["by_ensembl"]
+    if not index:
+        return pd.DataFrame()
+    accession = d["Gene ID"].astype(str).str.split(".").str[0].map(index)
+    out = pd.DataFrame({"host_id": accession,
+                        "host_name": d.get("Gene Name", pd.Series([""] * len(d))).astype(str)})
+    regions = [c for c in FANTOM5_BRAIN if c in d.columns]
+    if regions:
+        out["brain_tpm"] = d[regions].apply(pd.to_numeric, errors="coerce").mean(axis=1)
+    if FANTOM5_MUSCLE in d.columns:
+        out["skeletal_muscle_tpm"] = pd.to_numeric(d[FANTOM5_MUSCLE], errors="coerce")
+    if len(out.columns) <= 2:
+        return pd.DataFrame()
+    unresolved = int(accession.isna().sum())
+    out = out[accession.notna()].drop_duplicates("host_id").reset_index(drop=True)
+    log(f"mouse tissue: {len(out):,} genes; brain averaged over {len(regions)} adult regions "
+        f"({unresolved:,} of {len(d):,} rows had no reviewed accession)")
+    return out
+
+
 #: Every tissue reference the project has loaded, newest last. A tissue is one entry, so adding one
 #: is a line here plus its loader rather than an edit to a build script.
-TISSUE_REFERENCES = ("erythrocyte_proteome", "surface_receptors", "surface_repertoire")
+TISSUE_REFERENCES = ("erythrocyte_proteome", "surface_receptors", "surface_repertoire",
+                     "gtex_transcriptome", "mouse_tissue_transcriptome")
 
 
 def tissue_references(dataset_root: str, log=print) -> pd.DataFrame:

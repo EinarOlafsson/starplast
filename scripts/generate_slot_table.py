@@ -110,6 +110,9 @@ quantity were approximating on 2026-08-13.
 #: and because a proposal that names a PMID without its title asks the reader to go and find
 #: out what was being proposed. Titles are as PubMed gives them.
 REFERENCES = {
+    "34898650": ("2021", "PLoS Pathog",
+                 "Toxoplasma gondii exploits the host ESCRT machinery for parasite uptake "
+                 "of host cytosolic proteins."),
     "28288194": ("2017", "PLoS Pathog",
                  "The aromatic amino acid hydroxylase genes AAH1 and AAH2 in Toxoplasma gondii contribute to transmission in the cat."),
     "30728393": ("2019", "Sci Rep",
@@ -688,13 +691,22 @@ HOST_COLUMNS = {
     # Plasma membrane profiling of primary red cells, in copies per cell, and the two donor
     # populations stay apart because the difference is the result: Duffy is 13,000 copies in the UK
     # donors and absent from the Senegalese ones.
+    # GTEx v10, and the two tissues taken from it are the two that ARE the slot's cell rather than
+    # the organ around it: cultured fibroblast is what Toxoplasma is grown in, and v10's
+    # laser-captured hepatocyte is a cell type rather than a liver.
+    "host transcriptome · human fibroblast": ["fibroblast_tpm"],
+    "host transcriptome · human hepatocyte": ["hepatocyte_tpm"],
+    # FANTOM5 mouse CAGE. Brain is the mean of four adult regions, because a bradyzoite cyst is not
+    # confined to one; muscle is the atlas's only skeletal-muscle sample and it is juvenile.
+    "host transcriptome · mouse brain": ["brain_tpm"],
+    "host transcriptome · mouse skeletal muscle": ["skeletal_muscle_tpm"],
     "host surface / receptor repertoire · human erythrocyte":
         ["rbc_surface_copies_uk", "rbc_surface_copies_senegal",
          "rbc_surface_found_uk", "rbc_surface_found_senegal"],
 }
 
 
-def host_row_space(hosts, tissue: str):
+def host_row_space(hosts, tissue: str, columns=()):
     """The rows a host slot about `tissue` is graded against.
 
     Not the whole host table: it holds several tissues of several species, and scoring a mouse
@@ -703,11 +715,16 @@ def host_row_space(hosts, tissue: str):
     unit in. A tissue's row space is the rows any of ITS columns have a value for.
     """
     have = list(getattr(hosts, "columns", ()))
-    columns = [c for slot, cols in HOST_COLUMNS.items()
-               if slot.endswith(f"· {tissue}") for c in cols if c in have]
-    if not columns:
+    cols = [c for slot, cols_ in HOST_COLUMNS.items()
+            if slot.endswith(f"· {tissue}") for c in cols_ if c in have]
+    # A host slot that is not about a tissue has no tissue to key off -- `host protein recruitment
+    # to the vacuole` asks about the vacuole, which is not a place the host table is organised by.
+    # It falls back to its own columns, which is what every other unit already does.
+    if not cols:
+        cols = [c for c in columns if c in have]
+    if not cols:
         return hosts.iloc[:0] if hasattr(hosts, "iloc") else hosts
-    return hosts[hosts[columns].notna().any(axis=1)]
+    return hosts[hosts[cols].notna().any(axis=1)]
 
 
 def _host_slots(contexts):
@@ -784,6 +801,14 @@ NEW_TOXOPLASMA = _host_slots(HOST_CONTEXTS_TG) + [
       ("PMC12942651", "Pathogens", "glutaredoxin 5 reduces oocyst production and sporulation")]),
     ("cyst wall composition", "localization", "bradyzoite cyst wall", "gene",
      ["cyst_wall_"], "separate"),
+    # A host_gene slot that is NOT about a tissue, which is why the four families above could not
+    # hold it: they ask what a tissue contains, and this asks what the parasite pulls toward itself
+    # once it is inside one. Written because the orphan alarm, once pointed at the host table,
+    # found `pv_enrichment_log2` claimed by nothing -- instruction 48. Thin on purpose: twelve host
+    # proteins is what the study reports, and the row count says so beside the grade.
+    ("host protein recruitment to the vacuole", "host effect",
+     "parasitophorous vacuole; tachyzoite in HFF", "host_gene", ["pv_enrichment_log2"], "one",
+     [("34898650", "PLoS Pathog", "host proteins enriched at the vacuole, by context")]),
 ]
 
 
@@ -2148,7 +2173,7 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
             # proteome as a fraction of the wrong organism -- the same rule the metabolite and
             # Plasmodium branches already follow, one unit further out. And against THIS tissue's
             # rows rather than the whole table, which holds several tissues of several species.
-            space = host_row_space(hosts, slot.split(" · ")[-1])
+            space = host_row_space(hosts, slot.split(" · ")[-1], columns)
             covered, cols = coverage(space, columns)
             positive = evidence(space, cols)
             detail = f"{len(cols)} columns of {len(space):,} host proteins" if cols else ""
@@ -2174,7 +2199,7 @@ def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=No
             positive = covered
         if unit == "host_gene":
             tissue = slot.split(" · ")[-1]
-            denominator = len(host_row_space(hosts, tissue)) if len(hosts) else 0
+            denominator = len(host_row_space(hosts, tissue, columns)) if len(hosts) else 0
         elif unit == "metabolite":
             denominator = len(metabolites)
         elif definition["organism"] == "Pf":

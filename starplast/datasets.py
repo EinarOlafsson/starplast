@@ -1525,6 +1525,62 @@ REGISTRY = [
                  "UK donors only, 26 in Senegalese donors only. Self-validating against numbers "
                  "measured long before mass spectrometry -- band 3 at 1.3 million copies per cell "
                  "and glycophorin A at 3.3 million, with basigin present in both populations."),
+    Dataset("host_mouse_tissue_transcriptome", "FANTOM5 mouse brain and skeletal muscle",
+            "reference", "transcription",
+            "How much of each gene the mouse tissues a bradyzoite persists in transcribe",
+            ("brain_tpm", "skeletal_muscle_tpm"),
+            "13,739 mouse genes; brain 9,763, skeletal muscle 8,635", pmid="24670764",
+            accession="E-MTAB-3579",
+            url="https://www.ebi.ac.uk/gxa/experiments-content/E-MTAB-3579/download/"
+                "zip?fileType=rnaseq-baseline-rpkms&accessKey=",
+            path="datasets/host/fantom5/24670764/E-MTAB-3579-mouse-tissue-tpm.tsv",
+            note="Two caveats that must travel with these numbers.\n\n"
+                 "First, a BLANK here does not mean unmeasured. This is the Expression Atlas's "
+                 "protein-coding, above-cutoff export, and both columns bottom out at exactly 0.5 "
+                 "-- so a gene present in the table with no value was measured and fell below 0.5 "
+                 "TPM. It is still left as missing rather than written as zero, because the file "
+                 "does not say which of the two it is for genes absent from it entirely.\n\n"
+                 "Second, SKELETAL MUSCLE is juvenile. It is the only skeletal-muscle sample in "
+                 "the atlas; biceps femoris is skeletal muscle so the tissue is right and the age "
+                 "is not, and it ships with the age said rather than quietly relabelled adult. "
+                 "Brain, by contrast, is the mean of the four ADULT regions -- cerebral cortex, "
+                 "cerebellum, hippocampal formation, olfactory brain -- an average across regions "
+                 "rather than replicates, which is what the slot wants because a cyst is not "
+                 "confined to one region.\n\n"
+                 "These are CAGE tag values labelled TPM; they order genes within a tissue and "
+                 "across tissues, but are not interchangeable with RNA-seq TPM. Validated on "
+                 "markers that must separate and do, by four to five orders of magnitude in both "
+                 "directions: Acta1 is 102,086 in muscle against 1.0 in brain and Ckm 54,636 "
+                 "against 0.6, while Snap25 is 1,171 in brain and below cutoff in muscle, as is "
+                 "Gfap at 34."),
+    Dataset("host_gtex_transcriptome", "GTEx median expression in two host cell types",
+            "reference", "transcription",
+            "How much of each gene the host cell transcribes, in the cell each parasite lives in",
+            ("fibroblast_tpm", "hepatocyte_tpm"),
+            "19,087 human genes over 2 tissues", pmid="32913098", accession="GTEx v10",
+            url="https://storage.googleapis.com/adult-gtex/bulk-gex/v10/rna-seq/"
+                "GTEx_Analysis_v10_RNASeQCv2.4.2_gene_median_tpm.gct.gz",
+            path="datasets/host/gtex/32913098/"
+                 "GTEx_Analysis_v10_RNASeQCv2.4.2_gene_median_tpm.gct.gz",
+            note="TWO of GTEx's sixty-eight tissues, and which two is the whole judgement. "
+                 "`Cells_Cultured_fibroblasts` IS the cell Toxoplasma is grown in, and v10's "
+                 "`Liver_Hepatocyte` is laser-captured hepatocyte rather than liver tissue -- the "
+                 "difference between answering a cell-type slot and substituting the organ around "
+                 "it. `Liver` and `Skin_*` are in the same file and are deliberately NOT taken: a "
+                 "liver is not a hepatocyte and skin is not dermis, which is the substitution this "
+                 "campaign already measured and refused when it looked at the Human Protein Atlas "
+                 "for cell-type slots.\n\n"
+                 "Keyed through `host.uniprot_index`, because GTEx is Ensembl and the host table is "
+                 "UniProt. Reviewed entries only: the raw mapping is 74% ambiguous since it lists "
+                 "every TrEMBL fragment beside the canonical entry, and restricting to Swiss-Prot "
+                 "takes that to 0.9%, of which the remainder is dropped rather than guessed. "
+                 "39,808 of 59,033 GTEx rows have no reviewed accession at all -- non-coding RNA "
+                 "and pseudogenes -- and are left out rather than carried as blanks.\n\n"
+                 "Validated on markers that must separate: albumin is 12,448 TPM in hepatocyte "
+                 "against 0.24 in fibroblast, APOA1 3,330 against 0.40, and in the other direction "
+                 "COL1A1 is 4,009 in fibroblast against 3.4 in hepatocyte and fibronectin 21,268 "
+                 "against 200. Three to four orders of magnitude the right way round in both "
+                 "directions is the check that the Ensembl keying is correct."),
     Dataset("host_macrophage_surfaceome", "Mouse bone-marrow macrophage cell-surface repertoire",
             "reference", "proteomics",
             "Which host proteins are EXPOSED on the surface of the macrophage a tachyzoite invades",

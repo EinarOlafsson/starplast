@@ -209,6 +209,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_host_transcriptome_mouse_bone_marrow_macrophage
         - Tg_host_surface_receptor_repertoire_mouse_bone_marrow_macrophage
         - Tg_host_response_to_infection_mouse_bone_marrow_macrophage
+        - Tg_host_protein_recruitment_to_the_vacuole
       - bradyzoite
         - Tg_host_proteome_mouse_brain
         - Tg_host_transcriptome_mouse_brain
@@ -437,6 +438,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_host_transcriptome_mouse_bone_marrow_macrophage
         - Tg_host_surface_receptor_repertoire_mouse_bone_marrow_macrophage
         - Tg_host_response_to_infection_mouse_bone_marrow_macrophage
+        - Tg_host_protein_recruitment_to_the_vacuole
     - bradyzoite
       - unperturbed
         - Tg_host_proteome_mouse_brain
@@ -706,6 +708,9 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - tachyzoite (implied)
         - fitness
           - Tg_fitness_hff_in_vitro
+      - tachyzoite
+        - host effect
+          - Tg_host_protein_recruitment_to_the_vacuole
     - sera
       - stage-unspecified
         - immunity

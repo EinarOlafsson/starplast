@@ -5069,7 +5069,9 @@
     "axis": "host effect",
     "context": "human fibroblast; tachyzoite, in vitro HFF",
     "unit": "host_gene",
-    "patterns": [],
+    "patterns": [
+      "fibroblast_tpm"
+    ],
     "policy": "average",
     "candidates": [],
     "evidence_path": [
@@ -5456,7 +5458,9 @@
     "axis": "host effect",
     "context": "mouse brain; bradyzoite, chronic CNS infection",
     "unit": "host_gene",
-    "patterns": [],
+    "patterns": [
+      "brain_tpm"
+    ],
     "policy": "average",
     "candidates": [],
     "evidence_path": [
@@ -5584,7 +5588,9 @@
     "axis": "host effect",
     "context": "mouse skeletal muscle; bradyzoite, chronic muscle infection",
     "unit": "host_gene",
-    "patterns": [],
+    "patterns": [
+      "skeletal_muscle_tpm"
+    ],
     "policy": "average",
     "candidates": [],
     "evidence_path": [
@@ -5967,6 +5973,46 @@
     "target_family": "subcellular localization",
     "target_columns": [],
     "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "host protein recruitment to the vacuole",
+    "axis": "host effect",
+    "context": "parasitophorous vacuole; tachyzoite in HFF",
+    "unit": "host_gene",
+    "patterns": [
+      "pv_enrichment_log2"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "34898650",
+        "PLoS Pathog",
+        "host proteins enriched at the vacuole, by context"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "parasite-host",
+      "host effect",
+      "tachyzoite"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-host",
+      "tachyzoite",
+      "unperturbed"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "human",
+      "tissue-unspecified",
+      "tachyzoite",
+      "host effect"
+    ],
+    "target_family": "host_protein_recruitment_to_the_vacuole",
+    "target_columns": [],
+    "role": "never"
   },
   {
     "organism": "Pf",
@@ -12106,7 +12152,9 @@
     "axis": "host effect",
     "context": "human hepatocyte; liver stage and hypnozoite",
     "unit": "host_gene",
-    "patterns": [],
+    "patterns": [
+      "hepatocyte_tpm"
+    ],
     "policy": "average",
     "candidates": [],
     "evidence_path": [

@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**128 slots: 37 covered well, 6 partly, 14 thinly, 71 empty.**
+**128 slots: 38 covered well, 6 partly, 14 thinly, 70 empty.**
 
 `genes` is how many have an ANSWER; `of which yes` appears where that answer is a yes/no and most of them are no. A phosphorylation slot answered for every gene because the flag is completed False is not a phosphoproteome of every gene, and the atlas used to print only the first number.
 
@@ -198,7 +198,7 @@ quantity were approximating on 2026-08-13.
 | Pf_host surface / receptor repertoire · human bone marrow | human bone marrow; gametocyte, sequestered | **-** |  |  |  | `` | fill | — |
 | Pf_host response to infection · human bone marrow | human bone marrow; gametocyte, sequestered | **-** |  |  |  | `` | separate | — |
 | Pf_host proteome · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  |  | `` | average | — |
-| Pf_host transcriptome · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  |  | `` | average | — |
+| Pf_host transcriptome · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **A** | 19087 |  | 100.0% | `hepatocyte_tpm` | average | — |
 | Pf_host surface / receptor repertoire · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  |  | `` | fill | — |
 | Pf_host response to infection · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  |  | `` | separate | — |
 | Pf_host proteome · human dermis | human dermis; sporozoite, after the bite | **-** |  |  |  | `` | average | — |

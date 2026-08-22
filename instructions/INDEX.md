@@ -46,6 +46,7 @@ One file per task. This index is the status table; the files carry the reasoning
 | 34 | Repair two metric columns and the CLI finding count |
 | 35 | Simplify lighting, make point modes distinct, and add volumetric ray tracing |
 | 36 | GPU PBR sphere points and stable GPU density-ray tracing |
+| 48 | The orphan alarm never looks at the host table |
 
 ## Open
 
@@ -54,7 +55,6 @@ One file per task. This index is the status table; the files carry the reasoning
 | 37 | Continuous flashlight, material lab, and ray-rendering comparison |
 | 38 | Build a provenance-first pan-Apicomplexan dataset archive |
 | 41 | Fill as many slots as possible: Toxoplasma, Plasmodium, and host |
-| 48 | The orphan alarm never looks at the host table |
 
 ## The one ordering constraint that is not negotiable — now satisfied
 

@@ -720,3 +720,122 @@ def test_the_surface_and_the_contents_of_a_red_cell_are_different_columns(tmp_pa
     assert out.loc["P11277", "rbc_membrane_psms"] == 500
     assert pd.isna(out.loc["P11277", "rbc_surface_copies_uk"]), "not on the surface list"
     assert out.loc["P02730", "rbc_surface_copies_uk"] == pytest.approx(1304561.5)
+
+
+# ------------------------------------------------------------------ keying a host table by gene id
+def _idmap(tmp_path, species="human", reviewed=(("P31946", "YWHAB"),), ensembl=(("P31946",
+                                                                                "ENSG00000166913.14"),)):
+    """The two UniProt files the index needs, in the shapes UniProt actually serves them."""
+    import gzip
+    folder = tmp_path / H.UNIPROT_ROOT
+    folder.mkdir(parents=True, exist_ok=True)
+    mapping, entries = H.UNIPROT_IDMAP[species]
+    with gzip.open(folder / entries, "wt") as fh:
+        fh.write("Entry\tGene Names (primary)\n")
+        for acc, gene in reviewed:
+            fh.write(f"{acc}\t{gene}\n")
+    with gzip.open(folder / mapping, "wt") as fh:
+        for acc, ens in ensembl:
+            fh.write(f"{acc}\tEnsembl\t{ens}\n")
+    return str(tmp_path)
+
+
+def test_the_index_keeps_only_the_reviewed_accession(tmp_path):
+    """`ENSG00000166913` names ten accessions in the raw file, nine of them TrEMBL fragments of the
+    same protein. Restricted to Swiss-Prot it names P31946, which is what anybody means by YWHAB."""
+    root = _idmap(tmp_path, ensembl=[("P31946", "ENSG00000166913.14"),
+                                     ("A0A0J9YWE8", "ENSG00000166913.14"),
+                                     ("Q4VY19", "ENSG00000166913.2")])
+    got = H.uniprot_index(root, "human", log=lambda *a: None)
+    assert got["by_ensembl"]["ENSG00000166913"] == "P31946"
+    assert got["by_symbol"]["YWHAB"] == "P31946"
+
+
+def test_an_id_naming_two_reviewed_proteins_is_dropped(tmp_path):
+    """Ambiguous after the reviewed filter is genuinely ambiguous, so it is refused not guessed."""
+    root = _idmap(tmp_path, reviewed=[("P31946", "YWHAB"), ("P62258", "YWHAE")],
+                  ensembl=[("P31946", "ENSG00000000001.1"), ("P62258", "ENSG00000000001.1")])
+    assert "ENSG00000000001" not in H.uniprot_index(root, "human", log=lambda *a: None)["by_ensembl"]
+
+
+def test_a_truncated_mapping_file_yields_no_index_rather_than_raising(tmp_path):
+    """A partial reviewed list is WORSE than none: every accession missing from it silently demotes
+    a real gene to ambiguous. The endpoint this comes from truncates under load."""
+    folder = tmp_path / H.UNIPROT_ROOT
+    folder.mkdir(parents=True)
+    mapping, entries = H.UNIPROT_IDMAP["human"]
+    (folder / entries).write_bytes(b"\x1f\x8b\x08\x00 truncated before the end of the stream")
+    (folder / mapping).write_bytes(b"")
+    assert H.uniprot_index(str(tmp_path), "human", log=lambda *a: None)["by_ensembl"] == {}
+
+
+def test_an_unknown_species_has_no_index(tmp_path):
+    assert H.uniprot_index(str(tmp_path), "anopheles")["by_ensembl"] == {}
+
+
+def _gtex(tmp_path, rows=None):
+    import gzip
+    folder = tmp_path / "host" / H.GTEX[0] / H.GTEX[1]
+    folder.mkdir(parents=True, exist_ok=True)
+    rows = rows if rows is not None else [
+        ("ENSG00000166913.14", "YWHAB", 12.0, 34.0),
+        ("ENSG00000999999.1", "NOTMAPPED", 1.0, 2.0)]
+    tissues = list(H.GTEX_TISSUES)
+    with gzip.open(folder / H.GTEX[2], "wt") as fh:
+        fh.write("#1.2\n2\t2\n")
+        fh.write("Name\tDescription\t" + "\t".join(tissues) + "\n")
+        for r in rows:
+            fh.write("\t".join(str(x) for x in r) + "\n")
+    return str(tmp_path)
+
+
+def test_gtex_is_keyed_through_the_reviewed_index(tmp_path):
+    """GTEx is Ensembl and the host table is UniProt. Joining these on a symbol string is how the
+    wrong gene gets a number."""
+    _idmap(tmp_path)
+    d = H.gtex_transcriptome(_gtex(tmp_path), log=lambda *a: None)
+    assert list(d["host_id"]) == ["P31946"], "a row with no reviewed accession must be left out"
+    assert d["fibroblast_tpm"].iloc[0] == 12.0
+
+
+def test_gtex_without_the_index_yields_nothing(tmp_path):
+    """No mapping means no key, and a tissue table with no key belongs in no host table."""
+    assert H.gtex_transcriptome(_gtex(tmp_path), log=lambda *a: None).empty
+
+
+def test_a_missing_or_wrong_shaped_gtex_file_is_empty(tmp_path):
+    _idmap(tmp_path)
+    assert H.gtex_transcriptome(str(tmp_path), log=lambda *a: None).empty
+
+
+def _fantom(tmp_path, rows=None):
+    folder = tmp_path / "host" / H.FANTOM5_MOUSE[0] / H.FANTOM5_MOUSE[1]
+    folder.mkdir(parents=True, exist_ok=True)
+    cols = ["Gene ID", "Gene Name"] + list(H.FANTOM5_BRAIN) + [H.FANTOM5_MUSCLE]
+    rows = rows if rows is not None else [
+        ["ENSMUSG00000000001", "Snap25", 1000.0, 1200.0, 1400.0, 1082.0, None],
+        ["ENSMUSG00000000002", "Acta1", 1.0, 1.0, 1.0, 1.0, 102086.0]]
+    with open(folder / H.FANTOM5_MOUSE[2], "w", encoding="utf8") as fh:
+        fh.write("# Expression Atlas\n# Query: whatever\n")
+        fh.write("\t".join(cols) + "\n")
+        for r in rows:
+            fh.write("\t".join("" if x is None else str(x) for x in r) + "\n")
+    return str(tmp_path)
+
+
+def test_mouse_brain_is_averaged_over_its_regions(tmp_path):
+    """An average across REGIONS, not replicates, and that is what the slot wants -- a bradyzoite
+    cyst is not confined to one region."""
+    _idmap(tmp_path, "mouse", reviewed=[("P60879", "Snap25"), ("P68134", "Acta1")],
+           ensembl=[("P60879", "ENSMUSG00000000001"), ("P68134", "ENSMUSG00000000002")])
+    d = H.mouse_tissue_transcriptome(_fantom(tmp_path), log=lambda *a: None).set_index("host_id")
+    assert d.loc["P60879", "brain_tpm"] == pytest.approx((1000 + 1200 + 1400 + 1082) / 4)
+    assert d.loc["P68134", "skeletal_muscle_tpm"] == 102086.0
+    assert pd.isna(d.loc["P60879", "skeletal_muscle_tpm"]), "below the cutoff is not zero"
+
+
+def test_the_mouse_atlas_needs_the_mouse_index_not_the_human_one(tmp_path):
+    """Keyed against the wrong species the join silently produces nothing, which must not read as
+    a tissue that was measured and came back empty."""
+    _idmap(tmp_path, "human")
+    assert H.mouse_tissue_transcriptome(_fantom(tmp_path), log=lambda *a: None).empty

@@ -170,6 +170,23 @@ def audit(organism: str, nodes=None, tables=None, graph=None, rows: dict = None)
         # about -- so it is not an orphan. `gene_id` is the key, not a measurement.
         described = set(claimed) | {"gene_id"}
         orphan = sum(1 for c in nodes.columns if c not in described)
+    # The host table gets the same question, because for a long time nothing asked it: the alarm
+    # walked `nodes` and only `nodes`, and `pv_enrichment_log2` shipped unclaimed by any slot the
+    # whole time. Instruction 48.
+    #
+    # Both arms' host slots are consulted rather than this organism's. A host column belongs to a
+    # TISSUE, not to a parasite -- `rbc_*` is claimed only by a Plasmodium slot and `bmdm_*` only by
+    # a Toxoplasma one -- so walking one arm's catalogue would report the other arm's columns as
+    # orphans in every window.
+    host = (tables or {}).get("host_gene")
+    if host is not None and len(host):
+        host_claimed = set()
+        for slot in S.all_slots():
+            if slot.unit == "host_gene":
+                host_claimed.update(S.declared_columns(host, slot))
+        # `host_id` is the key and `host_name` its label, so neither is a measurement to describe.
+        host_described = host_claimed | {"host_id", "host_name"}
+        orphan += sum(1 for c in host.columns if c not in host_described)
     return {"empty": empty, "double": double, "orphan": orphan, "citation": citation,
             "n_slots": len(catalog)}
 

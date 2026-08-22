@@ -220,3 +220,45 @@ def test_shipped_sources_reports_what_is_actually_on_disk():
         assert set(source) == {"nodes", "graph", "tables"}
         if source["nodes"] is not None:
             assert len(source["nodes"]) > 100, organism
+
+
+def test_a_host_column_no_slot_claims_is_counted(qapp, monkeypatch):
+    """The alarm walked the gene table and only the gene table, so `pv_enrichment_log2` shipped
+    unclaimed by any slot for as long as it existed. Instruction 48."""
+    frame = pd.DataFrame({"gene_id": ["TGME49_1"], "described": [1.0]})
+    host = pd.DataFrame({"host_id": ["O75340"], "host_name": ["PDCD6"],
+                         "claimed_host_column": [1.0], "nobody_claims_this": [2.0]})
+    gene = S.Slot(organism="Tg", name="only", axis="a", context="c", unit="gene",
+                  patterns=("described",), policy="one")
+    host_slot = S.Slot(organism="Tg", name="host one", axis="a", context="c", unit="host_gene",
+                       patterns=("claimed_host_column",), policy="one")
+    monkeypatch.setattr(S, "all_slots", lambda organism=None: (gene, host_slot))
+    got = T.audit("Tg", frame, {"host_gene": host})
+    assert got["orphan"] == 1, "the unclaimed host column was not counted"
+
+
+def test_the_host_walk_consults_both_arms(qapp, monkeypatch):
+    """A host column belongs to a TISSUE, not to a parasite. `rbc_*` is claimed only by a
+    Plasmodium slot, so walking one arm's catalogue reports the other arm's columns as orphans."""
+    frame = pd.DataFrame({"gene_id": ["TGME49_1"]})
+    host = pd.DataFrame({"host_id": ["P02730"], "rbc_thing": [1.0], "bmdm_thing": [2.0]})
+    pf = S.Slot(organism="Pf", name="red cell", axis="a", context="c", unit="host_gene",
+                patterns=("rbc_thing",), policy="one")
+    tg = S.Slot(organism="Tg", name="macrophage", axis="a", context="c", unit="host_gene",
+                patterns=("bmdm_thing",), policy="one")
+
+    def catalog(organism=None):
+        return tuple(s for s in (pf, tg) if organism is None or s.organism == organism)
+
+    monkeypatch.setattr(S, "all_slots", catalog)
+    # Neither window may report the other arm's column as an orphan.
+    assert T.audit("Tg", frame, {"host_gene": host})["orphan"] == 0
+    assert T.audit("Pf", frame, {"host_gene": host})["orphan"] == 0
+
+
+def test_the_host_key_and_its_label_are_not_orphans(qapp, monkeypatch):
+    """`host_id` is the key and `host_name` its label. Neither is a measurement to describe."""
+    frame = pd.DataFrame({"gene_id": ["TGME49_1"]})
+    host = pd.DataFrame({"host_id": ["O75340"], "host_name": ["PDCD6"]})
+    monkeypatch.setattr(S, "all_slots", lambda organism=None: ())
+    assert T.audit("Tg", frame, {"host_gene": host})["orphan"] == 0

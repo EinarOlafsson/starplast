@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**271 slots: 100 covered well, 22 partly, 52 thinly, 97 empty.**
+**272 slots: 105 covered well, 22 partly, 52 thinly, 93 empty.**
 
 `genes` is how many have an ANSWER; `of which yes` appears where that answer is a yes/no and most of them are no. A phosphorylation slot answered for every gene because the flag is completed False is not a phosphoproteome of every gene, and the atlas used to print only the first number.
 
@@ -285,7 +285,7 @@ quantity were approximating on 2026-08-13.
 | Tg_host interaction degree | curated parasite-host interactions | **A** | 8140 |  | 100.0% | `n_host_targets` | one | — |
 | Tg_host transcriptional effect per effector | dual perturb-seq | **C** | 252 |  | 3.1% | `hosttx_T2, hosttx_signature_` | separate | **High-throughput identification of Toxoplasma gondii effector proteins that target host cell transcription.** (Cell host & microbe 2023) [37827122](https://pubmed.ncbi.nlm.nih.gov/37827122/) [GSE229505](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE229505) |
 | Tg_host proteome · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  |  | `` | average | — |
-| Tg_host transcriptome · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  |  | `` | average | — |
+| Tg_host transcriptome · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **A** | 19087 |  | 100.0% | `fibroblast_tpm` | average | — |
 | Tg_host surface / receptor repertoire · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  |  | `` | fill | — |
 | Tg_host response to infection · human fibroblast | human fibroblast; tachyzoite, in vitro HFF | **-** |  |  |  | `` | separate | — |
 | Tg_host proteome · human monocyte | human monocyte; tachyzoite, infected monocyte | **-** |  |  |  | `` | average | — |
@@ -297,17 +297,18 @@ quantity were approximating on 2026-08-13.
 | Tg_host surface / receptor repertoire · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **A** | 1296 | 150 | 100.0% | `bmdm_surface_detected, bmdm_surface_intensity` | fill | — |
 | Tg_host response to infection · mouse bone-marrow macrophage | mouse bone-marrow macrophage; tachyzoite, BMDM | **-** |  |  |  | `` | separate | — |
 | Tg_host proteome · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  |  | `` | average | — |
-| Tg_host transcriptome · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  |  | `` | average | — |
+| Tg_host transcriptome · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **A** | 9763 |  | 100.0% | `brain_tpm` | average | — |
 | Tg_host surface / receptor repertoire · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  |  | `` | fill | — |
 | Tg_host response to infection · mouse brain | mouse brain; bradyzoite, chronic CNS infection | **-** |  |  |  | `` | separate | — |
 | Tg_host proteome · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  |  | `` | average | — |
-| Tg_host transcriptome · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  |  | `` | average | — |
+| Tg_host transcriptome · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **A** | 8635 |  | 100.0% | `skeletal_muscle_tpm` | average | — |
 | Tg_host surface / receptor repertoire · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  |  | `` | fill | — |
 | Tg_host response to infection · mouse skeletal muscle | mouse skeletal muscle; bradyzoite, chronic muscle infection | **-** |  |  |  | `` | separate | — |
 | Tg_host proteome · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  |  | `` | average | — |
 | Tg_host transcriptome · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  |  | `` | average | — |
 | Tg_host surface / receptor repertoire · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  |  | `` | fill | — |
 | Tg_host response to infection · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  |  | `` | separate | — |
+| Tg_host protein recruitment to the vacuole | parasitophorous vacuole; tachyzoite in HFF | **A** | 12 |  | 100.0% | `pv_enrichment_log2` | one | **Toxoplasma gondii exploits the host ESCRT machinery for parasite uptake of host cytosolic proteins.** (PLoS Pathog 2021) [34898650](https://pubmed.ncbi.nlm.nih.gov/34898650/) `PLoS Pathog` |
 | Pf_host interaction degree | curated parasite-host interactions | **C** | 117 | 10 | 2.0% | `n_host_targets` | one | [GSE104223](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE104223) — from the GEO index, verify assay and parasite-gene shape |
 | Pf_host transcriptional effect per effector | dual perturb-seq | **-** |  |  |  | `` | separate | [GSE78931](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE78931) — from the GEO index, verify assay and parasite-gene shape |
 | Pf_host receptor binding | endothelium, erythrocyte | **-** |  |  |  | `` | separate | [GSE301430](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE301430) — from the GEO index, verify assay and parasite-gene shape<br>**Feeding with a ketonic diet confers complete protection against malaria** (GEO 2025) [40410577](https://pubmed.ncbi.nlm.nih.gov/40410577/) [GSE274138](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE274138)<br>**5-methylcytosine modification-mediated mRNA stabilization is associated with sexual development of malaria parasites [BisRNA-seq]** (GEO 2022) [35210361](https://pubmed.ncbi.nlm.nih.gov/35210361/) [GSE159126](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE159126)<br>**5-methylcytosine modification-mediated mRNA stabilization is associated with sexual development of malaria parasites [BisRNA-seq]** (GEO 2022) [35210361](https://pubmed.ncbi.nlm.nih.gov/35210361/) [GSE159124](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE159124)<br>[GSE186820](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE186820) — from the GEO index, verify assay and parasite-gene shape<br>**Transcriptome analysis of immature and mature male and female gametocytes of the malaria parasite Plasmodium falciparum** (GEO 2021) [37013531](https://pubmed.ncbi.nlm.nih.gov/37013531/) [GSE180985](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE180985)<br>**Expression patterns of Plasmodium falciparum clonally variant genes at the onset of a blood infection in non-immune humans [ChIP-seq]** (GEO 2021) [34340541](https://pubmed.ncbi.nlm.nih.gov/34340541/) [GSE166390](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE166390)<br>**Expression patterns of Plasmodium falciparum clonally variant genes at the onset of a blood infection in non-immune humans [ChIP-seq]** (GEO 2021) [34340541](https://pubmed.ncbi.nlm.nih.gov/34340541/) [GSE166258](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE166258) |
@@ -320,7 +321,7 @@ quantity were approximating on 2026-08-13.
 | Pf_host surface / receptor repertoire · human bone marrow | human bone marrow; gametocyte, sequestered | **-** |  |  |  | `` | fill | — |
 | Pf_host response to infection · human bone marrow | human bone marrow; gametocyte, sequestered | **-** |  |  |  | `` | separate | — |
 | Pf_host proteome · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  |  | `` | average | — |
-| Pf_host transcriptome · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  |  | `` | average | — |
+| Pf_host transcriptome · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **A** | 19087 |  | 100.0% | `hepatocyte_tpm` | average | — |
 | Pf_host surface / receptor repertoire · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  |  | `` | fill | — |
 | Pf_host response to infection · human hepatocyte | human hepatocyte; liver stage and hypnozoite | **-** |  |  |  | `` | separate | — |
 | Pf_host proteome · human dermis | human dermis; sporozoite, after the bite | **-** |  |  |  | `` | average | — |

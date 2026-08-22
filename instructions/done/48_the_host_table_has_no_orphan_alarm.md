@@ -36,3 +36,22 @@ catch until now.
    (`"<family> · <tissue>"`), and a host slot that is not about a tissue has none. Fall back to the
    slot's own declared columns, which is what every other unit already does.
 4. Regenerate the atlas: the slot count moves 271 -> 272, and anything asserting 271 moves with it.
+
+## Done 2026-08-22
+
+All four steps. `slot_tree.audit` now walks the host table as well as the gene table, consulting
+`S.all_slots()` across BOTH arms rather than the window's own organism -- a host column belongs to a
+tissue, not to a parasite, and a per-arm walk reported `rbc_*` as an orphan in the Toxoplasma window
+and `bmdm_*` in the Plasmodium one. `host_id` and `host_name` are described by definition.
+
+`pv_enrichment_log2` has a slot: `host protein recruitment to the vacuole`, a host_gene slot that is
+deliberately not one of the four tissue families, because those ask what a tissue CONTAINS and this
+asks what the parasite pulls toward itself once inside one. Twelve host proteins, and the row count
+says so beside the grade.
+
+`host_row_space` falls back to a slot's own declared columns when the slot name carries no tissue,
+which is what every other unit already does.
+
+The catalogue is 272 slots and the orphan count is 0 in both windows. Three tests hold it: an
+unclaimed host column is counted, neither arm reports the other's columns, and the key and its label
+are not orphans.
