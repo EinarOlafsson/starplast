@@ -15,6 +15,7 @@ starplast
 - [Python API](API.md): work with tables, embeddings, and analyses in scripts.
 - [Module reference](api/starplast.html): generated signatures and docstrings.
 - [Dataset catalogue](datasets.md): source records, assay types, and coverage.
+- [Scientific roadmap](scientific-roadmap.md): inference goals, validation priorities, and proposed improvements.
 - [Repository review](repository-review.md): architecture and scientific limitations.
 - [Ten logo refinements](assets/logo-refinements/index.html): compare and download SVG proposals.
 - [Development and releases](releases.md): build, test, and publish.
