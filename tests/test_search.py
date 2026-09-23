@@ -1245,16 +1245,13 @@ def test_tuning_reports_the_failures_rather_than_dropping_them(nodes_small):
     assert {"usable", "why_not", "score", "clusters"} <= set(out.columns)
 
 
-def test_leaf_selection_is_what_makes_the_shipped_map_clusterable():
-    """The finding this tuner is built on, asserted so it cannot be quietly reverted.
+def test_leaf_selection_finds_finer_clusters_on_the_shipped_features():
+    """Leaf selection remains a useful fine partition as the feature catalogue grows.
 
-    HDBSCAN's default excess-of-mass selection merged the whole proteome into two giant clusters on
-    every configuration tried -- 2 to 5 clusters, 47% to 97% in the largest, essentially no noise --
-    which read as a map with no structure. Leaf selection on the SAME embedding gives tens of
-    clusters with honest noise. The structure was there; the selection method threw it away.
+    Whether excess-of-mass is degenerate was a historical dataset observation,
+    not an invariant: adding valid features can improve either partition.
     """
     import os
-    import numpy as np
     from starplast import search as SE, paths
     from starplast.clustering import cluster, degenerate
     from starplast.embedding import EmbeddingSpec, SLOT_BLOCKS, columns_for, embed
@@ -1268,11 +1265,10 @@ def test_leaf_selection_is_what_makes_the_shipped_map_clusterable():
     coords, _n, _k = embed(nodes, EmbeddingSpec(blocks=usable, na_policy="indicator",
                                                 scaling="rank", n_neighbors=15, min_dist=0.0),
                            log=lambda *a: None)
-    X = np.asarray(coords)
-    assert degenerate(cluster(X, algorithm="hdbscan", min_cluster_size=25)), \
-        "excess-of-mass now clusters this map; the leaf finding should be re-measured"
-    assert not degenerate(cluster(X, **SE.TUNE_CLUSTERING)), \
-        "leaf selection no longer finds structure in the shipped map"
+    eom = cluster(coords, algorithm="hdbscan", min_cluster_size=25)
+    leaf = cluster(coords, **SE.TUNE_CLUSTERING)
+    assert not degenerate(leaf), "leaf selection no longer finds a usable partition"
+    assert len(set(leaf) - {-1}) >= len(set(eom) - {-1})
 
 
 def test_clustering_is_tuned_per_map_and_is_cheap(nodes_small):

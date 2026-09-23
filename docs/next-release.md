@@ -19,3 +19,8 @@ passed scientific benchmarks, UI checks, and packaging checks.
 
 The source AF3 directories are inputs, not working directories. Index models and
 extract features without altering the shared structure files.
+
+Execution interruptions are recorded in [the task blocker log](task-blockers.md).
+An interface restriction was reported on 23 September; its exact triggering task
+was not identified. Continue independent software work and retain incomplete
+research tasks explicitly in this checklist.
