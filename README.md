@@ -5,7 +5,7 @@
 [![Qt / PyQt6](https://img.shields.io/badge/GUI-PyQt6-41CD52?logo=qt&logoColor=white)](https://einarolafsson.github.io/starplast/guide.html)
 [![MIT license](https://img.shields.io/github/license/EinarOlafsson/starplast?color=3DA639)](LICENSE)
 
-[![Documentation build](https://github.com/EinarOlafsson/starplast/actions/workflows/docs.yml/badge.svg?branch=main)](https://einarolafsson.github.io/starplast/)
+[![Documentation on main](https://github.com/EinarOlafsson/starplast/actions/workflows/docs.yml/badge.svg?branch=main&event=push)](https://github.com/EinarOlafsson/starplast/actions/workflows/docs.yml?query=branch%3Amain)
 [![Python API](https://img.shields.io/badge/API-reference-007EC6)](https://einarolafsson.github.io/starplast/API.html)
 [![GitHub issues](https://img.shields.io/github/issues/EinarOlafsson/starplast?logo=github)](https://github.com/EinarOlafsson/starplast/issues)
 [![spaCR integration](https://img.shields.io/badge/spaCR-integrated-7B61A8)](https://github.com/EinarOlafsson/spacr)
