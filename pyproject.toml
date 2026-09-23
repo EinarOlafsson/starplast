@@ -39,6 +39,7 @@ dependencies = [
 dev = ["pytest>=7", "pytest-qt>=4.4", "build>=1.2", "twine>=6", "tomli>=2; python_version < '3.11'"]
 docs = ["pdoc>=15,<17", "markdown2>=2.5,<3"]
 ingest = ["pyBigWig>=0.3"]
+sequence = ["torch>=2.1", "transformers>=4.40,<5", "biopython>=1.84"]
 structures = ["gemmi>=0.7", "biopython>=1.84"]
 gpu = [
     "cuml-cu12>=24.10; sys_platform == 'linux' and platform_machine == 'x86_64'",
@@ -47,6 +48,7 @@ gpu = [
 
 [project.scripts]
 starplast = "starplast.app:main"
+starplast-encode-proteins = "starplast.sequence_features:main"
 starplast-index-structures = "starplast.structure_catalog:main"
 starplast-discover = "starplast.discover:main"
 starplast-install-gpu = "starplast.install_gpu:main"

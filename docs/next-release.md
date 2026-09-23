@@ -7,7 +7,7 @@ passed scientific benchmarks, UI checks, and packaging checks.
 - [ ] Shared embedding recipes, strict inference, executed-method provenance, and cache identity.
 - [ ] Observation records with source, condition, uncertainty, missingness and review status.
 - [x] Local AF3 model inventory, exact gene mapping, fragment handling, structure features and viewer access.
-- [ ] Frozen protein sequence embeddings, with reusable caches and model provenance.
+- [x] Frozen protein sequence embeddings, with reusable caches and model provenance.
 - [ ] Group-aware prediction benchmark: feature/PCA/UMAP neighbours, linear/boosted models, multi-view factors and weighted networks.
 - [ ] Classification, regression, multi-label support, calibration and explicit abstention.
 - [ ] Structured literature assertions with review and source evidence.

@@ -191,6 +191,16 @@ OOCYST_ITRAQ_COLUMNS = (
 )
 
 REGISTRY = [
+    Dataset("esm2_protein", "Frozen ESM-2 protein representations", "reference", "computed sequence features",
+            "320 sequence representation coordinates in a separate gene-keyed feature table",
+            coverage="8,064 T. gondii genes with valid bundled CDS translations",
+            citation="Lin et al., Science (2023); frozen ESM-2 8M model, local sequence encoding",
+            url="https://huggingface.co/facebook/esm2_t6_8M_UR50D",
+            path="starplast/data/esm_features.parquet",
+            note="Computed representation, not an experimentally measured trait. Model revision and "
+                 "sequence hashes are in esm_manifest.parquet. Long proteins use overlapping windows "
+                 "with residue-complete pooling. Features are loaded for prediction rather than "
+                 "adding 320 uninterpretable colour controls to the display map."),
     Dataset("local_af3", "Local AlphaFold 3 protein models", "post_translation", "computed structure",
             "sequence-verified AF3 confidence, coverage and confident-region geometry",
             columns=("af3_sequence_coverage", "af3_mean_plddt", "af3_plddt_q25",

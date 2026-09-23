@@ -11,7 +11,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 PAGES = {"index": "docs/index.md", "guide": "docs/guide.md", "API": "docs/API.md",
-         "datasets": "docs/datasets.md", "structures": "docs/structures.md", "releases": "docs/releases.md",
+         "datasets": "docs/datasets.md", "structures": "docs/structures.md",
+         "protein-sequences": "docs/protein-sequences.md", "releases": "docs/releases.md",
          "repository-review": "docs/repository-review.md",
          "scientific-roadmap": "docs/scientific-roadmap.md", "changelog": "CHANGELOG.md"}
 
