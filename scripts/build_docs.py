@@ -22,7 +22,9 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ, QT_QPA_PLATFORM="offscreen", PYQTGRAPH_QT_LIB="PyQt6")
     subprocess.run([sys.executable, "-m", "pdoc", "--output-directory", str(output / "api"),
-                    "--docformat", "markdown", "--no-show-source", "starplast"],
+                    "--docformat", "markdown", "--no-show-source",
+                    "--edit-url", "starplast=https://github.com/EinarOlafsson/starplast/blob/main/starplast/",
+                    "starplast"],
                    cwd=ROOT, env=env, check=True)
     shutil.copytree(ROOT / "docs" / "assets", output / "assets", dirs_exist_ok=True)
     shutil.copytree(ROOT / "docs" / "screenshots", output / "screenshots", dirs_exist_ok=True)

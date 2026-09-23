@@ -44,9 +44,12 @@ A sortable candidate table with source links would be a valuable next addition.
 
 **Search scores can reward the search procedure.** Holding a label out of the
 input is necessary, but repeatedly selecting configurations using that same label
-can still overfit the evaluation. Use independent data or nested evaluation when
-reporting generalization. Existing leakage tests are useful checks, not proof that
-all biological proxies have been excluded.
+can still overfit the evaluation. The existing
+`holdout_cv.nested_structure_cv` helper separates inner model selection from outer
+label evaluation; that is a good foundation for reporting generalization. Make
+that distinction clear wherever search scores are displayed, and confirm candidates
+with independent evidence. Existing leakage tests are useful checks, not proof
+that all biological proxies have been excluded.
 
 **The executed method needs to travel with the result.** In `embedding.embed`,
 UMAP exceptions can lead to PCA fallback. The log reports it, but the supplied

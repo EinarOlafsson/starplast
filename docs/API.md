@@ -73,7 +73,9 @@ For label recovery, use `search.excluded_detail()` to inspect excluded inputs an
 `search.search()` to run a search with target exclusions. Use
 `validate.masked_recovery()` or `validate.validate_all()` to evaluate categories
 hidden from cluster selection. Pass `used_columns` and `target_column` so the
-circularity checks can run. A search winner still needs independent confirmation.
+circularity checks can run. `holdout_cv.nested_structure_cv()` selects among
+precomputed clusterings using inner validation labels and scores untouched outer
+folds. A search winner still needs independent confirmation.
 
 ## Import a screen table
 
