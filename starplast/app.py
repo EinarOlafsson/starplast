@@ -304,6 +304,8 @@ def load(species: str = DEFAULT_SPECIES):
         from .structure_catalog import attach_features
         nodes = attach_features(nodes, os.path.join(DATA, "af3_features.parquet"))
     z = np.load(npz)
+    if "gene_ids" in z.files and not np.array_equal(z["gene_ids"].astype(str), nodes.gene_id.astype(str)):
+        raise ValueError("graph gene order does not match the node table; rebuild the graph cache")
     xyz = z["xyz"].astype(np.float32)
     edges = {}
     for k, _ in EDGE_TYPES:
@@ -1330,6 +1332,21 @@ class Window(QtWidgets.QMainWindow):
         self.panel = panel
         self._gallery()
 
+    def _open_workflows(self, tab=0):
+        """Open task-oriented exploration, prediction and measured-screen comparison."""
+        from .workflows import WorkflowDialog
+        if not hasattr(self, 'workflows_dialog'):
+            self.workflows_dialog = WorkflowDialog(self.nodes, runner=self.jobs, parent=self)
+            self.workflows_dialog.gene_selected.connect(self._workflow_gene)
+        self.workflows_dialog.tabs.setCurrentIndex(tab)
+        self.workflows_dialog.show()
+        self.workflows_dialog.raise_()
+
+    def _workflow_gene(self, gene):
+        """Keep a guided-workflow selection aligned with the map and evidence panel."""
+        self.search.setText(gene)
+        self.do_search()
+
     def _gallery(self):
         """The walk gallery, along the bottom where a wall of thumbnails has room to be a wall.
 
@@ -1596,6 +1613,11 @@ class Window(QtWidgets.QMainWindow):
         # ---- Tools
         t = mb.addMenu("&Tools")
         t.setToolTipsVisible(True)
+        for index, title in enumerate(('Explore a gene…', 'Predict a trait…', 'Compare a screen…')):
+            action = t.addAction(title)
+            action.setToolTip('Open a guided workflow with source evidence, held-out evaluation and portable exports.')
+            action.triggered.connect(lambda _checked=False, tab=index: self._open_workflows(tab))
+        t.addSeparator()
         # A toggle beside the panel toggles, not a "…" that only ever opens. It sits with the other
         # things you show and hide, which is where a reader looks for it.
         self.slot_tree_act = t.addAction("Slot tree")

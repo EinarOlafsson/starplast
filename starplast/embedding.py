@@ -359,84 +359,133 @@ def normalize(Y, scale: float = 50.0) -> np.ndarray:
     return (Y * scale).astype(np.float32)
 
 
-def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print, return_matrix: bool = False):
-    """Build and project a matrix.
+class EmbeddingCoordinates(np.ndarray):
+    """Display coordinates carrying the actual execution record until stored."""
+    def __new__(cls, values, provenance):
+        instance = np.asarray(values, dtype=np.float32).view(cls)
+        instance.provenance = provenance
+        return instance
 
-    Returns ``(coords, feature_names, kept_rows)`` by default. With ``return_matrix=True`` the
-    exact pre-projection matrix is appended, allowing callers to compute trustworthiness without
-    rebuilding and potentially drifting from the matrix that actually produced the map.
+    def __array_finalize__(self, parent):
+        self.provenance = getattr(parent, "provenance", None)
+
+
+def default_spec(nodes: pd.DataFrame) -> EmbeddingSpec:
+    """The same balanced display recipe for packaged and interactive layouts.
+
+    Include available numeric biological feature slots, with one contribution per
+    source column. Missingness and weighting remain explicit in the stored recipe.
+    Label targets and literature attention are not selected as display features.
     """
+    from .slots import table_organism, all_slots, source_columns
+    organism = table_organism(nodes) or "Tg"
+    available = []
+    seen = set()
+    for slot in all_slots(organism):
+        if slot.unit != "gene" or slot.role != "feature":
+            continue
+        columns = [c for c in source_columns(nodes, slot) if pd.api.types.is_numeric_dtype(nodes[c])]
+        # Overlapping slot views are useful to browse but would double-count the
+        # same measurements in a default embedding.
+        if columns and not (set(columns) & seen) and organism == "Tg":
+            available.append(slot.key)
+            seen.update(columns)
+    if available:
+        return EmbeddingSpec(name="balanced-display", blocks=tuple(available))
+    # Legacy regex blocks have no organism-specific assumptions and cover the Pf
+    # expression, fitness and sequence columns through the same matrix builder.
+    return EmbeddingSpec(name="balanced-display")
+
+
+def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print, return_matrix: bool = False,
+          strict: bool = False, return_metadata: bool = False):
+    """Project a declared matrix and record the method that actually executed.
+
+    The default return is ``(coords, feature_names, kept_rows)``. ``return_matrix``
+    appends the input matrix; ``return_metadata`` appends execution provenance.
+    Coordinates also carry that record for EmbeddingStore. ``strict=True`` refuses
+    backend or algorithm fallback and should be used for inference comparisons.
+    """
+    import hashlib
+    from importlib.metadata import version, PackageNotFoundError
     from .logging_util import get_logger
-    # The full recipe, at INFO. A map with no record of what produced it cannot be compared with
-    # another or reported in a methods section, and the recipe is small next to the run.
-    get_logger(__name__).info("embedding: %s", spec.to_dict())
+    from . import gpu
     X, names, rows = build_matrix(nodes, spec, log=log)
+    fallback = None
+
+    def finish(Y, method, backend):
+        """Attach identity, effective settings and dependency versions to coordinates."""
+        values = normalize(Y)
+        versions = {}
+        for library in ("numpy", "pandas", "scikit-learn", "umap-learn", "cuml-cu12"):
+            try: versions[library] = version(library)
+            except PackageNotFoundError: pass
+        metadata = {"requested_method": spec.method, "executed_method": method,
+                    "backend": backend, "fallback": fallback, "recipe": spec.to_dict(),
+                    "effective_dimensions": int(values.shape[1]), "features": list(names),
+                    "matrix_sha256": hashlib.sha256(np.ascontiguousarray(X).tobytes()).hexdigest(),
+                    "coordinates_sha256": hashlib.sha256(values.tobytes()).hexdigest(),
+                    "ordered_gene_ids": nodes.loc[rows, "gene_id"].astype(str).tolist()
+                                        if "gene_id" in nodes else nodes.index[rows].astype(str).tolist(),
+                    "versions": versions}
+        get_logger(__name__).info("executed embedding: %s via %s; fallback=%s; matrix=%s",
+                                 method, backend, fallback, metadata["matrix_sha256"])
+        result = (EmbeddingCoordinates(values, metadata), names, rows)
+        if return_matrix: result = (*result, X)
+        if return_metadata: result = (*result, metadata)
+        return result
+
+    if spec.method not in METHODS:
+        raise ValueError(f"unknown embedding method: {spec.method}")
     if spec.method == "pca":
         from sklearn.decomposition import PCA
-        # Clamped to what the matrix can actually give. A block set with two columns and a request
-        # for three components is an error sklearn raises, and raising it in the middle of a search
-        # ends the whole run over one configuration that was never going to work.
-        k = int(max(min(spec.n_components, min(np.shape(X))), 1))
-        log(f"PCA: {k} components -- the baseline, not a map to read biology off")
-        out = (normalize(PCA(n_components=k, random_state=spec.random_state)
-                         .fit_transform(np.nan_to_num(X))), names, rows)
-        return (*out, X) if return_matrix else out
+        count = min(spec.n_components, min(X.shape))
+        return finish(PCA(n_components=count, random_state=spec.random_state).fit_transform(X),
+                      "pca", "scikit-learn")
     if spec.method == "tsne":
-        # Perplexity has to stay under a third of the sample or the neighbourhoods it builds cover
-        # the whole set; sklearn raises rather than clamping, which would end a sweep mid-run.
-        perplexity = float(min(spec.perplexity, max((len(X) - 1) / 3.0, 2.0)))
-        from . import gpu
+        perplexity = min(spec.perplexity, max((len(X)-1)/3., 1.))
         on_gpu = gpu.tsne_class()
         if on_gpu is not None and len(X) >= 1000 and spec.n_components == 2:
             try:
-                log(f"t-SNE: {gpu.backend()['tsne']} on the GPU, perplexity {perplexity:g} -- a "
-                    "different map from scikit-learn, not the same map faster")
                 Y = on_gpu(n_components=2, perplexity=perplexity,
                            early_exaggeration=spec.early_exaggeration,
+                           metric=spec.metric,
                            random_state=spec.random_state).fit_transform(X)
-                out = (normalize(np.asarray(Y)), names, rows)
-                return (*out, X) if return_matrix else out
+                return finish(np.asarray(Y), "tsne", "cuml")
             except Exception as exc:
-                log(f"cuml t-SNE failed, using scikit-learn: {type(exc).__name__}: {exc}")
-        elif on_gpu is not None and spec.n_components != 2:
-            log(f"t-SNE: cuml supports 2 components here; using scikit-learn for "
-                f"{spec.n_components} components")
+                if strict: raise
+                fallback = f"cuml t-SNE failed: {type(exc).__name__}: {exc}"
+                log(fallback + "; using scikit-learn")
+        if on_gpu is not None and spec.n_components != 2:
+            log(f"t-SNE: cuml supports 2 components; using scikit-learn for {spec.n_components}")
         from sklearn.manifold import TSNE
-        log(f"t-SNE: scikit-learn, perplexity {perplexity:g} -- neighbourhoods are meaningful, "
-            f"distances between clusters are NOT")
         Y = TSNE(n_components=spec.n_components, perplexity=perplexity,
                  early_exaggeration=spec.early_exaggeration, metric=spec.metric,
-                 init="pca", random_state=spec.random_state).fit_transform(np.nan_to_num(X))
-        out = (normalize(np.asarray(Y)), names, rows)
-        return (*out, X) if return_matrix else out
+                 init="pca", random_state=spec.random_state).fit_transform(X)
+        return finish(Y, "tsne", "scikit-learn")
     try:
-        from . import gpu
         on_gpu = gpu.umap_class()
         if on_gpu is not None:
-            # cuml's UMAP is NOT the reference implementation, so this map is not identical to the
-            # one the CPU builds -- it is a different map of the same data. Said out loud, because a
-            # walk whose rows came from two implementations would be a comparison of the libraries.
-            log(f"UMAP: {gpu.backend()['umap']} on the GPU -- a different map from the CPU path, "
-                f"not the same map faster")
+            log(f"UMAP: {gpu.backend()['umap']} on the GPU")
             Y = on_gpu(n_components=spec.n_components, n_neighbors=spec.n_neighbors,
-                       min_dist=spec.min_dist, random_state=spec.random_state).fit_transform(X)
-            out = (normalize(np.asarray(Y)), names, rows)
-            return (*out, X) if return_matrix else out
+                       min_dist=spec.min_dist, metric=spec.metric,
+                       random_state=spec.random_state).fit_transform(X)
+            return finish(np.asarray(Y), "umap", "cuml")
         import umap
-        # Named on the CPU path too. "No message" is not an answer to "which library ran": a user
-        # who has just turned the switch on needs to see that it did nothing here and why.
-        log(f"UMAP: umap-learn {umap.__version__} on the CPU"
-            + ("" if gpu.available()["cuml"] else " (cuml not installed)"))
+        log(f"UMAP: umap-learn {umap.__version__} on the CPU")
         Y = umap.UMAP(n_components=spec.n_components, n_neighbors=spec.n_neighbors,
                       min_dist=spec.min_dist, metric=spec.metric,
                       random_state=spec.random_state).fit_transform(X)
-    except Exception as e:
-        log(f"UMAP unavailable ({type(e).__name__}); falling back to PCA")
+        return finish(Y, "umap", "umap-learn")
+    except Exception as exc:
+        if strict:
+            raise RuntimeError(f"requested UMAP failed; strict mode forbids fallback: {exc}") from exc
+        fallback = f"{type(exc).__name__}: {exc}"
+        log(f"UMAP unavailable ({fallback}); falling back to PCA")
         from sklearn.decomposition import PCA
-        Y = PCA(n_components=spec.n_components,
-                random_state=spec.random_state).fit_transform(np.nan_to_num(X))
-    out = (normalize(Y), names, rows)
-    return (*out, X) if return_matrix else out
+        count = min(spec.n_components, min(X.shape))
+        Y = PCA(n_components=count, random_state=spec.random_state).fit_transform(X)
+        return finish(Y, "pca", "scikit-learn")
 
 
 # --------------------------------------------------------------------------- diagnostics

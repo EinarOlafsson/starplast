@@ -1,5 +1,8 @@
 # Starplast
 
+[Explore a gene, predict a trait or compare a screen](workflows.md) using the
+guided workflows in the Tools menu.
+
 <img src="assets/starplast-wordmark.svg" alt="Starplast — a Toxoplasma silhouette enclosing a constellation" width="520">
 
 Explore gene evidence and screen results in *Toxoplasma gondii* and

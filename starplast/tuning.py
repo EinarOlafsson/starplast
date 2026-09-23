@@ -233,12 +233,22 @@ class EmbeddingStore:
              gene_ids=None, features=None, extra: dict | None = None) -> str:
         """Store coordinates with the full recipe that produced them."""
         npz, meta = self._paths(name)
+        import hashlib
         arrays = {"xyz": np.asarray(coords, dtype=np.float32)}
+        execution = getattr(coords, "provenance", None)
+        if execution is not None:
+            digest = hashlib.sha256(arrays["xyz"].tobytes()).hexdigest()
+            if digest != execution.get("coordinates_sha256"):
+                raise ValueError("coordinates changed after their execution record was created")
+            if gene_ids is not None and list(map(str, gene_ids)) != execution["ordered_gene_ids"]:
+                raise ValueError("gene order differs from the embedding execution record")
+            spec = EmbeddingSpec.from_dict(execution["recipe"])
+
         if gene_ids is not None:
-            arrays["gene_id"] = np.asarray(gene_ids, dtype=object)
+            arrays["gene_id"] = np.asarray(gene_ids, dtype=str)
         np.savez_compressed(npz, **arrays)
         json.dump({"name": name, "spec": asdict(spec), "n_genes": int(len(coords)),
-                   "features": list(features or []), **(extra or {})},
+                   "features": list(features or []), "execution": execution or {"status": "unrecorded"}, **(extra or {})},
                   open(meta, "w"), indent=1)
         return npz
 

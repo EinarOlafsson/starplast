@@ -48,10 +48,19 @@ components is limited by the available matrix dimensions. Use `method="umap"` or
 `method="tsne"` for nonlinear projections. `embed(..., return_matrix=True)` appends
 the exact feature matrix as a fourth return value.
 
-The current UMAP implementation falls back to PCA if both accelerated and CPU
-UMAP fail. Read the log when checking the method that actually ran. Save the
-recipe, input data, package version, backend, and output coordinates with a result;
-a seed alone does not ensure identical coordinates across software or hardware.
+Use `embed(..., strict=True)` to refuse a failed backend or algorithm. In ordinary
+display mode a failed UMAP call can return PCA; the log and saved execution record
+identify that fallback. `return_metadata=True` appends a dictionary containing the
+requested and executed methods, backend, recipe, ordered gene IDs, matrix and
+coordinate hashes, and library versions. Coordinates also carry this record into
+`tuning.EmbeddingStore.save()`, which checks gene order and coordinate integrity.
+A seed alone does not ensure identical coordinates across software or hardware.
+
+`embedding.default_spec(nodes)` selects the balanced display recipe used by the
+packaged map builder. The shipped archives record that execution and the exact
+node-file hash. Rebuild just their layouts with `python scripts/rebuild_layouts.py`;
+this preserves the existing edge arrays. The display is exploratory: it is not a
+held-out prediction of any trait used to construct it.
 
 ## Cluster and examine held-out evidence
 
@@ -114,6 +123,39 @@ Use `--nodes /path/to/pf_nodes.parquet` for a different node table and choose a
 layer present in that table. `--out` sets the results directory. Searches can be
 long-running; `--help` lists budget, seed, and feature-selection options.
 
+## Evaluate a trait with held-out families
+
+```python
+from starplast.prediction import TaskSpec, run
+
+result = run(nodes, TaskSpec("compartment", method="linear", group_column="orthogroup"))
+print(result.metrics)
+print(result.per_class)
+result.save("results/localization")
+```
+
+Use `kind="regression"` for continuous measured outcomes, or `run_multilabel()`
+for separate observed binary columns. `features` and `exclude` declare inputs;
+registered target-derived measurements are still excluded. Calibration and
+preprocessing are fitted within training groups. Read the [workflow guide](workflows.md)
+for uncertainty, abstention and evaluation limits.
+
+```python
+from starplast.evidence import Observation, write_observations
+
+records = [Observation(
+    entity_id="example_gene", trait="example_measurement", value=0.0,
+    source_id="study_accession", organism="example_organism",
+    source_version="v1", source_location="Table 2, row 3",
+    unit="relative abundance", context={"condition": "reference"},
+    replicate="1", evidence_status="measured",
+)]
+write_observations(records, "results/observations.parquet")
+```
+
+Each record preserves its source and missingness before aggregation. Numerical
+zero, measured False and unassayed None have distinct meanings.
+
 ## Module map
 
 | Task | Modules |
@@ -127,6 +169,11 @@ long-running; `--help` lists budget, seed, and feature-selection options.
 | Rank candidate findings | [discovery](api/starplast/discovery.html), [optimize](api/starplast/optimize.html) |
 | Store analyses and recipes | [runs](api/starplast/runs.html), [searches](api/starplast/searches.html), [recipes](api/starplast/recipes.html) |
 | Embed the desktop interface | [app](api/starplast/app.html), [analysis_panel](api/starplast/analysis_panel.html) |
+| Guided workflows | [workflows](api/starplast/workflows.html) |
+| Group-aware classification, regression and multi-label evaluation | [prediction](api/starplast/prediction.html) |
+| Weighted transductive networks | [network_prediction](api/starplast/network_prediction.html) |
+| Typed observations and reviewed assertions | [evidence](api/starplast/evidence.html) |
+| Explain results and compare measurements | [prioritization](api/starplast/prioritization.html) |
 
 `app.Window(species=...)` requires an existing `PyQt6.QtWidgets.QApplication`.
 Call it on the GUI thread. `app.main()` owns the application event loop and is

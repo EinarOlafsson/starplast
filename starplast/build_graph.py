@@ -542,57 +542,32 @@ def embed_features(nodes: pd.DataFrame) -> list:
     return [c for c in numeric if float(nodes[c].notna().mean()) > 0.5]
 
 
-def embed(nodes: pd.DataFrame) -> np.ndarray:
-    """3D UMAP of a multimodal feature matrix, so position means biological similarity."""
-    feats = embed_features(nodes)
-    X = nodes[feats].to_numpy(dtype=float)
-    with np.errstate(all="ignore"):
-        med = np.nanmedian(X, axis=0)
-    # A column measured for NO gene has a median of NaN, so median-filling leaves it NaN and UMAP dies
-    # with "Input contains NaN" -- which names neither the column nor the dataset that failed to load.
-    # An all-missing feature contributes nothing either way; centring it at zero says so and lets the
-    # build finish, with the column named so the real problem is visible.
-    dead = [f for f, m in zip(feats, med) if not np.isfinite(m)]
-    if dead:
-        log(f"embedding: {len(dead)} feature(s) measured for no gene, centered at zero: "
-            f"{', '.join(dead)}")
-    med = np.where(np.isfinite(med), med, 0.0)
-    X = np.where(np.isnan(X), med, X)
-    X = (X - X.mean(0)) / (X.std(0) + 1e-9)
-    # Compartment is a measured localisation for Toxoplasma and simply absent for Plasmodium, which
-    # has no hyperLOPIT. Skipped rather than faked: one-hotting a column of "unknown" would add a
-    # constant block that moves nothing and still claims a localisation contributed.
-    if "compartment" in nodes.columns:
-        comp = pd.get_dummies(nodes.compartment.astype(str)).to_numpy(dtype=float)
-        X = np.hstack([X, comp * 0.5])      # compartment contributes, without dominating
-    log(f"embedding {X.shape[0]} genes x {X.shape[1]} features")
-    try:
-        import umap
-        Y = umap.UMAP(n_components=3, n_neighbors=25, min_dist=0.25, metric="euclidean",
-                      random_state=0).fit_transform(X)
-    except Exception as e:
-        log(f"UMAP unavailable ({type(e).__name__}); falling back to PCA")
-        try:
-            from sklearn.decomposition import PCA
-            Y = PCA(n_components=3, random_state=0).fit_transform(X)
-        except Exception as second:
-            # A table too small or too empty to place -- fewer genes than components, or no feature
-            # with any variance. A deterministic line is the honest answer: it says "not laid out"
-            # without pretending, and it keeps the invariant the loader depends on, which is that a
-            # graph file HAS coordinates. Losing that invariant is what stopped the Plasmodium arm
-            # opening at all, so it is not one to trade for a tidy exception.
-            log(f"no layout possible ({type(second).__name__}: {second}); "
-                f"placing {len(X)} genes on a line")
-            Y = np.zeros((len(X), 3), dtype=float)
-            Y[:, 0] = np.arange(len(X), dtype=float)
-    # np.array, not np.asarray. umap returns a READ-ONLY array in recent versions, and asarray does
-    # not copy when the dtype already matches -- so the in-place centring below wrote into a read-only
-    # buffer and raised "output array is read-only". The same bug was fixed in embedding.py; this is
-    # its second home, and it is the one a user meets, because this is the path `build_graph` takes.
-    Y = np.array(Y, dtype=np.float32, copy=True)
-    Y -= Y.mean(0)
-    Y /= (np.abs(Y).max() + 1e-9)
-    return Y * 50.0
+def embed(nodes: pd.DataFrame, return_metadata: bool = False):
+    """Build the packaged display through the interactive embedding recipe system."""
+    from .embedding import embed as project, default_spec, EmbeddingCoordinates
+    import hashlib
+    spec = default_spec(nodes)
+    from .embedding import columns_for, normalize
+    if not columns_for(nodes, spec):
+        log("no numeric layout features: using an explicitly uninformative line")
+        values = np.zeros((len(nodes),3), dtype=np.float32)
+        values[:,0] = np.arange(len(nodes))
+        values = normalize(values) if len(nodes) else values
+        metadata = {"requested_method":spec.method,"executed_method":"uninformative_line",
+                    "backend":"numpy","fallback":"no numeric features","recipe":spec.to_dict(),
+                    "features":[],"ordered_gene_ids":nodes.gene_id.astype(str).tolist(),
+                    "coordinates_sha256":hashlib.sha256(values.tobytes()).hexdigest()}
+        coords = EmbeddingCoordinates(values,metadata)
+        return (coords,metadata) if return_metadata else coords
+    coords, _features, rows, metadata = project(nodes, spec, log=log, return_metadata=True)
+    if not np.all(rows):
+        raise ValueError("a packaged layout must retain every gene")
+    if coords.shape[1] < 3:
+        values = np.pad(np.asarray(coords), ((0,0),(0,3-coords.shape[1])))
+        metadata["display_padding_dimensions"] = 3-coords.shape[1]
+        metadata["coordinates_sha256"] = hashlib.sha256(values.tobytes()).hexdigest()
+        coords = EmbeddingCoordinates(values,metadata)
+    return (coords, metadata) if return_metadata else coords
 
 
 def main():
@@ -600,7 +575,7 @@ def main():
     from .structure_catalog import attach_features
     nodes = attach_features(load_nodes())
     edges = build_edges(nodes)
-    xyz = embed(nodes)
+    xyz, layout_metadata = embed(nodes, return_metadata=True)
 
     # The app is meant to be standalone, so ship every column that survives the build rather than an
     # allowlist that silently drops whole assays -- an earlier version kept 3 of 18 RNA columns and 7 of
@@ -612,7 +587,9 @@ def main():
     keep = [c for c in nodes.columns if c not in DROP]
     nodes[keep].to_parquet(os.path.join(OUT, "nodes.parquet"), index=False)
 
-    flat = {"xyz": xyz}
+    import json
+    flat = {"xyz": xyz, "gene_ids": nodes.gene_id.to_numpy(dtype=str),
+            "layout_metadata": np.array(json.dumps(layout_metadata))}
     for k, (a, b, w, r) in edges.items():
         flat[f"{k}__a"] = a.astype(np.int32)
         flat[f"{k}__b"] = b.astype(np.int32)

@@ -201,7 +201,10 @@ def save(nodes: pd.DataFrame, path: str, log=print, dataset_root: str | None = N
     if not layers:
         return layers
     from .build_graph import embed
-    layers["xyz"] = embed(nodes)
+    import json
+    layers["xyz"], metadata = embed(nodes, return_metadata=True)
+    layers["gene_ids"] = nodes.gene_id.to_numpy(dtype=str)
+    layers["layout_metadata"] = np.array(json.dumps(metadata))
     log(f"layout: {len(layers['xyz']):,} genes placed in 3D")
     np.savez_compressed(path, **layers)
     return layers

@@ -540,3 +540,44 @@ def test_a_results_row_saved_under_the_old_block_name_rebuilds_its_map():
         log=lambda *_: None)
     assert len(coords) == int(np.sum(genes))
     assert [f for f in features if f.startswith("lopit_")], "the renamed block contributed nothing"
+
+
+def test_strict_umap_failure_is_not_reported_as_a_successful_projection(monkeypatch):
+    import umap
+    def fail(*args, **kwargs):
+        raise RuntimeError('fixture failure')
+    monkeypatch.setattr('starplast.gpu.umap_class',lambda:None)
+    monkeypatch.setattr(umap.UMAP,'fit_transform',fail)
+    with pytest.raises(RuntimeError,match='strict mode forbids fallback'):
+        embed(_nodes(),EmbeddingSpec(),strict=True)
+    coords,_,_,metadata=embed(_nodes(),EmbeddingSpec(),return_metadata=True)
+    assert metadata['requested_method']=='umap'
+    assert metadata['executed_method']=='pca'
+    assert 'fixture failure' in metadata['fallback']
+    assert coords.provenance==metadata
+
+
+def test_gpu_umap_receives_the_requested_metric(monkeypatch):
+    parameters={}
+    class Fake:
+        def __init__(self,**kwargs): parameters.update(kwargs)
+        def fit_transform(self,X): return X[:,:3]
+    monkeypatch.setattr('starplast.gpu.umap_class',lambda:Fake)
+    coords,_,_,metadata=embed(_nodes(),EmbeddingSpec(metric='cosine'),return_metadata=True)
+    assert parameters['metric']=='cosine'
+    assert metadata['backend']=='cuml'
+
+
+def test_saved_map_keeps_executed_recipe_and_refuses_mismatched_gene_order(tmp_path):
+    from starplast.tuning import EmbeddingStore
+    nodes=_nodes()
+    spec=EmbeddingSpec(method='pca')
+    coords,features,rows=embed(nodes,spec)
+    store=EmbeddingStore(str(tmp_path))
+    store.save('map',coords,EmbeddingSpec(method='umap'),gene_ids=nodes.gene_id[rows],features=features)
+    _,stored,metadata=store.load('map')
+    assert stored.method=='pca' and metadata['execution']['executed_method']=='pca'
+    with pytest.raises(ValueError,match='gene order'):
+        store.save('wrong',coords,spec,gene_ids=nodes.gene_id[::-1])
+    with pytest.raises(ValueError,match='coordinates changed'):
+        store.save('modified',coords*2,spec,gene_ids=nodes.gene_id)

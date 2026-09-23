@@ -2,8 +2,9 @@
 
 - Make changes on `nightly`. Keep `main` as the release branch.
 - As each coherent change is finished and its relevant checks pass, commit and
-  push it to `nightly`, merge it into `main`, and push `main`. Return to `nightly`
-  for further work. Do not wait for unrelated tasks before publishing finished work.
+  push it to `nightly`. For the current 0.43.0 work, keep development on `nightly`
+  until all requested work and release checks are complete. Then bump the version,
+  fast-forward `main`, and push `main` to trigger the release and PyPI publication.
 - Preserve existing work and resolve branch divergence without force-pushing `main`.
 - Attribute commits to Einar Olafsson, `einar.olafsson@gmail.com`. Do not add
   assistant, bot, or other co-author trailers. Einar remains the sole contributor.
