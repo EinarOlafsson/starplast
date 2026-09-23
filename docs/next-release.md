@@ -13,7 +13,7 @@ passed scientific benchmarks, UI checks, and packaging checks.
 - [ ] Structured literature assertions with review and source evidence.
 - [ ] Candidate explanations and experiment prioritization with stated assumptions/costs.
 - [ ] Explore gene / Predict trait / Compare screen workflows and spaCR-compatible imports.
-- [ ] Forty substantially varied monochrome SVG logo proposals and comparison galleries.
+- [x] Forty substantially varied monochrome SVG logo proposals and comparison galleries.
 - [ ] Reproducible real-data benchmarks, controls, limitations and release report.
 - [ ] Full relevant regression, documentation, wheel and installed-app verification; publish 0.43.0.
 
