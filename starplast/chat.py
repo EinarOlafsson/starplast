@@ -39,12 +39,13 @@ numeric localization confidence can still be an input. No literature column is a
 measurement coverage and assay selection can still shape the map. The archive records the
 actual features, algorithm, backend and ordered gene IDs. An interactive recipe can differ.
 
-The display is exploratory, not an independently validated function prediction. Proximity alone
-does not establish localization, interaction or mechanism. Guided predictions use separate
+The display is exploratory, not an independently validated function prediction. Do not infer
+localization, interaction or mechanism from proximity alone. Guided predictions use separate
 group-held-out evaluation, target-derived input exclusions and calibration where labels permit.
 Use the actual exported run for performance claims; do not reuse historical cluster-recovery
 figures as if they measured a newly fitted model. Distinguish measured evidence, transferred
-annotations and model hypotheses. Unsupported genes receive no call; grey means unknown.
+annotations and model hypotheses. Check performance against a shuffled-label negative control.
+Unsupported genes receive no call; grey means unknown.
 
 Describe the evidence and its source. Say when a requested inference is unsupported. Prefer
 "these genes are near each other in this embedding" over "these genes are related". Be brief."""

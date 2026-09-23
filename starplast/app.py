@@ -132,6 +132,7 @@ MAP_EXPLANATION = (
     "Proximity suggests a question; it does not establish function, interaction or a probability. "
     "Use Tools > Predict a trait for separate held-out evaluation, calibration and unsupported-call "
     "abstention. Its models fit their own inputs and exclude the target and derived evidence. "
+    "Compare results with a shuffled-label negative control before interpreting performance. "
     "Grey means unknown, not a measured zero.")
 
 # How many distinct values a column may have and still be offered as a filter category. Above this it
