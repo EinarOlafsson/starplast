@@ -5,14 +5,24 @@
   <img src="https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/assets/starplast-wordmark.svg" alt="Starplast — a Toxoplasma silhouette enclosing a constellation" width="520">
 </picture>
 
+[![Platforms](https://img.shields.io/badge/Platforms-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey)](#install)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](#install)
-[![Linux, macOS, Windows](https://img.shields.io/badge/Platforms-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey)](#install)
 [![Qt / PyQt6](https://img.shields.io/badge/GUI-PyQt6-41CD52?logo=qt&logoColor=white)](https://einarolafsson.github.io/starplast/guide.html)
-[![MIT license](https://img.shields.io/github/license/EinarOlafsson/starplast?color=3DA639)](https://github.com/EinarOlafsson/starplast/blob/main/LICENSE)
-
-[![Documentation on main](https://github.com/EinarOlafsson/starplast/actions/workflows/docs.yml/badge.svg?branch=main&event=push)](https://github.com/EinarOlafsson/starplast/actions/workflows/docs.yml?query=branch%3Amain)
-[![Python API](https://img.shields.io/badge/API-reference-007EC6)](https://einarolafsson.github.io/starplast/API.html)
+[![Latest release](https://img.shields.io/github/v/release/EinarOlafsson/starplast?label=Release&logo=github)](https://github.com/EinarOlafsson/starplast/releases/latest)
 [![GitHub issues](https://img.shields.io/github/issues/EinarOlafsson/starplast?logo=github)](https://github.com/EinarOlafsson/starplast/issues)
+[![GitHub source](https://img.shields.io/badge/GitHub-Source-181717?logo=github)](https://github.com/EinarOlafsson/starplast)
+
+[![PyPI version](https://img.shields.io/pypi/v/starplast?logo=pypi&logoColor=white)](https://pypi.org/project/starplast/)
+[![Total PyPI downloads](https://static.pepy.tech/personalized-badge/starplast?period=total&units=INTERNATIONAL_SYSTEM&left_color=GRAY&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/starplast)
+[![Monthly PyPI downloads](https://img.shields.io/pypi/dm/starplast?label=downloads%2Fmonth&color=brightgreen)](https://pypistats.org/packages/starplast)
+[![PyPI download rank over 30 days](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fsql-clickhouse.clickhouse.com%2F%3Fuser%3Ddemo%26param_package_name%3Dstarplast%26param_days%3D30%26query%3DWITH%2B%2528%2BSELECT%2Bsum%2528count%2529%2BFROM%2Bpypi.pypi_downloads_per_day%2BWHERE%2Bproject%2B%253D%2B%257Bpackage_name%253AString%257D%2BAND%2Bdate%2B%253E%253D%2BtoDate%2528now%2528%2527UTC%2527%2529%2529%2B-%2B%257Bdays%253AUInt16%257D%2BAND%2Bdate%2B%253C%2BtoDate%2528now%2528%2527UTC%2527%2529%2529%2B%2529%2BAS%2Bdownloads%2BSELECT%2Bdownloads%2BAS%2Bpackage_downloads%252C%2BcountIf%2528n%2B%253E%253D%2Bdownloads%2529%2BAS%2Brank%252C%2Bcount%2528%2529%2BAS%2Btotal_packages%252C%2B100.0%2B%252A%2Brank%2B%252F%2BnullIf%2528total_packages%252C%2B0%2529%2BAS%2Bpercentile%252C%2Bif%2528%2Btotal_packages%2B%253D%2B0%2BOR%2Bdownloads%2B%253D%2B0%252C%2B%2527no%2Bdata%2527%252C%2Bconcat%2528%2B%2527top%2B%2527%252C%2BtoString%2528ceil%25281000.0%2B%252A%2Brank%2B%252F%2BnullIf%2528total_packages%252C%2B0%2529%2529%2B%252F%2B10%2529%252C%2B%2527%2525%2527%2B%2529%2B%2529%2BAS%2Bmessage%2BFROM%2B%2528%2BSELECT%2Bproject%252C%2Bsum%2528count%2529%2BAS%2Bn%2BFROM%2Bpypi.pypi_downloads_per_day%2BWHERE%2Bdate%2B%253E%253D%2BtoDate%2528now%2528%2527UTC%2527%2529%2529%2B-%2B%257Bdays%253AUInt16%257D%2BAND%2Bdate%2B%253C%2BtoDate%2528now%2528%2527UTC%2527%2529%2529%2BGROUP%2BBY%2Bproject%2B%2529%2BFORMAT%2BJSON&query=%24.data%5B0%5D.message&label=PyPI+rank+%2830d%29&color=brightgreen&cacheSeconds=86400)](https://clickpy.clickhouse.com/dashboard/starplast)
+
+[![Tests on main](https://github.com/EinarOlafsson/starplast/actions/workflows/checks.yml/badge.svg?branch=main&event=push)](https://github.com/EinarOlafsson/starplast/actions/workflows/checks.yml?query=branch%3Amain)
+[![Documentation on main](https://github.com/EinarOlafsson/starplast/actions/workflows/docs.yml/badge.svg?branch=main&event=push)](https://github.com/EinarOlafsson/starplast/actions/workflows/docs.yml?query=branch%3Amain)
+[![User guide](https://img.shields.io/badge/Guide-Using%20Starplast-4A9EFF)](https://einarolafsson.github.io/starplast/guide.html)
+[![Python API](https://img.shields.io/badge/API-reference-007EC6)](https://einarolafsson.github.io/starplast/API.html)
+[![Cite Starplast](https://img.shields.io/badge/Cite-CITATION.cff-8A2BE2)](https://github.com/EinarOlafsson/starplast/blob/main/CITATION.cff)
+[![MIT license](https://img.shields.io/github/license/EinarOlafsson/starplast?color=3DA639)](https://github.com/EinarOlafsson/starplast/blob/main/LICENSE)
 [![spaCR integration](https://img.shields.io/badge/spaCR-integrated-7B61A8)](https://github.com/EinarOlafsson/spacr)
 
 Starplast is a desktop app for exploring gene evidence in *Toxoplasma gondii* and
