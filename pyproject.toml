@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "starplast"
-version = "0.42.0"
+version = "0.42.1"
 description = "Explore gene evidence and screen results in Toxoplasma and Plasmodium"
-readme = "packaging/PYPI_README.md"
+readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]

@@ -112,6 +112,17 @@ allow an uploaded version to be replaced. Use a new version for changed code.
 If publication failed before any upload, rerunning the original job preserves the
 same tested artifacts.
 
+## README on PyPI
+
+`README.md` is the source for both the GitHub README and the PyPI description.
+Package builds include it directly through the `readme` setting in `pyproject.toml`;
+there is no separate PyPI README to maintain. Use absolute URLs for images and
+repository files so links work on both sites. The logo includes a standard image
+fallback for renderers that do not support the dark-mode picture source.
+
+PyPI receives the README with each release. A README edit on GitHub appears on
+PyPI when the next version is published; it does not change existing releases.
+
 ## Inspect release artifacts
 
 ```bash

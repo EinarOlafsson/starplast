@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.42.1
+
+- Use the GitHub README as the PyPI project description.
+- Use full URLs for README artwork, the rotating gene map, and documentation links.
+
 ## 0.42.0
 
 - Simplify the map to individual genes; remove Galaxy and Orthogroup summary modes.

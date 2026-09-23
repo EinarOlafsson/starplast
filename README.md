@@ -1,14 +1,14 @@
 # Starplast
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/starplast-wordmark-white.svg">
-  <img src="docs/assets/starplast-wordmark.svg" alt="Starplast — a Toxoplasma silhouette enclosing a constellation" width="520">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/assets/starplast-wordmark-white.svg">
+  <img src="https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/assets/starplast-wordmark.svg" alt="Starplast — a Toxoplasma silhouette enclosing a constellation" width="520">
 </picture>
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](#install)
 [![Linux, macOS, Windows](https://img.shields.io/badge/Platforms-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey)](#install)
 [![Qt / PyQt6](https://img.shields.io/badge/GUI-PyQt6-41CD52?logo=qt&logoColor=white)](https://einarolafsson.github.io/starplast/guide.html)
-[![MIT license](https://img.shields.io/github/license/EinarOlafsson/starplast?color=3DA639)](LICENSE)
+[![MIT license](https://img.shields.io/github/license/EinarOlafsson/starplast?color=3DA639)](https://github.com/EinarOlafsson/starplast/blob/main/LICENSE)
 
 [![Documentation on main](https://github.com/EinarOlafsson/starplast/actions/workflows/docs.yml/badge.svg?branch=main&event=push)](https://github.com/EinarOlafsson/starplast/actions/workflows/docs.yml?query=branch%3Amain)
 [![Python API](https://img.shields.io/badge/API-reference-007EC6)](https://einarolafsson.github.io/starplast/API.html)
@@ -23,8 +23,8 @@ Use it to look up a gene, investigate hits from a screen, compare groups of gene
 and choose candidates for follow-up experiments. The bundled maps contain 8,140
 *T. gondii* genes and 5,720 *P. falciparum* genes, viewed separately.
 
-[User guide](docs/guide.md) · [Python API](docs/API.md) ·
-[Dataset catalogue](docs/datasets.md) · [Changes](CHANGELOG.md)
+[User guide](https://github.com/EinarOlafsson/starplast/blob/main/docs/guide.md) · [Python API](https://github.com/EinarOlafsson/starplast/blob/main/docs/API.md) ·
+[Dataset catalogue](https://github.com/EinarOlafsson/starplast/blob/main/docs/datasets.md) · [Changes](https://github.com/EinarOlafsson/starplast/blob/main/CHANGELOG.md)
 
 ## Install
 
@@ -67,11 +67,11 @@ the bundled data requires the original source datasets.
 4. Click a gene to read its evidence and inspect each type of relationship separately.
 5. Select a group with a lasso or brush, then export the gene list for follow-up.
 
-[![A rotating gene map with CDPK1 and its connections illuminated](docs/screenshots/map_rotation.gif)](docs/screenshots/map_rotation.png)
+[![A rotating gene map with CDPK1 and its connections illuminated](https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/screenshots/map_rotation.gif)](https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/screenshots/map_rotation.png)
 
 The *T. gondii* map with CDPK1 (`TGME49_301440`) selected. The selected gene and
 its five neighbours emit light; lines show attention-corrected literature
-co-mention links. Colours show compartments. [View a still image](docs/screenshots/map_rotation.png).
+co-mention links. Colours show compartments. [View a still image](https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/screenshots/map_rotation.png).
 
 Each point is a gene. Its position comes from an embedding of selected features;
 nearby points have similar inputs, but proximity alone does not demonstrate a
@@ -82,7 +82,7 @@ is shown separately from measured values.
 The analysis panel lets you change feature sets, build embeddings, cluster genes,
 and evaluate recovery of labels held out from the input. Search scores help
 prioritize candidates; they are not experimental validation. See the
-[user guide](docs/guide.md) for controls and analysis settings.
+[user guide](https://github.com/EinarOlafsson/starplast/blob/main/docs/guide.md) for controls and analysis settings.
 
 ## Working with spaCR
 
@@ -94,7 +94,7 @@ into Starplast; launching the app does not transfer results automatically.
 
 ## Data and reproducibility
 
-**[Full table of included data and source links →](docs/datasets.md)**
+**[Full table of included data and source links →](https://github.com/EinarOlafsson/starplast/blob/main/docs/datasets.md)**
 
 The catalogue lists all 128 registered datasets and computed layers, with their
 measurements, coverage, publication references, and links to source data or inputs.
@@ -112,9 +112,9 @@ python -m starplast.build_graph # rebuild from available source datasets
 | `STARPLAST_DATA` | Locate raw datasets used for rebuilding |
 | `STARPLAST_STATE` | Override the directory for saved runs, annotations, and downloads |
 
-Methods are described in [MATERIALS_AND_METHODS.md](MATERIALS_AND_METHODS.md).
-[HANDOFF.md](HANDOFF.md) contains the development history and earlier design decisions.
-The [repository review](docs/repository-review.md) describes the current architecture
+Methods are described in [MATERIALS_AND_METHODS.md](https://github.com/EinarOlafsson/starplast/blob/main/MATERIALS_AND_METHODS.md).
+[HANDOFF.md](https://github.com/EinarOlafsson/starplast/blob/main/HANDOFF.md) contains the development history and earlier design decisions.
+The [repository review](https://github.com/EinarOlafsson/starplast/blob/main/docs/repository-review.md) describes the current architecture
 and its limitations.
 
 ## Development
@@ -127,7 +127,7 @@ python scripts/build_docs.py
 
 Open `docs/site/index.html` for the guide and generated API reference.
 Some tests need source datasets, CUDA, or a working OpenGL context; see
-[development and releases](docs/releases.md) for the release checks.
+[development and releases](https://github.com/EinarOlafsson/starplast/blob/main/docs/releases.md) for the release checks.
 
 Develop on `nightly` and merge checked changes into `main`. To release, update all
 package and runtime versions together with `python scripts/release.py bump 0.43.0` and update
@@ -135,5 +135,5 @@ the changelog before merging. A version increase on `main` triggers checks,
 builds, PyPI publishing, and a GitHub release. Ordinary merges do not publish.
 The initial PyPI account setup is described in the release guide.
 
-The source code is distributed under the [MIT license](LICENSE).
+The source code is distributed under the [MIT license](https://github.com/EinarOlafsson/starplast/blob/main/LICENSE).
 Source datasets and third-party artwork retain their own licenses and attribution.
