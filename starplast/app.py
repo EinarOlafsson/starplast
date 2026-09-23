@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""starplast — a 3D browser for the Toxoplasma knowledge map.
+"""Desktop browser for gene evidence in Toxoplasma gondii and Plasmodium falciparum.
 
-Nodes are genes, positioned by a precomputed UMAP embedding so that proximity means biological similarity.
-Six edge types are kept separate and toggled independently. Co-mention edges default to their
-attention-corrected form, because the raw form reproduces the literature's popularity contest rather than
-biology (see ../HANDOFF.md, decision 3).
+Each point represents a gene in a precomputed or user-built embedding. Colours show
+annotations or measurements; independently selectable edge layers show the type of
+relationship between genes. Proximity in the embedding suggests similar input
+features, but does not establish a physical interaction or shared function.
 
-Level of detail follows the data, not invented tiers:
-    compartment (26 hyperLOPIT classes) -> orthogroup / module -> gene -> that gene's evidence
+The window also hosts table import, feature selection, clustering, held-out recovery,
+and export tools. Long analyses run through the job runner so the interface stays
+responsive. Use :mod:`starplast.discover` for discovery searches without a display.
 """
 from __future__ import annotations
 
@@ -30,7 +31,6 @@ from . import theme as TH  # noqa: E402
 import pyqtgraph as pg  # noqa: E402
 import pyqtgraph.opengl as gl  # noqa: E402
 
-from . import lod  # noqa: E402
 from . import paths  # noqa: E402
 from . import sprite as _sprite  # noqa: E402
 
@@ -89,9 +89,29 @@ POINT_SIZES = [("Automatic", None), ("Tiny (2 px)", 2.0), ("Small (4 px)", 4.0),
 #: 7 px is the one that reads at 8,140 genes without the cloud closing up.
 DEFAULT_POINT_SIZE = 7.0
 
+#: Help shared by the display menu and its preference controls.
+DISPLAY_HELP = {
+    "Theme": "Choose interface colours. Paper gives a light background suitable for exported figures.",
+    "Colour map": "Choose how numerical values or categories are coloured. Auto matches the data type.",
+    "Point style": "Change point size and opacity. An explicit point size in View overrides the style size.",
+    "Overlap": "Control how overlapping genes are drawn. Additive blending emphasizes density but can obscure colours.",
+    "Point render mode": "Choose flat discs or shaded spheres. This changes appearance without changing the analysis.",
+    "Light render mode": "Soft lighting adds depth; ray traced lighting adds shadows from dense regions and costs more rendering time.",
+    "Light target": "Aim the light with the cursor or the selected gene. Lighting does not select genes or alter measurements.",
+    "Pointer beam": "Change the width and softness of cursor-controlled lighting. Gene-centred lights are unaffected.",
+    "Pointer response": "Choose how quickly the light follows the cursor. Smooth and cinematic add a delay.",
+    "Target marker": "Show a visual marker at the light target. The marker represents no biological measurement.",
+    "Light mood": "Choose neutral, cool, or warm lighting. Neutral preserves category colours most directly.",
+    "Background": "Show or hide the animated panel background. Turn it off for a simpler display.",
+    "Window size": "Choose the initial window size. Sizes larger than the monitor are reduced to fit.",
+    "Full screen": "Use the whole monitor. Turn this off to restore a movable window with its title bar.",
+    "Fade with distance": "Fade distant genes for depth. Turn this off when comparing the exact colours of points.",
+    "Reference grid": "Show a plane below the map to make rotation easier to follow. Its spacing has no biological unit.",
+}
+
 EDGE_EXPLANATION = (
     "They are kept as separate layers rather than added together into one 'interaction' edge.\n\n"
-    "The twelve types are not twelve measurements of the same thing. A crosslink-MS edge is a "
+    "These layers are not measurements of the same thing. A crosslink-MS edge is a "
     "measured physical contact. A co-mention edge is two genes appearing in one abstract, which "
     "happens to popular genes far more than to related ones. A co-expression edge is a correlation "
     "across a stage series.\n\n"
@@ -231,9 +251,6 @@ PALETTE = [
 ]
 GREY = (0.45, 0.45, 0.48)   # fallback; the live value comes from TH.unknown_color(theme)
 
-# An orthogroup needs this many visible members before it earns a marker at system level. Below it the
-# view fills with thousands of singleton markers, which is the gene level with extra steps.
-MIN_ORTHOGROUP_FOR_SYSTEM = 4
 # Roughly how many edges can be drawn at full alpha before they stop being separable lines and become a
 # filled region. Beyond it, alpha is scaled down rather than edges being dropped -- density stays
 # visible as brightness instead of being silently truncated.
@@ -321,6 +338,7 @@ class _GateOverlay(QtWidgets.QWidget):
     """
 
     def __init__(self, parent):
+        """Create a transparent overlay for drawing selection outlines over the map."""
         super().__init__(parent)
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TransparentForMouseEvents)
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_NoSystemBackground)
@@ -407,6 +425,7 @@ class Map3D(gl.GLViewWidget):
     gated = QtCore.pyqtSignal(object)
 
     def __init__(self, xyz):
+        """Create a navigable OpenGL view for an (n_genes, 3) coordinate array."""
         super().__init__()
         self.xyz = xyz
         self._proj_kind = None      # resolved once, see _projection_matrix
@@ -466,6 +485,7 @@ class Map3D(gl.GLViewWidget):
         self._cam_step = 0
 
         def tick():
+            """Advance the camera animation using smooth interpolation and stop at its target."""
             self._cam_step += 1
             f = min(self._cam_step / steps, 1.0)
             f = f * f * (3.0 - 2.0 * f)           # smoothstep: no jerk at either end
@@ -527,6 +547,7 @@ class Map3D(gl.GLViewWidget):
         return fn()
 
     def _mvp(self):
+        """Return the 4 × 4 world-to-clip projection matrix used for point picking."""
         m = self._projection_matrix() * self.viewMatrix()
         return np.array([[r.x(), r.y(), r.z(), r.w()]
                          for r in (m.row(i) for i in range(4))], dtype=float)
@@ -660,6 +681,7 @@ class Map3D(gl.GLViewWidget):
 
     # ------------------------------------------------------------------ mouse
     def mousePressEvent(self, ev):
+        """Start a selection gate or pass navigation input to the OpenGL view."""
         if self.mode == "select" and ev.button() == QtCore.Qt.MouseButton.LeftButton:
             p = ev.position()
             self.begin_gate(p.x(), p.y())
@@ -688,6 +710,7 @@ class Map3D(gl.GLViewWidget):
         # down), z toward the eye. Kept here rather than computed from a world position because the
         # map rotates -- a light fixed in world space swings away from the pointer the moment
         # anything moves, which reads as the light being broken.
+        """Update the mouse light and active gate, or rotate the map in navigation mode."""
         pos = ev.position()
         w, h = max(self.width(), 1), max(self.height(), 1)
         # Clamped to the widget, because a drag that leaves it keeps delivering moves: without this
@@ -720,6 +743,7 @@ class Map3D(gl.GLViewWidget):
             self.orbit(0, diff.y())
 
     def mouseReleaseEvent(self, ev):
+        """Complete a selection gate or select the gene under a navigation click."""
         if self.mode == "select" and ev.button() == QtCore.Qt.MouseButton.LeftButton:
             self.finish_gate()
             return
@@ -753,6 +777,7 @@ class Window(QtWidgets.QMainWindow):
     interface without a window manager, which is how the tests exercise it.
     """
     def __init__(self, species: str = None):
+        """Load one organism and construct its map, evidence docks, menus, and analysis panel."""
         super().__init__()
         self.theme = 'dark'
         self.point_style = TH.DEFAULT_POINT_STYLE
@@ -771,6 +796,7 @@ class Window(QtWidgets.QMainWindow):
         self.n = len(self.nodes)
         self.sel = None
         self.setWindowTitle(f"starplast — {self.species} knowledge map")
+        self.setWindowIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__), "data", "icons", "starplast.svg")))
         # Was a flat resize(1580, 950), which is not the reason the window used to open too large --
         # that was a 2,897 px minimum height, fixed in `analysis_panel._scrolled` -- but it did mean
         # the window was the same size on a 1080p monitor and a 4K one. Applied last, after the size
@@ -856,16 +882,14 @@ class Window(QtWidgets.QMainWindow):
             if c.lower() in absent:
                 self.color_of[c] = GREY
 
-        # Level of detail, coloring and edge state now live in the menus, so they are plain
+        # Coloring and edge state live in the menus, so they are plain
         # attributes with menu actions over them rather than widgets read out of a side panel.
-        self.level_idx = 2                    # gene tier: the map as it actually is
         self.color_mode = "compartment"
         self.point_size = DEFAULT_POINT_SIZE   # None would mean "whatever the point style says"
         self.edge_on = {k: (k in ("comention", "cofitness") and k in self.edges)
                         for k, _ in EDGE_TYPES}
         self.attn_on = True                   # a correctness default, not a preference
         self.all_edges_on = False
-        self._galaxies = None                 # computed lazily; the grid pass is not free
         # A clustering from the analysis panel, so the map can be colored by it. Looking at
         # structure beside a held-out variable is what this application is for, and until this
         # existed the Clusters tab computed labels and discarded them.
@@ -897,7 +921,6 @@ class Window(QtWidgets.QMainWindow):
         # makes nearer points occlude farther ones instead of adding to them.
         self.scatter.setGLOptions("translucent")
         self.view.addItem(self.scatter)
-        self.centroid_item = None
         self.halo_item = None
         self.emitter_item = None
         self.grid_item = None
@@ -1371,9 +1394,6 @@ class Window(QtWidgets.QMainWindow):
         self.view.pickable = placed
         if self.sel is not None and not placed[self.sel]:
             self.sel = None
-        # The galaxy tier is derived from the coordinates, so a new embedding invalidates it. Left
-        # cached, the coarse tier would go on describing the map that was replaced.
-        self._galaxies = None
         self.scatter.setData(pos=self.xyz)
         self.view.fit_view()
         self.redraw()
@@ -1459,21 +1479,6 @@ class Window(QtWidgets.QMainWindow):
 
         # ---- View
         v = mb.addMenu("&View")
-        lvl = v.addMenu("Level of detail")
-        lvl.setToolTipsVisible(True)
-        self.level_group = QtGui.QActionGroup(self)
-        for i, (name, tip) in enumerate([
-                ("Galaxy — spatial structures", "Coarse structures found in the embedding itself."),
-                ("System — orthogroup centroids", "One point per orthogroup with at least four members."),
-                ("Planet — every gene", "All 8,140 genes. The map as it is.")]):
-            act = lvl.addAction(name)
-            act.setCheckable(True)
-            act.setChecked(i == self.level_idx)
-            act.setToolTip(tip)
-            act.setData(i)
-            self.level_group.addAction(act)
-            act.triggered.connect(lambda _c, k=i: self.set_level(k))
-
         col = v.addMenu("Color by")
         self.color_group = QtGui.QActionGroup(self)
         for name in COLOR_MODES:
@@ -1613,6 +1618,13 @@ class Window(QtWidgets.QMainWindow):
         v.addAction(self.slot_tree_act)
 
         h = mb.addMenu("&Help")
+        h.setToolTipsVisible(True)
+        for label, page in (("User guide", "guide.html"), ("Python API", "API.html")):
+            action = h.addAction(label)
+            action.setToolTip("Open the Starplast documentation in your web browser. Requires an internet connection.")
+            action.triggered.connect(lambda _checked=False, target=page:
+                QtGui.QDesktopServices.openUrl(QtCore.QUrl("https://einarolafsson.github.io/starplast/" + target)))
+        h.addSeparator()
         h.addAction("What this map does and does not show").triggered.connect(self.explain_map)
         h.addAction("Precision, recall, and how each can be gamed").triggered.connect(
             self.explain_scoring)
@@ -1696,6 +1708,8 @@ class Window(QtWidgets.QMainWindow):
         self._display_groups = []
         for label, options, current, apply in self.display_choices():
             sub = menu.addMenu(label)
+            sub.setToolTipsVisible(True)
+            sub.menuAction().setToolTip(DISPLAY_HELP[label])
             group = QtGui.QActionGroup(self)
             group.setExclusive(True)
             for name in options:
@@ -1703,6 +1717,8 @@ class Window(QtWidgets.QMainWindow):
                 act.setCheckable(True)
                 act.setChecked(str(name) == str(current))
                 act.setData(str(name))
+                act.setToolTip(f"{name}: {DISPLAY_HELP[label]}")
+                act.setStatusTip(DISPLAY_HELP[label])
                 group.addAction(act)
                 # `apply` and `name` bound as defaults. A closure over the loop variables would give
                 # every action the LAST option in the list, which is the classic form of this bug.
@@ -1711,6 +1727,7 @@ class Window(QtWidgets.QMainWindow):
         menu.addSeparator()
         for label, state, apply in self.display_toggles():
             act = menu.addAction(label)
+            act.setToolTip(DISPLAY_HELP[label])
             act.setCheckable(True)
             act.setChecked(bool(state))
             act.toggled.connect(lambda on, fn=apply: fn(on))
@@ -1739,9 +1756,6 @@ class Window(QtWidgets.QMainWindow):
                 self.export_gated)
             m.addAction("Clear the gate").triggered.connect(self.clear_gate)
         m.addSeparator()
-        lvl = m.addMenu("Level of detail")
-        for act in self.level_group.actions():
-            lvl.addAction(act)
         ps = m.addMenu("Point size")
         for act in self.size_group.actions():
             ps.addAction(act)
@@ -1756,11 +1770,6 @@ class Window(QtWidgets.QMainWindow):
         return m
 
     # ------------------------------------------------------------------ menu state
-    def set_level(self, i: int):
-        """Switch level of detail, easing the camera to suit the new tier."""
-        self.level_idx = int(i)
-        self.on_level_changed()
-
     def set_color_mode(self, name: str):
         """Change what color encodes. Each mode is a different claim about the data."""
         self.color_mode = name
@@ -1777,7 +1786,7 @@ class Window(QtWidgets.QMainWindow):
         self.redraw()
 
     def explain_edges(self):
-        """Explain, in words, why the twelve relation types are kept separate."""
+        """Explain, in words, why relationship types are kept separate."""
         QtWidgets.QMessageBox.information(self, "Why edge types are kept separate", EDGE_EXPLANATION)
 
     def explain_map(self):
@@ -2045,6 +2054,7 @@ class Window(QtWidgets.QMainWindow):
         self.ambient_box.currentTextChanged.connect(self.set_ambient)
 
         def slider(bounds, value, step=0.05):
+            """Create a numeric preference control with explicit bounds, step, and initial value."""
             s = QtWidgets.QDoubleSpinBox()
             s.setRange(*bounds)
             s.setSingleStep(step)
@@ -2056,6 +2066,9 @@ class Window(QtWidgets.QMainWindow):
         self.ambient_density = slider(ambient.DENSITY_RANGE, self._ambient["density"])
         for box, key in ((self.ambient_speed, "speed"), (self.ambient_size, "size"),
                          (self.ambient_density, "density")):
+            box.setToolTip({"speed": "Speed of the background animation. Higher values move the blobs faster.",
+                            "size": "Size of background blobs. This changes the background only.",
+                            "density": "Density of background blobs. Higher values add more visual detail."}[key])
             box.valueChanged.connect(lambda v, k=key: self.set_ambient_option(k, v))
 
         self.light_box = QtWidgets.QComboBox()
@@ -2634,6 +2647,7 @@ class Window(QtWidgets.QMainWindow):
             # One-shot, and only for THIS job: the runner's signal carries every job's completion,
             # and a comparison dialog opening because some unrelated search finished would be a
             # window appearing for no reason the user can connect to anything they did.
+            """Display the backend comparison when its own job completes successfully."""
             if jid != job.id:
                 return
             self.jobs.finished.disconnect(show)
@@ -2756,6 +2770,7 @@ class Window(QtWidgets.QMainWindow):
         self.spin_speed.setSingleStep(0.05)
         self.spin_speed.setValue(self._spin_speed)
         self.spin_speed.setSuffix("  °/frame")
+        self.spin_speed.setToolTip("Degrees of rotation per animation frame. Higher values rotate faster; this does not change the embedding or analysis.")
         self.spin_speed.valueChanged.connect(lambda v: setattr(self, "_spin_speed", v))
 
         self.depth_box = QtWidgets.QCheckBox("fade and shrink with distance")
@@ -2931,17 +2946,20 @@ class Window(QtWidgets.QMainWindow):
                 self._spin_home = None
 
     def _camera_state(self):
+        """Return camera azimuth, elevation, and distance for later restoration."""
         p = self.view.opts
         return (float(p.get("azimuth", 0.0)), float(p.get("elevation", 0.0)),
                 float(p.get("distance", 40.0)))
 
     def _restore_camera(self, state):
+        """Restore an (azimuth, elevation, distance) tuple; ignore an empty state."""
         if not state:
             return
         az, el, dist = state
         self.view.setCameraPosition(distance=dist, elevation=el, azimuth=az)
 
     def _refresh_jobs(self, *_):
+        """Refresh the jobs list with status, errors, and stored traceback details."""
         self.jobs_view.clear()
         for j in sorted(self.jobs.jobs.values(), key=lambda x: -x.id):
             detail = j.error or j.note or ""
@@ -3064,11 +3082,6 @@ class Window(QtWidgets.QMainWindow):
         """
         import gc
         freed = []
-        # The lazily-built level-of-detail cache is the largest thing this application holds that it
-        # can rebuild for free.
-        if self._galaxies is not None:
-            self._galaxies = None
-            freed.append("level-of-detail cache")
         n = gc.collect()
         freed.append(f"{n} unreachable objects")
         # Same rule: only if it is already loaded and CUDA already up. Freeing a cache that does not
@@ -3104,6 +3117,7 @@ class Window(QtWidgets.QMainWindow):
 
     def _spin_step(self):
         # orbit() moves the camera, not the data, so nothing is recomputed per frame.
+        """Advance the camera orbit by the configured degrees per frame."""
         self.view.orbit(self._spin_speed, 0)
 
     def _on_cmap(self, name):
@@ -3121,10 +3135,12 @@ class Window(QtWidgets.QMainWindow):
         self.redraw()
 
     def _on_point_style(self, name):
+        """Apply the selected point size and opacity style, then redraw."""
         self.point_style = name
         self.apply_point_style()
 
     def _on_point_mode(self, name):
+        """Apply the selected overlap mode without changing gene coordinates."""
         self.point_mode = name
         self.apply_point_style()
 
@@ -3360,6 +3376,7 @@ class Window(QtWidgets.QMainWindow):
         self.diagram_note.setText(note)
 
     def _right(self):
+        """Create the dock containing gene evidence and links to source records."""
         d = QtWidgets.QDockWidget("evidence")
         d.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
         self.detail = QtWidgets.QTextBrowser()
@@ -3447,7 +3464,7 @@ class Window(QtWidgets.QMainWindow):
         """Boolean mask of the genes passing the current class filter AND having a position.
 
         The two are combined here rather than at each drawing site because everything downstream --
-        points, centroids, edges, the gene count in the status bar -- reads this one mask. A gene the
+        points, edges, the gene count in the status bar -- reads this one mask. A gene the
         displayed embedding does not cover has no position to draw, and drawing it anyway would put
         absence on the map as though it were a measurement.
         """
@@ -3539,28 +3556,13 @@ class Window(QtWidgets.QMainWindow):
             c[~self.placed, 3] = 0.0
         return c
 
-    def galaxy_labels(self):
-        """Coarse spatial components of the embedding, computed once and cached.
-
-        Cached because the grid pass walks every occupied cell and the tier is switched to more often
-        than the embedding changes. `use_embedding` clears it.
-        """
-        if self._galaxies is None:
-            self._galaxies = lod.galaxies(self.xyz)
-        return self._galaxies
-
     def redraw(self):
-        """Redraw everything from the current state: points, tiers, ground, halo and edges."""
+        """Redraw everything from the current state: gene points, ground, selection halo and edges."""
         vis = self.visible_mask()
-        lvl = self.level_idx
 
         for it in self.edge_items:
             self.view.removeItem(it)
         self.edge_items = []
-        if self.centroid_item is not None:
-            self.view.removeItem(self.centroid_item)
-            self.centroid_item = None
-
         st = TH.POINT_STYLES.get(self.point_style, TH.POINT_STYLES[TH.DEFAULT_POINT_STYLE])
         # An explicit point size overrides the style's. The style still supplies the rest of its
         # look, so "large" plus an explicit 4 px is a large-style point drawn at 4 px.
@@ -3573,65 +3575,6 @@ class Window(QtWidgets.QMainWindow):
             sizes[self.gated] = max(base * 1.7, 7.0)
         if self.sel is not None:
             sizes[self.sel] = max(base * 3.0, 12.0)
-        if lvl == 0:
-            # Galaxy level: genes recede and coarse SPATIAL structures carry the map.
-            #
-            # This used to draw one centroid per compartment, and it produced a cluster of dots in the
-            # middle of the screen -- correctly, which was the problem. A compartment's genes are
-            # scattered across the whole embedding, so their mean lands near the centre of it: the
-            # median compartment centroid sits 0.17 of the map radius from the middle while the
-            # median compartment's own members spread 0.37 of the radius. The centroids were an
-            # honest average of something with no spatial meaning, drawn as though it had one, and
-            # the held-out search says the same thing from the other side -- compartment is the
-            # worst-recovered target in this map, below the study-effort control.
-            #
-            # So the tier is computed from the embedding itself. See lod.py.
-            sizes = np.full(self.n, max(base * 0.4, 1.5), np.float32)
-            lab = self.galaxy_labels()
-            pos, num, spread = lod.centroids(self.xyz, np.where(vis, lab, -1))
-            dom = lod.dominant(self.category_values().to_numpy(),
-                               np.where(vis, lab, -1), ignore=ABSENCE)
-            self._galaxy_info = []
-            col, ssz = [], []
-            for i in range(len(pos)):
-                name, frac = dom.get(i, ("mixed", 0.0))
-                col.append((*self.color_of.get(name, TH.unknown_color(self.theme)[:3]), 0.95))
-                ssz.append(float(10 + 30 * np.sqrt(num[i] / max(vis.sum(), 1))))
-                self._galaxy_info.append((int(num[i]), name, frac))
-            if len(pos):
-                self.centroid_item = gl.GLScatterPlotItem(
-                    pos=pos.astype(np.float32), color=np.array(col, np.float32),
-                    size=np.array(ssz, np.float32), pxMode=True)
-                self.centroid_item.setGLOptions("translucent")
-                self.view.addItem(self.centroid_item)
-        elif lvl == 1:
-            # System level: orthogroups get their own centroids, the way compartments do at galaxy
-            # level. Previously this tier did nothing at all unless a gene happened to be selected, so
-            # it was indistinguishable from the gene level -- the middle of a three-tier hierarchy
-            # silently missing.
-            og = as_text(self.nodes.orthogroup).to_numpy()
-            sizes = np.full(self.n, max(base * 0.5, 2.0), np.float32)
-            pos, col, ssz = [], [], []
-            groups = {}
-            for i, g in enumerate(og):
-                if g not in ("", "nan", "None") and vis[i]:
-                    groups.setdefault(g, []).append(i)
-            for g, idx in groups.items():
-                if len(idx) < MIN_ORTHOGROUP_FOR_SYSTEM:
-                    continue
-                pos.append(self.xyz[idx].mean(0))
-                comp = self.category_values().iloc[idx[0]]
-                col.append((*self.color_of.get(comp, TH.unknown_color(self.theme)[:3]), 0.9))
-                ssz.append(float(6 + 18 * np.sqrt(len(idx) / 40.0)))
-            if pos:
-                self.centroid_item = gl.GLScatterPlotItem(
-                    pos=np.array(pos, np.float32), color=np.array(col, np.float32),
-                    size=np.array(ssz, np.float32), pxMode=True)
-                self.centroid_item.setGLOptions("translucent")
-                self.view.addItem(self.centroid_item)
-            if self.sel is not None and og[self.sel] not in ("", "nan", "None"):
-                sizes[og == og[self.sel]] = max(base * 2.0, 9.0)
-
         colors = self.colors(vis)
         self._depth_ctx = None
         if self.depth_cue:
@@ -3679,27 +3622,11 @@ class Window(QtWidgets.QMainWindow):
 
         act = [k for k, _ in EDGE_TYPES if self.edge_on.get(k)]
         note = "" if self.attn_on else "  ·  RAW co-mention (attention-biased)"
-        extra = ""
-        if lvl == 0 and getattr(self, "_galaxy_info", None):
-            # Say what the blobs are. A tier that draws five unexplained spheres is not an
-            # abstraction, it is a mystery.
-            extra = ("  ·  " + ", ".join(f"{n:,} genes ({name} {frac*100:.0f}%)"
-                                         for n, name, frac in self._galaxy_info[:4]))
         if not self.edge_on.get("comention", False) and not act:
             note += "  ·  select a gene to see its edges, or Edges ▸ Draw all active edges"
         self.status.showMessage(
             f"{int(vis.sum()):,} / {self.n:,} genes shown  ·  edges: "
-            f"{', '.join(act) if act else 'none'}{note}{extra}")
-
-    def on_level_changed(self):
-        """Move the camera to suit the tier, easing rather than cutting.
-
-        Pulling back for the galaxy tier and moving in for the gene tier makes the hierarchy legible as
-        a change of scale, which is what the three tiers actually are.
-        """
-        r = self.view.data_radius()
-        self.view.animate_distance(max(r * (2.0, 1.6, 1.25)[self.level_idx], 10.0))
-        self.redraw()
+            f"{', '.join(act) if act else 'none'}{note}")
 
     def _draw_ground(self):
         """A faint grid under the cloud, so rotation has something to rotate against.
@@ -3853,12 +3780,12 @@ class Window(QtWidgets.QMainWindow):
         self.status.showMessage(f"{hit.size} match(es); showing {self.nodes.gene_id.iloc[hit[0]]}")
 
     def fly_to_compartment(self, item):
-        """Move the camera to a class's centroid and drop to the gene tier."""
+        """Centre the camera on the genes in the selected category."""
         c = item.data(QtCore.Qt.ItemDataRole.UserRole)
         m = (self.category_values() == c).to_numpy()
         if m.sum():
             self.view.setCameraPosition(pos=pg.Vector(*self.xyz[m].mean(0)), distance=60)
-            self.set_level(2)
+            self.redraw()
 
     def reset(self):
         """Clear the selection and every filter, and frame the whole map again."""
@@ -3873,6 +3800,7 @@ class Window(QtWidgets.QMainWindow):
 
     # ------------------------------------------------------------------ export
     def _ask_path(self, caption: str, filt: str, default: str) -> str:
+        """Return the chosen export filename, or an empty string if cancelled."""
         path, _ = QtWidgets.QFileDialog.getSaveFileName(self, caption, default, filt)
         return path
 
@@ -3946,6 +3874,7 @@ class Window(QtWidgets.QMainWindow):
         L.addWidget(lst, 1)
 
         def apply_filter(text):
+            """Hide export columns whose names do not match the text; preserve their checks."""
             t = text.strip().lower()
             for i in range(lst.count()):
                 lst.item(i).setHidden(bool(t) and t not in lst.item(i).text().lower())
@@ -3976,6 +3905,7 @@ class Window(QtWidgets.QMainWindow):
 
     @staticmethod
     def _ticked(dialog) -> list[str]:
+        """Return checked export column names, including rows hidden by the filter."""
         lst = dialog.column_list
         return [lst.item(i).text() for i in range(lst.count())
                 if lst.item(i).checkState() == QtCore.Qt.CheckState.Checked]
@@ -4104,7 +4034,7 @@ class Window(QtWidgets.QMainWindow):
     def describe_state(self) -> str:
         """A briefing for the assistant: what is on screen right now."""
         vis = self.visible_mask()
-        bits = [f"Level: {['galaxy','system','planet'][self.level_idx]}.",
+        bits = ["View: individual genes.",
                 f"Coloring: {self.color_mode}.",
                 f"Filter column: {self.category}.",
                 f"{int(vis.sum()):,} of {self.n:,} genes visible."]
@@ -4128,11 +4058,16 @@ class Window(QtWidgets.QMainWindow):
         gid = str(r.gene_id)
 
         def num(v, f="{:.2f}"):
-            return "—" if v is None or (isinstance(v, float) and not np.isfinite(v)) else f.format(v)
+            """Format a measured value, or show a dash for missing and non-finite values."""
+            return "—" if v is None or pd.isna(v) or not np.isfinite(v) else f.format(v)
 
-        rows = [("compartment (hyperLOPIT)",
-                 f"{r.compartment}" + (" <i>— unknown, not absent</i>"
-                                       if r.compartment == "unassigned" else "")),
+        compartment = r.get("compartment", "unassigned")
+        if pd.isna(compartment):
+            compartment = "unassigned"
+        localization_label = "compartment (hyperLOPIT)" if "compartment" in r else "localization"
+        rows = [(localization_label,
+                 f"{compartment}" + (" <i>— unknown, not absent</i>"
+                                     if compartment == "unassigned" else "")),
                 ("orthogroup", str(r.get("orthogroup", "—"))),
                 ("paralogs", num(r.get("paralog_number"), "{:.0f}")),
                 ("InterPro domains", num(r.get("n_interpro"), "{:.0f}")),
@@ -4152,9 +4087,11 @@ class Window(QtWidgets.QMainWindow):
                 ("crosslinked partners (XL-MS)", num(r.get("n_xlink_partners"), "{:.0f}")),
                 ("IP-MS partners", num(r.get("n_ipms_partners"), "{:.0f}")),
                 ("structurally similar (TM ≥ 0.7)", num(r.get("n_struct_similar"), "{:.0f}")),
-                ("curated host targets", num(r.get("n_host_targets"), "{:.0f}")),
-                ("log2 FPKM tachyzoite", num(r.get("expr_tachy"))),
-                ("log2 FPKM tissue cyst", num(r.get("expr_cyst")))]
+                ("curated host targets", num(r.get("n_host_targets"), "{:.0f}"))]
+        for column, label in (("expr_tachy", "log2 FPKM tachyzoite"),
+                              ("expr_cyst", "log2 FPKM tissue cyst")):
+            if column in r:
+                rows.append((label, num(r[column])))
         tbl = "".join(f"<tr><td style='color:#888;padding-right:10px'>{k}</td>"
                       f"<td>{v}</td></tr>" for k, v in rows)
 
@@ -4242,6 +4179,9 @@ class Window(QtWidgets.QMainWindow):
                       if r.get("n_fulltext", 0) else "")
                    + ". Absence of evidence here is absence of attention, not absence of function.</p>")
 
+        record_database = "PlasmoDB" if self.species == "Plasmodium falciparum" else "ToxoDB"
+        record_base = ("https://plasmodb.org/plasmo" if record_database == "PlasmoDB"
+                       else "https://toxodb.org/toxo")
         self.detail.setHtml(f"""
         <h2 style="margin-bottom:2px">{gid}</h2>
         <p style="color:#bbb;margin-top:0">{r.get('product', 'unannotated')}</p>
@@ -4256,7 +4196,7 @@ class Window(QtWidgets.QMainWindow):
         {xl}
         <h4>neighbours by edge type</h4>
         {''.join(nb) or '<p style="color:#888">no edges</p>'}
-        <p><a href="https://toxodb.org/toxo/app/record/gene/{gid}">ToxoDB record</a> ·
+        <p><a href="{record_base}/app/record/gene/{gid}">{record_database} record</a> ·
            <a href="https://pubmed.ncbi.nlm.nih.gov/?term={gid}">PubMed</a></p>
         """)
 

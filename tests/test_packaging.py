@@ -91,7 +91,10 @@ def test_the_wheel_carries_the_files_the_application_needs():
     joined = " ".join(globs)
     for ext in (".npz", ".parquet", ".tsv"):
         assert ext in joined, f"package-data does not ship {ext}"
-    assert any("**" in g for g in globs), "package-data does not recurse into subdirectories"
+    assert "data/icons/*.svg" in globs
+    assert "data/hf_release/*.parquet" in globs
+    assert "data/*.tsv.gz" in globs
+    assert not any("**" in g for g in globs), "recursive globs can ship local saved embeddings"
 
 
 def test_results_are_kept_out_of_the_package():

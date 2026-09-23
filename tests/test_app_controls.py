@@ -154,24 +154,8 @@ def test_every_rendering_mode_is_applied_to_the_scatter(win):
 
 
 # --------------------------------------------------------------------------- levels of detail
-def test_every_level_of_detail_draws_something(win):
-    """The middle tier did nothing at all unless a gene happened to be selected, making it
-    indistinguishable from the gene level."""
-    drawn = {}
-    for i in range(3):
-        win.set_level(i)
-        win.redraw()
-        drawn[i] = win.centroid_item is not None
-    assert drawn[0] and drawn[1], "the compartment and orthogroup tiers must draw their own markers"
-    win.set_level(2)
-    win.redraw()
 
 
-def test_changing_level_moves_the_camera_rather_than_cutting(win):
-    win.set_level(2)
-    win.on_level_changed()
-    assert win.view._cam_timer is not None and win.view._cam_timer.isActive()
-    win.view._cam_timer.stop()
 
 
 # --------------------------------------------------------------------------- edges
@@ -297,10 +281,6 @@ def test_filtering_by_compartment_reduces_what_is_visible(win):
     win.comp_list.set_checked([])
 
 
-def test_flying_to_a_compartment_switches_to_the_gene_level(win):
-    win.set_level(0)
-    win.fly_to_compartment(win.comp_list.item(0))
-    assert win.level_idx == 2
 
 
 # --------------------------------------------------------------------------- preferences and spin
@@ -626,15 +606,6 @@ def test_attention_coloring_survives_a_table_without_the_column(win, monkeypatch
         win.redraw()
 
 
-def test_a_compartment_with_too_few_visible_genes_gets_no_centroid(win):
-    """A centroid of two points is a midpoint, not a landmark."""
-    win.set_level(0)
-    win.comp_list.clearSelection()
-    win.comp_list.item(0).setSelected(True)
-    win.redraw()
-    win.comp_list.clearSelection()
-    win.set_level(2)
-    win.redraw()
 
 
 def test_the_evidence_panel_skips_edge_types_absent_from_the_graph(win):

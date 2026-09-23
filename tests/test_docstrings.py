@@ -58,3 +58,12 @@ def test_public_methods_of_public_classes_have_docstrings(name):
                 continue
             missing.append(f"{name}:{sub.lineno} {node.name}.{sub.name}")
     assert not missing, f"no docstring: {missing}"
+
+
+@pytest.mark.parametrize("name", ["app.py", "analysis_panel.py"])
+def test_application_callbacks_and_helpers_are_documented(name):
+    """Private callbacks also need context when maintaining the desktop application."""
+    missing = [f"{node.name}:{node.lineno}" for node in ast.walk(_tree(name))
+               if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+               and not ast.get_docstring(node)]
+    assert not missing, f"Undocumented application functions: {missing}"

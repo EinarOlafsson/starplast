@@ -1,19 +1,16 @@
-name: API reference
+name: Documentation
 
-# The docstrings in this project carry the reasoning, not just the signatures, so the generated page is
-# genuinely the reference -- there is no second prose document to keep in step with it.
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: docs-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -23,42 +20,29 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-      - name: System libraries for PyQt6
-        # pdoc imports every module, and the GUI ones import PyQt6 at module scope. A bare runner has
-        # no GL stack, so the import fails with `libEGL.so.1: cannot open shared object file` before
-        # any Qt platform plugin is chosen -- QT_QPA_PLATFORM=offscreen does not help, because the
-        # shared library has to exist to be loaded at all. This is invisible locally, where a desktop
-        # supplies them.
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            libegl1 libgl1 libglib2.0-0 libdbus-1-3 \
-            libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-image0 \
-            libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-shape0 libxcb-xinerama0
-
-      - name: Install
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e . pdoc
-      - name: Build the API reference
+          python-version: '3.11'
+      - name: Install Qt system libraries
+        run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libdbus-1-3 libxkbcommon-x11-0 libxcb-cursor0
+      - run: python -m pip install '.[docs]'
+      - run: python scripts/build_docs.py
         env:
-          # pdoc imports each module; the Qt ones need a platform that exists on a headless runner.
           QT_QPA_PLATFORM: offscreen
           PYQTGRAPH_QT_LIB: PyQt6
-        run: python -m pdoc --output-directory docs/api --no-search --docformat markdown starplast
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-pages-artifact@v3
         with:
-          name: api-reference
-          path: docs/api
+          path: docs/site
 
-# Publishing to GitHub Pages is deliberately not wired up. Pages on a private repository needs a paid
-# plan, so the deploy step could only ever fail here, and a job that is expected to fail teaches
-# people to ignore a red workflow. Held until the project is mature enough to be public.
-#
-# Nothing is lost meanwhile: the reference is built on every push to main and downloadable from the
-# run's artifacts. To publish later, make the repository public (or upgrade the plan), enable Pages
-# with "GitHub Actions" as the source, then restore the two steps: `actions/upload-pages-artifact@v3`
-# with `path: docs/api` at the end of build, and a `deploy` job running `actions/deploy-pages@v4`
-# with the `github-pages` environment. The `pages: write` and `id-token: write` permissions above are
-# already correct for that.
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy documentation
+        id: deployment
+        uses: actions/deploy-pages@v4

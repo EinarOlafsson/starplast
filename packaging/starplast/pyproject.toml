@@ -1,34 +1,25 @@
-# `pip install starplast` -- the program, with GPU acceleration where this platform has wheels for
-# it. The code is `starplast-core`; this name exists so that the default install is the fast one.
-#
-# The markers matter. RAPIDS and CuPy publish Linux wheels only, so on macOS or Windows a hard
-# dependency would make `pip install starplast` FAIL rather than install a working program. With the
-# markers it installs the CUDA stack where that stack exists and the program alone everywhere else.
-#
-# On a Linux machine with no NVIDIA card this still downloads about 2 GB, which is the cost of the
-# default being GPU. There is no name for saying no to it any more: `starplast-core` carries the CUDA
-# stack itself, so a metapackage could not exclude it, and `starplast-cpu` was removed rather than
-# kept as a name that installed the opposite of what it said. `--no-deps` is the remaining way out.
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "starplast"
-version = "0.41.0"
-description = "A 3D browser for the Toxoplasma gondii knowledge map, with GPU acceleration"
+version = "0.42.0"
+description = "Explore gene evidence and screen results in Toxoplasma and Plasmodium"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
 authors = [{name = "Einar Olafsson", email = "einar.olafsson@gmail.com"}]
-dependencies = [
-    "starplast-core==0.41.0",
-    "cuml-cu12>=24.10 ; sys_platform == 'linux' and platform_machine == 'x86_64'",
-    "cupy-cuda12x>=13.0 ; sys_platform == 'linux' and platform_machine == 'x86_64'",
-]
+dependencies = ["starplast-core==0.42.0"]
+
+[project.optional-dependencies]
+gpu = ["starplast-core[gpu]==0.42.0"]
+ingest = ["starplast-core[ingest]==0.42.0"]
 
 [project.urls]
 Homepage = "https://github.com/EinarOlafsson/starplast"
+Documentation = "https://einarolafsson.github.io/starplast/"
+Issues = "https://github.com/EinarOlafsson/starplast/issues"
 
 [tool.setuptools]
 packages = []

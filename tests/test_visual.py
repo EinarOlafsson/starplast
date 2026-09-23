@@ -163,10 +163,9 @@ def test_the_grid_can_be_turned_off(win):
     win.show_ground = True
 
 
-def test_changing_level_of_detail_retargets_the_camera(win):
-    """The tiers are a change of scale, so the camera moves; it eases rather than cutting."""
-    win.set_level(2)
+def test_camera_distance_animation_starts(win):
+    """Camera navigation eases to its requested distance."""
     win.view.setCameraPosition(distance=win.view.data_radius())
-    win.on_level_changed()
+    win.view.animate_distance(win.view.data_radius() * 1.25)
     assert win.view._cam_timer is not None and win.view._cam_timer.isActive()
     win.view._cam_timer.stop()

@@ -347,7 +347,9 @@ def import_table(path_or_df, gene_column: str | None = None, pattern: str | None
     if not matched.any():
         log("  nothing matched -- check the column, or supply a regex to reformat it")
 
-    out = df.loc[matched].copy()
+    # Replace an existing gene_id column with the resolved identifiers.
+    # Screen exports commonly use this exact column name.
+    out = df.loc[matched].drop(columns=["gene_id"], errors="ignore").copy()
     out.insert(0, "gene_id", ids[matched].values)
     num = [c for c in out.columns
            if c != "gene_id" and pd.api.types.is_numeric_dtype(out[c])]

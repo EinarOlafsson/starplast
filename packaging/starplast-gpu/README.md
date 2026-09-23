@@ -1,9 +1,14 @@
-# starplast-gpu
+# Starplast GPU
 
-`pip install starplast-gpu` installs [starplast](https://github.com/EinarOlafsson/starplast) together
-with the CUDA 12 stack it can use: **cuML** for UMAP and HDBSCAN, **CuPy** for the array work.
+Compatibility alias for `starplast[gpu]`.
 
-It contains no code of its own. Everything it installs is `starplast[gpu]`.
+```bash
+pip install starplast-gpu
+starplast
+```
 
-Nothing about starplast requires it. With no GPU stack present the program runs exactly as it does
-now — `Preferences ▸ compute` reports what it found, and the switch has nothing to turn on.
+CUDA 12 dependencies are installed on Linux x86_64. A compatible NVIDIA driver
+and GPU are required for acceleration. Other platforms use CPU analysis.
+
+[Documentation](https://einarolafsson.github.io/starplast/) ·
+[Source code](https://github.com/EinarOlafsson/starplast)

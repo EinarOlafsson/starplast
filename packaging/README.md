@@ -6,7 +6,7 @@ One launcher, three installers, following spaCR's arrangement so a runtime fix l
     bash packaging/build_macos.sh       # .app + .dmg (macOS)
     powershell -File packaging\build_windows.ps1   # .exe (Windows)
 
-All three run `pyinstaller packaging/starplast.spec`, which bundles `data/` — the 11 MB committed cache.
+All three run `pyinstaller packaging/starplast.spec`, which bundles `starplast/data/`, the built cache and application assets.
 That is what makes an installed starplast work with no network, no dataset and no build step.
 
 **Gotchas, learned the hard way in spaCR:**
@@ -17,3 +17,5 @@ That is what makes an installed starplast work with no network, no dataset and n
   fails with "could not load the xcb platform plugin" and no further explanation.
 * `PYQTGRAPH_QT_LIB=PyQt6` is set by the launcher. A bundle can contain more than one Qt binding, and
   pyqtgraph binding to the wrong one fails at import rather than at use.
+
+Python package publishing is documented in [the release guide](../docs/releases.md).

@@ -31,8 +31,10 @@ def readme():
 
 def test_the_committed_dataset_table_matches_the_registry(readme):
     """Add a dataset to the registry without updating the README and this fails. That is the point."""
-    assert D.readme_table().strip() in readme, (
-        "README.md's dataset table is out of date -- regenerate it from "
+    catalogue = open(os.path.join(os.path.dirname(README), "docs", "datasets.md"), encoding="utf8").read()
+    assert "docs/datasets.md" in readme
+    assert D.readme_table().strip() in catalogue, (
+        "docs/datasets.md is out of date -- regenerate it from "
         "starplast.datasets.readme_table()")
 
 

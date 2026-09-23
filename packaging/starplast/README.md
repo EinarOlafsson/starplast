@@ -1,11 +1,19 @@
-# starplast
+# Starplast
 
-`pip install starplast` installs the program **and** the GPU stack it can use, where this platform
-has wheels for it: cuML for UMAP and HDBSCAN, CuPy for the array work. On macOS and Windows, where
-RAPIDS publishes nothing, it installs the program alone rather than failing.
+Explore gene evidence and screen results in *Toxoplasma gondii* and
+*Plasmodium falciparum*.
 
-    pip install starplast          the program, GPU where possible
-    pip install -e .               a checkout, editable -- also with the GPU stack
-    starplast-install-gpu          pick the CUDA set from the driver, after the fact
+```bash
+pip install starplast
+starplast
+```
 
-The code itself is the `starplast-core` distribution; the import name is `starplast` either way.
+Requires Python 3.10+, a display, and OpenGL. Built gene tables and graphs are
+included for offline browsing. Analysis runs on the CPU by default.
+Install `starplast[gpu]` for optional CUDA 12 acceleration on Linux x86_64.
+
+[Documentation](https://einarolafsson.github.io/starplast/) ·
+[Source code](https://github.com/EinarOlafsson/starplast)
+
+This package installs the matching `starplast-core` distribution, which contains
+the code and data. The `gpu` and `ingest` extras forward to that distribution.

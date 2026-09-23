@@ -2,7 +2,7 @@
 """Headless smoke test for the app against the committed cache.
 
 The handoff claimed a passing smoke test but none was ever committed, so it could not be re-run. This
-drives the real Window offscreen: every level of detail, every color mode, every edge type, the attention
+drives the real Window offscreen: every color mode, every edge type, the attention
 toggle, search and picking. It asserts the app builds and survives each control, not that it looks right.
 
 Skipped automatically where Qt cannot open an offscreen GL context, and where the cache is absent.
@@ -107,10 +107,6 @@ def test_every_edge_type_toggles(win):
         win.redraw()
 
 
-def test_every_level_of_detail(win):
-    for i in range(3):
-        win.set_level(i)
-        win.redraw()
 
 
 def test_every_color_mode(win):

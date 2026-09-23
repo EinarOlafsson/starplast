@@ -1,35 +1,21 @@
-# Kept as an alias now that `pip install starplast` is itself the GPU install: someone who read the
-# old instructions, or who wants to be explicit, gets the same thing.
-#
-#     pip install starplast-gpu   ==   pip install starplast
-#
-# It contains no code. Its whole job is to be a name someone can type: it depends on
-# `starplast[gpu]`, so the dependency list lives in one place -- the extra in the main
-# pyproject.toml -- and this file cannot drift from it.
-#
-# In this checkout, editable:
-#
-#     pip install -e ".[gpu]"                    the extra, which is what this resolves to anyway
-#     pip install -e packaging/starplast-gpu     the metapackage itself, once starplast is on PyPI
-#
-# The second needs `starplast` to be findable on an index. Working from the repository, install the
-# extra directly -- it is the same set of wheels and one fewer moving part.
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "starplast-gpu"
-version = "0.41.0"
-description = "GPU acceleration for starplast: cuML for UMAP and HDBSCAN, CuPy for the array work"
+version = "0.42.0"
+description = "Starplast with optional NVIDIA CUDA acceleration"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
 authors = [{name = "Einar Olafsson", email = "einar.olafsson@gmail.com"}]
-dependencies = ["starplast==0.41.0"]
+dependencies = ["starplast[gpu]==0.42.0"]
 
 [project.urls]
 Homepage = "https://github.com/EinarOlafsson/starplast"
+Documentation = "https://einarolafsson.github.io/starplast/"
+Issues = "https://github.com/EinarOlafsson/starplast/issues"
 
 [tool.setuptools]
 packages = []

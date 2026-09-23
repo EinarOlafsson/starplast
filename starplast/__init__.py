@@ -1,2 +1,7 @@
-"""starplast — a 3D browser for the Toxoplasma gondii knowledge map."""
-__version__ = "0.41.0"
+"""Explore gene evidence in Toxoplasma gondii and Plasmodium falciparum.
+
+Use the analysis modules from Python, ``starplast-discover`` for batch searches,
+or ``starplast`` for the desktop browser. The user guide and API examples are
+available at https://einarolafsson.github.io/starplast/.
+"""
+__version__ = "0.42.0"

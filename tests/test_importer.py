@@ -283,3 +283,18 @@ def test_every_format_the_importer_offers_has_a_reader_declared():
     for ext, package in readers.items():
         assert ext in I.READABLE, f"{ext} stopped being offered; drop it from this test too"
         assert package in declared, f"{ext} is offered but {package} is not a declared dependency"
+
+
+def test_a_screen_export_can_use_gene_id_as_its_identifier_column():
+    """A canonical column name must survive identifier resolution and duplicate aggregation."""
+    from starplast.importer import preprocess
+    frame = pd.DataFrame({"gene_id": ["TGME49_208830", "tgme49_208830", "TGME49_200000", "unknown"],
+                          "score": [2.0, 4.0, 8.0, 10.0]})
+    before = frame.copy(deep=True)
+    result, record = preprocess(frame, gene_column="gene_id", columns=["score"],
+                                prefix="screen_", log=lambda *_: None)
+    assert result.loc["TGME49_208830", "screen_score"] == 3.0
+    assert result.loc["TGME49_200000", "screen_score"] == 8.0
+    assert len(result) == 2
+    assert record["gene_column"] == "gene_id"
+    pd.testing.assert_frame_equal(frame, before)

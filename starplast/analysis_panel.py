@@ -72,6 +72,7 @@ class Worker(QtCore.QObject):
     progress = QtCore.pyqtSignal(str)
 
     def __init__(self, fn):
+        """Store a callable accepting a progress callback for execution on a worker thread."""
         super().__init__()
         self.fn = fn
 
@@ -256,6 +257,7 @@ class _Progress:
     """
 
     def __init__(self, panel, job):
+        """Connect a panel and job to cancellation-aware progress reporting."""
         self.panel, self.job = panel, job
 
     def stopped(self) -> bool:
@@ -269,6 +271,7 @@ class _Progress:
         return bool(self.job.cancelled)
 
     def __call__(self, message):
+        """Record job progress and raise Cancelled when a stop has been requested."""
         if self.job.cancelled:
             raise Cancelled(f"{self.job.name} stopped after {self.job.note or 'some work'}")
         text = str(message)
@@ -306,6 +309,7 @@ class AnalysisPanel(QtWidgets.QWidget):
 
     def __init__(self, nodes: pd.DataFrame, store=None, parent=None, runner=None,
                  annotations=None):
+        """Build analysis tabs for a gene table, with optional stores and job services."""
         super().__init__(parent)
         self.nodes = nodes
         self.store = store
@@ -422,6 +426,7 @@ class AnalysisPanel(QtWidgets.QWidget):
 
     # ------------------------------------------------------------------ 1 data
     def _data_tab(self):
+        """Build feature-block, scaling, missing-value, and imported-column controls."""
         w = QtWidgets.QWidget()
         v = QtWidgets.QVBoxLayout(w)
 
@@ -625,6 +630,7 @@ class AnalysisPanel(QtWidgets.QWidget):
 
     # ------------------------------------------------------------------ 2 map
     def _map_tab(self):
+        """Build projection settings and the controls for a hyperparameter walk."""
         w = QtWidgets.QWidget()
         v = QtWidgets.QVBoxLayout(w)
         form = QtWidgets.QFormLayout()
@@ -679,6 +685,7 @@ class AnalysisPanel(QtWidgets.QWidget):
 
     # ------------------------------------------------------------------ 3 clusters
     def _cluster_tab(self):
+        """Build clustering algorithm and neighbourhood-size controls."""
         w = QtWidgets.QWidget()
         v = QtWidgets.QVBoxLayout(w)
         form = QtWidgets.QFormLayout()
@@ -709,6 +716,7 @@ class AnalysisPanel(QtWidgets.QWidget):
 
     # ------------------------------------------------------------------ 4 meaning
     def _meaning_tab(self):
+        """Build the held-out association summary and per-category result tables."""
         w = QtWidgets.QWidget()
         v = QtWidgets.QVBoxLayout(w)
         note = QtWidgets.QLabel(
@@ -786,6 +794,7 @@ class AnalysisPanel(QtWidgets.QWidget):
 
         columns = list(self.nodes.columns) if self.nodes is not None else []
         def _layers(numeric):
+            """List usable measurement layers from the supplied node-table columns."""
             out = []
             for c in columns:
                 s = self.nodes[c]
@@ -950,6 +959,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.discover_report.setPlainText("")
 
         def job(p):
+            """Optimize discovery configurations with one pinned compute backend."""
             from . import gpu
             with gpu.pinned() as backend:
                 result = optimize.climb(
@@ -1020,12 +1030,14 @@ class AnalysisPanel(QtWidgets.QWidget):
                          f"{v.get('score', '?')}")
 
         def job(p):
+            """Rebuild the embedding and clustering stored in a discovery result row."""
             coords, genes, labels, features = rebuild(nodes, v, log=p)
             return coords, features, genes, labels
 
         self._run(job, self._search_row_built, name=f"rebuild discovery row ({v['blocks']})")
 
     def _search_tab(self):
+        """Build the target, feature-scope, parameter-grid, and search-result controls."""
         w = QtWidgets.QWidget()
         v = QtWidgets.QVBoxLayout(w)
         note = QtWidgets.QLabel(
@@ -1118,7 +1130,9 @@ class AnalysisPanel(QtWidgets.QWidget):
         # A plain two-way binding re-enters -- setText emits textChanged, which sets the first again
         # -- and the pair can still be firing at each other while Qt is deleting them.
         def mirror(src, dst):
+            """Connect two grid fields so edits stay synchronized without recursive signals."""
             def on_change(text):
+                """Copy changed grid text while temporarily blocking the destination signals."""
                 if dst.text() != text:
                     dst.blockSignals(True)
                     dst.setText(text)
@@ -1429,6 +1443,7 @@ class AnalysisPanel(QtWidgets.QWidget):
             return
 
         def job(p):
+            """Evaluate masked category recovery with the requested folds and refit policy."""
             p(f"hiding {frac:.0%} of each category in {target}, {folds} folds"
               + (" , re-embedding each one" if refit else ""))
             return validate_all(labels, truth, folds=folds, hold_frac=frac, used_columns=used,
@@ -1566,6 +1581,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self._thread.started.connect(self._worker.run)
 
         def relay(result, error):
+            """Join the worker thread and deliver its result or exception on the GUI thread."""
             self._thread.quit(); self._thread.wait()
             self._thread = None; self._worker = None
             if error is not None:
@@ -1641,6 +1657,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         return table
 
     def _row_clicked(self, table, row: int):
+        """Invoke the registered map or clustering action for a clicked results row."""
         action = self._row_action.get(table)
         if action is not None:
             action(row)
@@ -1914,6 +1931,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         return len(asked)
 
     def _set_stoppable(self, on: bool) -> None:
+        """Enable or disable all analysis stop buttons together."""
         for b in self._stop_btns:
             b.setEnabled(on)
 
@@ -2107,6 +2125,7 @@ class AnalysisPanel(QtWidgets.QWidget):
                          f"-- the same map, on the same genes, with its clustering")
 
         def job(p):
+            """Rebuild the embedding and clustering stored in a search result row."""
             coords, genes, labels, features = rebuild(nodes, v, log=p)
             return coords, features, genes, labels
 
@@ -2121,6 +2140,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         return True
 
     def _search_row_built(self, result):
+        """Apply rebuilt coordinates and labels and publish them to the gene map."""
         from .clustering import NOISE
         coords, features, genes, labels = result
         self.coords, self.features, self.rows, self.labels = coords, features, genes, labels
@@ -2168,6 +2188,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         spec, n = self.spec(), self.nodes
 
         def job(p):
+            """Build the requested projection and optionally cluster its retained genes."""
             coords, features, rows = embed(n, spec, log=p)
             labels = None
             if then_cluster:
@@ -2178,6 +2199,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self._run(job, self._embedded, name="build map")
 
     def _embedded(self, result):
+        """Store an embedding result and emit coordinates, row mask, and optional clustering."""
         from .clustering import NOISE
         self.coords, self.features, self.rows, labels = result
         self.embedding_ready.emit(self.coords, self.rows)
@@ -2222,6 +2244,7 @@ class AnalysisPanel(QtWidgets.QWidget):
                   self._clustered, name=f"cluster ({algo})")
 
     def _clustered(self, labels):
+        """Store cluster labels and publish them aligned to the full gene table."""
         from .clustering import NOISE
         self.labels = labels
         k = len(set(labels[labels != NOISE]))
@@ -2242,12 +2265,14 @@ class AnalysisPanel(QtWidgets.QWidget):
         sub, lab = self.nodes.loc[self.rows], self.labels
 
         def job(p):
+            """Compute held-out feature associations and their interpretation text."""
             S, D = battery(sub, lab, used_features=used, log=p)
             return S, D, describe(S, D)
 
         self._run(job, self._battery_done, name="held-out battery")
 
     def _battery_done(self, result):
+        """Display held-out association summaries, category details, and interpretation text."""
         from .clustering import per_category
         S, D, lines = result
         held = S[S.evidence == "held_out"] if not S.empty else S
@@ -2282,6 +2307,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self._start_table(self.sweep_table, [])
 
         def job(p):
+            """Evaluate category recovery across the selected evidence hierarchy."""
             return sweep_categories(nodes, spec, hierarchy=hierarchy, level=level,
                                     should_stop=getattr(p, "stopped", None), log=p)
 
@@ -2321,6 +2347,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.walk_started.emit()
 
         def job(p):
+            """Search feature and parameter combinations, emitting each completed embedding."""
             R, P = search(n, target=target, block_sets=sets, sample_size=size, seed=seed,
                           store=self.store, objective=obj, on_run=self.search_step.emit,
                           should_stop=getattr(p, "stopped", None), log=p, **grid)
@@ -2493,11 +2520,13 @@ class AnalysisPanel(QtWidgets.QWidget):
         result = self._question_result
 
         def job(p):
+            """Render the selected recipe results and figures into a PDF file."""
             return recipe_pdf(result, path)
 
         self._run(job, self._pdf_done, name="recipe report")
 
     def _pdf_done(self, path):
+        """Report the completed figure export path in the panel status."""
         self.status.emit(f"figures written to {path}")
 
     def current_question(self):
@@ -2539,6 +2568,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         recipe = as_recipe(q)
 
         def job(p):
+            """Check whether the selected recipe has its required evidence inputs."""
             return close(self.nodes, recipe)
 
         self._run(job, self._closure_done, name="closure check")
@@ -2576,6 +2606,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         self.question_pdf.setEnabled(False)
 
         def job(p):
+            """Run the selected recipe with a pinned backend and generate comparison maps."""
             from . import gpu
             with gpu.pinned():
                 # Two alternative maps are built so the PDF can show what the winner was chosen

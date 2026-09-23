@@ -82,12 +82,6 @@ def test_the_status_line_says_how_to_see_edges_when_none_are_drawn(win):
     assert "Draw all active edges" in win.status.currentMessage()
 
 
-def test_level_of_detail_is_a_menu_group_with_one_choice_active(win):
-    assert len(win.level_group.actions()) == 3
-    for i, act in enumerate(win.level_group.actions()):
-        act.trigger()
-        assert win.level_idx == i
-    win.set_level(2)
 
 
 def test_point_size_changes_the_drawn_size(win):
@@ -199,51 +193,10 @@ def test_absence_values_are_marked_as_absence_not_as_a_class(win):
 
 
 # --------------------------------------------------------------------------- galaxy tier
-def test_the_galaxy_tier_no_longer_collapses_to_the_centre(win):
-    """Item 6. The bug: compartment centroids averaged genes spread over the whole map, so every one
-    of them landed in the middle."""
-    win.set_level(0)
-    lab = win.galaxy_labels()
-    from starplast import lod
-    pos, num, spread = lod.centroids(win.xyz, lab)
-    assert len(pos) >= 2
-    centre = win.xyz.mean(0)
-    R = float(np.linalg.norm(win.xyz - centre, axis=1).max())
-    # Each centroid must be tighter than it is far from the middle, or it is a central blob again.
-    assert max(np.linalg.norm(p - centre) for p in pos) > 0.25 * R
-    assert float(np.median(spread)) < 0.25 * R
-    win.set_level(2)
 
 
-def test_the_galaxy_tier_says_what_the_blobs_are(win):
-    """Five unexplained spheres is a mystery, not an abstraction."""
-    win.set_level(0)
-    win.redraw()
-    assert win._galaxy_info
-    msg = win.status.currentMessage()
-    assert "genes (" in msg
-    win.set_level(2)
 
 
-def test_a_rebuilt_embedding_invalidates_the_cached_tier(win):
-    """Left cached, the coarse tier would go on describing the map it replaced.
-
-    The map is put back afterwards. It was not, and once a rebuilt embedding began HIDING the genes
-    it does not cover, every export test after this one in the file was quietly exporting a
-    100-gene map -- which is also what those tests were doing before the change, without the
-    hiding to make it visible."""
-    win.galaxy_labels()
-    assert win._galaxies is not None
-    before, placed_before = win.xyz.copy(), win.placed
-    rows = np.zeros(win.n, bool)
-    rows[:100] = True
-    win.use_embedding(np.random.default_rng(0).normal(size=(100, 3)), rows)
-    assert win._galaxies is None
-    win.xyz = before
-    win.view.xyz = before
-    win.placed = placed_before
-    win.view.pickable = placed_before
-    win.redraw()
 
 
 # --------------------------------------------------------------------------- exports
@@ -725,11 +678,8 @@ def test_the_resource_line_reports_what_it_can_and_never_raises(win):
 def test_freeing_memory_drops_the_rebuildable_cache_and_says_what_it_did(win):
     """"Clear RAM" that silently killed a running search would be a data-loss button wearing a
     housekeeping label, so it only drops what can be rebuilt for free."""
-    win.galaxy_labels()
-    assert win._galaxies is not None
     msg = win.free_memory()
-    assert win._galaxies is None
-    assert "freed" in msg and "level-of-detail" in msg
+    assert "freed" in msg and "unreachable objects" in msg
     # And a job in flight is untouched.
     job = win.jobs.submit(lambda: "survived", "during cleanup")
     win.free_memory()

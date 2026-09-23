@@ -1,24 +1,23 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-# The CODE lives here, under a name nobody has to type; `pip install starplast` is a thin metapackage
-# in packaging/ that depends on it.
-#
-# This distribution CARRIES the CUDA stack (see `dependencies`), which is a deliberate choice and not
-# a free one. Dependencies are fixed when a wheel is built, so one name cannot install two dependency
-# sets -- and anything depending on this one inherits the CUDA wheels transitively, with no way to
-# decline them. There used to be a `starplast-cpu` metapackage for saying no to two gigabytes; it has
-# been REMOVED, because once the code carries CUDA that name could only install it anyway and would
-# have been a name that lies. Skipping the wheels now means `--no-deps`, or a platform without them.
 name = "starplast-core"
-version = "0.41.0"
-description = "A 3D browser for the Toxoplasma gondii knowledge map (the code; install starplast)"
-readme = "README.md"
+version = "0.42.0"
+description = "Explore gene evidence and screen results in Toxoplasma and Plasmodium"
+readme = "packaging/starplast/README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [{name = "Einar Olafsson", email = "einar.olafsson@gmail.com"}]
+keywords = ["toxoplasma", "plasmodium", "bioinformatics", "CRISPR", "visualization"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
 dependencies = [
     "numpy>=1.24",
     "pandas>=2.0",
@@ -29,87 +28,42 @@ dependencies = [
     "scikit-learn>=1.3",
     "umap-learn>=0.5",
     "openpyxl>=3.1",
-    # And `xlrd` for the legacy .xls that openpyxl cannot open. Three published supplements this
-    # project reads are still in that format, and `importer.READABLE` offers .xls to users importing
-    # their own tables -- so without this the error is pandas' ImportError rather than anything the
-    # program said, and it appears at build time or on someone else's spreadsheet.
     "xlrd>=2.0.1",
-    # And `pypdf` for the sources that exist only as a PDF. One does: the EPIC interactome's tables
-    # are pages of a supplementary PDF, and pure Python beats a poppler binary that a second machine
-    # may not have.
     "pypdf>=4.0",
-    # Three that shipped code imports without a guard, and that were reaching the program only
-    # because something else happened to pull them in. `networkx` and `scipy` are the multiplex
-    # community detection and the sparse graphs under it; `matplotlib` draws the recipe report and
-    # the logos. Found by auditing every import in the package against this list on the interpreter
-    # the user actually runs, where `networkx` was simply absent and four tests failed for a reason
-    # that had nothing to do with the code.
     "networkx>=3.0",
     "scipy>=1.10",
-    "matplotlib>=3.7",
-    # The CUDA stack, in the DEFAULT dependencies. `pip install -e .` giving a CPU-only program on a
-    # machine with a CUDA card was the wrong default for the one thing this program is slow at, and a
-    # checkout is exactly where the person installing it knows their own hardware.
-    #
-    # The cost, stated plainly: about 2 GB of wheels, and no way to decline them short of
-    # `--no-deps`. That is the trade the `starplast-cpu` name used to cover; it has been REMOVED
-    # rather than left to lie, because a metapackage depending on this one would drag these in
-    # anyway and still call itself cpu.
-    #
-    # Markered to linux/x86_64, which is where cuml-cu12 and cupy-cuda12x publish wheels at all --
-    # unmarked, the install would FAIL on macOS, Windows and aarch64 rather than fall back. A linux
-    # box with no NVIDIA card is fine: `gpu.available()` counts DEVICES, not imports, so it reports
-    # False and every search takes the CPU path exactly as before.
-    "cuml-cu12>=24.10; sys_platform == 'linux' and platform_machine == 'x86_64'",
-    "cupy-cuda12x>=13.0; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "matplotlib>=3.7"
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=7.0"]
-# Reading coverage tracks, for the two chromatin datasets GEO serves as bigWig and nothing
-# else. Build-time only: `starplast.chromatin` imports it inside the function that needs it,
-# so the shipped cache -- which already carries the computed columns -- loads without it.
-#
-#     pip install "starplast[ingest]"
+dev = ["pytest>=7", "build>=1.2", "twine>=6", "tomli>=2; python_version < '3.11'"]
+docs = ["pdoc>=15,<17", "markdown2>=2.5,<3"]
 ingest = ["pyBigWig>=0.3"]
-# The GPU stack. As of the move into the default dependencies above, this extra adds NOTHING on the
-# platforms that have wheels -- it is kept only so `pip install -e ".[gpu]"` and
-# `pip install "starplast[gpu]"` keep working, because those commands are in the README, in HANDOFF
-# and in muscle memory, and an extra that has vanished is an install that fails.
-#
-#     pip install "starplast[gpu]"          from PyPI
-#     pip install -e ".[gpu]"               in this checkout, editable
-#     pip install starplast-gpu             the same thing under a name that reads as a product
-#
-# Both RAPIDS and CuPy publish to PyPI proper now, so no --extra-index-url is needed. Pinned to
-# CUDA 12 because that is what the driver on this machine serves and what torch was built against;
-# a CUDA 13 box wants cuml-cu13 and cupy-cuda13x.
 gpu = [
-    # Markered like the defaults above. Unmarked -- which they were -- `pip install "starplast[gpu]"`
-    # FAILS on macOS, Windows and aarch64, where RAPIDS and CuPy publish no wheels at all.
     "cuml-cu12>=24.10; sys_platform == 'linux' and platform_machine == 'x86_64'",
-    "cupy-cuda12x>=13.0; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "cupy-cuda12x>=13.0; sys_platform == 'linux' and platform_machine == 'x86_64'"
 ]
 
 [project.scripts]
 starplast = "starplast.app:main"
-# A search is a batch job that happens to have a GUI, not a GUI feature. On a server with no
-# display the window is not merely unnecessary, it cannot be imported.
 starplast-discover = "starplast.discover:main"
-# Detection belongs here rather than in the installer: a wheel's dependencies are fixed when it is
-# built, and there is no environment marker for "this machine has an NVIDIA card". See install_gpu.
 starplast-install-gpu = "starplast.install_gpu:main"
 
 [project.urls]
 Homepage = "https://github.com/EinarOlafsson/starplast"
+Documentation = "https://einarolafsson.github.io/starplast/"
+Issues = "https://github.com/EinarOlafsson/starplast/issues"
+Changelog = "https://github.com/EinarOlafsson/starplast/blob/main/CHANGELOG.md"
 
 [tool.setuptools]
 packages = ["starplast"]
+include-package-data = false
 
 [tool.setuptools.package-data]
-starplast = ["data/*.npz", "data/*.parquet", "data/*.tsv", "data/*.json", "data/**/*.parquet", "data/**/*.md"]
+starplast = ["data/*.npz", "data/*.parquet", "data/*.tsv", "data/*.tsv.gz", "data/*.json", "data/hf_release/*.parquet", "data/hf_release/*.md", "data/icons/*.svg"]
+
+[tool.setuptools.exclude-package-data]
+starplast = ["data/embeddings/*"]
 
 [tool.pytest.ini_options]
-markers = [
-    "slow: runs a real build or a full documentation pass; minutes rather than seconds",
-]
+markers = ["slow: runs a real build or a full documentation pass; minutes rather than seconds"]
