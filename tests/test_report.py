@@ -167,3 +167,11 @@ def test_outliers_do_not_own_the_axis(tmp_path):
 
 def test_an_empty_map_still_gets_finite_limits():
     assert RP._limits(np.zeros((0, 3))) == ((-1.0, 1.0), (-1.0, 1.0))
+
+
+def test_fixed_class_candidates_report_held_out_precision(tmp_path):
+    res = _result()
+    res.inference = pd.DataFrame({"gene_id": ["g1"], "cluster": [0],
+                                  "predicted": ["dense granules"],
+                                  "cv_class_precision": [.75], "enrichment": [3.]})
+    assert _pages(RP.recipe_pdf(res, str(tmp_path / "classification.pdf"))) >= 2

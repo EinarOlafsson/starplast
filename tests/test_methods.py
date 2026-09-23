@@ -172,12 +172,13 @@ def test_propagation_is_scored_only_on_genes_it_was_not_seeded_from():
 
 
 def test_a_node_the_walk_never_reached_carries_no_evidence():
-    """It scores zero for every class and takes the first by argmax; the enrichment gate downstream
-    is what discards the group, and this pins that it does not crash on the way."""
+    """A gene disconnected from every seed has no class evidence and must abstain."""
     graph = {"L__a": np.array([0, 1]), "L__b": np.array([1, 2])}
     matrix = M.layer_matrix("L", 40, graph=graph)
     p = M.Propagator(matrix).fit(np.array([[0], [1]]), np.array([0, 1]))
-    assert set(p.predict(np.arange(40).reshape(-1, 1))) <= {0, 1}
+    calls = p.predict(np.arange(40).reshape(-1, 1))
+    assert set(calls[:3]) <= {0, 1}
+    assert np.all(calls[3:] == -1)
 
 
 def test_a_propagator_reports_no_coefficients_rather_than_raising():
@@ -376,3 +377,32 @@ def test_boosting_survives_a_column_that_is_constant_in_one_fold_only(monkeypatc
     fit = M.boosted(X, truth, folds=4)
     assert set(fit["partition"]) <= {0, 1}
     assert fit["settings"]["constant_features_dropped"] >= 0
+
+
+def test_classification_does_not_relabel_a_completely_wrong_prediction():
+    truth = pd.Series(["a"] * 30 + ["b"] * 30)
+    summary, per = M.classification_recovery([1] * 30 + [0] * 30, truth, ["a", "b"])
+    assert summary["mean_f1"] == 0
+    assert per.precision.eq(0).all()
+    assert summary["coverage"] == 1
+
+
+def test_unreached_graph_nodes_abstain():
+    from scipy.sparse import csr_matrix
+    model = M.Propagator(csr_matrix((3, 3))).fit(np.array([[0], [1]]), np.array([0, 1]))
+    assert model.predict(np.array([[2]])).tolist() == [-1]
+
+
+def test_unknown_candidate_keeps_the_fixed_model_class():
+    truth = pd.Series(["a"] * 30 + ["b"] * 30 + [None, None])
+    codes = np.array([1] * 30 + [0] * 30 + [0, 1])
+    _, per = M.classification_recovery(codes, truth, ["a", "b"])
+    candidates = M.classification_candidates(codes, truth, np.arange(62), ["a", "b"], per)
+    assert candidates.empty
+
+
+def test_abstention_counts_as_missed_class_members():
+    truth = pd.Series(["a"] * 30 + ["b"] * 30)
+    summary, per = M.classification_recovery([0] * 30 + [-1] * 30, truth, ["a", "b"])
+    assert summary["coverage"] == .5
+    assert per.set_index("label").loc["b", "recall"] == 0

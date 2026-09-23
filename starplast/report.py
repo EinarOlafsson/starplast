@@ -211,11 +211,14 @@ def _disagreement(ax, result):
         ax.text(0.5, 0.5, "no genes were named,\nso no cluster carries the answer",
                 ha="center", va="center", fontsize=7)
         return
+    precision = "cv_class_precision" if "cv_class_precision" in inference else "cluster_precision"
+    if precision == "cv_class_precision":
+        ax.set_title("predicted classes and held-out class precision", fontsize=8)
     per = (inference.groupby(["cluster", "predicted"])
-           .agg(genes=("gene_id", "size"), purity=("cluster_precision", "max"),
+           .agg(genes=("gene_id", "size"), purity=(precision, "max"),
                 enrichment=("enrichment", "max"),
                 agrees=("control_agrees", "max") if "control_agrees" in inference else
-                       ("cluster_precision", lambda s: False))
+                       (precision, lambda s: False))
            .reset_index().sort_values("genes", ascending=False).head(14))
     y = np.arange(len(per))
     colors = ["#55a868" if bool(a) else "#c44e52" for a in per.agrees]

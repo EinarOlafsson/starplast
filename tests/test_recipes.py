@@ -641,7 +641,7 @@ def test_propagation_answers_a_holdout_too_sparse_for_any_clustering(full_nodes)
     """The constraint propagation exists to remove. A clustering needs MIN_LABEL labelled genes
     INSIDE one cluster before it can say anything; a label carried by 40 genes spread over 8,140
     cannot reach that in any partition, and the whole question is unanswerable by that route.
-    Seeded with the same 40, a walk scores every gene in the graph."""
+    Seeded with the same 40, a walk scores reached genes and abstains elsewhere."""
     frame = full_nodes.copy()
     rng = np.random.default_rng(0)
     picked = rng.choice(len(frame), 40, replace=False)
@@ -652,7 +652,8 @@ def test_propagation_answers_a_holdout_too_sparse_for_any_clustering(full_nodes)
     res = R.run(frame, R.Recipe(question="q", inputs=[FITNESS], holdout="sparse_label",
                                 method="propagation:xlms"), tune=False, log=lambda *a: None)
     assert res.ok, res.stopped_because
-    assert (res.labels >= 0).sum() == len(res.labels), "a walk scores every gene, labelled or not"
+    assert 0 < (res.labels >= 0).sum() < len(res.labels)
+    assert res.summary["score_kind"] == "out_of_fold_fixed_class_prediction"
 
 
 # --------------------------------------------------------------------------- relevance (43)

@@ -703,11 +703,17 @@ def build_model(nodes: pd.DataFrame, recipe: Recipe, closure: Closure, log=print
                                   "holdout")
         return result
 
-    result.summary, result.recovery = score_recovery(labels, truth, min_label=MIN_LABEL)
+    if fit.get("unsupervised"):
+        result.summary, result.recovery = score_recovery(labels, truth, min_label=MIN_LABEL)
+        result.inference = infer(labels, truth, np.asarray(sub["gene_id"]),
+                                 min_enrichment=recipe.min_enrichment,
+                                 min_precision=recipe.min_precision)
+    else:
+        result.summary, result.recovery = methods.classification_recovery(labels, truth, fit["classes"])
+        result.inference = methods.classification_candidates(
+            labels, truth, np.asarray(sub["gene_id"]), fit["classes"], result.recovery,
+            min_precision=recipe.min_precision, min_enrichment=recipe.min_enrichment)
     result.per_cluster = recovery_by_cluster(labels, truth)
-    result.inference = infer(labels, truth, np.asarray(sub["gene_id"]),
-                             min_enrichment=recipe.min_enrichment,
-                             min_precision=recipe.min_precision)
     if len(result.inference) and len(fit["classes"]):
         # The partition's ids are class codes, so the class each one MEANS goes on the row. A table
         # saying "group 3" where the model said "dense granules" would be unreadable. An unsupervised

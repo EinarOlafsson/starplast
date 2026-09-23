@@ -44,7 +44,8 @@ def _usable(truth: pd.Series, min_class: int = MIN_CLASS):
     as a failure of the biology rather than of the design.
     """
     values = truth.astype("object").where(truth.notna(), None).to_numpy()
-    known = np.array([v is not None for v in values], dtype=bool)
+    from .holdout_cv import _known
+    known = _known(values)
     counts = pd.Series([str(v) for v in values[known]]).value_counts()
     keep = set(counts[counts >= min_class].index)
     mask = np.array([v is not None and str(v) in keep for v in values], dtype=bool)
@@ -69,6 +70,8 @@ def out_of_fold(X: np.ndarray, truth: pd.Series, model, seed: int = 42,
         return np.full(len(X), -1), None, []
     y = values[mask]
     classes = sorted(set(y))
+    if len(classes) < 2:
+        return np.full(len(X), -1), None, []
     codes = {c: i for i, c in enumerate(classes)}
     yi = np.array([codes[v] for v in y])
     partition = np.full(len(X), -1)
@@ -78,7 +81,8 @@ def out_of_fold(X: np.ndarray, truth: pd.Series, model, seed: int = 42,
         model.fit(X[mask][train], yi[train])
         partition[index[test]] = model.predict(X[mask][test])
     model.fit(X[mask], yi)
-    rest = ~mask
+    from .holdout_cv import _known
+    rest = ~_known(truth)
     if rest.any():
         partition[rest] = model.predict(X[rest])
     return partition, model, classes
@@ -236,12 +240,15 @@ class Propagator:
     def predict(self, X):
         """The class whose field is highest at each node.
 
-        A node the walk never reached scores zero for every class; it takes the first class rather
-        than being singled out, and the enrichment gate downstream discards whatever group that
-        produces because an unreached node carries no evidence for anything.
+        Nodes with no positive propagated support abstain with code -1. A class
+        tie at zero is absence of evidence, not support for the first class.
         """
         positions = np.asarray(X).ravel().astype(int)
-        return self.classes_[np.argmax(self.scores_[:, positions], axis=0)]
+        scores = self.scores_[:, positions]
+        best = np.argmax(scores, axis=0)
+        return np.where(scores[best, np.arange(len(positions))] > 0,
+                        self.classes_[best], -1)
+
 
 
 def propagation(layer: str, index: np.ndarray, truth: pd.Series, n_nodes: int, seed: int = 42,
@@ -449,3 +456,59 @@ def multiplex_communities(layers, n_nodes: int, resolution: float = 1.0, seed: i
     return {"partition": out, "classes": [], "model": None, "unsupervised": True,
             "settings": {"method": "multiplex", "layers": list(layers), "resolution": resolution,
                          "min_agreement": min_agreement, "groups": int(n_groups)}}
+
+
+def classification_recovery(codes, truth, classes):
+    """Score fixed class identities on held-out predictions; abstentions are errors.
+
+    Returns the legacy summary/table shape for recipe consumers, with an explicit
+    score_kind. Class labels are never remapped by looking at evaluation answers.
+    """
+    from .holdout_cv import ABSTAIN, _known, score_predictions
+    codes = np.asarray(codes, dtype=int)
+    values = pd.Series(truth, dtype="object")
+    eligible = _known(values) & values.astype(str).isin(classes).to_numpy()
+    decoded = np.asarray([classes[c] if 0 <= c < len(classes) else ABSTAIN for c in codes])
+    summary, per = score_predictions(values[eligible], decoded[eligible], classes)
+    per = per.rename(columns={"category": "label", "support": "n_label"})
+    per["cluster"] = [classes.index(label) for label in per.label]
+    per["n_in_cluster"] = [int(((decoded == label) & eligible & (values.astype(str) == label)).sum())
+                           for label in per.label]
+    total = per.n_label.sum()
+    summary.update(mean_f1=float((per.f1 * per.n_label).sum() / total) if total else 0.0,
+                   best_f1=float(per.f1.max()) if len(per) else 0.0,
+                   best_label=str(per.loc[per.f1.idxmax(), "label"]) if len(per) else "",
+                   n_labels_scored=len(per), n_labels_recovered=int((per.f1 >= .5).sum()),
+                   score_kind="out_of_fold_fixed_class_prediction")
+    return summary, per
+
+
+def classification_candidates(codes, truth, gene_ids, classes, validation,
+                              min_precision=.3, min_enrichment=2., min_support=15):
+    """Attach class-level CV evidence to unknown genes without changing model calls.
+
+    CV class precision describes performance among labelled validation genes; it
+    is not a calibrated probability for an individual, potentially shifted gene.
+    """
+    from .holdout_cv import _known
+    columns = ["gene_id", "predicted", "cluster", "cv_class_precision", "cv_class_recall",
+               "enrichment", "base_rate", "n_labelled_in_cluster", "evidence_status"]
+    known = _known(truth)
+    values = pd.Series(truth, dtype="object").astype(str).to_numpy()
+    eligible = known & np.isin(values, classes)
+    rows = []
+    for code, category in enumerate(classes):
+        scores = validation[validation.label == category]
+        if scores.empty:
+            continue
+        row = scores.iloc[0]
+        prior = float((values[eligible] == category).mean()) if eligible.any() else 0.
+        lift = float(row.precision / prior) if prior else 0.
+        if row.n_label < min_support or row.precision < min_precision or lift < min_enrichment:
+            continue
+        for gene in np.asarray(gene_ids)[~known & (np.asarray(codes) == code)]:
+            rows.append(dict(gene_id=str(gene), predicted=category, cluster=code,
+                             cv_class_precision=float(row.precision), cv_class_recall=float(row.recall),
+                             enrichment=lift, base_rate=prior, n_labelled_in_cluster=int(row.n_label),
+                             evidence_status="model_prediction_with_class_level_cv_support"))
+    return pd.DataFrame(rows, columns=columns)
