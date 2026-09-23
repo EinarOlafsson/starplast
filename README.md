@@ -81,7 +81,9 @@ the bundled data requires the original source datasets.
 
 The *T. gondii* map with CDPK1 (`TGME49_301440`) selected. The selected gene and
 its five neighbours emit light; lines show attention-corrected literature
-co-mention links. Colours show compartments. [View a still image](https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/screenshots/map_rotation.png).
+co-mention links. Colours show compartments. This animation uses the pre-0.43
+layout; newly opened maps use the recorded, balanced feature recipe.
+[View a still image](https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/screenshots/map_rotation.png).
 
 Each point is a gene. Its position comes from an embedding of selected features;
 nearby points have similar inputs, but proximity alone does not demonstrate a
@@ -93,6 +95,29 @@ The analysis panel lets you change feature sets, build embeddings, cluster genes
 and evaluate recovery of labels held out from the input. Search scores help
 prioritize candidates; they are not experimental validation. See the
 [user guide](https://github.com/EinarOlafsson/starplast/blob/main/docs/guide.md) for controls and analysis settings.
+
+## Explore, predict and compare
+
+The **Tools** menu offers three starting points:
+
+- **Explore a gene** searches identifiers, symbols and descriptions, then shows the source evidence.
+- **Predict a trait** compares held-out predictions before making calls for unlabelled genes. Related genes stay in the same evaluation group; reports retain missing values, calibration status and exact input settings.
+- **Compare a screen** joins a gene-level CSV/TSV to the existing evidence and keeps unresolved identifiers visible.
+
+The package includes frozen protein sequence representations for 8,064 Toxoplasma
+proteins and AF3 summary features for 1,210 exactly mapped genes. Sequence features
+are optional inputs to prediction; local structure files can also be indexed for
+the structure viewer.
+
+In the [0.43 benchmark](https://github.com/EinarOlafsson/starplast/blob/main/docs/benchmark-0.43.md),
+boosted trees with sequence and structure features reached 56.2% localization
+accuracy across held-out orthogroups. UMAP neighbours performed less well, and
+several rare classes remained poorly recovered. These are model hypotheses,
+not experimentally established annotations.
+
+[Guided workflows](https://github.com/EinarOlafsson/starplast/blob/main/docs/workflows.md) ·
+[Local AF3 structures](https://github.com/EinarOlafsson/starplast/blob/main/docs/structures.md) ·
+[Protein sequence features](https://github.com/EinarOlafsson/starplast/blob/main/docs/protein-sequences.md)
 
 ## Working with spaCR
 
@@ -106,7 +131,7 @@ into Starplast; launching the app does not transfer results automatically.
 
 **[Full table of included data and source links →](https://github.com/EinarOlafsson/starplast/blob/main/docs/datasets.md)**
 
-The catalogue lists all 128 registered datasets and computed layers, with their
+The catalogue lists all 130 registered datasets and computed layers, with their
 measurements, coverage, publication references, and links to source data or inputs.
 Coverage differs by organism and assay;
 absence from a literature search does not establish that a gene has never been studied.

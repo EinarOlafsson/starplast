@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PAGES = {"index": "docs/index.md", "guide": "docs/guide.md", "API": "docs/API.md",
          "datasets": "docs/datasets.md", "structures": "docs/structures.md",
          "protein-sequences": "docs/protein-sequences.md", "releases": "docs/releases.md",
-         "workflows": "docs/workflows.md",
+         "workflows": "docs/workflows.md", "benchmark-0.43": "docs/benchmark-0.43.md",
          "repository-review": "docs/repository-review.md",
          "scientific-roadmap": "docs/scientific-roadmap.md", "changelog": "CHANGELOG.md"}
 
@@ -44,7 +44,7 @@ def main():
     for page, source in PAGES.items():
         text = (ROOT / source).read_text(encoding="utf-8")
         # Relative guide links resolve both in the repository and in the built site.
-        text = re.sub(r'\]\((?:docs/)?([\w-]+)\.md(#[^)]*)?\)',
+        text = re.sub(r'\]\((?:docs/)?([\w.-]+)\.md(#[^)]*)?\)',
                       lambda m: ("](" + ((m[1] if m[1] != "CHANGELOG" else "changelog") + ".html"
                                  if m[1] in {*PAGES, "CHANGELOG"}
                                  else "https://github.com/EinarOlafsson/starplast/blob/main/" + m[1] + ".md")

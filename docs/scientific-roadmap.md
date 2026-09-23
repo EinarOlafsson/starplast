@@ -1,5 +1,10 @@
 # From gene maps to testable gene predictions
 
+This is the original design review. The [0.43 benchmark](benchmark-0.43.md) and
+[workflow guide](workflows.md) describe the implemented methods and their limits.
+Historical table sizes and implementation findings below refer to the reviewed
+revision, not the current release.
+
 Review of Starplast at `ac9019b`, 23 September 2026. This assessment comes from the
 current code and bundled tables, with small synthetic checks of scoring behaviour.
 It does not establish which model performs best on parasite biology: that requires

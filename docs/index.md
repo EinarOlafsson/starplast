@@ -18,6 +18,7 @@ starplast
 - [Python API](API.md): work with tables, embeddings, and analyses in scripts.
 - [Module reference](api/starplast.html): generated signatures and docstrings.
 - [Dataset catalogue](datasets.md): source records, assay types, and coverage.
+- [0.43 benchmark](benchmark-0.43.md): held-out model comparisons, controls and limitations.
 - [Scientific roadmap](scientific-roadmap.md): inference goals, validation priorities, and proposed improvements.
 - [Repository review](repository-review.md): architecture and scientific limitations.
 - [Protein sequence representations](protein-sequences.md): frozen ESM features and regeneration.
@@ -30,4 +31,5 @@ starplast
 
 CDPK1 (`TGME49_301440`) and its five neighbours emit light. Lines show
 attention-corrected literature co-mention links; colours show compartments.
+This animation shows the pre-0.43 layout.
 [View a still image](screenshots/map_rotation.png).

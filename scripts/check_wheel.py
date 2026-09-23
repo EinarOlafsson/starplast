@@ -21,7 +21,11 @@ def check_wheel(path: Path) -> None:
                     "starplast/data/toxodb_identity.tsv", "starplast/data/pf_nodes.parquet",
                     "starplast/data/pf_graph.npz", "starplast/data/icons/starplast.svg",
                     "starplast/data/icons/Apicomplexa_cells.svg", "starplast/data/icons/Animal_cells.svg",
-                    "starplast/data/toxodb_cds.tsv.gz", "starplast/data/plasmodb_cds.tsv.gz"}
+                    "starplast/data/toxodb_cds.tsv.gz", "starplast/data/plasmodb_cds.tsv.gz",
+                    "starplast/workflows.py", "starplast/prediction.py", "starplast/evidence.py",
+                    "starplast/data/af3_features.parquet", "starplast/data/af3_manifest.parquet",
+                    "starplast/data/af3_features.json", "starplast/data/esm_features.parquet",
+                    "starplast/data/esm_manifest.parquet", "starplast/data/pf_mentions.parquet"}
         missing = required - names
         if missing:
             raise ValueError(f"Incomplete wheel: {sorted(missing)}")

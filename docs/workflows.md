@@ -4,6 +4,10 @@ The **Tools** menu has three guided entry points. Advanced map and model control
 remain in the analysis dock. Each workflow uses the organism currently open in
 the main window.
 
+The [0.43 benchmark](benchmark-0.43.md) compares the prediction methods on held-out
+localization and protein abundance measurements, including source ablations and
+shuffled-label controls.
+
 ## Explore a gene
 
 Search an accession, symbol or product description. Double-click a match to select

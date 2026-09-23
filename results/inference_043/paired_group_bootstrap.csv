@@ -1,0 +1,5 @@
+task,baseline,comparison,metric,difference,low_95,high_95,repetitions,unit,limitation
+compartment,compartment__boosted__published,compartment__boosted__published_af3,macro_f1,0.01095614420806762,-0.0005316371060588368,0.024866403219813888,500,held-out orthogroup,Conditional on fixed OOF fits; does not include training or model-selection uncertainty
+compartment,compartment__boosted__published,compartment__boosted__published_af3_esm,macro_f1,0.04417872736440859,0.021085559245116244,0.06774180350330838,500,held-out orthogroup,Conditional on fixed OOF fits; does not include training or model-selection uncertainty
+protein_ibaq_log2,protein_ibaq_log2__boosted__published,protein_ibaq_log2__boosted__published_af3,rmse,0.0,0.0,0.0,500,held-out orthogroup,Conditional on fixed OOF fits; does not include training or model-selection uncertainty
+protein_ibaq_log2,protein_ibaq_log2__boosted__published,protein_ibaq_log2__boosted__published_af3_esm,rmse,-0.048112562637192546,-0.12469069695970969,0.022006795275942733,500,held-out orthogroup,Conditional on fixed OOF fits; does not include training or model-selection uncertainty

@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased — 0.43.0
+
+- Add guided Explore a gene, Predict a trait and Compare a screen workflows with settings help and full run exports.
+- Evaluate feature, linear, boosted, PCA, UMAP, masked-factor and weighted-network predictions with grouped folds, target exclusions, calibration and unsupported-call abstention.
+- Add classification, regression and multi-label APIs; preserve unknown outcomes and report fixed-class metrics.
+- Include 320 frozen ESM-2 sequence features for 8,064 proteins and nine local AF3 summaries for 1,210 exactly mapped genes. Add model-indexing and sequence-encoding commands.
+- Publish 29 reproducible localization and abundance comparisons, source ablations, shuffled controls and uncertainty estimates in the [benchmark report](docs/benchmark-0.43.md).
+- Use one balanced embedding builder for packaged and interactive maps; record actual algorithms, input hashes and ordered gene identities.
+- Add source-level observation records, reviewed literature assertions, candidate explanations and an explicitly heuristic budget API.
+- Restore the Plasmodium evidence ledger and prevent fixture builds from overwriting packaged data.
+- Expand CI to the complete non-slow test suite, repair documentation and display regressions, and declare numerical thread-control dependencies.
+- Repair download badges, retain the linked 130-source catalogue and publish forty additional monochrome logo proposals; keep the approved logo active.
+
 ## 0.42.1
 
 - Use the GitHub README as the PyPI project description.
