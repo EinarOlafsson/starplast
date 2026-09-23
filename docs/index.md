@@ -1,7 +1,5 @@
 # Starplast
 
-![Starplast](assets/starplast-wordmark.svg)
-
 Explore gene evidence and screen results in *Toxoplasma gondii* and
 *Plasmodium falciparum*. Starplast combines gene maps with expression, fitness,
 localization, interaction, and literature evidence.
@@ -18,4 +16,6 @@ starplast
 - [Repository review](repository-review.md): architecture and scientific limitations.
 - [Development and releases](releases.md): build, test, and publish.
 
-![The gene map](screenshots/map_dark.png)
+[![A full rotation of the gene map](screenshots/map_rotation.gif)](screenshots/map_dark.png)
+
+[View a still image](screenshots/map_dark.png).

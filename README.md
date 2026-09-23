@@ -1,6 +1,14 @@
-![Starplast — gene evidence, in context](docs/assets/starplast-wordmark.svg)
-
 # Starplast
+
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-000000?style=flat-square&labelColor=000000)](#install)
+[![Linux, macOS, Windows](https://img.shields.io/badge/Platforms-Linux%20%7C%20macOS%20%7C%20Windows-000000?style=flat-square&labelColor=000000)](#install)
+[![Qt / PyQt6](https://img.shields.io/badge/GUI-Qt%20%2F%20PyQt6-000000?style=flat-square&labelColor=000000)](https://einarolafsson.github.io/starplast/guide.html)
+[![MIT license](https://img.shields.io/github/license/EinarOlafsson/starplast?style=flat-square&color=000000&labelColor=000000)](LICENSE)
+
+[![Documentation build](https://img.shields.io/github/actions/workflow/status/EinarOlafsson/starplast/docs.yml?branch=main&label=docs&style=flat-square&color=000000&labelColor=000000&cacheSeconds=60)](https://einarolafsson.github.io/starplast/)
+[![Python API](https://img.shields.io/badge/API-reference-000000?style=flat-square&labelColor=000000)](https://einarolafsson.github.io/starplast/API.html)
+[![GitHub issues](https://img.shields.io/github/issues/EinarOlafsson/starplast?style=flat-square&color=000000&labelColor=000000)](https://github.com/EinarOlafsson/starplast/issues)
+[![spaCR integration](https://img.shields.io/badge/spaCR-integrated-000000?style=flat-square&labelColor=000000)](https://github.com/EinarOlafsson/spacr)
 
 Starplast is a desktop app for exploring gene evidence in *Toxoplasma gondii* and
 *Plasmodium falciparum*. It brings expression, fitness screens, localization,
@@ -54,7 +62,9 @@ the bundled data requires the original source datasets.
 4. Click a gene to read its evidence and inspect each type of relationship separately.
 5. Select a group with a lasso or brush, then export the gene list for follow-up.
 
-![Starplast gene map](docs/screenshots/map_dark.png)
+[![A full rotation of the Starplast gene map](docs/screenshots/map_rotation.gif)](docs/screenshots/map_dark.png)
+
+The bundled *T. gondii* map, coloured by compartment. [View a still image](docs/screenshots/map_dark.png).
 
 Each point is a gene. Its position comes from an embedding of selected features;
 nearby points have similar inputs, but proximity alone does not demonstrate a

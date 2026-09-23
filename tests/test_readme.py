@@ -117,7 +117,8 @@ def test_every_screenshot_the_readme_shows_actually_exists(readme):
     import re as _re
     root = os.path.dirname(README)
     missing = [p for p in _re.findall(r"!\[[^\]]*\]\(([^)]+)\)", readme)
-               if not os.path.exists(os.path.join(root, p))]
+               if not p.startswith(("https://", "http://"))
+               and not os.path.exists(os.path.join(root, p))]
     assert not missing, f"README references images that are not in the repository: {missing}"
 
 
