@@ -10,6 +10,7 @@
 - Use one balanced embedding builder for packaged and interactive maps; record actual algorithms, input hashes and ordered gene identities.
 - Add source-level observation records, reviewed literature assertions, candidate explanations and an explicitly heuristic budget API.
 - Restore the Plasmodium evidence ledger and prevent fixture builds from overwriting packaged data.
+- Share OpenGL resources between organism windows so switching species retains valid shader programs.
 - Expand CI to the complete non-slow test suite, repair documentation and display regressions, and declare numerical thread-control dependencies.
 - Repair download badges, retain the linked 130-source catalogue and publish forty additional monochrome logo proposals; keep the approved logo active.
 

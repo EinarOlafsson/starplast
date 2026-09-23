@@ -40,6 +40,11 @@ from . import sprite as _sprite  # noqa: E402
 # 2.0 on every driver -- so without this the map fails to draw on hardware that exceeds the
 # requirement, and says the driver is at fault while doing it.
 _sprite.ensure_gl_format()
+# pyqtgraph caches shader programs across views. Species windows need a shared
+# context group or the second window tries to use programs owned by the first.
+# Qt requires this attribute before QApplication construction.
+if QtWidgets.QApplication.instance() is None:
+    QtCore.QCoreApplication.setAttribute(QtCore.Qt.ApplicationAttribute.AA_ShareOpenGLContexts)
 from .chat import ChatPanel  # noqa: E402
 from .console import ConsolePanel  # noqa: E402
 from .jobs import FAILED, JobRunner  # noqa: E402
