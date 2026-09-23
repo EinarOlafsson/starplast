@@ -1,14 +1,14 @@
 # Starplast
 
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-000000?style=flat-square&labelColor=000000)](#install)
-[![Linux, macOS, Windows](https://img.shields.io/badge/Platforms-Linux%20%7C%20macOS%20%7C%20Windows-000000?style=flat-square&labelColor=000000)](#install)
-[![Qt / PyQt6](https://img.shields.io/badge/GUI-Qt%20%2F%20PyQt6-000000?style=flat-square&labelColor=000000)](https://einarolafsson.github.io/starplast/guide.html)
-[![MIT license](https://img.shields.io/github/license/EinarOlafsson/starplast?style=flat-square&color=000000&labelColor=000000)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](#install)
+[![Linux, macOS, Windows](https://img.shields.io/badge/Platforms-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey)](#install)
+[![Qt / PyQt6](https://img.shields.io/badge/GUI-PyQt6-41CD52?logo=qt&logoColor=white)](https://einarolafsson.github.io/starplast/guide.html)
+[![MIT license](https://img.shields.io/github/license/EinarOlafsson/starplast?color=3DA639)](LICENSE)
 
-[![Documentation build](https://img.shields.io/github/actions/workflow/status/EinarOlafsson/starplast/docs.yml?branch=main&label=docs&style=flat-square&color=000000&labelColor=000000&cacheSeconds=60)](https://einarolafsson.github.io/starplast/)
-[![Python API](https://img.shields.io/badge/API-reference-000000?style=flat-square&labelColor=000000)](https://einarolafsson.github.io/starplast/API.html)
-[![GitHub issues](https://img.shields.io/github/issues/EinarOlafsson/starplast?style=flat-square&color=000000&labelColor=000000)](https://github.com/EinarOlafsson/starplast/issues)
-[![spaCR integration](https://img.shields.io/badge/spaCR-integrated-000000?style=flat-square&labelColor=000000)](https://github.com/EinarOlafsson/spacr)
+[![Documentation build](https://github.com/EinarOlafsson/starplast/actions/workflows/docs.yml/badge.svg?branch=main)](https://einarolafsson.github.io/starplast/)
+[![Python API](https://img.shields.io/badge/API-reference-007EC6)](https://einarolafsson.github.io/starplast/API.html)
+[![GitHub issues](https://img.shields.io/github/issues/EinarOlafsson/starplast?logo=github)](https://github.com/EinarOlafsson/starplast/issues)
+[![spaCR integration](https://img.shields.io/badge/spaCR-integrated-7B61A8)](https://github.com/EinarOlafsson/spacr)
 
 Starplast is a desktop app for exploring gene evidence in *Toxoplasma gondii* and
 *Plasmodium falciparum*. It brings expression, fitness screens, localization,
