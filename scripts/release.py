@@ -97,6 +97,7 @@ def main():
             publish = changed(args.previous) if args.previous else True
             with args.output.open("a", encoding="utf-8") as stream:
                 stream.write(f"version={version}\npublish={str(publish).lower()}\n")
+                stream.write(f"prerelease={str(Version(version).is_prerelease).lower()}\n")
         print(version)
 
 

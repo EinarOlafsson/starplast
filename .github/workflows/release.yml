@@ -3,11 +3,6 @@ name: Publish Python packages
 on:
   push:
     branches: [main]
-    paths:
-      - pyproject.toml
-      - packaging/starplast/pyproject.toml
-      - packaging/starplast-gpu/pyproject.toml
-      - starplast/__init__.py
   workflow_dispatch:
 
 permissions:
@@ -24,6 +19,7 @@ jobs:
     outputs:
       publish: ${{ steps.version.outputs.publish }}
       version: ${{ steps.version.outputs.version }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -99,3 +95,37 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           skip-existing: true
+
+  release:
+    name: Create GitHub release after PyPI publication
+    needs: [version, publish]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-distributions
+          path: dist/
+      - name: Publish release notes and distribution files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_VERSION: ${{ needs.version.outputs.version }}
+          PRERELEASE: ${{ needs.version.outputs.prerelease }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="v${RELEASE_VERSION}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release $tag already exists; preserving its published assets."
+            exit 0
+          fi
+          flags=()
+          if [ "$PRERELEASE" = true ]; then
+            flags+=(--prerelease)
+          fi
+          gh release create "$tag" dist/* \
+            --target "$GITHUB_SHA" \
+            --title "Starplast $RELEASE_VERSION" \
+            --generate-notes "${flags[@]}"

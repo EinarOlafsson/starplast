@@ -1,5 +1,17 @@
 # Development and releases
 
+## Branches and commits
+
+Develop on `nightly`; `main` is the release branch. Both branches run the regression
+checks and build the documentation. Only `main` deploys the public documentation
+and can publish packages. Merge completed, checked changes into `main` promptly.
+A merge without a version increase does not publish a package.
+
+Commit as Einar Olafsson using `einar.olafsson@gmail.com`, without additional
+co-author trailers. Use a clear subject and a body describing the reason for the
+change, resulting behaviour, and relevant validation. Automated publishing creates
+no commits and does not add a code contributor.
+
 ## Local checks
 
 Use a virtual environment and install the development and documentation tools:
@@ -36,7 +48,8 @@ browsing and excludes local saved embeddings. Source datasets are not packaged.
 
 ## One-time PyPI setup
 
-Sign in at [PyPI publishing](https://pypi.org/manage/account/publishing/) and create
+Sign in to **Einar's own PyPI account** at
+[PyPI publishing](https://pypi.org/manage/account/publishing/) and create
 a pending Trusted Publisher for each of `starplast-core`, `starplast`, and
 `starplast-gpu` with these values:
 
@@ -51,6 +64,9 @@ For an existing project, add the same publisher in that project's Publishing
 settings. See [PyPI's setup instructions](https://docs.pypi.org/trusted-publishers/adding-a-publisher/).
 The workflow exchanges its GitHub identity for short-lived upload credentials;
 no permanent PyPI token is required in GitHub secrets.
+The account that registers a pending publisher owns the resulting PyPI project.
+The `Owner` field above identifies the GitHub repository owner; it is not a PyPI
+username. Do not create these projects under a different account.
 
 Create the GitHub environment `pypi` and restrict deployments to the `main` branch.
 To publish automatically, leave required reviewers unset. Under repository
@@ -60,18 +76,38 @@ workflow builds pull requests and deploys pushes to `main`.
 ## Publish a version
 
 ```bash
+git switch nightly
+git pull --ff-only origin nightly
 python scripts/release.py bump 0.43.0
 python scripts/release.py check
 ```
 
 Use a version greater than the current one. The bump command updates the core,
 both metapackages, exact internal dependency pins, and `starplast.__version__`.
-Update `CHANGELOG.md`, run the release checks, commit, and push to `main`.
+Update `CHANGELOG.md`, run the release checks, commit with a descriptive message,
+and push to `nightly`. Merge `nightly` into `main` through a pull request or locally:
+
+```bash
+git push origin nightly
+git switch main
+git pull --ff-only origin main
+git merge --ff-only nightly
+git push origin main
+git switch nightly
+```
+
+If the branches have diverged, resolve the merge on `nightly` or use a pull request;
+do not force-push `main`. A separate version-bump commit on `main` also triggers
+the release, but preparing it on `nightly` keeps the normal development flow intact.
 
 The release workflow compares the version with the repository state before the
 push. An unchanged version does not publish; a downgrade fails. A version increase
 runs the checks, builds wheels and source distributions, verifies their contents,
-and publishes all three distributions. Tags are not required.
+and publishes all three distributions. After a successful PyPI upload, it creates
+a GitHub release and `v<version>` tag at the exact commit that was built, with
+generated release notes and the distribution files attached. Prerelease versions
+are marked as prereleases on GitHub. Existing releases and their assets are left
+intact on retries. Tags do not need to be created manually.
 
 For the first upload or to retry a partially completed upload, manually run
 **Publish Python packages** on `main`. Existing files are skipped; PyPI does not

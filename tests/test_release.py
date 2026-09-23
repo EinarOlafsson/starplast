@@ -76,3 +76,34 @@ def test_only_object_ids_can_be_used_as_previous_revision(checkout):
 
 def test_first_push_can_publish(checkout):
     assert release.changed("0" * 40, checkout)
+
+
+@pytest.mark.parametrize("version, prerelease", [
+    ("0.43.0", "false"), ("0.43.0rc1", "true"), ("0.43.0.dev1", "true"),
+])
+def test_detection_marks_github_prereleases(tmp_path, monkeypatch, version, prerelease):
+    """Stable releases, release candidates, and development versions reach GitHub correctly."""
+    output = tmp_path / "outputs"
+    monkeypatch.setattr(release, "check", lambda: version)
+    monkeypatch.setattr("sys.argv", ["release.py", "detect", "--output", str(output)])
+    release.main()
+    values = dict(line.split("=", 1) for line in output.read_text().splitlines())
+    assert values == {"version": version, "publish": "true", "prerelease": prerelease}
+
+
+def test_nightly_version_bump_publishes_after_merge_to_main(checkout):
+    """Compare the merged version with main before the push, not the last nightly commit."""
+    def git(*args):
+        return subprocess.run(["git", *args], cwd=checkout, check=True, capture_output=True)
+
+    git("branch", "-M", "main")
+    previous_main = revision(checkout)
+    git("switch", "-c", "nightly")
+    release.bump("0.99.0", checkout)
+    git("add", ".")
+    git("-c", "user.name=Test", "-c", "user.email=test@example.invalid",
+        "commit", "-qm", "Prepare release on nightly")
+    git("switch", "main")
+    git("merge", "--ff-only", "nightly")
+    assert release.changed(previous_main, checkout)
+    assert not release.changed(revision(checkout), checkout)

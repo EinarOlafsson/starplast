@@ -124,10 +124,11 @@ Open `docs/site/index.html` for the guide and generated API reference.
 Some tests need source datasets, CUDA, or a working OpenGL context; see
 [development and releases](docs/releases.md) for the release checks.
 
-To release, update all package versions together with
-`python scripts/release.py bump 0.43.0`, update the changelog, and push to `main`.
-The release workflow tests and builds the packages, then publishes to PyPI using
-Trusted Publishing. The initial PyPI account setup is described in the release guide.
+Develop on `nightly` and merge checked changes into `main`. To release, update all
+package versions together with `python scripts/release.py bump 0.43.0` and update
+the changelog before merging. A version increase on `main` triggers checks,
+builds, PyPI publishing, and a GitHub release. Ordinary merges do not publish.
+The initial PyPI account setup is described in the release guide.
 
 The source code is distributed under the [MIT license](LICENSE).
 Source datasets and third-party artwork retain their own licenses and attribution.
