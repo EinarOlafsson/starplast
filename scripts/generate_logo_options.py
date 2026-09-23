@@ -13,27 +13,87 @@ from PyQt6 import QtCore, QtGui, QtSvg
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs/assets/logo-options"
+# All ten marks combine a parasite silhouette, clustered points, and explicit links.
+CRESCENT = '<path d="M78 12C43 8 12 36 13 65C14 90 38 99 62 83C38 83 37 62 50 42C59 28 72 21 78 12Z"/>'
+SLENDER = '<path d="M71 9C39 17 16 47 21 76C25 97 46 95 61 81C40 79 38 62 47 43C55 28 64 19 71 9Z"/>'
+
+
+def dots(points, radius=1.0):
+    """Draw unconnected observations without turning every dot into a network node."""
+    return '<g fill="currentColor" stroke="none">' + ''.join(
+        f'<circle cx="{x}" cy="{y}" r="{radius}"/>' for x, y in points) + '</g>'
+
+
+def cloud(x, y, scale=1.0, rotation=0):
+    """A small, irregular UMAP-like cluster; schematic, not a biological dataset."""
+    points = [(-8, 0), (-5, -5), (-4, 3), (-1, -2), (0, 6),
+              (3, -6), (4, 1), (7, -2), (8, 4), (1, 1)]
+    return f'<g transform="translate({x} {y}) rotate({rotation}) scale({scale})">' + dots(points) + '</g>'
+
+
+def network(points, edges, radius=2.5):
+    """Draw sparse connections with outlined nodes overlaid on their endpoints."""
+    lines = ''.join(f'<path d="M{points[a][0]} {points[a][1]}L{points[b][0]} {points[b][1]}"/>'
+                    for a, b in edges)
+    rings = ''.join(f'<circle cx="{x}" cy="{y}" r="{radius}" fill="white"/>' for x, y in points)
+    return '<g stroke-width="1.05">' + lines + rings + '</g>'
+
+
+def star(x, y, radius=5):
+    """A four-point star marks a selected gene without adding a filled symbol."""
+    return (f'<path d="M{x} {y-radius}Q{x} {y} {x-radius} {y}'
+            f'Q{x} {y} {x} {y+radius}Q{x} {y} {x+radius} {y}'
+            f'Q{x} {y} {x} {y-radius}Z" fill="white"/>')
+
+
 OPTIONS = [
-    ("crescent", "Crescent", "The curved silhouette of an apicomplexan parasite.",
-     '<path d="M79 16C25 15 9 72 29 88C57 103 90 59 79 16Z M79 16C61 28 46 56 29 88"/>'),
-    ("apical-star", "Apical star", "A parasite crescent ending in a small four-point star.",
-     '<path d="M69 24C27 18 12 64 29 84C51 99 82 68 79 42 M69 24C49 35 43 61 29 84 M80 10Q80 27 65 27Q80 27 80 44Q80 27 95 27Q80 27 80 10Z"/>'),
-    ("gene-map", "Gene map", "One gene placed in the context of its neighbours.",
-     '<path d="M23 32L50 49L79 25 M50 49L76 77 M50 49L24 80"/><circle cx="23" cy="32" r="4"/><circle cx="79" cy="25" r="4"/><circle cx="76" cy="77" r="4"/><circle cx="24" cy="80" r="4"/><circle cx="50" cy="49" r="8" fill="white"/>'),
-    ("plastid", "Plastid", "Nested membranes around a single point of evidence.",
-     '<ellipse cx="50" cy="50" rx="28" ry="41" transform="rotate(35 50 50)"/><ellipse cx="50" cy="50" rx="17" ry="29" transform="rotate(35 50 50)"/><circle cx="50" cy="50" r="3" fill="currentColor"/>'),
-    ("convergence", "Convergence", "Independent observations meeting at one gene.",
-     '<path d="M13 25H30C43 25 43 50 55 50H86 M13 50H86 M13 75H30C43 75 43 50 55 50"/><circle cx="13" cy="25" r="3" fill="white"/><circle cx="13" cy="50" r="3" fill="white"/><circle cx="13" cy="75" r="3" fill="white"/><circle cx="79" cy="50" r="7" fill="white"/>'),
-    ("helix", "Helix", "A pared-down gene motif with an open, light outline.",
-     '<path d="M29 10C29 38 71 62 71 90 M71 10C71 38 29 62 29 90 M31 22H69 M39 37H61 M39 63H61 M31 78H69"/>'),
-    ("pathway", "Pathway S", "The initial drawn as a continuous biological pathway.",
-     '<path d="M77 23H42C13 23 13 50 42 50H60C89 50 89 78 60 78H23"/><circle cx="77" cy="23" r="4" fill="white"/><circle cx="23" cy="78" r="4" fill="white"/><circle cx="50" cy="50" r="4" fill="white"/>'),
-    ("focus", "Focus", "A chosen gene brought into focus within the map.",
-     '<circle cx="44" cy="43" r="28"/><path d="M64 63L87 86 M31 48L44 34L57 47"/><circle cx="31" cy="48" r="3" fill="white"/><circle cx="44" cy="34" r="3" fill="white"/><circle cx="57" cy="47" r="3" fill="white"/>'),
-    ("evidence", "Evidence layers", "Separate sources aligned around a common gene.",
-     '<path d="M50 13L89 34L50 55L11 34Z M11 50L50 71L89 50 M11 66L50 87L89 66"/><circle cx="50" cy="34" r="3" fill="currentColor"/>'),
-    ("star-cell", "Star cell", "A restrained star enclosed by an organic cell contour.",
-     '<path d="M78 17C99 43 83 89 49 91C14 94 5 59 20 32C33 9 59 4 78 17Z M51 27Q51 50 30 50Q51 50 51 73Q51 50 72 50Q51 50 51 27Z"/>'),
+    ("crescent-map", "Crescent map", "A parasite crescent opens onto a connected point cloud.",
+     CRESCENT + cloud(30, 53, .7, -35) + cloud(49, 28, .65) + cloud(38, 82, .7)
+     + cloud(77, 44, .85, -20) + cloud(75, 74, .65)
+     + network([(30, 55), (49, 29), (77, 44), (74, 73)], [(0, 1), (0, 2), (2, 3)])
+     + star(30, 55, 4)),
+    ("apical-atlas", "Apical atlas", "The pointed apex anchors a network across three clusters.",
+     SLENDER + '<path d="M58 19L66 25 M55 23L62 29"/>'
+     + cloud(30, 66, .7, 65) + cloud(67, 52, .85) + cloud(77, 81, .65)
+     + network([(48, 36), (31, 66), (67, 52), (78, 81)], [(0, 1), (0, 2), (2, 3)])),
+    ("dissolving-cell", "Cell to constellation", "A curved cell boundary dissolves into mapped genes.",
+     '<path d="M76 13C43 8 12 36 13 65C14 87 33 97 53 88 M60 83C38 83 37 62 50 42C59 28 72 21 76 13"/>'
+     + dots([(56,87),(60,86),(65,85),(64,90),(70,87),(73,83)])
+     + cloud(28, 55, .7, 50) + cloud(69, 45, .8) + cloud(84, 67, .6)
+     + network([(28, 55), (50, 33), (69, 45), (84, 66), (64, 84)], [(0, 1), (1, 2), (2, 3), (3, 4)])),
+    ("point-cloud", "Point-cloud parasite", "Clustered genes trace the crescent; links reveal its network.",
+     '<path d="M76 12C45 10 14 39 15 65 M16 73C23 94 45 94 60 84" stroke-dasharray="2 5"/>'
+     + cloud(58, 22, .9, -25) + cloud(41, 35, .9, -40) + cloud(28, 51, 1, -65)
+     + cloud(27, 71, .9, 65) + cloud(43, 83, .9, 15)
+     + network([(59, 22), (40, 35), (28, 54), (29, 72), (47, 84)], [(0, 1), (1, 2), (2, 3), (3, 4), (1, 3)])),
+    ("cluster-bridge", "Cluster bridge", "A parasite connects distinct islands in the gene map.",
+     '<g transform="translate(28 14) scale(.65)">' + CRESCENT + '</g>'
+     + cloud(18, 33, .85, -20) + cloud(82, 32, .8, 30) + cloud(76, 81, .9)
+     + network([(18, 33), (51, 47), (82, 32), (76, 81)], [(0, 1), (1, 2), (1, 3)])
+     + star(51, 47, 4)),
+    ("orbital-map", "Orbital map", "An apicomplexan sits inside a sparse star-map orbit.",
+     '<ellipse cx="50" cy="51" rx="43" ry="28" transform="rotate(-32 50 51)" stroke-width=".8"/>'
+     + '<g transform="translate(25 8) scale(.7)">' + SLENDER + '</g>'
+     + cloud(21, 63, .65) + cloud(78, 34, .7) + cloud(74, 74, .55)
+     + network([(21, 63), (46, 46), (78, 34), (74, 74)], [(0, 1), (1, 2), (1, 3)])),
+    ("inner-atlas", "Inner atlas", "A broad parasite outline contains a small UMAP network.",
+     '<path d="M81 10C43 6 12 35 13 68C14 90 32 100 55 85C33 69 45 39 81 10Z M66 17L73 24"/>'
+     + cloud(48, 27, .7, -30) + cloud(27, 54, .65, 70) + cloud(31, 78, .6)
+     + network([(49, 27), (26, 53), (31, 77)], [(0, 1), (1, 2), (0, 2)])),
+    ("apical-fan", "Apical fan", "Connections fan from the parasite into separate gene clusters.",
+     '<g transform="translate(0 12) scale(.8)">' + SLENDER + '</g>'
+     + cloud(79, 24, .7) + cloud(84, 52, .7, 25) + cloud(73, 82, .75, -15)
+     + network([(36, 49), (78, 24), (84, 52), (74, 82)], [(0, 1), (0, 2), (0, 3)])
+     + star(36, 49, 4)),
+    ("membrane-network", "Membrane network", "The parasite contour becomes the backbone of a star map.",
+     '<path d="M78 12C43 8 12 36 13 65C14 90 38 99 62 83 M78 12C65 24 54 30 48 44C37 65 40 82 62 83"/>'
+     + cloud(27, 51, .65) + cloud(44, 82, .6) + cloud(74, 58, .75, 30)
+     + network([(69, 17), (26, 49), (44, 82), (74, 58)], [(0, 1), (1, 2), (1, 3), (2, 3)])),
+    ("starplast", "Starplast", "One selected gene ties the crescent to its clustered neighbours.",
+     CRESCENT + '<path d="M65 15L70 22"/>'
+     + cloud(29, 55, .7, 45) + cloud(44, 82, .55) + cloud(81, 40, .7) + cloud(79, 76, .65)
+     + network([(29, 55), (57, 53), (81, 40), (79, 76), (44, 82)], [(0, 1), (1, 2), (1, 3), (1, 4)])
+     + star(57, 53, 6)),
 ]
 
 
@@ -70,24 +130,27 @@ def mark(body: str, inverse: bool = False) -> str:
     """Apply one consistent thin stroke and swap opaque cutouts on dark backgrounds."""
     if inverse:
         body = body.replace('fill="white"', 'fill="black"')
-    return '<g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + body + '</g>'
+    return '<g fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">' + body + '</g>'
 
 
 def main() -> None:
     """Write individual marks, wordmarks, a preview, and a downloadable gallery."""
     app = QtGui.QGuiApplication([])
     OUT.mkdir(parents=True, exist_ok=True)
+    # Replace the previous generated proposals; keep exactly ten current options.
+    for previous in OUT.glob("[0-9][0-9]-*.svg"):
+        previous.unlink()
     word = outline("starplast", 61)
     sheet = ['<rect width="1440" height="1560" fill="white"/>',
              '<g color="black" transform="translate(70 82)">' + outline("starplast / ten directions", 34) + '</g>',
-             '<g color="black" transform="translate(70 121)">' + outline("Thin lines. Black and white. Gene evidence, in context.", 18) + '</g>']
+             '<g color="black" transform="translate(70 121)">' + outline("Apicomplexan silhouettes. UMAP clusters. Gene networks.", 18) + '</g>']
     cards = []
     for number, (slug, name, description, geometry) in enumerate(OPTIONS, 1):
         stem = f"{number:02}-{slug}"
-        composition = '<g transform="translate(12 15)">' + mark(geometry) + '</g><g transform="translate(144 86)">' + word + '</g>'
-        (OUT / f"{stem}.svg").write_text(svg('<g color="black">' + composition + '</g>', 420, 130, f"Starplast — {name}"))
+        composition = '<g transform="translate(12 10) scale(1.4)">' + mark(geometry) + '</g><g transform="translate(174 100)">' + word + '</g>'
+        (OUT / f"{stem}.svg").write_text(svg('<g color="black">' + composition + '</g>', 480, 160, f"Starplast — {name}"))
         inverse = composition.replace('fill="white"', 'fill="black"')
-        (OUT / f"{stem}-white.svg").write_text(svg('<g color="white">' + inverse + '</g>', 420, 130, f"Starplast — {name}, white"))
+        (OUT / f"{stem}-white.svg").write_text(svg('<g color="white">' + inverse + '</g>', 480, 160, f"Starplast — {name}, white"))
         (OUT / f"{stem}-icon.svg").write_text(svg('<g color="black">' + mark(geometry) + '</g>', 100, 100, f"Starplast — {name} icon"))
         x, y = 70 + ((number - 1) % 2) * 700, 193 + ((number - 1) // 2) * 266
         sheet.append(f'<g color="black" transform="translate({x} {y})">' + outline(f"{number:02} / {name}", 17) + f'<g transform="translate(12 24)">{composition}</g><g transform="translate(0 197)">' + outline(description, 14) + '</g></g>')
@@ -102,7 +165,7 @@ def main() -> None:
     image.save(str(OUT / "comparison.png"))
     page = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Starplast — logo options</title><style>
     *{box-sizing:border-box}body{margin:0;background:white;color:black;font:16px/1.6 system-ui,sans-serif}main{max-width:1200px;margin:auto;padding:56px 32px}h1{font-size:36px;font-weight:300;margin:0}header p{max-width:680px}a{color:inherit;text-underline-offset:4px}header a{margin-right:24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px}article{border-top:1px solid;padding-top:16px}h2{font-weight:400;font-size:15px;margin:0}.preview{padding:25px 0}.preview img{width:100%;height:auto}.light-ink{display:none}nav{display:flex;gap:24px;font-size:14px}article p{font-size:14px}label{display:block;margin-top:24px;cursor:pointer}body:has(#inverse:checked){background:black;color:white}body:has(#inverse:checked) .dark-ink{display:none}body:has(#inverse:checked) .light-ink{display:block}@media(max-width:700px){.grid{grid-template-columns:1fr}main{padding:32px 20px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
-    </style><main><header><h1>starplast / ten directions</h1><p>Thin lines, black and white. Ten different ways to connect the identity to parasites, genes, and evidence. Each includes a vector wordmark and a separate icon.</p><a href="starplast-logo-options.zip" download>Download all SVGs</a><a href="comparison.png">Comparison sheet</a><label><input id="inverse" type="checkbox"> Preview white on black</label></header><section class="grid">'''
+    </style><main><header><h1>starplast / ten directions</h1><p>Each mark combines an apicomplexan crescent, an irregular UMAP-like point cloud, and a sparse gene network. Black and white, with thin lines. These are schematic symbols, not scientific plots.</p><a href="starplast-logo-options.zip" download>Download all SVGs</a><a href="comparison.png">Comparison sheet</a><label><input id="inverse" type="checkbox"> Preview white on black</label></header><section class="grid">'''
     (OUT / "index.html").write_text(page + ''.join(cards) + '</section></main></html>\n')
     with zipfile.ZipFile(OUT / "starplast-logo-options.zip", "w", zipfile.ZIP_DEFLATED) as archive:
         for path in sorted(OUT.glob("*.svg")):
