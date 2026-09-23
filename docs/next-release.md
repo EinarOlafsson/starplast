@@ -1,7 +1,7 @@
 # Next release implementation
 
-Target: 0.43.0. Keep the package version at 0.42.1 until the complete release has
-passed scientific benchmarks, UI checks, and packaging checks.
+Release: 0.43.0. Scientific benchmarks, UI checks, documentation, packaging and
+the complete regression suite passed before the version bump.
 
 - [x] Fixed-class evaluation, unsupported-node abstention, and consistent confidence labels.
 - [x] Shared embedding recipes, strict inference, executed-method provenance, and cache identity.
@@ -16,7 +16,8 @@ passed scientific benchmarks, UI checks, and packaging checks.
 - [x] Forty substantially varied monochrome SVG logo proposals and comparison galleries.
 - [x] Forty-slide introduction and practical guide with spaCR-style GitHub navigation, viewer, PDF and editable PowerPoint.
 - [x] Reproducible real-data benchmarks, controls, limitations and [release report](benchmark-0.43.md).
-- [ ] Full relevant regression, documentation, wheel and installed-app verification; publish 0.43.0.
+- [x] Full relevant regression, documentation, wheel and installed-app verification.
+- [ ] Publish 0.43.0 and verify the uploaded package and deployed documentation.
 
 The source AF3 directories are inputs, not working directories. Index models and
 extract features without altering the shared structure files.
@@ -25,3 +26,8 @@ Execution interruptions are recorded in [the task blocker log](task-blockers.md)
 An interface restriction was reported on 23 September; its exact triggering task
 was not identified. Continue independent software work and retain incomplete
 research tasks explicitly in this checklist.
+
+Release acceptance: the complete local suite passed (3,554 tests, nine skips);
+subsequent UI and deck checks passed. The final pre-release [GitHub test run](https://github.com/EinarOlafsson/starplast/actions/runs/35912996485)
+and [documentation build](https://github.com/EinarOlafsson/starplast/actions/runs/35912996668) passed.
+The deck was checked in desktop/mobile browsers and rendered from both PDF and PowerPoint.
