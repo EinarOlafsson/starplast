@@ -1,9 +1,12 @@
 # Starplast
 
+[![Starplast: a 40-slide introduction and practical guide](deck/slides/slide_01.jpg)](deck/)
+
+[Open the slide viewer](deck/) · [Download PDF](deck/starplast_deck.pdf) ·
+[Editable PowerPoint](deck/starplast_deck.pptx) · [Slide transcript](deck/transcript.md)
+
 [Explore a gene, predict a trait or compare a screen](workflows.md) using the
 guided workflows in the Tools menu.
-
-<img src="assets/starplast-wordmark.svg" alt="Starplast — a Toxoplasma silhouette enclosing a constellation" width="520">
 
 Explore gene evidence and screen results in *Toxoplasma gondii* and
 *Plasmodium falciparum*. Starplast combines gene maps with expression, fitness,

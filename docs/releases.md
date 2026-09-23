@@ -21,7 +21,7 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev,docs]"
 python scripts/release.py check
-QT_QPA_PLATFORM=offscreen pytest tests/test_release.py tests/test_wheel.py tests/test_packaging.py tests/test_readme.py tests/test_docstrings.py tests/test_paths.py tests/test_app_smoke.py tests/test_app_polish.py tests/test_discover_cli.py tests/test_importer.py -q
+QT_QPA_PLATFORM=offscreen OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 NUMBA_NUM_THREADS=2 pytest -q
 python scripts/build_docs.py
 ```
 
@@ -30,9 +30,19 @@ On Windows, activate `.venv\Scripts\activate` instead. On Linux, Qt may need
 the system package manager. `QT_QPA_PLATFORM=offscreen` is for tests, not normal use.
 
 The full test suite also exercises source-dataset ingestion, rendering, GPU
-backends, and long searches. Those tests need the corresponding source data or
-hardware. The release checks above cover the installable package and entry points;
-they are not a validation of all scientific results.
+backends, and long searches. Some checks skip without their source data, optional
+dependencies or hardware. GitHub checks run all non-slow tests and a real OpenGL
+species-switch test. On Linux, install `xvfb` and `xauth`, then run the rendering
+check separately:
+
+```bash
+QT_QPA_PLATFORM=xcb xvfb-run -a -s '-screen 0 1920x1200x24' pytest tests/test_app_contexts.py -q
+```
+
+These are software checks. The [0.43 benchmark](benchmark-0.43.md) separately
+reports the scientific comparisons and their limitations. Before a version bump,
+require passing checks on the final implementation on `nightly`, build the docs,
+and verify a wheel installation outside the source checkout.
 
 ## Package layout
 
@@ -40,6 +50,10 @@ There is one PyPI distribution: **`starplast`**. It contains the Python modules,
 console commands, built gene data, and icons. `starplast[gpu]` enables optional
 CUDA dependencies and `starplast[ingest]` enables coverage-file imports; both are
 extras of the same project.
+
+`starplast[sequence]` adds the encoder dependencies for regenerating ESM features;
+`starplast[structures]` adds local structure parsing. Reading the bundled feature
+tables requires neither extra.
 
 The wheel includes cached data for offline browsing and excludes local saved
 embeddings. Original source datasets are not packaged; see the [dataset catalogue](datasets.md).
@@ -117,8 +131,8 @@ same tested artifacts.
 `README.md` is the source for both the GitHub README and the PyPI description.
 Package builds include it directly through the `readme` setting in `pyproject.toml`;
 there is no separate PyPI README to maintain. Use absolute URLs for images and
-repository files so links work on both sites. The logo includes a standard image
-fallback for renderers that do not support the dark-mode picture source.
+repository files so links work on both sites. The linked slide cover uses a
+standard image that renders on both GitHub and PyPI.
 
 PyPI receives the README with each release. A README edit on GitHub appears on
 PyPI when the next version is published; it does not change existing releases.
@@ -133,7 +147,8 @@ python -m twine check --strict dist/*
 
 Start with an empty `dist/` directory so files from older versions are not included.
 The wheel check requires both organism caches, the application icon and diagrams,
-and the compressed sequence tables. It rejects saved embeddings, unconditional
+the compressed sequence tables, AF3/ESM features and manifests, and the literature
+ledger. It rejects saved embeddings, unconditional
 CUDA dependencies, and files above PyPI's default upload limit.
 
 The desktop installers in `packaging/` are separate from PyPI. Their existing

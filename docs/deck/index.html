@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starplast in slides</title>
+<meta name="description" content="Explore Starplast: gene evidence, practical workflows, validated model comparisons and reproducible results.">
+<style>
+  :root {
+    --bg: #0b0e14; --panel: #151a23; --fg: #e6e9ef; --muted: #8b93a3;
+    --accent: #2ec4b6; --edge: #262d3a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
+    font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  body { display: flex; flex-direction: column; }
+  header { display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+    border-bottom: 1px solid var(--edge); flex-wrap: wrap; }
+  header h1 { font-size: 16px; margin: 0; font-weight: 600; }
+  header h1 span { color: var(--accent); }
+  header .title { color: var(--muted); flex: 1; min-width: 0; overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap; }
+  header a, header button { color: var(--fg); background: var(--panel);
+    border: 1px solid var(--edge); border-radius: 8px; padding: 6px 10px;
+    font: inherit; font-size: 13px; text-decoration: none; cursor: pointer; }
+  header a:hover, header button:hover { border-color: var(--accent); }
+  main { flex: 1; min-height: 0; display: flex; align-items: center;
+    justify-content: center; position: relative; padding: 12px 56px; }
+  #frame { position: relative; border-radius: 6px; overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,.5); }
+  #frame img { position: absolute; user-select: none; -webkit-user-drag: none; }
+  #slide { inset: 0; width: 100%; height: 100%; }
+  .nav { position: absolute; top: 50%; transform: translateY(-50%);
+    width: 44px; height: 64px; border-radius: 10px; border: 1px solid var(--edge);
+    background: rgba(21,26,35,.85); color: var(--fg); font-size: 26px;
+    cursor: pointer; }
+  .nav:hover { border-color: var(--accent); }
+  .nav:disabled { opacity: .25; cursor: default; }
+  #prev { left: 6px; } #next { right: 6px; }
+  footer { border-top: 1px solid var(--edge); padding: 8px 12px; }
+  .counter { text-align: center; color: var(--muted); font-size: 13px;
+    margin-bottom: 6px; }
+  .strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;
+    scrollbar-width: thin; }
+  .strip button { flex: 0 0 auto; padding: 0; border: 2px solid transparent;
+    border-radius: 5px; background: none; cursor: pointer; opacity: .6; }
+  .strip button.on { border-color: var(--accent); opacity: 1; }
+  .strip button:hover { opacity: 1; }
+  .strip img { display: block; width: 120px; height: auto; border-radius: 3px; }
+  dialog { background: var(--panel); color: var(--fg); border: 1px solid var(--edge); border-radius: 12px; padding: 28px; max-width: 760px; max-height: 80vh; overflow-y: auto; }
+  dialog::backdrop { background: #000b; }
+  #notes-text { white-space: pre-wrap; line-height: 1.65; }
+  dialog a { color: var(--accent); }
+  dialog button { padding: 8px 18px; cursor: pointer; }
+  @media (max-width: 640px) {
+    main { padding: 8px 4px; }
+    .nav { display: none; }
+    .strip img { width: 84px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1><span>Starplast</span> in slides</h1>
+  <div class="title" id="title"></div>
+  <a id="pdf" href="starplast_deck.pdf" download>PDF</a>
+  <a href="starplast_deck.pptx" download>PowerPoint</a>
+  <button id="read" type="button">Read slide</button>
+  <button id="full" type="button" title="Full screen (F)">Full screen</button>
+  <a href="https://github.com/EinarOlafsson/starplast">GitHub</a>
+</header>
+<main id="stage">
+  <button class="nav" id="prev" type="button" aria-label="Previous slide">&#8249;</button>
+  <div id="frame"><img id="slide" alt=""></div>
+  <button class="nav" id="next" type="button" aria-label="Next slide">&#8250;</button>
+</main>
+<footer>
+  <div class="counter" id="counter" aria-live="polite"></div>
+  <div class="strip" id="strip"></div>
+</footer>
+<dialog id="notes"><h2 id="notes-title"></h2><div id="notes-text"></div><p><a id="source">Supporting documentation</a></p><form method="dialog"><button>Close</button></form></dialog>
+<noscript>Open the PDF or GitHub slide pages to read this deck without JavaScript.</noscript>
+<script>
+const DECK = {"count": 40, "aspect": 1.7777777777777777, "title": "Starplast: introduction and practical guide", "author": "Einar Olafsson", "guide_version": "0.43", "slides": [{"image": "slides/slide_01.jpg", "thumb": "thumbs/slide_01.jpg", "title": "Starplast", "section": "GENE EVIDENCE, IN CONTEXT", "text": "Explore what is known.\nEvaluate what a model predicts.\n\nA practical guide to the 0.43 release", "source": "https://einarolafsson.github.io/starplast/index.html", "animations": []}, {"image": "slides/slide_02.jpg", "thumb": "thumbs/slide_02.jpg", "title": "Start with a gene. Keep the evidence.", "section": "INTRODUCTION", "text": "Bring scattered measurements together without losing what they mean.\n\nCollect: Published measurements, annotations and protein features.\n\nConnect: Match gene identities and retain the source of each value.\n\nExplore: Read evidence, compare relationships and inspect gaps.\n\nEvaluate: Test predictions on held-out genes before interpreting them.\n\nA model suggests a hypothesis. Its evidence and validation determine how useful it is.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_03.jpg", "thumb": "thumbs/slide_03.jpg", "title": "Two organisms. Separate maps.", "section": "INTRODUCTION", "text": "Offline gene tables and networks are included in the installation.\n\n8,140: Toxoplasma gondii genes\n\n5,720: Plasmodium falciparum genes\n\n130: Registered datasets and computed layers\n\nCoverage differs by assay and organism. These counts do not imply complete evidence for every gene.", "source": "https://einarolafsson.github.io/starplast/datasets.html", "animations": []}, {"image": "slides/slide_04.jpg", "thumb": "thumbs/slide_04.jpg", "title": "Choose the task you came to do.", "section": "INTRODUCTION", "text": "Explore a gene: Find an accession, symbol or product. Read measurements and their sources.\n\nPredict a trait: Choose an observed outcome. Evaluate a model, then inspect unlabelled-gene hypotheses.\n\nCompare a screen: Join a gene-level results table to the existing evidence. Keep unresolved IDs visible.\n\nOpen these guided workflows from the Tools menu.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_05.jpg", "thumb": "thumbs/slide_05.jpg", "title": "The map is one view of the evidence.", "section": "INTRODUCTION", "text": "One point represents one gene.\n\nPosition: Similarity under the chosen feature recipe.\n\nColour: An annotation or measurement you select.\n\nLines: One explicitly selected relationship type.\n\nProximity alone does not establish function or a physical interaction.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_06.jpg", "thumb": "thumbs/slide_06.jpg", "title": "Install and open Starplast.", "section": "GET STARTED", "text": "pip install starplast\nstarplast\n\nPython 3.10+: Use a dedicated environment when possible.\n\nDesktop display: The viewer needs a display and working OpenGL.\n\nCPU included: CUDA is optional; browsing does not require a GPU.\n\nLinux, macOS and Windows. Built tables are available offline.", "source": "https://einarolafsson.github.io/starplast/releases.html", "animations": []}, {"image": "slides/slide_07.jpg", "thumb": "thumbs/slide_07.jpg", "title": "Your first five minutes.", "section": "GET STARTED", "text": "1  Choose: File > Species: select the organism.\n\n2  Search: Tools > Explore a gene: enter an accession or product.\n\n3  Inspect: Read the evidence and open its source links.\n\n4  Compare: Change a colour or edge layer; keep the question specific.\n\nStart with one familiar gene so you can check that the interpretation makes sense.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_08.jpg", "thumb": "thumbs/slide_08.jpg", "title": "Find your way around the workspace.", "section": "GET STARTED", "text": "Map controls on the left. The gene map in the centre. Evidence on the right.\n\nTools opens guided workflows and analysis docks. View controls appearance and interaction.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_09.jpg", "thumb": "thumbs/slide_09.jpg", "title": "Move the map. Keep your bearings.", "section": "EXPLORE", "text": "Rotate and zoom: Left-drag in Navigate mode to rotate. Scroll to move closer or farther away.\n\nSelect a gene: Click a point to show its evidence. Search can take you directly to a gene.\n\nFocus a category: Filter checked categories. Double-click a category to centre its genes.\n\nRight-click the map for display options, export and reset.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_10.jpg", "thumb": "thumbs/slide_10.jpg", "title": "Search by identity or description.", "section": "EXPLORE", "text": "Tools > Explore a gene\n\nEnter a query: Use a gene accession, symbol or product text.\n\nCheck the match: Double-click a result to select the same gene on the map.\n\nRead the table: Inspect available values, missingness and source evidence.\n\nShown here: an existing alpha-tubulin record, not a model-generated annotation.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_11.jpg", "thumb": "thumbs/slide_11.jpg", "title": "Read the source, not just the value.", "section": "EVIDENCE", "text": "What was measured?: Distinguish expression, localization, abundance, sequence and interaction evidence.\n\nIn which context?: Check the organism, stage, condition and assay before comparing measurements.\n\nHow was it obtained?: Separate measured evidence, computed features, transferred annotations and predictions.\n\nLegacy gene summaries cannot reconstruct replicate-level uncertainty that was never retained.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_12.jpg", "thumb": "thumbs/slide_12.jpg", "title": "The full data catalogue stays one click away.", "section": "EVIDENCE", "text": "Evidence family | Examples | Read it as\n\nExpression | Stage profiles and summaries | Condition-dependent measurements\n\nLocalization | Compartment annotations | Evidence with assay-specific coverage\n\nProtein features | Sequence, domains, AF3 summaries | Measured or computed descriptors\n\nRelationships | Coexpression and physical assays | Distinct types of connections\n\nLiterature | Mentions and reviewed assertions | Traceable source context\n\nEach catalogue record links to its publication, source data or computed inputs.", "source": "https://einarolafsson.github.io/starplast/datasets.html", "animations": []}, {"image": "slides/slide_13.jpg", "thumb": "thumbs/slide_13.jpg", "title": "Unknown is different from zero.", "section": "EVIDENCE", "text": "0: A measured value that really is zero\n\nUnknown: No usable value is available\n\nNo call: The model lacks enough support\n\nA missing annotation is not a negative example. Grey marks unknown evidence.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_14.jpg", "thumb": "thumbs/slide_14.jpg", "title": "Different lines answer different questions.", "section": "RELATIONSHIPS", "text": "Similarity: Shared domains, orthogroups, expression or structure.\n\nPhysical evidence: Crosslink MS and pulldown assays have their own interpretation.\n\nLiterature context: Co-mention means appearing together in text; it is not proof of binding.\n\nThe Edges controls keep these layers separate.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_15.jpg", "thumb": "thumbs/slide_15.jpg", "title": "Inspect one connection layer at a time.", "section": "RELATIONSHIPS", "text": "Select: Click a gene you want to inspect.\n\nChoose: Turn on a relevant layer in Edges.\n\nRead: Check neighbouring genes and the evidence behind the relation.\n\nCompare: Switch the layer and see which relationships persist.\n\nDraw all active edges is available, but dense networks are often easier to understand locally.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_16.jpg", "thumb": "thumbs/slide_16.jpg", "title": "Select a group without changing the data.", "section": "EXPLORE", "text": "Lasso: screen space: Draw an outline around visible positions. Points behind one another can be included.\n\nBrush: 3D space: Select a spatial neighbourhood around the gene you press.\n\nChoose View > Left mouse button > Select. Check the selected gene list before exporting.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_17.jpg", "thumb": "thumbs/slide_17.jpg", "title": "Explore clusters and compare analyses.", "section": "ADVANCED ANALYSIS", "text": "Clusters: Group similar coordinates with clustering methods. Noise label -1 means unassigned, not a biological class.\n\nSearch and validation: Compare recipes with explicit targets and budgets. Confirm a search winner with independent evidence.\n\nSaved results: Name embeddings and retain their recipes. Right-click result tables to export them; save selected gene lists.\n\nCluster labels describe the chosen inputs. They do not establish a shared biological function.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_18.jpg", "thumb": "thumbs/slide_18.jpg", "title": "Change a map deliberately.", "section": "ADVANCED MAPS", "text": "Features: Choose relevant measurement blocks.\n\nMissingness: Decide how absent inputs are handled.\n\nScaling: Keep feature magnitudes and blocks comparable.\n\nEmbedding: Choose a method, dimensions and a seed.\n\nSmaller UMAP neighbourhoods favour local structure. Lower minimum distance packs points more tightly.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_19.jpg", "thumb": "thumbs/slide_19.jpg", "title": "Explore in 3D. Evaluate separately.", "section": "PREDICTION", "text": "The displayed map: An exploratory view of selected inputs. Numeric localization confidence can be among them.\n\nA held-out prediction: A separate fitted model with target exclusions, training-only transforms and untouched evaluation groups.\n\nThe guided predictor does not classify the opening map.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_20.jpg", "thumb": "thumbs/slide_20.jpg", "title": "Set up a prediction in one place.", "section": "PREDICTION", "text": "Tools > Predict a trait\n\nOutcome and type: Choose the observed target and classification or regression.\n\nMethod and groups: Start with a baseline. Keep related genes together with orthogroup.\n\nRun and inspect: Evaluate and predict. Read held-out metrics before the candidate table.\n\nThe Jobs panel runs the work. Stop requests cancellation between model fits.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_21.jpg", "thumb": "thumbs/slide_21.jpg", "title": "Keep evaluation genes out of fitting.", "section": "PREDICTION", "text": "Fit: Learn features and model parameters.\n\nCalibrate: Adjust probabilities or residual intervals on separate groups.\n\nEvaluate: Score predictions on groups withheld from both steps.\n\nOuter folds rotate the evaluation groups. Grouped validation is harder and more informative than mixing relatives.", "source": "https://einarolafsson.github.io/starplast/benchmark-0.43.html", "animations": []}, {"image": "slides/slide_22.jpg", "thumb": "thumbs/slide_22.jpg", "title": "Compare simple methods first.", "section": "PREDICTION", "text": "Method | Useful starting question | Keep in mind\n\nPrior / linear | Is there signal beyond a simple baseline? | Always retain a baseline\n\nBoosted trees | Do nonlinear feature combinations help? | Use the same evaluation groups\n\nFeature / PCA neighbours | Do similar measured genes agree? | Distance depends on preprocessing\n\nUMAP / masked factors | Does a reduced representation help? | A compact map can lose signal\n\nWeighted networks | Which fixed graph layers support labels? | Transductive; disconnected genes abstain\n\nNo method is automatically best because it is more complex.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_23.jpg", "thumb": "thumbs/slide_23.jpg", "title": "Read performance and coverage together.", "section": "PREDICTION", "text": "Accuracy: The fraction of evaluation genes called correctly. Unsupported calls count as misses.\n\nMacro F1: Balances precision and recall across classes, so common labels do not dominate the score.\n\nCoverage: The fraction with a supported call. Selective accuracy describes only that supported subset.\n\nAlso inspect per-class precision, recall, average precision and calibration.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_24.jpg", "thumb": "thumbs/slide_24.jpg", "title": "What worked in the localization benchmark?", "section": "RESULTS", "text": "3,827 measured genes \u00b7 26 classes \u00b7 three orthogroup-held-out folds\n\n0.434 macro F1: Boosted trees with published, AF3 and ESM inputs.\n\n56.2% accuracy: Better than the compared UMAP-neighbour models.\n\nImportant limit: Several rare classes still have zero top-class recall.\n\nDevelopment cross-validation, not prospective validation of new annotations.", "source": "https://einarolafsson.github.io/starplast/benchmark-0.43.html", "animations": []}, {"image": "slides/slide_25.jpg", "thumb": "thumbs/slide_25.jpg", "title": "A confident score can still be wrong.", "section": "RESULTS", "text": "Combined boosted model: observed accuracy in held-out confidence bins\n\nCheck calibration: Temperature scaling uses separate groups when enough labels exist.\n\nRead the status: The app explicitly marks runs that could not be calibrated.\n\nUse abstention: A probability cutoff can withhold uncertain calls; it is not a guarantee.\n\nThe 0.8-0.9 bin averaged 0.850 confidence but 0.783 accuracy across 465 genes.", "source": "https://einarolafsson.github.io/starplast/benchmark-0.43.html", "animations": []}, {"image": "slides/slide_26.jpg", "thumb": "thumbs/slide_26.jpg", "title": "Add sequence evidence with one checkbox.", "section": "PROTEIN EVIDENCE", "text": "8,064 proteins: Bundled frozen ESM-2 representations.\n\n320 features: A numerical view of protein sequence, separate from experimental measurements.\n\nNo download to use: Enable Include frozen protein sequence features in the guided predictor.\n\nRegenerating representations needs the optional sequence extra. Benchmark their value rather than assuming it.", "source": "https://einarolafsson.github.io/starplast/protein-sequences.html", "animations": []}, {"image": "slides/slide_27.jpg", "thumb": "thumbs/slide_27.jpg", "title": "Your AF3 collection becomes traceable evidence.", "section": "PROTEIN EVIDENCE", "text": "1,210 matched genes: Exact sequence or uniquely placed fragment matches in the available local collection.\n\nNine summary features: Confidence, sequence coverage and descriptive geometry.\n\nCoordinates stay local: The package includes features and provenance, not the private model files.\n\nThis is the verified subset in the synced folders, not the total number of proteins ever folded.", "source": "https://einarolafsson.github.io/starplast/structures.html", "animations": []}, {"image": "slides/slide_28.jpg", "thumb": "thumbs/slide_28.jpg", "title": "Connect local folds to the structure viewer.", "section": "PROTEIN EVIDENCE", "text": "pip install 'starplast[structures]'\n\nstarplast-index-structures /path/to/models\n\nIndex once: Build the local structure catalogue from your model folders.\n\nSelect a gene: The structure viewer checks the local index before AlphaFold DB.\n\nRead confidence: A predicted fold and its confidence are not experimental validation.\n\nRecreate the index if the drive moves. Full models take precedence over fragments.", "source": "https://einarolafsson.github.io/starplast/structures.html", "animations": []}, {"image": "slides/slide_29.jpg", "thumb": "thumbs/slide_29.jpg", "title": "Continuous traits stay continuous.", "section": "RESULTS", "text": "Protein abundance: 748 measured genes \u00b7 grouped held-out evaluation\n\nChoose regression: Use Continuous measurement instead of converting an outcome into classes.\n\nRead error units: RMSE here is measured in log2 abundance units; lower is better.\n\nSmall added gain: The combined-feature improvement interval includes no improvement.\n\nNominal 90% intervals covered 94.9%, but their mean width was 9.94 log2 units.", "source": "https://einarolafsson.github.io/starplast/benchmark-0.43.html", "animations": []}, {"image": "slides/slide_30.jpg", "thumb": "thumbs/slide_30.jpg", "title": "Network coverage is not prediction quality.", "section": "RESULTS", "text": "87.3% supported: Combining domain, expression and structural layers reaches more evaluation genes.\n\n0.195 macro F1: The combined fixed network remains well below the compared feature models.\n\nThe graph includes evaluation nodes: report these results as transductive, not transfer to unseen nodes.", "source": "https://einarolafsson.github.io/starplast/benchmark-0.43.html", "animations": []}, {"image": "slides/slide_31.jpg", "thumb": "thumbs/slide_31.jpg", "title": "Compare a screen without losing unmatched rows.", "section": "SCREEN WORKFLOW", "text": "Tools > Compare a screen\n\nOpen a CSV or TSV: Use a gene-level table and choose its identifier and value columns.\n\nInspect the join: Mapped and unresolved IDs remain visible. Measured zero stays zero.\n\nExport the comparison: Keep the table and source-file hash together.\n\nScreenshot values are illustrative. They are not biological screen results.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_32.jpg", "thumb": "thumbs/slide_32.jpg", "title": "Move from spaCR results to gene evidence.", "section": "SCREEN WORKFLOW", "text": "spaCR: Generate gene-level measurement or effect estimates.\n\nCSV / TSV: Export identifiers and the measured value you want to compare.\n\nStarplast: Open Compare a screen and inspect the identifier mapping.\n\nEvidence: Read the existing annotations and source context alongside the result.\n\nThe spaCR launcher opens Starplast in a separate environment. It does not automatically transfer results.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_33.jpg", "thumb": "thumbs/slide_33.jpg", "title": "Add measurements to a Toxoplasma session.", "section": "SCREEN WORKFLOW", "text": "File > Import data: The advanced importer accepts CSV, TSV, Excel or Parquet for Toxoplasma accessions.\n\nCheck the preview: Choose a useful column prefix and explicitly handle duplicates and missing values.\n\nRebuild deliberately: Imported values do not change map positions until you include them in a new embedding.\n\nAdvanced table import is Toxoplasma-only. The guided comparison supports the currently open organism.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_34.jpg", "thumb": "thumbs/slide_34.jpg", "title": "Export the evidence behind a result.", "section": "REPRODUCIBILITY", "text": "predictions.csv: Separate held-out evaluations from unknown-gene hypotheses.\n\nper_class.csv: Inspect performance and support for each class.\n\nrun.json: Retain settings, input identity, split genes, excluded features and versions.\n\nUse Export full run. A ranked list alone cannot reproduce an analysis.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_35.jpg", "thumb": "thumbs/slide_35.jpg", "title": "Use the same methods from Python.", "section": "PYTHON API", "text": "import pandas as pd\nfrom starplast import paths\nfrom starplast.prediction import TaskSpec, run\n\nnodes = pd.read_parquet(\n    paths.cache_file('nodes.parquet'))\nresult = run(nodes, TaskSpec('compartment'))\nresult.save('localization_run')\n\nHeadless analysis: Read bundled tables and run methods without opening the desktop.\n\nOne contract: The API uses the same evaluation and export rules as the guided workflow.\n\nThe generated module reference documents functions, arguments and return values.", "source": "https://einarolafsson.github.io/starplast/API.html", "animations": []}, {"image": "slides/slide_36.jpg", "thumb": "thumbs/slide_36.jpg", "title": "Keep claims traceable and reviewable.", "section": "EVIDENCE API", "text": "Observation records: Store entity, trait, value, units, context, source, uncertainty and missingness.\n\nLiterature assertions: Retain the source passage and negation. Extracted claims begin pending review.\n\nExplicit limits: The API supports review records; the desktop has no bulk literature-curation interface.\n\nA reviewed interpretation of a passage is not experimental proof. Conflicting observations remain separate.", "source": "https://einarolafsson.github.io/starplast/workflows.html", "animations": []}, {"image": "slides/slide_37.jpg", "thumb": "thumbs/slide_37.jpg", "title": "Run work in the background. Keep control.", "section": "PRACTICAL USE", "text": "Jobs and Stop: Watch progress in the Jobs panel. Cancellation happens between model fits.\n\nOptional GPU: CPU analysis is the default. NVIDIA CUDA analysis uses the gpu extra on supported Linux systems.\n\nLogs and help: Hover over settings. Enable file logging in Preferences when investigating a problem.\n\nOffline browsing works immediately. Remote structures, publications and optional chat can require network access.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_38.jpg", "thumb": "thumbs/slide_38.jpg", "title": "Choose a readable view.", "section": "APPEARANCE", "text": "View > Preferences: theme, colours, point rendering, lighting and text size.\n\nLighting changes presentation only. Use neutral lighting when comparing measurement colours.", "source": "https://einarolafsson.github.io/starplast/guide.html", "animations": []}, {"image": "slides/slide_39.jpg", "thumb": "thumbs/slide_39.jpg", "title": "Before interpreting a prediction, check four things.", "section": "GOOD PRACTICE", "text": "Identity: Are the gene mapping, organism and assay context correct?\n\nEvidence: Which values are measured, computed, missing or transferred?\n\nValidation: Were target-related inputs excluded and related genes held together?\n\nUncertainty: Do rare classes, calibration and coverage support the intended interpretation?\n\nModel comparisons guide exploration. Independent evidence is needed to establish a new biological claim.", "source": "https://einarolafsson.github.io/starplast/benchmark-0.43.html", "animations": []}, {"image": "slides/slide_40.jpg", "thumb": "thumbs/slide_40.jpg", "title": "Open a gene. Ask a precise question.", "section": "START HERE", "text": "pip install starplast\n\nUser guide: https://einarolafsson.github.io/starplast/guide.html\n\nGuided workflows: https://einarolafsson.github.io/starplast/workflows.html\n\nData sources: https://einarolafsson.github.io/starplast/datasets.html\n\nPython API: https://einarolafsson.github.io/starplast/API.html\n\nBenchmarks: https://einarolafsson.github.io/starplast/benchmark-0.43.html\n\nIssues and source: https://github.com/EinarOlafsson/starplast\n\nStarplast \u00b7 Einar Olafsson \u00b7 Open-source software, with original data sources credited.", "source": "https://einarolafsson.github.io/starplast/index.html", "animations": []}]};
+const slides = DECK.slides;
+const notes = document.getElementById("notes");
+document.getElementById("read").onclick = () => {
+ const s = slides[at];
+ document.getElementById("notes-title").textContent = s.title;
+ document.getElementById("notes-text").textContent = s.text;
+ document.getElementById("source").href = s.source;
+ notes.showModal();
+};
+let at = 0;
+const img = document.getElementById("slide");
+const frame = document.getElementById("frame");
+const stage = document.getElementById("stage");
+const aspect = DECK.aspect || 16 / 9;
+function fit() {
+  const style = getComputedStyle(stage);
+  const w = stage.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+  const h = stage.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+  const width = Math.min(w, h * aspect);
+  frame.style.width = width + "px";
+  frame.style.height = (width / aspect) + "px";
+}
+window.addEventListener("resize", fit);
+const strip = document.getElementById("strip");
+const thumbs = slides.map((s, i) => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.title = (i + 1) + ". " + s.title;
+  const t = document.createElement("img");
+  t.src = s.thumb; t.alt = s.title; t.loading = "lazy";
+  b.appendChild(t);
+  b.onclick = () => show(i);
+  strip.appendChild(b);
+  return b;
+});
+function show(i, keepHash) {
+  at = Math.max(0, Math.min(slides.length - 1, i));
+  const s = slides[at];
+  img.src = s.image;
+  img.alt = s.title;
+  frame.querySelectorAll(".anim").forEach(el => el.remove());
+  (s.animations || []).forEach(a => {
+    const el = document.createElement("img");
+    el.className = "anim";
+    el.src = a.src;
+    el.alt = "";
+    Object.assign(el.style, {left: a.x * 100 + "%", top: a.y * 100 + "%",
+                             width: a.w * 100 + "%", height: a.h * 100 + "%"});
+    frame.appendChild(el);
+  });
+  document.getElementById("title").textContent = s.title;
+  document.getElementById("counter").textContent = (at + 1) + " / " + slides.length;
+  document.getElementById("prev").disabled = at === 0;
+  document.getElementById("next").disabled = at === slides.length - 1;
+  thumbs.forEach((b, j) => b.classList.toggle("on", j === at));
+  thumbs[at].scrollIntoView({block: "nearest", inline: "center"});
+  if (!keepHash) history.replaceState(null, "", "#" + (at + 1));
+  [at - 1, at + 1].forEach(j => { if (slides[j]) new Image().src = slides[j].image; });
+}
+document.getElementById("prev").onclick = () => show(at - 1);
+document.getElementById("next").onclick = () => show(at + 1);
+document.getElementById("full").onclick = () => {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+};
+document.addEventListener("keydown", e => {
+  if (notes.open || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (["ArrowRight", "PageDown", " "].includes(e.key)) { show(at + 1); e.preventDefault(); }
+  else if (["ArrowLeft", "PageUp"].includes(e.key)) { show(at - 1); e.preventDefault(); }
+  else if (e.key === "Home") show(0);
+  else if (e.key === "End") show(slides.length - 1);
+  else if (e.key === "f" || e.key === "F") document.getElementById("full").click();
+});
+let x0 = null;
+stage.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, {passive: true});
+stage.addEventListener("touchend", e => {
+  if (x0 === null) return;
+  const dx = e.changedTouches[0].clientX - x0;
+  if (Math.abs(dx) > 40) show(at + (dx < 0 ? 1 : -1));
+  x0 = null;
+});
+frame.addEventListener("click", e => {
+  const r = frame.getBoundingClientRect();
+  show(at + (e.clientX - r.left > r.width / 2 ? 1 : -1));
+});
+window.addEventListener("hashchange", () => show((parseInt(location.hash.slice(1), 10) || 1) - 1, true));
+fit();
+show((parseInt(location.hash.slice(1), 10) || 1) - 1, true);
+</script>
+</body>
+</html>

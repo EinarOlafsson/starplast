@@ -31,6 +31,7 @@ def main():
                    cwd=ROOT, env=env, check=True)
     shutil.copytree(ROOT / "docs" / "assets", output / "assets", dirs_exist_ok=True)
     shutil.copytree(ROOT / "docs" / "screenshots", output / "screenshots", dirs_exist_ok=True)
+    shutil.copytree(ROOT / "docs" / "deck", output / "deck", dirs_exist_ok=True)
     shutil.copy2(ROOT / "starplast/data/icons/starplast.svg", output / "assets/icon.svg")
     css = '''body{margin:0;background:#f6f8fa;color:#192c3e;font:17px/1.65 system-ui,sans-serif}
     main{max-width:980px;margin:auto;padding:32px}nav{display:flex;gap:20px;flex-wrap:wrap}

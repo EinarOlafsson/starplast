@@ -1,9 +1,12 @@
 # Starplast
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/assets/starplast-wordmark-white.svg">
-  <img src="https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/assets/starplast-wordmark.svg" alt="Starplast — a Toxoplasma silhouette enclosing a constellation" width="520">
-</picture>
+[![Starplast: introduction and practical guide in 40 slides](https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/deck/slides/slide_01.jpg)](https://einarolafsson.github.io/starplast/deck/)
+
+[← Back](https://github.com/EinarOlafsson/starplast/blob/main/docs/deck/pages/40.md) ·
+[Next →](https://github.com/EinarOlafsson/starplast/blob/main/docs/deck/pages/02.md) ·
+[Open slide viewer](https://einarolafsson.github.io/starplast/deck/) ·
+[PDF](https://github.com/EinarOlafsson/starplast/blob/main/docs/deck/starplast_deck.pdf) ·
+[PowerPoint](https://raw.githubusercontent.com/EinarOlafsson/starplast/main/docs/deck/starplast_deck.pptx)
 
 [![Platforms](https://img.shields.io/badge/Platforms-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey)](#install)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](#install)

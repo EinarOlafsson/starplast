@@ -14,6 +14,7 @@ passed scientific benchmarks, UI checks, and packaging checks.
 - [x] Candidate explanations and budget prioritization with stated assumptions/costs (API heuristic).
 - [x] Explore gene / Predict trait / Compare screen workflows and spaCR-compatible imports.
 - [x] Forty substantially varied monochrome SVG logo proposals and comparison galleries.
+- [x] Forty-slide introduction and practical guide with spaCR-style GitHub navigation, viewer, PDF and editable PowerPoint.
 - [x] Reproducible real-data benchmarks, controls, limitations and [release report](benchmark-0.43.md).
 - [ ] Full relevant regression, documentation, wheel and installed-app verification; publish 0.43.0.
 

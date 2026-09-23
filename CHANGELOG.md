@@ -2,6 +2,7 @@
 
 ## Unreleased — 0.43.0
 
+- Add a 40-slide introduction and practical guide, presented like spaCR's deck: README cover, linked GitHub slide pages, web viewer, PDF and editable PowerPoint.
 - Add guided Explore a gene, Predict a trait and Compare a screen workflows with settings help and full run exports.
 - Evaluate feature, linear, boosted, PCA, UMAP, masked-factor and weighted-network predictions with grouped folds, target exclusions, calibration and unsupported-call abstention.
 - Add classification, regression and multi-label APIs; preserve unknown outcomes and report fixed-class metrics.
