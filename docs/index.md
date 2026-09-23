@@ -16,6 +16,8 @@ starplast
 - [Repository review](repository-review.md): architecture and scientific limitations.
 - [Development and releases](releases.md): build, test, and publish.
 
-[![A full rotation of the gene map](screenshots/map_rotation.gif)](screenshots/map_dark.png)
+[![The gene map with CDPK1 and its neighbours illuminated](screenshots/map_rotation.gif)](screenshots/map_rotation.png)
 
-[View a still image](screenshots/map_dark.png).
+CDPK1 (`TGME49_301440`) and its five neighbours emit light. Lines show
+attention-corrected literature co-mention links; colours show compartments.
+[View a still image](screenshots/map_rotation.png).

@@ -62,9 +62,11 @@ the bundled data requires the original source datasets.
 4. Click a gene to read its evidence and inspect each type of relationship separately.
 5. Select a group with a lasso or brush, then export the gene list for follow-up.
 
-[![A full rotation of the Starplast gene map](docs/screenshots/map_rotation.gif)](docs/screenshots/map_dark.png)
+[![A rotating gene map with CDPK1 and its connections illuminated](docs/screenshots/map_rotation.gif)](docs/screenshots/map_rotation.png)
 
-The bundled *T. gondii* map, coloured by compartment. [View a still image](docs/screenshots/map_dark.png).
+The *T. gondii* map with CDPK1 (`TGME49_301440`) selected. The selected gene and
+its five neighbours emit light; lines show attention-corrected literature
+co-mention links. Colours show compartments. [View a still image](docs/screenshots/map_rotation.png).
 
 Each point is a gene. Its position comes from an embedding of selected features;
 nearby points have similar inputs, but proximity alone does not demonstrate a
@@ -87,8 +89,11 @@ into Starplast; launching the app does not transfer results automatically.
 
 ## Data and reproducibility
 
-The [dataset catalogue](docs/datasets.md) lists the sources, measurements, and
-coverage recorded in the registry. Coverage differs by organism and assay;
+**[Full table of included data and source links →](docs/datasets.md)**
+
+The catalogue lists all 128 registered datasets and computed layers, with their
+measurements, coverage, publication references, and links to source data or inputs.
+Coverage differs by organism and assay;
 absence from a literature search does not establish that a gene has never been studied.
 
 ```bash

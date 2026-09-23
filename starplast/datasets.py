@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 
 from dataclasses import dataclass, field, asdict
 
@@ -2465,12 +2466,44 @@ def _reference(d: "Dataset") -> str:
     if d.pmid:
         bits.append(f"PMID [{d.pmid}](https://pubmed.ncbi.nlm.nih.gov/{d.pmid}/)")
     if d.accession:
-        bits.append(f"`{d.accession}`")
+        accession = re.sub(r"\bGSE\d+\b", lambda m:
+                           f"[{m[0]}](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={m[0]})",
+                           d.accession)
+        accession = re.sub(r"\bPXD\d+\b", lambda m:
+                           f"[{m[0]}](https://www.ebi.ac.uk/pride/archive/projects/{m[0]})",
+                           accession)
+        bits.append(accession)
     return "; ".join(bits) if bits else "*citation not yet confirmed*"
 
 
+def _catalogue_source(d: "Dataset") -> str:
+    """Link the registered download, publication, or inputs of a computed layer.
+
+    Shared column names such as mean_plddt occur in both organisms. Resolve those
+    against the registry's organism namespaces before linking a derived input.
+    """
+    if d.url:
+        return f"[Source data]({d.url})"
+    if d.pmid:
+        return f"[Source publication](https://pubmed.ncbi.nlm.nih.gov/{d.pmid}/)"
+    sources = []
+    for column in d.derived_from:
+        candidates = [source for source in REGISTRY if column in source.columns and source != d]
+        if len(candidates) > 1:
+            is_pf = d.key.startswith(("pf_", "plasmodb_pf"))
+            candidates = [source for source in candidates
+                          if source.key.startswith(("pf_", "plasmodb_pf")) == is_pf]
+        for source in candidates:
+            link = f"[{source.name}](#dataset-{source.key})"
+            if link not in sources:
+                sources.append(link)
+    if sources:
+        return "Computed from " + "; ".join(sources)
+    return "Source link not yet recorded"
+
+
 def readme_table() -> str:
-    """The dataset table for the README, as markdown, generated from this registry.
+    """The linked dataset catalogue, generated as Markdown from this registry.
 
     Generated rather than written by hand because a hand-written table drifts the moment a dataset is
     added, and a README that misstates which data is inside is worse than one that omits it. A test
@@ -2483,9 +2516,10 @@ def readme_table() -> str:
             continue
         lines.append(f"### {LEVEL_TITLE[level]}")
         lines.append("")
-        lines.append("| Dataset | Type of data | Coverage | Reference |")
-        lines.append("|---|---|---|---|")
+        lines.append("| Dataset | Type of data | Coverage | Reference | Source |")
+        lines.append("|---|---|---|---|---|")
         for d in sorted(entries, key=lambda x: x.name):
-            lines.append(f"| {d.name} | {d.provides} | {d.coverage or '—'} | {_reference(d)} |")
+            lines.append(f'| <a id="dataset-{d.key}"></a>{d.name} | {d.provides} | '
+                         f"{d.coverage or '—'} | {_reference(d)} | {_catalogue_source(d)} |")
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
