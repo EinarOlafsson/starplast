@@ -466,7 +466,7 @@ def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print, return_matrix: bo
     try:
         on_gpu = gpu.umap_class()
         if on_gpu is not None:
-            log(f"UMAP: {gpu.backend()['umap']} on the GPU")
+            log(f"UMAP: {gpu.backend()['umap']} on the GPU; this can produce a different map from the CPU path")
             Y = on_gpu(n_components=spec.n_components, n_neighbors=spec.n_neighbors,
                        min_dist=spec.min_dist, metric=spec.metric,
                        random_state=spec.random_state).fit_transform(X)

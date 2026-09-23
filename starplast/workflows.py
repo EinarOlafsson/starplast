@@ -2,6 +2,9 @@
 
 The map remains a browser. Prediction jobs run in the shared background runner,
 and exports retain the full evaluation contract rather than just a ranked score.
+Gene selections are sent back to the main map. Screen comparisons preserve input
+identity and source hashes, while prediction results label their calibration and
+support explicitly so an unsupported hypothesis does not resemble an annotation.
 """
 from __future__ import annotations
 
@@ -18,6 +21,7 @@ from .jobs import JobRunner, Stopped
 
 
 def _combo(items, tip):
+    """Build a labelled setting whose stored value is independent of its display text."""
     box = QtWidgets.QComboBox()
     for label, value in items:
         box.addItem(label, value)
@@ -26,6 +30,7 @@ def _combo(items, tip):
 
 
 def _table():
+    """Use a read-only table so viewing evidence cannot silently edit measurements."""
     table = QtWidgets.QTableWidget()
     table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
     table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
@@ -35,6 +40,7 @@ def _table():
 
 
 def _fill(table, frame, limit=1000):
+    """Render a bounded preview while preserving the full frame for export."""
     frame = frame.head(limit)
     table.setSortingEnabled(False)
     table.clear()
@@ -71,6 +77,7 @@ class WorkflowDialog(QtWidgets.QDialog):
         self._explore_tab(); self._predict_tab(); self._screen_tab()
 
     def _explore_tab(self):
+        """Build gene search and the source-linked measurement view."""
         page = QtWidgets.QWidget(); layout = QtWidgets.QVBoxLayout(page)
         line = QtWidgets.QHBoxLayout()
         self.gene = QtWidgets.QLineEdit()
@@ -89,6 +96,7 @@ class WorkflowDialog(QtWidgets.QDialog):
         self.tabs.addTab(page,'Explore a gene')
 
     def _explore(self):
+        """Find literal identifiers or descriptions in the active organism table."""
         query = self.gene.text().strip()
         if not query:
             self.status.setText('Enter an accession, symbol or product name.'); return
@@ -104,9 +112,11 @@ class WorkflowDialog(QtWidgets.QDialog):
         else: self.evidence.setRowCount(0)
 
     def _open_match(self, row, _column):
+        """Follow the identifier in the currently displayed, possibly sorted row."""
         if self.matches.item(row,0): self._show_evidence(self.matches.item(row,0).text())
 
     def _show_evidence(self, gene):
+        """Expose recorded evidence and missingness, then synchronize map selection."""
         from .evidence import from_gene_table
         from .slots import table_organism
         subset = self.nodes[self.nodes.gene_id.astype(str).eq(gene)]
@@ -117,6 +127,7 @@ class WorkflowDialog(QtWidgets.QDialog):
         self.gene_selected.emit(gene)
 
     def _predict_tab(self):
+        """Present model choice and evaluation settings separately from map controls."""
         page = QtWidgets.QWidget(); layout = QtWidgets.QVBoxLayout(page)
         form = QtWidgets.QFormLayout()
         targets = [c for c in self.nodes if c!='gene_id']
@@ -129,7 +140,8 @@ class WorkflowDialog(QtWidgets.QDialog):
                            'Classification predicts labels. Regression preserves the numerical outcome and reports residual intervals.')
         self.method = _combo([('Linear baseline','linear'),('Boosted trees','boosted'),
                               ('Feature-space neighbours','neighbors'),('PCA neighbours','pca'),
-                              ('UMAP neighbours','umap'),('Masked factors','multiview'),('Prior baseline','prior')],
+                              ('UMAP neighbours','umap'),('Masked factors','multiview'),
+                              ('Weighted networks (fixed graph)','network'),('Prior baseline','prior')],
                              'Compare methods on identical held-out families. The display map is not used for prediction.')
         groups = [(c,c) for c in self.nodes if c!='gene_id' and not pd.api.types.is_numeric_dtype(self.nodes[c])]
         self.group = _combo([('Separate genes (random holdout)',None)]+groups,
@@ -141,6 +153,7 @@ class WorkflowDialog(QtWidgets.QDialog):
         self.sequence = QtWidgets.QCheckBox('Include frozen protein sequence features')
         self.sequence.setToolTip('Load the bundled ESM-2 table by gene ID. This adds sequence evidence without folding proteins or downloading a model.')
         self.sequence.setEnabled(bool(self.nodes.gene_id.astype(str).str.startswith('TGME49_').any()))
+        self.method.currentIndexChanged.connect(self._method_changed)
         self.threshold = QtWidgets.QDoubleSpinBox(); self.threshold.setRange(0,1); self.threshold.setSingleStep(.05)
         self.threshold.setToolTip('Abstain below this model probability. A value of zero applies only the measured-feature coverage rule. '
                                   'Check calibration status before interpreting probabilities.')
@@ -165,41 +178,60 @@ class WorkflowDialog(QtWidgets.QDialog):
         self.tabs.addTab(page,'Predict a trait')
 
     def _run(self):
+        """Freeze the selected settings and table before submitting a background job."""
         from .prediction import TaskSpec, run
         if self.job is not None and self.job.active: return
         target = self.target.currentText()
         if target not in self.nodes:
             self.status.setText('Choose an outcome column present in this table.'); return
-        spec = TaskSpec(target,kind=self.kind.currentData(),method=self.method.currentData(),
-                        group_column=self.group.currentData(),folds=self.folds.value(),
-                        min_probability=self.threshold.value())
+        try:
+            spec = TaskSpec(target,kind=self.kind.currentData(),method=self.method.currentData(),
+                            group_column=self.group.currentData(),folds=self.folds.value(),
+                            min_probability=self.threshold.value())
+        except ValueError as exc:
+            self.status.setText(str(exc)); return
         nodes = self.nodes.copy(); add_sequence = self.sequence.isChecked() and self.sequence.isEnabled()
         self.result = None; self.export_button.setEnabled(False); self.predictions.setRowCount(0)
         self.summary.setText('Running held-out evaluation…')
         self.run_button.setEnabled(False); self.cancel_button.setEnabled(True)
         def work(job):
+            """Fit outside the GUI thread with bounded numerical-library threads."""
             def log(message):
+                """Publish progress and honor cancellation at model-fit boundaries."""
                 if job.cancelled: raise Stopped('Prediction cancelled between model fits')
                 job.note=message; self.runner._sig.progress.emit(job.id,-1,message)
             frame=nodes
-            if add_sequence:
+            if add_sequence and spec.method!='network':
                 log('Loading frozen sequence evidence')
                 sequence=pd.read_parquet(paths.cache_file('esm_features.parquet'))
                 frame=frame.merge(sequence,on='gene_id',how='left',validate='one_to_one')
             log('Preparing evaluation')
             from threadpoolctl import threadpool_limits
             with threadpool_limits(limits=2):
+                if spec.method=='network':
+                    from .network_prediction import bundled_network,run_network
+                    graph,sources=bundled_network(frame)
+                    return run_network(frame,spec,graph,list(sources),sources,log=log)
                 return run(frame,spec,log=log)
         self.job = self.runner.submit(work,f'Predict {target} ({spec.method})')
 
+    def _method_changed(self):
+        """Disable sequence features when the chosen method uses graph edges instead."""
+        enabled=(self.method.currentData()!='network' and
+                 bool(self.nodes.gene_id.astype(str).str.startswith('TGME49_').any()))
+        self.sequence.setEnabled(enabled)
+
     def _progress(self, job_id, _percent, note):
+        """Display progress only for this dialog's current job."""
         if self.job is not None and job_id==self.job.id: self.status.setText(note)
 
     def _cancel(self):
+        """Request cooperative cancellation without killing a model mid-fit."""
         if self.job is not None: self.job.cancel()
         self.status.setText('Stop requested. The current model fit will finish before cancellation.')
 
     def _finished(self, job_id, ok):
+        """Restore controls and expose only a successfully completed run."""
         if self.job is None or job_id!=self.job.id: return
         self.run_button.setEnabled(True); self.cancel_button.setEnabled(False)
         if not ok:
@@ -213,7 +245,8 @@ class WorkflowDialog(QtWidgets.QDialog):
         metrics = ', '.join(f'{key}: {value:.3f}' for key,value in result.metrics.items()
                             if key in {'accuracy','macro_f1','macro_average_precision','rmse','r2','coverage'})
         candidates=result.predictions[result.predictions.role.eq('unlabelled_candidate')]
-        self.summary.setText(f'Held-out evaluation — {metrics}. '
+        mode='Fixed-graph, transductive' if result.spec.method=='network' else 'Inductive'
+        self.summary.setText(f'{result.spec.target} · {result.spec.method}. Held-out evaluation ({mode}) — {metrics}. '
                              f'{int(candidates.supported.sum()):,} supported hypotheses among {len(candidates):,} unlabelled genes. '
                              'These are model predictions, not measured annotations.')
         columns=[c for c in ('gene_id','prediction','score','feature_coverage','supported','abstention_reason',
@@ -222,15 +255,21 @@ class WorkflowDialog(QtWidgets.QDialog):
         self.status.setText('Showing up to 1,000 unlabelled rows. Export includes every row, per-class results, split IDs and provenance.')
 
     def _select_prediction(self, row, _column):
+        """Locate a candidate on the main map without turning it into an annotation."""
         if self.predictions.item(row,0): self.gene_selected.emit(self.predictions.item(row,0).text())
 
     def _export(self):
+        """Save the complete evaluated run and show recoverable filesystem failures."""
         if self.result is None: return
         directory=QtWidgets.QFileDialog.getExistingDirectory(self,'Export evaluated run')
         if directory:
-            self.result.save(directory); self.status.setText(f'Exported complete run to {directory}')
+            try:
+                self.result.save(directory); self.status.setText(f'Exported complete run to {directory}')
+            except (OSError,ValueError) as exc:
+                self.status.setText(f'Export failed: {exc}')
 
     def _screen_tab(self):
+        """Build a measured-table comparison with explicit identifier/value choices."""
         page=QtWidgets.QWidget(); layout=QtWidgets.QVBoxLayout(page)
         note=QtWidgets.QLabel('Import a gene-level spaCR or other measured table. Choose the identifier and effect columns. '
                               'Unmapped identifiers and missing measurements remain visible; duplicate genes need explicit aggregation first.')
@@ -247,6 +286,7 @@ class WorkflowDialog(QtWidgets.QDialog):
         self.tabs.addTab(page,'Compare a screen')
 
     def _load_screen(self):
+        """Open a user-selected table and report parsing errors in the dialog."""
         path,_=QtWidgets.QFileDialog.getOpenFileName(self,'Measured gene table','', 'Tables (*.csv *.tsv *.txt)')
         if path:
             try: self.load_screen(path)
@@ -267,6 +307,7 @@ class WorkflowDialog(QtWidgets.QDialog):
         self.status.setText(f'Loaded {len(self.screen):,} rows. Select columns and compare.')
 
     def _compare(self):
+        """Resolve measured rows without dropping unknown identifiers or averaging duplicates."""
         from .prioritization import compare_screen
         if self.screen is None: self.status.setText('Open a measured table first.'); return
         try:
@@ -281,9 +322,13 @@ class WorkflowDialog(QtWidgets.QDialog):
             self.comparison=None; self.status.setText(f'Comparison stopped: {exc}')
 
     def _export_screen(self):
+        """Write the comparison beside its source hash and selected-column record."""
         if self.comparison is None: self.status.setText('Compare a measured table first.'); return
         path,_=QtWidgets.QFileDialog.getSaveFileName(self,'Export screen comparison','','CSV (*.csv)')
         if path:
-            self.comparison.to_csv(path,index=False)
-            Path(path).with_suffix('.json').write_text(json.dumps(self.screen_source,indent=2)+'\n')
-            self.status.setText(f'Exported comparison and source record to {path}')
+            try:
+                self.comparison.to_csv(path,index=False)
+                Path(path).with_suffix('.json').write_text(json.dumps(self.screen_source,indent=2)+'\n')
+                self.status.setText(f'Exported comparison and source record to {path}')
+            except (OSError,ValueError) as exc:
+                self.status.setText(f'Export failed: {exc}')

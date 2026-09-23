@@ -193,15 +193,23 @@ def test_the_variant_surface_families_carry_the_strain_variation():
 
 @pytest.mark.skipif(not os.path.exists(os.path.join(ROOT, "starplast", "data", P.TABLE)),
                     reason="Plasmodium table not built")
-def test_the_shipped_table_is_falciparum_and_not_gondii(tmp_path, monkeypatch):
+def test_the_shipped_table_is_falciparum_and_not_gondii():
     """Nothing is merged. A TGME49 accession in here would mean two species in one table."""
-    from starplast import paths
-    original = paths.cache_file
-    monkeypatch.setattr(paths, "cache_file", lambda name: str(tmp_path / name)
-                        if name == "pf_mentions.parquet" else original(name))
     d = P.load(ROOT)
     assert len(d) > 5000
     assert not d["gene_id"].str.contains("TGME49_|TGGT1_").any()
+
+
+def test_shipped_literature_ledger_accounts_for_publication_counts():
+    """A synthetic fixture must never replace the source ledger shipped to users."""
+    from starplast import paths
+    nodes=pd.read_parquet(paths.cache_file('pf_nodes.parquet')).set_index('gene_id')
+    ledger=pd.read_parquet(paths.cache_file('pf_mentions.parquet'))
+    assert {'gene_id','doc_id','pmid','source','tier'} <= set(ledger.columns)
+    assert set(ledger.gene_id) <= set(nodes.index)
+    from starplast.literature import publication_counts
+    counts=publication_counts(ledger,'abstract').reindex(nodes.index,fill_value=0)
+    np.testing.assert_array_equal(counts.to_numpy(),nodes.n_publications.to_numpy())
 
 
 # --------------------------------------------------------------------------- expression
@@ -2546,13 +2554,19 @@ def test_build_all_folds_in_the_liver_transfer_and_the_literature(tmp_path, monk
     """Both are left-joined and neither fills: a gene absent from a screen was not screened, and a
     gene absent from the literature has not been written about -- which is a fact, not a zero."""
     root = _dataset_root(tmp_path)
+    from starplast import paths
+    ledger=tmp_path/'pf_mentions.parquet'
+    monkeypatch.setattr(paths,'cache_file',lambda name:str(ledger))
     monkeypatch.setattr(P, "berghei_liver_fitness", lambda *a, **k: pd.DataFrame(
         {"gene_id": ["PF3D7_0100100"], "pb_transferred_liver_log2fc": [-3.2],
          "pb_transferred_liver_reduced": [True]}))
     monkeypatch.setattr(P, "literature_layer", lambda *a, **k: (
         pd.DataFrame({"gene_id": ["PF3D7_0100100", "PF3D7_0100200"], "n_publications": [7, 0],
                       "attention_depth": ["focal", ""]}), {}, pd.DataFrame({"gene_id": ["x"]})))
-    d = P.build_all(root, log=lambda *a: None).set_index("gene_id")
+    assembled,mentions = P.build_all(root, log=lambda *a: None, return_mentions=True)
+    d = assembled.set_index("gene_id")
+    assert not ledger.exists(), 'assembling a table must not overwrite the packaged mention ledger'
+    assert mentions.gene_id.tolist()==['x']
     assert d.loc["PF3D7_0100100", "pb_transferred_liver_log2fc"] == -3.2
     assert pd.isna(d.loc["PF3D7_0100200", "pb_transferred_liver_log2fc"])
     assert d.loc["PF3D7_0100100", "n_publications"] == 7

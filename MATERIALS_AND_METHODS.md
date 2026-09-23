@@ -190,12 +190,19 @@ individually well studied.
 
 ## Visualisation
 
-Node coordinates are a three-dimensional UMAP embedding (n_neighbors = 25, min_dist = 0.25, Euclidean
-metric, random_state = 0) of a 43-column matrix: 16 numeric features (three expression summaries, seven
-fitness screens, mean pLDDT, paralog number, InterPro count, phosphosite count, domain presence and
-lineage specificity), z-scored following median imputation, concatenated with 27 hyperLOPIT one-hot columns
-scaled by 0.5. Points are rendered with translucent blending and depth testing, and edge opacity scales
-with edge weight.
+Node coordinates use the same feature-recipe builder as interactive maps. The packaged
+Toxoplasma layout uses 283 processed numeric features; Plasmodium uses 20. Both use median
+imputation, robust scaling, balanced blocks and three-dimensional UMAP (25 neighbours,
+min_dist 0.25, Euclidean metric, random_state 42). Categorical compartment labels are not
+one-hot encoded; numeric localization-confidence measurements may still contribute to
+browsing, so this layout is not independent validation of localization. Ordered gene IDs,
+input/coordinate hashes, recipe, actual backend and library versions accompany each archive.
+Points are rendered with translucent blending and depth testing; edge opacity scales with weight.
+
+The guided prediction workflow fits its own transforms inside family holdouts, independently
+of the opening map. Its methods, calibration and export contract are described in
+[the workflow guide](docs/workflows.md). The structure-search results below describe the
+historical pre-0.43 analysis, not performance measurements of the rebuilt default layout.
 
 ## Structure search and held-out label recovery
 
@@ -247,16 +254,13 @@ above the measured targets.
 
 Several limitations follow from the above and should be read alongside any use of the map.
 
-Missing values are imputed to the column median before embedding, so the pattern of *which genes were
-measured* is partially encoded in node position: genes lacking fitness data lie 0.38 map-radii from those
-possessing it (mean pLDDT 0.21; phosphosite count 0.22). The structure search quantifies the consequence:
-a clustering recovers "named in no paper at all" at F1 0.77, which is higher than it recovers any
-biological label, so this is the dominant organising signal in the map rather than a marginal one. Since phosphosite counts are missing for 85.6% of
-genes, that variable functions largely as an indicator of inclusion in a phosphoproteomics experiment.
-Relatedly, the hyperLOPIT block contributes only 1.1% of the feature matrix's variance and therefore has
-little influence on position despite being included. UMAP preserves local neighbourhoods rather than global
-distances, so proximity is interpretable while inter-cluster separation is not; both derived relation types
-are computed from edges rather than from embedding distance and are unaffected.
+Missing values are imputed to the column median before embedding, so measurement coverage
+and assay-selection bias can shape position. The legacy layout exhibited substantial
+missingness-associated separation and strong recovery of literature attention. Those historical
+measurements do not quantify the rebuilt balanced layout. There is no longer a categorical
+hyperLOPIT one-hot block. UMAP neighbourhoods reflect the selected features and transformations;
+neither proximity nor inter-cluster separation establishes biological function. Derived relation
+types are computed from edges rather than embedding distance.
 
 Predicted complexes for crosslinked pairs are frequently inconsistent with the measurement they are meant
 to explain: of 2,397 scored pairs, 60% place no crosslink within reach, the median interface ipTM is 0.16,

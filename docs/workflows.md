@@ -101,10 +101,13 @@ a bulk literature-curation interface.
 The `network_prediction.run_network()` API evaluates weighted propagation on a
 fixed graph with explicit gene order and edge provenance. Seed labels, layer-weight
 validation, probability calibration and outer evaluation use disjoint groups.
+The guided method **Weighted networks (fixed graph)** uses the bundled domain,
+coexpression and structural-similarity layers with those builders' declared inputs.
 Target-derived layers are excluded; disconnected genes abstain. This is explicitly
 **transductive** because the fixed graph includes evaluation nodes. It cannot be
-reported as performance on newly arriving nodes. Network fitting remains an API
-workflow so source declarations are explicit.
+reported as performance on newly arriving nodes. Custom network fitting uses the
+API so its source declarations remain explicit. Sequence-feature and measured-feature
+coverage controls do not apply to network propagation.
 
 `prioritization.explain_candidates()` reports observed source coverage, training
 neighbours and, for linear models, feature contributions. It explains unknown-gene

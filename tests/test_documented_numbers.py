@@ -122,51 +122,43 @@ def test_the_superseded_figures_do_not_come_back():
             assert phrase not in text, f"{doc} has reverted to: {phrase!r}"
 
 
-def test_the_explainers_name_the_features_the_shipped_map_was_actually_built_from():
-    """Both texts said "expression, fitness screens, protein features and literature co-mention",
-    and the shipped layout uses no literature column at all while using the measured hyperLOPIT
-    compartment, one-hot at half weight, as an input.
-
-    Getting that backwards is not a wording slip. A reader told compartment was held out reads the
-    compartment coloring as a finding, when genes of one compartment sit together partly by
-    construction -- and the chat text is a system prompt, so the model repeats it."""
-    from starplast import build_graph
+def test_the_explainers_match_the_executed_packaged_recipe():
+    """Read the archived execution record, rather than reconstructing a retired builder."""
+    import json
     from starplast.app import MAP_EXPLANATION
     from starplast.chat import GROUNDING
+    with np.load(paths.cache_file("graph.npz"), allow_pickle=False) as archive:
+        record = json.loads(str(archive["layout_metadata"]))
+    assert record["executed_method"] == "umap"
+    assert record["recipe"]["categorical"] == []
+    assert record["recipe"]["scaling"] == "robust"
+    assert record["recipe"]["na_policy"] == "median"
+    assert not any(name.startswith(("n_publications", "n_fulltext", "n_papers"))
+                   for name in record["features"])
+    for text in (MAP_EXPLANATION, GROUNDING):
+        assert "Categorical compartment labels are not one-hot encoded" in text
+        assert "no literature column is an input" in text.lower()
+        assert "1.1%" not in text and "sixteen numeric" not in text
+        assert "held-out evaluation" in text
 
-    feats = ["expr_tachy", "expr_cyst", "expr_max", "mean_plddt", "paralog_number", "n_interpro",
-             "n_phosphosites", "has_domain", "lineage_specific"] + list(build_graph.FIT)
-    source = open(os.path.join(ROOT, "starplast", "build_graph.py"), encoding="utf8").read()
-    body = source[source.index("def embed("):source.index("def embed(") + 1500]
-    assert "nodes.compartment" in body, "the shipped embedding no longer one-hots the compartment"
-    assert not [f for f in feats if f.startswith(("n_publications", "n_fulltext", "n_papers"))], \
-        "a literature column became an input; the explainers say there is none"
 
-    for name, text in (("the map explainer", MAP_EXPLANATION), ("the chat grounding", GROUNDING)):
-        assert "hyperLOPIT compartment" in text, f"{name} does not say compartment is an input"
-        assert "no literature column is an input" in text.lower(), \
-            f"{name} still implies literature is an input"
-        assert "1.1%" in text, f"{name} does not say how much of the matrix compartment carries"
-
-
-def test_the_compartment_share_of_the_shipped_matrix_is_what_the_explainers_say():
-    """Named as an input and doing almost nothing are both true, and quoting one without the other
-    misleads in a different direction each time. Measured here rather than remembered."""
-    from starplast import build_graph, paths
-    cache = paths.cache_file("nodes.parquet")
-    if not os.path.exists(cache):
-        pytest.skip("no built cache on this machine")
-    nodes = pd.read_parquet(cache)
-    feats = [f for f in ["expr_tachy", "expr_cyst", "expr_max", "mean_plddt", "paralog_number",
-                         "n_interpro", "n_phosphosites", "has_domain", "lineage_specific"]
-             + list(build_graph.FIT) if f in nodes.columns]
-    X = nodes[feats].to_numpy(dtype=float)
-    med = np.nanmedian(X, axis=0)
-    X = np.where(np.isnan(X), np.where(np.isfinite(med), med, 0.0), X)
-    X = (X - X.mean(0)) / (X.std(0) + 1e-9)
-    comp = pd.get_dummies(nodes.compartment.astype(str)).to_numpy(dtype=float) * 0.5
-    share = comp.var(0).sum() / (X.var(0).sum() + comp.var(0).sum())
-    assert 0.005 < share < 0.02, f"compartment now carries {share:.1%}, not the 1.1% quoted"
+def test_packaged_layout_matches_the_shared_matrix_and_gene_order():
+    """Hashes and row IDs tie the actual layout to the data and recipe shipped with it."""
+    import hashlib
+    import json
+    from pathlib import Path
+    from starplast.embedding import build_matrix, EmbeddingSpec
+    for prefix in ("", "pf_"):
+        node_path = paths.cache_file(prefix+"nodes.parquet")
+        nodes = pd.read_parquet(node_path)
+        with np.load(paths.cache_file(prefix+"graph.npz"),allow_pickle=False) as archive:
+            record = json.loads(str(archive["layout_metadata"]))
+            np.testing.assert_array_equal(archive["gene_ids"],nodes.gene_id.astype(str))
+            assert hashlib.sha256(archive["xyz"].tobytes()).hexdigest() == record["coordinates_sha256"]
+        matrix, names, rows = build_matrix(nodes,EmbeddingSpec.from_dict(record["recipe"]),log=lambda _:None)
+        assert rows.all() and names == record["features"]
+        assert hashlib.sha256(np.ascontiguousarray(matrix).tobytes()).hexdigest() == record["matrix_sha256"]
+        assert hashlib.sha256(Path(node_path).read_bytes()).hexdigest() == record["node_file_sha256"]
 
 
 def test_no_shipped_column_says_the_same_thing_about_every_gene():

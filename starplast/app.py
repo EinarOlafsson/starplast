@@ -122,20 +122,17 @@ EDGE_EXPLANATION = (
     "'are these two related' is 'by which evidence'.")
 
 MAP_EXPLANATION = (
-    "Position is similarity in three stage-expression columns, seven CRISPR fitness screens, six "
-    "protein features, and the measured hyperLOPIT compartment one-hot encoded at half weight, "
-    "reduced to three dimensions by UMAP. That is all it is. No literature column is an input.\n\n"
-    "Compartment being an input means this layout can never be evidence about localization — the "
-    "held-out searches build their own maps without it, and those are what the numbers below "
-    "describe. It is also a smaller input than it looks: measured on the matrix, the 27 one-hot "
-    "columns carry 1.1% of its variance against 98.9% for the sixteen numeric features, so "
-    "compartment is an input in name far more than in effect.\n\n"
-    "Held-out testing on the full proteome found that no target is reliably recovered: cell cycle "
-    "recovers 0 of 5 phases and localization 1 of 24 compartments. Localization scores below the "
-    "negative control — the map reflects how much a gene has been studied better than it reflects "
-    "where the protein is.\n\n"
-    "So proximity here is a hypothesis to check, never evidence on its own. No predictions are "
-    "issued from it. Grey means unknown; it never means zero and never means a category.")
+    "Position represents similarity under the saved feature recipe, reduced to three dimensions. "
+    "The packaged maps use the same balanced embedding builder as interactive maps. Their archives "
+    "record the selected features, ordered genes, data hashes and algorithm that actually ran.\n\n"
+    "The current default uses numeric biological features with median imputation, robust scaling "
+    "and balanced blocks. Categorical compartment labels are not one-hot encoded. Numeric localization "
+    "confidence can still be an input, so the display is not independent validation of localization. "
+    "No literature column is an input, but uneven measurement coverage can still shape the map.\n\n"
+    "Proximity suggests a question; it does not establish function, interaction or a probability. "
+    "Use Tools > Predict a trait for separate held-out evaluation, calibration and unsupported-call "
+    "abstention. Its models fit their own inputs and exclude the target and derived evidence. "
+    "Grey means unknown, not a measured zero.")
 
 # How many distinct values a column may have and still be offered as a filter category. Above this it
 # is an identifier rather than a class -- orthogroup has 7,331 values, and a list that long is not a
@@ -1836,8 +1833,8 @@ class Window(QtWidgets.QMainWindow):
         return (
             f"<h3>starplast {__version__}</h3>"
             f"<p>A 3D browser for the <i>Toxoplasma gondii</i> knowledge map: {len(self.nodes):,} "
-            f"genes, positioned by UMAP over expression, fitness screens, protein features and the "
-            f"measured hyperLOPIT compartment.</p>"
+            f"genes, positioned by the saved balanced feature recipe. "
+            f"The layout is exploratory; guided prediction uses separate held-out evaluation.</p>"
             f"<p><b>Computing:</b> UMAP {b['umap']}, clustering {b['cluster']}.<br>"
             f"<b>Cache:</b> {paths.data_dir()}</p>"
             f"<p>Proximity here is a hypothesis to check, never evidence on its own. Grey means "

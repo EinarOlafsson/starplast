@@ -53,3 +53,14 @@ def test_failure_clears_previous_result(qtbot):
     assert dialog.result is None and not dialog.export_button.isEnabled()
     assert dialog.predictions.rowCount()==0
     assert 'at least two observed classes' in dialog.summary.text()
+
+
+def test_network_choice_disables_sequence_matrix_setting(qtbot):
+    frame=nodes();frame['gene_id']=[f'TGME49_{200000+i}' for i in range(len(frame))]
+    dialog=WorkflowDialog(frame);qtbot.addWidget(dialog)
+    assert dialog.sequence.isEnabled()
+    dialog.method.setCurrentIndex(dialog.method.findData('network'))
+    assert not dialog.sequence.isEnabled()
+    dialog.kind.setCurrentIndex(dialog.kind.findData('regression'))
+    dialog.target.setCurrentText('x1');dialog._run()
+    assert dialog.job is None and 'classification' in dialog.status.text()

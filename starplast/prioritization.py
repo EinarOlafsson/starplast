@@ -2,6 +2,10 @@
 
 Predictions remain hypotheses. Expected value uses explicit user benefits/costs;
 uncertainty-driven exploration is reported separately from success probability.
+Explanations use only the final model's fitting neighbours for unknown genes;
+held-out rows retain their own evaluation meaning. Measured screen imports keep
+unresolved identifiers and missing values, so a comparison cannot silently turn
+unassayed genes into negative measurements.
 """
 from __future__ import annotations
 

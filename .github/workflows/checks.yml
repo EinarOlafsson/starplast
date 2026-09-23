@@ -21,6 +21,9 @@ jobs:
       QT_QPA_PLATFORM: offscreen
       PYQTGRAPH_QT_LIB: PyQt6
       STARPLAST_STATE: /tmp/starplast-checks
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+      NUMBA_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

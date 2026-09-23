@@ -40,3 +40,14 @@ def test_target_derived_or_unsourced_graph_is_refused():
         run_network(nodes,TaskSpec('target'),graph,['signal'],{})
     with pytest.raises(ValueError,match='all network layers'):
         run_network(nodes,TaskSpec('target'),graph,['signal'],{'signal':['target']})
+
+
+def test_bundled_graphs_have_explicit_sources_and_correct_identity():
+    from starplast.network_prediction import bundled_network
+    from starplast.paths import cache_file
+    for prefix in ('','pf_'):
+        nodes=pd.read_parquet(cache_file(prefix+'nodes.parquet'))
+        graph,sources=bundled_network(nodes)
+        np.testing.assert_array_equal(graph['gene_ids'],nodes.gene_id)
+        assert set(sources)=={'domain','coexpression','struct'}
+        assert all(sources.values())

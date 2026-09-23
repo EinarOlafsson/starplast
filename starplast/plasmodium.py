@@ -266,7 +266,7 @@ def codon_usage(base: str, log=print) -> pd.DataFrame:
     return codons.codon_usage(base, log=log, table=CDS_TABLE, nodes=TABLE)
 
 
-def build_all(dataset_root: str, log=print) -> pd.DataFrame:
+def build_all(dataset_root: str, log=print, return_mentions: bool = False):
     """The whole Plasmodium table from the three PlasmoDB reports, assembled in one place.
 
     Exists so the table is reproducible rather than the product of whatever was typed at a prompt,
@@ -274,11 +274,14 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     recorded as tier 0 rather than as missing, because ExportPred is a sequence model evaluated on
     every protein and its silence is a prediction of "not exported". Every other absence in this
     table is ignorance and stays missing.
+
+    Assembly does not write package files. ``return_mentions=True`` returns
+    ``(nodes, mentions)`` so a build command can publish both after its checks.
     """
     base = os.path.join(dataset_root, "reference", "plasmodb")
     nodes = build(os.path.join(base, "plasmodb_pf3d7_gene_attributes.tsv"))
     if nodes.empty:
-        return nodes
+        return (nodes,pd.DataFrame()) if return_mentions else nodes
     stages = expression(os.path.join(base, EXPRESSION_TABLE))
     if not stages.empty:
         nodes = nodes.merge(stages, on="gene_id", how="left")
@@ -405,10 +408,6 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
                                                 log=log)
     if not columns.empty:
         nodes = nodes.merge(columns, on="gene_id", how="left")
-        from . import paths
-        # The auditable intermediate, exactly as the Toxoplasma arm keeps one: every literature
-        # figure downstream can be recomputed from this without re-reading 43,000 abstracts.
-        mentions.to_parquet(paths.cache_file("pf_mentions.parquet"), index=False)
     codons_here = codon_usage(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), log=log)
     if not codons_here.empty:
         nodes = nodes.merge(codons_here, left_on="gene_id", right_index=True, how="left")
@@ -416,7 +415,7 @@ def build_all(dataset_root: str, log=print) -> pd.DataFrame:
     for column in derived.columns:
         nodes[column] = derived[column].to_numpy()
     log(f"Plasmodium table: {len(nodes):,} genes, {len(nodes.columns)} columns")
-    return nodes
+    return (nodes,mentions) if return_mentions else nodes
 
 
 # --------------------------------------------------------------------------- phosphorylation

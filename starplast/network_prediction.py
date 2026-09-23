@@ -19,6 +19,35 @@ from .prediction import (PredictionResult, TaskSpec, _evaluate, _splits, group_i
                          known_labels)
 
 
+def bundled_network(nodes):
+    """Load the installed graph and declared domain, expression and structure inputs.
+
+    Only bundled graphs have these known builders. Custom graphs must use
+    ``run_network`` with their own explicit source declarations. Row identity is
+    still verified against the analysis table when the model runs.
+    """
+    from pathlib import Path
+    from .slots import table_organism
+    organism=table_organism(nodes)
+    if organism not in {'Tg','Pf'}:
+        raise ValueError('bundled networks require a recognized organism; supply a custom sourced graph through the API')
+    prefix='pf_' if organism=='Pf' else ''
+    root=Path(__file__).resolve().parent/'data'
+    original=pd.read_parquet(root/f'{prefix}nodes.parquet')
+    with np.load(root/f'{prefix}graph.npz',allow_pickle=False) as archive:
+        graph={key:archive[key] for key in archive.files}
+    if organism=='Pf':
+        from .pf_graph import STAGE_COLUMNS
+        expression=[c for c in STAGE_COLUMNS if c in original]
+    else:
+        expression=[c for c in original if c.startswith('rna108740_')]
+    sources={'domain':['interpro_ids' if organism=='Pf' else 'interpro_id'],
+             'coexpression':expression,
+             'struct':['foldseek_query','foldseek_target','foldseek_alignment_score']}
+    sources={name:columns for name,columns in sources.items() if f'{name}__a' in graph}
+    return graph,sources
+
+
 def run_network(nodes, spec, graph, layers, edge_sources, log=print):
     """Evaluate weighted propagation with explicit edge provenance and aligned IDs.
 
@@ -156,7 +185,10 @@ def run_network(nodes, spec, graph, layers, edge_sources, log=print):
         table[f'probability::{label}']=scores[:,i]
     fingerprints={name:hashlib.sha256(b''.join(np.asarray(graph[f'{name}__{part}']).tobytes()
                                              for part in ('a','b','w'))).hexdigest() for name in layers}
+    from importlib.metadata import version
     provenance={'evaluation_mode':'transductive_group_holdout','ordered_gene_ids':nodes.gene_id.tolist(),
+                'data_sha256':hashlib.sha256(pd.util.hash_pandas_object(nodes,index=True).values.tobytes()).hexdigest(),
+                'versions':{name:version(name) for name in ('numpy','pandas','scipy','scikit-learn')},
                 'edge_sources':edge_sources,'edge_sha256':fingerprints,'final_fit':final,
                 'executed_method':'weighted_network_diffusion','classes':classes,
                 'limitations':['All fixed graph nodes are visible. Performance is not an inductive new-node estimate.',

@@ -123,7 +123,7 @@ def main(argv=None, log=print) -> int:
             log(f"wrote {host_path}  ({len(merged):,} host proteins, "
                 f"{len(merged.columns)} columns)")
 
-    new = plasmodium.build_all(root, log=log)
+    new, mentions = plasmodium.build_all(root, log=log, return_mentions=True)
     if new.empty:
         log("build produced nothing -- is the PlasmoDB gene report under reference/plasmodb?")
         return 1
@@ -145,6 +145,7 @@ def main(argv=None, log=print) -> int:
         log("--dry-run: not written")
         return 0
     new.to_parquet(table, index=False)
+    mentions.to_parquet(paths.cache_file("pf_mentions.parquet"), index=False)
     log(f"wrote {table}  ({len(new):,} genes, {len(new.columns)} columns)")
     pf_graph.save(new, graph, log=log, dataset_root=root)
     log(f"wrote {graph}")
