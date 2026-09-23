@@ -1,5 +1,7 @@
 # Starplast
 
+<img src="assets/starplast-wordmark.svg" alt="Starplast — a Toxoplasma silhouette enclosing a constellation" width="520">
+
 Explore gene evidence and screen results in *Toxoplasma gondii* and
 *Plasmodium falciparum*. Starplast combines gene maps with expression, fitness,
 localization, interaction, and literature evidence.

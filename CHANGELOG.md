@@ -3,7 +3,7 @@
 ## 0.42.0
 
 - Simplify the map to individual genes; remove Galaxy and Orthogroup summary modes.
-- Add a Starplast logo and window icon.
+- Adopt the Toxoplasma constellation logo, SVG wordmarks, and window icon.
 - Rewrite the README and add a user guide and Python API guide.
 - Publish generated API documentation through GitHub Pages.
 - Add settings help and document application callbacks.
@@ -12,6 +12,9 @@
 - Make CUDA dependencies optional through `starplast[gpu]`.
 - Include SVG artwork and compressed sequence tables in wheels; exclude saved embeddings.
 - Add synchronized version bumps, build checks, and automatic PyPI publishing.
+- Develop on `nightly`; publish version increases on `main` to PyPI and GitHub Releases.
+- Link all 128 registered datasets and computed layers to their sources.
+- Show a 1440×1080, 30 fps gene-map rotation with selected-gene lighting in the README.
 
 ## 0.41.0
 

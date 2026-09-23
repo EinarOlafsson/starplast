@@ -65,7 +65,7 @@ def render(source: str, path: Path, width: int, height: int, dark: bool = False)
 
 
 def main() -> None:
-    """Write both colourways, wordmarks, previews, and a standalone comparison page."""
+    """Write the approved logo, its installed assets, both colourways, and previews."""
     app = QtGui.QGuiApplication([])
     OUT.mkdir(parents=True, exist_ok=True)
     word = outline("starplast", 86)
@@ -77,8 +77,14 @@ def main() -> None:
                      650, 310, "Starplast — Toxoplasma constellation wordmark")
         (OUT / f"icon{suffix}.svg").write_text(mark)
         (OUT / f"wordmark{suffix}.svg").write_text(lockup)
+        (ROOT / f"docs/assets/starplast-wordmark{suffix}.svg").write_text(lockup)
         render(mark, OUT / f"icon{suffix}.png", 720, 930, inverse)
         render(lockup, OUT / f"wordmark{suffix}.png", 1300, 620, inverse)
+    # A white tile keeps the app icon legible against either desktop theme.
+    app_mark = svg('<rect width="310" height="310" rx="35" fill="white"/>'
+                   '<g transform="translate(35 0)">' + icon() + '</g>',
+                   310, 310, "Starplast — Toxoplasma constellation")
+    (ROOT / "starplast/data/icons/starplast.svg").write_text(app_mark)
     preview = svg('<rect width="1200" height="700" fill="white"/>'
                   '<g transform="translate(58 30) scale(1.8)">' + icon() + '</g>'
                   '<g color="black" transform="translate(475 341)">' + word + '</g>',
@@ -92,7 +98,7 @@ main{max-width:1100px;margin:auto;padding:40px 24px}h1{font-size:30px;font-weigh
 a{color:inherit;text-underline-offset:4px}nav{display:flex;gap:24px;flex-wrap:wrap}.preview img{width:100%;height:auto}
 .inverse{display:none}label{display:block;margin-top:24px;cursor:pointer}body:has(#dark:checked){background:black;color:white}
 body:has(#dark:checked) .normal{display:none}body:has(#dark:checked) .inverse{display:block}</style>
-<main><h1>Toxoplasma constellation</h1><p>An elongated, asymmetric parasite with a softly tapered apex, a rounded rear,
+<main><h1>Starplast logo</h1><p>An elongated, asymmetric parasite with a softly tapered apex, a rounded rear,
 an apical cap, and a nucleus ring. Seven stars form a connected constellation entirely inside its body.</p>
 <nav><a href="icon.svg" download>Icon SVG</a><a href="wordmark.svg" download>Wordmark SVG</a>
 <a href="starplast-constellation.zip" download>Download both colourways</a><a href="../logo-options/index.html">Earlier options</a></nav>

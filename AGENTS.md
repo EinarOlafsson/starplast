@@ -11,6 +11,9 @@
   and the relevant validation.
 - Keep logos black and white with thin lines. README badges use standard
   contrasting labels, colours, and appropriate service icons.
+- The approved logo is the Toxoplasma silhouette enclosing seven connected stars.
+  Regenerate its SVGs with `scripts/generate_constellation_logo.py`; the active
+  wordmarks are in `docs/assets/` and the app icon is `starplast/data/icons/starplast.svg`.
 - Keep the full linked dataset catalogue in `docs/datasets.md`, generated from
   `starplast.datasets.REGISTRY`; keep a prominent link to it in the README.
 - Prepare releases with `python scripts/release.py bump VERSION` and update the
