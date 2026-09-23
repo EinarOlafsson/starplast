@@ -16,6 +16,7 @@ starplast
 - [Module reference](api/starplast.html): generated signatures and docstrings.
 - [Dataset catalogue](datasets.md): source records, assay types, and coverage.
 - [Repository review](repository-review.md): architecture and scientific limitations.
+- [Ten logo refinements](assets/logo-refinements/index.html): compare and download SVG proposals.
 - [Development and releases](releases.md): build, test, and publish.
 
 [![The gene map with CDPK1 and its neighbours illuminated](screenshots/map_rotation.gif)](screenshots/map_rotation.png)
