@@ -1,4 +1,4 @@
-# Next release implementation
+# 0.43.0 release completion
 
 Release: 0.43.0. Scientific benchmarks, UI checks, documentation, packaging and
 the complete regression suite passed before the version bump.
@@ -17,7 +17,7 @@ the complete regression suite passed before the version bump.
 - [x] Forty-slide introduction and practical guide with spaCR-style GitHub navigation, viewer, PDF and editable PowerPoint.
 - [x] Reproducible real-data benchmarks, controls, limitations and [release report](benchmark-0.43.md).
 - [x] Full relevant regression, documentation, wheel and installed-app verification.
-- [ ] Publish 0.43.0 and verify the uploaded package and deployed documentation.
+- [x] Publish 0.43.0 and verify the uploaded package and deployed documentation.
 
 The source AF3 directories are inputs, not working directories. Index models and
 extract features without altering the shared structure files.
@@ -31,3 +31,16 @@ Release acceptance: the complete local suite passed (3,554 tests, nine skips);
 subsequent UI and deck checks passed. The final pre-release [GitHub test run](https://github.com/EinarOlafsson/starplast/actions/runs/35912996485)
 and [documentation build](https://github.com/EinarOlafsson/starplast/actions/runs/35912996668) passed.
 The deck was checked in desktop/mobile browsers and rendered from both PDF and PowerPoint.
+
+Published on 23 September 2026: [PyPI 0.43.0](https://pypi.org/project/starplast/0.43.0/)
+and [GitHub release](https://github.com/EinarOlafsson/starplast/releases/tag/v0.43.0),
+from commit `1162ebddddd7b95c4dc9f745e767601a2c47b29e`. The public wheel installed
+from PyPI, passed dependency checks and rendered both organism maps with working
+guided evidence. Its README metadata matches the repository exactly; distribution
+checksums match the GitHub release assets. The [deployed 40-slide viewer](https://einarolafsson.github.io/starplast/deck/)
+passed navigation, keyboard, mobile swipe, transcript and image-loading checks.
+Public PDF and PowerPoint downloads match the committed files byte for byte.
+
+Release automation: [full regression on the release commit](https://github.com/EinarOlafsson/starplast/actions/runs/35915144296),
+[build and publication](https://github.com/EinarOlafsson/starplast/actions/runs/35915144281),
+and [documentation deployment](https://github.com/EinarOlafsson/starplast/actions/runs/35915144196).
