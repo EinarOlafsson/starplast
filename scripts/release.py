@@ -14,12 +14,11 @@ except ModuleNotFoundError:  # Python 3.10
 from packaging.version import Version
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECTS = (Path("pyproject.toml"), Path("packaging/starplast/pyproject.toml"),
-            Path("packaging/starplast-gpu/pyproject.toml"))
+PROJECTS = (Path("pyproject.toml"),)
 
 
 def check(root: Path = ROOT) -> str:
-    """Return the release version after checking all distributions and exact dependency pins."""
+    """Return the version after checking package identity and the runtime declaration."""
     projects = [tomllib.loads((root / p).read_text(encoding="utf-8"))["project"] for p in PROJECTS]
     version = projects[0]["version"]
     if str(Version(version)) != version:
@@ -32,19 +31,18 @@ def check(root: Path = ROOT) -> str:
                    and any(isinstance(t, ast.Name) and t.id == "__version__" for t in n.targets))
     if runtime != version:
         raise ValueError(f"starplast.__version__ is {runtime}; expected {version}")
-    expected = {"starplast-core": set(), "starplast": {f"starplast-core=={version}",
-                f"starplast-core[gpu]=={version}", f"starplast-core[ingest]=={version}"},
-                "starplast-gpu": {f"starplast[gpu]=={version}"}}
-    for p in projects:
-        requirements = p.get("dependencies", []) + [r for values in p.get("optional-dependencies", {}).values() for r in values]
-        internal = {r for r in requirements if r.startswith("starplast")}
-        if internal != expected[p["name"]]:
-            raise ValueError(f"Incorrect internal dependency pins for {p['name']}: {internal}")
+    project = projects[0]
+    if project["name"] != "starplast":
+        raise ValueError("The only PyPI project must be starplast")
+    requirements = project.get("dependencies", []) + [
+        r for values in project.get("optional-dependencies", {}).values() for r in values]
+    if any(r.lower().startswith("starplast") for r in requirements):
+        raise ValueError("Starplast must not depend on another Starplast distribution")
     return version
 
 
 def bump(version: str, root: Path = ROOT) -> str:
-    """Update all four version declarations and metapackage pins to a newer PEP 440 version."""
+    """Update package and runtime declarations to a newer PEP 440 version."""
     old = check(root)
     if str(Version(version)) != version or Version(version) <= Version(old):
         raise ValueError(f"Version must be canonical and greater than {old}")
@@ -52,8 +50,6 @@ def bump(version: str, root: Path = ROOT) -> str:
     for path in PROJECTS:
         text = (root / path).read_text(encoding="utf-8")
         text = re.sub(r'(?m)^version = "[^"]+"$', f'version = "{version}"', text)
-        text = re.sub(r'(starplast(?:-core)?(?:\[[a-z]+\])?==)[^"\s]+',
-                      lambda m: m[1] + version, text)
         changes[path] = text
     path = Path("starplast/__init__.py")
     changes[path] = re.sub(r'(?m)^__version__ = "[^"]+"$', f'__version__ = "{version}"',

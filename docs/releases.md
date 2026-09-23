@@ -21,7 +21,7 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev,docs]"
 python scripts/release.py check
-QT_QPA_PLATFORM=offscreen pytest tests/test_release.py tests/test_packaging.py tests/test_readme.py tests/test_docstrings.py tests/test_paths.py tests/test_app_smoke.py tests/test_app_polish.py tests/test_discover_cli.py tests/test_importer.py -q
+QT_QPA_PLATFORM=offscreen pytest tests/test_release.py tests/test_wheel.py tests/test_packaging.py tests/test_readme.py tests/test_docstrings.py tests/test_paths.py tests/test_app_smoke.py tests/test_app_polish.py tests/test_discover_cli.py tests/test_importer.py -q
 python scripts/build_docs.py
 ```
 
@@ -36,25 +36,23 @@ they are not a validation of all scientific results.
 
 ## Package layout
 
-| Distribution | Contents |
-|---|---|
-| `starplast-core` | Python modules, console commands, built gene data, and icons |
-| `starplast` | Installs the exact matching core version; forwards `gpu` and `ingest` extras |
-| `starplast-gpu` | Compatibility alias for the matching `starplast[gpu]` version |
+There is one PyPI distribution: **`starplast`**. It contains the Python modules,
+console commands, built gene data, and icons. `starplast[gpu]` enables optional
+CUDA dependencies and `starplast[ingest]` enables coverage-file imports; both are
+extras of the same project.
 
-The core name remains stable because spaCR checks its installed metadata. CUDA is
-optional for all entry points. The core wheel includes cached data for offline
-browsing and excludes local saved embeddings. Source datasets are not packaged.
+The wheel includes cached data for offline browsing and excludes local saved
+embeddings. Original source datasets are not packaged; see the [dataset catalogue](datasets.md).
 
 ## One-time PyPI setup
 
 Sign in to **Einar's own PyPI account** at
 [PyPI publishing](https://pypi.org/manage/account/publishing/) and create
-a pending Trusted Publisher for each of `starplast-core`, `starplast`, and
-`starplast-gpu` with these values:
+a pending Trusted Publisher for **`starplast`** with these values:
 
 | Field | Value |
 |---|---|
+| PyPI project name | `starplast` |
 | Owner | `EinarOlafsson` |
 | Repository | `starplast` |
 | Workflow filename | `release.yml` |
@@ -66,7 +64,7 @@ The workflow exchanges its GitHub identity for short-lived upload credentials;
 no permanent PyPI token is required in GitHub secrets.
 The account that registers a pending publisher owns the resulting PyPI project.
 The `Owner` field above identifies the GitHub repository owner; it is not a PyPI
-username. Do not create these projects under a different account.
+username. Do not create the project under a different account.
 
 Create the GitHub environment `pypi` and restrict deployments to the `main` branch.
 To publish automatically, leave required reviewers unset. Under repository
@@ -82,8 +80,7 @@ python scripts/release.py bump 0.43.0
 python scripts/release.py check
 ```
 
-Use a version greater than the current one. The bump command updates the core,
-both metapackages, exact internal dependency pins, and `starplast.__version__`.
+Use a version greater than the current one. The bump command updates `pyproject.toml` and `starplast.__version__`.
 Update `CHANGELOG.md`, run the release checks, commit with a descriptive message,
 and push to `nightly`. Merge `nightly` into `main` through a pull request or locally:
 
@@ -102,8 +99,8 @@ the release, but preparing it on `nightly` keeps the normal development flow int
 
 The release workflow compares the version with the repository state before the
 push. An unchanged version does not publish; a downgrade fails. A version increase
-runs the checks, builds wheels and source distributions, verifies their contents,
-and publishes all three distributions. After a successful PyPI upload, it creates
+runs the checks, builds a wheel and source distribution, verifies their contents,
+and publishes `starplast`. After a successful PyPI upload, it creates
 a GitHub release and `v<version>` tag at the exact commit that was built, with
 generated release notes and the distribution files attached. Prerelease versions
 are marked as prereleases on GitHub. Existing releases and their assets are left
@@ -119,8 +116,6 @@ same tested artifacts.
 
 ```bash
 python -m build
-python -m build packaging/starplast --outdir dist
-python -m build packaging/starplast-gpu --outdir dist
 python scripts/check_wheel.py dist
 python -m twine check --strict dist/*
 ```

@@ -170,7 +170,7 @@ def describe() -> str:
     """One line for the interface and for a saved recipe: what will do the work."""
     have = available()
     if not any(have[k] for k in ("cuml", "cupy", "torch")):
-        return ('no GPU backend found -- pip install starplast-gpu  (or, in a checkout, '
+        return ('no GPU backend found -- pip install starplast[gpu]  (or, in a checkout, '
                 'pip install -e ".[gpu]")')
     parts = [k for k in ("cuml", "cupy", "torch") if have[k]]
     where = f" on {have['device']}" if have["device"] else ""
@@ -180,7 +180,7 @@ def describe() -> str:
     state = "on" if enabled() else "off"
     # What it will actually buy, because "GPU: torch" reads as a promise about UMAP and is not one.
     gain = ("UMAP, t-SNE, HDBSCAN, k-means and DBSCAN move to the GPU" if have["cuml"] else
-            'array work only, about 1.5x on large distance matrices -- pip install starplast-gpu '
+            'array work only, about 1.5x on large distance matrices -- pip install starplast[gpu] '
             '(or pip install -e ".[gpu]") to move UMAP and HDBSCAN themselves')
     return f"GPU {state}: {', '.join(parts)}{where}. {gain}."
 

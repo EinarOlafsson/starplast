@@ -1,4 +1,4 @@
-"""Release guards prevent mismatched dependency pins and unintended publications."""
+"""Release guards prevent mismatched package versions and unintended publications."""
 from pathlib import Path
 import shutil
 import subprocess
@@ -29,24 +29,31 @@ def test_unchanged_version_does_not_publish(checkout):
     assert not release.changed(revision(checkout), checkout)
 
 
-def test_bump_updates_every_distribution_and_enables_publication(checkout):
+def test_bump_updates_package_and_runtime_and_enables_publication(checkout):
     previous = revision(checkout)
     assert release.bump("0.99.0", checkout) == "0.99.0"
     assert release.changed(previous, checkout)
     assert release.check(checkout) == "0.99.0"
 
 
-def test_mismatched_metapackage_cannot_publish(checkout):
-    p = checkout / release.PROJECTS[1]
-    p.write_text(p.read_text().replace(f'version = "{release.check(checkout)}"', 'version = "0.1.0"'))
+def test_mismatched_runtime_cannot_publish(checkout):
+    p = checkout / "starplast/__init__.py"
+    p.write_text(p.read_text().replace(release.check(checkout), "0.1.0"))
     with pytest.raises(ValueError, match="expected"):
         release.check(checkout)
 
 
-def test_stale_extra_pin_cannot_publish(checkout):
-    p = checkout / release.PROJECTS[1]
-    p.write_text(p.read_text().replace(f'starplast-core[gpu]=={release.check(checkout)}', 'starplast-core[gpu]==0.1.0'))
-    with pytest.raises(ValueError, match="dependency pins"):
+def test_auxiliary_distribution_cannot_publish(checkout):
+    p = checkout / "pyproject.toml"
+    p.write_text(p.read_text().replace('name = "starplast"', 'name = "starplast-core"'))
+    with pytest.raises(ValueError, match="only PyPI project"):
+        release.check(checkout)
+
+
+def test_dependency_on_another_starplast_distribution_cannot_publish(checkout):
+    p = checkout / "pyproject.toml"
+    p.write_text(p.read_text().replace('"numpy>=1.24"', '"starplast-core==0.42.0"'))
+    with pytest.raises(ValueError, match="another Starplast distribution"):
         release.check(checkout)
 
 

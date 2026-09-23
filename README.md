@@ -130,7 +130,7 @@ Some tests need source datasets, CUDA, or a working OpenGL context; see
 [development and releases](docs/releases.md) for the release checks.
 
 Develop on `nightly` and merge checked changes into `main`. To release, update all
-package versions together with `python scripts/release.py bump 0.43.0` and update
+package and runtime versions together with `python scripts/release.py bump 0.43.0` and update
 the changelog before merging. A version increase on `main` triggers checks,
 builds, PyPI publishing, and a GitHub release. Ordinary merges do not publish.
 The initial PyPI account setup is described in the release guide.

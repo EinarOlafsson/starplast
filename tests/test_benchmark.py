@@ -73,7 +73,7 @@ def test_with_no_cuml_it_says_so_instead_of_showing_an_empty_bar(monkeypatch):
                     log=lambda *_: None)
     assert out["gpu_available"] is False
     assert "gpu" not in out
-    assert "no cuml" in out["note"] and "starplast-gpu" in out["note"]
+    assert "no cuml" in out["note"] and "starplast[gpu]" in out["note"]
     assert out["cpu"]["seconds"] > 0 and out["cpu"]["coords"].shape[1] == 3
 
 

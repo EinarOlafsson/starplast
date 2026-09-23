@@ -9,6 +9,7 @@
 - Add settings help and document application callbacks.
 - Fix importing screen tables whose identifier column is already named `gene_id`.
 - Fix Plasmodium gene selection and link its evidence panel to PlasmoDB.
+- Publish the application and bundled data as one PyPI project, `starplast`.
 - Make CUDA dependencies optional through `starplast[gpu]`.
 - Include SVG artwork and compressed sequence tables in wheels; exclude saved embeddings.
 - Add synchronized version bumps, build checks, and automatic PyPI publishing.

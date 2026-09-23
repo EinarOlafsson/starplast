@@ -1,7 +1,6 @@
 # Python API
 
-Install Starplast to use the `starplast` Python package. The distribution carrying
-the code is named `starplast-core`; `pip install starplast` installs it for you.
+Install the application, analysis modules, and bundled data with `pip install starplast`.
 The analysis modules can be used without creating a Qt application.
 
 The [generated module reference](api/starplast.html) includes signatures,

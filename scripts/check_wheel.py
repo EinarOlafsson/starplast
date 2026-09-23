@@ -15,8 +15,8 @@ def check_wheel(path: Path) -> None:
         names = set(archive.namelist())
         metadata = next(n for n in names if n.endswith(".dist-info/METADATA"))
         info = BytesParser().parsebytes(archive.read(metadata))
-        if info["Name"] != "starplast-core":
-            return
+        if info["Name"] != "starplast":
+            raise ValueError(f"Unexpected distribution: {info['Name']}")
         required = {"starplast/app.py", "starplast/data/nodes.parquet", "starplast/data/graph.npz",
                     "starplast/data/toxodb_identity.tsv", "starplast/data/pf_nodes.parquet",
                     "starplast/data/pf_graph.npz", "starplast/data/icons/starplast.svg",
@@ -28,6 +28,8 @@ def check_wheel(path: Path) -> None:
         if any(n.startswith("starplast/data/embeddings/") for n in names):
             raise ValueError("The wheel contains local saved embeddings")
         for requirement in info.get_all("Requires-Dist", []):
+            if requirement.lower().startswith("starplast"):
+                raise ValueError(f"Unexpected Starplast dependency: {requirement}")
             if requirement.lower().startswith(("cuml", "cupy")) and 'extra == "gpu"' not in requirement:
                 raise ValueError(f"CUDA must be optional: {requirement}")
     print(f"Checked {path.name}: {path.stat().st_size / 1_000_000:.1f} MB")
@@ -37,9 +39,13 @@ def main():
     """Validate each wheel in a distribution directory."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path, nargs="?", default=Path("dist"))
-    wheels = list(parser.parse_args().directory.glob("*.whl"))
-    if len(wheels) != 3:
-        raise ValueError(f"Expected three wheels, found {len(wheels)}")
+    directory = parser.parse_args().directory
+    wheels = list(directory.glob("*.whl"))
+    if len(wheels) != 1:
+        raise ValueError(f"Expected one wheel, found {len(wheels)}")
+    expected_sdist = wheels[0].name.split("-py", 1)[0] + ".tar.gz"
+    if {p.name for p in directory.iterdir()} != {wheels[0].name, expected_sdist}:
+        raise ValueError("Upload directory must contain only the matching starplast wheel and sdist")
     for wheel in wheels:
         check_wheel(wheel)
 

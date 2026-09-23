@@ -15,5 +15,5 @@ Install `starplast[gpu]` for optional CUDA 12 acceleration on Linux x86_64.
 [Documentation](https://einarolafsson.github.io/starplast/) ·
 [Source code](https://github.com/EinarOlafsson/starplast)
 
-This package installs the matching `starplast-core` distribution, which contains
-the code and data. The `gpu` and `ingest` extras forward to that distribution.
+The package contains the application, analysis modules, and cached gene data.
+Use `starplast[ingest]` for optional genome-coverage import support.

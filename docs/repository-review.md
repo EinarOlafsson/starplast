@@ -98,7 +98,8 @@ The standalone `lod` helpers remain available for older analysis code.
 The release adds a logo and application icon, a shorter README, user and API guides,
 a generated documentation site, missing application docstrings, settings help,
 optional GPU installation, package-content checks, and automated version publishing.
-The `starplast-core` distribution name is retained for compatibility with spaCR.
+The application, analysis modules, and cached data ship together in the single
+`starplast` distribution; GPU support is an optional extra.
 
 The next work should prioritize recording the executed analysis method, transferring
 screen tables and provenance from spaCR, and giving candidate evidence a table-based

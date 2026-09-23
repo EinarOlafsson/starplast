@@ -369,78 +369,31 @@ def _read(*parts):
     return open(os.path.join(root, *parts), encoding="utf8").read()
 
 
-def test_the_checkout_installs_the_gpu_stack_too():
-    """`pip install -e .` must be the GPU one, not only `pip install starplast`.
-
-    This reverses what this file used to assert. The code distribution deliberately carried no CUDA so
-    that a `starplast-cpu` metapackage could leave it out -- but that made a checkout, which is where
-    the person installing knows their own hardware, the one install that came out CPU-only. Chosen
-    2026-08-17: the checkout gets the GPU stack, and `starplast-cpu` is gone rather than reduced to a
-    name that installs the opposite of what it says (it depended on this distribution, so it would
-    have inherited the wheels transitively with no way to decline them).
-    """
-    main = _read("pyproject.toml")
-    assert 'name = "starplast-core"' in main
-    defaults = main.split("[project.optional-dependencies]")[0]
-    assert "cuml-cu12" in defaults and "cupy-cuda12x" in defaults, \
-        "the code distribution must carry CUDA: `pip install -e .` is a GPU install"
-
-
-def test_the_cuda_wheels_in_the_checkout_are_marked_for_the_platform_that_has_them():
-    """Unmarked, `pip install -e .` would FAIL on macOS, Windows and aarch64 -- where RAPIDS and CuPy
-    publish nothing -- rather than installing a working CPU program."""
-    # Every requirement naming a CUDA wheel, in the defaults AND in the extra -- comments mention the
-    # package names too, and a comment is not a requirement.
-    for line in _read("pyproject.toml").splitlines():
-        stripped = line.strip()
-        if not stripped.startswith('"'):
-            continue
-        if "cuml-cu12" in stripped or "cupy-cuda12x" in stripped:
-            assert "sys_platform == 'linux'" in stripped, stripped
-            assert "platform_machine == 'x86_64'" in stripped, stripped
-
-
-def test_the_cpu_name_is_gone_rather_than_lying():
-    """Kept as a test because the temptation is to bring the name back. It cannot work: anything that
-    depends on `starplast-core` inherits its CUDA wheels, so a `-cpu` metapackage would install the
-    two gigabytes it exists to avoid."""
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    assert not os.path.exists(os.path.join(root, "packaging", "starplast-cpu")), \
-        "starplast-cpu is back, and it can only install the CUDA stack it promises to omit"
-
-
-def test_the_default_install_is_the_gpu_one():
-    """`pip install starplast` is the fast one, which is the point of the split."""
+def test_single_distribution_contains_code_and_optional_gpu():
+    """A normal install must work without CUDA or a second Starplast project."""
+    import tomllib
     from starplast import __version__
-    meta = _read("packaging", "starplast", "pyproject.toml")
-    assert 'name = "starplast"' in meta
-    assert f'"starplast-core=={__version__}"' in meta
-    assert "cuml-cu12" in meta and "cupy-cuda12x" in meta
+    metadata = tomllib.loads(_read("pyproject.toml"))
+    project = metadata["project"]
+    assert project["name"] == "starplast"
+    assert project["version"] == __version__
+    assert metadata["tool"]["setuptools"]["packages"] == ["starplast"]
+    defaults = project["dependencies"]
+    assert not any(r.lower().startswith(("cuml", "cupy", "starplast")) for r in defaults)
+    cuda = project["optional-dependencies"]["gpu"]
+    assert any(r.startswith("cuml-cu12") for r in cuda)
+    assert any(r.startswith("cupy-cuda12x") for r in cuda)
+    for requirement in cuda:
+        assert "sys_platform == 'linux'" in requirement
+        assert "platform_machine == 'x86_64'" in requirement
+    for extra in project["optional-dependencies"].values():
+        assert not any(r.startswith("starplast") for r in extra)
 
 
-def test_the_cuda_wheels_are_marked_for_the_platform_that_has_them():
-    """RAPIDS and CuPy publish Linux wheels only. Unmarked, `pip install starplast` would FAIL on
-    macOS and Windows rather than installing a working program."""
-    meta = _read("packaging", "starplast", "pyproject.toml")
-    for line in meta.splitlines():
-        if "cuml-cu12" in line or "cupy-cuda12x" in line:
-            assert "sys_platform == 'linux'" in line and "platform_machine == 'x86_64'" in line, line
-
-
-def test_the_gpu_name_still_works_as_an_alias():
-    """Someone who read the old instructions gets what they expected."""
-    from starplast import __version__
-    meta = _read("packaging", "starplast-gpu", "pyproject.toml")
-    assert f'dependencies = ["starplast=={__version__}"]' in meta
-
-
-def test_every_distribution_ships_the_same_version():
-    """Three files, one release. A metapackage pinned to a version that does not exist is an install
-    that fails for a reason nobody can see from the error."""
-    from starplast import __version__
-    for parts in (("pyproject.toml",), ("packaging", "starplast", "pyproject.toml"),
-                  ("packaging", "starplast-gpu", "pyproject.toml")):
-        assert f'version = "{__version__}"' in _read(*parts), parts
+def test_no_auxiliary_distribution_projects():
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    assert not list((root / "packaging").rglob("pyproject.toml"))
 
 
 def test_the_program_says_how_to_install_the_gpu_stack():
@@ -448,7 +401,7 @@ def test_the_program_says_how_to_install_the_gpu_stack():
     from starplast import gpu
     text = gpu.describe()
     if not any(gpu.available()[k] for k in ("cuml", "cupy", "torch")):
-        assert "starplast-gpu" in text or "starplast[gpu]" in text
+        assert "starplast[gpu]" in text
 
 
 def test_fetching_without_a_key_says_how_to_get_one(monkeypatch):

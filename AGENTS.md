@@ -19,6 +19,8 @@
 - Prepare releases with `python scripts/release.py bump VERSION` and update the
   changelog. Publication runs only when `main` receives a version increase, or
   through an explicit manual release retry. Never publish from `nightly`.
+- Publish only the `starplast` PyPI project. Keep optional GPU support in the
+  `gpu` extra; do not add separate core, CPU, or GPU distributions.
 - PyPI projects and trusted publishers must belong to Einar's own PyPI account.
   Never register the packages under another account or claim publication succeeded
   without verifying the upload. Setup and release commands are in `docs/releases.md`.

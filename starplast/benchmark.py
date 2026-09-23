@@ -84,7 +84,7 @@ def compare(nodes, spec=None, sample: int = 2000, seed: int = 42, log=print) -> 
         # Said plainly rather than shown as a missing bar: torch and cupy do array work and neither
         # implements UMAP, so with only those installed there is no second map to compare.
         out["note"] = ("no cuml on this machine, so there is no GPU UMAP to compare against -- "
-                       "pip install starplast-gpu")
+                       "pip install starplast[gpu]")
         return out
     gpu_run = _embed_with(nodes, spec, True, log)
     out["gpu"] = gpu_run
