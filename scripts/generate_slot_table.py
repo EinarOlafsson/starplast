@@ -783,6 +783,8 @@ NEW_PLASMODIUM = [
 
 #: Toxoplasma-specific slots, for the same reason in the other direction.
 NEW_TOXOPLASMA = _host_slots(HOST_CONTEXTS_TG) + [
+    ("local AF3 fold confidence and geometry", "sequence", "AlphaFold 3 local predictions",
+     "gene", ["af3_"], "separate", []),
     ("transcription · in vivo enteric", "transcription", "feline enterocyte", "gene",
      ["ees_vs_tachyzoite_log2"], "one"),
     # CURATED, and the third slot filled that way. The sweeps that closed this looked for a POOLED
@@ -1434,6 +1436,7 @@ def _context_leaf(axis: str, context: str) -> tuple:
 # narrower than a biological domain: sequence-derived membrane topology is useful evidence for a
 # held-out localization label, not a restatement of that label.
 SLOT_OVERRIDES = {
+    "local AF3 fold confidence and geometry": {"target_family": "fold_confidence_disorder"},
     "localization · measured": {
         "target_family": "subcellular localization",
         "target_columns": ["compartment", "lopit_map", "lopit_mcmc", "lopit_unified"],

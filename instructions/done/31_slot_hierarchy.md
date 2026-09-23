@@ -170,6 +170,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_paralogy
         - Tg_sequence_basics
         - Tg_strain_variation
+        - Tg_local_af3_fold_confidence_and_geometry
 - relational measurements
   - gene-gene
     - association or interaction
@@ -471,6 +472,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_paralogy
         - Tg_sequence_basics
         - Tg_strain_variation
+        - Tg_local_af3_fold_confidence_and_geometry
 - metabolism
   - stage-unspecified
     - unperturbed
@@ -746,5 +748,6 @@ Slots are the leaves of three independent trees. A single tree would create fals
           - Tg_conservation_breadth
           - Tg_paralogy
           - Tg_sequence_basics
+          - Tg_local_af3_fold_confidence_and_geometry
         - translation
           - Tg_codon_usage_translation_efficiency

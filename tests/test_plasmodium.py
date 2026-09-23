@@ -193,8 +193,12 @@ def test_the_variant_surface_families_carry_the_strain_variation():
 
 @pytest.mark.skipif(not os.path.exists(os.path.join(ROOT, "starplast", "data", P.TABLE)),
                     reason="Plasmodium table not built")
-def test_the_shipped_table_is_falciparum_and_not_gondii():
+def test_the_shipped_table_is_falciparum_and_not_gondii(tmp_path, monkeypatch):
     """Nothing is merged. A TGME49 accession in here would mean two species in one table."""
+    from starplast import paths
+    original = paths.cache_file
+    monkeypatch.setattr(paths, "cache_file", lambda name: str(tmp_path / name)
+                        if name == "pf_mentions.parquet" else original(name))
     d = P.load(ROOT)
     assert len(d) > 5000
     assert not d["gene_id"].str.contains("TGME49_|TGGT1_").any()

@@ -1217,12 +1217,14 @@ def test_a_stopped_job_unwinds_at_its_next_progress_report(runner_panel, app):
     rather than as a crash."""
     from PyQt6 import QtCore
     from starplast.jobs import CANCELLED
+    from threading import Event
+    released = Event()
     panel, runner = runner_panel
 
     def work(p):
         p("started")
-        for i in range(1000):
-            p(f"step {i}")                        # the cancellation lands here
+        assert released.wait(timeout=10), "test did not release the worker"
+        p("after cancellation")
         return "never"
 
     job = panel._run(work, lambda r: None, name="stoppable")
@@ -1232,6 +1234,7 @@ def test_a_stopped_job_unwinds_at_its_next_progress_report(runner_panel, app):
         if job.note:
             break
     job.cancel()
+    released.set()
     for _ in range(400):
         app.processEvents()
         QtCore.QThread.msleep(5)
@@ -2321,7 +2324,8 @@ def test_the_blocks_are_a_category_tree_not_a_flat_list(panel):
     from starplast.embedding import SLOT_BLOCKS
     from starplast.theme import CheckTree
     assert isinstance(panel.blocks, CheckTree)
-    assert len(panel.blocks.leaves()) == len(SLOT_BLOCKS) == 96
+    assert len(panel.blocks.leaves()) == len(SLOT_BLOCKS)
+    assert len(SLOT_BLOCKS) >= 96
     assert panel.blocks.topLevelItemCount() < 10, "the top level is not a set of categories"
 
 

@@ -33,6 +33,7 @@ OUT_DIR = os.path.join(HERE, "datasets")
 #   id_col -- the identifier column, where guessing by resolution rate picks the wrong one
 #   by     -- the module that does the authoritative normalization of this dataset's columns
 SPECIALS: dict[str, dict] = {
+    "local_af3": {"by": "structure_catalog.attach_features()"},
     "xue_singlecell": {"sep": "\t", "by": "cellcycle.add_all()"},
     "stage_enriched": {"by": "cellcycle.add_all()"},
     # hyperLOPIT, measured and ortholog-transferred, all through the localization module.

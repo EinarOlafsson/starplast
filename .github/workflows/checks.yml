@@ -32,4 +32,4 @@ jobs:
       - name: Check synchronized package versions and regressions
         run: |
           python scripts/release.py check
-          python -m pytest tests/test_release.py tests/test_wheel.py tests/test_packaging.py tests/test_readme.py tests/test_datasets.py tests/test_docstrings.py tests/test_paths.py tests/test_app_smoke.py tests/test_app_polish.py tests/test_discover_cli.py tests/test_importer.py -q
+          python -m pytest -m "not slow" -q

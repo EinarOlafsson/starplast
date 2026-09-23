@@ -72,7 +72,7 @@ def test_the_description_says_what_would_happen():
 def test_a_small_array_stays_on_the_cpu(monkeypatch):
     """Under the threshold the copy costs more than the arithmetic saves, so a walk over a small
     subsample would get SLOWER for having a GPU."""
-    monkeypatch.setenv(gpu.ENV_GPU, "1")
+    monkeypatch.setattr(gpu, "enabled", lambda: True)
     assert gpu.worth_it(np.zeros((10, 10))) is False
     assert gpu.worth_it(np.zeros((2000, 60))) is True
 

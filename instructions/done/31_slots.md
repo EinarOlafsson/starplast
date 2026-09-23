@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**272 slots: 105 covered well, 22 partly, 52 thinly, 93 empty.**
+**273 slots: 105 covered well, 22 partly, 53 thinly, 93 empty.**
 
 `genes` is how many have an ANSWER; `of which yes` appears where that answer is a yes/no and most of them are no. A phosphorylation slot answered for every gene because the flag is completed False is not a phosphoproteome of every gene, and the atlas used to print only the first number.
 
@@ -362,6 +362,7 @@ quantity were approximating on 2026-08-13.
 | Tg_paralogy | OrthoMCL | **A** | 8140 |  | 100.0% | `paralog_number` | one | — |
 | Tg_sequence basics | protein | **A** | 8140 |  | 100.0% | `length, sequence` | one | — |
 | Tg_strain variation | population | **A** | 8140 |  | 100.0% | `snp_` | one | `ToxoDB HTS SNPs` — SNPs per gene across every sequenced strain<br>[GSE313582](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE313582) — from the GEO index, verify assay and parasite-gene shape<br>[GSE313273](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE313273) — from the GEO index, verify assay and parasite-gene shape<br>[GSE313318](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE313318) — from the GEO index, verify assay and parasite-gene shape<br>**Cross-lineage 5-methylcytosine methylome profiling reveals methylated divergence among Toxoplasma gondii tachyzoites of the three major clonal lineages.** (Infectious diseases of poverty 2025) [40830525](https://pubmed.ncbi.nlm.nih.gov/40830525/) [GSE294543](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE294543)<br>[GSE302108](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE302108) — from the GEO index, verify assay and parasite-gene shape<br>**AP2X-1 is a negative regulator of Toxoplasma gondii sexual commitment** (GEO 2025) [40823841](https://pubmed.ncbi.nlm.nih.gov/40823841/) [GSE249123](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE249123)<br>**An ex vivo model of Toxoplasma recrudescence reveals the developmental plasticity of the bradyzoite stage** (GEO 2023) [37675999](https://pubmed.ncbi.nlm.nih.gov/37675999/) [GSE210671](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE210671)<br>[GSE206344](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE206344) — from the GEO index, verify assay and parasite-gene shape |
+| Tg_local AF3 fold confidence and geometry | AlphaFold 3 local predictions | **C** | 1210 |  | 14.9% | `af3_` | separate | — |
 | Pf_domain content | InterPro | **A** | 5720 |  | 100.0% | `n_interpro, has_domain, interpro_ids, pfam_ids` | one | — |
 | Pf_fold confidence / disorder | AlphaFold | **A** | 5098 |  | 89.1% | `mean_plddt, plddt_fraction_` | one | — |
 | Pf_conservation breadth | OrthoMCL | **A** | 5720 |  | 100.0% | `ortholog_number, orthogroup` | one | — |

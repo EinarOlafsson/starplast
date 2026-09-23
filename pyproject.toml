@@ -36,7 +36,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=7", "build>=1.2", "twine>=6", "tomli>=2; python_version < '3.11'"]
+dev = ["pytest>=7", "pytest-qt>=4.4", "build>=1.2", "twine>=6", "tomli>=2; python_version < '3.11'"]
 docs = ["pdoc>=15,<17", "markdown2>=2.5,<3"]
 ingest = ["pyBigWig>=0.3"]
 structures = ["gemmi>=0.7", "biopython>=1.84"]

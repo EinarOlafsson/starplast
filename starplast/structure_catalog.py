@@ -31,7 +31,10 @@ def protein_sequences(cds_path=DATA / "toxodb_cds.tsv.gz") -> dict[str, str]:
     A terminal stop is removed. Ambiguous amino acids remain X and participate in
     exact sequence matching. No missing sequence is inferred from gene names.
     """
-    from Bio.Seq import Seq
+    try:
+        from Bio.Seq import Seq
+    except ImportError as exc:
+        raise ImportError("Install starplast[structures] to translate protein sequences") from exc
     table = pd.read_csv(cds_path, sep="\t", dtype=str)
     sequences = defaultdict(set)
     for gene, dna in table.iloc[:, :2].itertuples(index=False, name=None):
@@ -97,7 +100,10 @@ def read_chain(path):
     C-alpha B factors are AF3's residue-level confidence proxy. Coordinates are
     only used for descriptive geometry; this function does not infer function.
     """
-    import gemmi
+    try:
+        import gemmi
+    except ImportError as exc:
+        raise ImportError("Install starplast[structures] to read AF3 coordinate files") from exc
     structure = gemmi.read_structure(str(path))
     chains = []
     for chain in structure[0]:
