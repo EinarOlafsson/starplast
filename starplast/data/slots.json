@@ -12627,5 +12627,39 @@
     "target_family": "host_response_to_infection_anopheles_salivary_gland",
     "target_columns": [],
     "role": "never"
+  },
+  {
+    "organism": "Tg",
+    "name": "local AF3 fold confidence and geometry",
+    "axis": "sequence",
+    "context": "local AF3 predictions",
+    "unit": "gene",
+    "patterns": [
+      "af3_"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "intrinsic properties",
+      "sequence structure and evolution",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "reference or computational",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "sequence"
+    ],
+    "target_family": "fold_confidence_disorder",
+    "target_columns": [],
+    "role": "feature"
   }
 ]

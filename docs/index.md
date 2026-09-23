@@ -17,6 +17,7 @@ starplast
 - [Dataset catalogue](datasets.md): source records, assay types, and coverage.
 - [Scientific roadmap](scientific-roadmap.md): inference goals, validation priorities, and proposed improvements.
 - [Repository review](repository-review.md): architecture and scientific limitations.
+- [Local AF3 structures](structures.md): index models and interpret confidence features.
 - [Ten logo refinements](assets/logo-refinements/index.html): compare and download SVG proposals.
 - [Development and releases](releases.md): build, test, and publish.
 

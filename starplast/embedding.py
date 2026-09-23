@@ -63,6 +63,7 @@ METHODS = ("umap", "tsne", "pca")
 
 # Feature blocks the user picks from. Regexes match node-table columns.
 BLOCKS = {
+    "structure_af3": r"^af3_",
     "expression_summary": r"^expr_",
     "expression_raw": r"^rna\d+_",
     # These six assay families already ship in nodes.parquet.  Keeping each biological question in

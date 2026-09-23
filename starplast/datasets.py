@@ -191,6 +191,19 @@ OOCYST_ITRAQ_COLUMNS = (
 )
 
 REGISTRY = [
+    Dataset("local_af3", "Local AlphaFold 3 protein models", "post_translation", "computed structure",
+            "sequence-verified AF3 confidence, coverage and confident-region geometry",
+            columns=("af3_sequence_coverage", "af3_mean_plddt", "af3_plddt_q25",
+                     "af3_confident_sequence_fraction", "af3_very_confident_sequence_fraction",
+                     "af3_low_confidence_modelled_fraction", "af3_confident_rg_angstrom",
+                     "af3_confident_contacts_per_residue", "af3_ptm"),
+            coverage="1,210 T. gondii genes with exactly matched local AF3 sequences",
+            citation="Einar Olafsson, unpublished local AF3 model collection (2026)",
+            url="https://github.com/EinarOlafsson/starplast/blob/main/docs/structures.md",
+            path="starplast/data/af3_features.parquet",
+            note="Computed predictions, not experimental measurements. Fragments retain residue ranges; "
+                 "confidence summaries combine overlapping fragments per residue. Geometry only from "
+                 "complete models. Coordinates remain on the local shared drive; see source manifest."),
     # ------------------------------------------------------------------ transcription
     Dataset("xue_singlecell", "Single-parasite transcriptional atlas (cell cycle)", "transcription",
             "scRNAseq",

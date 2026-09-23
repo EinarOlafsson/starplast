@@ -53,6 +53,8 @@ def local_structure(gene_id: str, uniprot: str | None = None) -> str | None:
     names = ([f"AF-{uniprot}-F1.pdb"]
              + [f"AF-{uniprot}-F1-model_v{v}.cif" for v in AFDB_VERSIONS]) if uniprot else []
     names += [f"{gene_id}.pdb", f"{gene_id}.cif"]
+    if uniprot:
+        names += [f"AF3-{uniprot}.cif"]
     for d in LOCAL_DIRS:
         if not os.path.isdir(d):
             continue
@@ -66,7 +68,12 @@ def local_structure(gene_id: str, uniprot: str | None = None) -> str | None:
             for f in sorted(os.listdir(p)):
                 if f.endswith((".cif", ".pdb")):
                     return os.path.join(p, f)
-    return None
+    from .structure_catalog import local_model
+    try:
+        return local_model(gene_id)
+    except (OSError, ValueError, KeyError) as exc:
+        _log.warning("Cannot read local AF3 index: %s", exc)
+        return None
 
 
 def _afdb_url(uniprot: str, timeout: int = 30) -> str | None:

@@ -300,6 +300,9 @@ def load(species: str = DEFAULT_SPECIES):
     if not (os.path.exists(npz) and os.path.exists(pq)):
         raise SystemExit("No cached graph. Run:  python -m starplast.build_graph")
     nodes = pd.read_parquet(pq)
+    if where["code"] == "Tg":
+        from .structure_catalog import attach_features
+        nodes = attach_features(nodes, os.path.join(DATA, "af3_features.parquet"))
     z = np.load(npz)
     xyz = z["xyz"].astype(np.float32)
     edges = {}

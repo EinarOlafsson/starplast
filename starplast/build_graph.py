@@ -597,7 +597,8 @@ def embed(nodes: pd.DataFrame) -> np.ndarray:
 
 def main():
     """Rebuild the whole cache from the raw datasets. Minutes, and needs the raw tree."""
-    nodes = load_nodes()
+    from .structure_catalog import attach_features
+    nodes = attach_features(load_nodes())
     edges = build_edges(nodes)
     xyz = embed(nodes)
 
