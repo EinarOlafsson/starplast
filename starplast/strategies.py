@@ -1496,8 +1496,8 @@ def set_f1(labels: np.ndarray, members: np.ndarray) -> tuple:
 def default_category(ctx: Context) -> str | None:
     """The held-out label a strategy starts on: the measured localization where one exists."""
     cats = ctx.categorical_columns()
-    for c in ("compartment", "lopit_unified", "pb_transferred_phenotype", "stage_enriched_derived",
-              "dtm_class", "export_pred_tier"):
+    for c in ("compartment", "lopit_unified", "lopit_pf_location", "pb_transferred_phenotype",
+              "stage_enriched_derived", "dtm_class", "export_pred_tier"):
         if c in cats:
             return c
     return cats[0] if cats else None

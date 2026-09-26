@@ -44,6 +44,54 @@ Where each organism assumption lives (file:line):
 | Host | `host.py` table names, `uniprot_index` (human/mouse), GTEx, FANTOM5, `TISSUE_REFERENCES` |
 | Calibration | `calibrate_strategies.py` TARGETS/NUMBERS/`--organism`; `calibration.write` **overwrites the whole file** |
 
+### Raw data acquired (2026-09-26)
+
+5.9 GB is downloaded under `<STARPLAST_DATA>/spaces/<code>/<kind>/<source>/`.
+
+* **What is there:** Hs, Mm, Rn, Fc, Ag, As, Cp and Pb, plus `shared/` (gene2pubmed, gene_orthologs,
+  BioGRID, BioGRID PTMs and ORCS, IntAct).
+* **How each deposit is recorded:** URLS.txt holds the resolving query per file, and SHA256SUMS
+  verifies it (0 mismatches).
+* **Per space:** a `MANIFEST.json` with release, licence code, sanity check and target slot family.
+* **Also there:** `spaces/README.md`, and the scripts and an annotated notebook under
+  `spaces/_acquisition/`.
+* **Structure:** mean pLDDT per model from the AlphaFold DB search API for every space. There is no
+  per-proteome summary file.
+* **Hs highlights:** Ensembl 116 plus UniProt, GTEx v10, HPA 25.1 (HPA is CC BY 4.0 now, not SA),
+  Bgee 15.2, DepMap 24Q4 (from figshare+; the portal is behind Cloudflare), COMPARTMENTS, OpenCell,
+  STRING 12.0, HuRI, BioPlex, CORUM (non-commercial), PaxDb, iPTMnet, gnomAD v4.1, GOA, and 9
+  infection series (Tg, Pf, Pv, Pb, Cp).
+* **Mm:** Tabula Muris Senis bulk, IMPC DR24 viability and phenotypes, ImmGen, and 9 infection
+  series.
+* **Rn:** BodyMap, RatGTEx.
+* **Fc:** cat small-intestine epithelium transcriptome and phosphoproteome under Tg (PMIDs 37491273,
+  38003154).
+* **Ag:** MozAtlas, blood-meal time course, PRIDE salivary gland/hemolymph/saliva, 5 infection
+  series.
+* **Cp:** Walzer 2024 single-cell atlas, oocyst proteomes. No genome-wide screen exists.
+* **Pb:** PlasmoGEM Bushell 2017 and Stanway 2019 (the real tables), Russell 2023, Malaria Cell
+  Atlas.
+
+Traps it found:
+
+* **VEuPathDB is closed to anonymous downloads.** Release 71 public downloads return 404 and the
+  service returns 401, so the Cp/Pb/Ag/As references come from Ensembl Genomes r63.
+* **Two PlasmoGEM files in the old dataset tree are fakes.** They are 1.8 kB HTML "preparing to
+  download" pages, and `reference/plasmodb/pb_transfer/` does not exist. The real tables are under
+  `spaces/Pb/essentiality/`.
+* **The FANTOM5 path `host/fantom5/24670764/` does not exist.** The file is now in
+  `spaces/Mm/expression/FANTOM5_E-MTAB-3579/`.
+* **Several id spaces are split or retired:**
+  * Cat: three id spaces (retired Felis_catus_9.0, and ENSFCTG).
+  * *A. gambiae*: NCBI moved to AGAMI1_ ids with no AGAP cross-reference; bridge through UniProt.
+  * *A. stephensi*: four id spaces.
+  * Rat: STRING, COMPARTMENTS and PaxDb use old ENSRNOP ids.
+  * Cp: no open IOWA-ATCC↔cgd map.
+  * Pb: some tables use old 6-digit PBANKA ids.
+* **gene2pubmed barely covers the parasites** (Cp: 29 PMIDs).
+* **Junk to delete by hand:** `spaces/As/abundance/PXD001647/` holds 48 kB of unrelated Hydra and
+  Daphnia mzTabs, recorded as `rejected_unusable`.
+
 ## WHY IT MATTERS
 
 Adding a species today means editing about 30 files. Every new species multiplies the hard-coded

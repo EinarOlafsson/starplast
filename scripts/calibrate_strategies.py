@@ -45,7 +45,8 @@ SEEDS = (1, 2, 3, 4, 5)
 #: the transferred knockout phenotype, a derived stage and the export call on P. falciparum.
 TARGETS = {"Tg": ("compartment", "lopit_unified", "dtm_class", "screen_any_phenotype",
                   "stage_enriched_derived"),
-           "Pf": ("pb_transferred_phenotype", "stage_enriched_derived", "is_exported")}
+           "Pf": ("lopit_pf_location", "pb_transferred_phenotype", "stage_enriched_derived",
+                  "is_exported")}
 NUMBERS = {"Tg": ("fit_invitro_hff", "fit_invivo_PE", "expr_tachy"),
            "Pf": ("piggybac_mis", "expr_schizont", "mean_plddt")}
 

@@ -8,7 +8,7 @@ Measured 2026-09-26.
 
 | # | strategy | family | Toxoplasma gondii | Plasmodium falciparum |
 |---|---|---|---|---|
-| 01 | [Hold out a category and search for a map that finds it (UMAP + HDBSCAN)](#01-holdout_search) | Search the map space | PASS | FAIL |
+| 01 | [Hold out a category and search for a map that finds it (UMAP + HDBSCAN)](#01-holdout_search) | Search the map space | PASS | PASS |
 | 02 | [Find the map where your gene list is one cluster (UMAP + HDBSCAN)](#02-geneset_hunt) | Search the map space | FAIL | PASS |
 | 03 | [Ask which categories the data can rediscover (UMAP + neighbour AUROC)](#03-recoverability_atlas) | Search the map space | PASS | PASS |
 | 04 | [Keep only the modules that survive the whole walk (UMAP + HDBSCAN co-clustering)](#04-consensus_modules) | Search the map space | FAIL | PASS |
@@ -20,11 +20,11 @@ Measured 2026-09-26.
 | 10 | [Find genes whose label their neighbours contradict (kNN + network neighbours)](#10-label_outliers) | Borrow from neighbours | PASS | PASS |
 | 11 | [Diffuse a label across one measured network (random walk with restart)](#11-layer_propagation) | Walk the networks | PASS | PASS |
 | 12 | [Let every network vote, weighted by what it has earned (chance-weighted ensemble vote)](#12-layer_vote) | Walk the networks | PASS | PASS |
-| 13 | [Place a protein by the proteins it physically touches (weighted partner vote)](#13-physical_partners) | Walk the networks | PASS | FAIL |
+| 13 | [Place a protein by the proteins it physically touches (weighted partner vote)](#13-physical_partners) | Walk the networks | PASS | PASS |
 | 14 | [Annotate function through shared fold (TM-score-weighted vote)](#14-structural_homology) | Walk the networks | PASS | PASS |
 | 15 | [Find the communities several networks agree on (modularity + Louvain consensus)](#15-multiplex_modules) | Walk the networks | FAIL | PASS |
 | 16 | [Predict the contacts an interactome missed (logistic regression)](#16-link_prediction) | Walk the networks | PASS | PASS |
-| 17 | [Read the literature for biology, not fame (publication-count residual)](#17-attention_correction) | Walk the networks | PASS | FAIL |
+| 17 | [Read the literature for biology, not fame (publication-count residual)](#17-attention_correction) | Walk the networks | PASS | PASS |
 | 18 | [List what the data says and the literature has not written (multi-layer support count)](#18-unwritten_links) | Walk the networks | PASS | PASS |
 | 19 | [Train a classifier on the known genes and call the rest (logistic regression)](#19-supervised_classifier) | Learn from examples | PASS | PASS |
 | 20 | [Learn what makes your list special, from positives alone (PU bagging, logistic regression)](#20-positive_unlabeled) | Learn from examples | PASS | PASS |
@@ -35,7 +35,7 @@ Measured 2026-09-26.
 | 25 | [Grow your gene list along the networks (random walk with restart)](#25-seed_expansion) | Start from a gene list | PASS | PASS |
 | 26 | [Find categories that split in two on another measurement (UMAP + HDBSCAN)](#26-split_clusters) | Contrast and combine layers | INCONCLUSIVE | INCONCLUSIVE |
 | 27 | [Find kinds of gene defined by two labels at once (UMAP + HDBSCAN)](#27-conjunctions) | Contrast and combine layers | PASS | INCONCLUSIVE |
-| 28 | [Find paralogs that changed jobs (profile correlation)](#28-paralog_divergence) | Contrast and combine layers | PASS | FAIL |
+| 28 | [Find paralogs that changed jobs (profile correlation)](#28-paralog_divergence) | Contrast and combine layers | PASS | PASS |
 | 29 | [Carry what one parasite shows to the other (orthogroup mapping)](#29-ortholog_transfer) | Cross species and strata | PASS | PASS |
 | 30 | [Test inference on the genes orthology cannot reach (kNN)](#30-stratum_focus) | Cross species and strata | PASS | INCONCLUSIVE |
 | 31 | [Call a gene only when independent strategies agree (kNN + logistic + network vote)](#31-triangulation) | Combine strategies | PASS | PASS |
@@ -73,7 +73,7 @@ Choose 'families' to also walk each kind of measurement alone -- transcription o
 
 *On Toxoplasma gondii:* **PASS** -- F1 of hidden genes in the cluster chosen for their label on known genes 0.132 against 0.039 under 100 permutations of the hidden genes' labels over the same chosen clusters; 607 hidden
 
-*On Plasmodium falciparum:* **FAIL** -- F1 of hidden genes in the cluster chosen for their label on known genes 0.523 against 0.523 under 100 permutations of the hidden genes' labels over the same chosen clusters; 552 hidden
+*On Plasmodium falciparum:* **PASS** -- F1 of hidden genes in the cluster chosen for their label on known genes 0.158 against 0.032 under 100 permutations of the hidden genes' labels over the same chosen clusters; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `n_neighbors` -- Comma-separated UMAP n_neighbors values to walk. Small values keep local detail such as complexes; large values keep the global arrangement such as organelles. Every value multiplies the number of maps built.; `min_dist` -- Comma-separated UMAP min_dist values to walk. Zero packs similar genes tightly, which clusters well; larger values spread them out, which reads better and clusters worse. Every value multiplies the number of maps.; `min_cluster_size` -- Comma-separated HDBSCAN minimum cluster sizes. Small values find small complexes and also split organelles; large values find organelles and swallow complexes. Cheap to widen: clustering is fast next to embedding.; `selection` -- HDBSCAN's cluster selection, comma-separated: 'eom' keeps the most persistent clusters -- on the real proteome two to six very large ones -- and 'leaf' every leaf of the cluster tree, dozens of small purer clusters with more genes left as noise. Walking both costs little.; `sample` -- How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out.; `features` -- 'all' walks one map per setting from every permitted measurement; 'families' also walks each kind of measurement alone, so you learn which evidence carries the label -- at several times the cost.; `min_f1` -- Each label's best cluster names its unlabelled members only if it isolates that label at least this well on the known genes. Lower names more clusters and is wrong more often; every call carries its cluster's F1 as its support.
 
@@ -100,7 +100,7 @@ If the list was made from a column of this table (all genes of one compartment, 
 
 *On Toxoplasma gondii:* **FAIL** -- F1 of the hidden members against the best cluster's other genes 0.052 against 0.024 under 20 random sets of the same size, same walk; 40 hidden
 
-*On Plasmodium falciparum:* **PASS** -- F1 of the hidden members against the best cluster's other genes 0.487 against 0.030 under 20 random sets of the same size, same walk; 47 hidden
+*On Plasmodium falciparum:* **PASS** -- F1 of the hidden members against the best cluster's other genes 0.247 against 0.016 under 20 random sets of the same size, same walk; 37 hidden
 
 **Settings:** `genes` -- Gene accessions, one per line or separated by commas or spaces, pasted from anywhere. Matched exactly against this organism's table, ignoring case; anything not found is reported by name rather than silently dropped.; `exclude` -- If the gene list was made from a column of this table, name it here and that column, everything restating it and its experiment are withheld; otherwise the strategy would find the list again by reading the column that defined it.; `n_neighbors` -- Comma-separated UMAP n_neighbors values to walk. Small values keep local detail such as complexes; large values keep the global arrangement such as organelles. Every value multiplies the number of maps built.; `min_dist` -- Comma-separated UMAP min_dist values to walk. Zero packs similar genes tightly, which clusters well; larger values spread them out, which reads better and clusters worse. Every value multiplies the number of maps.; `min_cluster_size` -- Comma-separated HDBSCAN minimum cluster sizes. Small values find small complexes and also split organelles; large values find organelles and swallow complexes. Cheap to widen: clustering is fast next to embedding.; `selection` -- HDBSCAN's cluster selection, comma-separated: 'eom' keeps the most persistent clusters -- on the real proteome two to six very large ones -- and 'leaf' every leaf of the cluster tree, dozens of small purer clusters with more genes left as noise. Walking both costs little.; `sample` -- How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out.; `features` -- 'all' uses every permitted measurement in each map; 'families' also tries each kind of measurement alone, which can find a list that is coherent in one kind of evidence and invisible in the combination.; `random_sets` -- How many random lists of the same size are scored over the same walk to give the search-corrected p-value. More is steadier and costs little, because the maps are already built.
 
@@ -124,7 +124,7 @@ This is knowledge about the data, not about genes: it says which biological dist
 
 *On Toxoplasma gondii:* **PASS** -- hidden-gene AUROC of the categories the atlas ranks in its top half 0.818 against 0.500 under 20 atlases and recoveries from shuffled labels; 508 hidden
 
-*On Plasmodium falciparum:* **PASS** -- hidden-gene AUROC of the categories the atlas ranks in its top half 0.741 against 0.488 under 20 atlases and recoveries from shuffled labels; 482 hidden
+*On Plasmodium falciparum:* **PASS** -- hidden-gene AUROC of the categories the atlas ranks in its top half 0.844 against 0.501 under 20 atlases and recoveries from shuffled labels; 412 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `sample` -- How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.
 
@@ -148,7 +148,7 @@ A module that survives is robust to the arbitrary choices a map requires, which 
 
 *On Toxoplasma gondii:* **FAIL** -- F1 of hidden genes in the module chosen for their label on known genes 0.170 against 0.168 under 100 permutations of the hidden genes' labels over the same chosen modules; 305 hidden
 
-*On Plasmodium falciparum:* **PASS** -- F1 of hidden genes in the module chosen for their label on known genes 0.211 against 0.137 under 100 permutations of the hidden genes' labels over the same chosen modules; 301 hidden
+*On Plasmodium falciparum:* **PASS** -- F1 of hidden genes in the module chosen for their label on known genes 0.199 against 0.065 under 100 permutations of the hidden genes' labels over the same chosen modules; 264 hidden
 
 **Settings:** `target` -- A label whose closure is removed from every map, and which the modules are then read against. Leave empty to build modules from everything; the self-test then uses the default label.; `n_neighbors` -- Comma-separated UMAP n_neighbors values to walk. Small values keep local detail such as complexes; large values keep the global arrangement such as organelles. Every value multiplies the number of maps built.; `min_dist` -- Comma-separated UMAP min_dist values to walk. Zero packs similar genes tightly, which clusters well; larger values spread them out, which reads better and clusters worse. Every value multiplies the number of maps.; `min_cluster_size` -- Comma-separated HDBSCAN minimum cluster sizes. Small values find small complexes and also split organelles; large values find organelles and swallow complexes. Cheap to widen: clustering is fast next to embedding.; `selection` -- HDBSCAN's cluster selection, comma-separated: 'eom' keeps the most persistent clusters -- on the real proteome two to six very large ones -- and 'leaf' every leaf of the cluster tree, dozens of small purer clusters with more genes left as noise. Walking both costs little.; `sample` -- How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out.; `threshold` -- The share of clusterings in which two genes must be placed together to be in the same module. Higher is stricter: fewer, smaller, more trustworthy modules.; `min_module` -- Modules smaller than this are dropped as noise. A module of three genes that co-cluster is a coincidence as often as it is a complex.
 
@@ -172,7 +172,7 @@ An association here is evidence of coupling between two kinds of biology: cluste
 
 *On Toxoplasma gondii:* **PASS** -- share of first-half findings that replicate on the second half 0.981 against 0.057 under 10 runs with the second half scrambled; 53 hidden
 
-*On Plasmodium falciparum:* **PASS** -- share of first-half findings that replicate on the second half 1.000 against 0.031 under 10 runs with the second half scrambled; 62 hidden
+*On Plasmodium falciparum:* **PASS** -- share of first-half findings that replicate on the second half 0.907 against 0.044 under 10 runs with the second half scrambled; 54 hidden
 
 **Settings:** `map_from` -- The family of measurements the map is built from; everything else becomes a held-out feature to read it with. Families are the kinds of evidence the table carries: transcription, translation, fitness, modification and so on.; `sample` -- How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out.
 
@@ -196,7 +196,7 @@ A map is built from dozens of datasets, and a good result says nothing about whi
 
 *On Toxoplasma gondii:* **PASS** -- hidden accuracy of the evidence ranked first (transcription) 0.321 against 0.215 under the 14 kinds of evidence chosen at random; 951 hidden
 
-*On Plasmodium falciparum:* **PASS** -- hidden accuracy of the evidence ranked first (expr) 0.523 against 0.449 under the 37 kinds of evidence chosen at random; 608 hidden
+*On Plasmodium falciparum:* **PASS** -- hidden accuracy of the evidence ranked first (expr) 0.354 against 0.213 under the 48 kinds of evidence chosen at random; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.; `unit` -- 'family' groups the datasets by kind of measurement -- a dozen or so rows, quick. 'block' scores every dataset on its own -- a hundred rows, several minutes, and the level at which an experiment can be named.
 
@@ -222,7 +222,7 @@ It is the baseline every other strategy has to beat: if a sophisticated method c
 
 *On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.331 against 0.052 under 10 runs on shuffled labels; 951 hidden
 
-*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.599 against 0.403 under 10 runs on shuffled labels; 608 hidden
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.494 against 0.062 under 10 runs on shuffled labels; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.; `min_share` -- The share of the neighbourhood vote the winning label must hold before a gene is called. Higher calls fewer genes and fewer of them wrongly; the self-test uses the same threshold, so its number describes exactly these calls.
 
@@ -245,7 +245,7 @@ The difference from strategy 07 is the map. UMAP keeps local neighbourhoods and 
 
 *On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.225 against 0.057 under 20 runs on shuffled labels; 511 hidden
 
-*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.570 against 0.392 under 20 runs on shuffled labels; 479 hidden
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.284 against 0.078 under 20 runs on shuffled labels; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `sample` -- How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out.; `n_neighbors` -- The UMAP n_neighbors of the map the neighbours are read from. Larger values give a map whose distances reflect broad organisation; smaller ones, local detail.; `min_dist` -- The UMAP min_dist of that map. Small values pack similar genes together, which is what a neighbourhood vote wants.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.; `min_share` -- The share of the neighbourhood vote the winning label must hold before a gene is called. Higher calls fewer genes and fewer of them wrongly; the self-test uses the same threshold, so its number describes exactly these calls.
 
@@ -268,7 +268,7 @@ Enrichment is also how a cluster can be NAMED without being pure: a cluster that
 
 *On Toxoplasma gondii:* **FAIL** -- precision of calls on hidden genes 0.096 against 0.000 under 20 runs on shuffled labels; 135 hidden
 
-*On Plasmodium falciparum:* **PASS** -- precision of calls on hidden genes 0.875 against 0.000 under 20 runs on shuffled labels; 40 hidden
+*On Plasmodium falciparum:* **PASS** -- precision of calls on hidden genes 0.351 against 0.000 under 20 runs on shuffled labels; 131 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `sample` -- How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out.; `min_cluster_size` -- HDBSCAN's minimum cluster size for the one map this strategy reads. Enrichment needs clusters big enough to hold several labelled genes, so very small values call almost nothing.; `selection` -- HDBSCAN's cluster selection for the one map this strategy reads. 'leaf' gives many small clusters, which is what naming a cluster needs; 'eom' gives a few very large ones, which on this proteome no single label dominates.; `min_lift` -- How many times its proteome-wide share a label must be over-represented in a cluster before the cluster is named for it. Two is conservative for large classes and generous for rare ones.
 
@@ -291,7 +291,7 @@ A high-surprise gene is one of three things, and each is worth knowing: an annot
 
 *On Toxoplasma gondii:* **PASS** -- AUROC of surprise for the swapped labels 0.802 against 0.496 under 20 random sets of the same size; 190 hidden
 
-*On Plasmodium falciparum:* **PASS** -- AUROC of surprise for the swapped labels 0.738 against 0.513 under 20 random sets of the same size; 121 hidden
+*On Plasmodium falciparum:* **PASS** -- AUROC of surprise for the swapped labels 0.881 against 0.508 under 20 random sets of the same size; 79 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.; `top` -- How many of the most surprising genes to list. The ranking is over every labelled gene; this only limits how much of it is shown and saved.
 
@@ -316,7 +316,7 @@ Run it layer by layer and the self-test numbers become a table of which relation
 
 *On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.127 against 0.031 under 10 runs on shuffled labels; 951 hidden
 
-*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.423 against 0.325 under 10 runs on shuffled labels; 608 hidden
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.159 against 0.034 under 10 runs on shuffled labels; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `layer` -- The measured network the label is walked across. Each layer is a different kind of evidence -- co-expression, co-fitness, crosslinks, structural similarity -- and a layer built from the held-out label itself is refused.; `restart` -- At each step the walk returns to the seeds with this probability. High values keep labels close to where they started; low values let them travel several edges, which reaches more genes with weaker evidence.
 
@@ -339,7 +339,7 @@ The result reaches more genes than any one layer and is steered by the sources t
 
 *On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.409 against 0.102 under 5 runs on shuffled labels; 951 hidden
 
-*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.599 against 0.340 under 5 runs on shuffled labels; 608 hidden
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.547 against 0.149 under 5 runs on shuffled labels; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.
 
@@ -362,7 +362,7 @@ Its reach is limited to proteins in the interactomes -- a few thousand at most -
 
 *On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.520 against 0.069 under 20 runs on shuffled labels; 300 hidden
 
-*On Plasmodium falciparum:* **FAIL** -- correct calls per hidden gene 0.333 against 0.283 under 20 runs on shuffled labels; 18 hidden
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.414 against 0.031 under 20 runs on shuffled labels; 29 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.
 
@@ -408,7 +408,7 @@ Modules are label-free, so a label they explain afterwards is a genuine finding;
 
 *On Toxoplasma gondii:* **FAIL** -- F1 of hidden genes in the community chosen for their label on known genes 0.169 against 0.137 under 100 permutations of the hidden genes' labels over the same chosen communities; 948 hidden
 
-*On Plasmodium falciparum:* **PASS** -- F1 of hidden genes in the community chosen for their label on known genes 0.357 against 0.272 under 100 permutations of the hidden genes' labels over the same chosen communities; 602 hidden
+*On Plasmodium falciparum:* **PASS** -- F1 of hidden genes in the community chosen for their label on known genes 0.188 against 0.131 under 100 permutations of the hidden genes' labels over the same chosen communities; 393 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `resolution` -- Modularity resolution for each layer's communities. Above 1 gives more, smaller communities; below 1 fewer, larger ones.; `agreement` -- The share of the layers covering two genes that must put them in one community before the consensus does. Higher is stricter and leaves more genes unplaced.
 
@@ -431,7 +431,7 @@ Literature layers and layers derived from the target (unwritten interactions are
 
 *On Toxoplasma gondii:* **PASS** -- AUROC of hidden pairs against degree-matched non-pairs 0.779 against 0.503 under 5 models trained with every gene's evidence read from a random other gene; 568 hidden
 
-*On Plasmodium falciparum:* **PASS** -- AUROC of hidden pairs against degree-matched non-pairs 0.851 against 0.524 under 5 models trained with every gene's evidence read from a random other gene; 16 hidden
+*On Plasmodium falciparum:* **PASS** -- AUROC of hidden pairs against degree-matched non-pairs 0.853 against 0.525 under 5 models trained with every gene's evidence read from a random other gene; 16 hidden
 
 **Settings:** `layer` -- The layer whose missing edges are predicted. Its own visible edges are used (shared partners, degree), the other measured layers are evidence, and layers derived from it are excluded.; `top` -- How many of the highest-scoring unobserved pairs to list. Every candidate is scored; this only limits what is shown and saved.
 
@@ -454,7 +454,7 @@ The test of that claim is independent biology. Genes the literature links for a 
 
 *On Toxoplasma gondii:* **PASS** -- share of the top 200 corrected pairs sharing a compartment label 0.750 against 0.390 under 20 random sets of co-mentioned pairs; 200 hidden
 
-*On Plasmodium falciparum:* **FAIL** -- share of the top 22 corrected pairs sharing a pb_transferred_phenotype label 0.636 against 0.502 under 20 random sets of co-mentioned pairs; 22 hidden
+*On Plasmodium falciparum:* **PASS** -- share of the top 48 corrected pairs sharing a lopit_pf_location label 0.562 against 0.432 under 20 random sets of co-mentioned pairs; 48 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `layer` -- Which co-mention layer to read: abstracts, or full-text paragraphs. The full-text layer is an open-access subset and is less dominated by review-article lists.; `top` -- How many of the highest-ranked pairs are compared. The test caps this at a fifth of the pairs whose genes are both labelled, so the top is really a top.
 
@@ -502,7 +502,7 @@ The weights are an interpretable by-product: for each class, the measurements wi
 
 *On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.461 against 0.079 under the analytic chance level; 951 hidden
 
-*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.576 against 0.346 under the analytic chance level; 608 hidden
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.592 against 0.091 under the analytic chance level; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `C` -- Inverse penalty strength. Small values force a simple model that uses few measurements strongly; large values let it fit detail, including noise. 0.5 is a middle setting for a few hundred rank-scaled measurements.; `min_probability` -- A gene is called only when the model's top probability reaches this. Zero calls every gene; 0.6 keeps the calls the model is sure of.
 
@@ -525,7 +525,7 @@ Unlike strategy 02, no cluster has to form: the model can combine weak signals f
 
 *On Toxoplasma gondii:* **PASS** -- AUROC of hidden members against every other gene 0.925 against 0.476 under 10 random sets of the same size; 40 hidden
 
-*On Plasmodium falciparum:* **PASS** -- AUROC of hidden members against every other gene 0.996 against 0.520 under 10 random sets of the same size; 47 hidden
+*On Plasmodium falciparum:* **PASS** -- AUROC of hidden members against every other gene 0.979 against 0.511 under 10 random sets of the same size; 37 hidden
 
 **Settings:** `genes` -- Gene accessions, one per line or separated by commas or spaces, pasted from anywhere. Matched exactly against this organism's table, ignoring case; anything not found is reported by name rather than silently dropped.; `exclude` -- If the gene list was made from a column of this table, name it here and that column, everything restating it and its experiment are withheld; otherwise the strategy would find the list again by reading the column that defined it.; `bags` -- How many positive-versus-random-draw models are averaged. More bags make the ranking steadier; 15 is usually enough, and each bag is a small fit.; `top` -- How many of the highest-scoring genes not on your list to show. Every gene is scored; this only limits the table.
 
@@ -549,7 +549,7 @@ By default the target's own kind of measurement is left out -- every knockout sc
 
 *On Toxoplasma gondii:* **PASS** -- rank correlation of predicted and hidden values 0.729 against 0.000 under the chance distribution of a rank correlation; 1,465 hidden
 
-*On Plasmodium falciparum:* **PASS** -- rank correlation of predicted and hidden values 0.500 against 0.000 under the chance distribution of a rank correlation; 1,077 hidden
+*On Plasmodium falciparum:* **PASS** -- rank correlation of predicted and hidden values 0.499 against 0.000 under the chance distribution of a rank correlation; 1,077 hidden
 
 **Settings:** `target` -- The numeric measurement to predict from everything else. Its own closure -- the same experiment's other outputs and anything restating it -- is withheld first.; `model` -- 'boosted' is gradient-boosted trees: nonlinear, tolerant of missing values, slower. 'ridge' is a penalised straight-line fit: fast, and its weights can be read.; `own_kind` -- 'leave out' removes every column measured the same way as the target -- all the fitness screens, when the target is a fitness screen -- so the answer says what OTHER evidence knows. 'include' keeps them, which mostly measures how well the screens agree with each other.; `top` -- How many of the measured genes furthest from their prediction to list, by absolute z-score of the out-of-fold residual.
 
@@ -572,7 +572,7 @@ The answer is column-specific, and the strategy measures it before using it: a t
 
 *On Toxoplasma gondii:* **PASS** -- median per-column rank correlation on hidden entries 0.870 against 0.001 under 3 completions of the table with each column shuffled independently; 224,496 hidden
 
-*On Plasmodium falciparum:* **PASS** -- median per-column rank correlation on hidden entries 0.720 against -0.003 under 3 completions of the table with each column shuffled independently; 51,515 hidden
+*On Plasmodium falciparum:* **PASS** -- median per-column rank correlation on hidden entries 0.662 against -0.003 under 3 completions of the table with each column shuffled independently; 58,213 hidden
 
 **Settings:** `target` -- Optionally, a label whose closure is removed from the table before completion, so imputed values can be used against that label without leakage.; `column` -- The measurement whose missing values are listed after completion. Every column is completed; this only chooses which one to show.; `rank` -- How many underlying patterns the low-rank model may use. Too few blur distinct programmes together; too many fit noise and reconstruct nothing.
 
@@ -595,7 +595,7 @@ Then it asks whether the shift is predictable from the other measurements, with 
 
 *On Toxoplasma gondii:* **FAIL** -- rank correlation of predicted and hidden values 0.038 against 0.000 under the chance distribution of a rank correlation; 1,465 hidden
 
-*On Plasmodium falciparum:* **PASS** -- rank correlation of predicted and hidden values 0.631 against 0.000 under the chance distribution of a rank correlation; 1,144 hidden
+*On Plasmodium falciparum:* **PASS** -- rank correlation of predicted and hidden values 0.635 against 0.000 under the chance distribution of a rank correlation; 1,144 hidden
 
 **Settings:** `condition` -- The measurement taken in the condition of interest, for example fitness in the mouse. Its closure and the baseline's are withheld from the predictors.; `baseline` -- The same measurement in the reference condition, for example fitness in fibroblasts. What the baseline explains is removed; what remains is condition-specific.; `model` -- 'boosted' is gradient-boosted trees: nonlinear, tolerant of missing values, slower. 'ridge' is a penalised straight-line fit: fast, and its weights can be read.; `own_kind` -- 'leave out' removes every column measured the same way as the target -- all the fitness screens, when the target is a fitness screen -- so the answer says what OTHER evidence knows. 'include' keeps them, which mostly measures how well the screens agree with each other.
 
@@ -620,7 +620,7 @@ A profile is only a description until it predicts something. So the significant 
 
 *On Toxoplasma gondii:* **PASS** -- AUROC of hidden members against every other gene 0.907 against 0.500 under 10 random sets of the same size; 54 hidden
 
-*On Plasmodium falciparum:* **PASS** -- AUROC of hidden members against every other gene 0.968 against 0.499 under 10 random sets of the same size; 63 hidden
+*On Plasmodium falciparum:* **PASS** -- AUROC of hidden members against every other gene 0.913 against 0.500 under 10 random sets of the same size; 49 hidden
 
 **Settings:** `genes` -- Gene accessions, one per line or separated by commas or spaces, pasted from anywhere. Matched exactly against this organism's table, ignoring case; anything not found is reported by name rather than silently dropped.; `exclude` -- If the gene list was made from a column of this table, name it here and that column, everything restating it and its experiment are withheld; otherwise the strategy would find the list again by reading the column that defined it.; `top` -- How many of the genes that best match the profile, and are not on the list, to show.
 
@@ -643,7 +643,7 @@ Each layer is degree-normalised, so hubs do not attract every walk, and the laye
 
 *On Toxoplasma gondii:* **PASS** -- AUROC of hidden members against every other gene 0.824 against 0.495 under 10 random sets of the same size; 40 hidden
 
-*On Plasmodium falciparum:* **PASS** -- AUROC of hidden members against every other gene 0.992 against 0.492 under 10 random sets of the same size; 47 hidden
+*On Plasmodium falciparum:* **PASS** -- AUROC of hidden members against every other gene 0.919 against 0.521 under 10 random sets of the same size; 37 hidden
 
 **Settings:** `genes` -- Gene accessions, one per line or separated by commas or spaces, pasted from anywhere. Matched exactly against this organism's table, ignoring case; anything not found is reported by name rather than silently dropped.; `exclude` -- If the gene list was made from a column of this table, name it here and that column, everything restating it and its experiment are withheld; otherwise the strategy would find the list again by reading the column that defined it.; `mode` -- 'networks' walks only the measured edge layers. 'networks + measurements' adds a nearest-neighbour graph of the measurement table, so genes absent from every network can still be reached.; `restart` -- How often the walk jumps back to your seeds. High keeps it close (few, near relatives); low lets it wander (more candidates, further away).; `top` -- How many of the most-visited genes not on your list to show. Every gene is scored by the walk; this only limits the table that is shown and saved.
 
@@ -714,7 +714,7 @@ Divergence is one minus the correlation of the pair's rank-scaled measurements o
 
 *On Toxoplasma gondii:* **PASS** -- AUROC of profile divergence for paralogs with different compartment 0.546 against 0.494 under 20 random reassignments of divergence to pairs; 535 hidden
 
-*On Plasmodium falciparum:* **FAIL** -- AUROC of profile divergence for paralogs with different pb_transferred_phenotype 0.429 against 0.464 under 20 random reassignments of divergence to pairs; 71 hidden
+*On Plasmodium falciparum:* **PASS** -- AUROC of profile divergence for paralogs with different lopit_pf_location 0.681 against 0.476 under 20 random reassignments of divergence to pairs; 96 hidden
 
 **Settings:** `target` -- A label withheld from the profiles and shown beside each pair; the self-test asks whether divergence predicts a difference in it. The default label is used for the test when this is empty.; `min_shared` -- A pair is scored only over measurements present for both genes, and only if there are at least this many. Fewer shared measurements give noisier divergence.
 
@@ -787,7 +787,7 @@ The price is reach: an agreed call exists only where every method can speak, and
 
 *On Toxoplasma gondii:* **PASS** -- precision of calls on hidden genes 0.539 against 0.157 under 5 runs on shuffled labels; 622 hidden
 
-*On Plasmodium falciparum:* **PASS** -- precision of calls on hidden genes 0.630 against 0.401 under 5 runs on shuffled labels; 549 hidden
+*On Plasmodium falciparum:* **PASS** -- precision of calls on hidden genes 0.700 against 0.200 under 5 runs on shuffled labels; 300 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.; `min_agree` -- How many of the independent methods must give the same label before a gene is called. Two of three is the usual balance; three of three is the surest and reaches the fewest genes.
 
@@ -810,7 +810,7 @@ This strategy restricts the triangulated calls of strategy 31 to understudied ge
 
 *On Toxoplasma gondii:* **PASS** -- precision of calls on hidden genes 0.528 against 0.166 under 5 runs on shuffled labels; 538 hidden
 
-*On Plasmodium falciparum:* **PASS** -- precision of calls on hidden genes 0.645 against 0.403 under 5 runs on shuffled labels; 417 hidden
+*On Plasmodium falciparum:* **PASS** -- precision of calls on hidden genes 0.726 against 0.208 under 5 runs on shuffled labels; 223 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.; `min_agree` -- How many of the three methods must agree before an understudied gene is called; these genes have no literature to catch a wrong call, so agreement matters more here than anywhere.
 
@@ -834,7 +834,7 @@ Each source's weight is learned from held-out edges, one fold per layer, and in 
 
 *On Toxoplasma gondii:* **PASS** -- AUROC of hidden coexpression edges against degree-matched non-pairs 0.778 against 0.492 under 10 configuration-model rewirings of the hidden edges; 3,023 hidden
 
-*On Plasmodium falciparum:* **PASS** -- AUROC of hidden coexpression edges against degree-matched non-pairs 0.688 against 0.503 under 10 configuration-model rewirings of the hidden edges; 3,874 hidden
+*On Plasmodium falciparum:* **PASS** -- AUROC of hidden coexpression edges against degree-matched non-pairs 0.690 against 0.506 under 10 configuration-model rewirings of the hidden edges; 3,874 hidden
 
 **Settings:** `genes` -- Gene accessions whose neighbourhoods to list, one per line or separated by commas or spaces. Leave empty to list the neighbourhoods around the strongest edges in the space instead. Anything not found is reported by name.; `exclude` -- A label this space must stay blind to, if the neighbourhoods are going to be used while scoring that label. Its whole closure is applied: the column, anything restating it, the experiment that produced it, and any edge layer built from it.; `layer` -- Which layer's edges are hidden and asked back when the strategy tests itself. It is removed from its own features, so the question is whether the OTHER evidence finds its edges; a dense layer gives a stricter test than a sparse one.; `k` -- How many neighbours to list for each gene given. The space ranks every candidate pair; this only decides how far down each gene's list is printed.; `top` -- How many of the strongest pairs in the whole space to list in 'the space', and how many to draw the fallback genes from when no gene list was given.; `knn` -- How many nearest genes in measurement space become candidate neighbours for each gene, on top of its partners in every layer. This is what lets the space speak about a pair no network touches at all; zero restricts it to pairs some layer already links.; `per_layer` -- How many partners per gene are kept from each layer, strongest weight first. A dense layer such as the shared-compartment one would otherwise supply more than a hundred thousand pairs that all make the same claim.
 
@@ -863,7 +863,7 @@ A learned spectral embedding is fitted beside the interpretable baseline and off
 
 *On Toxoplasma gondii:* **PASS** -- AUROC of hidden coexpression edges against degree-matched non-pairs 0.778 against 0.492 under 10 configuration-model rewirings of the hidden edges; 3,023 hidden
 
-*On Plasmodium falciparum:* **PASS** -- AUROC of hidden coexpression edges against degree-matched non-pairs 0.688 against 0.503 under 10 configuration-model rewirings of the hidden edges; 3,874 hidden
+*On Plasmodium falciparum:* **PASS** -- AUROC of hidden coexpression edges against degree-matched non-pairs 0.690 against 0.506 under 10 configuration-model rewirings of the hidden edges; 3,874 hidden
 
 **Settings:** `exclude` -- A label this space must stay blind to, if the neighbourhoods are going to be used while scoring that label. Its whole closure is applied: the column, anything restating it, the experiment that produced it, and any edge layer built from it.; `layer` -- Which layer's edges are hidden and asked back when the strategy tests itself. It is removed from its own features, so the question is whether the OTHER evidence finds its edges; a dense layer gives a stricter test than a sparse one.; `model` -- The logistic baseline on the pair features is interpretable and always fitted. The embedding adds spectral node vectors and is used for ranking only if it beats the baseline on the degree-matched null; otherwise it is reported and the baseline ranks.; `top` -- How many of the highest-probability pairs that no layer records to list. Every candidate pair is scored; this only limits what is shown and saved.; `min_probability` -- Gaps below this calibrated probability are not listed. The probability is against a degree-matched non-pair, not an absolute posterior, so treat it as a ranking with a scale rather than as a chance of being true.; `fraction` -- How much of the graph is hidden for scoring, by orthogroup. A larger share is a harder test on less training data; a smaller one leaves too few hidden edges in a sparse layer to score at all.; `knn` -- How many nearest genes in measurement space become candidate neighbours for each gene, on top of its partners in every layer. This is what lets the space speak about a pair no network touches at all; zero restricts it to pairs some layer already links.; `per_layer` -- How many partners per gene are kept from each layer, strongest weight first. A dense layer such as the shared-compartment one would otherwise supply more than a hundred thousand pairs that all make the same claim.
 
@@ -888,7 +888,7 @@ A set of one label is a call made with that guarantee behind it. A set of two la
 
 *On Toxoplasma gondii:* **PASS** -- set efficiency: 1 - (mean set size - 1) / (classes - 1) 0.757 against 0.251 under 10 runs on shuffled labels, calibrated the same way; 951 hidden
 
-*On Plasmodium falciparum:* **PASS** -- set efficiency: 1 - (mean set size - 1) / (classes - 1) 0.394 against 0.151 under 10 runs on shuffled labels, calibrated the same way; 608 hidden
+*On Plasmodium falciparum:* **PASS** -- set efficiency: 1 - (mean set size - 1) / (classes - 1) 0.754 against 0.185 under 10 runs on shuffled labels, calibrated the same way; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `alpha` -- The share of new genes whose true answer may fall outside what is returned. 0.1 promises that at least 90% of prediction sets contain the true label (or 90% of intervals the true value); smaller alpha gives bigger sets and wider intervals.; `model` -- Where the scores the sets are built from come from: a class-balanced logistic regression on every permitted measurement, or the distance-weighted vote of the nearest labelled genes. The guarantee holds for either.; `thresholds` -- 'per class' calibrates a threshold for each label separately (Mondrian conformal), so the promise holds within every class; 'overall' uses one threshold, which can over-cover common classes and under-cover rare ones.; `C` -- Inverse penalty strength of the logistic base model: small values force a simple model, large values let it fit detail. Unused by the kNN base model.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.
 
@@ -911,7 +911,7 @@ Only measurements travel along the edges, never labels, so a hidden gene's label
 
 *On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.491 against 0.083 under the analytic chance level; 951 hidden
 
-*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.586 against 0.346 under the analytic chance level; 608 hidden
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.610 against 0.092 under the analytic chance level; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `hops` -- How many steps of neighbourhood averaging are added as feature blocks. Zero is strategy 19; one adds direct partners; two adds partners of partners, which helps on sparse networks and blurs everything on dense ones.; `C` -- Inverse penalty strength of the logistic regression. Smoothing multiplies the number of features, so a stronger penalty (smaller C) than strategy 19's is often right.; `min_probability` -- A gene is called only when the model's top probability reaches this. Zero calls every gene; 0.6 keeps the calls the model is sure of.
 
@@ -934,7 +934,7 @@ What it gains in flexibility it loses in transparency, so the strategy reports p
 
 *On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.497 against 0.113 under the analytic chance level; 951 hidden
 
-*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.648 against 0.404 under the analytic chance level; 608 hidden
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.646 against 0.118 under the analytic chance level; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `trees` -- How many decision trees vote. More trees give a steadier answer and a smoother probability, never a more flexible model; 300 is past the point of change for a few hundred measurements.; `min_leaf` -- The smallest group of genes a tree may end on. Larger leaves smooth the model and resist noisy labels; 1 lets every tree memorise its training genes.
 
@@ -957,7 +957,7 @@ Because the meta-model only ever sees out-of-fold predictions, it cannot learn t
 
 *On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.465 against 0.075 under the analytic chance level; 951 hidden
 
-*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.610 against 0.350 under the analytic chance level; 608 hidden
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.605 against 0.087 under the analytic chance level; 395 hidden
 
 **Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.; `folds` -- How many orthogroup folds the base predictions are made in. Each fold's genes are predicted by base models that never saw them, which is what keeps the meta-model honest.
 
@@ -980,6 +980,6 @@ Two readings follow. For unmeasured genes, an interval narrower than the measure
 
 *On Toxoplasma gondii:* **PASS** -- rank correlation of predicted and hidden values 0.726 against 0.000 under the chance distribution of a rank correlation; 1,465 hidden
 
-*On Plasmodium falciparum:* **PASS** -- rank correlation of predicted and hidden values 0.493 against 0.000 under the chance distribution of a rank correlation; 1,077 hidden
+*On Plasmodium falciparum:* **PASS** -- rank correlation of predicted and hidden values 0.496 against 0.000 under the chance distribution of a rank correlation; 1,077 hidden
 
 **Settings:** `target` -- The numeric measurement to predict from everything else. Its own closure -- the same experiment's other outputs and anything restating it -- is withheld first.; `alpha` -- The share of new genes whose true answer may fall outside what is returned. 0.1 promises that at least 90% of prediction sets contain the true label (or 90% of intervals the true value); smaller alpha gives bigger sets and wider intervals.; `model` -- 'boosted' is gradient-boosted trees: nonlinear, tolerant of missing values, slower. 'ridge' is a penalised straight-line fit: fast, and its weights can be read.; `own_kind` -- 'leave out' removes every column measured the same way as the target -- all the fitness screens, when the target is a fitness screen -- so the answer says what OTHER evidence knows. 'include' keeps them, which mostly measures how well the screens agree with each other.

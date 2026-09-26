@@ -85,7 +85,8 @@ register(Space(
     partner="Tg", orthomcl="pfal",
     contexts=frozenset({"ring", "trophozoite", "schizont", "gametocyte", "ookinete", "sporozoite",
                         "merozoite", "asexual blood stage", "sexual", "liver stage", "oocyst"}),
-    targets=("pb_transferred_phenotype", "stage_enriched_derived", "is_exported"),
+    targets=("lopit_pf_location", "pb_transferred_phenotype", "stage_enriched_derived",
+             "is_exported"),
     numbers=("piggybac_mis", "expr_schizont", "mean_plddt")))
 
 
