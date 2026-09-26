@@ -58,6 +58,8 @@ One file per task. This index is the status table; the files carry the reasoning
 |---|---|
 | 38 | Build a provenance-first pan-Apicomplexan dataset archive |
 | 41 | Fill as many slots as possible: Toxoplasma, Plasmodium, and host |
+| 53 | [One space per organism](open/53_organism_spaces.md), then links between pathogen, vector and host |
+| 54 | [Scorecards, techniques and five advanced strategies](open/54_scorecards_and_advanced_models.md): calibration sweep outstanding |
 
 ## The one ordering constraint that is not negotiable — now satisfied
 

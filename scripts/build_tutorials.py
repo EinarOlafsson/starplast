@@ -544,6 +544,26 @@ def tutorial_trust(studio) -> dict:
               "Observed minus chance, and the share of null runs as good.")])
     nb.code([("t.details", "Per hidden class: how many came back, and how precise the calls "
                            "were.")])
+    nb.md("<h2>The scorecard: in what way a strategy is good</h2><p>The verdict rests on one "
+          "number. The scorecard reports, on the same hidden genes, every standard metric for the "
+          "kind of task the strategy performs -- for label calls: accuracy, coverage, precision of "
+          "calls, macro precision and recall, macro and weighted F1, Cohen's kappa, MCC, macro "
+          "AUROC and AUPRC -- always in the same order, so strategies doing the same task can be "
+          "compared number by number.</p>")
+    nb.code([("t.card()", "The verdict block, then the label-call metrics in their standard "
+                          "order, each with how to read it.")])
+    nb.code([("S.metrics('label calls')[['metric', 'chance', 'reading']]",
+              "What each metric means, what chance gives, and how to read it.")])
+    nb.code([("import pandas as pd", "For the comparison table."),
+             ("rows = []", "One row per strategy."),
+             ("for key in ('feature_knn', 'supervised_classifier', 'graph_convolution', "
+              "'random_forest'):", "Four label-calling strategies on the same hidden genes."),
+             ("    card = S.test(key, target='compartment').scorecard",
+              "Each one's scorecard."),
+             ("    rows.append({'strategy': S.get(key).name, **{m: round(card[m], 3) for m in "
+              "('accuracy', 'macro_f1', 'kappa', 'mcc', 'macro_auroc')}})",
+              "Five of its metrics."),
+             ("pd.DataFrame(rows)", "Same task, same metrics, same order: directly comparable.")])
     nb.md("<h2>The same test on a table with nothing in it</h2><p>A test that passes on noise "
           "tests nothing. <code>planted_context(null=True)</code> deals every column and edge "
           "out at random.</p>")
@@ -597,6 +617,51 @@ def tutorial_networks(studio) -> dict:
     nb.code([("under = S.run('understudied_first', target='compartment')",
               "Strategy 32: agreed calls for genes nobody has written about."),
              ("under.tables['candidates'].head(10)", "Ranked by agreement times novelty.")])
+    nb.write()
+    return {"slug": slug, **run}
+
+
+def tutorial_advanced(studio) -> dict:
+    slug = "6_advanced_models"
+    settings = {"target": "compartment", "alpha": 0.1}
+    run = strategy_walkthrough(
+        studio, "conformal_calls", slug, "Say how sure: conformal calls, forests and stacking",
+        "Strategy 35 turns a classifier's scores into prediction sets with a stated error rate: "
+        "at alpha 0.1, at least 90% of sets contain the true compartment. A set of one label is a "
+        "call; a set of several says which compartments the data cannot tell apart for that gene.",
+        settings, CONSOLE_TIPS)
+    nb = Notebook(slug, "Advanced models, from Python")
+    nb.md("<h1>Advanced models</h1><p>Strategies 35-39 add what the others lack: an error rate "
+          "stated before the answer is seen (conformal prediction, 35 and 39), a model that sees "
+          "each gene's network neighbourhood (graph convolution, 36), one that finds thresholds and "
+          "interactions (random forest, 37), and one that learns how far to trust each kind of "
+          "evidence (stacking, 38).</p>")
+    nb.code([("from starplast import strategies as S", "Import."),
+             ("sets = S.run('conformal_calls', target='compartment', alpha=0.1)",
+              "Strategy 35: prediction sets at a 10% error rate."),
+             ("sets.tables['prediction sets'].head(10)",
+              "Every unlabelled gene with its set, smallest first: one label is a call.")])
+    nb.code([("t = S.test('conformal_calls', target='compartment')",
+              "Its self-test: set efficiency against shuffled labels."),
+             ("{k: round(v, 3) for k, v in t.numbers.items()}",
+              "set_coverage should sit at or above promised_coverage; mean_set_size out of classes "
+              "says how far the data narrows the answer.")])
+    nb.code([("sgc = S.run('graph_convolution', target='compartment')",
+              "Strategy 36: measurements smoothed along the networks, then classified."),
+             ("sgc.tables['where the model looks']",
+              "How much weight falls on the gene itself against its neighbourhood.")])
+    nb.code([("rf = S.run('random_forest', target='compartment')",
+              "Strategy 37: a random forest."),
+             ("rf.tables['what defines the label'].head(10)",
+              "Measurements ranked by the accuracy lost on held-out orthogroups when shuffled.")])
+    nb.code([("stack = S.run('stacking', target='compartment')",
+              "Strategy 38: a meta-model over out-of-fold predictions."),
+             ("stack.tables['trust by evidence']",
+              "How far the meta-model trusts each kind of evidence for this label.")])
+    nb.code([("fit = S.run('conformal_values', target='fit_invitro_hff', alpha=0.1)",
+              "Strategy 39: a fitness score predicted with an interval."),
+             ("fit.tables['surprises'].head(10)",
+              "Measured genes outside their 90% interval, furthest first.")])
     nb.write()
     return {"slug": slug, **run}
 
@@ -740,14 +805,21 @@ def guide(studio, runs: dict) -> None:
         f"{s.number:02d} {_e(s.title.lower())} ({_e(s.method)})"
         for s in S.catalog() if s.family == f) + "</li>" for f in S.families())
     sec.append(("The Strategies tab",
-                "<p>Thirty-two named ways of turning the combined data into a claim, grouped by "
-                f"how they work:</p><ul>{fams}</ul>"
-                "<p>Select one and read its <b>Guide</b> (what it infers, why that works, how "
-                "it fails, a walkthrough, and how it is tested); set its <b>Settings</b>; press "
-                "<b>Test (hold-out)</b> before <b>Run</b>. The column beside each name is the "
-                "verdict its self-test earned on the shipped data, and the calibration tables "
-                "say which settings and targets it works for. Gene-list strategies accept a "
-                "pasted list, a file, an example set, or the genes gated on the map.</p>"
+                f"<p>{len(S.catalog())} named ways of turning the combined data into a claim, "
+                f"grouped by how they work. Each name ends with its method in brackets:</p>"
+                f"<ul>{fams}</ul>"
+                "<p>Select one and read its <b>Guide</b>: what it infers; its <b>method</b> and "
+                "every technique the method is built from, each explained; why it works and how "
+                "it fails; its <b>scorecard</b> -- the standard metrics for its kind of task, each "
+                "with its chance level and how to read it, and the values measured on the shipped "
+                "data with 95% intervals; a walkthrough; and how it is tested. Set its "
+                "<b>Settings</b>; press <b>Test (hold-out)</b> before <b>Run</b> -- the Results "
+                "tab then leads with the full scorecard of that test, every metric explained on "
+                "hover. The column beside each name is the grade its calibration earned, and "
+                "the calibration tables say which settings and targets it works for. The filter "
+                "matches names and methods, so 'HDBSCAN' or 'logistic' lists every strategy "
+                "using that method. Gene-list strategies accept a pasted list, a file, an example "
+                "set, or the genes gated on the map.</p>"
                 f"{shot(s_guide, 'strategy guide')}{shot(s_settings, 'strategy settings')}"
                 "<p>Every strategy removes the held-out label, anything that restates it, the "
                 "experiment that produced it, the same quantity measured another way, and any "
@@ -773,6 +845,10 @@ def guide(studio, runs: dict) -> None:
                      "S.get('geneset_hunt')                         # its guide (renders in notebooks)\n"
                      "S.get('geneset_hunt').parameters()            # settings and why they exist\n"
                      "test = S.test('geneset_hunt', genes=my_list)  # hide 30% of the list, recover it\n"
+                     "test.card()                                   # verdict + the task's standard metrics\n"
+                     "S.metrics('ranking')                          # what each metric means\n"
+                     "S.techniques()                                # what each method is built from\n"
+                     "S.calibration('geneset_hunt')['grade']        # how far to trust it, measured\n"
                      "result = S.run('geneset_hunt', genes=my_list) # run on the shipped T. gondii table\n"
                      "result.tables['candidates']                   # what it found\n"
                      "result.plot(S.shipped('Tg'))                  # the map it was computed on\n"
@@ -826,6 +902,9 @@ TUTORIALS = [
      "Self-tests, nulls, noise tables and the calibration of every strategy over its settings."),
     ("5_networks_and_agreement", "Borrow from networks, learn from examples, demand agreement",
      "Strategies 12, 19, 31 and 32: networks, a classifier, agreement, and understudied genes."),
+    ("6_advanced_models", "Say how sure: conformal calls, forests and stacking",
+     "Strategies 35-39: stated error rates, graph convolution, random forests, stacking and "
+     "prediction intervals."),
 ]
 
 
@@ -858,7 +937,7 @@ def main(argv=None) -> int:
     runs = {}
     builds = {"1_explore": tutorial_explore, "2_holdout_search": tutorial_holdout,
               "3_gene_list": tutorial_genelist, "4_test_and_calibrate": tutorial_trust,
-              "5_networks_and_agreement": tutorial_networks}
+              "5_networks_and_agreement": tutorial_networks, "6_advanced_models": tutorial_advanced}
     for slug, build in builds.items():
         if argv and slug not in argv:
             continue

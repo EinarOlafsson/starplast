@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>Say how sure: conformal calls, forests and stacking</title><style>
+@font-face { font-family: 'Open Sans'; src: local('Open Sans'); }
+:root { --bg:#1e1e1e; --panel:#2a2a2a; --card:#333; --ink:#eaeaea; --muted:#a8a8a8;
+        --accent:#4aa3ff; --pass:#3fb37f; --fail:#e0625a; --line:#444; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--ink);
+             font-family:'Open Sans', 'Segoe UI', Roboto, sans-serif; }
+a { color: var(--accent); }
+.topbar { display:flex; align-items:center; gap:16px; padding:10px 20px; background:#161616;
+          border-bottom:1px solid var(--line); }
+.topbar h1 { font-size:18px; margin:0; font-weight:600; }
+.topbar .nav { margin-left:auto; display:flex; gap:14px; font-size:14px; }
+.container { display:flex; height:calc(100vh - 50px); }
+.left-panel { width:30%; min-width:300px; background:var(--panel); padding:18px; box-sizing:border-box;
+              border-right:1px solid var(--line); overflow-y:auto; }
+.left-panel h2, .right-panel h2 { font-size:16px; margin:0 0 10px 0; }
+.intro { font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:14px; }
+.field { display:flex; justify-content:space-between; gap:10px; padding:7px 9px; margin:4px 0;
+         background:#232323; border-radius:6px; font-size:13px; cursor:help; }
+.field:hover { outline:1px solid var(--accent); }
+.field .label { color:var(--muted); }
+.field .value { font-family:monospace; text-align:right; word-break:break-all; max-width:55%; }
+.right-panel { flex:1; display:flex; flex-direction:column; padding:18px; box-sizing:border-box;
+               min-width:0; }
+.figure { flex:1.4; background:var(--card); border-radius:12px; position:relative; display:flex;
+          flex-direction:column; align-items:center; justify-content:center; min-height:0;
+          padding:10px; box-sizing:border-box; }
+.figure img { max-width:100%; max-height:calc(100% - 50px); object-fit:contain; border-radius:6px; }
+.caption { font-size:13px; color:var(--muted); margin-top:8px; text-align:center; max-width:90%; }
+.slider-row { display:flex; align-items:center; gap:12px; justify-content:center; height:44px; }
+.slider-row input { width:60%; }
+.bottom { flex:1; display:flex; gap:14px; min-height:0; margin-top:6px; }
+.console { flex:1; background:#222; border-radius:10px; display:flex; flex-direction:column;
+           min-height:0; }
+.console .label { padding:6px 10px; font-weight:600; font-size:14px; background:#1b1b1b;
+                  border-radius:10px 10px 0 0; }
+.console .out { flex:1; overflow-y:auto; padding:8px 10px; font-family:monospace; font-size:12.5px; }
+.console .line { padding:2px 4px; border-radius:4px; cursor:help; white-space:pre-wrap; }
+.console .line:hover { background:#2f3b48; }
+.buttons { width:30%; min-width:240px; display:flex; flex-direction:column; gap:8px; }
+.buttons button { background:#3a3a3a; color:var(--ink); border:1px solid #555; border-radius:6px;
+                  padding:8px; font-size:13px; cursor:pointer; text-align:left; }
+.buttons button:hover { border-color:var(--accent); }
+.buttons .desc { font-size:12.5px; color:var(--muted); min-height:60px; line-height:1.45; }
+.help-box { position:fixed; max-width:420px; background:#101820; border:1px solid var(--accent);
+            color:var(--ink); padding:9px 11px; border-radius:6px; font-size:12.5px; line-height:1.45;
+            display:none; z-index:10; pointer-events:none; }
+.verdict-pass { color:var(--pass); font-weight:700; } .verdict-fail { color:var(--fail); font-weight:700; }
+/* notebook */
+.nb { max-width:1100px; margin:0 auto; padding:20px 24px 80px 24px; }
+.nb h1 { font-size:26px; } .nb h2 { font-size:20px; margin-top:34px; border-bottom:1px solid var(--line);
+         padding-bottom:4px; }
+.nb p, .nb li { line-height:1.6; font-size:15px; color:#dcdcdc; }
+.cell { margin:14px 0; }
+.cell .in, .cell .outp { display:flex; gap:10px; }
+.cell .prompt { width:62px; flex:none; text-align:right; font-family:monospace; font-size:12.5px;
+                color:#7aa7d9; padding-top:9px; }
+.cell .outp .prompt { color:#d98b7a; }
+pre.code { flex:1; margin:0; background:#262a30; border:1px solid #3a3f47; border-radius:6px;
+           padding:9px 11px; overflow-x:auto; font-size:13px; line-height:1.5; }
+pre.code .ln { display:block; cursor:help; border-radius:3px; }
+pre.code .ln:hover { background:#324257; }
+.outbox { flex:1; background:#1a1a1a; border-left:3px solid #555; padding:8px 11px; overflow-x:auto;
+          font-size:13px; }
+.outbox pre { margin:0; white-space:pre-wrap; font-size:12.5px; }
+.outbox table { border-collapse:collapse; font-size:12.5px; }
+.outbox th, .outbox td { border:1px solid #444; padding:3px 7px; text-align:left; }
+.outbox th { background:#2c2c2c; }
+.outbox img { max-width:100%; border-radius:6px; }
+.note { background:#23303d; border-left:3px solid var(--accent); padding:8px 12px; border-radius:4px;
+        font-size:14px; line-height:1.55; }
+/* index and guide */
+.page { max-width:1100px; margin:0 auto; padding:24px 24px 90px 24px; }
+.page h1 { font-size:28px; } .page h2 { font-size:21px; margin-top:38px;
+           border-bottom:1px solid var(--line); padding-bottom:5px; }
+.page h3 { font-size:17px; margin-top:24px; }
+.page p, .page li { line-height:1.65; font-size:15px; color:#dcdcdc; }
+.page img.shot { max-width:100%; border:1px solid #444; border-radius:8px; margin:10px 0; }
+.page table { border-collapse:collapse; font-size:13.5px; margin:10px 0; width:100%; }
+.page th, .page td { border:1px solid #444; padding:5px 8px; text-align:left; vertical-align:top; }
+.page th { background:#2a2a2a; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:14px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+.card h3 { margin:0 0 6px 0; font-size:16px; }
+.card p { font-size:13.5px; color:var(--muted); margin:0 0 10px 0; }
+.card a { margin-right:14px; font-size:14px; }
+.toc { columns:2; font-size:14px; }
+</style></head><body><div class='topbar'><h1>Say how sure: conformal calls, forests and stacking</h1><div class='nav'><a href='index.html'>All tutorials</a><a href='complete_guide.html'>Complete guide</a><a href='../strategies.md'>Strategy catalogue</a></div></div><div class='container'><div class='left-panel'><h2>Settings</h2><div class='intro'>Strategy 35 turns a classifier's scores into prediction sets with a stated error rate: at alpha 0.1, at least 90% of sets contain the true compartment. A set of one label is a call; a set of several says which compartments the data cannot tell apart for that gene.</div><div class='field' data-tip='The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.'><span class='label'>Held-out label</span><span class='value'>compartment</span></div><div class='field' data-tip='The share of new genes whose true answer may fall outside what is returned. 0.1 promises that at least 90% of prediction sets contain the true label (or 90% of intervals the true value); smaller alpha gives bigger sets and wider intervals.'><span class='label'>Error rate allowed (alpha)</span><span class='value'>0.1</span></div><div class='field' data-tip='Where the scores the sets are built from come from: a class-balanced logistic regression on every permitted measurement, or the distance-weighted vote of the nearest labelled genes. The guarantee holds for either.'><span class='label'>Base model</span><span class='value'>logistic</span></div><div class='field' data-tip='&#x27;per class&#x27; calibrates a threshold for each label separately (Mondrian conformal), so the promise holds within every class; &#x27;overall&#x27; uses one threshold, which can over-cover common classes and under-cover rare ones.'><span class='label'>Guarantee</span><span class='value'>per class</span></div><div class='field' data-tip='Inverse penalty strength of the logistic base model: small values force a simple model, large values let it fit detail. Unused by the kNN base model.'><span class='label'>Regularisation C</span><span class='value'>0.5</span></div><div class='field' data-tip='How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project&#x27;s default everywhere a neighbourhood is scored.'><span class='label'>Neighbours to consult</span><span class='value'>15</span></div></div><div class='right-panel'><div class='figure'><img id='slide' src='resources/6_advanced_models/1_guide.png'><div class='caption' id='caption'>The Guide tab: what strategy 35 infers, why it works, how it fails, and how it is tested.</div></div><div class='slider-row'><span>1</span><input id='slider' type='range' min='0' max='3' value='0' oninput='go(this.value)'><span>4</span></div><div class='bottom'><div class='console'><div class='label'>Console</div><div class='out'><div class='line' data-tip='The job starting in the background, as the Jobs panel lists it.'>strategy 35 test: Call genes with a stated error rate (split conformal prediction) -- started</div><div class='line' data-tip='One run of the null: the same procedure on shuffled labels. Its spread is the chance level the verdict is judged against.'>conformal_calls: null 1 of 10</div><div class='line' data-tip='One run of the null: the same procedure on shuffled labels. Its spread is the chance level the verdict is judged against.'>conformal_calls: null 2 of 10</div><div class='line' data-tip='One run of the null: the same procedure on shuffled labels. Its spread is the chance level the verdict is judged against.'>conformal_calls: null 3 of 10</div><div class='line' data-tip='One run of the null: the same procedure on shuffled labels. Its spread is the chance level the verdict is judged against.'>conformal_calls: null 4 of 10</div><div class='line' data-tip='One run of the null: the same procedure on shuffled labels. Its spread is the chance level the verdict is judged against.'>conformal_calls: null 5 of 10</div><div class='line' data-tip='One run of the null: the same procedure on shuffled labels. Its spread is the chance level the verdict is judged against.'>conformal_calls: null 6 of 10</div><div class='line' data-tip='One run of the null: the same procedure on shuffled labels. Its spread is the chance level the verdict is judged against.'>conformal_calls: null 7 of 10</div><div class='line' data-tip='One run of the null: the same procedure on shuffled labels. Its spread is the chance level the verdict is judged against.'>conformal_calls: null 8 of 10</div><div class='line' data-tip='One run of the null: the same procedure on shuffled labels. Its spread is the chance level the verdict is judged against.'>conformal_calls: null 9 of 10</div><div class='line' data-tip='One run of the null: the same procedure on shuffled labels. Its spread is the chance level the verdict is judged against.'>conformal_calls: null 10 of 10</div><div class='line' data-tip='Progress reported by the running job.'>conformal_calls: PASS</div><div class='line' data-tip='The job starting in the background, as the Jobs panel lists it.'>strategy 35 run: Call genes with a stated error rate (split conformal prediction) -- started</div><div class='line' data-tip='The job finished; its tables are under Results.'>conformal_calls: done in 10.3s</div><div class='line' data-tip='The self-test&#x27;s verdict, the number it rests on, and the null it beat or did not beat.'>PASS: set efficiency: 1 - (mean set size - 1) / (classes - 1) 0.757 against 0.251 ± 0.024 under 10 runs on shuffled labels, calibrated the same way (bar 0.288, p 0.0909); effect +0.506, needed +0.050; 951 hidden</div><div class='line' data-tip='The run&#x27;s summary: what was found, and the number that says how much to believe it.'>Split conformal prediction at alpha 0.10: for at least 90% of new genes the prediction set contains the true compartment label. Of 4,336 unlabelled genes, 9 get a single label (called), 4,327 a set of several (the data cannot decide between them) and 0 an empty set (unlike any calibration gene).</div></div></div><div class='buttons'><button onmouseenter='describe(0)' onclick='describe(0)'>Run</button><button onmouseenter='describe(1)' onclick='describe(1)'>Test (hold-out)</button><button onmouseenter='describe(2)' onclick='describe(2)'>Stop</button><button onmouseenter='describe(3)' onclick='describe(3)'>Show on map</button><div class='desc' id='desc'>Hover or click a button to see what it does. Hover any setting or console line for an explanation; move the slider to step through the run.</div></div></div></div></div><div id='help-overlay' class='help-box'></div><script>
+const help = document.getElementById('help-overlay');
+function showHelp(ev, text) { help.innerHTML = text; help.style.display = 'block';
+  const x = Math.min(ev.clientX + 16, window.innerWidth - 440);
+  const y = Math.min(ev.clientY + 16, window.innerHeight - help.offsetHeight - 10);
+  help.style.left = x + 'px'; help.style.top = y + 'px'; }
+function hideHelp() { help.style.display = 'none'; }
+document.querySelectorAll('[data-tip]').forEach(el => {
+  el.addEventListener('mousemove', ev => showHelp(ev, el.getAttribute('data-tip')));
+  el.addEventListener('mouseleave', hideHelp); });
+const slides = [["resources/6_advanced_models/1_guide.png", "The Guide tab: what strategy 35 infers, why it works, how it fails, and how it is tested."], ["resources/6_advanced_models/2_settings.png", "The Settings tab, filled in for this walkthrough. Hover any field on the left for the reason it exists."], ["resources/6_advanced_models/3_test.png", "Test (hold-out): PASS. set efficiency: 1 - (mean set size - 1) / (classes - 1) 0.757 against 0.251 \u00b1 0.024 under 10 runs on shuffled labels, calibrated the same way (bar 0.288, p 0.0909); effect +0.506, needed +0.050; 951 hidden"], ["resources/6_advanced_models/4_results.png", "Run: the summary and the tables it produced. Click a row to find its gene on the map; right-click to save the table."]]; const descs = ["Run the selected strategy with these settings on the whole table, in the background. Its tables appear under Results; a strategy that builds a map can then be shown on it.", "Hide information that is already known, ask the strategy for it back, and compare the answer with the same procedure on shuffled data. PASS means it beat that null by the stated margin with these settings.", "Ask the running strategy to stop at its next checkpoint. Nothing is written by a stopped run.", "Put the result's map into the central view, colored by its clusters or modules, so it can be looked at rather than only read."];function go(i) { document.getElementById('slide').src = slides[i][0]; document.getElementById('caption').textContent = slides[i][1]; }function describe(i) { document.getElementById('desc').textContent = descs[i]; }</script></body></html>

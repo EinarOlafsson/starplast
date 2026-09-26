@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>Advanced models, from Python</title><style>
+@font-face { font-family: 'Open Sans'; src: local('Open Sans'); }
+:root { --bg:#1e1e1e; --panel:#2a2a2a; --card:#333; --ink:#eaeaea; --muted:#a8a8a8;
+        --accent:#4aa3ff; --pass:#3fb37f; --fail:#e0625a; --line:#444; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--ink);
+             font-family:'Open Sans', 'Segoe UI', Roboto, sans-serif; }
+a { color: var(--accent); }
+.topbar { display:flex; align-items:center; gap:16px; padding:10px 20px; background:#161616;
+          border-bottom:1px solid var(--line); }
+.topbar h1 { font-size:18px; margin:0; font-weight:600; }
+.topbar .nav { margin-left:auto; display:flex; gap:14px; font-size:14px; }
+.container { display:flex; height:calc(100vh - 50px); }
+.left-panel { width:30%; min-width:300px; background:var(--panel); padding:18px; box-sizing:border-box;
+              border-right:1px solid var(--line); overflow-y:auto; }
+.left-panel h2, .right-panel h2 { font-size:16px; margin:0 0 10px 0; }
+.intro { font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:14px; }
+.field { display:flex; justify-content:space-between; gap:10px; padding:7px 9px; margin:4px 0;
+         background:#232323; border-radius:6px; font-size:13px; cursor:help; }
+.field:hover { outline:1px solid var(--accent); }
+.field .label { color:var(--muted); }
+.field .value { font-family:monospace; text-align:right; word-break:break-all; max-width:55%; }
+.right-panel { flex:1; display:flex; flex-direction:column; padding:18px; box-sizing:border-box;
+               min-width:0; }
+.figure { flex:1.4; background:var(--card); border-radius:12px; position:relative; display:flex;
+          flex-direction:column; align-items:center; justify-content:center; min-height:0;
+          padding:10px; box-sizing:border-box; }
+.figure img { max-width:100%; max-height:calc(100% - 50px); object-fit:contain; border-radius:6px; }
+.caption { font-size:13px; color:var(--muted); margin-top:8px; text-align:center; max-width:90%; }
+.slider-row { display:flex; align-items:center; gap:12px; justify-content:center; height:44px; }
+.slider-row input { width:60%; }
+.bottom { flex:1; display:flex; gap:14px; min-height:0; margin-top:6px; }
+.console { flex:1; background:#222; border-radius:10px; display:flex; flex-direction:column;
+           min-height:0; }
+.console .label { padding:6px 10px; font-weight:600; font-size:14px; background:#1b1b1b;
+                  border-radius:10px 10px 0 0; }
+.console .out { flex:1; overflow-y:auto; padding:8px 10px; font-family:monospace; font-size:12.5px; }
+.console .line { padding:2px 4px; border-radius:4px; cursor:help; white-space:pre-wrap; }
+.console .line:hover { background:#2f3b48; }
+.buttons { width:30%; min-width:240px; display:flex; flex-direction:column; gap:8px; }
+.buttons button { background:#3a3a3a; color:var(--ink); border:1px solid #555; border-radius:6px;
+                  padding:8px; font-size:13px; cursor:pointer; text-align:left; }
+.buttons button:hover { border-color:var(--accent); }
+.buttons .desc { font-size:12.5px; color:var(--muted); min-height:60px; line-height:1.45; }
+.help-box { position:fixed; max-width:420px; background:#101820; border:1px solid var(--accent);
+            color:var(--ink); padding:9px 11px; border-radius:6px; font-size:12.5px; line-height:1.45;
+            display:none; z-index:10; pointer-events:none; }
+.verdict-pass { color:var(--pass); font-weight:700; } .verdict-fail { color:var(--fail); font-weight:700; }
+/* notebook */
+.nb { max-width:1100px; margin:0 auto; padding:20px 24px 80px 24px; }
+.nb h1 { font-size:26px; } .nb h2 { font-size:20px; margin-top:34px; border-bottom:1px solid var(--line);
+         padding-bottom:4px; }
+.nb p, .nb li { line-height:1.6; font-size:15px; color:#dcdcdc; }
+.cell { margin:14px 0; }
+.cell .in, .cell .outp { display:flex; gap:10px; }
+.cell .prompt { width:62px; flex:none; text-align:right; font-family:monospace; font-size:12.5px;
+                color:#7aa7d9; padding-top:9px; }
+.cell .outp .prompt { color:#d98b7a; }
+pre.code { flex:1; margin:0; background:#262a30; border:1px solid #3a3f47; border-radius:6px;
+           padding:9px 11px; overflow-x:auto; font-size:13px; line-height:1.5; }
+pre.code .ln { display:block; cursor:help; border-radius:3px; }
+pre.code .ln:hover { background:#324257; }
+.outbox { flex:1; background:#1a1a1a; border-left:3px solid #555; padding:8px 11px; overflow-x:auto;
+          font-size:13px; }
+.outbox pre { margin:0; white-space:pre-wrap; font-size:12.5px; }
+.outbox table { border-collapse:collapse; font-size:12.5px; }
+.outbox th, .outbox td { border:1px solid #444; padding:3px 7px; text-align:left; }
+.outbox th { background:#2c2c2c; }
+.outbox img { max-width:100%; border-radius:6px; }
+.note { background:#23303d; border-left:3px solid var(--accent); padding:8px 12px; border-radius:4px;
+        font-size:14px; line-height:1.55; }
+/* index and guide */
+.page { max-width:1100px; margin:0 auto; padding:24px 24px 90px 24px; }
+.page h1 { font-size:28px; } .page h2 { font-size:21px; margin-top:38px;
+           border-bottom:1px solid var(--line); padding-bottom:5px; }
+.page h3 { font-size:17px; margin-top:24px; }
+.page p, .page li { line-height:1.65; font-size:15px; color:#dcdcdc; }
+.page img.shot { max-width:100%; border:1px solid #444; border-radius:8px; margin:10px 0; }
+.page table { border-collapse:collapse; font-size:13.5px; margin:10px 0; width:100%; }
+.page th, .page td { border:1px solid #444; padding:5px 8px; text-align:left; vertical-align:top; }
+.page th { background:#2a2a2a; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:14px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+.card h3 { margin:0 0 6px 0; font-size:16px; }
+.card p { font-size:13.5px; color:var(--muted); margin:0 0 10px 0; }
+.card a { margin-right:14px; font-size:14px; }
+.toc { columns:2; font-size:14px; }
+</style></head><body><div class='topbar'><h1>Advanced models, from Python</h1><div class='nav'><a href='index.html'>All tutorials</a><a href='complete_guide.html'>Complete guide</a><a href='../strategies.md'>Strategy catalogue</a></div></div><div class='nb'><h1>Advanced models</h1><p>Strategies 35-39 add what the others lack: an error rate stated before the answer is seen (conformal prediction, 35 and 39), a model that sees each gene's network neighbourhood (graph convolution, 36), one that finds thresholds and interactions (random forest, 37), and one that learns how far to trust each kind of evidence (stacking, 38).</p><div class='cell'><div class='in'><div class='prompt'>In [1]:</div><pre class='code'><span class='ln' data-tip='Import.'>from starplast import strategies as S</span><span class='ln' data-tip='Strategy 35: prediction sets at a 10% error rate.'>sets = S.run(&#x27;conformal_calls&#x27;, target=&#x27;compartment&#x27;, alpha=0.1)</span><span class='ln' data-tip='Every unlabelled gene with its set, smallest first: one label is a call.'>sets.tables[&#x27;prediction sets&#x27;].head(10)</span></pre></div><div class='outp'><div class='prompt'>Out[1]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>gene_id</th>
+      <th>product</th>
+      <th>prediction_set</th>
+      <th>set_size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TGME49_311650</td>
+      <td>leucine rich repeat-containing protein</td>
+      <td>PM - peripheral 2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>TGME49_311810</td>
+      <td>hypothetical protein</td>
+      <td>apicoplast</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>TGME49_273100</td>
+      <td>3'-5' exonuclease domain-containing protein</td>
+      <td>mitochondrion - soluble</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>TGME49_209640</td>
+      <td>hypothetical protein</td>
+      <td>mitochondrion - soluble</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>TGME49_224760</td>
+      <td>SAG-related sequence SRS40E</td>
+      <td>PM - peripheral 1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>TGME49_320250</td>
+      <td>SAG-related sequence SRS15A</td>
+      <td>PM - peripheral 1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>TGME49_255370</td>
+      <td>apicoplast import protein TIC20</td>
+      <td>apicoplast</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>TGME49_321490</td>
+      <td>SAG-related sequence SRS12A</td>
+      <td>PM - peripheral 1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>TGME49_278390</td>
+      <td>Toxoplasma gondii family A protein</td>
+      <td>PM - peripheral 1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>TGME49_235920</td>
+      <td>dynein, axonemal, heavy chain 2 family protein</td>
+      <td>PM - peripheral 2 | endomembrane vesicles</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [2]:</div><pre class='code'><span class='ln' data-tip='Its self-test: set efficiency against shuffled labels.'>t = S.test(&#x27;conformal_calls&#x27;, target=&#x27;compartment&#x27;)</span><span class='ln' data-tip='set_coverage should sit at or above promised_coverage; mean_set_size out of classes says how far the data narrows the answer.'>{k: round(v, 3) for k, v in t.numbers.items()}</span></pre></div><div class='outp'><div class='prompt'>Out[2]:</div><div class='outbox'><pre>{&#x27;set_coverage&#x27;: 0.911, &#x27;promised_coverage&#x27;: 0.9, &#x27;null_set_coverage&#x27;: 0.876, &#x27;mean_set_size&#x27;: 6.597, &#x27;classes&#x27;: 24, &#x27;singleton_share&#x27;: 0.002}</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [3]:</div><pre class='code'><span class='ln' data-tip='Strategy 36: measurements smoothed along the networks, then classified.'>sgc = S.run(&#x27;graph_convolution&#x27;, target=&#x27;compartment&#x27;)</span><span class='ln' data-tip='How much weight falls on the gene itself against its neighbourhood.'>sgc.tables[&#x27;where the model looks&#x27;]</span></pre></div><div class='outp'><div class='prompt'>Out[3]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>block</th>
+      <th>share of model weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>the gene itself</td>
+      <td>0.634</td>
+    </tr>
+    <tr>
+      <td>1-step neighbourhood</td>
+      <td>0.237</td>
+    </tr>
+    <tr>
+      <td>2-step neighbourhood</td>
+      <td>0.129</td>
+    </tr>
+  </tbody>
+</table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [4]:</div><pre class='code'><span class='ln' data-tip='Strategy 37: a random forest.'>rf = S.run(&#x27;random_forest&#x27;, target=&#x27;compartment&#x27;)</span><span class='ln' data-tip='Measurements ranked by the accuracy lost on held-out orthogroups when shuffled.'>rf.tables[&#x27;what defines the label&#x27;].head(10)</span></pre></div><div class='outp'><div class='prompt'>Out[4]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>measurement</th>
+      <th>importance</th>
+      <th>sd</th>
+      <th>impurity_importance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>is_tm</td>
+      <td>0.0213</td>
+      <td>0.00175</td>
+      <td>0.00717</td>
+    </tr>
+    <tr>
+      <td>cellcycle19092_8h_r2</td>
+      <td>0.0191</td>
+      <td>0.00197</td>
+      <td>0.00657</td>
+    </tr>
+    <tr>
+      <td>cellcycle19092_blocked_r2</td>
+      <td>0.0171</td>
+      <td>0.00702</td>
+      <td>0.00681</td>
+    </tr>
+    <tr>
+      <td>cellcycle19092_7h_r1</td>
+      <td>0.0168</td>
+      <td>0.00891</td>
+      <td>0.0065</td>
+    </tr>
+    <tr>
+      <td>cellcycle19092_5h_r1</td>
+      <td>0.0166</td>
+      <td>0.00334</td>
+      <td>0.00698</td>
+    </tr>
+    <tr>
+      <td>cellcycle19092_7h_r2</td>
+      <td>0.0163</td>
+      <td>0.000579</td>
+      <td>0.00619</td>
+    </tr>
+    <tr>
+      <td>cellcycle19092_3h_r2</td>
+      <td>0.0161</td>
+      <td>0.00192</td>
+      <td>0.00537</td>
+    </tr>
+    <tr>
+      <td>n_struct_similar</td>
+      <td>0.016</td>
+      <td>0.00275</td>
+      <td>0.00555</td>
+    </tr>
+    <tr>
+      <td>cellcycle19092_4h_r1</td>
+      <td>0.0153</td>
+      <td>0.00381</td>
+      <td>0.00667</td>
+    </tr>
+    <tr>
+      <td>cellcycle19092_4h_r2</td>
+      <td>0.0129</td>
+      <td>0.00426</td>
+      <td>0.00626</td>
+    </tr>
+  </tbody>
+</table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [5]:</div><pre class='code'><span class='ln' data-tip='Strategy 38: a meta-model over out-of-fold predictions.'>stack = S.run(&#x27;stacking&#x27;, target=&#x27;compartment&#x27;)</span><span class='ln' data-tip='How far the meta-model trusts each kind of evidence for this label.'>stack.tables[&#x27;trust by evidence&#x27;]</span></pre></div><div class='outp'><div class='prompt'>Out[5]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>evidence</th>
+      <th>share of meta-model weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>measurements (logistic)</td>
+      <td>0.422</td>
+    </tr>
+    <tr>
+      <td>measurements (kNN)</td>
+      <td>0.289</td>
+    </tr>
+    <tr>
+      <td>networks (vote)</td>
+      <td>0.289</td>
+    </tr>
+  </tbody>
+</table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [6]:</div><pre class='code'><span class='ln' data-tip='Strategy 39: a fitness score predicted with an interval.'>fit = S.run(&#x27;conformal_values&#x27;, target=&#x27;fit_invitro_hff&#x27;, alpha=0.1)</span><span class='ln' data-tip='Measured genes outside their 90% interval, furthest first.'>fit.tables[&#x27;surprises&#x27;].head(10)</span></pre></div><div class='outp'><div class='prompt'>Out[6]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>gene_id</th>
+      <th>product</th>
+      <th>measured</th>
+      <th>predicted</th>
+      <th>lower</th>
+      <th>upper</th>
+      <th>distance_outside</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TGME49_305160</td>
+      <td>histone H2Ba</td>
+      <td>-4.96</td>
+      <td>0.0577</td>
+      <td>-2.53</td>
+      <td>2.64</td>
+      <td>2.43</td>
+    </tr>
+    <tr>
+      <td>TGME49_253160</td>
+      <td>hypothetical protein</td>
+      <td>-4.99</td>
+      <td>-0.335</td>
+      <td>-2.92</td>
+      <td>2.25</td>
+      <td>2.07</td>
+    </tr>
+    <tr>
+      <td>TGME49_312200</td>
+      <td>serine/threonine protein phosphatase PP5</td>
+      <td>0.71</td>
+      <td>-3.93</td>
+      <td>-6.52</td>
+      <td>-1.35</td>
+      <td>2.06</td>
+    </tr>
+    <tr>
+      <td>TGME49_267000</td>
+      <td>hypothetical protein</td>
+      <td>-4.56</td>
+      <td>0.0755</td>
+      <td>-2.51</td>
+      <td>2.66</td>
+      <td>2.05</td>
+    </tr>
+    <tr>
+      <td>TGME49_242580</td>
+      <td>iron only hydrogenase large subunit, c-terminal domain-containing protein</td>
+      <td>-4.36</td>
+      <td>0.0834</td>
+      <td>-2.5</td>
+      <td>2.67</td>
+      <td>1.86</td>
+    </tr>
+    <tr>
+      <td>TGME49_316330</td>
+      <td>superoxide dismutase SOD2</td>
+      <td>-4.09</td>
+      <td>0.331</td>
+      <td>-2.25</td>
+      <td>2.92</td>
+      <td>1.84</td>
+    </tr>
+    <tr>
+      <td>TGME49_228170</td>
+      <td>dense granule protein GRA44</td>
+      <td>-3.28</td>
+      <td>1.13</td>
+      <td>-1.45</td>
+      <td>3.72</td>
+      <td>1.83</td>
+    </tr>
+    <tr>
+      <td>TGME49_212270</td>
+      <td>CLAMP-linked invasion protein CLIP</td>
+      <td>-3.05</td>
+      <td>1.32</td>
+      <td>-1.26</td>
+      <td>3.91</td>
+      <td>1.79</td>
+    </tr>
+    <tr>
+      <td>TGME49_248940</td>
+      <td>hypothetical protein</td>
+      <td>2.18</td>
+      <td>-2.15</td>
+      <td>-4.73</td>
+      <td>0.435</td>
+      <td>1.74</td>
+    </tr>
+    <tr>
+      <td>TGME49_268720</td>
+      <td>Hrf1 family protein</td>
+      <td>-4.94</td>
+      <td>-0.677</td>
+      <td>-3.26</td>
+      <td>1.91</td>
+      <td>1.68</td>
+    </tr>
+  </tbody>
+</table></div></div></div></div><div id='help-overlay' class='help-box'></div><script>
+const help = document.getElementById('help-overlay');
+function showHelp(ev, text) { help.innerHTML = text; help.style.display = 'block';
+  const x = Math.min(ev.clientX + 16, window.innerWidth - 440);
+  const y = Math.min(ev.clientY + 16, window.innerHeight - help.offsetHeight - 10);
+  help.style.left = x + 'px'; help.style.top = y + 'px'; }
+function hideHelp() { help.style.display = 'none'; }
+document.querySelectorAll('[data-tip]').forEach(el => {
+  el.addEventListener('mousemove', ev => showHelp(ev, el.getAttribute('data-tip')));
+  el.addEventListener('mouseleave', hideHelp); });
+</script></body></html>

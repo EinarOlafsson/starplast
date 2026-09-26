@@ -85,7 +85,7 @@ pre.code .ln:hover { background:#324257; }
 .card p { font-size:13.5px; color:var(--muted); margin:0 0 10px 0; }
 .card a { margin-right:14px; font-size:14px; }
 .toc { columns:2; font-size:14px; }
-</style></head><body><div class='topbar'><h1>Self-tests, nulls and calibration, from Python</h1><div class='nav'><a href='index.html'>All tutorials</a><a href='complete_guide.html'>Complete guide</a><a href='../strategies.md'>Strategy catalogue</a></div></div><div class='nb'><h1>Test before you trust</h1><p>A number without its chance level is not a result. Every self-test hides known information, asks the strategy for it back, and compares the answer with the SAME procedure run without the information it claims to use. The five patterns are: hide labels, hide members of a set, hide edges, hide values, and replicate findings on the other half of the genes.</p><div class='cell'><div class='in'><div class='prompt'>In [1]:</div><pre class='code'><span class='ln' data-tip='Import.'>from starplast import strategies as S</span><span class='ln' data-tip='Strategy 13&#x27;s test.'>t = S.test(&#x27;physical_partners&#x27;, target=&#x27;compartment&#x27;)</span><span class='ln' data-tip='The verdict.'>t</span></pre></div><div class='outp'><div class='prompt'>Out[1]:</div><div class='outbox'><p><b style='color:#2e8b57'>PASS</b> -- correct calls per hidden gene 0.520 against 0.069 ± 0.017 under 20 runs on shuffled labels (bar 0.098, p 0.0476); effect +0.451, needed +0.050; 300 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 20 runs on shuffled labels.</i></p></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [2]:</div><pre class='code'><span class='ln' data-tip='The number and its chance level.'>print(&#x27;observed&#x27;, round(t.observed, 3), &#x27;| chance&#x27;, round(t.null_mean, 3),</span><span class='ln' data-tip='The null&#x27;s spread, and the 95th percentile to clear.'>      &#x27;+/-&#x27;, round(t.null_sd, 3), &#x27;| bar&#x27;, round(t.null_high, 3),</span><span class='ln' data-tip='Observed minus chance, and the share of null runs as good.'>      &#x27;| effect&#x27;, round(t.effect, 3), &#x27;| p&#x27;, round(t.p_value, 4))</span></pre></div><div class='outp'><div class='prompt'>Out[2]:</div><div class='outbox'><pre>observed 0.52 | chance 0.069 +/- 0.017 | bar 0.098 | effect 0.451 | p 0.0476</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [3]:</div><pre class='code'><span class='ln' data-tip='Per hidden class: how many came back, and how precise the calls were.'>t.details</span></pre></div><div class='outp'><div class='prompt'>Out[3]:</div><div class='outbox'><table border="1" class="dataframe">
+</style></head><body><div class='topbar'><h1>Self-tests, nulls and calibration, from Python</h1><div class='nav'><a href='index.html'>All tutorials</a><a href='complete_guide.html'>Complete guide</a><a href='../strategies.md'>Strategy catalogue</a></div></div><div class='nb'><h1>Test before you trust</h1><p>A number without its chance level is not a result. Every self-test hides known information, asks the strategy for it back, and compares the answer with the SAME procedure run without the information it claims to use. The five patterns are: hide labels, hide members of a set, hide edges, hide values, and replicate findings on the other half of the genes.</p><div class='cell'><div class='in'><div class='prompt'>In [1]:</div><pre class='code'><span class='ln' data-tip='Import.'>from starplast import strategies as S</span><span class='ln' data-tip='Strategy 13&#x27;s test.'>t = S.test(&#x27;physical_partners&#x27;, target=&#x27;compartment&#x27;)</span><span class='ln' data-tip='The verdict.'>t</span></pre></div><div class='outp'><div class='prompt'>Out[1]:</div><div class='outbox'><p><b style='color:#2e8b57'>PASS</b> -- correct calls per hidden gene 0.520 against 0.069 ± 0.017 under 20 runs on shuffled labels (bar 0.098, p 0.0476); effect +0.451, needed +0.050; 300 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 20 runs on shuffled labels.</i></p><p><b>Scorecard (label calls)</b></p><table><tr><td title='The headline for label calls. Counting abstentions as errors stops a strategy looking accurate by calling only the easy genes; coverage and precision of calls split it apart.'>Accuracy</td><td style='text-align:right'>0.520</td></tr><tr><td title='How far the strategy reaches. A network strategy cannot call a gene with no edges; a low coverage with a high precision of calls is a precise but narrow tool.'>Coverage</td><td style='text-align:right'>0.860</td></tr><tr><td title='How far to trust one call. Equals accuracy when coverage is 1.'>Precision of calls</td><td style='text-align:right'>0.605</td></tr><tr><td title='Whether calls of the RARE classes can be trusted too; a strategy that only ever calls the commonest class scores low.'>Macro precision</td><td style='text-align:right'>0.600</td></tr><tr><td title='Whether every class is found, not just the large ones. Compare with accuracy: a large gap means the strategy lives on the big classes.'>Macro recall (balanced accuracy)</td><td style='text-align:right'>0.559</td></tr><tr><td title='One number balancing finding each class and being right when calling it, with rare classes counted as much as common ones.'>Macro F1</td><td style='text-align:right'>0.533</td></tr><tr><td title='Macro F1&#x27;s counterpart that follows the class sizes; close to accuracy when coverage is high.'>Weighted F1</td><td style='text-align:right'>0.555</td></tr><tr><td title='Accuracy with chance removed: 0 is no better than matching class frequencies, 1 is perfect. Comparable across labels with different numbers and sizes of classes.'>Cohen&#x27;s kappa</td><td style='text-align:right'>0.470</td></tr><tr><td title='A correlation between the call and the truth that stays honest under strong class imbalance; often the single most informative number for an unbalanced label.'>Matthews correlation (MCC)</td><td style='text-align:right'>0.477</td></tr><tr><td title='How well the strategy&#x27;s scores separate each class from the rest, before any threshold is chosen. Missing for strategies that call labels without scoring every class.'>Macro AUROC</td><td style='text-align:right'>0.836</td></tr><tr><td title='Like macro AUROC but dominated by the top of each ranking, which is where calls are made; far below AUROC means good separation overall but a noisy top.'>Macro AUPRC</td><td style='text-align:right'>0.428</td></tr></table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [2]:</div><pre class='code'><span class='ln' data-tip='The number and its chance level.'>print(&#x27;observed&#x27;, round(t.observed, 3), &#x27;| chance&#x27;, round(t.null_mean, 3),</span><span class='ln' data-tip='The null&#x27;s spread, and the 95th percentile to clear.'>      &#x27;+/-&#x27;, round(t.null_sd, 3), &#x27;| bar&#x27;, round(t.null_high, 3),</span><span class='ln' data-tip='Observed minus chance, and the share of null runs as good.'>      &#x27;| effect&#x27;, round(t.effect, 3), &#x27;| p&#x27;, round(t.p_value, 4))</span></pre></div><div class='outp'><div class='prompt'>Out[2]:</div><div class='outbox'><pre>observed 0.52 | chance 0.069 +/- 0.017 | bar 0.098 | effect 0.451 | p 0.0476</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [3]:</div><pre class='code'><span class='ln' data-tip='Per hidden class: how many came back, and how precise the calls were.'>t.details</span></pre></div><div class='outp'><div class='prompt'>Out[3]:</div><div class='outbox'><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>class</th>
@@ -194,7 +194,213 @@ pre.code .ln:hover { background:#324257; }
       <td>0.667</td>
     </tr>
   </tbody>
-</table><p><i>22 rows; first 12 shown</i></p></div></div></div><h2>The same test on a table with nothing in it</h2><p>A test that passes on noise tests nothing. <code>planted_context(null=True)</code> deals every column and edge out at random.</p><div class='cell'><div class='in'><div class='prompt'>In [4]:</div><pre class='code'><span class='ln' data-tip='A synthetic organism with nothing to find.'>noise = S.planted_context(null=True)</span><span class='ln' data-tip='Should FAIL or be INCONCLUSIVE.'>S.get(&#x27;physical_partners&#x27;).test(noise)</span></pre></div><div class='outp'><div class='prompt'>Out[4]:</div><div class='outbox'><p><b style='color:#c0392b'>FAIL</b> -- correct calls per hidden gene 0.125 against 0.147 ± 0.046 under 20 runs on shuffled labels (bar 0.227, p 0.667); effect -0.022, needed +0.050; 88 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 20 runs on shuffled labels.</i></p></div></div></div><h2>Calibration: where each strategy works</h2><p><code>scripts/calibrate_strategies.py</code> runs every strategy's self-test over a grid of its settings, several held-out labels and five seeds, and summarises each configuration with a mean and a 95% interval. Skill puts every metric on one scale: 0 is chance, 1 is perfect.</p><div class='cell'><div class='in'><div class='prompt'>In [5]:</div><pre class='code'><span class='ln' data-tip='Every strategy, with the grade and skill calibration measured for it.'>cal = S.overview(&#x27;Tg&#x27;)</span><span class='ln' data-tip='Skill at the defaults and at the tuned setting, on one scale.'>cal[[&#x27;number&#x27;, &#x27;name&#x27;, &#x27;grade&#x27;, &#x27;skill_default&#x27;, &#x27;skill_tuned&#x27;]].head(12)</span></pre></div><div class='outp'><div class='prompt'>Out[5]:</div><div class='outbox'><table border="1" class="dataframe">
+</table><p><i>22 rows; first 12 shown</i></p></div></div></div><h2>The scorecard: in what way a strategy is good</h2><p>The verdict rests on one number. The scorecard reports, on the same hidden genes, every standard metric for the kind of task the strategy performs -- for label calls: accuracy, coverage, precision of calls, macro precision and recall, macro and weighted F1, Cohen's kappa, MCC, macro AUROC and AUPRC -- always in the same order, so strategies doing the same task can be compared number by number.</p><div class='cell'><div class='in'><div class='prompt'>In [4]:</div><pre class='code'><span class='ln' data-tip='The verdict block, then the label-call metrics in their standard order, each with how to read it.'>t.card()</span></pre></div><div class='outp'><div class='prompt'>Out[4]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>section</th>
+      <th>metric</th>
+      <th>key</th>
+      <th>value</th>
+      <th>reading</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>verdict</td>
+      <td>Verdict</td>
+      <td>verdict</td>
+      <td>PASS</td>
+      <td>PASS: above the 95th percentile of the null AND by the stated margin. FAIL otherwise. INCONCLUSIVE when too little could be hidden to score.</td>
+    </tr>
+    <tr>
+      <td>verdict</td>
+      <td>Judged on</td>
+      <td>metric</td>
+      <td>correct calls per hidden gene</td>
+      <td>The one metric the verdict rests on, chosen per strategy as the honest test of its claim.</td>
+    </tr>
+    <tr>
+      <td>verdict</td>
+      <td>Observed</td>
+      <td>observed</td>
+      <td>0.52</td>
+      <td>That metric on the hidden genes.</td>
+    </tr>
+    <tr>
+      <td>verdict</td>
+      <td>Chance</td>
+      <td>chance</td>
+      <td>0.0695</td>
+      <td>The same metric for the same procedure on shuffled labels, random sets or permuted identities -- measured, not assumed.</td>
+    </tr>
+    <tr>
+      <td>verdict</td>
+      <td>Bar</td>
+      <td>bar</td>
+      <td>0.0975</td>
+      <td>The 95th percentile of the null runs: what luck reaches one time in twenty.</td>
+    </tr>
+    <tr>
+      <td>verdict</td>
+      <td>p</td>
+      <td>p_value</td>
+      <td>0.0476</td>
+      <td>Share of null runs at least as good as the observed, (1 + k) / (1 + runs).</td>
+    </tr>
+    <tr>
+      <td>verdict</td>
+      <td>Skill</td>
+      <td>skill</td>
+      <td>0.484</td>
+      <td>(observed - chance) / (1 - chance): 0 is chance, 1 is perfect, negative is worse than chance. Puts every metric on one scale.</td>
+    </tr>
+    <tr>
+      <td>verdict</td>
+      <td>Hidden</td>
+      <td>n_hidden</td>
+      <td>300</td>
+      <td>How many genes, pairs or findings the test scored.</td>
+    </tr>
+    <tr>
+      <td>label calls</td>
+      <td>Accuracy</td>
+      <td>accuracy</td>
+      <td>0.52</td>
+      <td>The headline for label calls. Counting abstentions as errors stops a strategy looking accurate by calling only the easy genes; coverage and precision of calls split it apart.</td>
+    </tr>
+    <tr>
+      <td>label calls</td>
+      <td>Coverage</td>
+      <td>coverage</td>
+      <td>0.86</td>
+      <td>How far the strategy reaches. A network strategy cannot call a gene with no edges; a low coverage with a high precision of calls is a precise but narrow tool.</td>
+    </tr>
+    <tr>
+      <td>label calls</td>
+      <td>Precision of calls</td>
+      <td>precision_of_calls</td>
+      <td>0.605</td>
+      <td>How far to trust one call. Equals accuracy when coverage is 1.</td>
+    </tr>
+    <tr>
+      <td>label calls</td>
+      <td>Macro precision</td>
+      <td>macro_precision</td>
+      <td>0.6</td>
+      <td>Whether calls of the RARE classes can be trusted too; a strategy that only ever calls the commonest class scores low.</td>
+    </tr>
+  </tbody>
+</table><p><i>19 rows; first 12 shown</i></p></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [5]:</div><pre class='code'><span class='ln' data-tip='What each metric means, what chance gives, and how to read it.'>S.metrics(&#x27;label calls&#x27;)[[&#x27;metric&#x27;, &#x27;chance&#x27;, &#x27;reading&#x27;]]</span></pre></div><div class='outp'><div class='prompt'>Out[5]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>metric</th>
+      <th>chance</th>
+      <th>reading</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Accuracy</td>
+      <td>about the sum of squared class shares (Cohen's chance term)</td>
+      <td>The headline for label calls. Counting abstentions as errors stops a strategy looking accurate by calling only the easy genes; coverage and precision of calls split it apart.</td>
+    </tr>
+    <tr>
+      <td>Coverage</td>
+      <td>not applicable (a property of the strategy, not of luck)</td>
+      <td>How far the strategy reaches. A network strategy cannot call a gene with no edges; a low coverage with a high precision of calls is a precise but narrow tool.</td>
+    </tr>
+    <tr>
+      <td>Precision of calls</td>
+      <td>as accuracy, among the genes called</td>
+      <td>How far to trust one call. Equals accuracy when coverage is 1.</td>
+    </tr>
+    <tr>
+      <td>Macro precision</td>
+      <td>about the average class share</td>
+      <td>Whether calls of the RARE classes can be trusted too; a strategy that only ever calls the commonest class scores low.</td>
+    </tr>
+    <tr>
+      <td>Macro recall (balanced accuracy)</td>
+      <td>1 / number of classes, for a caller that ignores the data</td>
+      <td>Whether every class is found, not just the large ones. Compare with accuracy: a large gap means the strategy lives on the big classes.</td>
+    </tr>
+    <tr>
+      <td>Macro F1</td>
+      <td>low; roughly the average class share</td>
+      <td>One number balancing finding each class and being right when calling it, with rare classes counted as much as common ones.</td>
+    </tr>
+    <tr>
+      <td>Weighted F1</td>
+      <td>about the sum of squared class shares</td>
+      <td>Macro F1's counterpart that follows the class sizes; close to accuracy when coverage is high.</td>
+    </tr>
+    <tr>
+      <td>Cohen's kappa</td>
+      <td>0</td>
+      <td>Accuracy with chance removed: 0 is no better than matching class frequencies, 1 is perfect. Comparable across labels with different numbers and sizes of classes.</td>
+    </tr>
+    <tr>
+      <td>Matthews correlation (MCC)</td>
+      <td>0</td>
+      <td>A correlation between the call and the truth that stays honest under strong class imbalance; often the single most informative number for an unbalanced label.</td>
+    </tr>
+    <tr>
+      <td>Macro AUROC</td>
+      <td>0.5</td>
+      <td>How well the strategy's scores separate each class from the rest, before any threshold is chosen. Missing for strategies that call labels without scoring every class.</td>
+    </tr>
+    <tr>
+      <td>Macro AUPRC</td>
+      <td>the class's share among hidden genes, averaged</td>
+      <td>Like macro AUROC but dominated by the top of each ranking, which is where calls are made; far below AUROC means good separation overall but a noisy top.</td>
+    </tr>
+  </tbody>
+</table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [6]:</div><pre class='code'><span class='ln' data-tip='For the comparison table.'>import pandas as pd</span><span class='ln' data-tip='One row per strategy.'>rows = []</span><span class='ln' data-tip='Four label-calling strategies on the same hidden genes.'>for key in (&#x27;feature_knn&#x27;, &#x27;supervised_classifier&#x27;, &#x27;graph_convolution&#x27;, &#x27;random_forest&#x27;):</span><span class='ln' data-tip='Each one&#x27;s scorecard.'>    card = S.test(key, target=&#x27;compartment&#x27;).scorecard</span><span class='ln' data-tip='Five of its metrics.'>    rows.append({&#x27;strategy&#x27;: S.get(key).name, **{m: round(card[m], 3) for m in (&#x27;accuracy&#x27;, &#x27;macro_f1&#x27;, &#x27;kappa&#x27;, &#x27;mcc&#x27;, &#x27;macro_auroc&#x27;)}})</span><span class='ln' data-tip='Same task, same metrics, same order: directly comparable.'>pd.DataFrame(rows)</span></pre></div><div class='outp'><div class='prompt'>Out[6]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>strategy</th>
+      <th>accuracy</th>
+      <th>macro_f1</th>
+      <th>kappa</th>
+      <th>mcc</th>
+      <th>macro_auroc</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Call a gene by the genes that behave like it (kNN)</td>
+      <td>0.331</td>
+      <td>0.276</td>
+      <td>0.267</td>
+      <td>0.284</td>
+      <td>0.822</td>
+    </tr>
+    <tr>
+      <td>Train a classifier on the known genes and call the rest (logistic regression)</td>
+      <td>0.461</td>
+      <td>0.417</td>
+      <td>0.414</td>
+      <td>0.416</td>
+      <td>0.919</td>
+    </tr>
+    <tr>
+      <td>Smooth the measurements along the networks, then classify (graph convolution + logistic regression)</td>
+      <td>0.491</td>
+      <td>0.431</td>
+      <td>0.445</td>
+      <td>0.446</td>
+      <td>0.923</td>
+    </tr>
+    <tr>
+      <td>Let a random forest find what defines a label (random forest + permutation importance)</td>
+      <td>0.497</td>
+      <td>0.435</td>
+      <td>0.433</td>
+      <td>0.438</td>
+      <td>0.911</td>
+    </tr>
+  </tbody>
+</table></div></div></div><h2>The same test on a table with nothing in it</h2><p>A test that passes on noise tests nothing. <code>planted_context(null=True)</code> deals every column and edge out at random.</p><div class='cell'><div class='in'><div class='prompt'>In [7]:</div><pre class='code'><span class='ln' data-tip='A synthetic organism with nothing to find.'>noise = S.planted_context(null=True)</span><span class='ln' data-tip='Should FAIL or be INCONCLUSIVE.'>S.get(&#x27;physical_partners&#x27;).test(noise)</span></pre></div><div class='outp'><div class='prompt'>Out[7]:</div><div class='outbox'><p><b style='color:#c0392b'>FAIL</b> -- correct calls per hidden gene 0.125 against 0.147 ± 0.046 under 20 runs on shuffled labels (bar 0.227, p 0.667); effect -0.022, needed +0.050; 88 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 20 runs on shuffled labels.</i></p><p><b>Scorecard (label calls)</b></p><table><tr><td title='The headline for label calls. Counting abstentions as errors stops a strategy looking accurate by calling only the easy genes; coverage and precision of calls split it apart.'>Accuracy</td><td style='text-align:right'>0.125</td></tr><tr><td title='How far the strategy reaches. A network strategy cannot call a gene with no edges; a low coverage with a high precision of calls is a precise but narrow tool.'>Coverage</td><td style='text-align:right'>0.875</td></tr><tr><td title='How far to trust one call. Equals accuracy when coverage is 1.'>Precision of calls</td><td style='text-align:right'>0.143</td></tr><tr><td title='Whether calls of the RARE classes can be trusted too; a strategy that only ever calls the commonest class scores low.'>Macro precision</td><td style='text-align:right'>0.144</td></tr><tr><td title='Whether every class is found, not just the large ones. Compare with accuracy: a large gap means the strategy lives on the big classes.'>Macro recall (balanced accuracy)</td><td style='text-align:right'>0.110</td></tr><tr><td title='One number balancing finding each class and being right when calling it, with rare classes counted as much as common ones.'>Macro F1</td><td style='text-align:right'>0.124</td></tr><tr><td title='Macro F1&#x27;s counterpart that follows the class sizes; close to accuracy when coverage is high.'>Weighted F1</td><td style='text-align:right'>0.140</td></tr><tr><td title='Accuracy with chance removed: 0 is no better than matching class frequencies, 1 is perfect. Comparable across labels with different numbers and sizes of classes.'>Cohen&#x27;s kappa</td><td style='text-align:right'>-0.033</td></tr><tr><td title='A correlation between the call and the truth that stays honest under strong class imbalance; often the single most informative number for an unbalanced label.'>Matthews correlation (MCC)</td><td style='text-align:right'>-0.033</td></tr><tr><td title='How well the strategy&#x27;s scores separate each class from the rest, before any threshold is chosen. Missing for strategies that call labels without scoring every class.'>Macro AUROC</td><td style='text-align:right'>0.493</td></tr><tr><td title='Like macro AUROC but dominated by the top of each ranking, which is where calls are made; far below AUROC means good separation overall but a noisy top.'>Macro AUPRC</td><td style='text-align:right'>0.202</td></tr></table></div></div></div><h2>Calibration: where each strategy works</h2><p><code>scripts/calibrate_strategies.py</code> runs every strategy's self-test over a grid of its settings, several held-out labels and five seeds, and summarises each configuration with a mean and a 95% interval. Skill puts every metric on one scale: 0 is chance, 1 is perfect.</p><div class='cell'><div class='in'><div class='prompt'>In [8]:</div><pre class='code'><span class='ln' data-tip='Every strategy, with the grade and skill calibration measured for it.'>cal = S.overview(&#x27;Tg&#x27;)</span><span class='ln' data-tip='Skill at the defaults and at the tuned setting, on one scale.'>cal[[&#x27;number&#x27;, &#x27;name&#x27;, &#x27;grade&#x27;, &#x27;skill_default&#x27;, &#x27;skill_tuned&#x27;]].head(12)</span></pre></div><div class='outp'><div class='prompt'>Out[8]:</div><div class='outbox'><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>number</th>
@@ -290,7 +496,7 @@ pre.code .ln:hover { background:#324257; }
       <td>0.264</td>
     </tr>
   </tbody>
-</table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [6]:</div><pre class='code'><span class='ln' data-tip='Strategy 13&#x27;s tuned setting: chosen on seeds 1-3, reported on seeds 4-5, with its 95% interval.'>S.calibration(&#x27;physical_partners&#x27;)[&#x27;tuned&#x27;]</span></pre></div><div class='outp'><div class='prompt'>Out[6]:</div><div class='outbox'><pre>{&#x27;setting&#x27;: {}, &#x27;runs&#x27;: 10, &#x27;conclusive&#x27;: 10, &#x27;skill&#x27;: 0.2566, &#x27;skill_low&#x27;: 0.0751, &#x27;skill_high&#x27;: 0.4251, &#x27;pass_rate&#x27;: 0.6, &#x27;pass_low&#x27;: 0.3127, &#x27;pass_high&#x27;: 0.8318, &#x27;observed&#x27;: 0.3896, &#x27;chance&#x27;: 0.1885, &#x27;targets&#x27;: [&#x27;compartment&#x27;, &#x27;dtm_class&#x27;, &#x27;lopit_unified&#x27;, &#x27;screen_any_phenotype&#x27;, &#x27;stage_enriched_derived&#x27;], &#x27;not_run&#x27;: 0, &#x27;chosen_on_seeds&#x27;: [1, 2, 3], &#x27;reported_on_seeds&#x27;: [4, 5]}</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [7]:</div><pre class='code'><span class='ln' data-tip='The setting to pass on: S.run(&#x27;triangulation&#x27;, **S.tuned(&#x27;triangulation&#x27;), target=...).'>S.tuned(&#x27;triangulation&#x27;)</span></pre></div><div class='outp'><div class='prompt'>Out[7]:</div><div class='outbox'><pre>{&#x27;min_agree&#x27;: 3}</pre></div></div></div></div><div id='help-overlay' class='help-box'></div><script>
+</table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [9]:</div><pre class='code'><span class='ln' data-tip='Strategy 13&#x27;s tuned setting: chosen on seeds 1-3, reported on seeds 4-5, with its 95% interval.'>S.calibration(&#x27;physical_partners&#x27;)[&#x27;tuned&#x27;]</span></pre></div><div class='outp'><div class='prompt'>Out[9]:</div><div class='outbox'><pre>{&#x27;setting&#x27;: {}, &#x27;runs&#x27;: 10, &#x27;conclusive&#x27;: 10, &#x27;skill&#x27;: 0.2566, &#x27;skill_low&#x27;: 0.0751, &#x27;skill_high&#x27;: 0.4251, &#x27;pass_rate&#x27;: 0.6, &#x27;pass_low&#x27;: 0.3127, &#x27;pass_high&#x27;: 0.8318, &#x27;observed&#x27;: 0.3896, &#x27;chance&#x27;: 0.1885, &#x27;targets&#x27;: [&#x27;compartment&#x27;, &#x27;dtm_class&#x27;, &#x27;lopit_unified&#x27;, &#x27;screen_any_phenotype&#x27;, &#x27;stage_enriched_derived&#x27;], &#x27;not_run&#x27;: 0, &#x27;chosen_on_seeds&#x27;: [1, 2, 3], &#x27;reported_on_seeds&#x27;: [4, 5]}</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [10]:</div><pre class='code'><span class='ln' data-tip='The setting to pass on: S.run(&#x27;triangulation&#x27;, **S.tuned(&#x27;triangulation&#x27;), target=...).'>S.tuned(&#x27;triangulation&#x27;)</span></pre></div><div class='outp'><div class='prompt'>Out[10]:</div><div class='outbox'><pre>{&#x27;min_agree&#x27;: 3}</pre></div></div></div></div><div id='help-overlay' class='help-box'></div><script>
 const help = document.getElementById('help-overlay');
 function showHelp(ev, text) { help.innerHTML = text; help.style.display = 'block';
   const x = Math.min(ev.clientX + 16, window.innerWidth - 440);

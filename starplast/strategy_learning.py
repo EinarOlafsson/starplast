@@ -29,8 +29,8 @@ from .strategies import MIN_CLASS, Param, Strategy, StrategyResult, register
 from .strategy_catalog import (K, MODEL, NUMBER, OWN_KIND, TARGET, _calls_table, _genes_table,
                                _logistic, _need, _regression_matrix, _unlabelled_but_known)
 
-#: The ninth family: models that state their own error rate, see the networks, find thresholds, or
-#: learn how to combine the others. Numbered 35-39, after the families they build on.
+#: The ninth family: models that state their own error rate, see the networks, find thresholds,
+#: or learn how to combine the others. Numbered 35-39, after the families they build on.
 ADVANCED = "Advanced models"
 
 ALPHA = Param("alpha", "float", "Error rate allowed (alpha)",
@@ -786,3 +786,4 @@ register(Strategy(
     params=(NUMBER, ALPHA, MODEL, OWN_KIND),
     runner=_interval_run, tester=_interval_test, cost="a minute",
     needs=("a numeric column",)))
+
