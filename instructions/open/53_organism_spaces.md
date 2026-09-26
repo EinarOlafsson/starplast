@@ -1,6 +1,16 @@
 # 53 · One space per organism, then links between pathogen, vector and host
 
-**Status: open (designed 2026-09-26). R0 done: `starplast/organisms.py` declares Tg and Pf, and `tests/test_organisms.py` holds it to every literal it will replace. R1 onward waits for the data-audit-b and UI branches to merge.**
+**Status: open (designed 2026-09-26).**
+
+* **R0 done:** `starplast/organisms.py` declares Tg and Pf, and `tests/test_organisms.py` holds it to every literal it replaces.
+* **R1 done:** these now read the registry:
+  * `slots.SPECIES_TABLES`, `SPECIES_PREFIXES` and `SPECIES_BRIDGE_TABLES`;
+  * `app.SPECIES` and `DEFAULT_SPECIES`, and the gene record link;
+  * `strategies.Context.shipped`, its graph file, `other()` (the space's partner) and `_guess_organism` (registry detection first);
+  * the calibration `TARGETS`/`NUMBERS`;
+  * the slot generator's `STAGES_BY_ORGANISM` (regenerated `slots.json` byte-identical).
+* **R2 started:** `test_no_file_gains_an_organism_literal` is a ratchet. It measured 156 bare "Tg"/"Pf" literals in 32 files, and any file that gains one fails. Lower the numbers as files move to the registry.
+* **Next: R3** (`Dataset.organism`; split the host table into Hs and Mm).
 
 The user, 2026-09-26: "we should also make the host and vector datasets more comprehensive!
 (plasmodium, cryptosporidium, human, mouse, feline, anophelus, rat, datasets and informationslots

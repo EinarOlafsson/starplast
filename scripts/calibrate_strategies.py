@@ -40,15 +40,14 @@ sys.path.insert(0, ROOT)
 #: Seeds per configuration. Five gives a usable interval without a sweep of days.
 SEEDS = (1, 2, 3, 4, 5)
 
-#: Held-out labels per organism, for the strategies that take one. The coarse and fine
-#: localization, a structural class, a phenotype screen and a derived stage label on T. gondii;
-#: the transferred knockout phenotype, a derived stage and the export call on P. falciparum.
-TARGETS = {"Tg": ("compartment", "lopit_unified", "dtm_class", "screen_any_phenotype",
-                  "stage_enriched_derived"),
-           "Pf": ("lopit_pf_location", "pb_transferred_phenotype", "stage_enriched_derived",
-                  "is_exported")}
-NUMBERS = {"Tg": ("fit_invitro_hff", "fit_invivo_PE", "expr_tachy"),
-           "Pf": ("piggybac_mis", "expr_schizont", "mean_plddt")}
+from starplast import organisms as _organisms  # noqa: E402
+
+#: Held-out labels and predicted measurements per space, as the organism registry declares them:
+#: on T. gondii the coarse and fine localization, a structural class, a phenotype screen and a
+#: derived stage label; on P. falciparum the measured schizont localization, the transferred
+#: knockout phenotype, a derived stage and the export call.
+TARGETS = {code: space.targets for code, space in _organisms.SPACES.items() if space.targets}
+NUMBERS = {code: space.numbers for code, space in _organisms.SPACES.items() if space.numbers}
 
 #: The grid per strategy: parameter -> values. A parameter absent here keeps its default. "target"
 #: and "number" expand to the organism's lists above. Kept to what changes the answer: every value

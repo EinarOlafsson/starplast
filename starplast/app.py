@@ -34,6 +34,7 @@ from . import help_search  # noqa: E402
 import pyqtgraph as pg  # noqa: E402
 import pyqtgraph.opengl as gl  # noqa: E402
 
+from . import organisms  # noqa: E402
 from . import paths  # noqa: E402
 from . import sprite as _sprite  # noqa: E402
 
@@ -313,11 +314,9 @@ DEPTH_COLOR = {"focal": (0.98, 0.86, 0.30),          # the paper is about this g
 #:
 #: Until this existed, `load` opened `nodes.parquet` by name, and the entire Plasmodium arm -- node
 #: table, graph, host bridge, 41 filled slots -- was data the browser could not open.
-SPECIES = {
-    "Toxoplasma gondii": {"nodes": "nodes.parquet", "graph": "graph.npz", "code": "Tg"},
-    "Plasmodium falciparum": {"nodes": "pf_nodes.parquet", "graph": "pf_graph.npz", "code": "Pf"},
-}
-DEFAULT_SPECIES = "Toxoplasma gondii"
+SPECIES = {space.species: {"nodes": space.nodes, "graph": space.graph, "code": space.code}
+           for space in organisms.SPACES.values() if space.graph}
+DEFAULT_SPECIES = organisms.get("Tg").species
 
 
 def available_species() -> list:
@@ -4461,9 +4460,8 @@ class Window(QtWidgets.QMainWindow):
                       if r.get("n_fulltext", 0) else "")
                    + ". Absence of evidence here is absence of attention, not absence of function.</p>")
 
-        record_database = "PlasmoDB" if self.species == "Plasmodium falciparum" else "ToxoDB"
-        record_base = ("https://plasmodb.org/plasmo" if record_database == "PlasmoDB"
-                       else "https://toxodb.org/toxo")
+        space = organisms.by_species(self.species)
+        record_database, record_url = space.database, space.record(gid)
         self.detail.setHtml(f"""
         <h2 style="margin-bottom:2px">{gid}</h2>
         <p style="color:#bbb;margin-top:0">{r.get('product', 'unannotated')}</p>
@@ -4478,7 +4476,7 @@ class Window(QtWidgets.QMainWindow):
         {xl}
         <h4>neighbours by edge type</h4>
         {''.join(nb) or '<p style="color:#888">no edges</p>'}
-        <p><a href="{record_base}/app/record/gene/{gid}">{record_database} record</a> ·
+        <p><a href="{record_url}">{record_database} record</a> ·
            <a href="https://pubmed.ncbi.nlm.nih.gov/?term={gid}">PubMed</a></p>
         """)
 

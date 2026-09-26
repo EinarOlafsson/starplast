@@ -15,6 +15,8 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
+from . import organisms as _organisms
+
 POLICIES = ("one", "average", "fill", "separate")
 
 #: What a slot's rows ARE, which decides which table it can be resolved against. Not decoration: a
@@ -52,8 +54,8 @@ BRIDGE_TABLES = {"host": "host_bridges.parquet"}
 #: And per species, for the same reason `SPECIES_TABLES` exists: a bridge's parasite end is an
 #: accession in ONE table, so each arm needs its own bridge file. Both are keyed `host` because both
 #: cross to a human protein; which file answers depends on the slot's organism, never on the name.
-SPECIES_BRIDGE_TABLES = {"Tg": {"host": "host_bridges.parquet"},
-                         "Pf": {"host": "pf_host_bridges.parquet"}}
+SPECIES_BRIDGE_TABLES = {code: {"host": space.host_bridges}
+                         for code, space in _organisms.SPACES.items() if space.host_bridges}
 
 #: One parasite table per species, and the accession prefixes that identify each.
 #:
@@ -62,8 +64,9 @@ SPECIES_BRIDGE_TABLES = {"Tg": {"host": "host_bridges.parquet"},
 #: arms be read side by side. The cost is that a slot pattern alone no longer tells you which
 #: organism a column belongs to, so the TABLE has to. It says so the only way that cannot drift out
 #: of step with its own contents: by what its accessions look like.
-SPECIES_TABLES = {"Tg": "nodes.parquet", "Pf": "pf_nodes.parquet"}
-SPECIES_PREFIXES = {"Tg": ("TGME49_", "TGGT1_"), "Pf": ("PF3D7_",)}
+#: Both read from the organism registry, where each space is declared once (instruction 53).
+SPECIES_TABLES = _organisms.table_map()
+SPECIES_PREFIXES = _organisms.prefix_map()
 
 
 def table_organism(nodes: pd.DataFrame) -> str | None:

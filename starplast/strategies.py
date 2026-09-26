@@ -665,7 +665,12 @@ def test(key: str, organism: str = "Tg", ctx: "Context | None" = None, **setting
 
 # --------------------------------------------------------------------------- the context
 def _guess_organism(gene_ids) -> str:
+    """The registered space most ids fully match; else the old rule (mostly PF-prefixed is Pf)."""
+    from . import organisms
     ids = [str(g) for g in list(gene_ids)[:200]]
+    found = organisms.detect(ids)
+    if found:
+        return found
     return "Pf" if ids and sum(g.upper().startswith(("PF3D7", "PF")) for g in ids) > len(ids) / 2 \
         else "Tg"
 
@@ -702,9 +707,8 @@ class Context:
     @classmethod
     def shipped(cls, organism: str = "Tg", **kw) -> "Context":
         """The packaged table for one organism, as the application loads it."""
-        from . import paths
-        name = "pf_nodes.parquet" if organism == "Pf" else "nodes.parquet"
-        return cls(pd.read_parquet(paths.cache_file(name)), organism=organism, **kw)
+        from . import organisms
+        return cls(pd.read_parquet(organisms.nodes_path(organism)), organism=organism, **kw)
 
     def bound(self, log=None, should_stop=None) -> "Context":
         """The same table, graph and caches, with a job's own progress log and stop flag.
@@ -976,9 +980,9 @@ class Context:
     def graph(self) -> dict:
         """The edge layers, as arrays keyed `layer__a` and so on. Empty when there is none."""
         if self._graph is None:
-            from . import paths
-            name = "pf_graph.npz" if self.organism == "Pf" else "graph.npz"
-            path = paths.cache_file(name)
+            from . import organisms
+            space = organisms.SPACES.get(self.organism) or organisms.get("Tg")
+            path = organisms.graph_path(space.code)
             g = {}
             if os.path.exists(path):
                 z = np.load(path, allow_pickle=True)
@@ -988,7 +992,8 @@ class Context:
                 else:
                     # Edge endpoints are positions, so a graph over a different table is a graph
                     # about different genes. Refused, loudly, rather than used.
-                    self.log(f"{name} was built over a different gene table; no edge layer is used")
+                    self.log(f"{space.graph} was built over a different gene table; no edge layer "
+                             f"is used")
             self._graph = g
         return self._graph
 
@@ -1036,8 +1041,12 @@ class Context:
             self._other = Context(self._other, graph={}, seed=self.seed, log=self.log)
         if self._other is None:
             try:
-                self._other = Context.shipped("Pf" if self.organism == "Tg" else "Tg",
-                                              graph={}, seed=self.seed, log=self.log)
+                from . import organisms
+                space = organisms.SPACES.get(self.organism)
+                partner = space.partner if space else "Tg"
+                if not partner:
+                    raise LookupError(f"{self.organism} declares no partner space")
+                self._other = Context.shipped(partner, graph={}, seed=self.seed, log=self.log)
             except Exception as exc:                   # no second arm in this checkout
                 self.log(f"no second organism: {type(exc).__name__}: {exc}")
                 self._other = False

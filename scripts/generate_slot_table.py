@@ -1362,15 +1362,13 @@ EVIDENCE_PATHS = {
 #: Toxoplasma slots, inherited Toxoplasma stages: `Pf_transcription_per_cell_cycle_phase` came out
 #: as `tachyzoite (implied)`, since "cell cycle" implies tachyzoite in a Toxoplasma catalogue and
 #: nothing at all in a Plasmodium one.
-STAGES_BY_ORGANISM = {
-    "Tg": {"tachyzoite", "bradyzoite", "sporozoite", "oocyst", "merozoite", "sexual",
-           "enteric", "gametocyte"},
-    # Written against LIFE_STAGES verbatim: a first pass spelled these from memory and dropped
-    # `liver stage` and `oocyst` from Plasmodium -- both of which it has, in the mosquito and the
-    # hepatocyte -- so four slots lost a stage they had correctly.
-    "Pf": {"ring", "trophozoite", "schizont", "gametocyte", "ookinete", "sporozoite",
-           "merozoite", "asexual blood stage", "sexual", "liver stage", "oocyst"},
-}
+#: Read from the organism registry (`Space.contexts`). Each set is written against LIFE_STAGES
+#: verbatim: a first pass spelled these from memory and dropped `liver stage` and `oocyst` from
+#: Plasmodium -- both of which it has, in the mosquito and the hepatocyte -- so four slots lost a
+#: stage they had correctly.
+from starplast import organisms as _organisms  # noqa: E402
+STAGES_BY_ORGANISM = {code: set(space.contexts) for code, space in _organisms.SPACES.items()
+                      if space.kind == _organisms.PARASITE}
 
 #: Implied stages are read off Toxoplasma assay vocabulary -- HFF, BMDM, peritoneum -- so they are
 #: applied only to that arm. An implication that does not hold in the organism being described is a
@@ -2383,15 +2381,16 @@ def _write_markdown(rows, path=OUT_MD) -> None:
 
 def _rows(definitions, nodes, graph, metabolites=None, bridges=None, pf_nodes=None,
           pf_graph=None, pf_bridges=None, hosts=None) -> list:
-    """One row per slot. `metabolites` is the table whose rows are compounds; slots declaring
-    `unit="metabolite"` are graded against it and against its own denominator."""
+    """One row per slot: the definitions with measured cache coverage attached. `metabolites` is the
+    table whose rows are compounds; slots declaring `unit="metabolite"` are graded against it and
+    against its own denominator."""
+    import numpy as np
+    import pandas as pd
     metabolites = pd.DataFrame() if metabolites is None else metabolites
     bridges = pd.DataFrame() if bridges is None else bridges
     pf_nodes = pd.DataFrame() if pf_nodes is None else pf_nodes
     pf_bridges = pd.DataFrame() if pf_bridges is None else pf_bridges
     hosts = pd.DataFrame() if hosts is None else hosts
-    """Definitions with measured cache coverage attached."""
-    import numpy as np
     n_genes, rows = len(nodes), []
     for definition in definitions:
         slot, axis = definition["name"], definition["axis"]

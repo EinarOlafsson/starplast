@@ -93,3 +93,68 @@ def test_a_duplicate_or_malformed_space_is_refused():
 def test_record_links_name_the_gene():
     assert O.get("Tg").record("TGME49_208830").endswith("/gene/TGME49_208830")
     assert "plasmodb.org" in O.get("Pf").record("PF3D7_1133400")
+
+
+# --------------------------------------------------------------------------- the ratchet (R2)
+#: How many bare "Tg"/"Pf" string literals each file still holds outside the registry, as measured
+#: when the registry landed. A file may only go DOWN: a new literal is a new place that will break
+#: when the next space is added, and belongs in `starplast.organisms` instead. Lower a number here
+#: whenever a file stops needing one; a file that reaches zero is removed from the table.
+ORGANISM_LITERALS = {
+    "scripts/add_deposits.py": 3,
+    "scripts/build_tutorials.py": 5,
+    "scripts/calibrate_strategies.py": 11,
+    "scripts/fetch_candidates.py": 4,
+    "scripts/fit_meltome.py": 1,
+    "scripts/generate_slot_table.py": 24,
+    "scripts/leakage_audit.py": 4,
+    "scripts/propose_datasets.py": 4,
+    "scripts/run_headless_gpu_cv.py": 1,
+    "scripts/strategy_selftests.py": 2,
+    "starplast/analysis_panel.py": 1,
+    "starplast/app.py": 2,
+    "starplast/build_graph.py": 1,
+    "starplast/calibration.py": 6,
+    "starplast/chromatin.py": 1,
+    "starplast/datasets.py": 2,
+    "starplast/deposits.py": 24,
+    "starplast/embedding.py": 3,
+    "starplast/expression.py": 2,
+    "starplast/host.py": 1,
+    "starplast/identity.py": 2,
+    "starplast/leakage.py": 1,
+    "starplast/network_prediction.py": 5,
+    "starplast/plasmodium.py": 1,
+    "starplast/prioritization.py": 3,
+    "starplast/proteomics.py": 11,
+    "starplast/recipes.py": 2,
+    "starplast/search.py": 6,
+    "starplast/slot_tree.py": 2,
+    "starplast/slots.py": 5,
+    "starplast/strategies.py": 15,
+    "starplast/workflows.py": 1,
+}
+
+
+def _literal_counts() -> dict:
+    import ast
+    import glob
+    out = {}
+    for path in sorted(glob.glob(os.path.join(ROOT, "starplast", "*.py"))
+                       + glob.glob(os.path.join(ROOT, "scripts", "*.py"))):
+        rel = os.path.relpath(path, ROOT)
+        if rel.endswith("organisms.py"):
+            continue
+        tree = ast.parse(open(path, encoding="utf8").read())
+        n = sum(1 for node in ast.walk(tree)
+                if isinstance(node, ast.Constant) and node.value in ("Tg", "Pf"))
+        if n:
+            out[rel] = n
+    return out
+
+
+def test_no_file_gains_an_organism_literal():
+    grown = {f: (n, ORGANISM_LITERALS.get(f, 0)) for f, n in _literal_counts().items()
+             if n > ORGANISM_LITERALS.get(f, 0)}
+    assert not grown, ("new \"Tg\"/\"Pf\" literals -- read starplast.organisms instead: "
+                       + ", ".join(f"{f} {now} > {was}" for f, (now, was) in grown.items()))
