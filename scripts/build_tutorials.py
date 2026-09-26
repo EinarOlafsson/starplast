@@ -556,7 +556,7 @@ def tutorial_trust(studio) -> dict:
           "0 is chance, 1 is perfect.</p>")
     nb.code([("cal = S.overview('Tg')", "Every strategy, with the grade and skill calibration "
               "measured for it."),
-             ("cal[['number', 'title', 'grade', 'skill_default', 'skill_tuned']].head(12)",
+             ("cal[['number', 'name', 'grade', 'skill_default', 'skill_tuned']].head(12)",
               "Skill at the defaults and at the tuned setting, on one scale.")])
     nb.code([("S.calibration('physical_partners')['tuned']",
               "Strategy 13's tuned setting: chosen on seeds 1-3, reported on seeds 4-5, with its "
@@ -737,8 +737,8 @@ def guide(studio, runs: dict) -> None:
                 "clickable as a computed one. A file whose kind does not match its tab is "
                 "refused.</p>"))
     fams = "".join(f"<li><b>{_e(f)}</b>: " + ", ".join(
-        f"{s.number:02d} {_e(s.title.lower())}" for s in S.catalog() if s.family == f) + "</li>"
-                   for f in S.families())
+        f"{s.number:02d} {_e(s.title.lower())} ({_e(s.method)})"
+        for s in S.catalog() if s.family == f) + "</li>" for f in S.families())
     sec.append(("The Strategies tab",
                 "<p>Thirty-two named ways of turning the combined data into a claim, grouped by "
                 f"how they work:</p><ul>{fams}</ul>"

@@ -153,6 +153,7 @@ def _space_test(ctx, p):
 register(Strategy(
     key="neighbour_space", number=33, family=COMBINE,
     title="Put every layer into one space and read a gene's neighbourhood",
+    method="logistic edge model",
     question="Which genes are the nearest neighbours of this one when every permitted network and "
              "the whole measurement table are combined into a single graph, and what evidence puts "
              "each of them there?",
@@ -281,6 +282,7 @@ def _training_test(ctx, p):
 register(Strategy(
     key="network_training", number=34, family=COMBINE,
     title="Train on the networks and rank the edges they are missing",
+    method="logistic / spectral embedding",
     question="Which pairs of genes does the combined evidence imply although no measured layer "
              "records them, how strong is each claim, and how good is the model that makes it when "
              "it is scored against a degree-matched null rather than a random one?",

@@ -8,46 +8,46 @@ Measured 2026-09-26.
 
 | # | strategy | family | Toxoplasma gondii | Plasmodium falciparum |
 |---|---|---|---|---|
-| 01 | [Hold out a category and search for a map that finds it](#01-holdout_search) | Search the map space | PASS | FAIL |
-| 02 | [Find the map where your gene list is one cluster](#02-geneset_hunt) | Search the map space | FAIL | PASS |
-| 03 | [Ask which categories the data can rediscover](#03-recoverability_atlas) | Search the map space | PASS | PASS |
-| 04 | [Keep only the modules that survive the whole walk](#04-consensus_modules) | Search the map space | FAIL | PASS |
-| 05 | [Tune a map without labels, then read what it encodes](#05-blind_battery) | Search the map space | PASS | PASS |
-| 06 | [Find which kind of evidence carries a label](#06-block_ablation) | Search the map space | PASS | PASS |
-| 07 | [Call a gene by the genes that behave like it](#07-feature_knn) | Borrow from neighbours | PASS | PASS |
-| 08 | [Call a gene by its neighbours on the map](#08-map_neighbours) | Borrow from neighbours | PASS | PASS |
-| 09 | [Name a cluster by the label it is enriched for](#09-cluster_guilt) | Borrow from neighbours | FAIL | PASS |
-| 10 | [Find genes whose label their neighbours contradict](#10-label_outliers) | Borrow from neighbours | PASS | PASS |
-| 11 | [Diffuse a label across one measured network](#11-layer_propagation) | Walk the networks | PASS | PASS |
-| 12 | [Let every network vote, weighted by what it has earned](#12-layer_vote) | Walk the networks | PASS | PASS |
-| 13 | [Place a protein by the proteins it physically touches](#13-physical_partners) | Walk the networks | PASS | FAIL |
-| 14 | [Annotate function through shared fold](#14-structural_homology) | Walk the networks | PASS | PASS |
-| 15 | [Find the communities several networks agree on](#15-multiplex_modules) | Walk the networks | FAIL | PASS |
-| 16 | [Predict the contacts an interactome missed](#16-link_prediction) | Walk the networks | PASS | PASS |
-| 17 | [Read the literature for biology, not fame](#17-attention_correction) | Walk the networks | PASS | FAIL |
-| 18 | [List what the data says and the literature has not written](#18-unwritten_links) | Walk the networks | PASS | PASS |
-| 19 | [Train a classifier on the known genes and call the rest](#19-supervised_classifier) | Learn from examples | PASS | PASS |
-| 20 | [Learn what makes your list special, from positives alone](#20-positive_unlabeled) | Learn from examples | PASS | PASS |
-| 21 | [Predict a measurement, and find the genes that defy the prediction](#21-trait_regression) | Learn from examples | PASS | PASS |
-| 22 | [Fill in what was never measured, and say where that is honest](#22-masked_imputation) | Learn from examples | PASS | PASS |
-| 23 | [Find what matters more in one condition, and why](#23-condition_shift) | Learn from examples | FAIL | PASS |
-| 24 | [Describe what your gene list has in common](#24-set_enrichment) | Start from a gene list | PASS | PASS |
-| 25 | [Grow your gene list along the networks](#25-seed_expansion) | Start from a gene list | PASS | PASS |
-| 26 | [Find categories that split in two on another measurement](#26-split_clusters) | Contrast and combine layers | INCONCLUSIVE | INCONCLUSIVE |
-| 27 | [Find kinds of gene defined by two labels at once](#27-conjunctions) | Contrast and combine layers | PASS | INCONCLUSIVE |
-| 28 | [Find paralogs that changed jobs](#28-paralog_divergence) | Contrast and combine layers | PASS | FAIL |
-| 29 | [Carry what one parasite shows to the other](#29-ortholog_transfer) | Cross species and strata | PASS | PASS |
-| 30 | [Test inference on the genes orthology cannot reach](#30-stratum_focus) | Cross species and strata | PASS | INCONCLUSIVE |
-| 31 | [Call a gene only when independent strategies agree](#31-triangulation) | Combine strategies | PASS | PASS |
-| 32 | [Put the understudied genes first](#32-understudied_first) | Combine strategies | PASS | PASS |
-| 33 | [Put every layer into one space and read a gene's neighbourhood](#33-neighbour_space) | Combine strategies | PASS | PASS |
-| 34 | [Train on the networks and rank the edges they are missing](#34-network_training) | Combine strategies | PASS | PASS |
+| 01 | [Hold out a category and search for a map that finds it (UMAP + HDBSCAN)](#01-holdout_search) | Search the map space | PASS | FAIL |
+| 02 | [Find the map where your gene list is one cluster (UMAP + HDBSCAN)](#02-geneset_hunt) | Search the map space | FAIL | PASS |
+| 03 | [Ask which categories the data can rediscover (UMAP + neighbour AUROC)](#03-recoverability_atlas) | Search the map space | PASS | PASS |
+| 04 | [Keep only the modules that survive the whole walk (UMAP + HDBSCAN co-clustering)](#04-consensus_modules) | Search the map space | FAIL | PASS |
+| 05 | [Tune a map without labels, then read what it encodes (UMAP + HDBSCAN, chi-square / Kruskal-Wallis)](#05-blind_battery) | Search the map space | PASS | PASS |
+| 06 | [Find which kind of evidence carries a label (kNN ablation)](#06-block_ablation) | Search the map space | PASS | PASS |
+| 07 | [Call a gene by the genes that behave like it (kNN)](#07-feature_knn) | Borrow from neighbours | PASS | PASS |
+| 08 | [Call a gene by its neighbours on the map (UMAP + kNN)](#08-map_neighbours) | Borrow from neighbours | PASS | PASS |
+| 09 | [Name a cluster by the label it is enriched for (UMAP + HDBSCAN, hypergeometric)](#09-cluster_guilt) | Borrow from neighbours | FAIL | PASS |
+| 10 | [Find genes whose label their neighbours contradict (kNN + network neighbours)](#10-label_outliers) | Borrow from neighbours | PASS | PASS |
+| 11 | [Diffuse a label across one measured network (random walk with restart)](#11-layer_propagation) | Walk the networks | PASS | PASS |
+| 12 | [Let every network vote, weighted by what it has earned (chance-weighted ensemble vote)](#12-layer_vote) | Walk the networks | PASS | PASS |
+| 13 | [Place a protein by the proteins it physically touches (weighted partner vote)](#13-physical_partners) | Walk the networks | PASS | FAIL |
+| 14 | [Annotate function through shared fold (TM-score-weighted vote)](#14-structural_homology) | Walk the networks | PASS | PASS |
+| 15 | [Find the communities several networks agree on (modularity + Louvain consensus)](#15-multiplex_modules) | Walk the networks | FAIL | PASS |
+| 16 | [Predict the contacts an interactome missed (logistic regression)](#16-link_prediction) | Walk the networks | PASS | PASS |
+| 17 | [Read the literature for biology, not fame (publication-count residual)](#17-attention_correction) | Walk the networks | PASS | FAIL |
+| 18 | [List what the data says and the literature has not written (multi-layer support count)](#18-unwritten_links) | Walk the networks | PASS | PASS |
+| 19 | [Train a classifier on the known genes and call the rest (logistic regression)](#19-supervised_classifier) | Learn from examples | PASS | PASS |
+| 20 | [Learn what makes your list special, from positives alone (PU bagging, logistic regression)](#20-positive_unlabeled) | Learn from examples | PASS | PASS |
+| 21 | [Predict a measurement, and find the genes that defy the prediction (gradient boosting / ridge)](#21-trait_regression) | Learn from examples | PASS | PASS |
+| 22 | [Fill in what was never measured, and say where that is honest (soft-impute, low-rank SVD)](#22-masked_imputation) | Learn from examples | PASS | PASS |
+| 23 | [Find what matters more in one condition, and why (residual + gradient boosting / ridge)](#23-condition_shift) | Learn from examples | FAIL | PASS |
+| 24 | [Describe what your gene list has in common (hypergeometric + rank-sum)](#24-set_enrichment) | Start from a gene list | PASS | PASS |
+| 25 | [Grow your gene list along the networks (random walk with restart)](#25-seed_expansion) | Start from a gene list | PASS | PASS |
+| 26 | [Find categories that split in two on another measurement (UMAP + HDBSCAN)](#26-split_clusters) | Contrast and combine layers | INCONCLUSIVE | INCONCLUSIVE |
+| 27 | [Find kinds of gene defined by two labels at once (UMAP + HDBSCAN)](#27-conjunctions) | Contrast and combine layers | PASS | INCONCLUSIVE |
+| 28 | [Find paralogs that changed jobs (profile correlation)](#28-paralog_divergence) | Contrast and combine layers | PASS | FAIL |
+| 29 | [Carry what one parasite shows to the other (orthogroup mapping)](#29-ortholog_transfer) | Cross species and strata | PASS | PASS |
+| 30 | [Test inference on the genes orthology cannot reach (kNN)](#30-stratum_focus) | Cross species and strata | PASS | INCONCLUSIVE |
+| 31 | [Call a gene only when independent strategies agree (kNN + logistic + network vote)](#31-triangulation) | Combine strategies | PASS | PASS |
+| 32 | [Put the understudied genes first (kNN + logistic + network vote)](#32-understudied_first) | Combine strategies | PASS | PASS |
+| 33 | [Put every layer into one space and read a gene's neighbourhood (logistic edge model)](#33-neighbour_space) | Combine strategies | PASS | PASS |
+| 34 | [Train on the networks and rank the edges they are missing (logistic / spectral embedding)](#34-network_training) | Combine strategies | PASS | PASS |
 
 ## Search the map space
 
 ### 01 holdout_search
 
-**Hold out a category and search for a map that finds it.** *Is there a combination of measurements and map settings under which a label nobody showed the map falls out as clusters -- and which unlabelled genes land in them?*
+**Hold out a category and search for a map that finds it (UMAP + HDBSCAN).** *Is there a combination of measurements and map settings under which a label nobody showed the map falls out as clusters -- and which unlabelled genes land in them?*
 
 This is the question the map was built to ask. Choose a label -- the hyperLOPIT compartment, a stage, an essentiality class -- and the strategy removes it from the inputs together with everything the leakage closure says restates it: the column, columns measurably associated with it, the experiment that produced it, and any edge layer built from it. What is left is embedded under every combination of UMAP n_neighbors and min_dist on the grid, each map is clustered at each HDBSCAN size, and each clustering is scored by how well single clusters isolate each category (the best cluster's F1 per category, weighted by category size).
 
@@ -74,7 +74,7 @@ Choose 'families' to also walk each kind of measurement alone -- transcription o
 
 ### 02 geneset_hunt
 
-**Find the map where your gene list is one cluster.** *Under some combination of measurements and settings, do the genes on my list fall into a single cluster -- and what else is in it?*
+**Find the map where your gene list is one cluster (UMAP + HDBSCAN).** *Under some combination of measurements and settings, do the genes on my list fall into a single cluster -- and what else is in it?*
 
 Hand over a list -- the hits of a screen, the members of a complex, genes a paper implicates -- and the strategy walks the same space the Search tab walks, but scores each clustering by the single cluster that best captures YOUR list: precision (what share of the cluster is on the list) and recall (what share of the list is in the cluster), combined as F1. A list that is a real biological unit should, under some view of the data, gather into one cluster; the genes that gather with it are the candidates.
 
@@ -101,7 +101,7 @@ If the list was made from a column of this table (all genes of one compartment, 
 
 ### 03 recoverability_atlas
 
-**Ask which categories the data can rediscover.** *Of all the categories of a label, which ones do the measurements actually encode -- and which would no map, however tuned, ever find?*
+**Ask which categories the data can rediscover (UMAP + neighbour AUROC).** *Of all the categories of a label, which ones do the measurements actually encode -- and which would no map, however tuned, ever find?*
 
 Before searching for a structure it is worth knowing whether there is one to find. This strategy builds a single map with the chosen label and its closure withheld, then asks, category by category, how much the map neighbourhood of a labelled gene is enriched for its own category (AUROC of the neighbour share, and its precision lift over the category's prevalence). Categories with high scores are ENCODED in the measurements -- their members behave alike -- and are worth searching for or predicting. Categories near 0.5 are not: no map built from these data will recover them, and a claimed cluster for one is noise.
 
@@ -125,7 +125,7 @@ This is knowledge about the data, not about genes: it says which biological dist
 
 ### 04 consensus_modules
 
-**Keep only the modules that survive the whole walk.** *Which groups of genes stay together whatever map settings are chosen -- the structure that is in the data rather than in one lucky configuration?*
+**Keep only the modules that survive the whole walk (UMAP + HDBSCAN co-clustering).** *Which groups of genes stay together whatever map settings are chosen -- the structure that is in the data rather than in one lucky configuration?*
 
 Any single map is one choice among many. Change n_neighbors from 15 to 50 and some clusters survive while others dissolve or merge. This strategy treats that as the signal: it walks the grid, clusters every map, and builds a co-association matrix -- the share of clusterings in which each pair of genes was placed together. Modules are groups whose members co-cluster in at least the chosen share of maps (average linkage on one minus co-association).
 
@@ -149,7 +149,7 @@ A module that survives is robust to the arbitrary choices a map requires, which 
 
 ### 05 blind_battery
 
-**Tune a map without labels, then read what it encodes.** *If I build a map from one kind of evidence only -- expression, say -- and tune it for structure alone, which OTHER measurements do its clusters turn out to separate?*
+**Tune a map without labels, then read what it encodes (UMAP + HDBSCAN, chi-square / Kruskal-Wallis).** *If I build a map from one kind of evidence only -- expression, say -- and tune it for structure alone, which OTHER measurements do its clusters turn out to separate?*
 
 The other strategies start from a question. This one starts from the data and lets the question come back. Choose one family of measurements -- transcription, fitness, modification -- and a map is built from that family only, tuned by the project's map-quality score (how much of the proteome clusters, how evenly) without reference to any label. Then the battery runs: every categorical and numeric column the map did NOT use is tested against its clusters (chi-square with Cramér's V, or Kruskal-Wallis with an eta-squared effect), and the p-values are corrected across the whole family.
 
@@ -173,7 +173,7 @@ An association here is evidence of coupling between two kinds of biology: cluste
 
 ### 06 block_ablation
 
-**Find which kind of evidence carries a label.** *Which measurements actually carry the information about this label -- and which are redundant with others or irrelevant to it?*
+**Find which kind of evidence carries a label (kNN ablation).** *Which measurements actually carry the information about this label -- and which are redundant with others or irrelevant to it?*
 
 A map is built from dozens of datasets, and a good result says nothing about which of them produced it. This strategy asks directly. For each kind of evidence (a family such as transcription or fitness, or each individual block), it measures how well a 15-nearest-neighbour vote in that evidence alone predicts the held-out label, cross-validated with whole orthogroups held out together; then how much the combination loses when that evidence is removed.
 
@@ -199,7 +199,7 @@ A map is built from dozens of datasets, and a good result says nothing about whi
 
 ### 07 feature_knn
 
-**Call a gene by the genes that behave like it.** *For a gene with no label, what label do the genes most similar to it across every permitted measurement carry?*
+**Call a gene by the genes that behave like it (kNN).** *For a gene with no label, what label do the genes most similar to it across every permitted measurement carry?*
 
 Every map and every clustering is an approximation of one thing: which genes are similar. This strategy skips the approximation. Each gene is a point in the space of every permitted measurement (rank-scaled, so no screen dominates by units); its k nearest labelled genes vote, weighted by closeness, and the gene is called with the winning label when that label holds at least the chosen share of the vote.
 
@@ -223,7 +223,7 @@ It is the baseline every other strategy has to beat: if a sophisticated method c
 
 ### 08 map_neighbours
 
-**Call a gene by its neighbours on the map.** *On a map built without the label, which label do a gene's nearest placed neighbours carry?*
+**Call a gene by its neighbours on the map (UMAP + kNN).** *On a map built without the label, which label do a gene's nearest placed neighbours carry?*
 
 When you look at the map colored by compartment and see a grey point inside a blue cloud, you are making this inference. The strategy makes it for every gene: a map is built with the label and its closure withheld, and each unlabelled gene is called by the distance-weighted vote of its k nearest labelled genes in the map.
 
@@ -246,7 +246,7 @@ The difference from strategy 07 is the map. UMAP keeps local neighbourhoods and 
 
 ### 09 cluster_guilt
 
-**Name a cluster by the label it is enriched for.** *Which clusters of a label-blind map hold one label far more often than chance, and what does that make of their unlabelled members?*
+**Name a cluster by the label it is enriched for (UMAP + HDBSCAN, hypergeometric).** *Which clusters of a label-blind map hold one label far more often than chance, and what does that make of their unlabelled members?*
 
 A majority is not evidence: a cluster of five genes, three of them nuclear, is 60% nuclear by chance in a proteome where a fifth of labelled genes are. This strategy asks the statistical question instead. For each cluster and each label it computes the hypergeometric probability of seeing that many of the label among the cluster's labelled members, corrects across every cluster-label pair tested, and calls a cluster only when the label is both significant and enriched by at least the chosen lift over its share of the proteome.
 
@@ -269,7 +269,7 @@ Enrichment is also how a cluster can be NAMED without being pure: a cluster that
 
 ### 10 label_outliers
 
-**Find genes whose label their neighbours contradict.** *Which labelled genes sit among genes that almost all carry a different label -- possible mislabels, dual-localized or moonlighting proteins?*
+**Find genes whose label their neighbours contradict (kNN + network neighbours).** *Which labelled genes sit among genes that almost all carry a different label -- possible mislabels, dual-localized or moonlighting proteins?*
 
 Every other strategy trusts the labels and predicts the missing ones. This one turns the question round: given everything else, which EXISTING labels look wrong? For each labelled gene it measures the share of its k nearest labelled genes (in the permitted measurements) that carry its own label, and the share of its labelled partners across the measured networks that do; surprise is one minus their mean.
 
@@ -294,7 +294,7 @@ A high-surprise gene is one of three things, and each is worth knowing: an annot
 
 ### 11 layer_propagation
 
-**Diffuse a label across one measured network.** *If labels flow along the edges of one kind of measured relationship, where do they end up -- and how much of a label does that relationship carry?*
+**Diffuse a label across one measured network (random walk with restart).** *If labels flow along the edges of one kind of measured relationship, where do they end up -- and how much of a label does that relationship carry?*
 
 A network carries a label if genes linked in it tend to share the label. Diffusion exploits that without needing a cluster to form: every class is seeded on its labelled genes, the seed spreads along the layer's edges (degree-normalised, so hubs -- often the most-studied genes -- do not swallow everything), and after the walk settles each gene is called by the strongest field. Genes the layer does not reach are not called.
 
@@ -317,7 +317,7 @@ Run it layer by layer and the self-test numbers become a table of which relation
 
 ### 12 layer_vote
 
-**Let every network vote, weighted by what it has earned.** *If every measured relationship and the measurements themselves vote on a gene's label, each weighted by how good it has proven to be, what is the verdict?*
+**Let every network vote, weighted by what it has earned (chance-weighted ensemble vote).** *If every measured relationship and the measurements themselves vote on a gene's label, each weighted by how good it has proven to be, what is the verdict?*
 
 No single network reaches every gene, and no single network is right about every label. This strategy asks all of them. Each permitted layer contributes its neighbour vote and the measurement space contributes its k-nearest-neighbour vote; before voting, each source is scored on an inner holdout carved from the known labels, and its weight is its accuracy MINUS its own chance level -- a source that only guesses the commonest class earns nothing.
 
@@ -340,7 +340,7 @@ The result reaches more genes than any one layer and is steered by the sources t
 
 ### 13 physical_partners
 
-**Place a protein by the proteins it physically touches.** *For a protein crosslinked to or pulled down with labelled proteins, what does its physical company say about where it lives and what it joins?*
+**Place a protein by the proteins it physically touches (weighted partner vote).** *For a protein crosslinked to or pulled down with labelled proteins, what does its physical company say about where it lives and what it joins?*
 
 Two proteins crosslinked by DSS were within about 30 Å of each other in the parasite: they share a compartment, and often a complex. That makes a crosslink the most direct evidence this table has about where an unlocalized protein lives, and unlike co-mention it is not biased toward famous genes. This strategy calls every protein with at least one measured physical partner by the weighted label vote of its partners (crosslink or pulldown counts as weights), and lists the partners so each call can be checked by hand.
 
@@ -363,7 +363,7 @@ Its reach is limited to proteins in the interactomes -- a few thousand at most -
 
 ### 14 structural_homology
 
-**Annotate function through shared fold.** *What does a protein's fold -- its structural similarity to annotated proteins -- say about its enzymatic class or domain family, even without sequence homology?*
+**Annotate function through shared fold (TM-score-weighted vote).** *What does a protein's fold -- its structural similarity to annotated proteins -- say about its enzymatic class or domain family, even without sequence homology?*
 
 Sequence-based annotation fails exactly where this parasite is most interesting: in lineage-specific proteins whose sequence resembles nothing annotated. Fold outlives sequence, and the structural-similarity layer (Foldseek TM-score between predicted models) links proteins that share a fold whatever their sequence. This strategy carries a functional annotation -- the EC number truncated to a chosen depth, or any label -- along that layer, weighted by TM-score, to proteins that lack it.
 
@@ -386,7 +386,7 @@ Depth matters: EC level 1 (oxidoreductase, transferase, hydrolase...) is what a 
 
 ### 15 multiplex_modules
 
-**Find the communities several networks agree on.** *Which groups of genes are communities in more than one kind of measured relationship at once -- co-expressed AND co-fit AND crosslinked?*
+**Find the communities several networks agree on (modularity + Louvain consensus).** *Which groups of genes are communities in more than one kind of measured relationship at once -- co-expressed AND co-fit AND crosslinked?*
 
 Merging networks into one graph lets the densest layer decide everything. This strategy does the opposite: communities are found in each layer separately (modularity optimisation), and two genes end up in the same multiplex module only when a sufficient share of the layers that cover both put them together. The result is a set of modules supported by several independent kinds of evidence.
 
@@ -409,7 +409,7 @@ Modules are label-free, so a label they explain afterwards is a genuine finding;
 
 ### 16 link_prediction
 
-**Predict the contacts an interactome missed.** *Which pairs of proteins are probably in physical contact although the crosslinking or pulldown experiment never saw them together?*
+**Predict the contacts an interactome missed (logistic regression).** *Which pairs of proteins are probably in physical contact although the crosslinking or pulldown experiment never saw them together?*
 
 An interactome is a sample. Crosslinking sees lysine-rich, abundant, soluble contacts and misses the rest; a pulldown sees what survives the wash. So among the pairs never observed are many true contacts, and the other evidence can say which. This strategy trains a logistic model on the layer's own edges against random pairs of the same proteins, using: support in each other measured layer (a direct edge, and shared neighbours), triadic closure within the layer itself (two proteins crosslinked to the same partners), each protein's degree, and the cosine similarity of their measurements. Every unobserved pair with any support is then scored.
 
@@ -432,7 +432,7 @@ Literature layers and layers derived from the target (unwritten interactions are
 
 ### 17 attention_correction
 
-**Read the literature for biology, not fame.** *Which pairs of genes are written about together more than their popularity explains -- and are those pairs biologically related?*
+**Read the literature for biology, not fame (publication-count residual).** *Which pairs of genes are written about together more than their popularity explains -- and are those pairs biologically related?*
 
 Raw co-mention reproduces the literature's popularity contest: the two most-published genes are co-mentioned most often whether or not they have anything to do with each other. The project's attention correction replaces each count with its residual over the count expected from each gene's own publication total, and it is on by default in the application. This strategy uses the correction as an inference tool: pairs with a high residual are pairs the literature treats as related beyond what fame explains.
 
@@ -455,7 +455,7 @@ The test of that claim is independent biology. Genes the literature links for a 
 
 ### 18 unwritten_links
 
-**List what the data says and the literature has not written.** *Which gene pairs do several independent measurements link that no paper has ever mentioned together?*
+**List what the data says and the literature has not written (multi-layer support count).** *Which gene pairs do several independent measurements link that no paper has ever mentioned together?*
 
 The literature is where knowledge is recorded; the measurements are where it could come from. A pair linked by co-expression, co-fitness AND a crosslink but never mentioned together in any abstract or paragraph is a relationship the data asserts and nobody has written down -- a gap in the knowledge map, and a concrete hypothesis.
 
@@ -480,7 +480,7 @@ That reading needs one thing to be true: that measurement support tracks the kin
 
 ### 19 supervised_classifier
 
-**Train a classifier on the known genes and call the rest.** *Given every permitted measurement, which label does a model trained on the labelled genes assign to each unlabelled one -- and which measurements does it rely on?*
+**Train a classifier on the known genes and call the rest (logistic regression).** *Given every permitted measurement, which label does a model trained on the labelled genes assign to each unlabelled one -- and which measurements does it rely on?*
 
 Neighbour votes treat every measurement as equally relevant. A classifier learns which measurements matter for which class: a dense-granule protein might be recognised by its expression in the tachyzoite and its secretion signal, a ribosomal protein by fitness and codon usage. This strategy fits a multinomial logistic regression, class-balanced so the commonest compartment does not win by default, with an L2 penalty whose strength you choose.
 
@@ -503,7 +503,7 @@ The weights are an interpretable by-product: for each class, the measurements wi
 
 ### 20 positive_unlabeled
 
-**Learn what makes your list special, from positives alone.** *Given only genes that ARE something -- no list of genes that are not -- which other genes look most like them?*
+**Learn what makes your list special, from positives alone (PU bagging, logistic regression).** *Given only genes that ARE something -- no list of genes that are not -- which other genes look most like them?*
 
 Most real gene lists are positives only: hits of a screen, members of a complex, proteins someone localized. Training 'list versus everything else' treats every unknown member as a negative and teaches the model to reject exactly the genes you want to find. Positive-unlabelled bagging avoids that: each of many models sees the list and a small random draw of other genes; because the draw is small, a hidden positive is rarely in it, and every gene is scored only by the models that did not train on it.
 
@@ -526,7 +526,7 @@ Unlike strategy 02, no cluster has to form: the model can combine weak signals f
 
 ### 21 trait_regression
 
-**Predict a measurement, and find the genes that defy the prediction.** *How well does everything else predict this measurement -- and which genes are far from what their profile says they should be?*
+**Predict a measurement, and find the genes that defy the prediction (gradient boosting / ridge).** *How well does everything else predict this measurement -- and which genes are far from what their profile says they should be?*
 
 Two kinds of knowledge come out of one regression. The first is predictability: if fitness in fibroblasts can be predicted from expression, modification and structure, then essentiality has a signature, and genes the screen missed can be given a value. The second is surprise: a gene whose measured fitness is far from what its profile predicts is doing something its profile does not explain -- an essential protein with the profile of a dispensable one is a candidate for an unusual function, or a screen artefact worth rechecking.
 
@@ -550,7 +550,7 @@ By default the target's own kind of measurement is left out -- every knockout sc
 
 ### 22 masked_imputation
 
-**Fill in what was never measured, and say where that is honest.** *For each measurement, can its missing values be estimated from the rest of the table -- and for which measurements is that impossible?*
+**Fill in what was never measured, and say where that is honest (soft-impute, low-rank SVD).** *For each measurement, can its missing values be estimated from the rest of the table -- and for which measurements is that impossible?*
 
 Most genes are missing most measurements, and every map and model here fills the gaps somehow -- usually at the median, which says 'average' about a gene nobody measured. This strategy asks whether better is possible: if the measurements are correlated (expression across stages, fitness across hosts), a low-rank model of the table can estimate a missing entry from the gene's other entries.
 
@@ -573,7 +573,7 @@ The answer is column-specific, and the strategy measures it before using it: a t
 
 ### 23 condition_shift
 
-**Find what matters more in one condition, and why.** *Which genes matter more (or less) in one condition than a baseline predicts -- in the mouse rather than the dish, say -- and can the rest of the data explain which?*
+**Find what matters more in one condition, and why (residual + gradient boosting / ridge).** *Which genes matter more (or less) in one condition than a baseline predicts -- in the mouse rather than the dish, say -- and can the rest of the data explain which?*
 
 Most genes essential in the mouse are essential in the dish too; the interesting ones are the exceptions. This strategy isolates them: the condition measurement is regressed on its baseline (both rank-scaled) and the residual -- the condition-specific shift -- becomes the target. A gene with a strongly negative shift is needed in the condition beyond what its baseline need predicts: a candidate for host interaction, immune evasion, nutrient acquisition in vivo.
 
@@ -598,7 +598,7 @@ Then it asks whether the shift is predictable from the other measurements, with 
 
 ### 24 set_enrichment
 
-**Describe what your gene list has in common.** *What distinguishes the genes on my list from the rest -- which categories are they enriched in, which measurements are shifted, which networks are dense among them?*
+**Describe what your gene list has in common (hypergeometric + rank-sum).** *What distinguishes the genes on my list from the rest -- which categories are they enriched in, which measurements are shifted, which networks are dense among them?*
 
 Enrichment analysis is usually run against one annotation at a time. This strategy runs it against everything the table holds, in one family of tests with one correction: hypergeometric enrichment for every class of every categorical column, a rank-sum test (reported as AUROC minus one half) for every measurement, and, for every measured network, whether the list has more internal edges than a random set of the same size would.
 
@@ -621,7 +621,7 @@ A profile is only a description until it predicts something. So the significant 
 
 ### 25 seed_expansion
 
-**Grow your gene list along the networks.** *Starting from my genes, which others does a walk across every measured network keep returning to?*
+**Grow your gene list along the networks (random walk with restart).** *Starting from my genes, which others does a walk across every measured network keep returning to?*
 
 A complex, a pathway, a secretory route: the genes that belong with yours are connected to them -- not necessarily directly, but by many short paths through co-expression, co-fitness, crosslinks and structural similarity. Random walk with restart measures exactly that: the walk starts on your seeds, steps along edges, and returns to the seeds with a fixed probability, so its long-run visiting frequency is high for genes close to the list by many routes and low for genes reached by a single long path.
 
@@ -646,7 +646,7 @@ Each layer is degree-normalised, so hubs do not attract every walk, and the laye
 
 ### 26 split_clusters
 
-**Find categories that split in two on another measurement.** *Which clusters agree about one thing -- a compartment -- and split cleanly on another -- a stage, a phase, a fitness level?*
+**Find categories that split in two on another measurement (UMAP + HDBSCAN).** *Which clusters agree about one thing -- a compartment -- and split cleanly on another -- a stage, a phase, a fitness level?*
 
 A compartment is not one thing: the nucleus holds genes of every cell-cycle phase, the apicoplast holds essential and dispensable proteins. Where a cluster is homogeneous for one label (A) and divides on another (B) -- a categorical label into two enriched groups, or a measurement into two modes -- the data is saying the category has internal structure, and naming the measurement that carries it.
 
@@ -669,7 +669,7 @@ Both labels are withheld from the map, so the cluster is found without either an
 
 ### 27 conjunctions
 
-**Find kinds of gene defined by two labels at once.** *Which clusters are enriched for a COMBINATION of two labels -- more than either label alone would make them?*
+**Find kinds of gene defined by two labels at once (UMAP + HDBSCAN).** *Which clusters are enriched for a COMBINATION of two labels -- more than either label alone would make them?*
 
 Some biology lives in combinations. Secreted proteins are common and fitness-conferring genes are common, but a cluster where the secreted genes are ALSO the fitness-conferring ones is a finding neither label shows alone. The strategy withholds both labels, clusters a map, and for every cluster and every combination measures the joint enrichment against the stronger of the two single enrichments; a ratio above 1.25 means the combination says more than either margin.
 
@@ -692,7 +692,7 @@ The replication test checks the interaction itself rather than the enrichment: w
 
 ### 28 paralog_divergence
 
-**Find paralogs that changed jobs.** *Which duplicated genes behave differently across the measurements -- evidence that one copy took on a new role?*
+**Find paralogs that changed jobs (profile correlation).** *Which duplicated genes behave differently across the measurements -- evidence that one copy took on a new role?*
 
 Gene duplication is where new functions come from, and apicomplexan genomes are full of expanded families. A pair of paralogs that behave alike -- same expression across stages, same fitness, same modifications -- is probably redundant. A pair that behave differently has probably partitioned or changed its job, and that is visible in the data long before anyone characterises either copy.
 
@@ -717,7 +717,7 @@ Divergence is one minus the correlation of the pair's rank-scaled measurements o
 
 ### 29 ortholog_transfer
 
-**Carry what one parasite shows to the other.** *What does a gene's ortholog in the other parasite say about it -- its essentiality, its stage, its localization?*
+**Carry what one parasite shows to the other (orthogroup mapping).** *What does a gene's ortholog in the other parasite say about it -- its essentiality, its stage, its localization?*
 
 Toxoplasma and Plasmodium diverged hundreds of millions of years ago, but conserved genes often keep their jobs: a ribosomal protein essential in one is essential in the other. Each species has experiments the other lacks -- saturation mutagenesis in P. falciparum, hyperLOPIT in T. gondii -- so an ortholog is a second, independent measurement of the same gene.
 
@@ -740,7 +740,7 @@ The two tables stay separate, as the project requires: orthology is a bridge, no
 
 ### 30 stratum_focus
 
-**Test inference on the genes orthology cannot reach.** *Can lineage-specific, hypothetical or understudied genes be called as reliably as the rest -- and what are they?*
+**Test inference on the genes orthology cannot reach (kNN).** *Can lineage-specific, hypothetical or understudied genes be called as reliably as the rest -- and what are they?*
 
 An accuracy measured over the whole proteome is dominated by conserved, well-studied genes, where every method does best. The genes that most need inference -- parasite-specific proteins with no ortholog, 'hypothetical proteins', genes nobody has published on -- are exactly where methods are weakest and where an overall accuracy flatters them most.
 
@@ -765,7 +765,7 @@ This strategy calls genes within one stratum from their measurement neighbours, 
 
 ### 31 triangulation
 
-**Call a gene only when independent strategies agree.** *Where do measurement neighbours, a trained classifier and the networks give the same answer -- and how much more often is that answer right?*
+**Call a gene only when independent strategies agree (kNN + logistic + network vote).** *Where do measurement neighbours, a trained classifier and the networks give the same answer -- and how much more often is that answer right?*
 
 Every strategy has its own failure mode: neighbours are misled by missingness, a classifier by a spurious weight, a network by a hub. Failures of different methods on different evidence are largely independent, so a call on which several agree is much less likely to be wrong than any one of them -- the logic of triangulation in measurement.
 
@@ -788,7 +788,7 @@ The price is reach: an agreed call exists only where every method can speak, and
 
 ### 32 understudied_first
 
-**Put the understudied genes first.** *Which genes nobody has written about can the data say something trustworthy about?*
+**Put the understudied genes first (kNN + logistic + network vote).** *Which genes nobody has written about can the data say something trustworthy about?*
 
 Research attention is concentrated: a few hundred genes carry most of the literature, and thousands have never been the subject of a paper. Those are where a knowledge map adds the most -- and where it must be most careful, because an inference about an unstudied gene will not be contradicted by anything anyone has written.
 
@@ -811,7 +811,7 @@ This strategy restricts the triangulated calls of strategy 31 to understudied ge
 
 ### 33 neighbour_space
 
-**Put every layer into one space and read a gene's neighbourhood.** *Which genes are the nearest neighbours of this one when every permitted network and the whole measurement table are combined into a single graph, and what evidence puts each of them there?*
+**Put every layer into one space and read a gene's neighbourhood (logistic edge model).** *Which genes are the nearest neighbours of this one when every permitted network and the whole measurement table are combined into a single graph, and what evidence puts each of them there?*
 
 The thirteen edge layers are deliberately never merged, because each answers a different question and they disagree. That is right for reading a layer and wrong for the question a user actually asks: which genes are near this one? Answering it needs all of them at once. This strategy builds that graph. Candidate pairs are every gene's partners in every permitted layer plus its nearest genes in measurement space, so a pair no network touches can still be a neighbour. For each pair the sources are each layer's weight as a percentile among that layer's own edges, an indicator that the layer does not record the pair at all, the cosine similarity of the permitted measurements, and an Adamic-Adar shared-partner count that discounts partners shared through a hub.
 
@@ -835,7 +835,7 @@ Each source's weight is learned from held-out edges, one fold per layer, and in 
 
 ### 34 network_training
 
-**Train on the networks and rank the edges they are missing.** *Which pairs of genes does the combined evidence imply although no measured layer records them, how strong is each claim, and how good is the model that makes it when it is scored against a degree-matched null rather than a random one?*
+**Train on the networks and rank the edges they are missing (logistic / spectral embedding).** *Which pairs of genes does the combined evidence imply although no measured layer records them, how strong is each claim, and how good is the model that makes it when it is scored against a degree-matched null rather than a random one?*
 
 A network is a sample of a biology, and the pairs it never recorded include real ones. Which ones can be said from everything else: the other layers, the measurements, who is whose neighbour. This strategy learns that, one fold per layer, and holds two rules throughout. Edges are held out by ORTHOGROUP, whole groups at a time, because a randomly held-out edge is recovered through a paralog that stayed visible, which scores the resemblance of a gene to its own copy. And a layer is never a feature for predicting itself, which is enforced in one place and reflected in the weights: a source's weight is the average of what it was worth in every fold, counting as zero the fold where it was the target.
 

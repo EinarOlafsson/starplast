@@ -636,7 +636,7 @@ def calibration_doc(summary: dict, meta: dict) -> str:
             if not e:
                 continue
             d, t = e.get("default") or {}, e.get("tuned") or {}
-            out += [f"### {s.number:02d} · {s.title} -- {e['grade']}", "",
+            out += [f"### {s.number:02d} · {s.name} -- {e['grade']}", "",
                     f"{s.test_description}", "",
                     f"Metric: `{e['metric']}`. {e['runs']:,} runs, {e['settings_tested']} "
                     f"settings, targets: {', '.join(e.get('targets') or []) or '(the strategy '

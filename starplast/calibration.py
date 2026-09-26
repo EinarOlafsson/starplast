@@ -270,7 +270,7 @@ def overview(organism: str = "Tg", path: str = CALIBRATION) -> pd.DataFrame:
         if not e:
             continue
         d, t = e.get("default") or {}, e.get("tuned") or {}
-        rows.append({"number": s.number, "strategy": s.title, "key": s.key,
+        rows.append({"number": s.number, "strategy": s.name, "key": s.key,
                      "metric": e.get("metric", ""), "grade": e.get("grade", ""),
                      "runs": e.get("runs"), "settings": e.get("settings_tested"),
                      "default_skill": d.get("skill"), "default_low": d.get("skill_low"),

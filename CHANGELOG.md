@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.46.0
+
+- **Name each strategy's method.** Every strategy's name now ends with the method it runs in brackets, for example "Hold out a category and search for a map that finds it (UMAP + HDBSCAN)" or "Diffuse a label across one measured network (random walk with restart)". The label is taken from the code each strategy calls, not from its prose. The name appears in the Strategies tab, its Guide, the README calibration table, the strategy and calibration pages and the tutorials. The tab's filter matches it, so typing "HDBSCAN" or "logistic" lists every strategy that uses that method.
+- Add `Strategy.method` and `Strategy.name`. A strategy that does not name its method is refused at registration. `strategies.overview()` now has `name` and `method` columns in place of `title`.
+
 ## 0.45.0
 
 - **Calibrate every strategy.** Each strategy's self-test was run over a grid of its settings, several held-out known labels and five seeds: 5,940 tests in all. The README table gives every strategy's skill at its defaults and at its best setting, with 95% intervals and pass rates. Skill puts every metric on one scale, from 0 for the same procedure on shuffled data to 1 for perfect. The best setting is chosen on seeds 1-3 and reported on seeds 4-5, so the table does not report the luckiest of many settings. Intervals resample held-out targets, then runs within each target, because runs on one label are not independent. On *T. gondii* 26 strategies are reliable, 7 weak and 1 untestable. On *P. falciparum* 20 are reliable, 8 weak, 3 work only when tuned, 2 are untestable and 1 has no skill. [Every number, per target and per setting](docs/calibration.md).

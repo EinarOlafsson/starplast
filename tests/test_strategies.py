@@ -101,8 +101,9 @@ def test_every_strategy_explains_itself(key):
     assert "null" in s.test_description.lower() and "pass" in s.test_description.lower()
     assert s.cost in ("seconds", "a minute", "minutes")
     assert callable(s.runner) and callable(s.tester)
+    assert s.method.strip() and s.name == f"{s.title} ({s.method})"
     text = s.help_text()
-    assert s.title in text and "Walkthrough" in text and "How it is tested" in text
+    assert s.name in text and "Walkthrough" in text and "How it is tested" in text
 
 
 @pytest.mark.parametrize("key", KEYS)
@@ -126,6 +127,20 @@ def test_an_unknown_parameter_kind_is_refused():
         S.Param("x", "colour", "x", "a tip long enough to satisfy nobody in particular today"),)})
     with pytest.raises(ValueError, match="unknown parameter kind"):
         S.register(bad)
+
+
+def test_a_strategy_that_does_not_name_its_method_is_refused():
+    """The method is part of the name, so a strategy without one would show an empty bracket."""
+    s = CATALOG[0]
+    with pytest.raises(ValueError, match="name the method"):
+        S.register(S.Strategy(**{**s.__dict__, "key": "not_registered", "method": " "}))
+
+
+def test_the_overview_carries_the_name_and_the_method():
+    table = S.overview("Tg")
+    assert {"name", "method"} <= set(table.columns)
+    assert (table["name"] == [s.name for s in CATALOG]).all()
+    assert table["method"].str.strip().astype(bool).all()
 
 
 def test_an_unknown_strategy_names_the_ones_that_exist():

@@ -423,6 +423,12 @@ class Strategy:
     tester: Callable
     cost: str = "seconds"
     needs: tuple = ()
+    method: str = ""
+
+    @property
+    def name(self) -> str:
+        """The title with the method it runs in brackets, as every list and heading shows it."""
+        return f"{self.title} ({self.method})"
 
     def defaults(self, ctx) -> dict:
         """Every parameter at its default for this context."""
@@ -460,14 +466,14 @@ class Strategy:
     def _repr_html_(self) -> str:
         from html import escape
         steps = "".join(f"<li>{escape(x)}</li>" for x in self.walkthrough)
-        return (f"<p><b>{self.number:02d} · {escape(self.title)}</b> ({escape(self.family)})</p>"
+        return (f"<p><b>{self.number:02d} · {escape(self.name)}</b> ({escape(self.family)})</p>"
                 f"<p><i>{escape(self.question)}</i></p><p>{escape(self.tooltip)}</p>"
                 f"<ol>{steps}</ol><p><b>How it is tested:</b> {escape(self.test_description)}</p>")
 
     def help_text(self) -> str:
         """Everything the panel shows about this strategy, as plain text."""
         steps = "\n".join(f"  {i}. {s}" for i, s in enumerate(self.walkthrough, 1))
-        return (f"{self.number:02d} · {self.title}\n\n{self.question}\n\n{self.explanation}\n\n"
+        return (f"{self.number:02d} · {self.name}\n\n{self.question}\n\n{self.explanation}\n\n"
                 f"Walkthrough\n{steps}\n\nHow it is tested\n{self.test_description}")
 
 
@@ -478,6 +484,8 @@ def register(strategy: Strategy) -> Strategy:
     """Add a strategy to the catalogue. A second strategy under one key is refused."""
     if strategy.key in REGISTRY:
         raise ValueError(f"strategy {strategy.key!r} registered twice")
+    if not strategy.method.strip():
+        raise ValueError(f"{strategy.key}: name the method it runs, e.g. method=\"UMAP + HDBSCAN\"")
     bad = [p.name for p in strategy.params if p.kind not in PARAM_KINDS]
     if bad:
         raise ValueError(f"{strategy.key}: unknown parameter kind for {', '.join(bad)}")
@@ -510,16 +518,17 @@ def families() -> list:
 
 
 def overview(organism: str = "Tg") -> pd.DataFrame:
-    """Every strategy in one table: number, key, family, title, the question it answers, and --
-    where the calibration sweep measured it -- its grade and skill at defaults and tuned."""
+    """Every strategy in one table: number, key, family, name, method, the question it answers,
+    and -- where the calibration sweep measured it -- its grade and skill at defaults and tuned."""
     from . import calibration as C
     rows = []
     for s in catalog():
         e = C.entry(s.key, organism) or {}
         d, t = e.get("default") or {}, e.get("tuned") or {}
-        rows.append({"number": s.number, "key": s.key, "family": s.family, "title": s.title,
-                     "question": s.question, "cost": s.cost, "grade": e.get("grade", ""),
-                     "skill_default": d.get("skill"), "skill_tuned": t.get("skill")})
+        rows.append({"number": s.number, "key": s.key, "family": s.family, "name": s.name,
+                     "method": s.method, "question": s.question, "cost": s.cost,
+                     "grade": e.get("grade", ""), "skill_default": d.get("skill"),
+                     "skill_tuned": t.get("skill")})
     return pd.DataFrame(rows)
 
 

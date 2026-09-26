@@ -194,11 +194,11 @@ pre.code .ln:hover { background:#324257; }
       <td>0.667</td>
     </tr>
   </tbody>
-</table><p><i>22 rows; first 12 shown</i></p></div></div></div><h2>The same test on a table with nothing in it</h2><p>A test that passes on noise tests nothing. <code>planted_context(null=True)</code> deals every column and edge out at random.</p><div class='cell'><div class='in'><div class='prompt'>In [4]:</div><pre class='code'><span class='ln' data-tip='A synthetic organism with nothing to find.'>noise = S.planted_context(null=True)</span><span class='ln' data-tip='Should FAIL or be INCONCLUSIVE.'>S.get(&#x27;physical_partners&#x27;).test(noise)</span></pre></div><div class='outp'><div class='prompt'>Out[4]:</div><div class='outbox'><p><b style='color:#c0392b'>FAIL</b> -- correct calls per hidden gene 0.125 against 0.147 ± 0.046 under 20 runs on shuffled labels (bar 0.227, p 0.667); effect -0.022, needed +0.050; 88 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 20 runs on shuffled labels.</i></p></div></div></div><h2>Calibration: where each strategy works</h2><p><code>scripts/calibrate_strategies.py</code> runs every strategy's self-test over a grid of its settings, several held-out labels and five seeds, and summarises each configuration with a mean and a 95% interval. Skill puts every metric on one scale: 0 is chance, 1 is perfect.</p><div class='cell'><div class='in'><div class='prompt'>In [5]:</div><pre class='code'><span class='ln' data-tip='Every strategy, with the grade and skill calibration measured for it.'>cal = S.overview(&#x27;Tg&#x27;)</span><span class='ln' data-tip='Skill at the defaults and at the tuned setting, on one scale.'>cal[[&#x27;number&#x27;, &#x27;title&#x27;, &#x27;grade&#x27;, &#x27;skill_default&#x27;, &#x27;skill_tuned&#x27;]].head(12)</span></pre></div><div class='outp'><div class='prompt'>Out[5]:</div><div class='outbox'><table border="1" class="dataframe">
+</table><p><i>22 rows; first 12 shown</i></p></div></div></div><h2>The same test on a table with nothing in it</h2><p>A test that passes on noise tests nothing. <code>planted_context(null=True)</code> deals every column and edge out at random.</p><div class='cell'><div class='in'><div class='prompt'>In [4]:</div><pre class='code'><span class='ln' data-tip='A synthetic organism with nothing to find.'>noise = S.planted_context(null=True)</span><span class='ln' data-tip='Should FAIL or be INCONCLUSIVE.'>S.get(&#x27;physical_partners&#x27;).test(noise)</span></pre></div><div class='outp'><div class='prompt'>Out[4]:</div><div class='outbox'><p><b style='color:#c0392b'>FAIL</b> -- correct calls per hidden gene 0.125 against 0.147 ± 0.046 under 20 runs on shuffled labels (bar 0.227, p 0.667); effect -0.022, needed +0.050; 88 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 20 runs on shuffled labels.</i></p></div></div></div><h2>Calibration: where each strategy works</h2><p><code>scripts/calibrate_strategies.py</code> runs every strategy's self-test over a grid of its settings, several held-out labels and five seeds, and summarises each configuration with a mean and a 95% interval. Skill puts every metric on one scale: 0 is chance, 1 is perfect.</p><div class='cell'><div class='in'><div class='prompt'>In [5]:</div><pre class='code'><span class='ln' data-tip='Every strategy, with the grade and skill calibration measured for it.'>cal = S.overview(&#x27;Tg&#x27;)</span><span class='ln' data-tip='Skill at the defaults and at the tuned setting, on one scale.'>cal[[&#x27;number&#x27;, &#x27;name&#x27;, &#x27;grade&#x27;, &#x27;skill_default&#x27;, &#x27;skill_tuned&#x27;]].head(12)</span></pre></div><div class='outp'><div class='prompt'>Out[5]:</div><div class='outbox'><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>number</th>
-      <th>title</th>
+      <th>name</th>
       <th>grade</th>
       <th>skill_default</th>
       <th>skill_tuned</th>
@@ -207,84 +207,84 @@ pre.code .ln:hover { background:#324257; }
   <tbody>
     <tr>
       <td>1</td>
-      <td>Hold out a category and search for a map that finds it</td>
+      <td>Hold out a category and search for a map that finds it (UMAP + HDBSCAN)</td>
       <td>weak</td>
       <td>0.0711</td>
       <td>0.0701</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>Find the map where your gene list is one cluster</td>
+      <td>Find the map where your gene list is one cluster (UMAP + HDBSCAN)</td>
       <td>weak</td>
       <td>0.0251</td>
       <td>0.0283</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>Ask which categories the data can rediscover</td>
+      <td>Ask which categories the data can rediscover (UMAP + neighbour AUROC)</td>
       <td>reliable</td>
       <td>0.499</td>
       <td>0.502</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>Keep only the modules that survive the whole walk</td>
+      <td>Keep only the modules that survive the whole walk (UMAP + HDBSCAN co-clustering)</td>
       <td>weak</td>
       <td>0.073</td>
       <td>0.0451</td>
     </tr>
     <tr>
       <td>5</td>
-      <td>Tune a map without labels, then read what it encodes</td>
+      <td>Tune a map without labels, then read what it encodes (UMAP + HDBSCAN, chi-square / Kruskal-Wallis)</td>
       <td>reliable</td>
       <td>0.949</td>
       <td>0.965</td>
     </tr>
     <tr>
       <td>6</td>
-      <td>Find which kind of evidence carries a label</td>
+      <td>Find which kind of evidence carries a label (kNN ablation)</td>
       <td>reliable</td>
       <td>0.14</td>
       <td>0.159</td>
     </tr>
     <tr>
       <td>7</td>
-      <td>Call a gene by the genes that behave like it</td>
+      <td>Call a gene by the genes that behave like it (kNN)</td>
       <td>reliable</td>
       <td>0.225</td>
       <td>0.293</td>
     </tr>
     <tr>
       <td>8</td>
-      <td>Call a gene by its neighbours on the map</td>
+      <td>Call a gene by its neighbours on the map (UMAP + kNN)</td>
       <td>weak</td>
       <td>0.125</td>
       <td>0.114</td>
     </tr>
     <tr>
       <td>9</td>
-      <td>Name a cluster by the label it is enriched for</td>
+      <td>Name a cluster by the label it is enriched for (UMAP + HDBSCAN, hypergeometric)</td>
       <td>reliable</td>
       <td>0.332</td>
       <td>0.409</td>
     </tr>
     <tr>
       <td>10</td>
-      <td>Find genes whose label their neighbours contradict</td>
+      <td>Find genes whose label their neighbours contradict (kNN + network neighbours)</td>
       <td>reliable</td>
       <td>0.638</td>
       <td>0.65</td>
     </tr>
     <tr>
       <td>11</td>
-      <td>Diffuse a label across one measured network</td>
+      <td>Diffuse a label across one measured network (random walk with restart)</td>
       <td>reliable</td>
       <td>0.125</td>
       <td>0.136</td>
     </tr>
     <tr>
       <td>12</td>
-      <td>Let every network vote, weighted by what it has earned</td>
+      <td>Let every network vote, weighted by what it has earned (chance-weighted ensemble vote)</td>
       <td>weak</td>
       <td>0.3</td>
       <td>0.264</td>

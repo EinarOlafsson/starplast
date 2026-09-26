@@ -134,6 +134,8 @@ class StrategyPanel(QtWidgets.QWidget):
         self.tree = QtWidgets.QTreeWidget()
         self.tree.setHeaderLabels(["strategy", "calibrated"])
         self.tree.setRootIsDecorated(True)
+        # Names end with the method in brackets; a narrow panel drops the middle, not the method.
+        self.tree.setTextElideMode(QtCore.Qt.TextElideMode.ElideMiddle)
         self.tree.itemSelectionChanged.connect(self._tree_selected)
         self._populate()
 
@@ -228,7 +230,7 @@ class StrategyPanel(QtWidgets.QWidget):
             verdict = m.get("verdict", "") if isinstance(m, dict) else ""
             cal = CAL.entry(s.key, self.ctx.organism) or {}
             shown = cal.get("grade") or verdict
-            item = QtWidgets.QTreeWidgetItem([f"{s.number:02d} · {s.title}", shown])
+            item = QtWidgets.QTreeWidgetItem([f"{s.number:02d} · {s.name}", shown])
             item.setData(0, QtCore.Qt.ItemDataRole.UserRole, s.key)
             item.setToolTip(0, TH.tip(s.tooltip))
             item.setToolTip(1, TH.tip(CAL.sentence(s.key, self.ctx.organism)
@@ -254,7 +256,7 @@ class StrategyPanel(QtWidgets.QWidget):
             for j in range(fam.childCount()):
                 item = fam.child(j)
                 s = S.get(item.data(0, QtCore.Qt.ItemDataRole.UserRole))
-                hay = " ".join([s.title, s.question, s.family, s.tooltip, s.key]).lower()
+                hay = " ".join([s.name, s.question, s.family, s.tooltip, s.key]).lower()
                 hide = bool(needle) and needle not in hay
                 item.setHidden(hide)
                 shown += not hide
@@ -302,7 +304,7 @@ class StrategyPanel(QtWidgets.QWidget):
             gcol = GRADE_COLORS.get(cal.get("grade"), "#888888")
             mline = (f"<p style='color:{gcol}'><b>{e(CAL.sentence(s.key, self.ctx.organism))}"
                      f"</b></p>" + mline)
-        return (f"<h3>{s.number:02d} · {e(s.title)}</h3><p><i>{e(s.question)}</i></p>{mline}"
+        return (f"<h3>{s.number:02d} · {e(s.name)}</h3><p><i>{e(s.question)}</i></p>{mline}"
                 f"{paras}<h4>Walkthrough</h4><ol>{steps}</ol>"
                 f"<h4>How it is tested</h4><p>{e(s.test_description)}</p>"
                 f"<h4>Settings</h4><ul>{params}</ul>{needs}"
@@ -482,7 +484,7 @@ class StrategyPanel(QtWidgets.QWidget):
         if self.current is None:
             return None
         s, params = self.current, self.settings()
-        name = f"strategy {s.number:02d} {'test' if kind == 'test' else 'run'}: {s.title}"
+        name = f"strategy {s.number:02d} {'test' if kind == 'test' else 'run'}: {s.name}"
 
         def work(log, should_stop):
             ctx = self.ctx.bound(log=log, should_stop=should_stop)

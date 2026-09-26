@@ -72,7 +72,8 @@ def write_tables(results: dict, stamp: str) -> list:
             r = by_key.get(s.key)
             if r is None:
                 continue
-            rows.append({"number": s.number, "key": s.key, "title": s.title, "family": s.family,
+            rows.append({"number": s.number, "key": s.key, "name": s.name, "method": s.method,
+                         "family": s.family,
                          **{k: v for k, v in r.items() if k not in ("strategy", "numbers")}})
         path = os.path.join(folder, f"selftests_{org}.csv")
         pd.DataFrame(rows).to_csv(path, index=False)
@@ -110,13 +111,13 @@ def write_doc(results: dict) -> str:
     for s in S.catalog():
         cells = [(results.get(o, {}).get(s.key) or {}).get("verdict", "--")
                  for o in ORGANISMS if o in results]
-        lines.append(f"| {s.number:02d} | [{s.title}](#{s.number:02d}-{s.key}) | {s.family} | "
+        lines.append(f"| {s.number:02d} | [{s.name}](#{s.number:02d}-{s.key}) | {s.family} | "
                      + " | ".join(cells) + " |")
     lines.append("")
     for fam in S.families():
         lines += [f"## {fam}", ""]
         for s in [x for x in S.catalog() if x.family == fam]:
-            lines += [f"### {s.number:02d} {s.key}", "", f"**{s.title}.** *{s.question}*", ""]
+            lines += [f"### {s.number:02d} {s.key}", "", f"**{s.name}.** *{s.question}*", ""]
             lines += [p for para in s.explanation.split("\n\n") for p in (para, "")]
             lines += ["**Walkthrough**", ""]
             lines += [f"{i}. {step}" for i, step in enumerate(s.walkthrough, 1)] + [""]

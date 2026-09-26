@@ -338,6 +338,7 @@ def _holdout_search_test(ctx, p):
 register(Strategy(
     key="holdout_search", number=1, family=MAP,
     title="Hold out a category and search for a map that finds it",
+    method="UMAP + HDBSCAN",
     question="Is there a combination of measurements and map settings under which a label nobody "
              "showed the map falls out as clusters -- and which unlabelled genes land in them?",
     tooltip="Hides one label entirely, walks feature sets and UMAP/HDBSCAN settings, and keeps the "
@@ -532,6 +533,7 @@ def _geneset_hunt_test(ctx, p):
 register(Strategy(
     key="geneset_hunt", number=2, family=MAP,
     title="Find the map where your gene list is one cluster",
+    method="UMAP + HDBSCAN",
     question="Under some combination of measurements and settings, do the genes on my list fall "
              "into a single cluster -- and what else is in it?",
     tooltip="Walks maps and clusterings looking for one cluster with high precision AND recall "
@@ -690,6 +692,7 @@ def _atlas_test(ctx, p):
 register(Strategy(
     key="recoverability_atlas", number=3, family=MAP,
     title="Ask which categories the data can rediscover",
+    method="UMAP + neighbour AUROC",
     question="Of all the categories of a label, which ones do the measurements actually encode -- "
              "and which would no map, however tuned, ever find?",
     tooltip="Builds one map blind to a label and scores every category of that label by how "
@@ -819,6 +822,7 @@ def _consensus_test(ctx, p):
 register(Strategy(
     key="consensus_modules", number=4, family=MAP,
     title="Keep only the modules that survive the whole walk",
+    method="UMAP + HDBSCAN co-clustering",
     question="Which groups of genes stay together whatever map settings are chosen -- the "
              "structure that is in the data rather than in one lucky configuration?",
     tooltip="Clusters many maps, counts how often each pair of genes lands in the same cluster, and "
@@ -1006,6 +1010,7 @@ def _battery_test(ctx, p):
 register(Strategy(
     key="blind_battery", number=5, family=MAP,
     title="Tune a map without labels, then read what it encodes",
+    method="UMAP + HDBSCAN, chi-square / Kruskal-Wallis",
     question="If I build a map from one kind of evidence only -- expression, say -- and tune it for "
              "structure alone, which OTHER measurements do its clusters turn out to separate?",
     tooltip="Builds a map from one family of measurements, tunes it only for cluster structure, "
@@ -1138,6 +1143,7 @@ def _ablation_test(ctx, p):
 register(Strategy(
     key="block_ablation", number=6, family=MAP,
     title="Find which kind of evidence carries a label",
+    method="kNN ablation",
     question="Which measurements actually carry the information about this label -- and which "
              "are redundant with others or irrelevant to it?",
     tooltip="Scores each kind of measurement alone and the combination without it, out of fold, "
@@ -1224,6 +1230,7 @@ def _knn_test(ctx, p):
 register(Strategy(
     key="feature_knn", number=7, family=NEIGHBOURS,
     title="Call a gene by the genes that behave like it",
+    method="kNN",
     question="For a gene with no label, what label do the genes most similar to it across every "
              "permitted measurement carry?",
     tooltip="Finds each unlabelled gene's nearest labelled genes across all permitted measurements "
@@ -1313,6 +1320,7 @@ def _map_nn_test(ctx, p):
 register(Strategy(
     key="map_neighbours", number=8, family=NEIGHBOURS,
     title="Call a gene by its neighbours on the map",
+    method="UMAP + kNN",
     question="On a map built without the label, which label do a gene's nearest placed neighbours "
              "carry?",
     tooltip="Builds one map blind to the label and calls each unlabelled gene by the vote of its "
@@ -1423,6 +1431,7 @@ def _guilt_test(ctx, p):
 register(Strategy(
     key="cluster_guilt", number=9, family=NEIGHBOURS,
     title="Name a cluster by the label it is enriched for",
+    method="UMAP + HDBSCAN, hypergeometric",
     question="Which clusters of a label-blind map hold one label far more often than chance, and "
              "what does that make of their unlabelled members?",
     tooltip="Clusters a label-blind map, tests every cluster against every label for enrichment "
@@ -1546,6 +1555,7 @@ def _outliers_test(ctx, p):
 register(Strategy(
     key="label_outliers", number=10, family=NEIGHBOURS,
     title="Find genes whose label their neighbours contradict",
+    method="kNN + network neighbours",
     question="Which labelled genes sit among genes that almost all carry a different label -- "
              "possible mislabels, dual-localized or moonlighting proteins?",
     tooltip="Scores every labelled gene by how little its measurement neighbours and network "
@@ -1629,6 +1639,7 @@ def _propagation_test(ctx, p):
 register(Strategy(
     key="layer_propagation", number=11, family=NETWORKS,
     title="Diffuse a label across one measured network",
+    method="random walk with restart",
     question="If labels flow along the edges of one kind of measured relationship, where do they "
              "end up -- and how much of a label does that relationship carry?",
     tooltip="Seeds each label on the genes that carry it and lets it diffuse along one edge layer "
@@ -1734,6 +1745,7 @@ def _vote_test(ctx, p):
 register(Strategy(
     key="layer_vote", number=12, family=NETWORKS,
     title="Let every network vote, weighted by what it has earned",
+    method="chance-weighted ensemble vote",
     question="If every measured relationship and the measurements themselves vote on a gene's "
              "label, each weighted by how good it has proven to be, what is the verdict?",
     tooltip="Each permitted edge layer and the measurement-space neighbours vote on every gene; "
@@ -1816,6 +1828,7 @@ def _physical_test(ctx, p):
 register(Strategy(
     key="physical_partners", number=13, family=NETWORKS,
     title="Place a protein by the proteins it physically touches",
+    method="weighted partner vote",
     question="For a protein crosslinked to or pulled down with labelled proteins, what does its "
              "physical company say about where it lives and what it joins?",
     tooltip="Calls genes by the labels of their measured physical partners -- crosslinks and "
@@ -1901,6 +1914,7 @@ def _ec_default(ctx):
 register(Strategy(
     key="structural_homology", number=14, family=NETWORKS,
     title="Annotate function through shared fold",
+    method="TM-score-weighted vote",
     question="What does a protein's fold -- its structural similarity to annotated proteins -- say "
              "about its enzymatic class or domain family, even without sequence homology?",
     tooltip="Transfers a functional annotation (EC class by default) along the structural-"
@@ -2006,6 +2020,7 @@ def _multiplex_test(ctx, p):
 register(Strategy(
     key="multiplex_modules", number=15, family=NETWORKS,
     title="Find the communities several networks agree on",
+    method="modularity + Louvain consensus",
     question="Which groups of genes are communities in more than one kind of measured relationship "
              "at once -- co-expressed AND co-fit AND crosslinked?",
     tooltip="Finds communities in each permitted edge layer and keeps the groupings the layers "
@@ -2251,6 +2266,7 @@ def _link_test(ctx, p):
 register(Strategy(
     key="link_prediction", number=16, family=NETWORKS,
     title="Predict the contacts an interactome missed",
+    method="logistic regression",
     question="Which pairs of proteins are probably in physical contact although the crosslinking "
              "or pulldown experiment never saw them together?",
     tooltip="Learns what distinguishes a measured contact from a random pair -- shared partners, "
@@ -2368,6 +2384,7 @@ def _attention_test(ctx, p):
 register(Strategy(
     key="attention_correction", number=17, family=NETWORKS,
     title="Read the literature for biology, not fame",
+    method="publication-count residual",
     question="Which pairs of genes are written about together more than their popularity "
              "explains -- and are those pairs biologically related?",
     tooltip="Ranks co-mentioned gene pairs by the residual over what each gene's publication count "
@@ -2483,6 +2500,7 @@ def _unwritten_test(ctx, p):
 register(Strategy(
     key="unwritten_links", number=18, family=NETWORKS,
     title="List what the data says and the literature has not written",
+    method="multi-layer support count",
     question="Which gene pairs do several independent measurements link that no paper has ever "
              "mentioned together?",
     tooltip="Counts, for every gene pair, how many independent measurement layers link it, and "
@@ -2579,6 +2597,7 @@ def _classifier_test(ctx, p):
 register(Strategy(
     key="supervised_classifier", number=19, family=LEARN,
     title="Train a classifier on the known genes and call the rest",
+    method="logistic regression",
     question="Given every permitted measurement, which label does a model trained on the labelled "
              "genes assign to each unlabelled one -- and which measurements does it rely on?",
     tooltip="Fits a class-balanced logistic regression from the permitted measurements to the "
@@ -2679,6 +2698,7 @@ def _pu_test(ctx, p):
 register(Strategy(
     key="positive_unlabeled", number=20, family=LEARN,
     title="Learn what makes your list special, from positives alone",
+    method="PU bagging, logistic regression",
     question="Given only genes that ARE something -- no list of genes that are not -- which other "
              "genes look most like them?",
     tooltip="Trains many classifiers, each separating your list from a random draw of the rest of "
@@ -2812,6 +2832,7 @@ MODEL = Param("model", "choice", "Model",
 register(Strategy(
     key="trait_regression", number=21, family=LEARN,
     title="Predict a measurement, and find the genes that defy the prediction",
+    method="gradient boosting / ridge",
     question="How well does everything else predict this measurement -- and which genes are far "
              "from what their profile says they should be?",
     tooltip="Predicts a numeric measurement such as a fitness score from every other permitted "
@@ -2930,6 +2951,7 @@ def _impute_test(ctx, p):
 register(Strategy(
     key="masked_imputation", number=22, family=LEARN,
     title="Fill in what was never measured, and say where that is honest",
+    method="soft-impute, low-rank SVD",
     question="For each measurement, can its missing values be estimated from the rest of the table "
              "-- and for which measurements is that impossible?",
     tooltip="Completes the whole measurement table with a low-rank model, after first hiding a "
@@ -3033,6 +3055,7 @@ def _shift_test(ctx, p):
 register(Strategy(
     key="condition_shift", number=23, family=LEARN,
     title="Find what matters more in one condition, and why",
+    method="residual + gradient boosting / ridge",
     question="Which genes matter more (or less) in one condition than a baseline predicts -- in "
              "the mouse rather than the dish, say -- and can the rest of the data explain which?",
     tooltip="Takes a condition screen and its baseline, keeps the part of the condition the "
@@ -3190,6 +3213,7 @@ def _enrichment_test(ctx, p):
 register(Strategy(
     key="set_enrichment", number=24, family=LISTS,
     title="Describe what your gene list has in common",
+    method="hypergeometric + rank-sum",
     question="What distinguishes the genes on my list from the rest -- which categories are they "
              "enriched in, which measurements are shifted, which networks are dense among them?",
     tooltip="Tests a gene list against every category, every measurement and every measured "
@@ -3272,6 +3296,7 @@ def _expansion_test(ctx, p):
 register(Strategy(
     key="seed_expansion", number=25, family=LISTS,
     title="Grow your gene list along the networks",
+    method="random walk with restart",
     question="Starting from my genes, which others does a walk across every measured network "
              "keep returning to?",
     tooltip="Seeds a random walk on your list and lets it wander across every permitted measured "
@@ -3471,6 +3496,7 @@ def _disagreement_test(ctx, p):
 register(Strategy(
     key="split_clusters", number=26, family=CONTRAST,
     title="Find categories that split in two on another measurement",
+    method="UMAP + HDBSCAN",
     question="Which clusters agree about one thing -- a compartment -- and split cleanly on "
              "another -- a stage, a phase, a fitness level?",
     tooltip="Finds clusters that are homogeneous for one label and divided on a second label or "
@@ -3569,6 +3595,7 @@ def _conjunction_test(ctx, p):
 register(Strategy(
     key="conjunctions", number=27, family=CONTRAST,
     title="Find kinds of gene defined by two labels at once",
+    method="UMAP + HDBSCAN",
     question="Which clusters are enriched for a COMBINATION of two labels -- more than either "
              "label alone would make them?",
     tooltip="Finds clusters enriched for a pair of labels beyond what each label's own enrichment "
@@ -3696,6 +3723,7 @@ def _paralog_test(ctx, p):
 register(Strategy(
     key="paralog_divergence", number=28, family=CONTRAST,
     title="Find paralogs that changed jobs",
+    method="profile correlation",
     question="Which duplicated genes behave differently across the measurements -- evidence that "
              "one copy took on a new role?",
     tooltip="Compares every paralog pair's measurement profiles and ranks them by divergence; "
@@ -3866,6 +3894,7 @@ def _transfer_test(ctx, p):
 register(Strategy(
     key="ortholog_transfer", number=29, family=SPECIES,
     title="Carry what one parasite shows to the other",
+    method="orthogroup mapping",
     question="What does a gene's ortholog in the other parasite say about it -- its essentiality, "
              "its stage, its localization?",
     tooltip="Maps a measurement or label from the other species onto this one through shared "
@@ -3984,6 +4013,7 @@ def _stratum_test(ctx, p):
 register(Strategy(
     key="stratum_focus", number=30, family=SPECIES,
     title="Test inference on the genes orthology cannot reach",
+    method="kNN",
     question="Can lineage-specific, hypothetical or understudied genes be called as reliably as "
              "the rest -- and what are they?",
     tooltip="Calls genes in one stratum -- lineage-specific, hypothetical, understudied -- from "
@@ -4090,6 +4120,7 @@ def _tri_test(ctx, p, restrict=None, key="triangulation"):
 register(Strategy(
     key="triangulation", number=31, family=COMBINE,
     title="Call a gene only when independent strategies agree",
+    method="kNN + logistic + network vote",
     question="Where do measurement neighbours, a trained classifier and the networks give the same "
              "answer -- and how much more often is that answer right?",
     tooltip="Runs three strategies built on different evidence -- measurement neighbours, a "
@@ -4153,6 +4184,7 @@ def _understudied_test(ctx, p):
 register(Strategy(
     key="understudied_first", number=32, family=COMBINE,
     title="Put the understudied genes first",
+    method="kNN + logistic + network vote",
     question="Which genes nobody has written about can the data say something trustworthy about?",
     tooltip="Makes agreed calls for genes with no focal or substantive publication and ranks them "
             "by agreement times novelty; its test scores precision on understudied genes alone, "

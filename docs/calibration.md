@@ -18,7 +18,7 @@ Each strategy is scored against ITS OWN null, and a null can be too easy. The cl
 
 ## Toxoplasma gondii
 
-### 01 · Hold out a category and search for a map that finds it -- weak
+### 01 · Hold out a category and search for a map that finds it (UMAP + HDBSCAN) -- weak
 
 25% of the label is hidden (whole orthogroups together, so no gene is recovered through a visible paralog). The walk is built as set -- its genes per map (up to 4,000), feature sets and grids (up to three values each); the configuration, and the one cluster that best isolates each label, are both chosen using visible labels only. Metric: for each label, the F1 of its hidden genes against its chosen cluster, weighted by size -- does the structure found on known genes hold the unknown ones? Null: the same chosen clusters scored after permuting the hidden genes' labels, 100 times. (A second search on shuffled labels was the null once; it picks the largest cluster for every label, which scores F1 near 2p by size alone and made the null beat real labels.) Pass: above the null's 95th percentile by at least 0.05.
 
@@ -45,7 +45,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `n_neighbors` -- 10, 30: 0.06; 15, 50: 0.06; 25, 100: 0.08
 * `selection` -- eom, leaf: 0.07
 
-### 02 · Find the map where your gene list is one cluster -- weak
+### 02 · Find the map where your gene list is one cluster (UMAP + HDBSCAN) -- weak
 
 30% of the set is hidden; the walk as set (genes per map up to 4,000, feature sets, up to three values of each grid) picks the cluster with the best F1 for the other 70%. Metric: F1 of the hidden members against that cluster's other genes -- precision is the share of the cluster's candidates that are hidden members, recall the share of hidden members among them. Null: 20 random sets of the same size through the same walk. Pass: above the null's 95th percentile by at least 0.05 (an F1 margin; random sets score about 0.04).
 
@@ -71,7 +71,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `min_cluster_size` -- 10, 25: 0.03; 20, 50: 0.03
 * `n_neighbors` -- 10, 30: 0.03; 15, 50: 0.02
 
-### 03 · Ask which categories the data can rediscover -- reliable
+### 03 · Ask which categories the data can rediscover (UMAP + neighbour AUROC) -- reliable
 
 30% of the label is hidden. The atlas is built from visible genes only (leave-one-out neighbour AUROC per category); hidden genes are then scored by their visible neighbours. Metric: mean hidden-gene AUROC over the categories the atlas ranks in its top half. Null: the same with the visible labels shuffled, 20 times. Pass: above the null's 95th percentile by 0.05. The rank agreement between atlas and hidden recovery is reported.
 
@@ -96,7 +96,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `k` -- 15: 0.50; 5: 0.45; 50: 0.52
 
-### 04 · Keep only the modules that survive the whole walk -- weak
+### 04 · Keep only the modules that survive the whole walk (UMAP + HDBSCAN co-clustering) -- weak
 
 Modules are built from a small walk on 1,500 genes without the label. 25% of the label is hidden; the module that best isolates each label is chosen on the visible genes. Metric: the size-weighted F1 of each label's hidden genes against its chosen module. Null: the same modules scored after permuting the hidden genes' labels, 100 times -- a large module scores the same either way and earns nothing. Pass: above the null's 95th percentile by 0.05.
 
@@ -121,7 +121,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `threshold` -- 0.3: 0.07; 0.5: 0.07; 0.8: 0.05
 
-### 05 · Tune a map without labels, then read what it encodes -- reliable
+### 05 · Tune a map without labels, then read what it encodes (UMAP + HDBSCAN, chi-square / Kruskal-Wallis) -- reliable
 
 Pattern 5. One label-free map on up to 2,000 genes. Held-out features significant at q < 0.05 on a random half of the genes are the findings; each is re-tested (p < 0.05) on the other half. Metric: share that replicate. Null: the same with the second half's cluster labels permuted, 10 times. Pass: above the null's 95th percentile by 0.2, with at least three findings.
 
@@ -136,7 +136,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `map_from` -- PTM: 0.95; chemistry: 0.97; fitness: 0.94; host effect: 0.86; immunity: 0.64; localization: 0.96; metabolism: 0.84; phenotype: 0.82; protein abundance: 0.94; regulation: 0.91; relation: 0.92; sequence: 0.96; transcription: 0.95; translation: 0.97
 
-### 06 · Find which kind of evidence carries a label -- reliable
+### 06 · Find which kind of evidence carries a label (kNN ablation) -- reliable
 
 25% of the label is hidden. Each kind of evidence is ranked by cross-validated accuracy on the visible labels; the top-ranked one then predicts the hidden labels. Metric: its hidden accuracy. Null: the hidden accuracy of every kind of evidence, i.e. choosing at random. Pass: above the null's 80th percentile by 0.02 (with ~15 kinds of evidence the 95th would demand the single best, which asks more than a ranking must deliver).
 
@@ -161,7 +161,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `k` -- 15: 0.14; 5: 0.16; 50: 0.10
 
-### 07 · Call a gene by the genes that behave like it -- reliable
+### 07 · Call a gene by the genes that behave like it (kNN) -- reliable
 
 Pattern 1: 25% of the label hidden by whole orthogroups; each hidden gene called by its k nearest visible genes with the same vote threshold. Metric: hidden genes called correctly. Null: 10 runs with visible labels shuffled. Pass: above the null's 95th percentile by 0.05.
 
@@ -187,7 +187,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `k` -- 15: 0.20; 5: 0.27; 50: 0.12
 * `min_share` -- 0.0: 0.22; 0.3: 0.23; 0.6: 0.15
 
-### 08 · Call a gene by its neighbours on the map -- weak
+### 08 · Call a gene by its neighbours on the map (UMAP + kNN) -- weak
 
 Pattern 1 on the genes the map places (up to 2,500): 25% of the label hidden by whole orthogroups; hidden genes called by their k nearest visible genes in the map. Null: 20 runs on shuffled visible labels. Pass: above the null's 95th percentile by 0.05.
 
@@ -213,7 +213,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `k` -- 15: 0.13; 5: 0.15; 50: 0.13
 * `n_neighbors` -- 10: 0.15; 25: 0.14; 60: 0.13
 
-### 09 · Name a cluster by the label it is enriched for -- reliable
+### 09 · Name a cluster by the label it is enriched for (UMAP + HDBSCAN, hypergeometric) -- reliable
 
 Pattern 1 scored by precision, on the genes a blind map places (up to 2,500): 25% of the label hidden; the enrichment is recomputed from visible labels, and the calls it makes on hidden genes are scored -- the strategy abstains on noise and unenriched clusters by design, so what matters is how often a call is right. Null: 20 runs on shuffled visible labels. Pass: above the null's 95th percentile by 0.1.
 
@@ -240,7 +240,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `min_lift` -- 1.5: 0.27; 3.0: 0.35
 * `selection` -- eom: 0.21; leaf: 0.34
 
-### 10 · Find genes whose label their neighbours contradict -- reliable
+### 10 · Find genes whose label their neighbours contradict (kNN + network neighbours) -- reliable
 
 5% of the labels (at least ten) are swapped to a wrong class, drawn in proportion to class size. Surprise is computed with the corrupted labels. Metric: AUROC of surprise for the swapped genes among all labelled genes. Null: 20 random sets of the same size. Pass: above the null's 95th percentile by 0.1.
 
@@ -265,7 +265,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `k` -- 15: 0.64; 5: 0.63; 50: 0.63
 
-### 11 · Diffuse a label across one measured network -- reliable
+### 11 · Diffuse a label across one measured network (random walk with restart) -- reliable
 
 Pattern 1: 25% of the label hidden by whole orthogroups; the fields are seeded from visible genes only, so a hidden gene never seeds its own call. Metric: hidden genes called correctly (unreached genes count as misses). Null: 10 runs on shuffled labels. Pass: above the null's 95th percentile by 0.05.
 
@@ -291,7 +291,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `layer` -- coexpression: 0.13; cofitness: 0.07; comention: 0.01; comention_ft: 0.06; cotranslation: 0.02; domain: 0.04; ip_ms: 0.00; orthogroup: 0.00; struct: 0.08; structural_hole: 0.01; unwritten_interaction: 0.07; xlms: 0.07
 * `restart` -- 0.2: 0.05; 0.5: 0.05; 0.8: 0.04
 
-### 12 · Let every network vote, weighted by what it has earned -- weak
+### 12 · Let every network vote, weighted by what it has earned (chance-weighted ensemble vote) -- weak
 
 Pattern 1: 25% of the label hidden; the weights are learned on an inner holdout of the visible labels only, then hidden genes are called. Null: 5 runs with visible labels shuffled (weights relearned each time). Pass: above the null's 95th percentile by 0.05.
 
@@ -316,7 +316,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `k` -- 15: 0.30; 5: 0.30; 50: 0.33
 
-### 13 · Place a protein by the proteins it physically touches -- reliable
+### 13 · Place a protein by the proteins it physically touches (weighted partner vote) -- reliable
 
 Pattern 1 restricted to genes with at least one physical partner: 25% of the label hidden by whole orthogroups; hidden genes called by their visible partners' weighted vote. Null: 20 runs on shuffled labels. Pass: above the null's 95th percentile by 0.05.
 
@@ -337,7 +337,7 @@ Tuned setting, per held-out target:
 | screen_any_phenotype | 0.008 [-0.013, 0.021] | 0% | 5 |
 | stage_enriched_derived | 0.021 [0.008, 0.035] | 0% | 5 |
 
-### 14 · Annotate function through shared fold -- reliable
+### 14 · Annotate function through shared fold (TM-score-weighted vote) -- reliable
 
 Pattern 1 restricted to proteins with a structural neighbour: 25% of the annotation (at the chosen level) hidden by whole orthogroups; hidden proteins called by their visible structural neighbours. Null: 20 runs on shuffled annotations. Pass: above the null's 95th percentile by 0.05.
 
@@ -352,7 +352,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `level` -- 1: 0.64; 2: 0.70; 3: 0.71
 
-### 15 · Find the communities several networks agree on -- weak
+### 15 · Find the communities several networks agree on (modularity + Louvain consensus) -- weak
 
 On genes placed in a community: 25% of the label hidden; the community that best isolates each label is chosen on the visible genes (the communities themselves never see labels). Metric: the size-weighted F1 of each label's hidden genes against its chosen community. Null: the same communities scored after permuting the hidden genes' labels, 100 times. Pass: above the null's 95th percentile by 0.05.
 
@@ -378,7 +378,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `agreement` -- 0.3: 0.04; 0.5: 0.04
 * `resolution` -- 0.5: 0.01; 1.0: 0.05; 2.0: 0.05
 
-### 16 · Predict the contacts an interactome missed -- reliable
+### 16 · Predict the contacts an interactome missed (logistic regression) -- reliable
 
 Pattern 3: 20% of the layer's edges hidden; the model is trained on the rest against DEGREE-MATCHED non-edges -- each with a gene of similar degree at both ends -- and scores the hidden edges against fresh degree-matched non-edges. Against random non-edges this test read AUROC 0.99 on every correlation layer, because a random pair is usually two obscure genes and degree separates them. The layer's source measurements leave the similarity feature with it, and derived, annotation and literature layers are refused as targets. Metric: AUROC. Null: 5 models trained with each gene's evidence read from a random other gene (identities permuted). Pass: above the null's 95th percentile by 0.05.
 
@@ -393,7 +393,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `layer` -- struct: 0.93; xlms: 0.61
 
-### 17 · Read the literature for biology, not fame -- reliable
+### 17 · Read the literature for biology, not fame (publication-count residual) -- reliable
 
 The label is never used to build the literature layer. Among co-mentioned pairs with both genes labelled, the top k by corrected residual are taken (k = the chosen number, capped at a fifth of the pool). Metric: the share of those pairs sharing a label. Null: 20 random sets of k co-mentioned pairs. Pass: above the null's 95th percentile by 0.05.
 
@@ -418,7 +418,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `top` -- 1000: 0.26; 200: 0.38; 50: 0.41
 
-### 18 · List what the data says and the literature has not written -- reliable
+### 18 · List what the data says and the literature has not written (multi-layer support count) -- reliable
 
 Pattern 3 with the literature as truth: co-mentioned pairs among genes in the measurement layers against 5 times as many random pairs. Score: number of measurement layers linking the pair. Metric: AUROC. Null: 10 runs with the measurement layers' gene identities permuted. Pass: above the null's 95th percentile by 0.02.
 
@@ -433,7 +433,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_layers` -- 1: 0.11; 2: 0.11; 3: 0.11
 
-### 19 · Train a classifier on the known genes and call the rest -- reliable
+### 19 · Train a classifier on the known genes and call the rest (logistic regression) -- reliable
 
 Pattern 1: 25% of the label hidden by whole orthogroups; the model is trained on the visible genes and calls the hidden ones. Metric: hidden genes called correctly. Null: the analytic chance level for the same predicted and true class mixes (re-running a multinomial fit on shuffled labels ten times would take longer than it tells). Pass: above that level's 95% bound by 0.05.
 
@@ -458,7 +458,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `C` -- 0.01: 0.32; 0.1: 0.37; 1.0: 0.38; 10.0: 0.37
 
-### 20 · Learn what makes your list special, from positives alone -- reliable
+### 20 · Learn what makes your list special, from positives alone (PU bagging, logistic regression) -- reliable
 
 Pattern 2: 30% of the set hidden; the other 70% are the positives. Metric: AUROC of the hidden members against every other non-query gene. Null: 10 random sets of the same size. Pass: above the null's 95th percentile by 0.1.
 
@@ -483,7 +483,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `bags` -- 15: 0.79; 40: 0.79; 5: 0.79
 
-### 21 · Predict a measurement, and find the genes that defy the prediction -- reliable
+### 21 · Predict a measurement, and find the genes that defy the prediction (gradient boosting / ridge) -- reliable
 
 Pattern 4: 20% of the measured values hidden; the model is trained on the rest. Metric: rank correlation between predicted and hidden values. Null: 3 models trained on the visible values shuffled among the measured genes. Pass: above the null's 95th percentile by 0.1.
 
@@ -507,7 +507,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `model` -- boosted: 0.61; ridge: 0.57
 * `own_kind` -- include: 0.64; leave out: 0.55
 
-### 22 · Fill in what was never measured, and say where that is honest -- reliable
+### 22 · Fill in what was never measured, and say where that is honest (soft-impute, low-rank SVD) -- reliable
 
 Pattern 4 across the whole table: 10% of every column's measured entries hidden, the table completed at the chosen rank. Metric: median over columns of the rank correlation on hidden entries. Null: 3 completions of a table whose columns were each shuffled independently. Pass: above the null's 95th percentile by 0.1.
 
@@ -522,7 +522,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `rank` -- 20: 0.87; 5: 0.74; 60: 0.90
 
-### 23 · Find what matters more in one condition, and why -- weak
+### 23 · Find what matters more in one condition, and why (residual + gradient boosting / ridge) -- weak
 
 Pattern 4 on the shift: 20% of genes with both measurements hidden; a model trained on the rest predicts their shift. Metric: rank correlation on hidden genes. Null: 3 models trained on shuffled shifts. Pass: above the null's 95th percentile by 0.1.
 
@@ -538,7 +538,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `model` -- boosted: 0.10; ridge: 0.08
 * `own_kind` -- include: 0.11; leave out: 0.07
 
-### 24 · Describe what your gene list has in common -- reliable
+### 24 · Describe what your gene list has in common (hypergeometric + rank-sum) -- reliable
 
 Pattern 2: 40% of the set hidden; the profile is built from the other 60% and scores every gene. Metric: AUROC of the hidden members against every other non-query gene. Null: 10 random sets of the same size. Pass: above the null's 95th percentile by 0.1.
 
@@ -559,7 +559,7 @@ Tuned setting, per held-out target:
 | screen_any_phenotype | 0.598 [0.528, 0.672] | 100% | 5 |
 | stage_enriched_derived | 0.442 [0.389, 0.498] | 100% | 5 |
 
-### 25 · Grow your gene list along the networks -- reliable
+### 25 · Grow your gene list along the networks (random walk with restart) -- reliable
 
 Pattern 2: 30% of the set hidden; the walk is seeded from the other 70%. Metric: AUROC of the hidden members against every other non-seed gene. Null: 10 random seed sets of the same size. Pass: above the null's 95th percentile by 0.1.
 
@@ -585,7 +585,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `mode` -- networks: 0.44; networks + measurements: 0.59
 * `restart` -- 0.1: 0.52; 0.3: 0.52; 0.6: 0.52
 
-### 26 · Find categories that split in two on another measurement -- untestable
+### 26 · Find categories that split in two on another measurement (UMAP + HDBSCAN) -- untestable
 
 Pattern 5: significant findings (q < 0.05) on a random half of the mapped genes; each is checked on the other half -- the minority group enriched again among the cluster's A-matching genes (hypergeometric p < 0.05), or the measurement bimodal again. Metric: share replicating. Null: 20 runs with B shuffled within the second half. Pass: above the null's 95th percentile by 0.2 with at least three findings.
 
@@ -599,7 +599,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_cluster_size` -- 
 
-### 27 · Find kinds of gene defined by two labels at once -- reliable
+### 27 · Find kinds of gene defined by two labels at once (UMAP + HDBSCAN) -- reliable
 
 Pattern 5: conjunctions found on a random half; each is checked on the other half as the second label's enrichment in the cluster among genes carrying the first label (hypergeometric p < 0.05). Metric: share replicating. Null: 20 runs with the second label shuffled within the second half. Pass: above the null's 95th percentile by 0.2 with at least three findings.
 
@@ -614,7 +614,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_cluster_size` -- 15: 0.49; 30: 0.66; 8: 0.48
 
-### 28 · Find paralogs that changed jobs -- reliable
+### 28 · Find paralogs that changed jobs (profile correlation) -- reliable
 
 Paralog pairs with both genes labelled; the labels are withheld from the profiles. Metric: AUROC of divergence for pairs whose labels differ against pairs whose labels match. Null: 20 random reassignments of the divergence values to pairs. Pass: above the null's 95th percentile by 0.05.
 
@@ -639,7 +639,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_shared` -- 10: 0.16; 30: 0.16; 5: 0.16
 
-### 29 · Carry what one parasite shows to the other -- reliable
+### 29 · Carry what one parasite shows to the other (orthogroup mapping) -- reliable
 
 Numeric target: 25% of the genes measured in both species hidden; the relation is learned on the rest. Metric: rank correlation of transferred and hidden values. Null: 20 runs with the ortholog values permuted among genes. Categorical target: Pattern 1 on genes with an ortholog value. Pass: above the null's 95th percentile by 0.1 (numeric) or 0.05 (categorical).
 
@@ -650,7 +650,7 @@ Metric: `rank correlation of transferred and hidden values`. 5 runs, 1 settings,
 | at defaults | -- | 0.314 [0.298, 0.333] | 100% [57, 100] | 0.316 | 0.003 | 5 |
 | tuned | -- | 0.321 [0.293, 0.349] | 100% [34, 100] | 0.323 | 0.003 | 2 |
 
-### 30 · Test inference on the genes orthology cannot reach -- reliable
+### 30 · Test inference on the genes orthology cannot reach (kNN) -- reliable
 
 Pattern 1 restricted to the stratum: 25% of the label hidden by whole orthogroups; only hidden genes inside the stratum are scored. Null: 10 runs on shuffled labels. Pass: above the null's 95th percentile by 0.05.
 
@@ -675,7 +675,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `stratum` -- conserved: 0.25; hypothetical protein: 0.21; lineage-specific: 0.26; understudied: 0.21
 
-### 31 · Call a gene only when independent strategies agree -- reliable
+### 31 · Call a gene only when independent strategies agree (kNN + logistic + network vote) -- reliable
 
 Pattern 1 scored by precision: 25% of the label hidden; each method is trained on the visible genes and the agreed calls on hidden genes are scored. Metric: share of agreed calls that are correct. Null: 5 runs with visible labels shuffled. Pass: above the null's 95th percentile by 0.1. Single-method precisions are reported.
 
@@ -700,7 +700,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_agree` -- 1: 0.28; 2: 0.35; 3: 0.60
 
-### 32 · Put the understudied genes first -- reliable
+### 32 · Put the understudied genes first (kNN + logistic + network vote) -- reliable
 
 Pattern 1 scored by precision and restricted to understudied genes: 25% of the label hidden; agreed calls are scored only on hidden understudied genes. Null: 5 runs with visible labels shuffled. Pass: above the null's 95th percentile by 0.1.
 
@@ -725,7 +725,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_agree` -- 1: 0.26; 2: 0.32; 3: 0.57
 
-### 33 · Put every layer into one space and read a gene's neighbourhood -- reliable
+### 33 · Put every layer into one space and read a gene's neighbourhood (logistic edge model) -- reliable
 
 A layer's edges are hidden by orthogroup -- whole groups at a time, so no hidden edge survives through a visible paralog -- and the layer is removed from its own features. Metric: AUROC of the hidden edges against DEGREE-MATCHED non-pairs, one per hidden edge, matched on connectivity at both ends. Null: 10 configuration-model rewirings of the hidden edges, which keep their degree sequence and destroy their topology, so a model reading fame cannot beat it. Pass: above the null's 95th percentile by 0.05. The AUROC against random non-pairs and the gap between the two are reported as numbers, not as the verdict.
 
@@ -742,7 +742,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `knn` -- 15: 0.47; 5: 0.47
 * `layer` -- coexpression: 0.59; cofitness: 0.14; cotranslation: 0.89; struct: 0.49; xlms: 0.26
 
-### 34 · Train on the networks and rank the edges they are missing -- reliable
+### 34 · Train on the networks and rank the edges they are missing (logistic / spectral embedding) -- reliable
 
 The chosen layer's edges are hidden by orthogroup and the layer is removed from its own features. Metric: AUROC of the hidden edges against DEGREE-MATCHED non-pairs. Null: 10 configuration-model rewirings of the hidden edges, which preserve their degree sequence, so fame alone cannot clear the bar. Pass: above the null's 95th percentile by 0.05. The random-null AUROC, the fame gap, precision@k, the Brier score and the reliability gap are all reported as numbers beside the verdict.
 
@@ -761,7 +761,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 ## Plasmodium falciparum
 
-### 01 · Hold out a category and search for a map that finds it -- weak
+### 01 · Hold out a category and search for a map that finds it (UMAP + HDBSCAN) -- weak
 
 25% of the label is hidden (whole orthogroups together, so no gene is recovered through a visible paralog). The walk is built as set -- its genes per map (up to 4,000), feature sets and grids (up to three values each); the configuration, and the one cluster that best isolates each label, are both chosen using visible labels only. Metric: for each label, the F1 of its hidden genes against its chosen cluster, weighted by size -- does the structure found on known genes hold the unknown ones? Null: the same chosen clusters scored after permuting the hidden genes' labels, 100 times. (A second search on shuffled labels was the null once; it picks the largest cluster for every label, which scores F1 near 2p by size alone and made the null beat real labels.) Pass: above the null's 95th percentile by at least 0.05.
 
@@ -786,7 +786,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `n_neighbors` -- 10, 30: 0.07; 15, 50: 0.06; 25, 100: 0.06
 * `selection` -- eom, leaf: 0.06
 
-### 02 · Find the map where your gene list is one cluster -- reliable
+### 02 · Find the map where your gene list is one cluster (UMAP + HDBSCAN) -- reliable
 
 30% of the set is hidden; the walk as set (genes per map up to 4,000, feature sets, up to three values of each grid) picks the cluster with the best F1 for the other 70%. Metric: F1 of the hidden members against that cluster's other genes -- precision is the share of the cluster's candidates that are hidden members, recall the share of hidden members among them. Null: 20 random sets of the same size through the same walk. Pass: above the null's 95th percentile by at least 0.05 (an F1 margin; random sets score about 0.04).
 
@@ -810,7 +810,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `min_cluster_size` -- 10, 25: 0.25; 20, 50: 0.23
 * `n_neighbors` -- 10, 30: 0.24; 15, 50: 0.24
 
-### 03 · Ask which categories the data can rediscover -- reliable
+### 03 · Ask which categories the data can rediscover (UMAP + neighbour AUROC) -- reliable
 
 30% of the label is hidden. The atlas is built from visible genes only (leave-one-out neighbour AUROC per category); hidden genes are then scored by their visible neighbours. Metric: mean hidden-gene AUROC over the categories the atlas ranks in its top half. Null: the same with the visible labels shuffled, 20 times. Pass: above the null's 95th percentile by 0.05. The rank agreement between atlas and hidden recovery is reported.
 
@@ -833,7 +833,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `k` -- 15: 0.62; 5: 0.53; 50: 0.67
 
-### 04 · Keep only the modules that survive the whole walk -- weak
+### 04 · Keep only the modules that survive the whole walk (UMAP + HDBSCAN co-clustering) -- weak
 
 Modules are built from a small walk on 1,500 genes without the label. 25% of the label is hidden; the module that best isolates each label is chosen on the visible genes. Metric: the size-weighted F1 of each label's hidden genes against its chosen module. Null: the same modules scored after permuting the hidden genes' labels, 100 times -- a large module scores the same either way and earns nothing. Pass: above the null's 95th percentile by 0.05.
 
@@ -856,7 +856,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `threshold` -- 0.3: 0.15; 0.5: 0.14; 0.8: 0.03
 
-### 05 · Tune a map without labels, then read what it encodes -- reliable
+### 05 · Tune a map without labels, then read what it encodes (UMAP + HDBSCAN, chi-square / Kruskal-Wallis) -- reliable
 
 Pattern 5. One label-free map on up to 2,000 genes. Held-out features significant at q < 0.05 on a random half of the genes are the findings; each is re-tested (p < 0.05) on the other half. Metric: share that replicate. Null: the same with the second half's cluster labels permuted, 10 times. Pass: above the null's 95th percentile by 0.2, with at least three findings.
 
@@ -871,7 +871,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `map_from` -- antisense: 0.96; chromprox: 0.94; codon: 0.94; complex: 0.87; engaged: 0.96; ev: 0.57; exon: 0.81; export: 0.90; expr: 0.95; febrile: 0.97; fertility: 0.82; gametocyte: 0.92; has: 0.94; idc: 0.86; is: 0.93; isoelectric: 0.98; latency: 0.87; length: 0.93; m6a: 0.97; mean: 0.97; melting: 0.93; molecular: 0.95; n: 0.96; novel: 0.92; ortholog: 0.92; paralog: 0.92; pb: 0.95; piggybac: 0.85; plddt: 0.92; polysomal: 0.98; protein: 0.97; riboseq: 0.95; sir2: 0.83; sir2a: 0.85; sir2b: 0.87; snp: 0.95; stage: 0.86; steady: 0.96; transcript: 0.93
 
-### 06 · Find which kind of evidence carries a label -- works when tuned
+### 06 · Find which kind of evidence carries a label (kNN ablation) -- works when tuned
 
 25% of the label is hidden. Each kind of evidence is ranked by cross-validated accuracy on the visible labels; the top-ranked one then predicts the hidden labels. Metric: its hidden accuracy. Null: the hidden accuracy of every kind of evidence, i.e. choosing at random. Pass: above the null's 80th percentile by 0.02 (with ~15 kinds of evidence the 95th would demand the single best, which asks more than a ranking must deliver).
 
@@ -894,7 +894,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `k` -- 15: 0.11; 5: 0.14; 50: 0.14
 
-### 07 · Call a gene by the genes that behave like it -- weak
+### 07 · Call a gene by the genes that behave like it (kNN) -- weak
 
 Pattern 1: 25% of the label hidden by whole orthogroups; each hidden gene called by its k nearest visible genes with the same vote threshold. Metric: hidden genes called correctly. Null: 10 runs with visible labels shuffled. Pass: above the null's 95th percentile by 0.05.
 
@@ -918,7 +918,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `k` -- 15: -0.03; 5: 0.04; 50: -0.10
 * `min_share` -- 0.0: -0.02; 0.3: -0.02; 0.6: -0.05
 
-### 08 · Call a gene by its neighbours on the map -- weak
+### 08 · Call a gene by its neighbours on the map (UMAP + kNN) -- weak
 
 Pattern 1 on the genes the map places (up to 2,500): 25% of the label hidden by whole orthogroups; hidden genes called by their k nearest visible genes in the map. Null: 20 runs on shuffled visible labels. Pass: above the null's 95th percentile by 0.05.
 
@@ -942,7 +942,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `k` -- 15: -0.12; 5: -0.05; 50: -0.09
 * `n_neighbors` -- 10: -0.05; 25: -0.09; 60: -0.12
 
-### 09 · Name a cluster by the label it is enriched for -- reliable
+### 09 · Name a cluster by the label it is enriched for (UMAP + HDBSCAN, hypergeometric) -- reliable
 
 Pattern 1 scored by precision, on the genes a blind map places (up to 2,500): 25% of the label hidden; the enrichment is recomputed from visible labels, and the calls it makes on hidden genes are scored -- the strategy abstains on noise and unenriched clusters by design, so what matters is how often a call is right. Null: 20 runs on shuffled visible labels. Pass: above the null's 95th percentile by 0.1.
 
@@ -967,7 +967,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `min_lift` -- 1.5: 0.50; 3.0: 0.43
 * `selection` -- eom: 0.41; leaf: 0.50
 
-### 10 · Find genes whose label their neighbours contradict -- reliable
+### 10 · Find genes whose label their neighbours contradict (kNN + network neighbours) -- reliable
 
 5% of the labels (at least ten) are swapped to a wrong class, drawn in proportion to class size. Surprise is computed with the corrupted labels. Metric: AUROC of surprise for the swapped genes among all labelled genes. Null: 20 random sets of the same size. Pass: above the null's 95th percentile by 0.1.
 
@@ -990,7 +990,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `k` -- 15: 0.76; 5: 0.75; 50: 0.71
 
-### 11 · Diffuse a label across one measured network -- reliable
+### 11 · Diffuse a label across one measured network (random walk with restart) -- reliable
 
 Pattern 1: 25% of the label hidden by whole orthogroups; the fields are seeded from visible genes only, so a hidden gene never seeds its own call. Metric: hidden genes called correctly (unreached genes count as misses). Null: 10 runs on shuffled labels. Pass: above the null's 95th percentile by 0.05.
 
@@ -1014,7 +1014,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `layer` -- coexpression: 0.26; comention: 0.01; cotranslation: 0.04; domain: 0.10; ip_ms: -0.01; orthogroup: 0.00; struct: 0.02; xlms: 0.00
 * `restart` -- 0.2: 0.05; 0.5: 0.04; 0.8: 0.04
 
-### 12 · Let every network vote, weighted by what it has earned -- reliable
+### 12 · Let every network vote, weighted by what it has earned (chance-weighted ensemble vote) -- reliable
 
 Pattern 1: 25% of the label hidden; the weights are learned on an inner holdout of the visible labels only, then hidden genes are called. Null: 5 runs with visible labels shuffled (weights relearned each time). Pass: above the null's 95th percentile by 0.05.
 
@@ -1037,7 +1037,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `k` -- 15: 0.49; 5: 0.55; 50: 0.31
 
-### 13 · Place a protein by the proteins it physically touches -- weak
+### 13 · Place a protein by the proteins it physically touches (weighted partner vote) -- weak
 
 Pattern 1 restricted to genes with at least one physical partner: 25% of the label hidden by whole orthogroups; hidden genes called by their visible partners' weighted vote. Null: 20 runs on shuffled labels. Pass: above the null's 95th percentile by 0.05.
 
@@ -1056,7 +1056,7 @@ Tuned setting, per held-out target:
 | pb_transferred_phenotype | 0.018 [-0.100, 0.109] | 0% | 5 |
 | stage_enriched_derived | nan [nan, nan] | nan% | 0 |
 
-### 14 · Annotate function through shared fold -- reliable
+### 14 · Annotate function through shared fold (TM-score-weighted vote) -- reliable
 
 Pattern 1 restricted to proteins with a structural neighbour: 25% of the annotation (at the chosen level) hidden by whole orthogroups; hidden proteins called by their visible structural neighbours. Null: 20 runs on shuffled annotations. Pass: above the null's 95th percentile by 0.05.
 
@@ -1071,7 +1071,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `level` -- 1: 0.59; 2: 0.66; 3: 0.75
 
-### 15 · Find the communities several networks agree on -- weak
+### 15 · Find the communities several networks agree on (modularity + Louvain consensus) -- weak
 
 On genes placed in a community: 25% of the label hidden; the community that best isolates each label is chosen on the visible genes (the communities themselves never see labels). Metric: the size-weighted F1 of each label's hidden genes against its chosen community. Null: the same communities scored after permuting the hidden genes' labels, 100 times. Pass: above the null's 95th percentile by 0.05.
 
@@ -1095,7 +1095,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `agreement` -- 0.3: 0.02; 0.5: 0.03
 * `resolution` -- 0.5: 0.01; 1.0: 0.01; 2.0: 0.04
 
-### 16 · Predict the contacts an interactome missed -- reliable
+### 16 · Predict the contacts an interactome missed (logistic regression) -- reliable
 
 Pattern 3: 20% of the layer's edges hidden; the model is trained on the rest against DEGREE-MATCHED non-edges -- each with a gene of similar degree at both ends -- and scores the hidden edges against fresh degree-matched non-edges. Against random non-edges this test read AUROC 0.99 on every correlation layer, because a random pair is usually two obscure genes and degree separates them. The layer's source measurements leave the similarity feature with it, and derived, annotation and literature layers are refused as targets. Metric: AUROC. Null: 5 models trained with each gene's evidence read from a random other gene (identities permuted). Pass: above the null's 95th percentile by 0.05.
 
@@ -1110,7 +1110,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `layer` -- struct: 0.96
 
-### 17 · Read the literature for biology, not fame -- weak
+### 17 · Read the literature for biology, not fame (publication-count residual) -- weak
 
 The label is never used to build the literature layer. Among co-mentioned pairs with both genes labelled, the top k by corrected residual are taken (k = the chosen number, capped at a fifth of the pool). Metric: the share of those pairs sharing a label. Null: 20 random sets of k co-mentioned pairs. Pass: above the null's 95th percentile by 0.05.
 
@@ -1133,7 +1133,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `top` -- 1000: 0.26; 200: 0.26; 50: 0.07
 
-### 18 · List what the data says and the literature has not written -- reliable
+### 18 · List what the data says and the literature has not written (multi-layer support count) -- reliable
 
 Pattern 3 with the literature as truth: co-mentioned pairs among genes in the measurement layers against 5 times as many random pairs. Score: number of measurement layers linking the pair. Metric: AUROC. Null: 10 runs with the measurement layers' gene identities permuted. Pass: above the null's 95th percentile by 0.02.
 
@@ -1148,7 +1148,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_layers` -- 1: 0.11; 2: 0.11; 3: 0.11
 
-### 19 · Train a classifier on the known genes and call the rest -- reliable
+### 19 · Train a classifier on the known genes and call the rest (logistic regression) -- reliable
 
 Pattern 1: 25% of the label hidden by whole orthogroups; the model is trained on the visible genes and calls the hidden ones. Metric: hidden genes called correctly. Null: the analytic chance level for the same predicted and true class mixes (re-running a multinomial fit on shuffled labels ten times would take longer than it tells). Pass: above that level's 95% bound by 0.05.
 
@@ -1171,7 +1171,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `C` -- 0.01: 0.39; 0.1: 0.40; 1.0: 0.40; 10.0: 0.36
 
-### 20 · Learn what makes your list special, from positives alone -- reliable
+### 20 · Learn what makes your list special, from positives alone (PU bagging, logistic regression) -- reliable
 
 Pattern 2: 30% of the set hidden; the other 70% are the positives. Metric: AUROC of the hidden members against every other non-query gene. Null: 10 random sets of the same size. Pass: above the null's 95th percentile by 0.1.
 
@@ -1194,7 +1194,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `bags` -- 15: 0.89; 40: 0.89; 5: 0.89
 
-### 21 · Predict a measurement, and find the genes that defy the prediction -- reliable
+### 21 · Predict a measurement, and find the genes that defy the prediction (gradient boosting / ridge) -- reliable
 
 Pattern 4: 20% of the measured values hidden; the model is trained on the rest. Metric: rank correlation between predicted and hidden values. Null: 3 models trained on the visible values shuffled among the measured genes. Pass: above the null's 95th percentile by 0.1.
 
@@ -1218,7 +1218,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `model` -- boosted: 0.52; ridge: 0.46
 * `own_kind` -- include: 0.49; leave out: 0.49
 
-### 22 · Fill in what was never measured, and say where that is honest -- reliable
+### 22 · Fill in what was never measured, and say where that is honest (soft-impute, low-rank SVD) -- reliable
 
 Pattern 4 across the whole table: 10% of every column's measured entries hidden, the table completed at the chosen rank. Metric: median over columns of the rank correlation on hidden entries. Null: 3 completions of a table whose columns were each shuffled independently. Pass: above the null's 95th percentile by 0.1.
 
@@ -1233,7 +1233,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `rank` -- 20: 0.70; 5: 0.53; 60: 0.67
 
-### 23 · Find what matters more in one condition, and why -- reliable
+### 23 · Find what matters more in one condition, and why (residual + gradient boosting / ridge) -- reliable
 
 Pattern 4 on the shift: 20% of genes with both measurements hidden; a model trained on the rest predicts their shift. Metric: rank correlation on hidden genes. Null: 3 models trained on shuffled shifts. Pass: above the null's 95th percentile by 0.1.
 
@@ -1249,7 +1249,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `model` -- boosted: 0.64; ridge: 0.58
 * `own_kind` -- include: 0.61; leave out: 0.61
 
-### 24 · Describe what your gene list has in common -- reliable
+### 24 · Describe what your gene list has in common (hypergeometric + rank-sum) -- reliable
 
 Pattern 2: 40% of the set hidden; the profile is built from the other 60% and scores every gene. Metric: AUROC of the hidden members against every other non-query gene. Null: 10 random sets of the same size. Pass: above the null's 95th percentile by 0.1.
 
@@ -1268,7 +1268,7 @@ Tuned setting, per held-out target:
 | pb_transferred_phenotype | 0.949 [0.946, 0.951] | 100% | 5 |
 | stage_enriched_derived | 0.693 [0.663, 0.720] | 100% | 5 |
 
-### 25 · Grow your gene list along the networks -- reliable
+### 25 · Grow your gene list along the networks (random walk with restart) -- reliable
 
 Pattern 2: 30% of the set hidden; the walk is seeded from the other 70%. Metric: AUROC of the hidden members against every other non-seed gene. Null: 10 random seed sets of the same size. Pass: above the null's 95th percentile by 0.1.
 
@@ -1292,7 +1292,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `mode` -- networks: 0.43; networks + measurements: 0.86
 * `restart` -- 0.1: 0.64; 0.3: 0.64; 0.6: 0.64
 
-### 26 · Find categories that split in two on another measurement -- untestable
+### 26 · Find categories that split in two on another measurement (UMAP + HDBSCAN) -- untestable
 
 Pattern 5: significant findings (q < 0.05) on a random half of the mapped genes; each is checked on the other half -- the minority group enriched again among the cluster's A-matching genes (hypergeometric p < 0.05), or the measurement bimodal again. Metric: share replicating. Null: 20 runs with B shuffled within the second half. Pass: above the null's 95th percentile by 0.2 with at least three findings.
 
@@ -1306,7 +1306,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_cluster_size` -- 
 
-### 27 · Find kinds of gene defined by two labels at once -- untestable
+### 27 · Find kinds of gene defined by two labels at once (UMAP + HDBSCAN) -- untestable
 
 Pattern 5: conjunctions found on a random half; each is checked on the other half as the second label's enrichment in the cluster among genes carrying the first label (hypergeometric p < 0.05). Metric: share replicating. Null: 20 runs with the second label shuffled within the second half. Pass: above the null's 95th percentile by 0.2 with at least three findings.
 
@@ -1320,7 +1320,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_cluster_size` -- 
 
-### 28 · Find paralogs that changed jobs -- no skill
+### 28 · Find paralogs that changed jobs (profile correlation) -- no skill
 
 Paralog pairs with both genes labelled; the labels are withheld from the profiles. Metric: AUROC of divergence for pairs whose labels differ against pairs whose labels match. Null: 20 random reassignments of the divergence values to pairs. Pass: above the null's 95th percentile by 0.05.
 
@@ -1343,7 +1343,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_shared` -- 10: -0.02; 30: -0.02; 5: -0.02
 
-### 29 · Carry what one parasite shows to the other -- reliable
+### 29 · Carry what one parasite shows to the other (orthogroup mapping) -- reliable
 
 Numeric target: 25% of the genes measured in both species hidden; the relation is learned on the rest. Metric: rank correlation of transferred and hidden values. Null: 20 runs with the ortholog values permuted among genes. Categorical target: Pattern 1 on genes with an ortholog value. Pass: above the null's 95th percentile by 0.1 (numeric) or 0.05 (categorical).
 
@@ -1354,7 +1354,7 @@ Metric: `rank correlation of transferred and hidden values`. 5 runs, 1 settings,
 | at defaults | -- | 0.313 [0.298, 0.328] | 100% [57, 100] | 0.316 | 0.004 | 5 |
 | tuned | -- | 0.322 [0.312, 0.333] | 100% [34, 100] | 0.329 | 0.01 | 2 |
 
-### 30 · Test inference on the genes orthology cannot reach -- weak
+### 30 · Test inference on the genes orthology cannot reach (kNN) -- weak
 
 Pattern 1 restricted to the stratum: 25% of the label hidden by whole orthogroups; only hidden genes inside the stratum are scored. Null: 10 runs on shuffled labels. Pass: above the null's 95th percentile by 0.05.
 
@@ -1377,7 +1377,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `stratum` -- conserved: -0.02; lineage-specific: -0.02; understudied: -0.11
 
-### 31 · Call a gene only when independent strategies agree -- works when tuned
+### 31 · Call a gene only when independent strategies agree (kNN + logistic + network vote) -- works when tuned
 
 Pattern 1 scored by precision: 25% of the label hidden; each method is trained on the visible genes and the agreed calls on hidden genes are scored. Metric: share of agreed calls that are correct. Null: 5 runs with visible labels shuffled. Pass: above the null's 95th percentile by 0.1. Single-method precisions are reported.
 
@@ -1400,7 +1400,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_agree` -- 1: 0.03; 2: 0.15; 3: 0.63
 
-### 32 · Put the understudied genes first -- works when tuned
+### 32 · Put the understudied genes first (kNN + logistic + network vote) -- works when tuned
 
 Pattern 1 scored by precision and restricted to understudied genes: 25% of the label hidden; agreed calls are scored only on hidden understudied genes. Null: 5 runs with visible labels shuffled. Pass: above the null's 95th percentile by 0.1.
 
@@ -1423,7 +1423,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 
 * `min_agree` -- 1: -0.05; 2: 0.06; 3: 0.67
 
-### 33 · Put every layer into one space and read a gene's neighbourhood -- reliable
+### 33 · Put every layer into one space and read a gene's neighbourhood (logistic edge model) -- reliable
 
 A layer's edges are hidden by orthogroup -- whole groups at a time, so no hidden edge survives through a visible paralog -- and the layer is removed from its own features. Metric: AUROC of the hidden edges against DEGREE-MATCHED non-pairs, one per hidden edge, matched on connectivity at both ends. Null: 10 configuration-model rewirings of the hidden edges, which keep their degree sequence and destroy their topology, so a model reading fame cannot beat it. Pass: above the null's 95th percentile by 0.05. The AUROC against random non-pairs and the gap between the two are reported as numbers, not as the verdict.
 
@@ -1440,7 +1440,7 @@ Sensitivity (mean skill at each value, all other settings pooled):
 * `knn` -- 15: 0.54; 5: 0.54
 * `layer` -- coexpression: 0.39; cotranslation: 0.44; struct: 0.79
 
-### 34 · Train on the networks and rank the edges they are missing -- reliable
+### 34 · Train on the networks and rank the edges they are missing (logistic / spectral embedding) -- reliable
 
 The chosen layer's edges are hidden by orthogroup and the layer is removed from its own features. Metric: AUROC of the hidden edges against DEGREE-MATCHED non-pairs. Null: 10 configuration-model rewirings of the hidden edges, which preserve their degree sequence, so fame alone cannot clear the bar. Pass: above the null's 95th percentile by 0.05. The random-null AUROC, the fame gap, precision@k, the Brier score and the reliability gap are all reported as numbers beside the verdict.
 

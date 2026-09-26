@@ -75,12 +75,24 @@ def test_selecting_a_strategy_rebuilds_its_form(panel):
 def test_the_filter_hides_what_does_not_match(panel):
     panel.filter.setText("gene list")
     shown = [leaf for leaf in _leaves(panel) if not leaf.isHidden()]
-    assert shown and all("list" in (S.get(l.data(0, 256)).title + S.get(l.data(0, 256)).question
+    assert shown and all("list" in (S.get(l.data(0, 256)).name + S.get(l.data(0, 256)).question
                                      + S.get(l.data(0, 256)).tooltip).lower() for l in shown)
     panel.filter.setText("zzzz-no-match")
     assert all(panel.tree.topLevelItem(i).isHidden() for i in range(panel.tree.topLevelItemCount()))
     panel.filter.setText("")
     assert not any(leaf.isHidden() for leaf in _leaves(panel))
+
+
+def test_the_list_shows_each_method_and_the_filter_finds_it(panel):
+    """The method is in the name the list shows, so filtering by it finds every strategy using it."""
+    for leaf in _leaves(panel):
+        assert f"({S.get(leaf.data(0, 256)).method})" in leaf.text(0)
+    from PyQt6 import QtCore
+    assert panel.tree.textElideMode() == QtCore.Qt.TextElideMode.ElideMiddle
+    panel.filter.setText("hdbscan")
+    shown = {leaf.data(0, 256) for leaf in _leaves(panel) if not leaf.isHidden()}
+    assert {s.key for s in S.catalog() if "HDBSCAN" in s.method} <= shown
+    panel.filter.setText("")
 
 
 def test_every_control_in_the_panel_explains_itself(panel):
