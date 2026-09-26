@@ -43,7 +43,8 @@ import pandas as pd
 
 from .embedding import EmbeddingSpec, columns_for, embed
 from .search import (ABSENCE_LABELS, CLUSTER_GRID, DEFAULT_SEED, TARGETS, all_edge_layers,
-                     best_clustering, excluded_detail, excluded_edges, map_quality, score_recovery,
+                     best_clustering, excluded_detail, excluded_edges, excluded_layers,
+                     map_quality, score_recovery,
                      tune_umap)
 
 #: How much a control label must be enriched in a cluster, over its own rate across the whole map,
@@ -276,7 +277,8 @@ def close(nodes: pd.DataFrame, recipe: Recipe, threshold: float = 0.8) -> Closur
     excluded = {c: f"primary: {why}" for c, why in
                 excluded_detail(nodes, holdout, threshold=threshold, scope=recipe.scope).items()}
     banned_layers = {L: f"primary: {why}"
-                     for L, why in excluded_edges(holdout, recipe.scope).items()}
+                     for L, why in excluded_layers(nodes, holdout, recipe.scope,
+                                                   threshold).items()}
 
     control = TARGETS.get(recipe.validation_holdout, recipe.validation_holdout)
     out.control_column = control
@@ -295,7 +297,7 @@ def close(nodes: pd.DataFrame, recipe: Recipe, threshold: float = 0.8) -> Closur
         for c, why in excluded_detail(nodes, control, threshold=threshold,
                                       scope=recipe.scope).items():
             excluded.setdefault(c, f"control: {why}")
-        for L, why in excluded_edges(control, recipe.scope).items():
+        for L, why in excluded_layers(nodes, control, recipe.scope, threshold).items():
             banned_layers.setdefault(L, f"control: {why}")
     out.excluded = excluded
     out.excluded_layers = banned_layers

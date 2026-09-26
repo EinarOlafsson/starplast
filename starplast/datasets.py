@@ -475,17 +475,72 @@ REGISTRY = [
             note="Competitive growth, NOT essentiality. Predicted from protein features at R2 = 0.453, "
                  "while the other screens are predicted at -0.105 to +0.102."),
     Dataset("crispr_invivo_composite", "In vivo CRISPR composite scores", "DNA", "CRISPR_screen",
-            "Peritoneum, lung, liver, spleen composite scores",
-            ("fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver", "fit_invivo_spleen"),
-            "7,395 (90.8%)", pmid="31481656",
-            accession="ToxoDB tgonGt1CrisprFunc*",
-            url=TOXODB + ("?organism=%5B%22Toxoplasma%20gondii%20GT1%22%5D&reportConfig=%7B%22"
-                          "attributes%22%3A%5B%22primary_key%22%2C%22tgonGt1CrisprMeanPhenotype%22"
-                          "%2C%22tgonGt1CrisprFuncPE%22%2C%22tgonGt1CrisprFuncLung%22%2C%22"
-                          "tgonGt1CrisprFuncLiver%22%2C%22tgonGt1CrisprFuncSpleen%22%5D%2C%22"
-                          "includeHeader%22%3Atrue%2C%22attachmentType%22%3A%22plain%22%7D"),
-            note="Corresponds to the in vivo CRISPR platform paper; confirm before citing. The URL "
-                 "pulls the tgonGt1CrisprFunc* tracks straight from ToxoDB, keyed on GT1."),
+            "Differential fitness x significance in six mouse tissues after acute infection",
+            ("fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver", "fit_invivo_spleen",
+             "fit_invivo_heart", "fit_invivo_brain"),
+            "7,395 (90.8%)", pmid="38977907",
+            accession="Nat Microbiol 2024 Supplementary Data 5, sheet Genome-Wide Differential",
+            citation="Giuliano CJ et al., CRISPR-based functional profiling of the Toxoplasma "
+                     "gondii genome during acute murine infection. Nat Microbiol 2024;9:2323-2343",
+            url="https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-024-01754-2/"
+                "MediaObjects/41564_2024_1754_MOESM3_ESM.zip",
+            path="datasets/DNA/CRISPR_screen/38977907/"
+                 "Supplementary Data 5 (Genome-wide mouse screen scores).xlsx",
+            note="CITATION CORRECTED 2026-09-26. The four original tissues were fetched from "
+                 "ToxoDB's tgonGt1CrisprFunc* tracks and cited to the 2019 platform paper "
+                 "(PMID 31481656), whose own supplements are 36-620-gene libraries. They are this "
+                 "study's genome-wide composite scores: Spearman 0.9991-0.9993 and a maximum "
+                 "absolute difference of 5e-8 against the supplement, each tissue matching itself "
+                 "best among all 32 numeric columns. Heart and brain come from the same sheet "
+                 "(scripts/derive_deposits.py; starplast/deposits.py) and are the only in vivo "
+                 "heart and brain CRISPR fitness there is; both are bottleneck-limited (medians "
+                 "-7.9 and -7.1 raw), so most genes carry little information there. The ToxoDB "
+                 "attributes are gone from release 71, so the supplement is now the durable "
+                 "source. GT1 accessions; the 68 loci GT1 splits into A/B and ME49 does not are "
+                 "averaged onto the one ME49 gene."),
+    Dataset("crispr_serum_restriction", "Serum-restriction CRISPR screens (10% vs 1% FBS)",
+            "DNA", "CRISPR_screen",
+            "Fitness in lipid-rich and lipid-limited medium, and the lipid-dependence difference",
+            ("fit_lipid_rich_p8", "fit_lipid_limited_p8", "fit_lipid_rich_p4p5",
+             "fit_lipid_limited_p4p5", "fit_serum_differential_p8",
+             "fit_serum_differential_p4p5"),
+            "7,395 (90.8%)", pmid="41407671",
+            accession="Nat Commun 2025 Supplementary Data 2 (MOESM4)",
+            citation="Bitew MA et al., A genome-wide CRISPR screen identifies GRA38 as a key "
+                     "regulator of lipid homeostasis during Toxoplasma gondii adaptation to "
+                     "lipid-rich conditions. Nat Commun 2025;16:11177",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12711892/supplementaryFiles",
+            path="datasets/DNA/CRISPR_screen/41407671/41467_2025_66137_MOESM4_ESM.xlsx",
+            note="Two independent genome-wide screens in HFF (Exp1 at passage 8; Exp2 at "
+                 "passages 4, 5, 8), each in 10% and 1% serum. Replicate screens of one passage "
+                 "are averaged. Sign as published and verified on the data: negative fitness = "
+                 "depleted = needed (ribosomal proteins median -7.8 against -4.9, AUC 0.79-0.84); "
+                 "a NEGATIVE differential means needed in lipid-RICH medium -- GRA38 "
+                 "(TGGT1_312420), the paper's gene, is -6.66 in 10% and +0.33 in 1%. Fitness in "
+                 "either serum IS fibroblast fitness again (rho 0.79-0.85 with fit_invitro_hff) "
+                 "and is grouped with it for leakage; the differential is orthogonal to it "
+                 "(rho 0.06) and is the new axis. The workbook's lipidomics sheets are not "
+                 "gene-level and are not used."),
+    Dataset("crispr_glucose_limitation", "CRISPR screen without glucose or glutamine", "DNA",
+            "CRISPR_screen",
+            "Fitness on glucose alone, on glutamine alone, and which carbon source a gene needs",
+            ("fit_complete_medium_2025", "fit_no_glutamine", "fit_no_glucose",
+             "fit_glucose_dependence", "fit_glucose_dependence_fdr"), "7,393 (90.8%)",
+            accession="bioRxiv 10.1101/2025.07.27.667068 Table S1",
+            citation="Uboldi AD et al., Differentiation of Toxoplasma into latent forms is linked "
+                     "to central carbon metabolism and requires a GID/CTLH-type E3 ligase. "
+                     "bioRxiv 2025, doi:10.1101/2025.07.27.667068 (preprint)",
+            url="https://www.biorxiv.org/content/10.1101/2025.07.27.667068v1.supplementary-material",
+            path="datasets/DNA/CRISPR_screen/glucose_limitation_2025/TableS1.xlsx",
+            note="An eighth genome-wide knockout screen, and the first that changes the carbon "
+                 "source. Arms are measured against the post-selection library, so they are not "
+                 "directly comparable with the input-referenced screens; the dependence column is "
+                 "the authors' own contrast. Verified against the paper's biology: GDH1 ranks 1 of "
+                 "8,155 and PEPCK 2 among genes needed without glucose, with BFD1 and all four GID "
+                 "subunits on the other side. The differential is NOISY -- replicates agree at rho "
+                 "0.10-0.17 and only 175 genes reach FDR 0.05 -- so the FDR ships beside it and the "
+                 "column is a screen, not a measurement of one gene. A preprint: cite the journal "
+                 "version once it exists."),
     Dataset("crispr_macrophage", "Macrophage CRISPR screens", "DNA", "CRISPR_screen",
             "Naive BMDM and IFN-gamma survival", ("fit_naive_bmdm", "fit_ifng"), "7,402 (90.9%)",
             pmid="33067458",
@@ -889,6 +944,116 @@ REGISTRY = [
                  "tail and a gene absent from it is stable OR was not measured, which the column "
                  "cannot distinguish. Consistent with that: ribosomal-protein transcripts, which are "
                  "classically stable, are under-represented among the responders at odds 0.37."),
+    Dataset("mrna_decay_gse329845", "Genome-wide mRNA decay after actinomycin D",
+            "transcription", "RNAseq",
+            "Wild-type mRNA remaining after 4 h of transcription block, relative to the median",
+            ("mrna_log2_remaining_4h_actinomycin",), "5,944 (73%)", pmid="42580337",
+            accession="GSE329845",
+            citation="Giuliano CJ et al., Convergent evolution of metabolic regulation governs "
+                     "redox adaptation in Toxoplasma. Cell 2026",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE329nnn/GSE329845/suppl/"
+                "GSE329845_Processed_Data.csv.gz",
+            path="datasets/transcription/RNAseq/GSE329845/GSE329845_Processed_Data.csv.gz",
+            note="Raw counts, one 4 h time point, three replicates of vehicle and actinomycin D in "
+                 "wild type (the TgPRO knockout arms are not used). Median-of-ratios size factors, "
+                 "a moderated linear model with replicate blocking (starplast/deposits.py). No "
+                 "spike-in, so a global loss of RNA is normalized away: 0 means as stable as the "
+                 "typical transcript, not fully stable, and this is a relative decay, never a "
+                 "half-life. Replicates agree at rho 0.96; ribosomal-protein mRNAs are stable "
+                 "(+1.4 against -0.15, p = 6e-14). Genome-wide where mrna_stability is the "
+                 "412-gene unstable tail of another study; the two do not correlate (rho -0.03 on "
+                 "286 shared genes), which that tail's selection explains, so they are kept as "
+                 "separate columns in different units."),
+    Dataset("gse302107_riboseq", "High-resolution ribosome profiling (5'UTR study)",
+            "translation", "Ribo-seq",
+            "Translation efficiency per replicate, footprints over matched RNA",
+            ("te302107_tachy_r1", "te302107_tachy_r2"), "5,992 (73.6%)",
+            accession="GSE302107",
+            citation="Peters ML et al., 5' untranslated regions tune Toxoplasma translation. "
+                     "bioRxiv 2025, doi:10.1101/2025.07.14.664749 (preprint)",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE302nnn/GSE302107/suppl/"
+                "GSE302107_RPKM_and_TE.xlsx",
+            path="datasets/translation/riboseq/GSE302107/GSE302107_RPKM_and_TE.xlsx",
+            note="ME49 in HFF, two replicates of paired footprints and total RNA. The authors' TE is "
+                 "a LINEAR ratio (verified: footprint RPKM / RNA RPKM for every row); shipped as "
+                 "log2 to match the other TE columns, with a zero ratio -- no footprints counted -- "
+                 "as missing rather than minus infinity. The most reproducible TE in the organism "
+                 "(replicates rho 0.973, against 0.87 for GSE99395 and 0.67 for GSE245775) and "
+                 "concordant with both (rho 0.78-0.79). Ribosomal proteins are the high-TE class "
+                 "(median ratio 2.86 against 1.08). A preprint: cite the journal version once it "
+                 "exists. The host sheet (7,943 human genes) is not used yet."),
+    Dataset("gse302108_utr5", "5' UTR architecture from reannotated transcripts", "transcription",
+            "RNAseq",
+            "Length, upstream AUGs and ORFs, and start-context strength of each 5' UTR",
+            ("utr5_length", "utr5_n_uaugs", "utr5_n_uorfs", "utr5_n_oorfs",
+             "utr5_n_inframe_ext", "utr5_kozak_score"), "5,992 (73.6%)",
+            accession="GSE302108 / bioRxiv 10.1101/2025.07.14.664749 Supplementary Data 4",
+            citation="Peters ML et al., 5' untranslated regions tune Toxoplasma translation. "
+                     "bioRxiv 2025, doi:10.1101/2025.07.14.664749 (preprint)",
+            url="https://www.biorxiv.org/content/10.1101/2025.07.14.664749v1.supplementary-material",
+            path="datasets/translation/riboseq/GSE302108/"
+                 "SupplementaryData4_TE_info_and_UTRfeatures.xlsx",
+            note="Sequence properties of the untranslated region, from a reannotation built on "
+                 "long reads and ribosome footprints -- not a measurement of the gene's behaviour, "
+                 "which is why they are their own slot rather than part of translation. They "
+                 "predict translation the way they should: upstream AUGs against efficiency at rho "
+                 "-0.47, Kozak strength with it at +0.22. The study's reporter assay is NOT here: "
+                 "its 30,235 scored sequences are variants of twelve endogenous UTRs, so it "
+                 "describes sequences, not genes."),
+    Dataset("brady_subtypes", "Bradyzoite subtypes in the mouse brain (single-cell)",
+            "transcription", "scRNAseq",
+            "Average expression in each of five subtypes of in vivo bradyzoite",
+            ("bzsub_A_expr", "bzsub_B_expr", "bzsub_C_expr", "bzsub_D_expr", "bzsub_E_expr"),
+            "7,739 (95%)", pmid="41580398", accession="GSE311669 / Supplementary Data 1",
+            citation="Ulu A et al., Bradyzoite subtypes rule the crossroads of Toxoplasma "
+                     "development. Nat Commun 2026;17:1783",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12917143/supplementaryFiles",
+            path="datasets/transcription/scRNAseq/41580398/41467_2026_68489_MOESM3_ESM.xlsx",
+            note="Five columns because a tissue cyst is not one transcriptional state, which is "
+                 "the paper's finding. All five are bradyzoites -- BAG1, LDH2, ENO1, SRS9 and CST1 "
+                 "above the 92nd percentile in every group, SAG1 below the 41st -- and Group B "
+                 "carries SRS22A at 3.27 against 0.34-0.66 elsewhere, the subtype signature. Mean "
+                 "expression agrees with the shipped in vivo bradyzoite column at rho 0.75."),
+    Dataset("iron_depletion_proteome", "Proteome and transcriptome without iron", "translation",
+            "proteomics",
+            "Change in each protein, and in each transcript, after 24 h of iron depletion",
+            ("iron_depletion_protein_log2fc", "iron_depletion_protein_padj",
+             "iron_depletion_rna_log2fc"), "5,047 protein / 3,113 RNA", pmid="41925342",
+            accession="mBio Tables S1 and S2",
+            citation="Hanna JC et al., Global translational and metabolic remodeling during iron "
+                     "deprivation in Toxoplasma gondii. mBio 2026;17:e0378825",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13170339/supplementaryFiles",
+            path="datasets/translation/proteomics/41925342/mbio.03788-25-s0002.xlsx",
+            note="The same paper the metabolome_iron row cites, whose proteome and RNA-seq that "
+                 "row never took. Genome-scale on the protein side (5,052 groups, 3 + 3 "
+                 "replicates); the RNA side is only the 3,113 genes of the paper's joint analysis, "
+                 "a significance-filtered subset, so a missing RNA value is 'not reported' rather "
+                 "than 'unchanged'. Iron-sulfur proteins fall furthest, as they must. Despite the "
+                 "title there is NO ribosome profiling in this paper -- translation is measured by "
+                 "microscopy -- so it fills protein abundance under stress, not translation, and "
+                 "the earlier reading of it as a translation dataset was wrong."),
+    Dataset("organelle_surface_turboid", "Organelle-surface proximity proteomes", "post_translation",
+            "BioID",
+            "Enrichment near the cytosolic face of the apicoplast, mitochondrion and ER",
+            ("surface_apicoplast_log2fc", "surface_apicoplast_stringent",
+             "surface_mitochondrion_log2fc", "surface_mitochondrion_stringent",
+             "surface_er_log2fc", "surface_er_stringent"), "742 proteins",
+            accession="bioRxiv 10.64898/2026.08.05.743015 Table S1",
+            citation="Parker KV, Huet D. A proximity biotinylation approach for the identification "
+                     "of membrane contact site proteins in Toxoplasma gondii. bioRxiv 2026, "
+                     "doi:10.64898/2026.08.05.743015 (preprint)",
+            url="https://www.biorxiv.org/content/10.64898/2026.08.05.743015v1."
+                "supplementary-material",
+            path="datasets/post_translation/BioID/organelle_surface_turboid_2026/media-1.xlsx",
+            note="Baits anchored in each outer membrane with their tail in the cytosol, so this is "
+                 "the OUTSIDE of an organelle -- a different question from hyperLOPIT, which says "
+                 "which organelle a protein is in. Checked against it anyway: stringent "
+                 "mitochondrial hits are mitochondrial at odds 30 and ER hits ER at 11.7, but the "
+                 "apicoplast bait reaches only 2.5 (p = 0.05) and its hits are mostly ER and "
+                 "nuclear, so that arm is recorded as proximity and not as a location. A protein a "
+                 "bait never detected keeps a MISSING flag, not a zero: that bait did not test it. "
+                 "One accession in the deposit is a backtick, repaired from its product text only "
+                 "because that text names exactly one gene. A preprint."),
     Dataset("myristoylome", "N-myristoylated proteome", "post_translation", "proteomics",
             "The authors' confidence that this protein is myristoylated, 3 high to 1 low",
             ("myristoylation_confidence",), "65 substrates", pmid="32618271",
@@ -1215,13 +1380,9 @@ REGISTRY = [
                  "collapsing those would tell the map that nearly every gene has been checked."),
     Dataset("plasmodb_pf3d7_attributes", "Plasmodium falciparum 3D7 gene attributes",
             "reference", "annotation",
-            "The second species: sequence, orthology, domains, strain SNPs and piggyBac fitness",
+            "The second species: gene structure and the protein's sequence properties",
             ("length", "molecular_weight", "isoelectric_point", "transcript_length", "exon_count",
-             "n_tm", "is_tm", "has_signal_peptide", "ortholog_number", "orthogroup",
-             "paralog_number", "has_paralog", "n_interpro", "has_domain", "interpro_ids",
-             "pfam_ids", "snp_total_all_strains", "snp_nonsynonymous", "snp_synonymous",
-             "snp_noncoding", "snp_stop_codon", "snp_nonsyn_syn_ratio",
-             "piggybac_mis", "piggybac_mfs"),
+             "n_tm", "is_tm", "has_signal_peptide"),
             "5,720 P. falciparum genes",
             accession="PlasmoDB GenesByTaxon attributesTabular",
             url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
@@ -1236,12 +1397,239 @@ REGISTRY = [
                  "inheriting Toxoplasma's -- inheriting them would have claimed falciparum slots "
                  "with gondii numbers. The report is served by the TRANSCRIPT record type, so "
                  "5,791 rows describe 5,720 genes and the rows are collapsed on the longest "
-                 "transcript; taking the row count at face value double-weights 71 genes. The "
-                 "piggyBac direction is the other trap: a LOW mutagenesis index means the gene "
-                 "resists disruption and is therefore essential, and inverting it would swap the "
-                 "essential and dispensable genomes without crashing, so the test checks it "
-                 "against biology -- ribosomal proteins come out at median MIS 0.15 and the var, "
-                 "rifin and stevor families at 0.94."),
+                 "transcript; taking the row count at face value double-weights 71 genes. One "
+                 "download carries five unrelated sources, which were one registry entry until "
+                 "2026-09-25: its columns' median association with each other was 0.13, with 70% "
+                 "of pairs under 0.2 -- the loosest 'experiment' in either table -- so holding out "
+                 "the piggyBac screen also removed codon usage, orthology and SNPs. They are five "
+                 "entries now, and the closure's 'shared experiment' rule means what it says."),
+    Dataset("plasmodb_pf3d7_orthology", "Plasmodium falciparum 3D7 orthology and paralogy",
+            "reference", "orthology",
+            "OrthoMCL group, ortholog and paralog counts from the same PlasmoDB report",
+            ("ortholog_number", "orthogroup", "paralog_number", "has_paralog"),
+            "5,720 P. falciparum genes",
+            accession="PlasmoDB GenesByTaxon attributesTabular",
+            url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
+                "GenesByTaxon/reports/attributesTabular",
+            path="starplast/data/pf_nodes.parquet",
+            note="Split from the attribute report on 2026-09-25 (see plasmodb_pf3d7_attributes): "
+                 "orthology is computed from sequence across species, not measured on this gene, "
+                 "and grouping it with the piggyBac screen closed one over the other for nothing."),
+    Dataset("plasmodb_pf3d7_domains", "Plasmodium falciparum 3D7 InterPro domains",
+            "reference", "domains",
+            "InterPro and Pfam domain content from the same PlasmoDB report",
+            ("n_interpro", "has_domain", "interpro_ids", "pfam_ids"),
+            "5,720 P. falciparum genes",
+            accession="PlasmoDB GenesByTaxon attributesTabular",
+            url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
+                "GenesByTaxon/reports/attributesTabular",
+            path="starplast/data/pf_nodes.parquet",
+            note="Split from the attribute report on 2026-09-25 (see plasmodb_pf3d7_attributes)."),
+    Dataset("plasmodb_pf3d7_snps", "Plasmodium falciparum strain variation",
+            "reference", "variation",
+            "SNP counts across sequenced strains, from the same PlasmoDB report",
+            ("snp_total_all_strains", "snp_nonsynonymous", "snp_synonymous", "snp_noncoding",
+             "snp_stop_codon", "snp_nonsyn_syn_ratio"),
+            "5,720 P. falciparum genes",
+            accession="PlasmoDB GenesByTaxon attributesTabular",
+            url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
+                "GenesByTaxon/reports/attributesTabular",
+            path="starplast/data/pf_nodes.parquet",
+            note="Split from the attribute report on 2026-09-25 (see plasmodb_pf3d7_attributes): "
+                 "population sequencing is its own experiment, and its columns are the only ones "
+                 "of the report that are associated with each other."),
+    Dataset("pf_latency_transcriptome", "Transcription in a drug-tolerant latent state",
+            "transcription", "scRNAseq",
+            "Change in each gene in latent parasites, and the paper's 200-gene latency classifier",
+            ("latency_log2fc", "latency_classifier_member"), "4,887 genes (85%)",
+            accession="bioRxiv 10.64898/2026.09.13.751295 Supplementary Tables 7 and 24",
+            citation="Aryal A et al., Environmental stress promotes entry into a pre-existing "
+                     "latent state in Plasmodium falciparum. bioRxiv 2026, "
+                     "doi:10.64898/2026.09.13.751295 (preprint)",
+            url="https://www.biorxiv.org/content/10.64898/2026.09.13.751295v1."
+                "supplementary-material",
+            path="datasets/transcription/scRNAseq/pf_latency_2026/ST07_media-4.xlsx",
+            note="Dormancy is how this parasite survives artemisinin, and the slot for it was "
+                 "empty. Two things the deposit offers are deliberately NOT shipped. Its FDR: "
+                 "cells were treated as replicates, so 87% of genes reach padj 0.05 and the column "
+                 "would call almost everything significant. And absence as evidence: ribosomal "
+                 "protein genes and most var and rifin genes are missing from the table entirely, "
+                 "so a gene with no value was not shown to be unchanged. No GEO or SRA accession "
+                 "is given in the preprint, which is why the accession field names the supplement."),
+    Dataset("pf_m6a_nanopore", "m6A methylation per transcript", "transcription",
+            "RNAseq",
+            "How many canonical methylation sites a transcript has, and how fully methylated",
+            ("m6a_n_canonical_sites", "m6a_canonical_stoichiometry"), "5,285 genes (92%)",
+            accession="bioRxiv 10.64898/2026.05.19.726191 Supplementary Tables 6-8",
+            citation="Levendis JM et al., m6A positions polyadenylation in Plasmodium falciparum. "
+                     "bioRxiv 2026, doi:10.64898/2026.05.19.726191 (preprint)",
+            url="https://www.biorxiv.org/content/10.64898/2026.05.19.726191v1."
+                "supplementary-material",
+            path="datasets/transcription/m6a/pf_m6a_2026/SupplementaryTables_media-2.xlsx",
+            note="Nanopore direct RNA sequencing, which reads the modification on the molecule "
+                 "rather than inferring it from an antibody pulldown -- so the numbers are per "
+                 "transcript and per site rather than per peak. Sites are the union over three "
+                 "time points; stoichiometry is averaged only over time points where the "
+                 "transcript was read at least 20 times, because below that a fraction is a "
+                 "coin-flip. Validated against an orthogonal chemistry: 67% of GLORI-seq sites "
+                 "fall within one nucleotide of a nanopore site. Only the control arm is used. The "
+                 "deposit's two groups are UNLABELLED; the second has about half the methylation, "
+                 "consistent with the paper's knock-sideways of the methyltransferase, which is "
+                 "enough to choose the control arm but not enough to ship a difference, so no "
+                 "difference is shipped."),
+    Dataset("pf_gametocyte_proteome", "Mature gametocyte proteome and translatome",
+            "translation", "proteomics",
+            "What a stage V gametocyte contains, and which proteins it is still making",
+            ("gametocyte_proteome_log2", "gametocyte_newly_made"), "2,544 proteins (44%)",
+            accession="PXD075878 / bioRxiv 10.64898/2026.03.24.713170 Extended Data Tables 1, 3",
+            citation="Alves E et al., The translatome of quiescent Plasmodium falciparum "
+                     "gametocytes reveals parasite pyridoxal kinase as a target. bioRxiv 2026, "
+                     "doi:10.64898/2026.03.24.713170 (preprint)",
+            url="https://www.biorxiv.org/content/10.64898/2026.03.24.713170v1."
+                "supplementary-material",
+            path="datasets/translation/proteomics/pf_gametocyte_2026/Extended Datasets.xlsx",
+            note="The transmission stage, and the first protein abundance in the map for any stage "
+                 "other than the blood stage. Newly made means found with the click-chemistry "
+                 "label and in no control -- the deposit's group 4, which is the paper's 705 "
+                 "proteins; taking the whole sheet would call 1,179 newly made, because the other "
+                 "groups also appear without the label or when synthesis is blocked. Shipped as "
+                 "MEMBERSHIP rather than an enrichment on purpose: there is one pooled sample per "
+                 "condition and most labelled proteins are absent from the controls, so a ratio "
+                 "would be a ratio to nothing. A protein the label found but the abundance run did "
+                 "not quantify keeps its flag and has no abundance."),
+    Dataset("pf_target_engagement", "Antimalarial target engagement (thermal profiling)",
+            "post_translation", "proteomics",
+            "How many of 25 antimalarials measurably engage each protein, and how many tested it",
+            ("engaged_n_compounds_tested", "engaged_n_compounds_hit"), "3,126 proteins (55%)",
+            accession="PXD048737-PXD048772 / bioRxiv 10.64898/2026.01.30.702724 Table S3",
+            citation="Pazicky S et al., Thermal proteome profiling identifies new drug targets in "
+                     "Plasmodium falciparum parasites. bioRxiv 2026, "
+                     "doi:10.64898/2026.01.30.702724 (preprint)",
+            url="https://www.biorxiv.org/content/10.64898/2026.01.30.702724v1."
+                "supplementary-material",
+            path="datasets/post_translation/thermal/pf_tpp_2026/SupplTable3_media-6.csv",
+            note="COUNTS, not the continuous response, and the reason is the reason: the "
+                 "continuous response agrees between replicates at r 0.0-0.55, so a per-compound "
+                 "number would be mostly noise, while the hit call reproduces the paper (99 "
+                 "stabilised hits; cladosporine-KRS, MMV665915-ACS10 and KAF156-prohibitin all in "
+                 "the top thirteen; PfATP4 with cipargamin; DHODH with the DSM compounds). The "
+                 "denominator ships with the count, because a protein hit twice out of five assays "
+                 "is not the evidence of one hit twice out of 25. NOT a melting temperature: this "
+                 "design holds temperature fixed and varies dose, so it cannot give one -- the "
+                 "melting points are the separate MAP-X meltome, a different experiment from the "
+                 "same laboratory."),
+    Dataset("pf_febrile_phospho", "Phosphorylation under febrile heat stress",
+            "post_translation", "proteomics",
+            "How far each protein's phosphorylation moves at 39 degrees, and at how many sites",
+            ("febrile_phospho_max_abs_log2fc", "febrile_phospho_n_sites_up",
+             "febrile_phospho_n_sites_down"), "1,874 proteins (33%)", pmid="42126964",
+            accession="PXD073843 / eLife Supplementary File 1",
+            citation="Jones D et al., Physiological febrile heat stress increases cytoadhesion "
+                     "through increased protein trafficking. Elife 2026;14:RP107860",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13171106/supplementaryFiles",
+            path="datasets/post_translation/phosphosites/pf_febrile_2026/"
+                 "elife-107860-supp1-v1.xlsx",
+            note="A fever is a condition this parasite actually meets, which is what makes this a "
+                 "different question from the phosphoproteome already in the map. THIRTY-NINE "
+                 "degrees, not forty: the methods give the temperature the cultures were held at, "
+                 "and the preprint's abstract does not. The paper's 143 up and 53 down reproduce "
+                 "exactly, but those count ROWS, and a row is a site at one phosphorylation "
+                 "multiplicity; collapsed to unique sites, each taking its strongest change, it is "
+                 "128 and 51, which is what these columns count. Specific rather than global: 60% "
+                 "of proteins with a rising site are exported to the host cell against 7% of all "
+                 "quantified proteins. A site whose peptide could belong to more than one gene is "
+                 "dropped rather than assigned to the first."),
+    Dataset("pf_chromatin_proxiome", "Chromatin-state proximity proteomes", "post_translation",
+            "BioID",
+            "How enriched each protein is near heterochromatin, active marks and the centromere",
+            ("chromprox_hp1_log2fc", "chromprox_hp1_hit", "chromprox_h3k27ac_log2fc",
+             "chromprox_h3k27ac_hit", "chromprox_h3k4me3_log2fc", "chromprox_h3k4me3_hit",
+             "chromprox_centromere_log2fc", "chromprox_centromere_hit"), "2,020 proteins (35%)",
+            accession="bioRxiv 10.1101/2025.09.23.678001 Tables S1, S5, S7",
+            citation="Ramon-Zamorano G et al., Protein landscape of the chromatin states in the "
+                     "malaria parasite Plasmodium falciparum. bioRxiv 2025, "
+                     "doi:10.1101/2025.09.23.678001 (preprint)",
+            url="https://www.biorxiv.org/content/10.1101/2025.09.23.678001v1."
+                "supplementary-material",
+            path="datasets/post_translation/BioID/pf_chromatin_proxiome_2026/"
+                 "TableS1_HP1_proximity_proteome_media-3.xlsx",
+            note="Two empty slots at once -- chromatin state, and proximity labelling -- for an "
+                 "organism whose gene regulation is largely chromatin. Four of the seven baits "
+                 "ship. The thresholds are the paper's own and differ per bait, because the baits "
+                 "differ in signal; one threshold for all of them would be tidier and wrong. The "
+                 "two euchromatin counts reproduce exactly (H3K27ac 99, H3K4me3 48); the HP1 "
+                 "column gives 91, which is NOT the paper's 61 -- that is its combined "
+                 "heterochromatin group over two HP1 baits and this is one of them, so they are "
+                 "not the same quantity. Controls land correctly: HP1, HDA2, GDV1 and AP2-HC in "
+                 "heterochromatin, CENH3 at the centromere, BDP1 and GCN5 in active chromatin. "
+                 "SIR2A is in none, because no bait detected it -- absence of evidence. A protein "
+                 "group spanning two genes is dropped, not assigned to the first."),
+    Dataset("pf_meltome", "Protein melting temperature across the blood-stage cycle",
+            "translation", "proteomics",
+            "The temperature at which each protein leaves solution in an intact cell",
+            ("melting_temperature_tm", "melting_temperature_sd"), "2,039 proteins (35.6%)",
+            pmid="41315737", accession="PXD056075 / Nat Microbiol Supplementary Table 1",
+            citation="Pazicky S et al., MAP-X reveals distinct protein complex dynamics across "
+                     "Plasmodium falciparum blood stages. Nat Microbiol 2025;10:3229-3244",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12615847/supplementaryFiles",
+            path="datasets/translation/proteomics/41315737/41564_2025_2173_MOESM3_ESM.xlsx",
+            derived_from=(),
+            note="DERIVED, and it has to be: no melting temperature is published anywhere. PRIDE "
+                 "holds 281 GB of raw mass spectrometry and nothing else, the paper tabulates "
+                 "per-temperature abundances, and the authors' own package computes the melting "
+                 "point inside a fitting step without tabulating it. `scripts/fit_meltome.py` fits "
+                 "it with the acceptance the Toxoplasma column already uses (R-squared at least "
+                 "0.8, 30-80 degrees), keeping 68.9% of 22,764 curves. Self-validating the way a "
+                 "melting point should be: replicates agree at rho 0.84 with a spread of 1.15 "
+                 "degrees; subunits of one complex melt together (0.19 degrees across the "
+                 "T-complex, 0.42 across the proteasome alpha ring, against 5.57 for size-matched "
+                 "random sets, p = 9e-5); glycolysis and the proteasome are stable near 62.5 "
+                 "degrees and HSP70/90 labile at 50.4; and it agrees with the independent "
+                 "Toxoplasma measurement through orthology at +0.28. ONE column, not seven: a "
+                 "protein's melting point varies 3.7 degrees across the cycle against 1.15 of "
+                 "replicate noise, so per-stage columns would claim a resolution the data lacks. "
+                 "The worst run by fit acceptance is the replicate the authors themselves "
+                 "excluded, found independently here and dropped."),
+    Dataset("pf_pb_fertility_transfer", "Male and female fertility, transferred from P. berghei",
+            "DNA", "CRISPR_screen",
+            "Whether a knockout loses male or female fertility, measured in the rodent parasite",
+            ("fertility_female", "fertility_male"), "1,121 orthologs (19.6%)", pmid="39541984",
+            accession="Cell Systems Table S1 sheet A",
+            citation="Sayers C et al., Systematic screens for fertility genes essential for "
+                     "malaria parasite transmission reveal conserved aspects of sex in a divergent "
+                     "eukaryote. Cell Syst 2024;15:1075-1091.e6",
+            url="https://www.cell.com/cms/10.1016/j.cels.2024.10.008/attachment/"
+                "mmc2.xlsx/mmc2.xlsx",
+            path="datasets/DNA/transmission_screen/39541984/mmc2.xlsx",
+            note="Barcoded P. berghei knockouts crossed and scored through the mosquito, so the "
+                 "sexes are measured SEPARATELY on the same mutant -- which is the point, and which "
+                 "the controls confirm: HAP2, P48/45, P230, CDPK4 and MAPK2 fail in males only, "
+                 "P47, NEK4 and DMC1 in females only, and the redundant P25/P28 pair is correctly "
+                 "not called. The union of reduced mutants is 348, the paper's own number. The "
+                 "table names the falciparum ortholog itself, so no orthology call is made here; a "
+                 "gene named by two mutants, or a mutant covering two genes, is dropped rather "
+                 "than averaged. A TRANSFER, grouped with orthology for leakage: an ortholog's "
+                 "phenotype is not an independent measurement of this gene."),
+    Dataset("plasmodb_pf3d7_piggybac", "Plasmodium falciparum piggyBac saturation mutagenesis",
+            "DNA", "insertion screen",
+            "Mutagenesis index and fitness score from a genome-saturating transposon screen",
+            ("piggybac_mis", "piggybac_mfs"),
+            "5,720 P. falciparum genes",
+            pmid="29724925",
+            citation="Zhang M et al. Uncovering the essential genes of the human malaria parasite "
+                     "Plasmodium falciparum by saturation mutagenesis. Science 2018",
+            accession="PlasmoDB GenesByTaxon attributesTabular",
+            url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
+                "GenesByTaxon/reports/attributesTabular",
+            path="starplast/data/pf_nodes.parquet",
+            note="PMID resolved by E-utilities on 2026-09-25 (esearch 'Plasmodium falciparum "
+                 "saturation mutagenesis piggyBac essential genes 2018' returns only 29724925; "
+                 "esummary confirms the title and Zhang M as first author). Served through the "
+                 "PlasmoDB attribute report and split from it the same day. The direction is the "
+                 "trap: a LOW mutagenesis index means the gene resists disruption and is therefore "
+                 "essential, and inverting it would swap the essential and dispensable genomes "
+                 "without crashing, so the test checks it against biology -- ribosomal proteins "
+                 "come out at median MIS 0.15 and the var, rifin and stevor families at 0.94."),
     Dataset("plasmodb_pf3d7_expression", "Plasmodium falciparum life-stage and polysomal RNA",
             "transcription", "RNAseq",
             "Transcript abundance across seven life stages, and what is on ribosomes",
@@ -1605,6 +1993,75 @@ REGISTRY = [
                  "COL1A1 is 4,009 in fibroblast against 3.4 in hepatocyte and fibronectin 21,268 "
                  "against 200. Three to four orders of magnitude the right way round in both "
                  "directions is the check that the Ensembl keying is correct."),
+    Dataset("host_k562_rhoptry_screen", "Host genes required for rhoptry discharge", "reference",
+            "CRISPR_screen",
+            "Whether knocking out a human gene stops Toxoplasma discharging its rhoptries",
+            ("rhoptry_discharge_score", "rhoptry_discharge_beta", "rhoptry_discharge_fdr"),
+            "18,739 human genes",
+            accession="bioRxiv 10.1101/2025.10.16.682961 v2 Table S1",
+            citation="Valleau D et al., Clustering of host N-glycans licenses Toxoplasma rhoptry "
+                     "discharge. bioRxiv 2025, doi:10.1101/2025.10.16.682961 (preprint)",
+            url="https://www.biorxiv.org/content/10.1101/2025.10.16.682961v2."
+                "supplementary-material",
+            path="datasets/host/k562_rhoptry_screen/v2_media-1.xlsx",
+            note="The first host-gene screen in the map, and it opens the host side of invasion: "
+                 "positive means the knockout blocks discharge, so the gene is required for it. "
+                 "Recovers its own biology -- SLC35A2, the transporter the paper is about, ranks 1 "
+                 "of 20,010, and a twenty-gene N-glycan panel has median rank 135 with 85% in the "
+                 "top tenth, while B4GALT1, FUT8 and ST6GAL1, which the paper argues are not "
+                 "involved, are not hits. The Wald FDR is shipped rather than the permutation one, "
+                 "which is quantised into a few values and would read as ties. Keyed by reviewed "
+                 "UniProt through gene symbol; 155 microRNA loci and other unresolvable symbols "
+                 "are dropped. A preprint."),
+    Dataset("host_hff_tg_infection", "Human fibroblast response to Toxoplasma infection",
+            "reference", "transcription",
+            "Infected against uninfected HFF, per host gene: moderated log2 change and FDR",
+            ("hff_tg_infection_log2fc", "hff_tg_infection_padj"), "10,631 human genes",
+            accession="GSE335016",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE335nnn/GSE335016/suppl/"
+                "GSE335016_245740-HOMO-gene_fpkm.txt.gz",
+            path="datasets/host/fibroblast_infection/GSE335016/"
+                 "GSE335016_245740-HOMO-gene_fpkm.txt.gz",
+            note="No paper is attached to the series (Europe PMC and GEO searched 2026-09-26), so "
+                 "the citation is the accession. FPKM only; the contrast is computed here "
+                 "(starplast/deposits.py): moderated t on log2(FPKM + 1), three replicates per "
+                 "arm, genes at a mean FPKM of 1, wild-type infection against uninfected. The "
+                 "TGGT1_245740 knockout arm is not shipped -- it answers a question about one "
+                 "parasite gene. Textbook response: CXCL8 +5.4, IL6 +2.7, CXCL10 +2.3, ISG15 "
+                 "+2.1; GAPDH and ACTB flat. 315 genes at padj < 0.05."),
+    Dataset("host_bmdm_baseline", "Baseline mouse bone-marrow macrophage transcriptome",
+            "reference", "transcription",
+            "How much of each gene an unstimulated macrophage transcribes (TPM)",
+            ("bmdm_tpm",), "15,437 mouse genes", pmid="40759751", accession="GSE267544",
+            citation="John SV et al., Classically activated macrophages undergo functionally "
+                     "significant nucleotide metabolism remodelling driven by nitric oxide. "
+                     "Nat Metab 2025;7:1681-1702",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE267nnn/GSE267544/suppl/"
+                "GSE267544_fpkm_BMDM.txt.gz",
+            path="datasets/host/bmdm/GSE267544/GSE267544_fpkm_BMDM.txt.gz",
+            note="The three unstimulated M0 samples only; the LPS + IFN-gamma arms are a "
+                 "stimulus, not infection, and do not answer any slot. Keyed on Ensembl through "
+                 "reviewed UniProt, never on the deposit's symbols, which are old (Emr1, Irg1). "
+                 "Markers behave: Lyz2 27,505 TPM, Cd68 2,791, Csf1r 1,276, Adgre1 903, Alb 0."),
+    Dataset("host_hepatocyte_pf_infection", "Human hepatocyte response to P. falciparum",
+            "reference", "transcription",
+            "Infected against uninfected primary hepatocytes, per host gene: log2 change and FDR",
+            ("hepatocyte_pf_infection_log2fc", "hepatocyte_pf_infection_padj"),
+            "12,550 human genes", pmid="41428747", accession="GSE263643",
+            citation="Kanyal A et al., Inhibition of Wnt signaling in primary human hepatocytes "
+                     "promotes Plasmodium falciparum liver stage development. PLoS Pathog "
+                     "2025;21:e1013800",
+            url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE263nnn/GSE263643/suppl/"
+                "GSE263643_deseq2-normalized_counts.txt.gz",
+            path="datasets/host/hepatocyte_infection/GSE263643/"
+                 "GSE263643_deseq2-normalized_counts.txt.gz",
+            note="The paper never compares infected with uninfected wells; the contrast is made "
+                 "here from its DESeq2-normalized counts, treatment and donor blocked, freshly "
+                 "isolated cells excluded. WEAK by construction -- bulk wells in which few cells "
+                 "are infected, two donors -- and only 25 genes reach padj < 0.05; what does is a "
+                 "type-I interferon response in both strains (IFI44L, CXCL10, CXCL11, RSAD2, "
+                 "IFIT1). Whether the uninfected wells received mock mosquito material is not "
+                 "described, so part of that signal may come from the sporozoite preparation."),
     Dataset("host_macrophage_surfaceome", "Mouse bone-marrow macrophage cell-surface repertoire",
             "reference", "proteomics",
             "Which host proteins are EXPOSED on the surface of the macrophage a tachyzoite invades",
@@ -2076,7 +2533,9 @@ REGISTRY = [
                  "writer's own substrates have to take."),
     Dataset("sexual_stages", "Sexual development in the cat (single-cell atlas)", "transcription",
             "scRNAseq", "Enrichment at 8 days post-infection, when gametogony happens",
-            ("sexual_stage_8dpi_log2fc",), "4,463 genes (55%)", pmid="41929010",
+            ("sexual_stage_8dpi_log2fc",), "4,463 genes (55%)", pmid="42020723",
+            citation="Alrubaye HS et al., A single-cell atlas of Toxoplasma sexual development in "
+                     "the feline intestinal tract. Nat Microbiol 2026;11:1450-1462",
             accession="PMC13042011 supplementary media-2",
             url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13042011/supplementaryFiles",
             path="starplast/data/sexual_stages.tsv",
@@ -2198,7 +2657,21 @@ REGISTRY = [
 ]
 
 _BY_KEY = {d.key: d for d in REGISTRY}
+#: Datasets measured in Plasmodium. The registry serves both organisms and 29 column names occur
+#: in both tables -- `stage_enriched_derived`, `mean_plddt`, the codon and literature columns -- so
+#: a lookup by name alone answered for whichever organism's dataset came first. The Plasmodium stage
+#: label was closed over Toxoplasma's `expr_tachy`, `expr_cyst` and `expr_sporulated`, columns that
+#: table does not even have, and its own sources were left in.
+PLASMODIUM_PREFIXES = ("pf_", "plasmodb_")
+
+
+def organism_of(dataset) -> str:
+    """"Pf" or "Tg": which organism's table a dataset's columns live in."""
+    return "Pf" if str(dataset.key).startswith(PLASMODIUM_PREFIXES) else "Tg"
+
+
 _BY_COLUMN = {c: d for d in REGISTRY for c in d.columns}
+_BY_ORGANISM_COLUMN = {(organism_of(d), c): d for d in reversed(REGISTRY) for c in d.columns}
 
 
 def registry(level: str | None = None, kind: str | None = None) -> list:
@@ -2216,12 +2689,20 @@ def get(key: str) -> Dataset:
     return _BY_KEY[key]
 
 
-def provenance(column: str) -> Dataset | None:
-    """Which dataset produced a given node-table column."""
+def provenance(column: str, organism: str | None = None) -> Dataset | None:
+    """Which dataset produced a given node-table column -- of `organism`'s table, when given.
+
+    Pass the organism wherever the table is known: without it, a column name both organisms use
+    resolves to whichever dataset was registered first.
+    """
+    if organism:
+        found = _BY_ORGANISM_COLUMN.get((organism, column))
+        if found is not None:
+            return found
     return _BY_COLUMN.get(column)
 
 
-def derived_sources(column: str) -> tuple:
+def derived_sources(column: str, organism: str | None = None) -> tuple:
     """The node columns a derived column was computed from, as DECLARED by whoever derived it.
 
     Declaration is needed in addition to measurement, not instead of it. Measured association is
@@ -2231,13 +2712,14 @@ def derived_sources(column: str) -> tuple:
     undeclared leak -- a renamed copy -- and declaration catches the joint one. Neither alone is enough,
     and this project has already been burnt by trusting one of them.
     """
-    for d in REGISTRY:
-        if column in d.columns and d.derived_from:
-            return tuple(d.derived_from)
-    return ()
+    candidates = [d for d in REGISTRY if column in d.columns and d.derived_from]
+    if organism:
+        own = [d for d in candidates if organism_of(d) == organism]
+        candidates = own or candidates
+    return tuple(candidates[0].derived_from) if candidates else ()
 
 
-def derived_dependents(columns) -> tuple:
+def derived_dependents(columns, organism: str | None = None) -> tuple:
     """Transitive derived outputs that depend on any supplied column.
 
     Leakage travels both directions in the dependency graph: holding out a derived target removes its
@@ -2249,6 +2731,8 @@ def derived_dependents(columns) -> tuple:
     while changed:
         changed = False
         for dataset in REGISTRY:
+            if organism and organism_of(dataset) != organism:
+                continue
             if dataset.derived_from and set(dataset.derived_from) & seen:
                 new = set(dataset.columns) - seen
                 if new:

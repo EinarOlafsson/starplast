@@ -39,6 +39,10 @@ TARGET = Param("target", "category", "Held-out label",
                "The label the strategy is scored against and never allowed to see: the column "
                "itself, anything that restates it and the experiment that produced it are removed "
                "first, by the same closure the Search tab uses.", default_category)
+#: A self-test honours the walk it is given, within these bounds, so it finishes in minutes.
+TEST_MAX_GENES = 4000
+TEST_GRID = 3
+
 SAMPLE = Param("sample", "int", "Genes per map",
                "How many genes each map embeds. Zero embeds all of them; a sample of a few thousand "
                "makes a walk of many maps finish in minutes rather than an hour, at the cost of "
@@ -201,6 +205,32 @@ def _hidden_f1(labels, positions, per: pd.DataFrame, truth: pd.Series, hidden) -
     return total / weight if weight else float("nan")
 
 
+def _hidden_f1_null(labels, positions, per: pd.DataFrame, truth: pd.Series, hidden, rng,
+                    n: int = 100) -> list:
+    """`_hidden_f1` with the hidden genes' labels permuted among themselves, clusters fixed.
+
+    The null for "do the clusters chosen on visible genes hold the hidden genes of their label?".
+    It was once a second search on shuffled labels, and that null was biased upward: a search on
+    random labels picks the largest cluster for every label, and a large cluster scores F1 near 2p
+    for any label of share p however little structure there is -- the null beat the real labels on
+    four targets of eight. Permuting only the hidden labels keeps every cluster and its size, so a
+    giant cluster scores the same under the null and earns nothing, and the choice itself never saw
+    the hidden genes, so no selection is left to correct for.
+    """
+    hidden = np.asarray(hidden, dtype=int)
+    t = pd.Series(truth).reset_index(drop=True)
+    vals = t.iloc[hidden].to_numpy(dtype=object)
+    labelled = np.array([isinstance(v, str) for v in vals])
+    out = []
+    for _ in range(n):
+        perm = t.copy()
+        shuffled = vals.copy()
+        shuffled[labelled] = rng.permutation(vals[labelled])
+        perm.iloc[hidden] = shuffled
+        out.append(_hidden_f1(labels, positions, per, perm, hidden))
+    return out
+
+
 # =========================================================================== 1 · map space
 def _holdout_search_run(ctx, p):
     from . import search
@@ -272,36 +302,37 @@ def _holdout_search_test(ctx, p):
     target = _need(ctx, p["target"])
     truth = ctx.truth(target)
     visible, hidden = S.hide(truth, 0.25, ctx.seed, groups=ctx.groups())
-    rows = ctx.sample_rows(min(p["sample"] or ctx.n, 1500), target)
-    configs = _walk(ctx, target, {"all permitted": tuple(ctx.blocks(target))},
-                    parse_grid(p["n_neighbors"], int)[:2], parse_grid(p["min_dist"])[:2],
-                    parse_grid(p["min_cluster_size"], int)[:2], rows,
+    # The test walks the settings it is given -- genes per map, feature sets, every grid -- so a
+    # calibration over those settings measures them. It once fixed 1,500 genes and the combined
+    # features and truncated each grid to two values, which made every setting test the same map.
+    rows = ctx.sample_rows(min(p["sample"] or ctx.n, TEST_MAX_GENES), target)
+    configs = _walk(ctx, target, _blocksets(ctx, target, p["features"]),
+                    parse_grid(p["n_neighbors"], int)[:TEST_GRID],
+                    parse_grid(p["min_dist"])[:TEST_GRID],
+                    parse_grid(p["min_cluster_size"], int)[:TEST_GRID], rows,
                     parse_grid(p["selection"], str)[:2])
     placed = np.unique(np.concatenate([c["positions"] for c in configs]))
     hidden = hidden[np.isin(hidden, placed)]
 
-    def infer(vis):
-        """The configuration and each label's cluster, both chosen on visible labels only."""
-        best, best_f, best_per = configs[0], -1.0, pd.DataFrame()
-        for c in configs:
-            s, per = search.score_recovery(c["labels"], vis.iloc[c["positions"]].reset_index(
-                drop=True), min_label=10)
-            if s and s["mean_f1"] > best_f:
-                best, best_f, best_per = c, s["mean_f1"], per
-        return _hidden_f1(best["labels"], best["positions"], best_per, truth, hidden)
-
-    observed = infer(visible)
-    rng = ctx.rng(7)
-    nulls = []
-    for i in range(20):
-        ctx.check()
-        nulls.append(infer(S.shuffled(visible, rng)))
+    # The configuration and each label's cluster, both chosen on visible labels only.
+    best, best_f, best_per = configs[0], -1.0, pd.DataFrame()
+    for c in configs:
+        s, per = search.score_recovery(c["labels"], visible.iloc[c["positions"]].reset_index(
+            drop=True), min_label=10)
+        if s and s["mean_f1"] > best_f:
+            best, best_f, best_per = c, s["mean_f1"], per
+    observed = _hidden_f1(best["labels"], best["positions"], best_per, truth, hidden)
+    ctx.check()
+    nulls = _hidden_f1_null(best["labels"], best["positions"], best_per, truth, hidden,
+                            ctx.rng(7))
     return S.judge("holdout_search",
                    "F1 of hidden genes in the cluster chosen for their label on known genes",
                    observed, nulls, min_effect=0.05, n_hidden=len(hidden),
                    hidden=f"25% of the {target} labels, whole orthogroups at a time",
-                   null_kind="20 searches whose map and clusters were chosen on shuffled labels",
-                   t0=t0, numbers={"maps": len(configs), "genes_per_map": len(rows)})
+                   null_kind="100 permutations of the hidden genes' labels over the same chosen "
+                             "clusters",
+                   t0=t0, numbers={"maps": len(configs), "genes_per_map": len(rows),
+                                   "visible_mean_f1": float(best_f)})
 
 
 register(Strategy(
@@ -340,8 +371,8 @@ register(Strategy(
         "Set 'Genes per map' to 3000 for speed, 0 for the whole proteome.",
         "Press Test first: it hides a quarter of the label, lets the search choose the map and "
         "each label's cluster on the rest, and reports how well those clusters hold the hidden "
-        "genes, against searches made on shuffled labels. A FAIL means the search has nothing to "
-        "find on this label.",
+        "genes, against the same clusters scored on the hidden genes with their labels permuted. "
+        "A FAIL means the chosen clusters hold the label no better than chance.",
         "Press Run. The best map is drawn, colored by its clusters; 'configurations' ranks every "
         "map, 'categories' says which labels were recovered and at what F1.",
         "Read 'label clusters' -- the cluster chosen for each label and how well it isolates it -- "
@@ -349,12 +380,15 @@ register(Strategy(
         "treat a call's F1 as the most it can be trusted."),
     test_description=(
         "25% of the label is hidden (whole orthogroups together, so no gene is recovered through "
-        "a visible paralog). A small walk is built on 1,500 genes; the configuration, and the one "
+        "a visible paralog). The walk is built as set -- its genes per map (up to 4,000), feature "
+        "sets and grids (up to three values each); the configuration, and the one "
         "cluster that best isolates each label, are both chosen using visible labels only. "
         "Metric: for each label, the F1 of its hidden genes against its chosen cluster, weighted "
-        "by size -- does the structure found on known genes hold the unknown ones? Null: the whole "
-        "search repeated 20 times with the visible labels shuffled. Pass: above the null's 95th "
-        "percentile by at least 0.05."),
+        "by size -- does the structure found on known genes hold the unknown ones? Null: the same "
+        "chosen clusters scored after permuting the hidden genes' labels, 100 times. (A second "
+        "search on shuffled labels was the null once; it picks the largest cluster for every "
+        "label, which scores F1 near 2p by size alone and made the null beat real labels.) Pass: "
+        "above the null's 95th percentile by at least 0.05."),
     params=(TARGET, NEIGHBORS, MIN_DIST, MIN_CLUSTER, SELECTIONS, SAMPLE,
             Param("features", "choice", "Feature sets",
                   "'all' walks one map per setting from every permitted measurement; 'families' "
@@ -455,10 +489,11 @@ def _geneset_hunt_test(ctx, p):
         return S.judge("geneset_hunt", "share of hidden members in the best cluster", float("nan"),
                        [], min_effect=0.1, n_hidden=0, hidden=what, null_kind="random sets",
                        t0=t0, note="no gene set of a usable size to test on")
-    rows = ctx.sample_rows(1500, must=members)
-    configs = _walk(ctx, exclude, {"all permitted": tuple(ctx.blocks(exclude))},
-                    parse_grid(p["n_neighbors"], int)[:2], parse_grid(p["min_dist"])[:1],
-                    parse_grid(p["min_cluster_size"], int)[:2], rows,
+    rows = ctx.sample_rows(min(p["sample"] or ctx.n, TEST_MAX_GENES), must=members)
+    configs = _walk(ctx, exclude, _blocksets(ctx, exclude, p["features"]),
+                    parse_grid(p["n_neighbors"], int)[:TEST_GRID],
+                    parse_grid(p["min_dist"])[:TEST_GRID],
+                    parse_grid(p["min_cluster_size"], int)[:TEST_GRID], rows,
                     parse_grid(p["selection"], str)[:2])
     rng = ctx.rng(13)
 
@@ -528,8 +563,8 @@ register(Strategy(
         "random list of the same size does as well over the same walk.",
         "'candidates' lists the cluster's other members, nearest the cluster centre first."),
     test_description=(
-        "30% of the set is hidden; the walk (1,500 genes, 2 n_neighbors x 2 cluster sizes x both "
-        "selections) picks the cluster with the best F1 for the other 70%. Metric: F1 of the "
+        "30% of the set is hidden; the walk as set (genes per map up to 4,000, feature sets, up "
+        "to three values of each grid) picks the cluster with the best F1 for the other 70%. Metric: F1 of the "
         "hidden members against that cluster's other genes -- precision is the share of the "
         "cluster's candidates that are hidden members, recall the share of hidden members among "
         "them. Null: 20 random sets of the same size through the same walk. Pass: above the "
@@ -769,16 +804,15 @@ def _consensus_test(ctx, p):
     truth = ctx.truth(target)
     visible, hidden = S.hide(truth, 0.25, ctx.seed, groups=ctx.groups())
     hidden = hidden[np.isin(hidden, rows)]
-    score = lambda vis: _hidden_f1(modules, rows, _label_clusters(
-        modules, vis.iloc[rows].reset_index(drop=True)), truth, hidden)
-    observed = score(visible)
-    rng = ctx.rng(19)
-    nulls = [score(S.shuffled(visible, rng)) for _ in range(20)]
+    per = _label_clusters(modules, visible.iloc[rows].reset_index(drop=True))
+    observed = _hidden_f1(modules, rows, per, truth, hidden)
+    nulls = _hidden_f1_null(modules, rows, per, truth, hidden, ctx.rng(19))
     return S.judge("consensus_modules",
                    "F1 of hidden genes in the module chosen for their label on known genes",
                    observed, nulls, min_effect=0.05, n_hidden=len(hidden),
                    hidden=f"25% of the {target} labels, whole orthogroups at a time",
-                   null_kind="20 label-to-module choices made on shuffled labels", t0=t0,
+                   null_kind="100 permutations of the hidden genes' labels over the same "
+                             "chosen modules", t0=t0,
                    numbers={"modules": int(len(set(modules.tolist()) - {NOISE}))})
 
 
@@ -814,8 +848,10 @@ register(Strategy(
     test_description=(
         "Modules are built from a small walk on 1,500 genes without the label. 25% of the label is "
         "hidden; the module that best isolates each label is chosen on the visible genes. Metric: "
-        "the size-weighted F1 of each label's hidden genes against its chosen module. Null: 20 "
-        "choices made on shuffled labels. Pass: above the null's 95th percentile by 0.05."),
+        "the size-weighted F1 of each label's hidden genes against its chosen module. Null: the "
+        "same modules scored after permuting the hidden genes' labels, 100 times -- a large module "
+        "scores the same either way and earns nothing. Pass: above the null's 95th percentile by "
+        "0.05."),
     params=(Param("target", "category", "Held-out label (optional)",
                   "A label whose closure is removed from every map, and which the modules are then "
                   "read against. Leave empty to build modules from everything; the self-test then "
@@ -1947,16 +1983,15 @@ def _multiplex_test(ctx, p):
     truth = ctx.truth(target)
     visible, hidden = S.hide(truth, 0.25, ctx.seed, groups=ctx.groups())
     hidden = hidden[np.isin(hidden, pos)]
-    score = lambda vis: _hidden_f1(part[pos], pos, _label_clusters(
-        part[pos], vis.iloc[pos].reset_index(drop=True)), truth, hidden)
-    observed = score(visible)
-    rng = ctx.rng(23)
-    nulls = [score(S.shuffled(visible, rng)) for _ in range(20)]
+    per = _label_clusters(part[pos], visible.iloc[pos].reset_index(drop=True))
+    observed = _hidden_f1(part[pos], pos, per, truth, hidden)
+    nulls = _hidden_f1_null(part[pos], pos, per, truth, hidden, ctx.rng(23))
     return S.judge("multiplex_modules",
                    "F1 of hidden genes in the community chosen for their label on known genes",
                    observed, nulls, min_effect=0.05, n_hidden=len(hidden),
                    hidden=f"25% of the {target} labels, whole orthogroups at a time",
-                   null_kind="20 label-to-community choices made on shuffled labels", t0=t0,
+                   null_kind="100 permutations of the hidden genes' labels over the same "
+                             "chosen communities", t0=t0,
                    numbers={"communities": int(len(set(part.tolist()) - {NOISE}))})
 
 
@@ -1990,7 +2025,8 @@ register(Strategy(
         "On genes placed in a community: 25% of the label hidden; the community that best isolates "
         "each label is chosen on the visible genes (the communities themselves never see labels). "
         "Metric: the size-weighted F1 of each label's hidden genes against its chosen community. "
-        "Null: 20 choices made on shuffled labels. Pass: above the null's 95th percentile by 0.05."),
+        "Null: the same communities scored after permuting the hidden genes' labels, 100 times. "
+        "Pass: above the null's 95th percentile by 0.05."),
     params=(TARGET,
             Param("resolution", "float", "Resolution",
                   "Modularity resolution for each layer's communities. Above 1 gives more, smaller "

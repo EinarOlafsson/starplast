@@ -26,6 +26,7 @@ import numpy as np
 import pandas as pd
 from PyQt6 import QtCore, QtGui, QtWidgets
 
+from . import calibration as CAL
 from . import strategies as S
 from . import theme as TH
 from .jobs import Stopped
@@ -39,6 +40,10 @@ MEASURED = os.path.join(DATA, "strategy_selftests.json")
 #: table has its row action and save menu from the moment it exists.
 TABLES = 6
 VERDICT_COLORS = {"PASS": "#2e8b57", "FAIL": "#c0392b", "INCONCLUSIVE": "#888888"}
+#: The calibration grade, when the sweep has measured the strategy: the second column shows it in
+#: place of the single self-test verdict, because a grade rests on hundreds of held-out tests.
+GRADE_COLORS = {"reliable": "#2e8b57", "works when tuned": "#b8860b", "weak": "#cc7a00",
+                "no skill": "#c0392b", "untestable": "#888888"}
 
 BUTTON_TIPS = {
     "run": "Run the selected strategy with these settings on the whole table, in the background. "
@@ -56,6 +61,9 @@ BUTTON_TIPS = {
                      "so a gene-list strategy can be tried before you have a list of your own.",
     "genes_gate": "Use the genes currently gated on the map, so a structure you drew around can be "
                   "handed straight to a gene-list strategy.",
+    "tuned": "Fill the settings with the combination calibration found best for this strategy "
+             "(chosen on some held-out seeds and confirmed on others). The held-out label or gene "
+             "list stays yours to choose.",
     "filter": "Type to show only strategies whose title, question or family contains the text -- "
               "for example 'list', 'network', 'held-out' or 'Plasmodium'.",
 }
@@ -124,7 +132,7 @@ class StrategyPanel(QtWidgets.QWidget):
         self.filter.setToolTip(TH.tip(BUTTON_TIPS["filter"]))
         self.filter.textChanged.connect(self._apply_filter)
         self.tree = QtWidgets.QTreeWidget()
-        self.tree.setHeaderLabels(["strategy", "on the shipped data"])
+        self.tree.setHeaderLabels(["strategy", "calibrated"])
         self.tree.setRootIsDecorated(True)
         self.tree.itemSelectionChanged.connect(self._tree_selected)
         self._populate()
@@ -138,13 +146,15 @@ class StrategyPanel(QtWidgets.QWidget):
         self.test_btn = QtWidgets.QPushButton("Test (hold-out)")
         self.stop_btn = QtWidgets.QPushButton("Stop")
         self.map_btn = QtWidgets.QPushButton("Show on map")
+        self.tuned_btn = QtWidgets.QPushButton("Use tuned settings")
         for b, key in ((self.run_btn, "run"), (self.test_btn, "test"), (self.stop_btn, "stop"),
-                       (self.map_btn, "map")):
+                       (self.map_btn, "map"), (self.tuned_btn, "tuned")):
             b.setToolTip(TH.tip(BUTTON_TIPS[key]))
         self.run_btn.clicked.connect(self.run_current)
         self.test_btn.clicked.connect(self.test_current)
         self.stop_btn.clicked.connect(self.stop_running)
         self.map_btn.clicked.connect(self.show_on_map)
+        self.tuned_btn.clicked.connect(self.use_tuned_settings)
         self.stop_btn.setEnabled(False)
         self.map_btn.setEnabled(False)
         buttons = QtWidgets.QHBoxLayout()
@@ -156,6 +166,7 @@ class StrategyPanel(QtWidgets.QWidget):
         scroll.setWidgetResizable(True)
         scroll.setWidget(self.form_host)
         sl.addWidget(scroll)
+        sl.addWidget(self.tuned_btn)
         sl.addLayout(buttons)
 
         self.summary = QtWidgets.QLabel("Nothing run yet.")
@@ -215,13 +226,17 @@ class StrategyPanel(QtWidgets.QWidget):
                 families[s.family] = fam
             m = self.measured.get(s.key, {})
             verdict = m.get("verdict", "") if isinstance(m, dict) else ""
-            item = QtWidgets.QTreeWidgetItem([f"{s.number:02d} · {s.title}", verdict])
+            cal = CAL.entry(s.key, self.ctx.organism) or {}
+            shown = cal.get("grade") or verdict
+            item = QtWidgets.QTreeWidgetItem([f"{s.number:02d} · {s.title}", shown])
             item.setData(0, QtCore.Qt.ItemDataRole.UserRole, s.key)
             item.setToolTip(0, TH.tip(s.tooltip))
-            item.setToolTip(1, TH.tip(self._measured_line(s.key) or
-                                      "Not yet measured on the shipped data: press Test."))
-            if verdict in VERDICT_COLORS:
-                item.setForeground(1, QtGui.QBrush(QtGui.QColor(VERDICT_COLORS[verdict])))
+            item.setToolTip(1, TH.tip(CAL.sentence(s.key, self.ctx.organism)
+                                      or self._measured_line(s.key)
+                                      or "Not yet measured on the shipped data: press Test."))
+            colour = GRADE_COLORS.get(shown) or VERDICT_COLORS.get(shown)
+            if colour:
+                item.setForeground(1, QtGui.QBrush(QtGui.QColor(colour)))
             fam.addChild(item)
             self.items[s.key] = item
         self.tree.expandAll()
@@ -256,6 +271,7 @@ class StrategyPanel(QtWidgets.QWidget):
         self.current = S.get(key)
         self.guide.setHtml(self.guide_html(self.current))
         self._build_form(self.current)
+        self.tuned_btn.setEnabled(bool(CAL.tuned_settings(key, self.ctx.organism)))
         item = self.items.get(key)
         if item is not None and self.tree.currentItem() is not item:
             self.tree.setCurrentItem(item)
@@ -281,6 +297,11 @@ class StrategyPanel(QtWidgets.QWidget):
         colour = VERDICT_COLORS.get(verdict, "#888888")
         mline = (f"<p style='color:{colour}'><b>{e(measured)}</b></p>" if measured else
                  "<p><i>Not yet measured on the shipped data -- press Test to measure it.</i></p>")
+        cal = CAL.entry(s.key, self.ctx.organism)
+        if cal:
+            gcol = GRADE_COLORS.get(cal.get("grade"), "#888888")
+            mline = (f"<p style='color:{gcol}'><b>{e(CAL.sentence(s.key, self.ctx.organism))}"
+                     f"</b></p>" + mline)
         return (f"<h3>{s.number:02d} · {e(s.title)}</h3><p><i>{e(s.question)}</i></p>{mline}"
                 f"{paras}<h4>Walkthrough</h4><ol>{steps}</ol>"
                 f"<h4>How it is tested</h4><p>{e(s.test_description)}</p>"
@@ -425,6 +446,28 @@ class StrategyPanel(QtWidgets.QWidget):
             w.setText(str(value))
         else:
             w.box.setPlainText(value if isinstance(value, str) else "\n".join(map(str, value)))
+
+    def use_tuned_settings(self) -> dict:
+        """Fill the form with the calibrated best setting; returns what was applied.
+
+        A value the form cannot hold (an option this table lacks) is skipped and said, rather than
+        failing the rest -- calibration ran on the shipped table and a user's may differ.
+        """
+        if self.current is None:
+            return {}
+        tuned = CAL.tuned_settings(self.current.key, self.ctx.organism)
+        applied = {}
+        for name, value in tuned.items():
+            if name not in self.inputs:
+                continue
+            try:
+                self.set_setting(name, value)
+                applied[name] = value
+            except (ValueError, TypeError):
+                self.status.emit(f"tuned {name}={value!r} is not available here; kept the default")
+        if applied:
+            self.status.emit("tuned settings: " + ", ".join(f"{k}={v}" for k, v in applied.items()))
+        return applied
 
     # ------------------------------------------------------------------ running
     def run_current(self):

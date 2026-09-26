@@ -499,14 +499,15 @@ def _touches(layer: str, used_columns) -> bool:
     hyperLOPIT calls its answer, so an exact test would call that pair independent. The families are
     the ones `search.SAME_QUANTITY` already names.
     """
-    from .search import SAME_QUANTITY
+    from .search import SAME_QUANTITY, _in_family, family_members
     used = {str(c) for c in used_columns}
     if layer in used:
         return True
     for family in SAME_QUANTITY.values():
-        members = {str(m) for m in family}
-        if layer in members or any(layer.startswith(str(m)) for m in members):
-            if used & members or any(u.startswith(tuple(members)) for u in used):
+        names = tuple(str(m) for m in family if not str(m).startswith("^"))
+        if _in_family(layer, family) or (names and layer.startswith(names)):
+            if family_members(family, sorted(used)) or (names and any(
+                    u.startswith(names) for u in used)):
                 return True
     return False
 

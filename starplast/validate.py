@@ -112,11 +112,11 @@ def circularity_error(truth: pd.Series, used_columns, target_column: str | None 
     # this and this one was not -- which would have put a validated-looking number on precisely the
     # maps that cannot carry one, in the tab whose whole job is to say how much to believe a cluster.
     from . import datasets
-    from .search import SAME_QUANTITY
+    from .search import SAME_QUANTITY, _in_family, family_members
     same = datasets.provenance(col)
     experiment = {c for c in (same.columns if same else ()) if c != col} & used
-    quantity = {q: {c for c in family if c != col} & used
-                for q, family in SAME_QUANTITY.items() if col in family}
+    quantity = {q: set(family_members(family, sorted(used))) - {col}
+                for q, family in SAME_QUANTITY.items() if _in_family(col, family)}
     quantity = {q: cols for q, cols in quantity.items() if cols}
     reasons = []
     if experiment:

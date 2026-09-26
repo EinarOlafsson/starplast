@@ -6,7 +6,8 @@ Enrichment at 8 days post-infection, when gametogony happens
     level / kind : transcription / scRNAseq
     provides     : sexual_stage_8dpi_log2fc
     coverage     : 4,463 genes (55%)
-    PMID         : 41929010
+    citation     : Alrubaye HS et al., A single-cell atlas of Toxoplasma sexual development in the feline intestinal tract. Nat Microbiol 2026;11:1450-1462
+    PMID         : 42020723
     accession    : PMC13042011 supplementary media-2
     url          : https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13042011/supplementaryFiles
     local path   : starplast/data/sexual_stages.tsv

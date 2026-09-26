@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>Explore the map and read the evidence</title><style>
+@font-face { font-family: 'Open Sans'; src: local('Open Sans'); }
+:root { --bg:#1e1e1e; --panel:#2a2a2a; --card:#333; --ink:#eaeaea; --muted:#a8a8a8;
+        --accent:#4aa3ff; --pass:#3fb37f; --fail:#e0625a; --line:#444; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--ink);
+             font-family:'Open Sans', 'Segoe UI', Roboto, sans-serif; }
+a { color: var(--accent); }
+.topbar { display:flex; align-items:center; gap:16px; padding:10px 20px; background:#161616;
+          border-bottom:1px solid var(--line); }
+.topbar h1 { font-size:18px; margin:0; font-weight:600; }
+.topbar .nav { margin-left:auto; display:flex; gap:14px; font-size:14px; }
+.container { display:flex; height:calc(100vh - 50px); }
+.left-panel { width:30%; min-width:300px; background:var(--panel); padding:18px; box-sizing:border-box;
+              border-right:1px solid var(--line); overflow-y:auto; }
+.left-panel h2, .right-panel h2 { font-size:16px; margin:0 0 10px 0; }
+.intro { font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:14px; }
+.field { display:flex; justify-content:space-between; gap:10px; padding:7px 9px; margin:4px 0;
+         background:#232323; border-radius:6px; font-size:13px; cursor:help; }
+.field:hover { outline:1px solid var(--accent); }
+.field .label { color:var(--muted); }
+.field .value { font-family:monospace; text-align:right; word-break:break-all; max-width:55%; }
+.right-panel { flex:1; display:flex; flex-direction:column; padding:18px; box-sizing:border-box;
+               min-width:0; }
+.figure { flex:1.4; background:var(--card); border-radius:12px; position:relative; display:flex;
+          flex-direction:column; align-items:center; justify-content:center; min-height:0;
+          padding:10px; box-sizing:border-box; }
+.figure img { max-width:100%; max-height:calc(100% - 50px); object-fit:contain; border-radius:6px; }
+.caption { font-size:13px; color:var(--muted); margin-top:8px; text-align:center; max-width:90%; }
+.slider-row { display:flex; align-items:center; gap:12px; justify-content:center; height:44px; }
+.slider-row input { width:60%; }
+.bottom { flex:1; display:flex; gap:14px; min-height:0; margin-top:6px; }
+.console { flex:1; background:#222; border-radius:10px; display:flex; flex-direction:column;
+           min-height:0; }
+.console .label { padding:6px 10px; font-weight:600; font-size:14px; background:#1b1b1b;
+                  border-radius:10px 10px 0 0; }
+.console .out { flex:1; overflow-y:auto; padding:8px 10px; font-family:monospace; font-size:12.5px; }
+.console .line { padding:2px 4px; border-radius:4px; cursor:help; white-space:pre-wrap; }
+.console .line:hover { background:#2f3b48; }
+.buttons { width:30%; min-width:240px; display:flex; flex-direction:column; gap:8px; }
+.buttons button { background:#3a3a3a; color:var(--ink); border:1px solid #555; border-radius:6px;
+                  padding:8px; font-size:13px; cursor:pointer; text-align:left; }
+.buttons button:hover { border-color:var(--accent); }
+.buttons .desc { font-size:12.5px; color:var(--muted); min-height:60px; line-height:1.45; }
+.help-box { position:fixed; max-width:420px; background:#101820; border:1px solid var(--accent);
+            color:var(--ink); padding:9px 11px; border-radius:6px; font-size:12.5px; line-height:1.45;
+            display:none; z-index:10; pointer-events:none; }
+.verdict-pass { color:var(--pass); font-weight:700; } .verdict-fail { color:var(--fail); font-weight:700; }
+/* notebook */
+.nb { max-width:1100px; margin:0 auto; padding:20px 24px 80px 24px; }
+.nb h1 { font-size:26px; } .nb h2 { font-size:20px; margin-top:34px; border-bottom:1px solid var(--line);
+         padding-bottom:4px; }
+.nb p, .nb li { line-height:1.6; font-size:15px; color:#dcdcdc; }
+.cell { margin:14px 0; }
+.cell .in, .cell .outp { display:flex; gap:10px; }
+.cell .prompt { width:62px; flex:none; text-align:right; font-family:monospace; font-size:12.5px;
+                color:#7aa7d9; padding-top:9px; }
+.cell .outp .prompt { color:#d98b7a; }
+pre.code { flex:1; margin:0; background:#262a30; border:1px solid #3a3f47; border-radius:6px;
+           padding:9px 11px; overflow-x:auto; font-size:13px; line-height:1.5; }
+pre.code .ln { display:block; cursor:help; border-radius:3px; }
+pre.code .ln:hover { background:#324257; }
+.outbox { flex:1; background:#1a1a1a; border-left:3px solid #555; padding:8px 11px; overflow-x:auto;
+          font-size:13px; }
+.outbox pre { margin:0; white-space:pre-wrap; font-size:12.5px; }
+.outbox table { border-collapse:collapse; font-size:12.5px; }
+.outbox th, .outbox td { border:1px solid #444; padding:3px 7px; text-align:left; }
+.outbox th { background:#2c2c2c; }
+.outbox img { max-width:100%; border-radius:6px; }
+.note { background:#23303d; border-left:3px solid var(--accent); padding:8px 12px; border-radius:4px;
+        font-size:14px; line-height:1.55; }
+/* index and guide */
+.page { max-width:1100px; margin:0 auto; padding:24px 24px 90px 24px; }
+.page h1 { font-size:28px; } .page h2 { font-size:21px; margin-top:38px;
+           border-bottom:1px solid var(--line); padding-bottom:5px; }
+.page h3 { font-size:17px; margin-top:24px; }
+.page p, .page li { line-height:1.65; font-size:15px; color:#dcdcdc; }
+.page img.shot { max-width:100%; border:1px solid #444; border-radius:8px; margin:10px 0; }
+.page table { border-collapse:collapse; font-size:13.5px; margin:10px 0; width:100%; }
+.page th, .page td { border:1px solid #444; padding:5px 8px; text-align:left; vertical-align:top; }
+.page th { background:#2a2a2a; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:14px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+.card h3 { margin:0 0 6px 0; font-size:16px; }
+.card p { font-size:13.5px; color:var(--muted); margin:0 0 10px 0; }
+.card a { margin-right:14px; font-size:14px; }
+.toc { columns:2; font-size:14px; }
+</style></head><body><div class='topbar'><h1>Explore the map and read the evidence</h1><div class='nav'><a href='index.html'>All tutorials</a><a href='complete_guide.html'>Complete guide</a><a href='../strategies.md'>Strategy catalogue</a></div></div><div class='container'><div class='left-panel'><h2>Settings</h2><div class='intro'>The first things to do in Starplast: find a gene, color the map, and read the evidence. Hover a setting or a console line to see what it means; move the slider to step through the views.</div><div class='field' data-tip='Type an accession, a symbol or words from the product description; the matching gene is selected and its evidence shown.'><span class='label'>find</span><span class='value'>GRA16</span></div><div class='field' data-tip='What color means right now: a column, a kept clustering, or a binned quantity. Gray always means unknown.'><span class='label'>color by</span><span class='value'>compartment</span></div><div class='field' data-tip='View &gt; Point size. Automatic scales with how many genes are visible.'><span class='label'>point size</span><span class='value'>Automatic</span></div><div class='field' data-tip='Edges menu: each layer is a different kind of evidence and they are never merged silently.'><span class='label'>edges</span><span class='value'>co-mention, co-fitness</span></div><div class='field' data-tip='View &gt; Left mouse button: Navigate rotates and selects; Select draws a gate around genes.'><span class='label'>left mouse button</span><span class='value'>Navigate</span></div><div class='field' data-tip='Edges menu: co-mention is shown as the residual over what each gene&#x27;s fame predicts. Off shows raw counts, and the menu says so.'><span class='label'>attention-corrected co-mention</span><span class='value'>on</span></div></div><div class='right-panel'><div class='figure'><img id='slide' src='resources/1_explore/workspace.png'><div class='caption' id='caption'>The window: find and color-by on the left, the 3D map in the middle, the evidence for the selected gene on the right. Every gene is a point placed by what it does.</div></div><div class='slider-row'><span>1</span><input id='slider' type='range' min='0' max='4' value='0' oninput='go(this.value)'><span>5</span></div><div class='bottom'><div class='console'><div class='label'>Console</div><div class='out'><div class='line' data-tip='The status bar: how many genes are visible after filters, and which edge layers are on.'>8,140 / 8,140 genes shown  ·  edges: comention, cofitness</div><div class='line' data-tip='What the current coloring means, and the rule that absence is never drawn as a value.'>coloring by compartment; gray is unknown, which is a real answer</div><div class='line' data-tip='A clicked gene: its evidence opens on the right and its edges are drawn.'>selected TGME49_…  ·  12 edges</div></div></div><div class='buttons'><button onmouseenter='describe(0)' onclick='describe(0)'>Reset view / clear filters</button><button onmouseenter='describe(1)' onclick='describe(1)'>Spin</button><button onmouseenter='describe(2)' onclick='describe(2)'>Export image…</button><button onmouseenter='describe(3)' onclick='describe(3)'>Export visible genes (CSV)…</button><div class='desc' id='desc'>Hover or click a button to see what it does. Hover any setting or console line for an explanation; move the slider to step through the run.</div></div></div></div></div><div id='help-overlay' class='help-box'></div><script>
+const help = document.getElementById('help-overlay');
+function showHelp(ev, text) { help.innerHTML = text; help.style.display = 'block';
+  const x = Math.min(ev.clientX + 16, window.innerWidth - 440);
+  const y = Math.min(ev.clientY + 16, window.innerHeight - help.offsetHeight - 10);
+  help.style.left = x + 'px'; help.style.top = y + 'px'; }
+function hideHelp() { help.style.display = 'none'; }
+document.querySelectorAll('[data-tip]').forEach(el => {
+  el.addEventListener('mousemove', ev => showHelp(ev, el.getAttribute('data-tip')));
+  el.addEventListener('mouseleave', hideHelp); });
+const slides = [["resources/1_explore/workspace.png", "The window: find and color-by on the left, the 3D map in the middle, the evidence for the selected gene on the right. Every gene is a point placed by what it does."], ["resources/1_explore/map_dark.png", "The map colored by compartment. Gray is a gene with no value -- never zero, never a category."], ["resources/1_explore/map_light.png", "The same map in the light theme (View > Preferences > Appearance)."], ["resources/1_explore/evidence.png", "The evidence panel for one gene: every measurement, where it came from, and a dash where nothing was measured."], ["resources/1_explore/explore_workflow.png", "Tools > Explore a gene: search by identifier, symbol or description and follow the evidence to its source."]]; const descs = ["Return the camera and show every gene again.", "View > Spin: depth in a 3D scatter reads only when it moves.", "File > Export image: the current view as a picture.", "File: every gene that survives the current filters, with its columns."];function go(i) { document.getElementById('slide').src = slides[i][0]; document.getElementById('caption').textContent = slides[i][1]; }function describe(i) { document.getElementById('desc').textContent = descs[i]; }</script></body></html>

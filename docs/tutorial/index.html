@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>Starplast tutorials</title><style>
+@font-face { font-family: 'Open Sans'; src: local('Open Sans'); }
+:root { --bg:#1e1e1e; --panel:#2a2a2a; --card:#333; --ink:#eaeaea; --muted:#a8a8a8;
+        --accent:#4aa3ff; --pass:#3fb37f; --fail:#e0625a; --line:#444; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--ink);
+             font-family:'Open Sans', 'Segoe UI', Roboto, sans-serif; }
+a { color: var(--accent); }
+.topbar { display:flex; align-items:center; gap:16px; padding:10px 20px; background:#161616;
+          border-bottom:1px solid var(--line); }
+.topbar h1 { font-size:18px; margin:0; font-weight:600; }
+.topbar .nav { margin-left:auto; display:flex; gap:14px; font-size:14px; }
+.container { display:flex; height:calc(100vh - 50px); }
+.left-panel { width:30%; min-width:300px; background:var(--panel); padding:18px; box-sizing:border-box;
+              border-right:1px solid var(--line); overflow-y:auto; }
+.left-panel h2, .right-panel h2 { font-size:16px; margin:0 0 10px 0; }
+.intro { font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:14px; }
+.field { display:flex; justify-content:space-between; gap:10px; padding:7px 9px; margin:4px 0;
+         background:#232323; border-radius:6px; font-size:13px; cursor:help; }
+.field:hover { outline:1px solid var(--accent); }
+.field .label { color:var(--muted); }
+.field .value { font-family:monospace; text-align:right; word-break:break-all; max-width:55%; }
+.right-panel { flex:1; display:flex; flex-direction:column; padding:18px; box-sizing:border-box;
+               min-width:0; }
+.figure { flex:1.4; background:var(--card); border-radius:12px; position:relative; display:flex;
+          flex-direction:column; align-items:center; justify-content:center; min-height:0;
+          padding:10px; box-sizing:border-box; }
+.figure img { max-width:100%; max-height:calc(100% - 50px); object-fit:contain; border-radius:6px; }
+.caption { font-size:13px; color:var(--muted); margin-top:8px; text-align:center; max-width:90%; }
+.slider-row { display:flex; align-items:center; gap:12px; justify-content:center; height:44px; }
+.slider-row input { width:60%; }
+.bottom { flex:1; display:flex; gap:14px; min-height:0; margin-top:6px; }
+.console { flex:1; background:#222; border-radius:10px; display:flex; flex-direction:column;
+           min-height:0; }
+.console .label { padding:6px 10px; font-weight:600; font-size:14px; background:#1b1b1b;
+                  border-radius:10px 10px 0 0; }
+.console .out { flex:1; overflow-y:auto; padding:8px 10px; font-family:monospace; font-size:12.5px; }
+.console .line { padding:2px 4px; border-radius:4px; cursor:help; white-space:pre-wrap; }
+.console .line:hover { background:#2f3b48; }
+.buttons { width:30%; min-width:240px; display:flex; flex-direction:column; gap:8px; }
+.buttons button { background:#3a3a3a; color:var(--ink); border:1px solid #555; border-radius:6px;
+                  padding:8px; font-size:13px; cursor:pointer; text-align:left; }
+.buttons button:hover { border-color:var(--accent); }
+.buttons .desc { font-size:12.5px; color:var(--muted); min-height:60px; line-height:1.45; }
+.help-box { position:fixed; max-width:420px; background:#101820; border:1px solid var(--accent);
+            color:var(--ink); padding:9px 11px; border-radius:6px; font-size:12.5px; line-height:1.45;
+            display:none; z-index:10; pointer-events:none; }
+.verdict-pass { color:var(--pass); font-weight:700; } .verdict-fail { color:var(--fail); font-weight:700; }
+/* notebook */
+.nb { max-width:1100px; margin:0 auto; padding:20px 24px 80px 24px; }
+.nb h1 { font-size:26px; } .nb h2 { font-size:20px; margin-top:34px; border-bottom:1px solid var(--line);
+         padding-bottom:4px; }
+.nb p, .nb li { line-height:1.6; font-size:15px; color:#dcdcdc; }
+.cell { margin:14px 0; }
+.cell .in, .cell .outp { display:flex; gap:10px; }
+.cell .prompt { width:62px; flex:none; text-align:right; font-family:monospace; font-size:12.5px;
+                color:#7aa7d9; padding-top:9px; }
+.cell .outp .prompt { color:#d98b7a; }
+pre.code { flex:1; margin:0; background:#262a30; border:1px solid #3a3f47; border-radius:6px;
+           padding:9px 11px; overflow-x:auto; font-size:13px; line-height:1.5; }
+pre.code .ln { display:block; cursor:help; border-radius:3px; }
+pre.code .ln:hover { background:#324257; }
+.outbox { flex:1; background:#1a1a1a; border-left:3px solid #555; padding:8px 11px; overflow-x:auto;
+          font-size:13px; }
+.outbox pre { margin:0; white-space:pre-wrap; font-size:12.5px; }
+.outbox table { border-collapse:collapse; font-size:12.5px; }
+.outbox th, .outbox td { border:1px solid #444; padding:3px 7px; text-align:left; }
+.outbox th { background:#2c2c2c; }
+.outbox img { max-width:100%; border-radius:6px; }
+.note { background:#23303d; border-left:3px solid var(--accent); padding:8px 12px; border-radius:4px;
+        font-size:14px; line-height:1.55; }
+/* index and guide */
+.page { max-width:1100px; margin:0 auto; padding:24px 24px 90px 24px; }
+.page h1 { font-size:28px; } .page h2 { font-size:21px; margin-top:38px;
+           border-bottom:1px solid var(--line); padding-bottom:5px; }
+.page h3 { font-size:17px; margin-top:24px; }
+.page p, .page li { line-height:1.65; font-size:15px; color:#dcdcdc; }
+.page img.shot { max-width:100%; border:1px solid #444; border-radius:8px; margin:10px 0; }
+.page table { border-collapse:collapse; font-size:13.5px; margin:10px 0; width:100%; }
+.page th, .page td { border:1px solid #444; padding:5px 8px; text-align:left; vertical-align:top; }
+.page th { background:#2a2a2a; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:14px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+.card h3 { margin:0 0 6px 0; font-size:16px; }
+.card p { font-size:13.5px; color:var(--muted); margin:0 0 10px 0; }
+.card a { margin-right:14px; font-size:14px; }
+.toc { columns:2; font-size:14px; }
+</style></head><body><div class='topbar'><h1>Starplast tutorials</h1><div class='nav'><a href='index.html'>All tutorials</a><a href='complete_guide.html'>Complete guide</a><a href='../strategies.md'>Strategy catalogue</a></div></div><div class='page'><h1>Tutorials</h1><p>Learn Starplast step by step. Each tutorial comes as a <b>GUI</b> walkthrough -- the application's own panels, with every setting and console line explained on hover -- and as a <b>notebook</b> doing the same from Python, with every line explained on hover and its real output. The notebooks are also provided as runnable .ipynb files.</p><div class='cards'><div class='card'><h3>1. Explore the map and read the evidence</h3><p>Find a gene, color the map, read the evidence, and look at the tables from Python.</p><a href='1_explore_gui.html'>GUI</a><a href='1_explore_notebook.html'>Notebook</a><a href='notebooks/1_explore.ipynb'>.ipynb</a></div><div class='card'><h3>2. Hold out a category and search for the map that finds it</h3><p>Strategy 01: hide a label and everything restating it, walk map settings, keep the map whose clusters recover it.</p><a href='2_holdout_search_gui.html'>GUI</a><a href='2_holdout_search_notebook.html'>Notebook</a><a href='notebooks/2_holdout_search.ipynb'>.ipynb</a></div><div class='card'><h3>3. Find the cluster your gene list forms</h3><p>Strategies 02, 20, 24 and 25: a gene list in, a cluster, a ranking and a profile out.</p><a href='3_gene_list_gui.html'>GUI</a><a href='3_gene_list_notebook.html'>Notebook</a><a href='notebooks/3_gene_list.ipynb'>.ipynb</a></div><div class='card'><h3>4. Test a strategy before you trust it</h3><p>Self-tests, nulls, noise tables and the calibration of every strategy over its settings.</p><a href='4_test_and_calibrate_gui.html'>GUI</a><a href='4_test_and_calibrate_notebook.html'>Notebook</a><a href='notebooks/4_test_and_calibrate.ipynb'>.ipynb</a></div><div class='card'><h3>5. Borrow from networks, learn from examples, demand agreement</h3><p>Strategies 12, 19, 31 and 32: networks, a classifier, agreement, and understudied genes.</p><a href='5_networks_and_agreement_gui.html'>GUI</a><a href='5_networks_and_agreement_notebook.html'>Notebook</a><a href='notebooks/5_networks_and_agreement.ipynb'>.ipynb</a></div></div><h2>The complete guide</h2><p><a href='complete_guide.html'>Every feature of Starplast in one long page</a>: the window, finding genes and reading evidence, coloring and edges, every tab of the analysis panel with every control explained, the gallery and annotations, the guided workflows, your own data, the Strategies tab, the two organisms, preferences, the Python API, and how to read the numbers honestly.</p></div><div id='help-overlay' class='help-box'></div><script>
+const help = document.getElementById('help-overlay');
+function showHelp(ev, text) { help.innerHTML = text; help.style.display = 'block';
+  const x = Math.min(ev.clientX + 16, window.innerWidth - 440);
+  const y = Math.min(ev.clientY + 16, window.innerHeight - help.offsetHeight - 10);
+  help.style.left = x + 'px'; help.style.top = y + 'px'; }
+function hideHelp() { help.style.display = 'none'; }
+document.querySelectorAll('[data-tip]').forEach(el => {
+  el.addEventListener('mousemove', ev => showHelp(ev, el.getAttribute('data-tip')));
+  el.addEventListener('mouseleave', hideHelp); });
+</script></body></html>

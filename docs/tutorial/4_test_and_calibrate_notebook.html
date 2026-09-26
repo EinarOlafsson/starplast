@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>Self-tests, nulls and calibration, from Python</title><style>
+@font-face { font-family: 'Open Sans'; src: local('Open Sans'); }
+:root { --bg:#1e1e1e; --panel:#2a2a2a; --card:#333; --ink:#eaeaea; --muted:#a8a8a8;
+        --accent:#4aa3ff; --pass:#3fb37f; --fail:#e0625a; --line:#444; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--ink);
+             font-family:'Open Sans', 'Segoe UI', Roboto, sans-serif; }
+a { color: var(--accent); }
+.topbar { display:flex; align-items:center; gap:16px; padding:10px 20px; background:#161616;
+          border-bottom:1px solid var(--line); }
+.topbar h1 { font-size:18px; margin:0; font-weight:600; }
+.topbar .nav { margin-left:auto; display:flex; gap:14px; font-size:14px; }
+.container { display:flex; height:calc(100vh - 50px); }
+.left-panel { width:30%; min-width:300px; background:var(--panel); padding:18px; box-sizing:border-box;
+              border-right:1px solid var(--line); overflow-y:auto; }
+.left-panel h2, .right-panel h2 { font-size:16px; margin:0 0 10px 0; }
+.intro { font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:14px; }
+.field { display:flex; justify-content:space-between; gap:10px; padding:7px 9px; margin:4px 0;
+         background:#232323; border-radius:6px; font-size:13px; cursor:help; }
+.field:hover { outline:1px solid var(--accent); }
+.field .label { color:var(--muted); }
+.field .value { font-family:monospace; text-align:right; word-break:break-all; max-width:55%; }
+.right-panel { flex:1; display:flex; flex-direction:column; padding:18px; box-sizing:border-box;
+               min-width:0; }
+.figure { flex:1.4; background:var(--card); border-radius:12px; position:relative; display:flex;
+          flex-direction:column; align-items:center; justify-content:center; min-height:0;
+          padding:10px; box-sizing:border-box; }
+.figure img { max-width:100%; max-height:calc(100% - 50px); object-fit:contain; border-radius:6px; }
+.caption { font-size:13px; color:var(--muted); margin-top:8px; text-align:center; max-width:90%; }
+.slider-row { display:flex; align-items:center; gap:12px; justify-content:center; height:44px; }
+.slider-row input { width:60%; }
+.bottom { flex:1; display:flex; gap:14px; min-height:0; margin-top:6px; }
+.console { flex:1; background:#222; border-radius:10px; display:flex; flex-direction:column;
+           min-height:0; }
+.console .label { padding:6px 10px; font-weight:600; font-size:14px; background:#1b1b1b;
+                  border-radius:10px 10px 0 0; }
+.console .out { flex:1; overflow-y:auto; padding:8px 10px; font-family:monospace; font-size:12.5px; }
+.console .line { padding:2px 4px; border-radius:4px; cursor:help; white-space:pre-wrap; }
+.console .line:hover { background:#2f3b48; }
+.buttons { width:30%; min-width:240px; display:flex; flex-direction:column; gap:8px; }
+.buttons button { background:#3a3a3a; color:var(--ink); border:1px solid #555; border-radius:6px;
+                  padding:8px; font-size:13px; cursor:pointer; text-align:left; }
+.buttons button:hover { border-color:var(--accent); }
+.buttons .desc { font-size:12.5px; color:var(--muted); min-height:60px; line-height:1.45; }
+.help-box { position:fixed; max-width:420px; background:#101820; border:1px solid var(--accent);
+            color:var(--ink); padding:9px 11px; border-radius:6px; font-size:12.5px; line-height:1.45;
+            display:none; z-index:10; pointer-events:none; }
+.verdict-pass { color:var(--pass); font-weight:700; } .verdict-fail { color:var(--fail); font-weight:700; }
+/* notebook */
+.nb { max-width:1100px; margin:0 auto; padding:20px 24px 80px 24px; }
+.nb h1 { font-size:26px; } .nb h2 { font-size:20px; margin-top:34px; border-bottom:1px solid var(--line);
+         padding-bottom:4px; }
+.nb p, .nb li { line-height:1.6; font-size:15px; color:#dcdcdc; }
+.cell { margin:14px 0; }
+.cell .in, .cell .outp { display:flex; gap:10px; }
+.cell .prompt { width:62px; flex:none; text-align:right; font-family:monospace; font-size:12.5px;
+                color:#7aa7d9; padding-top:9px; }
+.cell .outp .prompt { color:#d98b7a; }
+pre.code { flex:1; margin:0; background:#262a30; border:1px solid #3a3f47; border-radius:6px;
+           padding:9px 11px; overflow-x:auto; font-size:13px; line-height:1.5; }
+pre.code .ln { display:block; cursor:help; border-radius:3px; }
+pre.code .ln:hover { background:#324257; }
+.outbox { flex:1; background:#1a1a1a; border-left:3px solid #555; padding:8px 11px; overflow-x:auto;
+          font-size:13px; }
+.outbox pre { margin:0; white-space:pre-wrap; font-size:12.5px; }
+.outbox table { border-collapse:collapse; font-size:12.5px; }
+.outbox th, .outbox td { border:1px solid #444; padding:3px 7px; text-align:left; }
+.outbox th { background:#2c2c2c; }
+.outbox img { max-width:100%; border-radius:6px; }
+.note { background:#23303d; border-left:3px solid var(--accent); padding:8px 12px; border-radius:4px;
+        font-size:14px; line-height:1.55; }
+/* index and guide */
+.page { max-width:1100px; margin:0 auto; padding:24px 24px 90px 24px; }
+.page h1 { font-size:28px; } .page h2 { font-size:21px; margin-top:38px;
+           border-bottom:1px solid var(--line); padding-bottom:5px; }
+.page h3 { font-size:17px; margin-top:24px; }
+.page p, .page li { line-height:1.65; font-size:15px; color:#dcdcdc; }
+.page img.shot { max-width:100%; border:1px solid #444; border-radius:8px; margin:10px 0; }
+.page table { border-collapse:collapse; font-size:13.5px; margin:10px 0; width:100%; }
+.page th, .page td { border:1px solid #444; padding:5px 8px; text-align:left; vertical-align:top; }
+.page th { background:#2a2a2a; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:14px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+.card h3 { margin:0 0 6px 0; font-size:16px; }
+.card p { font-size:13.5px; color:var(--muted); margin:0 0 10px 0; }
+.card a { margin-right:14px; font-size:14px; }
+.toc { columns:2; font-size:14px; }
+</style></head><body><div class='topbar'><h1>Self-tests, nulls and calibration, from Python</h1><div class='nav'><a href='index.html'>All tutorials</a><a href='complete_guide.html'>Complete guide</a><a href='../strategies.md'>Strategy catalogue</a></div></div><div class='nb'><h1>Test before you trust</h1><p>A number without its chance level is not a result. Every self-test hides known information, asks the strategy for it back, and compares the answer with the SAME procedure run without the information it claims to use. The five patterns are: hide labels, hide members of a set, hide edges, hide values, and replicate findings on the other half of the genes.</p><div class='cell'><div class='in'><div class='prompt'>In [1]:</div><pre class='code'><span class='ln' data-tip='Import.'>from starplast import strategies as S</span><span class='ln' data-tip='Strategy 13&#x27;s test.'>t = S.test(&#x27;physical_partners&#x27;, target=&#x27;compartment&#x27;)</span><span class='ln' data-tip='The verdict.'>t</span></pre></div><div class='outp'><div class='prompt'>Out[1]:</div><div class='outbox'><p><b style='color:#2e8b57'>PASS</b> -- correct calls per hidden gene 0.520 against 0.069 ± 0.017 under 20 runs on shuffled labels (bar 0.098, p 0.0476); effect +0.451, needed +0.050; 300 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 20 runs on shuffled labels.</i></p></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [2]:</div><pre class='code'><span class='ln' data-tip='The number and its chance level.'>print(&#x27;observed&#x27;, round(t.observed, 3), &#x27;| chance&#x27;, round(t.null_mean, 3),</span><span class='ln' data-tip='The null&#x27;s spread, and the 95th percentile to clear.'>      &#x27;+/-&#x27;, round(t.null_sd, 3), &#x27;| bar&#x27;, round(t.null_high, 3),</span><span class='ln' data-tip='Observed minus chance, and the share of null runs as good.'>      &#x27;| effect&#x27;, round(t.effect, 3), &#x27;| p&#x27;, round(t.p_value, 4))</span></pre></div><div class='outp'><div class='prompt'>Out[2]:</div><div class='outbox'><pre>observed 0.52 | chance 0.069 +/- 0.017 | bar 0.098 | effect 0.451 | p 0.0476</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [3]:</div><pre class='code'><span class='ln' data-tip='Per hidden class: how many came back, and how precise the calls were.'>t.details</span></pre></div><div class='outp'><div class='prompt'>Out[3]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>class</th>
+      <th>hidden</th>
+      <th>recovered</th>
+      <th>recall</th>
+      <th>called</th>
+      <th>precision</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>19S proteasome</td>
+      <td>4</td>
+      <td>4</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0.8</td>
+    </tr>
+    <tr>
+      <td>40S ribosome</td>
+      <td>7</td>
+      <td>2</td>
+      <td>0.286</td>
+      <td>4</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td>60S ribosome</td>
+      <td>5</td>
+      <td>5</td>
+      <td>1</td>
+      <td>16</td>
+      <td>0.312</td>
+    </tr>
+    <tr>
+      <td>ER</td>
+      <td>8</td>
+      <td>4</td>
+      <td>0.5</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>ER 2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>7</td>
+      <td>0.143</td>
+    </tr>
+    <tr>
+      <td>Golgi</td>
+      <td>4</td>
+      <td>2</td>
+      <td>0.5</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>IMC</td>
+      <td>12</td>
+      <td>8</td>
+      <td>0.667</td>
+      <td>11</td>
+      <td>0.727</td>
+    </tr>
+    <tr>
+      <td>PM - integral</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0.2</td>
+      <td>2</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td>PM - peripheral 1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1</td>
+      <td>4</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td>apical 1</td>
+      <td>7</td>
+      <td>2</td>
+      <td>0.286</td>
+      <td>4</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td>apical 2</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0.333</td>
+      <td>3</td>
+      <td>0.333</td>
+    </tr>
+    <tr>
+      <td>apicoplast</td>
+      <td>6</td>
+      <td>2</td>
+      <td>0.333</td>
+      <td>3</td>
+      <td>0.667</td>
+    </tr>
+  </tbody>
+</table><p><i>22 rows; first 12 shown</i></p></div></div></div><h2>The same test on a table with nothing in it</h2><p>A test that passes on noise tests nothing. <code>planted_context(null=True)</code> deals every column and edge out at random.</p><div class='cell'><div class='in'><div class='prompt'>In [4]:</div><pre class='code'><span class='ln' data-tip='A synthetic organism with nothing to find.'>noise = S.planted_context(null=True)</span><span class='ln' data-tip='Should FAIL or be INCONCLUSIVE.'>S.get(&#x27;physical_partners&#x27;).test(noise)</span></pre></div><div class='outp'><div class='prompt'>Out[4]:</div><div class='outbox'><p><b style='color:#c0392b'>FAIL</b> -- correct calls per hidden gene 0.125 against 0.147 ± 0.046 under 20 runs on shuffled labels (bar 0.227, p 0.667); effect -0.022, needed +0.050; 88 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 20 runs on shuffled labels.</i></p></div></div></div><h2>Calibration: where each strategy works</h2><p><code>scripts/calibrate_strategies.py</code> runs every strategy's self-test over a grid of its settings, several held-out labels and five seeds, and summarises each configuration with a mean and a 95% interval. Skill puts every metric on one scale: 0 is chance, 1 is perfect.</p><div class='cell'><div class='in'><div class='prompt'>In [5]:</div><pre class='code'><span class='ln' data-tip='Read the calibration tables.'>import pandas as pd, glob, os</span><span class='ln' data-tip='The newest calibration run in results/.'>folders = sorted(glob.glob(os.path.join(S.__file__.rsplit(&#x27;/starplast/&#x27;, 1)[0],</span><span class='ln' data-tip=''>                                    &#x27;results&#x27;, &#x27;calibration_*&#x27;)))</span><span class='ln' data-tip='Per strategy, the configuration with the highest lower confidence bound.'>best = pd.read_csv(os.path.join(folders[-1], &#x27;best.csv&#x27;))</span><span class='ln' data-tip='Skill and its 95% interval.'>best[best.organism == &#x27;Tg&#x27;][[&#x27;strategy&#x27;, &#x27;settings&#x27;, &#x27;skill&#x27;, &#x27;skill_low&#x27;,</span><span class='ln' data-tip=''>                               &#x27;skill_high&#x27;, &#x27;pass_rate&#x27;]].head(12)</span></pre></div><div class='outp'><div class='prompt'>Out[5]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>strategy</th>
+      <th>settings</th>
+      <th>skill</th>
+      <th>skill_low</th>
+      <th>skill_high</th>
+      <th>pass_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>attention_correction</td>
+      <td>{"target": "lopit_unified", "top": 50}</td>
+      <td>0.714</td>
+      <td>0.708</td>
+      <td>0.72</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>blind_battery</td>
+      <td>{"map_from": "chemistry"}</td>
+      <td>0.968</td>
+      <td>0.95</td>
+      <td>0.986</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>block_ablation</td>
+      <td>{"k": 15, "target": "stage_enriched_derived"}</td>
+      <td>0.345</td>
+      <td>0.317</td>
+      <td>0.373</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>cluster_guilt</td>
+      <td>{"min_cluster_size": 10, "min_lift": 1.5, "selection": "leaf", "target": "lopit_unified"}</td>
+      <td>0.546</td>
+      <td>0.487</td>
+      <td>0.606</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>condition_shift</td>
+      <td>{"model": "boosted", "own_kind": "include"}</td>
+      <td>0.0952</td>
+      <td>0.0605</td>
+      <td>0.13</td>
+      <td>0.8</td>
+    </tr>
+    <tr>
+      <td>conjunctions</td>
+      <td>{"min_cluster_size": 8}</td>
+      <td>0.425</td>
+      <td>0.197</td>
+      <td>0.652</td>
+      <td>0.8</td>
+    </tr>
+    <tr>
+      <td>consensus_modules</td>
+      <td>{"target": "stage_enriched_derived", "threshold": 0.3}</td>
+      <td>0.157</td>
+      <td>0.0769</td>
+      <td>0.236</td>
+      <td>0.8</td>
+    </tr>
+    <tr>
+      <td>feature_knn</td>
+      <td>{"k": 5, "min_share": 0.6, "target": "stage_enriched_derived"}</td>
+      <td>0.527</td>
+      <td>0.482</td>
+      <td>0.571</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>geneset_hunt</td>
+      <td>{"exclude": "compartment", "min_cluster_size": "10, 25", "n_neighbors": "10, 30"}</td>
+      <td>0.096</td>
+      <td>0.0497</td>
+      <td>0.142</td>
+      <td>0.8</td>
+    </tr>
+    <tr>
+      <td>holdout_search</td>
+      <td>{"min_cluster_size": "10, 25", "n_neighbors": "10, 30", "selection": "eom, leaf", "target": "compartment"}</td>
+      <td>0.0315</td>
+      <td>0.0209</td>
+      <td>0.042</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>label_outliers</td>
+      <td>{"k": 15, "target": "dtm_class"}</td>
+      <td>0.795</td>
+      <td>0.784</td>
+      <td>0.806</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>layer_propagation</td>
+      <td>{"layer": "coexpression", "restart": 0.2, "target": "lopit_unified"}</td>
+      <td>0.188</td>
+      <td>0.169</td>
+      <td>0.206</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div></div></div></div><div id='help-overlay' class='help-box'></div><script>
+const help = document.getElementById('help-overlay');
+function showHelp(ev, text) { help.innerHTML = text; help.style.display = 'block';
+  const x = Math.min(ev.clientX + 16, window.innerWidth - 440);
+  const y = Math.min(ev.clientY + 16, window.innerHeight - help.offsetHeight - 10);
+  help.style.left = x + 'px'; help.style.top = y + 'px'; }
+function hideHelp() { help.style.display = 'none'; }
+document.querySelectorAll('[data-tip]').forEach(el => {
+  el.addEventListener('mousemove', ev => showHelp(ev, el.getAttribute('data-tip')));
+  el.addEventListener('mouseleave', hideHelp); });
+</script></body></html>

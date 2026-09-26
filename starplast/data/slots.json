@@ -1061,12 +1061,18 @@
     "context": "tachyzoite, in vitro",
     "unit": "gene",
     "patterns": [
+      "te302107_tachy_",
       "te99395_intracellular_",
       "te129869_",
       "te245775_parent_tachy_"
     ],
     "policy": "separate",
     "candidates": [
+      [
+        "",
+        "GSE302107",
+        "high-resolution RPF relative to matched RNA; replicates rho 0.97"
+      ],
       [
         "29228904",
         "GSE99395",
@@ -1917,6 +1923,162 @@
   },
   {
     "organism": "Tg",
+    "name": "transcription · bradyzoite subtype in vivo",
+    "axis": "transcription",
+    "context": "mouse brain cyst, 30 days",
+    "unit": "gene",
+    "patterns": [
+      "bzsub_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "41580398",
+        "GSE311669",
+        "single-cell atlas of brain bradyzoites, Groups A-E"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance",
+      "bradyzoite"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance",
+      "bradyzoite",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vivo",
+      "mouse",
+      "brain",
+      "bradyzoite",
+      "transcription"
+    ],
+    "target_family": "transcription_bradyzoite_subtype_in_vivo",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "protein abundance · under stress",
+    "axis": "protein abundance",
+    "context": "iron depletion, 24 h",
+    "unit": "gene",
+    "patterns": [
+      "iron_depletion_protein_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "41925342",
+        "PXD066828",
+        "proteome after iron depletion"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "protein abundance"
+    ],
+    "target_family": "protein_abundance_under_stress",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "transcription · under iron depletion",
+    "axis": "transcription",
+    "context": "iron depletion, 24 h",
+    "unit": "gene",
+    "patterns": [
+      "iron_depletion_rna_log2fc"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "41925342",
+        "PRJEB83013",
+        "RNA-seq after iron depletion"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "transcription"
+    ],
+    "target_family": "transcription_under_iron_depletion",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "organelle surface / membrane contact site",
+    "axis": "localization",
+    "context": "TurboID on outer membranes",
+    "unit": "gene",
+    "patterns": [
+      "surface_apicoplast_",
+      "surface_mitochondrion_",
+      "surface_er_"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "spatial biology",
+      "localization",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "cell organization",
+      "localization and topology",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "localization"
+    ],
+    "target_family": "organelle_surface_membrane_contact_site",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
     "name": "palmitoylation",
     "axis": "PTM",
     "context": "tachyzoite",
@@ -2201,6 +2363,278 @@
       "fitness"
     ],
     "target_family": "fitness_in_vivo_spleen",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "fitness · in vivo heart",
+    "axis": "fitness",
+    "context": "mouse heart",
+    "unit": "gene",
+    "patterns": [
+      "fit_invivo_heart"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness",
+      "tachyzoite (implied)"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality",
+      "tachyzoite (implied)",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vivo",
+      "mouse",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
+      "fitness"
+    ],
+    "target_family": "fitness_in_vivo_heart",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "fitness · in vivo brain",
+    "axis": "fitness",
+    "context": "mouse brain",
+    "unit": "gene",
+    "patterns": [
+      "fit_invivo_brain"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness",
+      "tachyzoite (implied)"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality",
+      "tachyzoite (implied)",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vivo",
+      "mouse",
+      "brain",
+      "tachyzoite (implied)",
+      "fitness"
+    ],
+    "target_family": "fitness_in_vivo_brain",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "fitness · lipid-rich medium (10% serum)",
+    "axis": "fitness",
+    "context": "HFF, 10% FBS",
+    "unit": "gene",
+    "patterns": [
+      "fit_lipid_rich_"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness",
+      "tachyzoite (implied)"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality",
+      "tachyzoite (implied)",
+      "unperturbed"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "human",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
+      "fitness"
+    ],
+    "target_family": "fitness_lipid_rich_medium_10_serum",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "fitness · lipid-limited medium (1% serum)",
+    "axis": "fitness",
+    "context": "HFF, 1% FBS",
+    "unit": "gene",
+    "patterns": [
+      "fit_lipid_limited_"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness",
+      "tachyzoite (implied)"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality",
+      "tachyzoite (implied)",
+      "unperturbed"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "human",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
+      "fitness"
+    ],
+    "target_family": "fitness_lipid_limited_medium_1_serum",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "fitness · lipid dependence (10% minus 1% serum)",
+    "axis": "fitness",
+    "context": "HFF, serum contrast",
+    "unit": "gene",
+    "patterns": [
+      "fit_serum_differential_"
+    ],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness",
+      "tachyzoite (implied)"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality",
+      "tachyzoite (implied)",
+      "unperturbed"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "human",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
+      "fitness"
+    ],
+    "target_family": "fitness_lipid_dependence_10_minus_1_serum",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "fitness · glucose withdrawn",
+    "axis": "fitness",
+    "context": "HFF, glutamine only",
+    "unit": "gene",
+    "patterns": [
+      "fit_no_glucose"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness",
+      "tachyzoite (implied)"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality",
+      "tachyzoite (implied)",
+      "unperturbed"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "human",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
+      "fitness"
+    ],
+    "target_family": "fitness_glucose_withdrawn",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "fitness · glutamine withdrawn",
+    "axis": "fitness",
+    "context": "HFF, glucose only",
+    "unit": "gene",
+    "patterns": [
+      "fit_no_glutamine"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness",
+      "tachyzoite (implied)"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality",
+      "tachyzoite (implied)",
+      "unperturbed"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "human",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
+      "fitness"
+    ],
+    "target_family": "fitness_glutamine_withdrawn",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
+    "name": "fitness · carbon-source dependence",
+    "axis": "fitness",
+    "context": "HFF, carbon-source contrast",
+    "unit": "gene",
+    "patterns": [
+      "fit_glucose_dependence"
+    ],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness",
+      "tachyzoite (implied)"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality",
+      "tachyzoite (implied)",
+      "unperturbed"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "human",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
+      "fitness"
+    ],
+    "target_family": "fitness_carbon_source_dependence",
     "target_columns": [],
     "role": "feature"
   },
@@ -2977,6 +3411,45 @@
   },
   {
     "organism": "Tg",
+    "name": "5' UTR architecture",
+    "axis": "sequence",
+    "context": "reannotated transcripts",
+    "unit": "gene",
+    "patterns": [
+      "utr5_length",
+      "utr5_n_uaugs",
+      "utr5_n_uorfs",
+      "utr5_n_oorfs",
+      "utr5_n_inframe_ext",
+      "utr5_kozak_score"
+    ],
+    "policy": "fill",
+    "candidates": [],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "intrinsic properties",
+      "sequence structure and evolution",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "sequence"
+    ],
+    "target_family": "5_utr_architecture",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
     "name": "splicing / isoform use",
     "axis": "regulation",
     "context": "stages",
@@ -3061,10 +3534,16 @@
     "context": "tachyzoite",
     "unit": "gene",
     "patterns": [
+      "mrna_log2_remaining_4h_actinomycin",
       "mrna_remaining_5h_actinomycin"
     ],
-    "policy": "one",
+    "policy": "separate",
     "candidates": [
+      [
+        "42580337",
+        "GSE329845",
+        "genome-wide decay after actinomycin D"
+      ],
       [
         "39899594",
         "PRJEB67890",
@@ -5135,7 +5614,10 @@
     "axis": "host effect",
     "context": "human fibroblast; tachyzoite, in vitro HFF",
     "unit": "host_gene",
-    "patterns": [],
+    "patterns": [
+      "hff_tg_infection_log2fc",
+      "hff_tg_infection_padj"
+    ],
     "policy": "separate",
     "candidates": [],
     "evidence_path": [
@@ -5327,7 +5809,9 @@
     "axis": "host effect",
     "context": "mouse bone-marrow macrophage; tachyzoite, BMDM",
     "unit": "host_gene",
-    "patterns": [],
+    "patterns": [
+      "bmdm_tpm"
+    ],
     "policy": "average",
     "candidates": [],
     "evidence_path": [
@@ -6045,6 +6529,48 @@
       "host effect"
     ],
     "target_family": "host_protein_recruitment_to_the_vacuole",
+    "target_columns": [],
+    "role": "never"
+  },
+  {
+    "organism": "Tg",
+    "name": "host gene requirement · rhoptry discharge",
+    "axis": "host effect",
+    "context": "human K562; Toxoplasma invasion assay",
+    "unit": "host_gene",
+    "patterns": [
+      "rhoptry_discharge_score",
+      "rhoptry_discharge_beta",
+      "rhoptry_discharge_fdr"
+    ],
+    "policy": "fill",
+    "candidates": [
+      [
+        "",
+        "bioRxiv 10.1101/2025.10.16.682961",
+        "genome-wide CRISPR screen for host genes required for rhoptry discharge"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "parasite-host",
+      "host effect",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-host",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "human",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "host effect"
+    ],
+    "target_family": "host_gene_requirement_rhoptry_discharge",
     "target_columns": [],
     "role": "never"
   },
@@ -7433,38 +7959,6 @@
   },
   {
     "organism": "Pf",
-    "name": "thermal stability (melting temperature) · asexual blood stage",
-    "axis": "protein abundance",
-    "context": "asexual blood stage",
-    "unit": "gene",
-    "patterns": [],
-    "policy": "one",
-    "candidates": [],
-    "evidence_path": [
-      "molecular measurements",
-      "protein",
-      "abundance",
-      "asexual blood stage"
-    ],
-    "biology_path": [
-      "gene expression",
-      "protein abundance",
-      "asexual blood stage",
-      "drug or compound"
-    ],
-    "context_path": [
-      "in vitro or assay-defined",
-      "no host",
-      "tissue-unspecified",
-      "asexual blood stage",
-      "protein abundance"
-    ],
-    "target_family": "thermal_stability_melting_temperature_asexual_blood_stage",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Pf",
     "name": "protein turnover · asexual blood stage",
     "axis": "protein abundance",
     "context": "asexual blood stage",
@@ -8070,6 +8564,102 @@
   },
   {
     "organism": "Pf",
+    "name": "protein abundance · under stress",
+    "axis": "protein abundance",
+    "context": "iron depletion, 24 h",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "protein abundance"
+    ],
+    "target_family": "protein_abundance_under_stress",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "transcription · under iron depletion",
+    "axis": "transcription",
+    "context": "iron depletion, 24 h",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "one",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "transcription"
+    ],
+    "target_family": "transcription_under_iron_depletion",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "organelle surface / membrane contact site",
+    "axis": "localization",
+    "context": "TurboID on outer membranes",
+    "unit": "gene",
+    "patterns": [],
+    "policy": "separate",
+    "candidates": [],
+    "evidence_path": [
+      "molecular measurements",
+      "spatial biology",
+      "localization",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "cell organization",
+      "localization and topology",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "localization"
+    ],
+    "target_family": "organelle_surface_membrane_contact_site",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
     "name": "palmitoylation · asexual blood stage",
     "axis": "PTM",
     "context": "asexual blood stage",
@@ -8628,78 +9218,6 @@
   },
   {
     "organism": "Pf",
-    "name": "chromatin state · asexual blood stage",
-    "axis": "regulation",
-    "context": "asexual blood stage",
-    "unit": "gene",
-    "patterns": [],
-    "policy": "fill",
-    "candidates": [
-      [
-        "",
-        "GSE337518",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE339382",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE298061",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE298024",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE326228",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE295105",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE295104",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE317694",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ]
-    ],
-    "evidence_path": [
-      "molecular measurements",
-      "regulation",
-      "chromatin and RNA regulation",
-      "asexual blood stage"
-    ],
-    "biology_path": [
-      "gene regulation",
-      "asexual blood stage",
-      "unperturbed"
-    ],
-    "context_path": [
-      "in vitro or assay-defined",
-      "no host",
-      "tissue-unspecified",
-      "asexual blood stage",
-      "regulation"
-    ],
-    "target_family": "chromatin_state_asexual_blood_stage",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Pf",
     "name": "chromatin accessibility",
     "axis": "regulation",
     "context": "stages",
@@ -8772,73 +9290,33 @@
   },
   {
     "organism": "Pf",
-    "name": "RNA modification · asexual blood stage",
-    "axis": "regulation",
-    "context": "asexual blood stage",
+    "name": "5' UTR architecture",
+    "axis": "sequence",
+    "context": "reannotated transcripts",
     "unit": "gene",
     "patterns": [],
-    "policy": "separate",
-    "candidates": [
-      [
-        "",
-        "GSE337518",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE339382",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE298061",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE298024",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE326228",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE295105",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE295104",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ],
-      [
-        "",
-        "GSE317694",
-        "from the GEO index; verify assay and parasite-gene shape"
-      ]
-    ],
+    "policy": "fill",
+    "candidates": [],
     "evidence_path": [
-      "molecular measurements",
-      "regulation",
-      "chromatin and RNA regulation",
-      "asexual blood stage"
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes",
+      "stage-unspecified"
     ],
     "biology_path": [
-      "gene regulation",
-      "asexual blood stage",
+      "intrinsic properties",
+      "sequence structure and evolution",
+      "stage-unspecified",
       "unperturbed"
     ],
     "context_path": [
       "in vitro or assay-defined",
       "no host",
       "tissue-unspecified",
-      "asexual blood stage",
-      "regulation"
+      "stage-unspecified",
+      "sequence"
     ],
-    "target_family": "rna_modification_asexual_blood_stage",
+    "target_family": "5_utr_architecture",
     "target_columns": [],
     "role": "feature"
   },
@@ -8924,7 +9402,7 @@
     "context": "asexual blood stage",
     "unit": "gene",
     "patterns": [],
-    "policy": "one",
+    "policy": "separate",
     "candidates": [
       [
         "",
@@ -10599,7 +11077,10 @@
     "axis": "chemistry",
     "context": "thermal proteome",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "engaged_n_compounds_tested",
+      "engaged_n_compounds_hit"
+    ],
     "policy": "average",
     "candidates": [
       [
@@ -11141,6 +11622,326 @@
   },
   {
     "organism": "Pf",
+    "name": "RNA modification · asexual blood stage",
+    "axis": "regulation",
+    "context": "asexual blood stage, nanopore",
+    "unit": "gene",
+    "patterns": [
+      "m6a_n_canonical_sites",
+      "m6a_canonical_stoichiometry"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "",
+        "bioRxiv 10.64898/2026.05.19.726191",
+        "per-transcript m6A sites and stoichiometry"
+      ],
+      [
+        "",
+        "GSE337518",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE339382",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE298061",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE298024",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE326228",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE295105",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE295104",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE317694",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "regulation",
+      "chromatin and RNA regulation",
+      "asexual blood stage"
+    ],
+    "biology_path": [
+      "gene regulation",
+      "asexual blood stage",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "asexual blood stage",
+      "regulation"
+    ],
+    "target_family": "rna_modification_asexual_blood_stage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "chromatin state · asexual blood stage",
+    "axis": "regulation",
+    "context": "asexual blood stage, proxiomes",
+    "unit": "gene",
+    "patterns": [
+      "chromprox_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "",
+        "bioRxiv 10.1101/2025.09.23.678001",
+        "HP1, H3K27ac, H3K4me3 and centromere proximity proteomes"
+      ],
+      [
+        "",
+        "GSE337518",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE339382",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE298061",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE298024",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE326228",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE295105",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE295104",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ],
+      [
+        "",
+        "GSE317694",
+        "from the GEO index; verify assay and parasite-gene shape"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "regulation",
+      "chromatin and RNA regulation",
+      "asexual blood stage"
+    ],
+    "biology_path": [
+      "gene regulation",
+      "asexual blood stage",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "asexual blood stage",
+      "regulation"
+    ],
+    "target_family": "chromatin_state_asexual_blood_stage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "protein abundance · gametocyte",
+    "axis": "protein abundance",
+    "context": "stage V gametocyte",
+    "unit": "gene",
+    "patterns": [
+      "gametocyte_proteome_log2"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "",
+        "PXD075878",
+        "label-free quantification of the mature gametocyte proteome"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance",
+      "gametocyte"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance",
+      "gametocyte",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "gametocyte",
+      "protein abundance"
+    ],
+    "target_family": "protein_abundance_gametocyte",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "translation · gametocyte",
+    "axis": "translation",
+    "context": "stage V gametocyte, click chemistry",
+    "unit": "gene",
+    "patterns": [
+      "gametocyte_newly_made"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "",
+        "PXD075878",
+        "protein still being made in a quiescent gametocyte"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "translation",
+      "ribosome occupancy",
+      "gametocyte"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein synthesis",
+      "gametocyte",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "gametocyte",
+      "translation"
+    ],
+    "target_family": "translation_gametocyte",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "phosphorylation · febrile heat stress",
+    "axis": "PTM",
+    "context": "infected erythrocyte at 39 degrees",
+    "unit": "gene",
+    "patterns": [
+      "febrile_phospho_"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42126964",
+        "PXD073843",
+        "phosphoproteome after physiological febrile heat stress"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "post-translational state",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "protein state",
+      "post-translational modification",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "PTM"
+    ],
+    "target_family": "phosphorylation_febrile_heat_stress",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "thermal stability (melting temperature) · asexual blood stage",
+    "axis": "protein abundance",
+    "context": "asexual blood stage, intact-cell CETSA",
+    "unit": "gene",
+    "patterns": [
+      "melting_temperature_tm",
+      "melting_temperature_sd"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "41315737",
+        "PXD056075",
+        "MAP-X meltome across seven points of the blood-stage cycle"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance",
+      "asexual blood stage"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance",
+      "asexual blood stage",
+      "drug or compound"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "asexual blood stage",
+      "protein abundance"
+    ],
+    "target_family": "thermal_stability_melting_temperature_asexual_blood_stage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
     "name": "transcription · liver stage",
     "axis": "transcription",
     "context": "hepatocyte",
@@ -11366,9 +12167,17 @@
     "axis": "transcription",
     "context": "artemisinin quiescence",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "latency_log2fc",
+      "latency_classifier_member"
+    ],
     "policy": "separate",
     "candidates": [
+      [
+        "",
+        "bioRxiv 10.64898/2026.09.13.751295",
+        "single-cell latency after drug and nutrient stress, with the paper's 200-gene classifier"
+      ],
       [
         "",
         "GSE301593",
@@ -11625,8 +12434,11 @@
     "axis": "fitness",
     "context": "P. berghei mosquito stages",
     "unit": "gene",
-    "patterns": [],
-    "policy": "one",
+    "patterns": [
+      "fertility_female",
+      "fertility_male"
+    ],
+    "policy": "separate",
     "candidates": [],
     "evidence_path": [
       "intrinsic and reference",
@@ -12252,7 +13064,10 @@
     "axis": "host effect",
     "context": "human hepatocyte; liver stage and hypnozoite",
     "unit": "host_gene",
-    "patterns": [],
+    "patterns": [
+      "hepatocyte_pf_infection_log2fc",
+      "hepatocyte_pf_infection_padj"
+    ],
     "policy": "separate",
     "candidates": [],
     "evidence_path": [

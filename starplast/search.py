@@ -128,8 +128,67 @@ SAME_QUANTITY = {
                      "ortholopit_donors", "ortholopit_accuracy", "ortholopit_accepted"),
     "attention": ("attention_depth", "lit_tier", "n_publications", "n_fulltext",
                   "n_papers_focal", "n_papers_substantive", "n_papers_incidental"),
-    "cell cycle": ("cellcycle_phase", "cellcycle_pseudotime"),
+    # The per-phase expression series of a synchronised time course is the same quantity as the
+    # single-cell phase call -- when in the cycle a gene is expressed, measured in bulk instead of
+    # per cell. Left out, it predicted the held-out phase at kappa 0.63, fourteen robust standard
+    # deviations above every other permitted slot (`leakage.residual_leaks`, 2026-09-25).
+    "cell cycle": ("cellcycle_phase", "cellcycle_pseudotime", "^cellcycle19092_"),
+    # Knockout fitness in cultured fibroblasts, measured again: the Delta-gra17 background screen
+    # and its synthetic-lethality delta -- the knockout's score minus the study's own wild-type
+    # score, so the two together rebuild a wild-type screen and predicted the held-out one at 0.84
+    # -- and the second-background essentiality screen. A different condition (macrophages, the
+    # mouse) is a different quantity and is not listed.
+    # The serum-restriction screens are fibroblast fitness again, in two sera (rho 0.79-0.85 with
+    # the Sidik screen); their 10%-minus-1% DIFFERENCE is orthogonal to it (rho 0.06) and is not
+    # listed -- it is lipid dependence, a different quantity.
+    "fitness in vitro": ("fit_invitro_hff", "crispr_gra17ko_phenotype",
+                         "crispr_gra17_synthlethal_delta", "crispr_gra17_candidate",
+                         "crispr_reporter_strain_p8_log2", "^fit_lipid_rich_",
+                         "^fit_lipid_limited_", "fit_complete_medium_2025",
+                         # The carbon-source arms too, on the audit's evidence: withdrawing
+                         # glutamine predicted fibroblast fitness at 0.76, higher than any other
+                         # cross-slot pair in the table. Same library, same cells, same passage
+                         # regime with one nutrient removed, so an essential gene is essential in
+                         # both and recovering one from the other recovers essentiality. The
+                         # DIFFERENCE between the arms stays out of this family: it is orthogonal to
+                         # bulk fitness (rho 0.06) and is the question that screen was built to ask.
+                         "fit_no_glucose", "fit_no_glutamine"),
+    # Iron depletion measured on the protein and on the transcript, and the metabolome of the same
+    # experiment: one perturbation, three readouts. Holding out one has to hold out the others, or
+    # the transcript predicts "its own" protein change at rho 0.38 and the map looks informative.
+    "iron depletion response": ("^iron_depletion_",),
+    # The two arms of the carbon-source screen and the contrast between them come from the same
+    # three replicates, so the contrast is a function of the arms.
+    "carbon source withdrawal": ("fit_no_glucose", "fit_no_glutamine", "fit_glucose_dependence",
+                                 "fit_glucose_dependence_fdr"),
+    # Everything carried from the P. berghei knockout library -- blood stage, liver stage and the two
+    # sexes alike. They are ONE screen collection transferred through orthology, which the 2026-09-26
+    # leakage audit caught: holding out the blood-stage transfer and predicting it from the
+    # transmission transfer reached 0.58 at nine robust standard deviations, and what that recovers
+    # is the berghei library, not falciparum biology. The two sexes additionally share their input
+    # barcode counts.
+    "berghei knockout transfer": ("^pb_transferred_", "pb_transfer_confidence",
+                                  "fertility_female", "fertility_male"),
 }
+
+
+def family_members(family, columns) -> list:
+    """The columns of a same-quantity family present in `columns`. An entry starting with "^" is
+    a pattern, for families defined by a whole series rather than a list of names."""
+    import re
+    out = []
+    for entry in family:
+        if entry.startswith("^"):
+            rx = re.compile(entry)
+            out += [c for c in columns if rx.search(c)]
+        elif entry in columns:
+            out.append(entry)
+    return out
+
+
+def _in_family(target: str, family) -> bool:
+    import re
+    return any(target == e or (e.startswith("^") and re.search(e, target)) for e in family)
 
 
 def excluded_group(nodes: pd.DataFrame, hierarchy: str, path, organism="Tg") -> set:
@@ -216,6 +275,48 @@ def excluded_edges(target: str, scope: str = "biology") -> dict:
     return out
 
 
+#: What each correlation- or label-built edge layer is computed FROM (column names, or patterns
+#: starting "^"). A layer built from columns the closure removes carries them back in as edges:
+#: diffusion along P. falciparum co-expression recovered the held-out stage label at 0.98, because
+#: that label is computed from the stage expression the co-expression layer is built from, and the
+#: closure had removed the columns but not the layer (`calibrate_strategies`, 2026-09-25).
+#: Measured interaction layers (crosslinks, pulldowns) and structure are built from no node column.
+LAYER_SOURCES = {
+    "coexpression": ("^rna108740_", "expr_ring", "expr_early_trophozoite", "expr_late_trophozoite",
+                     "expr_schizont", "expr_gametocyte_ii", "expr_gametocyte_v", "expr_ookinete",
+                     "expr_asexual_blood", "expr_oocyst", "expr_sporozoite"),
+    "cotranslation": ("^rpf", "^riboseq_rpf_"),
+    "cofitness": ("fit_invitro_hff", "fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver",
+                  "fit_invivo_spleen", "fit_naive_bmdm", "fit_ifng"),
+    "compartment": ("compartment",),
+    "orthogroup": ("orthogroup",),
+}
+
+
+def layers_built_from(columns) -> dict:
+    """``{layer: why}`` -- the layers computed from any of `columns`."""
+    columns = sorted(set(columns))
+    out = {}
+    for layer, sources in LAYER_SOURCES.items():
+        hit = family_members(sources, columns)
+        if hit:
+            out[layer] = f"built from an excluded column ({hit[0]})"
+    return out
+
+
+def excluded_layers(nodes: pd.DataFrame, target: str, scope: str = "biology",
+                    threshold=0.8) -> dict:
+    """``{layer: why}`` -- the declared family's layers, and every layer built from an excluded
+    column. The edge counterpart of :func:`excluded_detail`, and what anything that walks a graph
+    against a held-out target should use."""
+    out = dict(excluded_edges(target, scope))
+    banned = excluded_for(nodes, target, threshold=threshold) if target in nodes.columns \
+        else {target}
+    for layer, why in layers_built_from(banned).items():
+        out.setdefault(layer, why)
+    return out
+
+
 def all_edge_layers(organism: str = "Tg") -> tuple:
     """Every edge layer the catalogue declares, which is the vocabulary a recipe may draw from."""
     from . import slots
@@ -280,7 +381,8 @@ def excluded_detail(nodes: pd.DataFrame, target: str, threshold=0.8,
     # expression and fitness block. Three columns beating eighteen RNA columns and eight CRISPR
     # screens is not the map finding biology.
     from . import datasets
-    same = datasets.provenance(target)
+    organism = slots.table_organism(nodes)
+    same = datasets.provenance(target, organism)
     if same is not None:
         note([c for c in same.columns if c in nodes.columns],
              f"shared experiment ({getattr(same, 'key', getattr(same, 'name', 'same dataset'))})")
@@ -293,8 +395,8 @@ def excluded_detail(nodes: pd.DataFrame, target: str, threshold=0.8,
     # tiering of how much a gene has been written about, at 0.71 with `attention_depth`. Both sit
     # just under the exclusion threshold, which is what a near-copy does.
     for family in SAME_QUANTITY.values():
-        if target in family:
-            note([c for c in family if c in nodes.columns],
+        if _in_family(target, family):
+            note(family_members(family, list(nodes.columns)),
                  "the same quantity, measured another way")
 
     # Anything the target was DECLARED to be computed from, plus the rest of that column's block.
@@ -304,14 +406,14 @@ def excluded_detail(nodes: pd.DataFrame, target: str, threshold=0.8,
     # taken as a whole because the sources do not stand alone either -- the strongest association to
     # that derived label, 0.72, is a tissue-cyst FPKM column that is not one of its declared sources
     # but measures the same biology.
-    declared = set(datasets.derived_sources(target))
+    declared = set(datasets.derived_sources(target, organism))
     if declared:
         # A declared source may itself be a summary of a registered experiment.  Now that the raw
         # GSE columns are selectable, excluding expr_cyst while leaving the twelve measurements it
         # summarizes would put the same quantity straight back into the map by a longer route.
         # Provenance closes that route without guessing from column-name prefixes.
         for source in declared:
-            origin = datasets.provenance(source)
+            origin = datasets.provenance(source, organism)
             if origin is not None:
                 note([c for c in origin.columns if c in nodes.columns],
                      f"the experiment behind a declared source ({source})")
@@ -326,7 +428,8 @@ def excluded_detail(nodes: pd.DataFrame, target: str, threshold=0.8,
     changed = True
     while changed:
         before = len(out)
-        note(sorted(c for c in datasets.derived_dependents(set(out)) if c in nodes.columns),
+        note(sorted(c for c in datasets.derived_dependents(set(out), organism)
+                    if c in nodes.columns),
              "computed from an excluded column")
         changed = len(out) != before
     return out

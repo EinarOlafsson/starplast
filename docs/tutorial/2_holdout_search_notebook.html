@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>Hold out a category and search, from Python</title><style>
+@font-face { font-family: 'Open Sans'; src: local('Open Sans'); }
+:root { --bg:#1e1e1e; --panel:#2a2a2a; --card:#333; --ink:#eaeaea; --muted:#a8a8a8;
+        --accent:#4aa3ff; --pass:#3fb37f; --fail:#e0625a; --line:#444; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--ink);
+             font-family:'Open Sans', 'Segoe UI', Roboto, sans-serif; }
+a { color: var(--accent); }
+.topbar { display:flex; align-items:center; gap:16px; padding:10px 20px; background:#161616;
+          border-bottom:1px solid var(--line); }
+.topbar h1 { font-size:18px; margin:0; font-weight:600; }
+.topbar .nav { margin-left:auto; display:flex; gap:14px; font-size:14px; }
+.container { display:flex; height:calc(100vh - 50px); }
+.left-panel { width:30%; min-width:300px; background:var(--panel); padding:18px; box-sizing:border-box;
+              border-right:1px solid var(--line); overflow-y:auto; }
+.left-panel h2, .right-panel h2 { font-size:16px; margin:0 0 10px 0; }
+.intro { font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:14px; }
+.field { display:flex; justify-content:space-between; gap:10px; padding:7px 9px; margin:4px 0;
+         background:#232323; border-radius:6px; font-size:13px; cursor:help; }
+.field:hover { outline:1px solid var(--accent); }
+.field .label { color:var(--muted); }
+.field .value { font-family:monospace; text-align:right; word-break:break-all; max-width:55%; }
+.right-panel { flex:1; display:flex; flex-direction:column; padding:18px; box-sizing:border-box;
+               min-width:0; }
+.figure { flex:1.4; background:var(--card); border-radius:12px; position:relative; display:flex;
+          flex-direction:column; align-items:center; justify-content:center; min-height:0;
+          padding:10px; box-sizing:border-box; }
+.figure img { max-width:100%; max-height:calc(100% - 50px); object-fit:contain; border-radius:6px; }
+.caption { font-size:13px; color:var(--muted); margin-top:8px; text-align:center; max-width:90%; }
+.slider-row { display:flex; align-items:center; gap:12px; justify-content:center; height:44px; }
+.slider-row input { width:60%; }
+.bottom { flex:1; display:flex; gap:14px; min-height:0; margin-top:6px; }
+.console { flex:1; background:#222; border-radius:10px; display:flex; flex-direction:column;
+           min-height:0; }
+.console .label { padding:6px 10px; font-weight:600; font-size:14px; background:#1b1b1b;
+                  border-radius:10px 10px 0 0; }
+.console .out { flex:1; overflow-y:auto; padding:8px 10px; font-family:monospace; font-size:12.5px; }
+.console .line { padding:2px 4px; border-radius:4px; cursor:help; white-space:pre-wrap; }
+.console .line:hover { background:#2f3b48; }
+.buttons { width:30%; min-width:240px; display:flex; flex-direction:column; gap:8px; }
+.buttons button { background:#3a3a3a; color:var(--ink); border:1px solid #555; border-radius:6px;
+                  padding:8px; font-size:13px; cursor:pointer; text-align:left; }
+.buttons button:hover { border-color:var(--accent); }
+.buttons .desc { font-size:12.5px; color:var(--muted); min-height:60px; line-height:1.45; }
+.help-box { position:fixed; max-width:420px; background:#101820; border:1px solid var(--accent);
+            color:var(--ink); padding:9px 11px; border-radius:6px; font-size:12.5px; line-height:1.45;
+            display:none; z-index:10; pointer-events:none; }
+.verdict-pass { color:var(--pass); font-weight:700; } .verdict-fail { color:var(--fail); font-weight:700; }
+/* notebook */
+.nb { max-width:1100px; margin:0 auto; padding:20px 24px 80px 24px; }
+.nb h1 { font-size:26px; } .nb h2 { font-size:20px; margin-top:34px; border-bottom:1px solid var(--line);
+         padding-bottom:4px; }
+.nb p, .nb li { line-height:1.6; font-size:15px; color:#dcdcdc; }
+.cell { margin:14px 0; }
+.cell .in, .cell .outp { display:flex; gap:10px; }
+.cell .prompt { width:62px; flex:none; text-align:right; font-family:monospace; font-size:12.5px;
+                color:#7aa7d9; padding-top:9px; }
+.cell .outp .prompt { color:#d98b7a; }
+pre.code { flex:1; margin:0; background:#262a30; border:1px solid #3a3f47; border-radius:6px;
+           padding:9px 11px; overflow-x:auto; font-size:13px; line-height:1.5; }
+pre.code .ln { display:block; cursor:help; border-radius:3px; }
+pre.code .ln:hover { background:#324257; }
+.outbox { flex:1; background:#1a1a1a; border-left:3px solid #555; padding:8px 11px; overflow-x:auto;
+          font-size:13px; }
+.outbox pre { margin:0; white-space:pre-wrap; font-size:12.5px; }
+.outbox table { border-collapse:collapse; font-size:12.5px; }
+.outbox th, .outbox td { border:1px solid #444; padding:3px 7px; text-align:left; }
+.outbox th { background:#2c2c2c; }
+.outbox img { max-width:100%; border-radius:6px; }
+.note { background:#23303d; border-left:3px solid var(--accent); padding:8px 12px; border-radius:4px;
+        font-size:14px; line-height:1.55; }
+/* index and guide */
+.page { max-width:1100px; margin:0 auto; padding:24px 24px 90px 24px; }
+.page h1 { font-size:28px; } .page h2 { font-size:21px; margin-top:38px;
+           border-bottom:1px solid var(--line); padding-bottom:5px; }
+.page h3 { font-size:17px; margin-top:24px; }
+.page p, .page li { line-height:1.65; font-size:15px; color:#dcdcdc; }
+.page img.shot { max-width:100%; border:1px solid #444; border-radius:8px; margin:10px 0; }
+.page table { border-collapse:collapse; font-size:13.5px; margin:10px 0; width:100%; }
+.page th, .page td { border:1px solid #444; padding:5px 8px; text-align:left; vertical-align:top; }
+.page th { background:#2a2a2a; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:14px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+.card h3 { margin:0 0 6px 0; font-size:16px; }
+.card p { font-size:13.5px; color:var(--muted); margin:0 0 10px 0; }
+.card a { margin-right:14px; font-size:14px; }
+.toc { columns:2; font-size:14px; }
+</style></head><body><div class='topbar'><h1>Hold out a category and search, from Python</h1><div class='nav'><a href='index.html'>All tutorials</a><a href='complete_guide.html'>Complete guide</a><a href='../strategies.md'>Strategy catalogue</a></div></div><div class='nb'><h1>Hold out a category and search</h1><p>Strategy 01 answers the founding question: is there a combination of measurements and map settings under which a label nobody showed the map falls out as clusters? This notebook runs it on the hyperLOPIT compartment.</p><div class='cell'><div class='in'><div class='prompt'>In [1]:</div><pre class='code'><span class='ln' data-tip='Import the strategies.'>from starplast import strategies as S</span><span class='ln' data-tip='Strategy 01.'>s = S.get(&#x27;holdout_search&#x27;)</span><span class='ln' data-tip='Its guide: the question, the walkthrough, and how it is tested.'>s</span></pre></div><div class='outp'><div class='prompt'>Out[1]:</div><div class='outbox'><p><b>01 · Hold out a category and search for a map that finds it</b> (Search the map space)</p><p><i>Is there a combination of measurements and map settings under which a label nobody showed the map falls out as clusters -- and which unlabelled genes land in them?</i></p><p>Hides one label entirely, walks feature sets and UMAP/HDBSCAN settings, and keeps the map whose clusters best recover that label; unlabelled genes in its pure clusters become candidates, with the shuffled-label score beside them.</p><ol><li>Pick the held-out label. Compartment is the classic first question.</li><li>Leave the grids at their defaults for a first pass (4 maps x 2 cluster sizes x 2 selections); widen n_neighbors to &#x27;10, 25, 50, 100&#x27; once you know the label is recoverable at all.</li><li>Set &#x27;Genes per map&#x27; to 3000 for speed, 0 for the whole proteome.</li><li>Press Test first: it hides a quarter of the label, lets the search choose the map and each label&#x27;s cluster on the rest, and reports how well those clusters hold the hidden genes, against the same clusters scored on the hidden genes with their labels permuted. A FAIL means the chosen clusters hold the label no better than chance.</li><li>Press Run. The best map is drawn, colored by its clusters; &#x27;configurations&#x27; ranks every map, &#x27;categories&#x27; says which labels were recovered and at what F1.</li><li>Read &#x27;label clusters&#x27; -- the cluster chosen for each label and how well it isolates it -- then &#x27;calls&#x27;, the unlabelled genes in those clusters. Click a row to find the gene; treat a call&#x27;s F1 as the most it can be trusted.</li></ol><p><b>How it is tested:</b> 25% of the label is hidden (whole orthogroups together, so no gene is recovered through a visible paralog). The walk is built as set -- its genes per map (up to 4,000), feature sets and grids (up to three values each); the configuration, and the one cluster that best isolates each label, are both chosen using visible labels only. Metric: for each label, the F1 of its hidden genes against its chosen cluster, weighted by size -- does the structure found on known genes hold the unknown ones? Null: the same chosen clusters scored after permuting the hidden genes&#x27; labels, 100 times. (A second search on shuffled labels was the null once; it picks the largest cluster for every label, which scores F1 near 2p by size alone and made the null beat real labels.) Pass: above the null&#x27;s 95th percentile by at least 0.05.</p></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [2]:</div><pre class='code'><span class='ln' data-tip='Every setting, its default for this table, and why it exists.'>s.parameters(S.shipped(&#x27;Tg&#x27;))</span></pre></div><div class='outp'><div class='prompt'>Out[2]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>name</th>
+      <th>label</th>
+      <th>kind</th>
+      <th>default</th>
+      <th>why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>target</td>
+      <td>Held-out label</td>
+      <td>category</td>
+      <td>compartment</td>
+      <td>The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.</td>
+    </tr>
+    <tr>
+      <td>n_neighbors</td>
+      <td>UMAP neighbours to try</td>
+      <td>grid</td>
+      <td>15, 50</td>
+      <td>Comma-separated UMAP n_neighbors values to walk. Small values keep local detail such as complexes; large values keep the global arrangement such as organelles. Every value multiplies the number of maps built.</td>
+    </tr>
+    <tr>
+      <td>min_dist</td>
+      <td>UMAP min_dist to try</td>
+      <td>grid</td>
+      <td>0.0, 0.25</td>
+      <td>Comma-separated UMAP min_dist values to walk. Zero packs similar genes tightly, which clusters well; larger values spread them out, which reads better and clusters worse. Every value multiplies the number of maps.</td>
+    </tr>
+    <tr>
+      <td>min_cluster_size</td>
+      <td>Cluster sizes to try</td>
+      <td>grid</td>
+      <td>20, 50</td>
+      <td>Comma-separated HDBSCAN minimum cluster sizes. Small values find small complexes and also split organelles; large values find organelles and swallow complexes. Cheap to widen: clustering is fast next to embedding.</td>
+    </tr>
+    <tr>
+      <td>selection</td>
+      <td>Cluster selection to try</td>
+      <td>grid</td>
+      <td>eom, leaf</td>
+      <td>HDBSCAN's cluster selection, comma-separated: 'eom' keeps the most persistent clusters -- on the real proteome two to six very large ones -- and 'leaf' every leaf of the cluster tree, dozens of small purer clusters with more genes left as noise. Walking both costs little.</td>
+    </tr>
+    <tr>
+      <td>sample</td>
+      <td>Genes per map</td>
+      <td>int</td>
+      <td>3000</td>
+      <td>How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out.</td>
+    </tr>
+    <tr>
+      <td>features</td>
+      <td>Feature sets</td>
+      <td>choice</td>
+      <td>all</td>
+      <td>'all' walks one map per setting from every permitted measurement; 'families' also walks each kind of measurement alone, so you learn which evidence carries the label -- at several times the cost.</td>
+    </tr>
+    <tr>
+      <td>min_f1</td>
+      <td>Call a label's cluster at F1</td>
+      <td>float</td>
+      <td>0.2</td>
+      <td>Each label's best cluster names its unlabelled members only if it isolates that label at least this well on the known genes. Lower names more clusters and is wrong more often; every call carries its cluster's F1 as its support.</td>
+    </tr>
+  </tbody>
+</table></div></div></div><h2>Test before you run</h2><p>The self-test hides 25% of the compartment labels (whole orthogroups together), lets the search choose the map and each label's cluster on the rest, and scores how well those clusters hold the hidden genes -- against the same search made on shuffled labels.</p><div class='cell'><div class='in'><div class='prompt'>In [3]:</div><pre class='code'><span class='ln' data-tip='Run the self-test with a small grid.'>test = S.test(&#x27;holdout_search&#x27;, target=&#x27;compartment&#x27;, n_neighbors=&#x27;15, 50&#x27;,</span><span class='ln' data-tip='Two neighbourhood sizes, one min_dist, two cluster sizes, both HDBSCAN selections.'>              min_dist=&#x27;0.0&#x27;, min_cluster_size=&#x27;20, 50&#x27;, selection=&#x27;eom, leaf&#x27;)</span><span class='ln' data-tip='PASS/FAIL, the number, the chance level and the margin.'>test</span></pre></div><div class='outp'><div class='prompt'>Out[3]:</div><div class='outbox'><p><b style='color:#2e8b57'>PASS</b> -- F1 of hidden genes in the cluster chosen for their label on known genes 0.138 against 0.055 ± 0.010 under 100 permutations of the hidden genes&#x27; labels over the same chosen clusters (bar 0.072, p 0.0099); effect +0.083, needed +0.050; 607 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 100 permutations of the hidden genes&#x27; labels over the same chosen clusters.</i></p></div></div></div><h2>Run it</h2><div class='cell'><div class='in'><div class='prompt'>In [4]:</div><pre class='code'><span class='ln' data-tip='The same search on 2,000 genes, keeping the best map.'>result = S.run(&#x27;holdout_search&#x27;, target=&#x27;compartment&#x27;, n_neighbors=&#x27;15, 50&#x27;,</span><span class='ln' data-tip='The grid.'>                min_dist=&#x27;0.0&#x27;, min_cluster_size=&#x27;20, 50&#x27;, selection=&#x27;eom, leaf&#x27;,</span><span class='ln' data-tip='Genes per map; 0 would embed all of them.'>                sample=2000)</span><span class='ln' data-tip='What was found, and the chance level beside it.'>print(result.summary)</span></pre></div><div class='outp'><div class='prompt'>Out[4]:</div><div class='outbox'><pre>Best of 8 configurations: all permitted, n_neighbors 50, min_dist 0.0, min cluster 20 (leaf). Mean F1 0.284 over the compartment labels, against 0.166 ± 0.009 for the same clustering with the labels shuffled; 1 label(s) recovered at F1 &gt;= 0.5, best mitochondrion - membranes at 0.50. 67 unlabelled genes sit in the cluster that best isolates a label at F1 &gt;= 0.20, and are called with it; &#x27;support&#x27; is that F1.</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [5]:</div><pre class='code'><span class='ln' data-tip='Every map of the walk, ranked by how well its clusters recover the label.'>result.tables[&#x27;configurations&#x27;].head(8)</span></pre></div><div class='outp'><div class='prompt'>Out[5]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>features</th>
+      <th>n_neighbors</th>
+      <th>min_dist</th>
+      <th>min_cluster_size</th>
+      <th>selection</th>
+      <th>clusters</th>
+      <th>noise</th>
+      <th>mean_f1</th>
+      <th>best_f1</th>
+      <th>best_label</th>
+      <th>labels_recovered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>all permitted</td>
+      <td>50</td>
+      <td>0</td>
+      <td>20</td>
+      <td>leaf</td>
+      <td>13</td>
+      <td>0.645</td>
+      <td>0.284</td>
+      <td>0.5</td>
+      <td>mitochondrion - membranes</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>15</td>
+      <td>0</td>
+      <td>20</td>
+      <td>leaf</td>
+      <td>14</td>
+      <td>0.552</td>
+      <td>0.28</td>
+      <td>0.548</td>
+      <td>mitochondrion - membranes</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>50</td>
+      <td>0</td>
+      <td>50</td>
+      <td>leaf</td>
+      <td>5</td>
+      <td>0.327</td>
+      <td>0.259</td>
+      <td>0.436</td>
+      <td>nucleus - chromatin</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>15</td>
+      <td>0</td>
+      <td>50</td>
+      <td>leaf</td>
+      <td>7</td>
+      <td>0.532</td>
+      <td>0.251</td>
+      <td>0.331</td>
+      <td>cytosol</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>50</td>
+      <td>0</td>
+      <td>20</td>
+      <td>eom</td>
+      <td>8</td>
+      <td>0.455</td>
+      <td>0.235</td>
+      <td>0.31</td>
+      <td>dense granules</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>15</td>
+      <td>0</td>
+      <td>50</td>
+      <td>eom</td>
+      <td>4</td>
+      <td>0.199</td>
+      <td>0.224</td>
+      <td>0.413</td>
+      <td>nucleus - chromatin</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>50</td>
+      <td>0</td>
+      <td>50</td>
+      <td>eom</td>
+      <td>4</td>
+      <td>0.217</td>
+      <td>0.221</td>
+      <td>0.424</td>
+      <td>nucleus - chromatin</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>15</td>
+      <td>0</td>
+      <td>20</td>
+      <td>eom</td>
+      <td>10</td>
+      <td>0.334</td>
+      <td>0.214</td>
+      <td>0.478</td>
+      <td>rhoptries 2</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [6]:</div><pre class='code'><span class='ln' data-tip='The one cluster chosen for each compartment and how well it isolates it.'>result.tables[&#x27;label clusters&#x27;]</span></pre></div><div class='outp'><div class='prompt'>Out[6]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>label</th>
+      <th>cluster</th>
+      <th>n_label</th>
+      <th>n_in_cluster</th>
+      <th>precision</th>
+      <th>recall</th>
+      <th>f1_on_known_genes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>mitochondrion - membranes</td>
+      <td>4</td>
+      <td>27</td>
+      <td>12</td>
+      <td>0.571</td>
+      <td>0.444</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td>mitochondrion - soluble</td>
+      <td>8</td>
+      <td>45</td>
+      <td>17</td>
+      <td>0.321</td>
+      <td>0.378</td>
+      <td>0.347</td>
+    </tr>
+    <tr>
+      <td>dense granules</td>
+      <td>2</td>
+      <td>26</td>
+      <td>22</td>
+      <td>0.193</td>
+      <td>0.846</td>
+      <td>0.314</td>
+    </tr>
+    <tr>
+      <td>nucleus - chromatin</td>
+      <td>10</td>
+      <td>88</td>
+      <td>20</td>
+      <td>0.465</td>
+      <td>0.227</td>
+      <td>0.305</td>
+    </tr>
+    <tr>
+      <td>cytosol</td>
+      <td>5</td>
+      <td>63</td>
+      <td>16</td>
+      <td>0.327</td>
+      <td>0.254</td>
+      <td>0.286</td>
+    </tr>
+    <tr>
+      <td>apicoplast</td>
+      <td>12</td>
+      <td>28</td>
+      <td>6</td>
+      <td>0.316</td>
+      <td>0.214</td>
+      <td>0.255</td>
+    </tr>
+    <tr>
+      <td>Golgi</td>
+      <td>9</td>
+      <td>24</td>
+      <td>11</td>
+      <td>0.141</td>
+      <td>0.458</td>
+      <td>0.216</td>
+    </tr>
+  </tbody>
+</table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [7]:</div><pre class='code'><span class='ln' data-tip='Unlabelled genes in those clusters, called with the compartment; support is the cluster&#x27;s F1.'>result.tables[&#x27;calls&#x27;].head(10)</span></pre></div><div class='outp'><div class='prompt'>Out[7]:</div><div class='outbox'><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>gene_id</th>
+      <th>product</th>
+      <th>prediction</th>
+      <th>support</th>
+      <th>cluster</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TGME49_310360</td>
+      <td>ATP synthase-associated protein</td>
+      <td>mitochondrion - membranes</td>
+      <td>0.5</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>TGME49_310470</td>
+      <td>cytochrome c oxidase subunit COX2b</td>
+      <td>mitochondrion - membranes</td>
+      <td>0.5</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>TGME49_273815</td>
+      <td>hypothetical protein</td>
+      <td>mitochondrion - soluble</td>
+      <td>0.347</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>TGME49_208090</td>
+      <td>5-formyltetrahydrofolate cyclo-ligase</td>
+      <td>mitochondrion - soluble</td>
+      <td>0.347</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>TGME49_243240</td>
+      <td>WD domain, G-beta repeat-containing protein</td>
+      <td>mitochondrion - soluble</td>
+      <td>0.347</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>TGME49_248770</td>
+      <td>hypothetical protein</td>
+      <td>mitochondrion - soluble</td>
+      <td>0.347</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>TGME49_254280</td>
+      <td>DNA-directed RNA polymerase III RPC9</td>
+      <td>mitochondrion - soluble</td>
+      <td>0.347</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>TGME49_301300</td>
+      <td>PHAX RNA-binding domain protein</td>
+      <td>mitochondrion - soluble</td>
+      <td>0.347</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>TGME49_225720</td>
+      <td>hypothetical protein</td>
+      <td>mitochondrion - soluble</td>
+      <td>0.347</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>TGME49_264010</td>
+      <td>U4/U6.U5 small nuclear ribonucleoprotein, putative</td>
+      <td>mitochondrion - soluble</td>
+      <td>0.347</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [8]:</div><pre class='code'><span class='ln' data-tip='Plotting.'>import matplotlib.pyplot as plt</span><span class='ln' data-tip='Match the application.'>plt.style.use(&#x27;dark_background&#x27;)</span><span class='ln' data-tip='The result&#x27;s own map, colored by the held-out label it never saw.'>ax = result.plot(S.shipped(&#x27;Tg&#x27;), color=&#x27;compartment&#x27;)</span><span class='ln' data-tip='Show the figure.'>ax.figure</span></pre></div><div class='outp'><div class='prompt'>Out[8]:</div><div class='outbox'><img src='resources/2_holdout_search/2_holdout_search_nb1.png'></div></div></div></div><div id='help-overlay' class='help-box'></div><script>
+const help = document.getElementById('help-overlay');
+function showHelp(ev, text) { help.innerHTML = text; help.style.display = 'block';
+  const x = Math.min(ev.clientX + 16, window.innerWidth - 440);
+  const y = Math.min(ev.clientY + 16, window.innerHeight - help.offsetHeight - 10);
+  help.style.left = x + 'px'; help.style.top = y + 'px'; }
+function hideHelp() { help.style.display = 'none'; }
+document.querySelectorAll('[data-tip]').forEach(el => {
+  el.addEventListener('mousemove', ev => showHelp(ev, el.getAttribute('data-tip')));
+  el.addEventListener('mouseleave', hideHelp); });
+</script></body></html>

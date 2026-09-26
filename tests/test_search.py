@@ -239,10 +239,19 @@ def test_the_families_name_only_columns_that_exist():
     cache = paths.cache_file("nodes.parquet")
     if not os.path.exists(cache):
         pytest.skip("no built cache on this machine")
+    # BOTH caches, because the families are shared between the organisms: the berghei transfers are
+    # Plasmodium columns and the fitness screens are Toxoplasma ones, and checking one table alone
+    # reported the other organism's columns as missing.
     have = set(pd.read_parquet(cache).columns)
+    other = paths.cache_file("pf_nodes.parquet")
+    if os.path.exists(other):
+        have |= set(pd.read_parquet(other).columns)
     for quantity, cols in S.SAME_QUANTITY.items():
-        missing = [c for c in cols if c not in have]
-        assert not missing, f"{quantity} names columns the cache does not have: {missing}"
+        missing = [c for c in cols if not c.startswith("^") and c not in have]
+        assert not missing, f"{quantity} names columns no cache has: {missing}"
+        # A pattern stands for a whole series and must match at least one real column.
+        for pattern in [c for c in cols if c.startswith("^")]:
+            assert S.family_members((pattern,), sorted(have)), f"{quantity}: {pattern} matches nothing"
 
 
 def test_the_exclusion_threshold_is_stricter_than_the_reporting_one():

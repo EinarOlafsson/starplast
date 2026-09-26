@@ -1668,8 +1668,8 @@ class Window(QtWidgets.QMainWindow):
         self.slot_tree_act.toggled.connect(self.toggle_slot_tree)
         t.addSeparator()
         for dock in (self.console_dock, self.jobs_dock, self.chat_dock,
-                     getattr(self, "analysis_dock", None), getattr(self, "gallery_dock", None),
-                     self.right_dock):
+                     getattr(self, "analysis_dock", None), getattr(self, "strategies_dock", None),
+                     getattr(self, "gallery_dock", None), self.right_dock):
             if dock is not None:
                 t.addAction(dock.toggleViewAction())
 

@@ -213,15 +213,28 @@ def _bh(p: np.ndarray) -> np.ndarray:
 
 
 def _cramers_v(table: np.ndarray) -> float:
+    """Cramer's V, bias-corrected (Bergsma 2013).
+
+    The uncorrected statistic is inflated on small tables with many categories: two unrelated
+    labels with thirty classes over sixty genes score around 0.7. The leakage guard thresholds this
+    number, so an inflated one excludes columns for no reason, and a corrected one keeps the
+    threshold's meaning the same however many categories a label has.
+    """
     from scipy.stats import chi2_contingency
     if table.shape[0] < 2 or table.shape[1] < 2 or table.sum() == 0:
         return np.nan
     try:
-        chi2 = chi2_contingency(table)[0]
+        chi2 = chi2_contingency(table, correction=False)[0]
     except ValueError:
         return np.nan
-    n = table.sum()
-    return float(np.sqrt((chi2 / n) / max(min(table.shape) - 1, 1)))
+    n = float(table.sum())
+    r, k = table.shape
+    if n <= 1:
+        return np.nan
+    phi2 = max(0.0, chi2 / n - (k - 1) * (r - 1) / (n - 1))
+    rc, kc = r - (r - 1) ** 2 / (n - 1), k - (k - 1) ** 2 / (n - 1)
+    denom = min(kc - 1, rc - 1)
+    return float(np.sqrt(phi2 / denom)) if denom > 0 else np.nan
 
 
 def categorical_feature(labels: np.ndarray, values: pd.Series, min_count=5) -> tuple:
@@ -327,10 +340,19 @@ def _correlation_ratio(cat: pd.Series, num: pd.Series, max_categories=30):
     total_var = float(np.var(num.to_numpy(), ddof=0))
     if not np.isfinite(total_var) or total_var <= 0:
         return None
+    n = len(num)
     grand = float(num.mean())
     between = float(sum(len(v) * (float(v.mean()) - grand) ** 2 for _, v in g))
-    eta_sq = between / (total_var * len(num))
-    return float(np.sqrt(max(0.0, min(1.0, eta_sq))))
+    total = total_var * n
+    # Bias-corrected (omega squared): the raw ratio rises with the number of categories even when
+    # they explain nothing -- thirty groups over sixty genes explain half the variance of noise.
+    within_ms = (total - between) / max(n - k, 1)
+    omega = (between - (k - 1) * within_ms) / (total + within_ms)
+    return float(np.sqrt(max(0.0, min(1.0, omega))))
+
+
+#: Genes per category an association with a categorical column needs before it is estimated.
+MIN_PER_CATEGORY = 5
 
 
 def _assoc_impl(nodes: pd.DataFrame, used: set, max_categories=30) -> dict:
@@ -348,6 +370,13 @@ def _assoc_impl(nodes: pd.DataFrame, used: set, max_categories=30) -> dict:
             if ok.sum() < 30:
                 continue
             c_cat = not pd.api.types.is_numeric_dtype(sc) or sc.nunique(dropna=True) <= 12
+            # A category needs genes to be estimated on: at least five per category, the usual
+            # rule for a chi-square's expected counts. Below that the statistic measures how many
+            # categories there are -- 24 enzyme classes over 43 genes scored 0.97 against a
+            # knockout screen, and excluded it from every EC-number analysis for nothing.
+            k = max(su[ok].nunique() if u_cat else 1, sc[ok].nunique() if c_cat else 1)
+            if (u_cat or c_cat) and ok.sum() < MIN_PER_CATEGORY * k:
+                continue
             try:
                 if u_cat and c_cat:
                     if su[ok].nunique() > max_categories or sc[ok].nunique() > max_categories:
@@ -355,7 +384,16 @@ def _assoc_impl(nodes: pd.DataFrame, used: set, max_categories=30) -> dict:
                     tab = pd.crosstab(su[ok].astype(str), sc[ok].astype(str)).to_numpy()
                     v = _cramers_v(tab)
                 elif not u_cat and not c_cat:
-                    v = abs(float(np.corrcoef(su[ok].astype(float), sc[ok].astype(float))[0, 1]))
+                    # The larger of the value and the rank correlation. Pearson alone missed
+                    # monotone copies: `n_tm` restates `dtm_class`'s topology at 0.995 on ranks and
+                    # 0.743 on values, and 476 column pairs of the T. gondii table sat at or above
+                    # 0.8 on ranks while under it on values -- a log-transformed copy of a column is
+                    # the same measurement and must be caught as one. Ranks alone would in turn
+                    # miss nothing a copy does, but the maximum keeps every exclusion the value
+                    # measure already made, so no closure gets smaller. See `leakage`.
+                    x, y = su[ok].astype(float), sc[ok].astype(float)
+                    v = max(abs(float(np.corrcoef(x, y)[0, 1])),
+                            abs(float(np.corrcoef(x.rank(), y.rank())[0, 1])))
                 else:
                     # One categorical, one continuous. This branch used to `continue`, which made the
                     # guard structurally blind to every numeric column: a categorical label computed
@@ -364,9 +402,15 @@ def _assoc_impl(nodes: pd.DataFrame, used: set, max_categories=30) -> dict:
                     # The correlation ratio is the right measure here and is on the same 0-1 scale as
                     # Cramer's V, so the single reported number stays comparable across column kinds.
                     cat, num = (su, sc) if u_cat else (sc, su)
-                    v = _correlation_ratio(cat[ok], num[ok].astype(float), max_categories)
-                    if v is None:
+                    # On values and on ranks, the larger: `n_tm` separates `dtm_class`'s topology
+                    # classes at 0.995 on ranks and 0.743 on values, and the values alone let it
+                    # through when that label was held out.
+                    vals = [_correlation_ratio(cat[ok], x, max_categories)
+                            for x in (num[ok].astype(float), num[ok].astype(float).rank())]
+                    vals = [x for x in vals if x is not None]
+                    if not vals:
                         continue
+                    v = max(vals)
                 if np.isfinite(v):
                     out[c] = max(out.get(c, 0.0), float(v))
             except Exception:

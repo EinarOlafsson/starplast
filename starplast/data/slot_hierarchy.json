@@ -13,7 +13,8 @@
               "Tg_transcription_bradyzoite_tissue_cyst": {},
               "Tg_transcription_purified_bradyzoite_in_vivo": {},
               "Tg_transcription_bradyzoite_checkpoint_perturbation": {},
-              "Tg_transcription_under_initiation_factor_depletion": {}
+              "Tg_transcription_under_initiation_factor_depletion": {},
+              "Tg_transcription_bradyzoite_subtype_in_vivo": {}
             },
             "sporozoite": {
               "Tg_transcription_oocyst_sporozoite": {}
@@ -40,6 +41,7 @@
               "Tg_transcription_under_stress_conversion": {},
               "Tg_transcription_under_tf_or_chromatin_perturbation": {},
               "Tg_transcription_maximum_observed_across_stages": {},
+              "Tg_transcription_under_iron_depletion": {},
               "Tg_noncoding_and_antisense_transcription": {}
             }
           }
@@ -73,7 +75,8 @@
               "Tg_protein_turnover": {}
             },
             "stage-unspecified": {
-              "Tg_protein_abundance_other_life_stages": {}
+              "Tg_protein_abundance_other_life_stages": {},
+              "Tg_protein_abundance_under_stress": {}
             }
           },
           "post-translational state": {
@@ -94,6 +97,21 @@
             }
           }
         },
+        "spatial biology": {
+          "localization": {
+            "stage-unspecified": {
+              "Tg_organelle_surface_membrane_contact_site": {}
+            },
+            "tachyzoite (implied)": {
+              "Tg_localization_measured": {},
+              "Tg_exposure_to_host_cytosol": {},
+              "Tg_secretome_excreted": {}
+            },
+            "bradyzoite": {
+              "Tg_cyst_wall_composition": {}
+            }
+          }
+        },
         "regulation": {
           "chromatin and RNA regulation": {
             "stage-unspecified": {
@@ -107,18 +125,6 @@
             "tachyzoite": {
               "Tg_rna_modification_m6a_5mc": {},
               "Tg_rna_stability_half_life": {}
-            }
-          }
-        },
-        "spatial biology": {
-          "localization": {
-            "tachyzoite (implied)": {
-              "Tg_localization_measured": {},
-              "Tg_exposure_to_host_cytosol": {},
-              "Tg_secretome_excreted": {}
-            },
-            "bradyzoite": {
-              "Tg_cyst_wall_composition": {}
             }
           }
         },
@@ -160,6 +166,14 @@
               "Tg_fitness_in_vivo_lung": {},
               "Tg_fitness_in_vivo_liver": {},
               "Tg_fitness_in_vivo_spleen": {},
+              "Tg_fitness_in_vivo_heart": {},
+              "Tg_fitness_in_vivo_brain": {},
+              "Tg_fitness_lipid_rich_medium_10_serum": {},
+              "Tg_fitness_lipid_limited_medium_1_serum": {},
+              "Tg_fitness_lipid_dependence_10_minus_1_serum": {},
+              "Tg_fitness_glucose_withdrawn": {},
+              "Tg_fitness_glutamine_withdrawn": {},
+              "Tg_fitness_carbon_source_dependence": {},
               "Tg_fitness_hyperlopit_unassigned_proteins": {},
               "Tg_fitness_targeted_in_vivo_young_2019": {},
               "Tg_fitness_gra12_screen_1_in_vivo": {},
@@ -201,19 +215,10 @@
         }
       },
       "intrinsic and reference": {
-        "orthology-derived": {
-          "localization transfer": {
-            "Tg_localization_transferred": {}
-          }
-        },
-        "sequence-derived": {
-          "membrane topology": {
-            "Tg_membrane_topology": {}
-          }
-        },
         "sequence and evolution": {
           "gene attributes": {
             "stage-unspecified": {
+              "Tg_5_utr_architecture": {},
               "Tg_domain_content": {},
               "Tg_fold_confidence_disorder": {},
               "Tg_conservation_breadth": {},
@@ -222,6 +227,16 @@
               "Tg_strain_variation": {},
               "Tg_local_af3_fold_confidence_and_geometry": {}
             }
+          }
+        },
+        "orthology-derived": {
+          "localization transfer": {
+            "Tg_localization_transferred": {}
+          }
+        },
+        "sequence-derived": {
+          "membrane topology": {
+            "Tg_membrane_topology": {}
           }
         }
       },
@@ -254,7 +269,8 @@
           "host effect": {
             "stage-unspecified": {
               "Tg_host_interaction_degree": {},
-              "Tg_host_transcriptional_effect_per_effector": {}
+              "Tg_host_transcriptional_effect_per_effector": {},
+              "Tg_host_gene_requirement_rhoptry_discharge": {}
             },
             "tachyzoite": {
               "Tg_host_proteome_human_fibroblast": {},
@@ -312,7 +328,8 @@
           "bradyzoite": {
             "unperturbed": {
               "Tg_transcription_bradyzoite_tissue_cyst": {},
-              "Tg_transcription_purified_bradyzoite_in_vivo": {}
+              "Tg_transcription_purified_bradyzoite_in_vivo": {},
+              "Tg_transcription_bradyzoite_subtype_in_vivo": {}
             },
             "stage conversion": {
               "Tg_transcription_bradyzoite_checkpoint_perturbation": {}
@@ -362,6 +379,7 @@
               "Tg_transcription_under_tf_or_chromatin_perturbation": {},
               "Tg_transcription_maximum_observed_across_stages": {},
               "Tg_life_cycle_stage_label_derived": {},
+              "Tg_transcription_under_iron_depletion": {},
               "Tg_noncoding_and_antisense_transcription": {}
             }
           }
@@ -409,7 +427,8 @@
           },
           "stage-unspecified": {
             "unperturbed": {
-              "Tg_protein_abundance_other_life_stages": {}
+              "Tg_protein_abundance_other_life_stages": {},
+              "Tg_protein_abundance_under_stress": {}
             }
           }
         }
@@ -437,6 +456,29 @@
           }
         }
       },
+      "cell organization": {
+        "localization and topology": {
+          "stage-unspecified": {
+            "unperturbed": {
+              "Tg_organelle_surface_membrane_contact_site": {},
+              "Tg_membrane_topology": {}
+            }
+          },
+          "tachyzoite (implied)": {
+            "unperturbed": {
+              "Tg_localization_measured": {},
+              "Tg_localization_transferred": {},
+              "Tg_exposure_to_host_cytosol": {},
+              "Tg_secretome_excreted": {}
+            }
+          },
+          "bradyzoite": {
+            "unperturbed": {
+              "Tg_cyst_wall_composition": {}
+            }
+          }
+        }
+      },
       "parasite phenotype": {
         "fitness and essentiality": {
           "tachyzoite (implied)": {
@@ -447,6 +489,14 @@
               "Tg_fitness_in_vivo_lung": {},
               "Tg_fitness_in_vivo_liver": {},
               "Tg_fitness_in_vivo_spleen": {},
+              "Tg_fitness_in_vivo_heart": {},
+              "Tg_fitness_in_vivo_brain": {},
+              "Tg_fitness_lipid_rich_medium_10_serum": {},
+              "Tg_fitness_lipid_limited_medium_1_serum": {},
+              "Tg_fitness_lipid_dependence_10_minus_1_serum": {},
+              "Tg_fitness_glucose_withdrawn": {},
+              "Tg_fitness_glutamine_withdrawn": {},
+              "Tg_fitness_carbon_source_dependence": {},
               "Tg_fitness_hyperlopit_unassigned_proteins": {},
               "Tg_fitness_targeted_in_vivo_young_2019": {},
               "Tg_fitness_gra12_screen_1_in_vivo": {},
@@ -524,24 +574,18 @@
           }
         }
       },
-      "cell organization": {
-        "localization and topology": {
-          "tachyzoite (implied)": {
-            "unperturbed": {
-              "Tg_localization_measured": {},
-              "Tg_localization_transferred": {},
-              "Tg_exposure_to_host_cytosol": {},
-              "Tg_secretome_excreted": {}
-            }
-          },
+      "intrinsic properties": {
+        "sequence structure and evolution": {
           "stage-unspecified": {
             "unperturbed": {
-              "Tg_membrane_topology": {}
-            }
-          },
-          "bradyzoite": {
-            "unperturbed": {
-              "Tg_cyst_wall_composition": {}
+              "Tg_5_utr_architecture": {},
+              "Tg_domain_content": {},
+              "Tg_fold_confidence_disorder": {},
+              "Tg_conservation_breadth": {},
+              "Tg_paralogy": {},
+              "Tg_sequence_basics": {},
+              "Tg_strain_variation": {},
+              "Tg_local_af3_fold_confidence_and_geometry": {}
             }
           }
         }
@@ -577,7 +621,8 @@
           "stage-unspecified": {
             "unperturbed": {
               "Tg_host_interaction_degree": {},
-              "Tg_host_transcriptional_effect_per_effector": {}
+              "Tg_host_transcriptional_effect_per_effector": {},
+              "Tg_host_gene_requirement_rhoptry_discharge": {}
             }
           },
           "tachyzoite": {
@@ -623,21 +668,6 @@
             "Tg_assay_confidence_and_significance": {},
             "Tg_literature_attention": {},
             "Tg_gene_identity_and_annotation": {}
-          }
-        }
-      },
-      "intrinsic properties": {
-        "sequence structure and evolution": {
-          "stage-unspecified": {
-            "unperturbed": {
-              "Tg_domain_content": {},
-              "Tg_fold_confidence_disorder": {},
-              "Tg_conservation_breadth": {},
-              "Tg_paralogy": {},
-              "Tg_sequence_basics": {},
-              "Tg_strain_variation": {},
-              "Tg_local_af3_fold_confidence_and_geometry": {}
-            }
           }
         }
       },
@@ -750,6 +780,7 @@
                 "Tg_transcription_under_tf_or_chromatin_perturbation": {},
                 "Tg_transcription_maximum_observed_across_stages": {},
                 "Tg_life_cycle_stage_label_derived": {},
+                "Tg_transcription_under_iron_depletion": {},
                 "Tg_noncoding_and_antisense_transcription": {}
               },
               "translation": {
@@ -757,11 +788,15 @@
                 "Tg_translation_efficiency_extracellular_stress": {}
               },
               "protein abundance": {
-                "Tg_protein_abundance_other_life_stages": {}
+                "Tg_protein_abundance_other_life_stages": {},
+                "Tg_protein_abundance_under_stress": {}
               },
               "PTM": {
                 "Tg_phosphorylation_kinase_substrate": {},
                 "Tg_acetylation": {}
+              },
+              "localization": {
+                "Tg_organelle_surface_membrane_contact_site": {}
               },
               "fitness": {
                 "Tg_fitness_oxidative_stress": {},
@@ -775,6 +810,10 @@
                 "Tg_tf_binding_per_factor": {},
                 "Tg_chromatin_accessibility": {},
                 "Tg_splicing_isoform_use": {}
+              },
+              "sequence": {
+                "Tg_5_utr_architecture": {},
+                "Tg_strain_variation": {}
               },
               "relation": {
                 "Tg_co_transcription": {},
@@ -797,9 +836,6 @@
               },
               "host effect": {
                 "Tg_host_transcriptional_effect_per_effector": {}
-              },
-              "sequence": {
-                "Tg_strain_variation": {}
               },
               "metabolism": {
                 "Tg_metabolite_levels": {},
@@ -841,6 +877,13 @@
                 "Tg_host_response_to_infection_human_monocyte": {}
               }
             }
+          },
+          "tissue-unspecified": {
+            "stage-unspecified": {
+              "host effect": {
+                "Tg_host_gene_requirement_rhoptry_discharge": {}
+              }
+            }
           }
         }
       },
@@ -860,11 +903,15 @@
               "transcription": {
                 "Tg_transcription_in_vivo_brain_acute": {},
                 "Tg_transcription_in_vivo_brain_chronic": {}
+              },
+              "fitness": {
+                "Tg_fitness_in_vivo_brain": {}
               }
             },
             "bradyzoite": {
               "transcription": {
-                "Tg_transcription_purified_bradyzoite_in_vivo": {}
+                "Tg_transcription_purified_bradyzoite_in_vivo": {},
+                "Tg_transcription_bradyzoite_subtype_in_vivo": {}
               },
               "host effect": {
                 "Tg_host_proteome_mouse_brain": {},
@@ -910,6 +957,7 @@
           "tissue-unspecified": {
             "tachyzoite (implied)": {
               "fitness": {
+                "Tg_fitness_in_vivo_heart": {},
                 "Tg_fitness_hyperlopit_unassigned_proteins": {},
                 "Tg_fitness_targeted_in_vivo_young_2019": {},
                 "Tg_fitness_gra12_screen_1_in_vivo": {},
@@ -976,7 +1024,13 @@
           "tissue-unspecified": {
             "tachyzoite (implied)": {
               "fitness": {
-                "Tg_fitness_hff_in_vitro": {}
+                "Tg_fitness_hff_in_vitro": {},
+                "Tg_fitness_lipid_rich_medium_10_serum": {},
+                "Tg_fitness_lipid_limited_medium_1_serum": {},
+                "Tg_fitness_lipid_dependence_10_minus_1_serum": {},
+                "Tg_fitness_glucose_withdrawn": {},
+                "Tg_fitness_glutamine_withdrawn": {},
+                "Tg_fitness_carbon_source_dependence": {}
               }
             },
             "tachyzoite": {
@@ -1077,6 +1131,7 @@
               "Pf_transcription_under_tf_or_chromatin_perturbation": {},
               "Pf_transcription_maximum_observed_across_stages": {},
               "Pf_cell_cycle_timing_label": {},
+              "Pf_transcription_under_iron_depletion": {},
               "Pf_noncoding_and_antisense_transcription": {},
               "Pf_transcription_dormancy_recrudescence": {}
             },
@@ -1099,6 +1154,9 @@
               "Pf_translation_under_stress": {},
               "Pf_translation_efficiency_extracellular_stress": {},
               "Pf_codon_usage_translation_efficiency": {}
+            },
+            "gametocyte": {
+              "Pf_translation_gametocyte": {}
             }
           }
         },
@@ -1106,12 +1164,16 @@
           "abundance": {
             "asexual blood stage": {
               "Pf_protein_abundance_asexual_blood_stage": {},
-              "Pf_thermal_stability_melting_temperature_asexual_blood_stage": {},
               "Pf_protein_turnover_asexual_blood_stage": {},
-              "Pf_protein_stage_share": {}
+              "Pf_protein_stage_share": {},
+              "Pf_thermal_stability_melting_temperature_asexual_blood_stage": {}
             },
             "stage-unspecified": {
-              "Pf_protein_abundance_other_life_stages": {}
+              "Pf_protein_abundance_other_life_stages": {},
+              "Pf_protein_abundance_under_stress": {}
+            },
+            "gametocyte": {
+              "Pf_protein_abundance_gametocyte": {}
             }
           },
           "post-translational state": {
@@ -1127,7 +1189,18 @@
             },
             "stage-unspecified": {
               "Pf_phosphorylation_kinase_substrate": {},
-              "Pf_acetylation": {}
+              "Pf_acetylation": {},
+              "Pf_phosphorylation_febrile_heat_stress": {}
+            }
+          }
+        },
+        "spatial biology": {
+          "localization": {
+            "stage-unspecified": {
+              "Pf_organelle_surface_membrane_contact_site": {},
+              "Pf_exposure_to_host_cytosol": {},
+              "Pf_secretome_excreted": {},
+              "Pf_export_pexel_trafficking": {}
             }
           }
         },
@@ -1140,18 +1213,9 @@
               "Pf_antigenic_variation_family_expression": {}
             },
             "asexual blood stage": {
-              "Pf_chromatin_state_asexual_blood_stage": {},
+              "Pf_rna_stability_half_life_asexual_blood_stage": {},
               "Pf_rna_modification_asexual_blood_stage": {},
-              "Pf_rna_stability_half_life_asexual_blood_stage": {}
-            }
-          }
-        },
-        "spatial biology": {
-          "localization": {
-            "stage-unspecified": {
-              "Pf_exposure_to_host_cytosol": {},
-              "Pf_secretome_excreted": {},
-              "Pf_export_pexel_trafficking": {}
+              "Pf_chromatin_state_asexual_blood_stage": {}
             }
           }
         },
@@ -1224,14 +1288,10 @@
         }
       },
       "intrinsic and reference": {
-        "sequence-derived": {
-          "membrane topology": {
-            "Pf_membrane_topology": {}
-          }
-        },
         "sequence and evolution": {
           "gene attributes": {
             "stage-unspecified": {
+              "Pf_5_utr_architecture": {},
               "Pf_domain_content": {},
               "Pf_fold_confidence_disorder": {},
               "Pf_conservation_breadth": {},
@@ -1240,6 +1300,11 @@
               "Pf_strain_variation": {},
               "Pf_field_variation_and_resistance_markers": {}
             }
+          }
+        },
+        "sequence-derived": {
+          "membrane topology": {
+            "Pf_membrane_topology": {}
           }
         },
         "orthology-derived": {
@@ -1371,6 +1436,7 @@
               "Pf_transcription_maximum_observed_across_stages": {},
               "Pf_cell_cycle_timing_label": {},
               "Pf_life_cycle_stage_label_derived": {},
+              "Pf_transcription_under_iron_depletion": {},
               "Pf_noncoding_and_antisense_transcription": {},
               "Pf_transcription_dormancy_recrudescence": {}
             },
@@ -1405,6 +1471,11 @@
               "Pf_translation_under_stress": {},
               "Pf_translation_efficiency_extracellular_stress": {}
             }
+          },
+          "gametocyte": {
+            "unperturbed": {
+              "Pf_translation_gametocyte": {}
+            }
           }
         },
         "protein abundance": {
@@ -1420,7 +1491,13 @@
           },
           "stage-unspecified": {
             "unperturbed": {
-              "Pf_protein_abundance_other_life_stages": {}
+              "Pf_protein_abundance_other_life_stages": {},
+              "Pf_protein_abundance_under_stress": {}
+            }
+          },
+          "gametocyte": {
+            "unperturbed": {
+              "Pf_protein_abundance_gametocyte": {}
             }
           }
         }
@@ -1442,7 +1519,21 @@
           "stage-unspecified": {
             "unperturbed": {
               "Pf_phosphorylation_kinase_substrate": {},
-              "Pf_acetylation": {}
+              "Pf_acetylation": {},
+              "Pf_phosphorylation_febrile_heat_stress": {}
+            }
+          }
+        }
+      },
+      "cell organization": {
+        "localization and topology": {
+          "stage-unspecified": {
+            "unperturbed": {
+              "Pf_organelle_surface_membrane_contact_site": {},
+              "Pf_membrane_topology": {},
+              "Pf_exposure_to_host_cytosol": {},
+              "Pf_secretome_excreted": {},
+              "Pf_export_pexel_trafficking": {}
             }
           }
         }
@@ -1522,20 +1613,24 @@
         },
         "asexual blood stage": {
           "unperturbed": {
-            "Pf_chromatin_state_asexual_blood_stage": {},
+            "Pf_rna_stability_half_life_asexual_blood_stage": {},
             "Pf_rna_modification_asexual_blood_stage": {},
-            "Pf_rna_stability_half_life_asexual_blood_stage": {}
+            "Pf_chromatin_state_asexual_blood_stage": {}
           }
         }
       },
-      "cell organization": {
-        "localization and topology": {
+      "intrinsic properties": {
+        "sequence structure and evolution": {
           "stage-unspecified": {
             "unperturbed": {
-              "Pf_membrane_topology": {},
-              "Pf_exposure_to_host_cytosol": {},
-              "Pf_secretome_excreted": {},
-              "Pf_export_pexel_trafficking": {}
+              "Pf_5_utr_architecture": {},
+              "Pf_domain_content": {},
+              "Pf_fold_confidence_disorder": {},
+              "Pf_conservation_breadth": {},
+              "Pf_paralogy": {},
+              "Pf_sequence_basics": {},
+              "Pf_strain_variation": {},
+              "Pf_field_variation_and_resistance_markers": {}
             }
           }
         }
@@ -1627,21 +1722,6 @@
           }
         }
       },
-      "intrinsic properties": {
-        "sequence structure and evolution": {
-          "stage-unspecified": {
-            "unperturbed": {
-              "Pf_domain_content": {},
-              "Pf_fold_confidence_disorder": {},
-              "Pf_conservation_breadth": {},
-              "Pf_paralogy": {},
-              "Pf_sequence_basics": {},
-              "Pf_strain_variation": {},
-              "Pf_field_variation_and_resistance_markers": {}
-            }
-          }
-        }
-      },
       "metabolism": {
         "stage-unspecified": {
           "unperturbed": {
@@ -1675,9 +1755,9 @@
               },
               "protein abundance": {
                 "Pf_protein_abundance_asexual_blood_stage": {},
-                "Pf_thermal_stability_melting_temperature_asexual_blood_stage": {},
                 "Pf_protein_turnover_asexual_blood_stage": {},
-                "Pf_protein_stage_share": {}
+                "Pf_protein_stage_share": {},
+                "Pf_thermal_stability_melting_temperature_asexual_blood_stage": {}
               },
               "PTM": {
                 "Pf_phosphorylation_asexual_blood_stage": {},
@@ -1694,9 +1774,9 @@
                 "Pf_stage_conversion_phenotype_asexual_blood_stage": {}
               },
               "regulation": {
-                "Pf_chromatin_state_asexual_blood_stage": {},
+                "Pf_rna_stability_half_life_asexual_blood_stage": {},
                 "Pf_rna_modification_asexual_blood_stage": {},
-                "Pf_rna_stability_half_life_asexual_blood_stage": {}
+                "Pf_chromatin_state_asexual_blood_stage": {}
               }
             },
             "ring": {
@@ -1750,6 +1830,7 @@
                 "Pf_transcription_maximum_observed_across_stages": {},
                 "Pf_cell_cycle_timing_label": {},
                 "Pf_life_cycle_stage_label_derived": {},
+                "Pf_transcription_under_iron_depletion": {},
                 "Pf_noncoding_and_antisense_transcription": {},
                 "Pf_transcription_dormancy_recrudescence": {}
               },
@@ -1759,11 +1840,17 @@
                 "Pf_translation_efficiency_extracellular_stress": {}
               },
               "protein abundance": {
-                "Pf_protein_abundance_other_life_stages": {}
+                "Pf_protein_abundance_other_life_stages": {},
+                "Pf_protein_abundance_under_stress": {}
               },
               "PTM": {
                 "Pf_phosphorylation_kinase_substrate": {},
                 "Pf_acetylation": {}
+              },
+              "localization": {
+                "Pf_organelle_surface_membrane_contact_site": {},
+                "Pf_exposure_to_host_cytosol": {},
+                "Pf_secretome_excreted": {}
               },
               "fitness": {
                 "Pf_fitness_oxidative_stress": {},
@@ -1779,9 +1866,10 @@
                 "Pf_splicing_isoform_use": {},
                 "Pf_antigenic_variation_family_expression": {}
               },
-              "localization": {
-                "Pf_exposure_to_host_cytosol": {},
-                "Pf_secretome_excreted": {}
+              "sequence": {
+                "Pf_5_utr_architecture": {},
+                "Pf_strain_variation": {},
+                "Pf_field_variation_and_resistance_markers": {}
               },
               "relation": {
                 "Pf_co_transcription": {},
@@ -1805,10 +1893,6 @@
               "host effect": {
                 "Pf_host_transcriptional_effect_per_effector": {}
               },
-              "sequence": {
-                "Pf_strain_variation": {},
-                "Pf_field_variation_and_resistance_markers": {}
-              },
               "metabolism": {
                 "Pf_metabolite_levels": {},
                 "Pf_metabolic_flux": {},
@@ -1831,6 +1915,12 @@
               "fitness": {
                 "Pf_fitness_gametocyte": {},
                 "Pf_stage_conversion_phenotype_gametocyte": {}
+              },
+              "protein abundance": {
+                "Pf_protein_abundance_gametocyte": {}
+              },
+              "translation": {
+                "Pf_translation_gametocyte": {}
               },
               "transcription": {
                 "Pf_transcription_gametocyte": {}
@@ -1906,6 +1996,9 @@
               "host effect": {
                 "Pf_host_interaction_degree": {},
                 "Pf_host_receptor_binding": {}
+              },
+              "PTM": {
+                "Pf_phosphorylation_febrile_heat_stress": {}
               },
               "localization": {
                 "Pf_export_pexel_trafficking": {}

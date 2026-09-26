@@ -110,6 +110,15 @@ quantity were approximating on 2026-08-13.
 #: and because a proposal that names a PMID without its title asks the reader to go and find
 #: out what was being proposed. Titles are as PubMed gives them.
 REFERENCES = {
+    "42580337": ("2026", "Cell",
+                 "Convergent evolution of metabolic regulation governs redox adaptation in "
+                 "Toxoplasma."),
+    "41315737": ("2025", "Nat Microbiol",
+                 "MAP-X reveals distinct protein complex dynamics across Plasmodium falciparum "
+                 "blood stages."),
+    "42126964": ("2026", "Elife",
+                 "Physiological febrile heat stress increases cytoadhesion through increased "
+                 "protein trafficking in Plasmodium falciparum."),
     "34898650": ("2021", "PLoS Pathog",
                  "Toxoplasma gondii exploits the host ESCRT machinery for parasite uptake "
                  "of host cytosolic proteins."),
@@ -700,6 +709,15 @@ HOST_COLUMNS = {
     # confined to one; muscle is the atlas's only skeletal-muscle sample and it is juvenile.
     "host transcriptome · mouse brain": ["brain_tpm"],
     "host transcriptome · mouse skeletal muscle": ["skeletal_muscle_tpm"],
+    # Unstimulated macrophages only (GSE267544): the stimulated arms are LPS + IFN-gamma, not
+    # infection, and answer none of these slots.
+    "host transcriptome · mouse bone-marrow macrophage": ["bmdm_tpm"],
+    # Contrasts, computed from deposited expression (starplast/deposits.py): infected against
+    # uninfected, as the family's policy says -- the disagreement is the signal.
+    "host response to infection · human fibroblast": ["hff_tg_infection_log2fc",
+                                                      "hff_tg_infection_padj"],
+    "host response to infection · human hepatocyte": ["hepatocyte_pf_infection_log2fc",
+                                                      "hepatocyte_pf_infection_padj"],
     "host surface / receptor repertoire · human erythrocyte":
         ["rbc_surface_copies_uk", "rbc_surface_copies_senegal",
          "rbc_surface_found_uk", "rbc_surface_found_senegal"],
@@ -748,12 +766,46 @@ NEW_PLASMODIUM = [
     # nobody asked there. Left unclaimed until the slot tree's orphan alarm caught it -- a
     # measurement the catalog cannot describe is one nobody can hold out.
     ("protein stage share", "protein abundance", "asexual blood stage, TMT", "gene", [], "separate"),
+    # The mirrored shape of this question carries no patterns, because a Toxoplasma column is not a
+    # Plasmodium measurement; declared here so the falciparum melting points fill the falciparum
+    # slot. Fitted from the published per-temperature abundances by `scripts/fit_meltome.py`, since
+    # no melting temperature is published for this organism.
+    # Methylation read off the molecule by nanopore rather than inferred from a pulldown, so the
+    # unit is a site on a transcript rather than a peak over a gene.
+    ("RNA modification · asexual blood stage", "regulation", "asexual blood stage, nanopore",
+     "gene", ["m6a_n_canonical_sites", "m6a_canonical_stoichiometry"], "separate",
+     [("", "bioRxiv 10.64898/2026.05.19.726191", "per-transcript m6A sites and stoichiometry")]),
+    # The proxiomes fill CHROMATIN STATE rather than proximity labelling, though they are proximity
+    # experiments: the question they answer is which environment a protein sits in, and claiming the
+    # same columns for both slots would count one measurement twice.
+    ("chromatin state · asexual blood stage", "regulation", "asexual blood stage, proxiomes",
+     "gene", ["chromprox_"], "separate",
+     [("", "bioRxiv 10.1101/2025.09.23.678001", "HP1, H3K27ac, H3K4me3 and centromere "
+       "proximity proteomes")]),
+    # A stage nobody had protein abundance for, and the transmission stage at that.
+    ("protein abundance · gametocyte", "protein abundance", "stage V gametocyte", "gene",
+     ["gametocyte_proteome_log2"], "one",
+     [("", "PXD075878", "label-free quantification of the mature gametocyte proteome")]),
+    ("translation · gametocyte", "translation", "stage V gametocyte, click chemistry", "gene",
+     ["gametocyte_newly_made"], "one",
+     [("", "PXD075878", "protein still being made in a quiescent gametocyte")]),
+    # A condition this parasite actually meets, which is why it is not folded into the
+    # phosphoproteome slot: a fever is not a baseline.
+    ("phosphorylation · febrile heat stress", "PTM", "infected erythrocyte at 39 degrees", "gene",
+     ["febrile_phospho_"], "separate",
+     [("42126964", "PXD073843", "phosphoproteome after physiological febrile heat stress")]),
+    ("thermal stability (melting temperature) · asexual blood stage", "protein abundance",
+     "asexual blood stage, intact-cell CETSA", "gene",
+     ["melting_temperature_tm", "melting_temperature_sd"], "one",
+     [("41315737", "PXD056075", "MAP-X meltome across seven points of the blood-stage cycle")]),
     ("transcription · liver stage", "transcription", "hepatocyte", "gene", [], "one"),
     ("transcription · mosquito stages", "transcription", "ookinete, oocyst, sporozoite", "gene",
      [], "separate"),
     ("transcription · gametocyte", "transcription", "gametocyte I-V", "gene", [], "average"),
     ("transcription · dormancy / recrudescence", "transcription", "artemisinin quiescence",
-     "gene", [], "separate"),
+     "gene", ["latency_log2fc", "latency_classifier_member"], "separate",
+     [("", "bioRxiv 10.64898/2026.09.13.751295", "single-cell latency after drug and nutrient "
+       "stress, with the paper's 200-gene classifier")]),
     ("fitness · liver stage", "fitness", "hepatocyte", "gene", [], "one"),
     ("fitness · transmission", "fitness", "mosquito", "gene", [], "separate"),
     # What replaces the four mirrored mouse organs. P. falciparum in vivo fitness is measurable --
@@ -772,8 +824,11 @@ NEW_PLASMODIUM = [
     ("fitness · transferred from Pb", "fitness", "P. berghei, PlasmoGEM", "gene", [], "one"),
     ("fitness · liver stage transferred from Pb", "fitness", "P. berghei liver stage", "gene",
      [], "one"),
+    # Male and female fertility are SEPARATE questions, not one transmission number: a mutant can
+    # be sterile in one sex and normal in the other, which is what the screen behind these columns
+    # was built to show.
     ("fitness · transmission transferred from Pb", "fitness", "P. berghei mosquito stages", "gene",
-     [], "one"),
+     ["fertility_female", "fertility_male"], "separate"),
     ("antigenic variation family expression", "regulation", "var / rif / stevor", "gene", [],
      "separate"),
     ("export / PEXEL trafficking", "localization", "erythrocyte cytosol", "gene", [], "one"),
@@ -811,6 +866,16 @@ NEW_TOXOPLASMA = _host_slots(HOST_CONTEXTS_TG) + [
     ("host protein recruitment to the vacuole", "host effect",
      "parasitophorous vacuole; tachyzoite in HFF", "host_gene", ["pv_enrichment_log2"], "one",
      [("34898650", "PLoS Pathog", "host proteins enriched at the vacuole, by context")]),
+    # The second host_gene slot that is not about a tissue: not what a host cell contains, but
+    # which of its genes the parasite NEEDS. Declared here rather than as a family x tissue
+    # cross-product, because a cell line used in one invasion assay has no proteome or infection
+    # response worth a slot of its own -- four empty slots for one filled one. `fill`, because a
+    # genome-wide screen's non-hits are evidence: this gene was tested and was not required.
+    ("host gene requirement · rhoptry discharge", "host effect",
+     "human K562; Toxoplasma invasion assay", "host_gene",
+     ["rhoptry_discharge_score", "rhoptry_discharge_beta", "rhoptry_discharge_fdr"], "fill",
+     [("", "bioRxiv 10.1101/2025.10.16.682961", "genome-wide CRISPR screen for host genes "
+       "required for rhoptry discharge")]),
 ]
 
 
@@ -900,8 +965,10 @@ SLOTS = [
      [("29228904", "GSE99395", "extracellular versus intracellular parasites"),
       ("41925342", "", "translational remodelling under iron starvation, 2026")]),
     ("translation efficiency · tachyzoite", "translation", "tachyzoite, in vitro", "gene",
-     ["te99395_intracellular_", "te129869_", "te245775_parent_tachy_"], "separate",
-     [("29228904", "GSE99395", "RPF relative to matched RNA"),
+     ["te302107_tachy_", "te99395_intracellular_", "te129869_", "te245775_parent_tachy_"],
+     "separate",
+     [("", "GSE302107", "high-resolution RPF relative to matched RNA; replicates rho 0.97"),
+      ("29228904", "GSE99395", "RPF relative to matched RNA"),
       ("31167946", "GSE129869", "RPF relative to matched RNA")]),
     ("translation efficiency · extracellular stress", "translation", "extracellular stress",
      "gene", ["te99395_extracellular_"], "separate",
@@ -977,6 +1044,22 @@ SLOTS = [
      [("40348811", "PXD045018", "TgUAE1"), ("40590555", "PXD054719", "endodyogeny")]),
     ("glycosylation", "PTM", "tachyzoite", "gene", ["n_o_fucosyl_peptides"], "one",
      [("39912628", "PXD056853", "nucleocytoplasmic O-fucose")]),
+    # Five subtypes of one stage, kept apart because the paper's finding is that they differ.
+    ("transcription · bradyzoite subtype in vivo", "transcription", "mouse brain cyst, 30 days",
+     "gene", ["bzsub_"], "separate",
+     [("41580398", "GSE311669", "single-cell atlas of brain bradyzoites, Groups A-E")]),
+    # Protein abundance under a defined stress, with its transcript beside it: the disagreement
+    # between the two is the paper's own subject and averaging them would erase it.
+    ("protein abundance · under stress", "protein abundance", "iron depletion, 24 h", "gene",
+     ["iron_depletion_protein_"], "separate",
+     [("41925342", "PXD066828", "proteome after iron depletion")]),
+    ("transcription · under iron depletion", "transcription", "iron depletion, 24 h", "gene",
+     ["iron_depletion_rna_log2fc"], "one",
+     [("41925342", "PRJEB83013", "RNA-seq after iron depletion")]),
+    # The cytosolic FACE of an organelle, which is not the same question as which organelle a
+    # protein is in: a separate slot from localization for that reason.
+    ("organelle surface / membrane contact site", "localization", "TurboID on outer membranes",
+     "gene", ["surface_apicoplast_", "surface_mitochondrion_", "surface_er_"], "separate", []),
     ("palmitoylation", "PTM", "tachyzoite", "gene", ["palmitome_"], "separate",
      [("26468752", "ToxoDB Foe palmitome", "17-ODYA click chemistry, against hydroxylamine "
        "and against palmitate")]),
@@ -992,6 +1075,29 @@ SLOTS = [
     ("fitness · in vivo liver", "fitness", "mouse liver", "gene", ["fit_invivo_liver"], "one", []),
     ("fitness · in vivo spleen", "fitness", "mouse spleen", "gene", ["fit_invivo_spleen"], "one",
      []),
+    # Heart and brain: the same genome-wide screen and sheet as the four tissues above (Giuliano
+    # 2024). Both are bottleneck-limited -- few parasites reach them in acute infection -- so most
+    # genes read as depleted; kept because they are the only in vivo heart and brain fitness there is.
+    ("fitness · in vivo heart", "fitness", "mouse heart", "gene", ["fit_invivo_heart"], "one", []),
+    ("fitness · in vivo brain", "fitness", "mouse brain", "gene", ["fit_invivo_brain"], "one", []),
+    # Serum restriction (Bitew 2025). Fitness in either serum is fibroblast fitness measured again
+    # (rho 0.79-0.85 with the Sidik screen); the DIFFERENCE is the new question: what the parasite
+    # needs only when lipid is plentiful (negative) or only when it is scarce (positive).
+    ("fitness · lipid-rich medium (10% serum)", "fitness", "HFF, 10% FBS", "gene",
+     ["fit_lipid_rich_"], "separate", []),
+    ("fitness · lipid-limited medium (1% serum)", "fitness", "HFF, 1% FBS", "gene",
+     ["fit_lipid_limited_"], "separate", []),
+    ("fitness · lipid dependence (10% minus 1% serum)", "fitness", "HFF, serum contrast", "gene",
+     ["fit_serum_differential_"], "separate", []),
+    # Withdrawing a carbon source, and which one the gene needs. The arms are referenced to the
+    # post-selection library rather than the input, so they are their own slot rather than more
+    # members of the HFF fitness slot.
+    ("fitness · glucose withdrawn", "fitness", "HFF, glutamine only", "gene",
+     ["fit_no_glucose"], "one", []),
+    ("fitness · glutamine withdrawn", "fitness", "HFF, glucose only", "gene",
+     ["fit_no_glutamine"], "one", []),
+    ("fitness · carbon-source dependence", "fitness", "HFF, carbon-source contrast", "gene",
+     ["fit_glucose_dependence"], "one", []),
     ("fitness · oxidative stress", "fitness", "oxidant", "gene",
      ["oxidative_stress_screen_score"], "one",
      [("34163449", "PRJNA707360", "genome-wide oxidative-stress screen")]),
@@ -1052,11 +1158,19 @@ SLOTS = [
     # magnitude -- most genes that have one have one -- and that is what was verified: genes with a
     # novel model have a median of 6 exons against 4 for genes without (p = 9e-43), which is the
     # relationship alternative splicing must produce.
+    # Sequence architecture of the untranslated region rather than a measurement of the gene: its
+    # own slot for that reason, and a feature for translation rather than a member of it.
+    ("5' UTR architecture", "sequence", "reannotated transcripts", "gene",
+     ["utr5_length", "utr5_n_uaugs", "utr5_n_uorfs", "utr5_n_oorfs", "utr5_n_inframe_ext",
+      "utr5_kozak_score"], "fill", []),
     ("splicing / isoform use", "regulation", "stages", "gene", ["novel_transcript_models"], "one",
      [("33688018", "PRJNA606986", "nanopore isoform landscape")]),
+    # Two measurements in different units that do not agree (rho -0.03): a genome-wide relative
+    # decay after 4 h, and the unstable tail of another study at 5 h. Separate, never averaged.
     ("RNA stability / half-life", "regulation", "tachyzoite", "gene",
-     ["mrna_remaining_5h_actinomycin"], "one",
-     [("39899594", "PRJEB67890", "iron-mediated post-transcriptional regulation")]),
+     ["mrna_log2_remaining_4h_actinomycin", "mrna_remaining_5h_actinomycin"], "separate",
+     [("42580337", "GSE329845", "genome-wide decay after actinomycin D"),
+      ("39899594", "PRJEB67890", "iron-mediated post-transcriptional regulation")]),
 
     # ---------------------------------------------------------------- localisation and exposure
     ("localization · measured", "localization", "hyperLOPIT", "gene",
@@ -1549,6 +1663,11 @@ PF_PATTERNS = {
     "gene identity and annotation": ["gene_id", "product", "gene_type", "chromosome",
                                      "alphafold_accession"],
     "protein stage share": ["protein_stage_share_"],
+    # Declared here rather than as a Plasmodium-only slot because the question is already in the
+    # shared list: a second row with the same name would be two slots for one question, and the
+    # mirror's dedup does not see the Plasmodium-only list, so it would not have caught it.
+    "target engagement / thermal shift": ["engaged_n_compounds_tested",
+                                          "engaged_n_compounds_hit"],
     "sequence basics": ["length", "molecular_weight", "isoelectric_point", "transcript_length",
                         "exon_count"],
     "domain content": ["n_interpro", "has_domain", "interpro_ids", "pfam_ids"],

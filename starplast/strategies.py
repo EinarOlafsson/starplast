@@ -172,6 +172,65 @@ class StrategyResult:
         """Whether the run produced anything to read beyond its summary."""
         return any(len(t) for t in self.tables.values())
 
+    def save(self, folder: str) -> list:
+        """Write every table as CSV and the summary and settings as JSON. Returns the paths."""
+        import json
+        os.makedirs(folder, exist_ok=True)
+        paths = []
+        for name, table in self.tables.items():
+            path = os.path.join(folder, f"{self.strategy}_{re.sub(r'[^A-Za-z0-9]+', '_', name)}.csv")
+            pd.DataFrame(table).to_csv(path, index=False)
+            paths.append(path)
+        path = os.path.join(folder, f"{self.strategy}_summary.json")
+        with open(path, "w") as fh:
+            json.dump({"strategy": self.strategy, "summary": self.summary,
+                       "settings": self.settings, "numbers": self.numbers,
+                       "seconds": self.seconds}, fh, indent=1, default=str)
+        return paths + [path]
+
+    def plot(self, ctx: "Context | None" = None, color=None, ax=None, size: float = 3.0):
+        """The map this result was computed on, colored by its clusters or by a column of `ctx`.
+
+        Only for results that carry a map (`coords`); a list-producing strategy has none. Gray is
+        a gene with no cluster or no value -- the application's rule, kept here.
+        """
+        import matplotlib.pyplot as plt
+        if self.coords is None or self.positions is None:
+            raise ValueError(f"{self.strategy} produced no map to plot")
+        xyz = np.asarray(self.coords)
+        pos = np.asarray(self.positions, dtype=int)
+        if color is not None and ctx is not None and color in ctx.nodes:
+            values = ctx.truth(color).iloc[pos].to_numpy(dtype=object)
+        elif self.labels is not None:
+            values = np.asarray(self.labels)[pos].astype(object)
+            values = np.where(values == NOISE, None, values)
+        else:
+            values = np.array([None] * len(pos), dtype=object)
+        if ax is None:
+            fig = plt.figure(figsize=(7, 6))
+            ax = fig.add_subplot(projection="3d")
+        known = np.array([v is not None and v == v for v in values])
+        ax.scatter(*xyz[~known].T, s=size, c="#8a8a8a", alpha=0.35, linewidths=0)
+        cats = sorted({str(v) for v in values[known]})
+        cmap = plt.get_cmap("tab20", max(len(cats), 1))
+        for i, c in enumerate(cats):
+            m = known & (values.astype(str) == c)
+            ax.scatter(*xyz[m].T, s=size * 1.6, color=cmap(i % 20), label=c if len(cats) <= 20
+                       else None, linewidths=0)
+        if 0 < len(cats) <= 20:
+            ax.legend(fontsize=7, markerscale=3, loc="upper left", bbox_to_anchor=(1.0, 1.0))
+        ax.set_axis_off()
+        return ax
+
+    def _repr_html_(self) -> str:
+        from html import escape
+        first = next(iter(self.tables.items()), None)
+        table = (f"<p><b>{escape(first[0])}</b> ({len(first[1]):,} rows; first 10)</p>"
+                 + pd.DataFrame(first[1]).head(10).to_html(index=False)) if first else ""
+        return (f"<p><b>{escape(self.strategy)}</b> -- {escape(self.summary)}</p>"
+                f"<p>tables: {escape(', '.join(f'{k} ({len(v):,})' for k, v in self.tables.items()))}"
+                f"</p>{table}")
+
 
 @dataclass
 class TestResult:
@@ -268,6 +327,26 @@ class TestResult:
                 f"± {self.null_sd:.3f} under {self.null_kind} (bar {self.null_high:.3f}, "
                 f"p {self.p_value:.3g}); effect {self.effect:+.3f}, needed {self.min_effect:+.3f}; "
                 f"{self.n_hidden:,} hidden")
+
+    def save(self, folder: str) -> list:
+        """Write the verdict as JSON and the per-class details as CSV. Returns the paths."""
+        import json
+        os.makedirs(folder, exist_ok=True)
+        path = os.path.join(folder, f"{self.strategy}_test.json")
+        with open(path, "w") as fh:
+            json.dump(self.to_dict(), fh, indent=1)
+        paths = [path]
+        if len(self.details):
+            paths.append(os.path.join(folder, f"{self.strategy}_test_details.csv"))
+            self.details.to_csv(paths[-1], index=False)
+        return paths
+
+    def _repr_html_(self) -> str:
+        from html import escape
+        colour = {"PASS": "#2e8b57", "FAIL": "#c0392b"}.get(self.verdict, "#888")
+        rest = escape(self.summary().split(" -- ", 1)[-1])
+        return (f"<p><b style='color:{colour}'>{self.verdict}</b> -- {rest}</p>"
+                f"<p><i>Hidden: {escape(self.hidden)}. Null: {escape(self.null_kind)}.</i></p>")
 
     def to_dict(self) -> dict:
         """JSON-safe, for the shipped record of what each strategy measured on the real data."""
@@ -371,6 +450,20 @@ class Strategy:
         p = self.settings(ctx, **params)
         return self.tester(ctx, p)
 
+    def parameters(self, ctx: "Context | None" = None) -> pd.DataFrame:
+        """The settings as a table: name, kind, default (for `ctx`), and why each exists."""
+        return pd.DataFrame([{"name": p.name, "label": p.label, "kind": p.kind,
+                              "default": p.resolve(ctx) if ctx is not None else (
+                                  None if callable(p.default) else p.default),
+                              "why": p.tip} for p in self.params])
+
+    def _repr_html_(self) -> str:
+        from html import escape
+        steps = "".join(f"<li>{escape(x)}</li>" for x in self.walkthrough)
+        return (f"<p><b>{self.number:02d} · {escape(self.title)}</b> ({escape(self.family)})</p>"
+                f"<p><i>{escape(self.question)}</i></p><p>{escape(self.tooltip)}</p>"
+                f"<ol>{steps}</ol><p><b>How it is tested:</b> {escape(self.test_description)}</p>")
+
     def help_text(self) -> str:
         """Everything the panel shows about this strategy, as plain text."""
         steps = "\n".join(f"  {i}. {s}" for i, s in enumerate(self.walkthrough, 1))
@@ -413,6 +506,56 @@ def families() -> list:
         if s.family not in seen:
             seen.append(s.family)
     return seen
+
+
+def overview(organism: str = "Tg") -> pd.DataFrame:
+    """Every strategy in one table: number, key, family, title, the question it answers, and --
+    where the calibration sweep measured it -- its grade and skill at defaults and tuned."""
+    from . import calibration as C
+    rows = []
+    for s in catalog():
+        e = C.entry(s.key, organism) or {}
+        d, t = e.get("default") or {}, e.get("tuned") or {}
+        rows.append({"number": s.number, "key": s.key, "family": s.family, "title": s.title,
+                     "question": s.question, "cost": s.cost, "grade": e.get("grade", ""),
+                     "skill_default": d.get("skill"), "skill_tuned": t.get("skill")})
+    return pd.DataFrame(rows)
+
+
+def calibration(key: str, organism: str = "Tg") -> dict:
+    """What the calibration sweep measured for `key`: grade, skill at defaults and tuned with 95%
+    intervals, per held-out target and per setting. Empty if it has not been measured."""
+    from . import calibration as C
+    return dict(C.entry(key, organism) or {})
+
+
+def tuned(key: str, organism: str = "Tg") -> dict:
+    """The setting calibration found best for `key` -- pass it on: ``run(key, **tuned(key))``."""
+    from . import calibration as C
+    return C.tuned_settings(key, organism)
+
+
+_SHIPPED: dict = {}
+
+
+def shipped(organism: str = "Tg") -> "Context":
+    """The packaged table of one organism, loaded once and kept, so repeated calls share maps."""
+    if organism not in _SHIPPED:
+        _SHIPPED[organism] = Context.shipped(organism)
+    return _SHIPPED[organism]
+
+
+def run(key: str, organism: str = "Tg", ctx: "Context | None" = None, **settings) -> "StrategyResult":
+    """Run strategy `key` on the shipped table of `organism` (or on `ctx`) with `settings`.
+
+    The one-line entry point: ``strategies.run("geneset_hunt", genes=my_list)``.
+    """
+    return get(key).run(ctx or shipped(organism), **settings)
+
+
+def test(key: str, organism: str = "Tg", ctx: "Context | None" = None, **settings) -> "TestResult":
+    """Self-test strategy `key` with `settings`: hide what is known, ask for it back, score it."""
+    return get(key).test(ctx or shipped(organism), **settings)
 
 
 # --------------------------------------------------------------------------- the context
@@ -624,7 +767,9 @@ class Context:
         out = set()
         for t in targets:
             try:
-                out |= set(search.excluded_edges(t))
+                # The declared family's layers AND every layer built from a column the closure
+                # removes: a co-expression layer built from the stage series is the stage series.
+                out |= set(search.excluded_layers(self.nodes, t))
             except Exception:                          # an unknown target declares no family
                 pass
             # A layer is also banned when the table says it was built from this very column: the

@@ -21,6 +21,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_transcription_purified_bradyzoite_in_vivo
         - Tg_transcription_bradyzoite_checkpoint_perturbation
         - Tg_transcription_under_initiation_factor_depletion
+        - Tg_transcription_bradyzoite_subtype_in_vivo
       - sporozoite
         - Tg_transcription_oocyst_sporozoite
       - merozoite
@@ -41,6 +42,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_transcription_under_stress_conversion
         - Tg_transcription_under_tf_or_chromatin_perturbation
         - Tg_transcription_maximum_observed_across_stages
+        - Tg_transcription_under_iron_depletion
         - Tg_noncoding_and_antisense_transcription
   - translation
     - ribosome occupancy
@@ -65,6 +67,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_protein_turnover
       - stage-unspecified
         - Tg_protein_abundance_other_life_stages
+        - Tg_protein_abundance_under_stress
     - post-translational state
       - tachyzoite
         - Tg_phosphorylation_site_count
@@ -79,6 +82,16 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - stage-unspecified
         - Tg_phosphorylation_kinase_substrate
         - Tg_acetylation
+  - spatial biology
+    - localization
+      - stage-unspecified
+        - Tg_organelle_surface_membrane_contact_site
+      - tachyzoite (implied)
+        - Tg_localization_measured
+        - Tg_exposure_to_host_cytosol
+        - Tg_secretome_excreted
+      - bradyzoite
+        - Tg_cyst_wall_composition
   - regulation
     - chromatin and RNA regulation
       - stage-unspecified
@@ -90,14 +103,6 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - tachyzoite
         - Tg_rna_modification_m6a_5mc
         - Tg_rna_stability_half_life
-  - spatial biology
-    - localization
-      - tachyzoite (implied)
-        - Tg_localization_measured
-        - Tg_exposure_to_host_cytosol
-        - Tg_secretome_excreted
-      - bradyzoite
-        - Tg_cyst_wall_composition
   - metabolism
     - metabolite or flux
       - stage-unspecified
@@ -127,6 +132,14 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_fitness_in_vivo_lung
         - Tg_fitness_in_vivo_liver
         - Tg_fitness_in_vivo_spleen
+        - Tg_fitness_in_vivo_heart
+        - Tg_fitness_in_vivo_brain
+        - Tg_fitness_lipid_rich_medium_10_serum
+        - Tg_fitness_lipid_limited_medium_1_serum
+        - Tg_fitness_lipid_dependence_10_minus_1_serum
+        - Tg_fitness_glucose_withdrawn
+        - Tg_fitness_glutamine_withdrawn
+        - Tg_fitness_carbon_source_dependence
         - Tg_fitness_hyperlopit_unassigned_proteins
         - Tg_fitness_targeted_in_vivo_young_2019
         - Tg_fitness_gra12_screen_1_in_vivo
@@ -155,15 +168,10 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_host_escrt_recruitment
         - Tg_invasion_and_egress_phenotype
 - intrinsic and reference
-  - orthology-derived
-    - localization transfer
-      - Tg_localization_transferred
-  - sequence-derived
-    - membrane topology
-      - Tg_membrane_topology
   - sequence and evolution
     - gene attributes
       - stage-unspecified
+        - Tg_5_utr_architecture
         - Tg_domain_content
         - Tg_fold_confidence_disorder
         - Tg_conservation_breadth
@@ -171,6 +179,12 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_sequence_basics
         - Tg_strain_variation
         - Tg_local_af3_fold_confidence_and_geometry
+  - orthology-derived
+    - localization transfer
+      - Tg_localization_transferred
+  - sequence-derived
+    - membrane topology
+      - Tg_membrane_topology
 - relational measurements
   - gene-gene
     - association or interaction
@@ -197,6 +211,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - stage-unspecified
         - Tg_host_interaction_degree
         - Tg_host_transcriptional_effect_per_effector
+        - Tg_host_gene_requirement_rhoptry_discharge
       - tachyzoite
         - Tg_host_proteome_human_fibroblast
         - Tg_host_transcriptome_human_fibroblast
@@ -244,6 +259,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - unperturbed
         - Tg_transcription_bradyzoite_tissue_cyst
         - Tg_transcription_purified_bradyzoite_in_vivo
+        - Tg_transcription_bradyzoite_subtype_in_vivo
       - stage conversion
         - Tg_transcription_bradyzoite_checkpoint_perturbation
       - genetic background
@@ -277,6 +293,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_transcription_under_tf_or_chromatin_perturbation
         - Tg_transcription_maximum_observed_across_stages
         - Tg_life_cycle_stage_label_derived
+        - Tg_transcription_under_iron_depletion
         - Tg_noncoding_and_antisense_transcription
   - protein synthesis
     - tachyzoite
@@ -308,6 +325,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - stage-unspecified
       - unperturbed
         - Tg_protein_abundance_other_life_stages
+        - Tg_protein_abundance_under_stress
 - protein state
   - post-translational modification
     - tachyzoite
@@ -325,6 +343,21 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - unperturbed
         - Tg_phosphorylation_kinase_substrate
         - Tg_acetylation
+- cell organization
+  - localization and topology
+    - stage-unspecified
+      - unperturbed
+        - Tg_organelle_surface_membrane_contact_site
+        - Tg_membrane_topology
+    - tachyzoite (implied)
+      - unperturbed
+        - Tg_localization_measured
+        - Tg_localization_transferred
+        - Tg_exposure_to_host_cytosol
+        - Tg_secretome_excreted
+    - bradyzoite
+      - unperturbed
+        - Tg_cyst_wall_composition
 - parasite phenotype
   - fitness and essentiality
     - tachyzoite (implied)
@@ -335,6 +368,14 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_fitness_in_vivo_lung
         - Tg_fitness_in_vivo_liver
         - Tg_fitness_in_vivo_spleen
+        - Tg_fitness_in_vivo_heart
+        - Tg_fitness_in_vivo_brain
+        - Tg_fitness_lipid_rich_medium_10_serum
+        - Tg_fitness_lipid_limited_medium_1_serum
+        - Tg_fitness_lipid_dependence_10_minus_1_serum
+        - Tg_fitness_glucose_withdrawn
+        - Tg_fitness_glutamine_withdrawn
+        - Tg_fitness_carbon_source_dependence
         - Tg_fitness_hyperlopit_unassigned_proteins
         - Tg_fitness_targeted_in_vivo_young_2019
         - Tg_fitness_gra12_screen_1_in_vivo
@@ -384,20 +425,18 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - unperturbed
       - Tg_rna_modification_m6a_5mc
       - Tg_rna_stability_half_life
-- cell organization
-  - localization and topology
-    - tachyzoite (implied)
-      - unperturbed
-        - Tg_localization_measured
-        - Tg_localization_transferred
-        - Tg_exposure_to_host_cytosol
-        - Tg_secretome_excreted
+- intrinsic properties
+  - sequence structure and evolution
     - stage-unspecified
       - unperturbed
-        - Tg_membrane_topology
-    - bradyzoite
-      - unperturbed
-        - Tg_cyst_wall_composition
+        - Tg_5_utr_architecture
+        - Tg_domain_content
+        - Tg_fold_confidence_disorder
+        - Tg_conservation_breadth
+        - Tg_paralogy
+        - Tg_sequence_basics
+        - Tg_strain_variation
+        - Tg_local_af3_fold_confidence_and_geometry
 - molecular relationships
   - parasite-parasite
     - stage-unspecified
@@ -425,6 +464,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - unperturbed
         - Tg_host_interaction_degree
         - Tg_host_transcriptional_effect_per_effector
+        - Tg_host_gene_requirement_rhoptry_discharge
     - tachyzoite
       - unperturbed
         - Tg_host_proteome_human_fibroblast
@@ -462,17 +502,6 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - Tg_assay_confidence_and_significance
       - Tg_literature_attention
       - Tg_gene_identity_and_annotation
-- intrinsic properties
-  - sequence structure and evolution
-    - stage-unspecified
-      - unperturbed
-        - Tg_domain_content
-        - Tg_fold_confidence_disorder
-        - Tg_conservation_breadth
-        - Tg_paralogy
-        - Tg_sequence_basics
-        - Tg_strain_variation
-        - Tg_local_af3_fold_confidence_and_geometry
 - metabolism
   - stage-unspecified
     - unperturbed
@@ -556,15 +585,19 @@ Slots are the leaves of three independent trees. A single tree would create fals
           - Tg_transcription_under_tf_or_chromatin_perturbation
           - Tg_transcription_maximum_observed_across_stages
           - Tg_life_cycle_stage_label_derived
+          - Tg_transcription_under_iron_depletion
           - Tg_noncoding_and_antisense_transcription
         - translation
           - Tg_translation_under_stress
           - Tg_translation_efficiency_extracellular_stress
         - protein abundance
           - Tg_protein_abundance_other_life_stages
+          - Tg_protein_abundance_under_stress
         - PTM
           - Tg_phosphorylation_kinase_substrate
           - Tg_acetylation
+        - localization
+          - Tg_organelle_surface_membrane_contact_site
         - fitness
           - Tg_fitness_oxidative_stress
           - Tg_genetic_interaction_delta_gra17
@@ -576,6 +609,9 @@ Slots are the leaves of three independent trees. A single tree would create fals
           - Tg_tf_binding_per_factor
           - Tg_chromatin_accessibility
           - Tg_splicing_isoform_use
+        - sequence
+          - Tg_5_utr_architecture
+          - Tg_strain_variation
         - relation
           - Tg_co_transcription
           - Tg_co_translation
@@ -595,8 +631,6 @@ Slots are the leaves of three independent trees. A single tree would create fals
           - Tg_gene_identity_and_annotation
         - host effect
           - Tg_host_transcriptional_effect_per_effector
-        - sequence
-          - Tg_strain_variation
         - metabolism
           - Tg_metabolite_levels
           - Tg_metabolic_flux
@@ -624,6 +658,10 @@ Slots are the leaves of three independent trees. A single tree would create fals
           - Tg_host_transcriptome_human_monocyte
           - Tg_host_surface_receptor_repertoire_human_monocyte
           - Tg_host_response_to_infection_human_monocyte
+    - tissue-unspecified
+      - stage-unspecified
+        - host effect
+          - Tg_host_gene_requirement_rhoptry_discharge
 - in vivo
   - cat
     - gut
@@ -636,9 +674,12 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - transcription
           - Tg_transcription_in_vivo_brain_acute
           - Tg_transcription_in_vivo_brain_chronic
+        - fitness
+          - Tg_fitness_in_vivo_brain
       - bradyzoite
         - transcription
           - Tg_transcription_purified_bradyzoite_in_vivo
+          - Tg_transcription_bradyzoite_subtype_in_vivo
         - host effect
           - Tg_host_proteome_mouse_brain
           - Tg_host_transcriptome_mouse_brain
@@ -666,6 +707,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
     - tissue-unspecified
       - tachyzoite (implied)
         - fitness
+          - Tg_fitness_in_vivo_heart
           - Tg_fitness_hyperlopit_unassigned_proteins
           - Tg_fitness_targeted_in_vivo_young_2019
           - Tg_fitness_gra12_screen_1_in_vivo
@@ -710,6 +752,12 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - tachyzoite (implied)
         - fitness
           - Tg_fitness_hff_in_vitro
+          - Tg_fitness_lipid_rich_medium_10_serum
+          - Tg_fitness_lipid_limited_medium_1_serum
+          - Tg_fitness_lipid_dependence_10_minus_1_serum
+          - Tg_fitness_glucose_withdrawn
+          - Tg_fitness_glutamine_withdrawn
+          - Tg_fitness_carbon_source_dependence
       - tachyzoite
         - host effect
           - Tg_host_protein_recruitment_to_the_vacuole
