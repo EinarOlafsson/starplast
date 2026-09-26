@@ -1,4 +1,4 @@
-"""The strategies: thirty-two ways to use the combined data for inference, each testing itself.
+"""The strategies: thirty-four ways to use the combined data for inference, each testing itself.
 
 Registered into `strategies.REGISTRY` on import. Each entry is a runner, a tester, and the prose the
 Strategies tab shows -- tooltip, explanation, walkthrough and a description of its self-test. They
@@ -880,8 +880,16 @@ def _associations(labels: np.ndarray, frame: pd.DataFrame, categorical, numeric)
         if m.sum() < 20:
             continue
         tab = pd.crosstab(labels[m], s[m].to_numpy())
-        tab = tab.loc[:, tab.sum(axis=0) >= 5]
-        tab = tab.loc[tab.sum(axis=1) >= 5]
+        # Dropping thin columns can empty a row and dropping thin rows can empty a column, and a
+        # zero margin makes an expected frequency zero, which chi-squared refuses outright -- five
+        # configurations of this strategy died that way in the calibration sweep. So the two filters
+        # run until neither removes anything.
+        while tab.size:
+            keep_columns = tab.columns[tab.sum(axis=0) >= 5]
+            keep_rows = tab.index[tab.sum(axis=1) >= 5]
+            if len(keep_columns) == tab.shape[1] and len(keep_rows) == tab.shape[0]:
+                break
+            tab = tab.loc[keep_rows, keep_columns]
         if tab.shape[0] < 2 or tab.shape[1] < 2:
             continue
         chi2, pv, _dof, _e = chi2_contingency(tab.to_numpy())
@@ -2046,6 +2054,41 @@ LINK_CANDIDATES = 300000
 LINK_MIN_EDGES = 50
 
 
+#: Layers that cannot be a TARGET of link prediction, whatever else they can be. A derived layer is
+#: computed from other layers that remain evidence, so hiding it and asking it back is asking those
+#: layers to recompute it; an annotation layer joins every gene that shares a label, so it is made of
+#: cliques and a hidden edge inside one is recovered by two-step closure alone. The calibration sweep
+#: found both: held-out `structural_hole` and held-out `domain` each "recovered" at skill 1.00.
+LINK_ANNOTATION_LAYERS = ("orthogroup", "domain", "compartment")
+#: Layers drawn as the top correlations among a set of measurement columns. Their visible edges
+#: determine their hidden ones -- two genes that correlate at 0.95 with the same partners correlate
+#: with each other -- so held out and asked back they score AUROC 0.99 against random AND
+#: degree-matched non-pairs alike, which is arithmetic rather than a prediction.
+LINK_CORRELATION_LAYERS = ("coexpression", "cofitness", "cotranslation")
+
+
+def _link_target(ctx, layer):
+    """Refuse a layer that cannot honestly be held out; say which kind of layer it is and why."""
+    if layer not in ctx.layers():
+        raise ValueError(f"this table has no edge layer {layer!r}")
+    if layer in S.DERIVED_LAYERS:
+        raise ValueError(f"the {layer} layer is computed from {', '.join(S.DERIVED_LAYERS[layer])}, "
+                         f"which stay as evidence, so holding it out would ask them to recompute it; "
+                         f"choose a measured layer")
+    if layer in LINK_ANNOTATION_LAYERS:
+        raise ValueError(f"the {layer} layer joins every gene sharing a label, so it is made of "
+                         f"cliques and a hidden edge is recovered by closure alone; choose a "
+                         f"measured layer")
+    if layer in S.LITERATURE_LAYERS:
+        raise ValueError(f"the {layer} layer records what has been written, not a contact, so it is "
+                         f"not what this strategy predicts; choose a measured layer")
+    if layer in LINK_CORRELATION_LAYERS:
+        raise ValueError(f"the {layer} layer is the correlation structure of its source measurements, "
+                         f"so completing it from its own visible edges recomputes a correlation "
+                         f"(AUROC 0.99 however the non-pairs are drawn) rather than predicting a "
+                         f"missed contact; strategy 34 predicts it from the other evidence instead")
+
+
 def _link_setup(ctx, layer):
     """(evidence layers, measurement matrix, the layer's edges as pairs, its nodes)."""
     import scipy.sparse as sp
@@ -2055,7 +2098,13 @@ def _link_setup(ctx, layer):
     U = sp.triu(T, 1).tocoo()
     edges = np.column_stack([U.row, U.col]).astype(int)
     nodes = np.flatnonzero(np.asarray(T.sum(axis=1)).ravel() > 0)
-    X, _cols = ctx.features(None)
+    X, cols = ctx.features(None)
+    # The layer's own source measurements leave the similarity with it -- held-out co-fitness was
+    # recovered at AUROC 0.99 from the fitness screens it is built from before this.
+    from .search import layer_measurement_sources
+    drop = layer_measurement_sources(layer, cols, ctx.organism)
+    if drop:
+        X = X[:, [i for i, name in enumerate(cols) if name not in drop]]
     return evidence, X, edges, nodes
 
 
@@ -2107,8 +2156,7 @@ def _visible_layer(n, pairs):
 
 def _link_run(ctx, p):
     layer = p["layer"]
-    if layer not in ctx.layers():
-        raise ValueError(f"this table has no edge layer {layer!r}")
+    _link_target(ctx, layer)
     evidence, X, edges, nodes = _link_setup(ctx, layer)
     if len(edges) < LINK_MIN_EDGES:
         return StrategyResult("link_prediction", f"The {layer} layer has {len(edges)} edges -- too "
@@ -2159,8 +2207,7 @@ def _link_run(ctx, p):
 def _link_test(ctx, p):
     t0 = time.monotonic()
     layer = p["layer"]
-    if layer not in ctx.layers():
-        raise ValueError(f"this table has no edge layer {layer!r}")
+    _link_target(ctx, layer)
     evidence, X, edges, nodes = _link_setup(ctx, layer)
     if len(edges) < LINK_MIN_EDGES:
         return S.judge("link_prediction", "AUROC", float("nan"), [], min_effect=0.05,
@@ -2173,9 +2220,18 @@ def _link_test(ctx, p):
     hidden, visible = edges[order[:k]], edges[order[k:]]
     eset = set((edges[:, 0] * n + edges[:, 1]).tolist())
     T = _visible_layer(n, visible)
-    train_neg = _non_edges(rng, nodes, eset, 5 * len(visible), n)
-    test_neg = _non_edges(rng, nodes, eset | set((train_neg[:, 0] * n + train_neg[:, 1]).tolist()),
-                          5 * len(hidden), n)
+    # DEGREE-MATCHED non-pairs, for training and for scoring. Against random non-pairs this test
+    # read AUROC 0.99 on every correlation layer: a random pair is usually two obscure genes, and a
+    # model with degree among its features learns which genes are well connected. Each non-pair here
+    # has a gene of similar degree at both ends, so what is left is what the evidence says about the
+    # PAIR. `graphspace` measures the same question three ways and documents the gap.
+    from . import graphspace
+    degree = np.asarray(T.sum(axis=1)).ravel()
+    train_neg = graphspace.degree_matched_negatives(rng, degree, np.repeat(visible, 5, axis=0),
+                                                    set(eset), nodes, n)
+    taken = eset | set((train_neg[:, 0] * n + train_neg[:, 1]).tolist())
+    test_neg = graphspace.degree_matched_negatives(rng, degree, np.repeat(hidden, 5, axis=0),
+                                                   taken, nodes, n)
     y = np.r_[np.ones(len(visible)), np.zeros(len(train_neg))]
     train = np.vstack([visible, train_neg])
 
@@ -2188,7 +2244,8 @@ def _link_test(ctx, p):
                        lambda pairs, i: fit_score(pairs, perms[i]), n_null=5, min_effect=0.05,
                        hidden=f"20% of the {layer} edges ({len(hidden):,})",
                        null_kind="5 models trained with every gene's evidence read from a random "
-                                 "other gene", t0=t0, ctx=ctx)
+                                 "other gene", t0=t0, ctx=ctx,
+                       metric="AUROC of hidden pairs against degree-matched non-pairs")
 
 
 register(Strategy(
@@ -2221,9 +2278,14 @@ register(Strategy(
         "hypothesis -- take it to strategy 13."),
     test_description=(
         "Pattern 3: 20% of the layer's edges hidden; the model is trained on the rest against "
-        "random non-edges and scores the hidden edges against fresh random non-edges. Metric: "
-        "AUROC. Null: 5 models trained with each gene's evidence read from a random other gene "
-        "(identities permuted). Pass: above the null's 95th percentile by 0.05."),
+        "DEGREE-MATCHED non-edges -- each with a gene of similar degree at both ends -- and scores "
+        "the hidden edges against fresh degree-matched non-edges. Against random non-edges this "
+        "test read AUROC 0.99 on every correlation layer, because a random pair is usually two "
+        "obscure genes and degree separates them. The layer's source measurements leave the "
+        "similarity feature with it, and derived, annotation and literature layers are refused as "
+        "targets. Metric: AUROC. Null: 5 models trained with each gene's evidence read from a "
+        "random other gene (identities permuted). Pass: above the null's 95th percentile by "
+        "0.05."),
     params=(Param("layer", "layer", "Interaction layer to complete",
                   "The layer whose missing edges are predicted. Its own visible edges are used "
                   "(shared partners, degree), the other measured layers are evidence, and layers "

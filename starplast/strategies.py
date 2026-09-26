@@ -488,6 +488,7 @@ def register(strategy: Strategy) -> Strategy:
 def catalog() -> list:
     """Every strategy, in catalogue order."""
     from . import strategy_catalog  # noqa: F401 -- registers on import
+    from . import strategy_graph  # noqa: F401 -- registers on import
     return sorted(REGISTRY.values(), key=lambda s: s.number)
 
 
@@ -1471,10 +1472,13 @@ def set_expansion_test(ctx: Context, key: str, members, rank: Callable, *, frac:
 
 def pair_test(key: str, score_fn: Callable, positives: np.ndarray, negatives: np.ndarray,
               null_fn: Callable, *, n_null: int = 5, min_effect: float = 0.05, hidden: str,
-              null_kind: str, t0: float, note: str = "", ctx: Context | None = None) -> TestResult:
-    """Pattern 3: hidden pairs against random non-pairs, scored by AUROC, against a permuted null.
+              null_kind: str, t0: float, note: str = "", ctx: Context | None = None,
+              metric: str = "AUROC of hidden pairs against random non-pairs") -> TestResult:
+    """Pattern 3: hidden pairs against non-pairs, scored by AUROC, against a permuted null.
 
-    `score_fn(pairs)` and `null_fn(pairs, i)` return one score per pair (rows of `[a, b]`).
+    `score_fn(pairs)` and `null_fn(pairs, i)` return one score per pair (rows of `[a, b]`). `metric`
+    names how the non-pairs were drawn, because that decides what the number means: against random
+    non-pairs an AUROC mostly measures degree, against degree-matched ones it measures the pair.
     """
     pairs = np.vstack([positives, negatives]) if len(negatives) else positives
     y = np.r_[np.ones(len(positives), bool), np.zeros(len(negatives), bool)]
@@ -1484,7 +1488,7 @@ def pair_test(key: str, score_fn: Callable, positives: np.ndarray, negatives: np
         if ctx is not None:
             ctx.say(f"{key}: null {i + 1} of {n_null}")
         nulls.append(auroc(null_fn(pairs, i), y))
-    return judge(key, "AUROC of hidden pairs against random non-pairs", observed, nulls,
+    return judge(key, metric, observed, nulls,
                  min_effect=min_effect, n_hidden=len(positives), hidden=hidden,
                  null_kind=null_kind, t0=t0, note=note)
 

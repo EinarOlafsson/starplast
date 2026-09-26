@@ -72,7 +72,9 @@ GRID = {
     "structural_homology": {"level": [1, 2, 3]},
     "multiplex_modules": {"target": "TARGETS", "resolution": [0.5, 1.0, 2.0],
                           "agreement": [0.3, 0.5]},
-    "link_prediction": {"layer": "LAYERS"},
+    # Only layers that can honestly be held out: sweeping derived and annotation layers gave skill 1.00
+    # on held-out `structural_hole` and `domain`, which is circularity, not prediction.
+    "link_prediction": {"layer": "LINK_TARGETS"},
     "attention_correction": {"target": "TARGETS", "top": [50, 200, 1000]},
     "unwritten_links": {"min_layers": [1, 2, 3]},
     "supervised_classifier": {"target": "TARGETS", "C": [0.01, 0.1, 1.0, 10.0]},
@@ -92,6 +94,11 @@ GRID = {
                                                        "understudied", "conserved"]},
     "triangulation": {"target": "TARGETS", "min_agree": [1, 2, 3]},
     "understudied_first": {"target": "TARGETS", "min_agree": [1, 2, 3]},
+    # The two graph strategies. `layer` is the layer held out and asked for back, which is the
+    # question, so it is swept; `knn` and `per_layer` decide how many candidate pairs exist at all.
+    "neighbour_space": {"layer": "GRAPH_TARGETS", "k": [5, 10, 25], "knn": [5, 15]},
+    "network_training": {"layer": "GRAPH_TARGETS", "model": ["logistic", "embedding"],
+                         "fraction": [0.25, 0.4]},
 }
 
 
@@ -104,6 +111,18 @@ def _expand(values, organism, ctx):
         return [l for l in ctx.layers() if l not in ("compartment",)]
     if values == "FAMILIES":
         return sorted(ctx.families())
+    if values == "LINK_TARGETS":
+        # Contact layers only: strategy 16 refuses correlation, derived, annotation and literature
+        # layers as targets, each for a measured reason (`strategy_catalog._link_target`).
+        from starplast import graphspace, strategy_catalog
+        return [l for l in graphspace.Evidence(ctx).targets()
+                if l not in strategy_catalog.LINK_CORRELATION_LAYERS]
+    if values == "GRAPH_TARGETS":
+        # Only the layers the graph space can hold out and ask back: literature layers are never
+        # sources, annotation layers are never targets, and a layer too thin to split is neither.
+        # Sweeping every layer put 1,000 refusals into the calibration as if they were results.
+        from starplast import graphspace
+        return list(graphspace.Evidence(ctx).targets())
     return list(values)
 
 
@@ -550,8 +569,13 @@ def publish(out_dir: str, log=print, readme: str | None = None,
         a, rest = text.split(README_START, 1)
         text = a + "\n".join(block) + rest.split(README_END, 1)[1]
     else:
-        anchor = "[All 32 strategies, with their tests and measured verdicts]"
-        i = text.index(anchor)
+        # Matched on its shape, not its number: the count of strategies changes, and an anchor that
+        # quoted it broke the first time it did.
+        import re
+        found = re.search(r"\[All \d+ strategies, with their tests and measured verdicts\]", text)
+        if found is None:
+            raise ValueError("README has neither calibration markers nor the strategies link")
+        i = found.start()
         text = text[:i] + "\n".join(block) + "\n\n" + text[i:]
     with open(readme, "w") as fh:
         fh.write(text)
@@ -590,7 +614,18 @@ def calibration_doc(summary: dict, meta: dict) -> str:
            "Grades: *reliable* (defaults beat chance with the interval above 0.05 and pass at "
            "least 60%), *works when tuned* (only the tuned setting does), *weak* (above chance "
            "on average but not reliably), *no skill*, *untestable* (fewer than five conclusive "
-           "runs).", ""]
+           "runs).", "",
+           "## What a high skill here does and does not mean", "",
+           "Each strategy is scored against ITS OWN null, and a null can be too easy. The clearest "
+           "case is edge prediction: strategies 16 and 18 score their held-out edges against "
+           "non-pairs drawn at random, and a random pair of genes is usually a pair of obscure "
+           "genes, so most of what such a test measures is that well-connected genes are well "
+           "connected. Their skill here is therefore an upper bound. "
+           "[`docs/graphspace.md`](graphspace.md) re-measures the same question against "
+           "degree-matched and configuration-model nulls, where the honest figure is an AUROC "
+           "near 0.67 rather than 0.97 -- and it reports the gap between the two nulls as its own "
+           "quantity. Read a high number here as a reason to look at how the null was built, not "
+           "as a result.", ""]
     for org, name in (("Tg", "Toxoplasma gondii"), ("Pf", "Plasmodium falciparum")):
         entries = summary.get(org) or {}
         if not entries:
@@ -611,7 +646,8 @@ def calibration_doc(summary: dict, meta: dict) -> str:
             for label, c in (("at defaults", d), ("tuned", t)):
                 if not c:
                     continue
-                setting = ", ".join(f"{k}={v}" for k, v in (c.get("setting") or {}).items())
+                from starplast.calibration import setting_text
+                setting = setting_text(c.get("setting") or {}) if c.get("setting") else ""
                 pr = c.get("pass_rate")
                 out.append(f"| {label} | {setting or '--'} | {cell(c)} | "
                            + (f"{100 * pr:.0f}% [{100 * c['pass_low']:.0f}, "

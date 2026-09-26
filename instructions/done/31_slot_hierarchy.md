@@ -134,12 +134,8 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_fitness_in_vivo_spleen
         - Tg_fitness_in_vivo_heart
         - Tg_fitness_in_vivo_brain
-        - Tg_fitness_lipid_rich_medium_10_serum
-        - Tg_fitness_lipid_limited_medium_1_serum
-        - Tg_fitness_lipid_dependence_10_minus_1_serum
-        - Tg_fitness_glucose_withdrawn
-        - Tg_fitness_glutamine_withdrawn
-        - Tg_fitness_carbon_source_dependence
+        - Tg_fitness_serum_restriction
+        - Tg_fitness_carbon_source_withdrawal
         - Tg_fitness_hyperlopit_unassigned_proteins
         - Tg_fitness_targeted_in_vivo_young_2019
         - Tg_fitness_gra12_screen_1_in_vivo
@@ -370,12 +366,8 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_fitness_in_vivo_spleen
         - Tg_fitness_in_vivo_heart
         - Tg_fitness_in_vivo_brain
-        - Tg_fitness_lipid_rich_medium_10_serum
-        - Tg_fitness_lipid_limited_medium_1_serum
-        - Tg_fitness_lipid_dependence_10_minus_1_serum
-        - Tg_fitness_glucose_withdrawn
-        - Tg_fitness_glutamine_withdrawn
-        - Tg_fitness_carbon_source_dependence
+        - Tg_fitness_serum_restriction
+        - Tg_fitness_carbon_source_withdrawal
         - Tg_fitness_hyperlopit_unassigned_proteins
         - Tg_fitness_targeted_in_vivo_young_2019
         - Tg_fitness_gra12_screen_1_in_vivo
@@ -752,12 +744,8 @@ Slots are the leaves of three independent trees. A single tree would create fals
       - tachyzoite (implied)
         - fitness
           - Tg_fitness_hff_in_vitro
-          - Tg_fitness_lipid_rich_medium_10_serum
-          - Tg_fitness_lipid_limited_medium_1_serum
-          - Tg_fitness_lipid_dependence_10_minus_1_serum
-          - Tg_fitness_glucose_withdrawn
-          - Tg_fitness_glutamine_withdrawn
-          - Tg_fitness_carbon_source_dependence
+          - Tg_fitness_serum_restriction
+          - Tg_fitness_carbon_source_withdrawal
       - tachyzoite
         - host effect
           - Tg_host_protein_recruitment_to_the_vacuole

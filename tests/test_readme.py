@@ -100,6 +100,12 @@ def test_the_readme_stays_short_enough_to_read_before_installing(readme):
     is what is measured.
     """
     prose = readme.replace(D.readme_table().strip(), "")
+    # The strategy calibration table is generated too, between markers, and for the same reason: it
+    # is one row per strategy per organism and grows when a strategy is added. It is in the README
+    # because the user asked for every strategy's measured skill to be visible there.
+    if "<!-- calibration:start -->" in prose:
+        head, rest = prose.split("<!-- calibration:start -->", 1)
+        prose = head + rest.split("<!-- calibration:end -->", 1)[-1]
     assert len(prose.splitlines()) < 200
 
 

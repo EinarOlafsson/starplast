@@ -227,6 +227,18 @@ def tuned_settings(key: str, organism: str = "Tg", path: str = CALIBRATION) -> d
     return dict((e.get("tuned") or {}).get("setting") or {})
 
 
+def setting_text(setting: dict) -> str:
+    """A setting as text a reader cannot misparse: a grid value is bracketed, parameters are split
+    by semicolons. `min_cluster_size=20, 50, n_neighbors=10, 30` read as four parameters."""
+    if not setting:
+        return "defaults"
+    parts = []
+    for k, v in setting.items():
+        v = str(v)
+        parts.append(f"{k}=[{v}]" if "," in v else f"{k}={v}")
+    return "; ".join(parts)
+
+
 def _fmt(cell: dict) -> str:
     if not cell or cell.get("skill") is None:
         return "not measured"
@@ -244,7 +256,7 @@ def sentence(key: str, organism: str = "Tg", path: str = CALIBRATION) -> str:
             f"{e['settings_tested']} settings and {len(e.get('targets') or []) or 1} target(s). "
             f"At defaults: {_fmt(d)}.")
     if t:
-        shown = ", ".join(f"{k}={v}" for k, v in (t.get("setting") or {}).items()) or "defaults"
+        shown = setting_text(t.get("setting") or {})
         text += (f" Tuned ({shown}; chosen on seeds 1-3, reported on 4-5): {_fmt(t)}.")
     return text + " Skill: 0 = the shuffled-data null, 1 = perfect."
 
@@ -287,7 +299,7 @@ def markdown_table(organism: str = "Tg", path: str = CALIBRATION) -> str:
              "Skill tuned [95% CI] | Pass | Tuned setting | Tests |",
              "|---|---|---|---|---|---|---|---|---|---|"]
     for r in df.itertuples():
-        setting = ", ".join(f"{k}={v}" for k, v in json.loads(r.tuned_setting).items()) or "--"
+        setting = setting_text(json.loads(r.tuned_setting)) if r.tuned_setting != "{}" else "--"
         lines.append(f"| {r.number:02d} | {r.strategy} | {r.metric} | {r.grade} | "
                      f"{ci(r.default_skill, r.default_low, r.default_high)} | "
                      f"{pct(r.default_pass)} | {ci(r.tuned_skill, r.tuned_low, r.tuned_high)} | "

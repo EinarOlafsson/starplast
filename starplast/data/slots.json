@@ -2436,83 +2436,23 @@
   },
   {
     "organism": "Tg",
-    "name": "fitness · lipid-rich medium (10% serum)",
+    "name": "fitness · serum restriction",
     "axis": "fitness",
-    "context": "HFF, 10% FBS",
+    "context": "HFF, 10% and 1% FBS",
     "unit": "gene",
     "patterns": [
-      "fit_lipid_rich_"
-    ],
-    "policy": "separate",
-    "candidates": [],
-    "evidence_path": [
-      "perturbational measurements",
-      "genetic screens",
-      "fitness",
-      "tachyzoite (implied)"
-    ],
-    "biology_path": [
-      "parasite phenotype",
-      "fitness and essentiality",
-      "tachyzoite (implied)",
-      "unperturbed"
-    ],
-    "context_path": [
-      "host-cell or host-derived",
-      "human",
-      "tissue-unspecified",
-      "tachyzoite (implied)",
-      "fitness"
-    ],
-    "target_family": "fitness_lipid_rich_medium_10_serum",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Tg",
-    "name": "fitness · lipid-limited medium (1% serum)",
-    "axis": "fitness",
-    "context": "HFF, 1% FBS",
-    "unit": "gene",
-    "patterns": [
-      "fit_lipid_limited_"
-    ],
-    "policy": "separate",
-    "candidates": [],
-    "evidence_path": [
-      "perturbational measurements",
-      "genetic screens",
-      "fitness",
-      "tachyzoite (implied)"
-    ],
-    "biology_path": [
-      "parasite phenotype",
-      "fitness and essentiality",
-      "tachyzoite (implied)",
-      "unperturbed"
-    ],
-    "context_path": [
-      "host-cell or host-derived",
-      "human",
-      "tissue-unspecified",
-      "tachyzoite (implied)",
-      "fitness"
-    ],
-    "target_family": "fitness_lipid_limited_medium_1_serum",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Tg",
-    "name": "fitness · lipid dependence (10% minus 1% serum)",
-    "axis": "fitness",
-    "context": "HFF, serum contrast",
-    "unit": "gene",
-    "patterns": [
+      "fit_lipid_rich_",
+      "fit_lipid_limited_",
       "fit_serum_differential_"
     ],
     "policy": "separate",
-    "candidates": [],
+    "candidates": [
+      [
+        "41407671",
+        "",
+        "genome-wide screens in lipid-rich and lipid-limited serum"
+      ]
+    ],
     "evidence_path": [
       "perturbational measurements",
       "genetic screens",
@@ -2532,21 +2472,31 @@
       "tachyzoite (implied)",
       "fitness"
     ],
-    "target_family": "fitness_lipid_dependence_10_minus_1_serum",
+    "target_family": "fitness_serum_restriction",
     "target_columns": [],
     "role": "feature"
   },
   {
     "organism": "Tg",
-    "name": "fitness · glucose withdrawn",
+    "name": "fitness · carbon-source withdrawal",
     "axis": "fitness",
-    "context": "HFF, glutamine only",
+    "context": "HFF, glucose or glutamine withdrawn",
     "unit": "gene",
     "patterns": [
-      "fit_no_glucose"
+      "fit_complete_medium_2025",
+      "fit_no_glucose",
+      "fit_no_glutamine",
+      "fit_glucose_dependence",
+      "fit_glucose_dependence_fdr"
     ],
-    "policy": "one",
-    "candidates": [],
+    "policy": "separate",
+    "candidates": [
+      [
+        "",
+        "bioRxiv 10.1101/2025.07.27.667068",
+        "genome-wide screen without glucose or glutamine"
+      ]
+    ],
     "evidence_path": [
       "perturbational measurements",
       "genetic screens",
@@ -2566,75 +2516,7 @@
       "tachyzoite (implied)",
       "fitness"
     ],
-    "target_family": "fitness_glucose_withdrawn",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Tg",
-    "name": "fitness · glutamine withdrawn",
-    "axis": "fitness",
-    "context": "HFF, glucose only",
-    "unit": "gene",
-    "patterns": [
-      "fit_no_glutamine"
-    ],
-    "policy": "one",
-    "candidates": [],
-    "evidence_path": [
-      "perturbational measurements",
-      "genetic screens",
-      "fitness",
-      "tachyzoite (implied)"
-    ],
-    "biology_path": [
-      "parasite phenotype",
-      "fitness and essentiality",
-      "tachyzoite (implied)",
-      "unperturbed"
-    ],
-    "context_path": [
-      "host-cell or host-derived",
-      "human",
-      "tissue-unspecified",
-      "tachyzoite (implied)",
-      "fitness"
-    ],
-    "target_family": "fitness_glutamine_withdrawn",
-    "target_columns": [],
-    "role": "feature"
-  },
-  {
-    "organism": "Tg",
-    "name": "fitness · carbon-source dependence",
-    "axis": "fitness",
-    "context": "HFF, carbon-source contrast",
-    "unit": "gene",
-    "patterns": [
-      "fit_glucose_dependence"
-    ],
-    "policy": "one",
-    "candidates": [],
-    "evidence_path": [
-      "perturbational measurements",
-      "genetic screens",
-      "fitness",
-      "tachyzoite (implied)"
-    ],
-    "biology_path": [
-      "parasite phenotype",
-      "fitness and essentiality",
-      "tachyzoite (implied)",
-      "unperturbed"
-    ],
-    "context_path": [
-      "host-cell or host-derived",
-      "human",
-      "tissue-unspecified",
-      "tachyzoite (implied)",
-      "fitness"
-    ],
-    "target_family": "fitness_carbon_source_dependence",
+    "target_family": "fitness_carbon_source_withdrawal",
     "target_columns": [],
     "role": "feature"
   },
@@ -7183,7 +7065,9 @@
     "context": "alkaline, stress",
     "unit": "gene",
     "patterns": [
-      "febrile_"
+      "febrile_wt_",
+      "febrile_lrr5ko_",
+      "febrile_dhcko_"
     ],
     "policy": "separate",
     "candidates": [

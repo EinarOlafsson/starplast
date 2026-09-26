@@ -343,8 +343,16 @@ def test_the_compositional_proteome_is_a_share_and_never_an_abundance():
     from starplast import slots as S
     abundance = [s for s in S.all_slots("Pf") if s.name.startswith("protein abundance")]
     assert abundance, "the abundance slots vanished rather than staying empty"
+    # A true abundance has now arrived for one stage -- label-free quantification of the stage V
+    # gametocyte, replicates at about 0.99 -- and it is exactly what this test was waiting for. The
+    # rule that must hold is still the one above: no SHARE column in an abundance slot, and nothing
+    # in the blood-stage abundance slot, which the compositional proteome was nearly given.
+    true_abundance = {"gametocyte_proteome_log2"}
     for slot in abundance:
-        assert not slot.patterns, f"{slot.name} started claiming columns"
+        assert not any(p.startswith("protein_stage_share") for p in slot.patterns), slot.name
+        assert set(slot.patterns) <= true_abundance, f"{slot.name} claims {slot.patterns}"
+    blood = [s for s in abundance if "asexual" in s.name or "blood" in s.name]
+    assert all(not s.patterns for s in blood), [s.patterns for s in blood]
 
 
 # --------------------------------------------------------------------------- export prediction

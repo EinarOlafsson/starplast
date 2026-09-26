@@ -59,7 +59,7 @@ quantity were approximating on 2026-08-13.
 **B** partial (>=20%). **C** thin or indirect (<20%). **-** nothing fills it.
 
 
-**159 slots: 77 covered well, 21 partly, 40 thinly, 21 empty.**
+**155 slots: 73 covered well, 21 partly, 40 thinly, 21 empty.**
 
 `genes` is how many have an ANSWER; `of which yes` appears where that answer is a yes/no and most of them are no. A phosphorylation slot answered for every gene because the flag is completed False is not a phosphoproteome of every gene, and the atlas used to print only the first number.
 
@@ -158,12 +158,8 @@ quantity were approximating on 2026-08-13.
 | Tg_fitness · in vivo spleen | mouse spleen | **A** | 7460 |  | 91.6% | `fit_invivo_spleen` | one | — |
 | Tg_fitness · in vivo heart | mouse heart | **A** | 7460 |  | 91.6% | `fit_invivo_heart` | one | — |
 | Tg_fitness · in vivo brain | mouse brain | **A** | 7460 |  | 91.6% | `fit_invivo_brain` | one | — |
-| Tg_fitness · lipid-rich medium (10% serum) | HFF, 10% FBS | **A** | 7395 |  | 90.8% | `fit_lipid_rich_` | separate | — |
-| Tg_fitness · lipid-limited medium (1% serum) | HFF, 1% FBS | **A** | 7395 |  | 90.8% | `fit_lipid_limited_` | separate | — |
-| Tg_fitness · lipid dependence (10% minus 1% serum) | HFF, serum contrast | **A** | 7395 |  | 90.8% | `fit_serum_differential_` | separate | — |
-| Tg_fitness · glucose withdrawn | HFF, glutamine only | **A** | 7393 |  | 90.8% | `fit_no_glucose` | one | — |
-| Tg_fitness · glutamine withdrawn | HFF, glucose only | **A** | 7393 |  | 90.8% | `fit_no_glutamine` | one | — |
-| Tg_fitness · carbon-source dependence | HFF, carbon-source contrast | **A** | 7393 |  | 90.8% | `fit_glucose_dependence` | one | — |
+| Tg_fitness · serum restriction | HFF, 10% and 1% FBS | **A** | 7395 |  | 90.8% | `fit_lipid_rich_, fit_lipid_limited_, fit_serum_differential_` | separate | **A genome-wide CRISPR screen identifies GRA38 as a key regulator of lipid homeostasis during Toxoplasma gondii adaptation to lipid-rich conditions.** (Nature communications 2025) [41407671](https://pubmed.ncbi.nlm.nih.gov/41407671/) |
+| Tg_fitness · carbon-source withdrawal | HFF, glucose or glutamine withdrawn | **A** | 7393 |  | 90.8% | `fit_complete_medium_2025, fit_no_glucose, fit_no_glutamine, fit_glucose_dependence, fit_glucose_dependence_fdr` | separate | `bioRxiv 10.1101/2025.07.27.667068` — genome-wide screen without glucose or glutamine |
 | Tg_fitness · oxidative stress | oxidant | **A** | 7384 |  | 90.7% | `oxidative_stress_screen_score` | one | **Genome-Wide CRISPR/Cas9 Screen Identifies New Genes Critical for Defense Against Oxidant Stress in Toxoplasma gondii.** (Frontiers in microbiology 2021) [34163449](https://pubmed.ncbi.nlm.nih.gov/34163449/) `PRJNA707360` |
 | Tg_fitness · hyperLOPIT-unassigned proteins | in vivo virulence | **C** | 551 |  | 6.8% | `fit_hyperlopit_unassigned_invivo_` | separate | **CRISPR screens identify genes essential for in vivo virulence among proteins of hyperLOPIT-unassigned subcellular localization in Toxoplasma.** (mBio 2024) [39082802](https://pubmed.ncbi.nlm.nih.gov/39082802/) [GSE253884](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE253884) |
 | Tg_fitness · targeted in vivo (Young 2019) | mouse, targeted libraries | **C** | 170 |  | 2.1% | `fit_invivo_young2019, crispr_invivo_platform_lfc` | separate | — |

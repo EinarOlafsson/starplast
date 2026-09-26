@@ -554,15 +554,16 @@ def tutorial_trust(studio) -> dict:
           "grid of its settings, several held-out labels and five seeds, and summarises each "
           "configuration with a mean and a 95% interval. Skill puts every metric on one scale: "
           "0 is chance, 1 is perfect.</p>")
-    nb.code([("import pandas as pd, glob, os", "Read the calibration tables."),
-             ("folders = sorted(glob.glob(os.path.join(S.__file__.rsplit('/starplast/', 1)[0],",
-              "The newest calibration run in results/."),
-             ("                                    'results', 'calibration_*')))", ""),
-             ("best = pd.read_csv(os.path.join(folders[-1], 'best.csv'))",
-              "Per strategy, the configuration with the highest lower confidence bound."),
-             ("best[best.organism == 'Tg'][['strategy', 'settings', 'skill', 'skill_low',",
-              "Skill and its 95% interval."),
-             ("                               'skill_high', 'pass_rate']].head(12)", "")])
+    nb.code([("cal = S.overview('Tg')", "Every strategy, with the grade and skill calibration "
+              "measured for it."),
+             ("cal[['number', 'title', 'grade', 'skill_default', 'skill_tuned']].head(12)",
+              "Skill at the defaults and at the tuned setting, on one scale.")])
+    nb.code([("S.calibration('physical_partners')['tuned']",
+              "Strategy 13's tuned setting: chosen on seeds 1-3, reported on seeds 4-5, with its "
+              "95% interval."),
+             ])
+    nb.code([("S.tuned('triangulation')", "The setting to pass on: S.run('triangulation', "
+              "**S.tuned('triangulation'), target=...).")])
     nb.write()
     return {"slug": slug, **run}
 

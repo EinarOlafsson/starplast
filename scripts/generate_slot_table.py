@@ -1080,24 +1080,25 @@ SLOTS = [
     # genes read as depleted; kept because they are the only in vivo heart and brain fitness there is.
     ("fitness · in vivo heart", "fitness", "mouse heart", "gene", ["fit_invivo_heart"], "one", []),
     ("fitness · in vivo brain", "fitness", "mouse brain", "gene", ["fit_invivo_brain"], "one", []),
+    # One slot per SCREEN rather than per arm, for two reasons that point the same way. The arms of
+    # one screen share their library, cells and replicates, so they are held out together whatever
+    # the slot tree says (`search.SAME_QUANTITY`); and six arm slots put 21 slots in the fitness
+    # leaf, past the size at which a leaf can be held out as a class. The questions inside each
+    # screen stay separate COLUMNS -- fitness in each medium, and the difference between them.
+    #
     # Serum restriction (Bitew 2025). Fitness in either serum is fibroblast fitness measured again
     # (rho 0.79-0.85 with the Sidik screen); the DIFFERENCE is the new question: what the parasite
     # needs only when lipid is plentiful (negative) or only when it is scarce (positive).
-    ("fitness · lipid-rich medium (10% serum)", "fitness", "HFF, 10% FBS", "gene",
-     ["fit_lipid_rich_"], "separate", []),
-    ("fitness · lipid-limited medium (1% serum)", "fitness", "HFF, 1% FBS", "gene",
-     ["fit_lipid_limited_"], "separate", []),
-    ("fitness · lipid dependence (10% minus 1% serum)", "fitness", "HFF, serum contrast", "gene",
-     ["fit_serum_differential_"], "separate", []),
-    # Withdrawing a carbon source, and which one the gene needs. The arms are referenced to the
-    # post-selection library rather than the input, so they are their own slot rather than more
-    # members of the HFF fitness slot.
-    ("fitness · glucose withdrawn", "fitness", "HFF, glutamine only", "gene",
-     ["fit_no_glucose"], "one", []),
-    ("fitness · glutamine withdrawn", "fitness", "HFF, glucose only", "gene",
-     ["fit_no_glutamine"], "one", []),
-    ("fitness · carbon-source dependence", "fitness", "HFF, carbon-source contrast", "gene",
-     ["fit_glucose_dependence"], "one", []),
+    ("fitness · serum restriction", "fitness", "HFF, 10% and 1% FBS", "gene",
+     ["fit_lipid_rich_", "fit_lipid_limited_", "fit_serum_differential_"], "separate",
+     [("41407671", "", "genome-wide screens in lipid-rich and lipid-limited serum")]),
+    # Carbon-source withdrawal (Uboldi 2025): a complete-medium reference arm, glucose-only and
+    # glutamine-only arms, and the authors' contrast between the last two with its FDR.
+    ("fitness · carbon-source withdrawal", "fitness", "HFF, glucose or glutamine withdrawn",
+     "gene", ["fit_complete_medium_2025", "fit_no_glucose", "fit_no_glutamine",
+              "fit_glucose_dependence", "fit_glucose_dependence_fdr"], "separate",
+     [("", "bioRxiv 10.1101/2025.07.27.667068", "genome-wide screen without glucose or "
+       "glutamine")]),
     ("fitness · oxidative stress", "fitness", "oxidant", "gene",
      ["oxidative_stress_screen_score"], "one",
      [("34163449", "PRJNA707360", "genome-wide oxidative-stress screen")]),
@@ -1764,7 +1765,10 @@ PF_PATTERNS = {
     "seroreactivity / antigenicity": ["n_bcell_epitopes"],
     "T-cell epitope content": ["n_tcell_epitopes"],
     # Conditions, not a contrast; `plasmodium.febrile` says why.
-    "transcription · under stress / conversion": ["febrile_"],
+    # The three febrile TRANSCRIPTION series by name. A bare `febrile_` also claimed the febrile
+    # phosphoproteome once it arrived, putting one measurement in two slots of different axes.
+    "transcription · under stress / conversion": ["febrile_wt_", "febrile_lrr5ko_",
+                                                  "febrile_dhcko_"],
     # Wild type and knockout as stated conditions. The KO-minus-WT contrast is deliberately not
     # precomputed; `plasmodium.sir2_perturbation` says why.
     "transcription · under TF or chromatin perturbation": ["sir2_wt_", "sir2a_ko_", "sir2b_ko_"],

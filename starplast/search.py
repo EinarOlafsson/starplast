@@ -304,6 +304,27 @@ def layers_built_from(columns) -> dict:
     return out
 
 
+def layer_measurement_sources(layer, columns, organism=None) -> set:
+    """The measurement columns a held-out LAYER must take with it: its sources and their experiments.
+
+    The inverse of `layers_built_from`. A correlation layer is its source columns' correlation
+    structure drawn as edges, so a model that hides the layer but keeps the columns in a similarity
+    is handed the layer back. The calibration sweep caught it twice -- held-out co-fitness
+    "predicted" at AUROC 0.99 from the fitness screens it was built from -- and dropping the source
+    columns alone is not enough: translation efficiency is footprints over RNA from the same runs,
+    so every column of the source EXPERIMENTS goes too, the rule the closure applies to a held-out
+    column.
+    """
+    from . import datasets
+    columns = list(columns)
+    sources = set(family_members(LAYER_SOURCES.get(layer, ()), columns)) if layer else set()
+    if not sources:
+        return set()
+    experiments = {d.key for d in (datasets.provenance(c, organism) for c in sources) if d}
+    return sources | {c for c in columns
+                      if (d := datasets.provenance(c, organism)) and d.key in experiments}
+
+
 def excluded_layers(nodes: pd.DataFrame, target: str, scope: str = "biology",
                     threshold=0.8) -> dict:
     """``{layer: why}`` -- the declared family's layers, and every layer built from an excluded

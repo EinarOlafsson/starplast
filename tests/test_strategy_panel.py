@@ -300,6 +300,8 @@ def test_measured_verdicts_are_read_and_shown(app, planted, tmp_path, monkeypatc
                         "null_kind": "n", "n_hidden": 100},
         "layer_vote": {"verdict": "INCONCLUSIVE", "note": "too few"}}}))
     monkeypatch.setattr(SP, "MEASURED", str(path))
+    # No calibration, so the list falls back to the single self-test verdict it is testing here.
+    monkeypatch.setattr(SP.CAL, "load", lambda p=None: {"meta": {}, "organisms": {}})
     p = SP.StrategyPanel(planted.nodes, graph=planted.graph, other=planted.other(), organism="Tg")
     assert p.items["feature_knn"].text(1) == "PASS"
     assert "INCONCLUSIVE" in p._measured_line("layer_vote")
@@ -354,3 +356,36 @@ def test_the_window_opens_without_the_strategies_panel(app, monkeypatch):
     finally:
         w.close()
         w.deleteLater()
+
+
+def test_a_calibrated_strategy_shows_its_grade_and_offers_its_tuned_setting(app, planted, tmp_path,
+                                                                         monkeypatch):
+    """Where the sweep measured a strategy, the list shows the grade rather than the one verdict --
+    a grade rests on hundreds of held-out tests -- and the tuned setting is one click away."""
+    from starplast import calibration as C
+    from starplast import strategy_panel as SP
+    rows = []
+    for target in ("a", "b"):
+        for seed in (1, 2, 3, 4, 5):
+            rows.append({"organism": "Tg", "strategy": "feature_knn",
+                         "settings": {"target": target, "k": 5}, "seed": seed, "verdict": "PASS",
+                         "metric": "correct calls", "observed": 0.8, "null_mean": 0.2,
+                         "note": "", "wall_seconds": 1.0})
+    path = C.write(C.summarise(C.runs_frame(rows)), str(tmp_path / "cal.json"),
+                   meta={"date": "2026-09-26", "runs": len(rows)})
+    # Every reader goes through `load`, so pointing it at the planted file isolates all of them.
+    planted_calibration = C.load(path)
+    monkeypatch.setattr(C, "load", lambda p=None: planted_calibration)
+    panel = SP.StrategyPanel(planted.nodes, graph=planted.graph, other=planted.other(),
+                             organism="Tg")
+    assert panel.items["feature_knn"].text(1) == "reliable"
+    panel.select("feature_knn")
+    assert "RELIABLE" in panel.guide.toPlainText()
+    assert panel.tuned_btn.isEnabled()
+    applied = panel.use_tuned_settings()
+    assert applied == {"k": 5} and panel.settings()["k"] == 5
+    # A strategy the sweep never measured offers nothing to apply.
+    panel.select("layer_vote")
+    assert not panel.tuned_btn.isEnabled()
+    assert panel.use_tuned_settings() == {}
+    panel.deleteLater()

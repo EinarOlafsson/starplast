@@ -1,4 +1,4 @@
-"""The Strategies tab: thirty-two ways to infer something, each explained, runnable and self-testing.
+"""The Strategies tab: thirty-four ways to infer something, each explained, runnable and self-testing.
 
 Docked to the right of Evidence and Analysis. The top half lists the strategies by family, with the
 verdict each one earned when its self-test was run on the shipped data; the bottom half has three
