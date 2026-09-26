@@ -49,7 +49,7 @@ import numpy as np
 import pandas as pd
 
 from . import scorecard as SC
-from .jobs import Stopped
+from .stopping import Stopped
 
 #: Label values that mean "not measured" rather than naming a class. Shared with `search`, so a
 #: strategy and a search agree on what counts as a label.

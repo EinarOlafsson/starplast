@@ -207,3 +207,20 @@ def test_a_test_result_carries_its_card_through_json():
     assert d["skill"] == pytest.approx((0.8 - 0.25) / 0.75)
     card = r.card()
     assert list(card["section"].unique()) == ["verdict", "values"]
+
+
+def test_the_strategies_api_loads_without_qt_and_from_the_package():
+    """The API guide promises a plain Python session: no Qt import, even for the whole catalogue."""
+    import subprocess
+    code = ("import sys, starplast\n"
+            "assert 'starplast.strategies' not in sys.modules\n"
+            "n = len(starplast.strategies.catalog())\n"
+            "starplast.scorecard.glossary(); starplast.techniques.glossary()\n"
+            "assert 'PyQt6' not in sys.modules, 'importing the strategies pulled in Qt'\n"
+            "from starplast import jobs, stopping\n"
+            "assert jobs.Stopped is stopping.Stopped\n"
+            "print(n)\n")
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True,
+                         cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    assert out.returncode == 0, out.stderr
+    assert int(out.stdout.strip()) == len(S.catalog())

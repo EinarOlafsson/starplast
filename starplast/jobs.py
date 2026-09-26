@@ -18,19 +18,11 @@ from typing import Any, Callable, Optional
 from PyQt6 import QtCore
 
 from .logging_util import get_logger
+from .stopping import Stopped  # noqa: F401 -- re-exported: jobs.Stopped is stopping.Stopped
 
 _log = get_logger(__name__)
 
 PENDING, RUNNING, DONE, FAILED, CANCELLED = "pending", "running", "done", "failed", "cancelled"
-
-
-class Stopped(Exception):
-    """Raised inside a job to unwind it after a cancellation.
-
-    Lives here rather than beside the analysis panel so the runner can tell a deliberate stop from a
-    crash without importing the GUI. A stopped job reported as "failed", with a traceback, teaches
-    people to distrust the failure list.
-    """
 
 
 @dataclass

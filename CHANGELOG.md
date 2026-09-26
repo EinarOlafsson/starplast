@@ -14,6 +14,7 @@
   - **Conformal values** wraps a predicted measurement in an interval that holds for a stated share of new genes, and lists the measured genes outside theirs.
 - Label-calling strategies now pass their per-class scores to the scorecard (k-nearest neighbours, network vote, random walk, logistic regression, weighted vote, triangulation, map neighbours, cluster guilt), so macro AUROC and AUPRC are measured rather than missing.
 - Document the strategies API in [docs/API.md](docs/API.md): overview, run, test, card, calibration, tuned settings, contexts, and scoring predictions made outside Starplast.
+- `import starplast` now reaches the main modules as attributes (`starplast.strategies`, `starplast.scorecard`, `starplast.techniques`, `starplast.calibration`, ...), each loaded on first use. Importing the strategies no longer imports Qt: the `Stopped` exception moved to `starplast.stopping`, and `jobs.Stopped` is the same class.
 
 ## 0.45.0
 

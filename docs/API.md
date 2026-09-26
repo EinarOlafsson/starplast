@@ -159,7 +159,9 @@ zero, measured False and unassayed None have distinct meanings.
 ## Run, test and trust a strategy
 
 `starplast.strategies` is the Strategies tab without the window: 39 named ways of turning the
-tables into a claim, each with a self-test and a scorecard. Nothing here imports Qt.
+tables into a claim, each with a self-test and a scorecard. Nothing here imports Qt, and the main
+modules are reachable from the package itself -- `import starplast`, then
+`starplast.strategies`, `starplast.scorecard`, `starplast.techniques` -- loaded on first use.
 
 ```python
 from starplast import strategies as S
