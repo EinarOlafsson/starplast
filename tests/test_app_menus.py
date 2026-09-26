@@ -442,13 +442,17 @@ def test_right_clicking_the_map_shows_the_menu(win, monkeypatch):
     assert shown == [menu]
 
 
-def test_the_explanations_are_shown_when_asked_for(win, monkeypatch):
-    """Item 12 again: the wording is only worth having if the menu entry actually shows it."""
+def test_the_explanations_are_shown_when_asked_for(win):
+    """Item 12 again: the wording is only worth having if the menu entry actually shows it.
+
+    Shown in a glass window beside the map rather than a modal box, so each call returns the window
+    it put up; what is checked is still that it is on screen and says what it should."""
     shown = []
-    monkeypatch.setattr(A.QtWidgets.QMessageBox, "information",
-                        staticmethod(lambda parent, title, text: shown.append((title, text))))
-    win.explain_edges()
-    win.explain_map()
+    for explain in (win.explain_edges, win.explain_map):
+        d = explain()
+        assert d.isVisible()
+        shown.append((d.windowTitle(), d.text))
+        d.close()
     assert "never" in shown[0][0].lower() or "separate" in shown[0][0].lower()
     assert "borrow the credibility" in shown[0][1]
     assert "negative control" in shown[1][1].lower()

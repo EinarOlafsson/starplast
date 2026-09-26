@@ -354,6 +354,8 @@ class AnalysisPanel(QtWidgets.QWidget):
         tabs.addTab(_scrolled(self._validation_tab()), "6 · Validation")
         tabs.addTab(_scrolled(self._discover_tab()), "7 · Discover")
         tabs.addTab(_scrolled(self._questions_tab()), "8 · Questions")
+        #: Kept, so the search beside Help can open a tab by name and land on a control inside it.
+        self.tabs = tabs
         lay = QtWidgets.QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         lay.addWidget(tabs)

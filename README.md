@@ -99,6 +99,9 @@ and evaluate recovery of labels held out from the input. Search scores help
 prioritize candidates; they are not experimental validation. See the
 [user guide](https://github.com/EinarOlafsson/starplast/blob/main/docs/guide.md) for controls and analysis settings.
 
+The search box beside the **Help** menu (**Ctrl+Shift+H**), as in spaCR, finds any menu
+command, panel, strategy, setting, slot, dataset or guide section and takes you to it.
+
 ## Explore, predict and compare
 
 The **Tools** menu offers three starting points:

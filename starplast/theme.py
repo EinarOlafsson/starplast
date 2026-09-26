@@ -229,6 +229,61 @@ def gl_options(mode: str) -> str:
     return "additive" if mode == "additive" else "translucent"
 
 
+# --------------------------------------------------------------------------- glass
+# spaCR's look for everything that floats: menus, tooltips, drop-down lists, the help search results
+# and Starplast's own windows are rounded panes of translucent black -- translucent white on a light
+# theme -- instead of solid grey rectangles. `starplast.glass` decides whether the display can show a
+# translucent window at all; these functions only say what colour the pane is either way.
+
+#: How much of the pane is glass, per role. Tooltips and dialogs carry the most reading and are the
+#: most opaque; a menu is glanced at, and letting a little of the map show through is what makes it
+#: read as floating over it rather than pasted on. Every value keeps body text above 12:1 contrast.
+GLASS_ALPHA = {"menu": 0.86, "tooltip": 0.92, "popup": 0.90, "dialog": 0.90, "pane": 0.35,
+               "bar": 0.45}
+
+#: Corner radii, spaCR's scale: `sm` for a menu item or a field, `md` for a menu or a list, `lg` for
+#: the search results, `card` for a whole window.
+RADIUS = {"sm": 4, "md": 8, "lg": 10, "card": 14}
+
+#: spaCR's type. Open Sans where it is installed, the platform sans-serif where it is not.
+FONT_FAMILY = '"Open Sans", "Segoe UI", "Helvetica Neue", sans-serif'
+
+
+def glass_rgba(theme: str, role: str = "menu", translucent: bool = True) -> tuple:
+    """The glass colour for one role as an (r, g, b, a) tuple of floats in 0-1.
+
+    Black on a dark theme, white on a light one, at `GLASS_ALPHA[role]`. When the display cannot
+    composite (`translucent=False`) the same pane is returned OPAQUE, as it would look laid over the
+    theme's own background: a near-black on a dark theme rather than a black square with garbage in
+    its corners.
+    """
+    alpha = GLASS_ALPHA.get(role, GLASS_ALPHA["menu"])
+    ink = 0.0 if is_dark(theme) else 1.0
+    if translucent:
+        return (ink, ink, ink, alpha)
+    under = rgbf(palette_for(theme)["bg"])[:3]
+    return tuple(ink * alpha + c * (1.0 - alpha) for c in under) + (1.0,)
+
+
+def glass(theme: str, role: str = "menu", translucent: bool = True) -> str:
+    """The glass colour for one role, as a stylesheet colour (`rgba(...)`, or `#rrggbb` when opaque)."""
+    r, g, b, a = glass_rgba(theme, role, translucent)
+    if a >= 1.0:
+        return "#{:02x}{:02x}{:02x}".format(*(int(round(v * 255)) for v in (r, g, b)))
+    return f"rgba({int(round(r * 255))}, {int(round(g * 255))}, {int(round(b * 255))}, {a:.3f})"
+
+
+def rim(theme: str, translucent: bool = True) -> str:
+    """The hairline round a glass pane: a faint light edge on black glass, a faint dark one on white.
+
+    A '#aarrggbb' string, which both a stylesheet and `QColor` read. Opaque displays get the
+    palette's own border, since a translucent edge over an opaque pane has nothing to show through.
+    """
+    if not translucent:
+        return palette_for(theme)["border"]
+    return "#1fffffff" if is_dark(theme) else "#24000000"
+
+
 # --------------------------------------------------------------------------- stylesheet
 def rgba(hex_color: str, alpha: float) -> str:
     """`rgba(r, g, b, a)` from a hex colour, for a panel that has to let the background through."""
@@ -237,13 +292,17 @@ def rgba(hex_color: str, alpha: float) -> str:
 
 
 def stylesheet(theme: str = "dark", container_opacity: float = 1.0,
-               text_scale: float = 1.0) -> str:
+               text_scale: float = 1.0, translucent: bool = True) -> str:
     """Qt stylesheet for one theme. Every color comes from the palette, never a literal.
 
     `container_opacity` below 1 lets whatever is painted behind the window -- the drifting blob
     field -- show through the panels. Only the CONTAINERS take it: a translucent field would put
     moving colour behind text somebody is trying to read, and the point of the background is that it
     is behind things.
+
+    `translucent` says whether the display can composite translucent windows (see
+    `starplast.glass.compositing_available`). Menus, tooltips, drop-down lists and glass windows are
+    translucent black when it can, and the same colour made opaque when it cannot.
     """
     p = palette_for(theme)
     CONTAINER = rgba(p["page"], container_opacity)
@@ -252,14 +311,31 @@ def stylesheet(theme: str = "dark", container_opacity: float = 1.0,
     # the font was changing and this rule was overriding it on every widget.
     BODY = max(int(round(13 * text_scale)), 6)
     SMALL = max(int(round(11 * text_scale)), 5)
+    MENU = max(int(round(12 * text_scale)), 5)
+    MENU_GLASS = glass(theme, "menu", translucent)
+    TIP_GLASS = glass(theme, "tooltip", translucent)
+    POPUP_GLASS = glass(theme, "popup", translucent)
+    PANE_GLASS = glass(theme, "pane", True)       # inside a window: always composited by Qt itself
+    BAR_GLASS = glass(theme, "bar", True)
+    RIM = rim(theme, translucent)
+    INNER_RIM = rim(theme, True)
+    ON_ACCENT = p["bg"] if is_dark(theme) else "#ffffff"
+    # The field grey is dark in every theme, so its text is light in every theme. With the light
+    # themes' dark text on it, what was typed into a field on `light` or `paper` could not be read.
+    FIELD_TEXT = p["fg"] if is_dark(theme) else DARK["fg"]
+    # The menu bar is the one bar in the window everything else hangs from. ONE FLAT COLOUR, as in
+    # spaCR, and never `transparent` for its items: on macOS a transparent item repaints the window's
+    # own colour first and shows as a box behind the word being pointed at.
+    BAR = p["bg"] if is_dark(theme) else p["surface"]
+    R = RADIUS
     return f"""
-    QWidget {{ background: {p['bg']}; color: {p['fg']};
+    QWidget {{ background: {p['bg']}; color: {p['fg']}; font-family: {FONT_FAMILY};
                font-size: {BODY}px; selection-background-color: {p['accent']};
                selection-color: {p['bg'] if is_dark(theme) else p['page']}; }}
     QMainWindow, QDialog {{ background: {p['bg']}; }}
     QDockWidget {{ background: {p['surface']}; color: {p['fg']}; titlebar-close-icon: none; }}
-    QDockWidget::title {{ background: {p['surface_alt']}; padding: 7px 10px;
-                          border-bottom: 1px solid {p['border']};
+    QDockWidget::title {{ background: {BAR_GLASS}; padding: 7px 10px;
+                          border-bottom: 1px solid {INNER_RIM};
                           font-weight: 600; color: {p['fg_muted']}; }}
     QGroupBox {{ border: 1px solid {p['border']}; border-radius: 6px; margin-top: 16px;
                  padding-top: 10px; background: {p['surface']}; }}
@@ -283,12 +359,9 @@ def stylesheet(theme: str = "dark", container_opacity: float = 1.0,
     QDockWidget > QWidget, QTabWidget::pane, QGroupBox {{ background: {CONTAINER}; }}
     QComboBox, QSpinBox, QDoubleSpinBox, QLineEdit, QPlainTextEdit, QTextEdit, QAbstractSpinBox {{
         background: {FIELD_GREY}; border: 1px solid {p['border']};
-        border-radius: 5px; padding: 5px 8px; color: {p['fg']}; }}
+        border-radius: 5px; padding: 5px 8px; color: {FIELD_TEXT}; }}
     QComboBox:focus, QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus {{
         border-color: {p['accent']}; }}
-    QComboBox QAbstractItemView {{ background: {p['surface']}; border: 1px solid {p['border']};
-                                   selection-background-color: {p['accent_soft']};
-                                   color: {p['fg']}; }}
     QCheckBox, QRadioButton {{ spacing: 7px; background: transparent; }}
     QCheckBox::indicator, QRadioButton::indicator {{ width: 15px; height: 15px;
         border: 1px solid {p['border']}; border-radius: 3px; background: {p['surface_hi']}; }}
@@ -312,16 +385,77 @@ def stylesheet(theme: str = "dark", container_opacity: float = 1.0,
     QProgressBar {{ background: {p['surface_hi']}; border: none; border-radius: 4px;
                     height: 6px; text-align: center; color: transparent; }}
     QProgressBar::chunk {{ background: {p['accent']}; border-radius: 4px; }}
-    QStatusBar {{ background: {p['surface']}; color: {p['fg_muted']};
-                  border-top: 1px solid {p['border']}; }}
+    QStatusBar {{ background: {BAR_GLASS}; color: {p['fg_muted']};
+                  border-top: 1px solid {INNER_RIM}; }}
     QScrollBar:vertical {{ background: transparent; width: 10px; margin: 0; }}
     QScrollBar::handle:vertical {{ background: {p['border']}; border-radius: 5px;
                                    min-height: 26px; }}
     QScrollBar::handle:vertical:hover {{ background: {p['fg_dim']}; }}
     QScrollBar::add-line, QScrollBar::sub-line {{ height: 0; width: 0; }}
     QSplitter::handle {{ background: {p['border_soft']}; }}
-    QToolTip {{ background: {p['surface_hi']}; color: {p['fg']};
-                border: 1px solid {p['border']}; padding: 5px; }}
+
+    /* ---- menu bar and menus, formatted like spaCR's: a flat bar whose words light up rather than
+       sitting on a plate, and menus that are rounded panes of glass with rounded item pills. ---- */
+    QMenuBar {{ background: {BAR}; color: {p['fg_muted']}; padding: 3px 6px;
+                border-bottom: 1px solid {p['border_soft']}; font-size: {MENU}px; }}
+    QMenuBar::item {{ background: {BAR}; padding: 5px 10px; border-radius: {R['sm']}px; }}
+    QMenuBar::item:selected, QMenuBar::item:pressed {{ background: {BAR}; color: {p['accent']}; }}
+    QMenu {{ background: {MENU_GLASS}; color: {p['fg']}; border: 1px solid {RIM};
+             border-radius: {R['md']}px; padding: 5px; font-size: {BODY}px; }}
+    QMenu::item {{ background: transparent; padding: 5px 24px 5px 12px;
+                   border-radius: {R['sm']}px; }}
+    QMenu::item:selected {{ background: {p['accent']}; color: {ON_ACCENT}; }}
+    QMenu::item:disabled {{ color: {p['fg_dim']}; }}
+    QMenu::separator {{ height: 1px; background: {RIM}; margin: 5px 10px; }}
+    QMenu::indicator {{ width: 14px; height: 14px; left: 7px; }}
+    QMenu::right-arrow {{ right: 8px; }}
+
+    /* ---- tooltips and drop-down lists: the same glass, so nothing that floats is grey. ---- */
+    QToolTip {{ background: {TIP_GLASS}; color: {p['fg']}; border: 1px solid {RIM};
+                border-radius: {R['md'] - 2}px; padding: 6px 9px; font-size: {MENU}px;
+                opacity: 255; }}
+    QComboBox QAbstractItemView {{ background: {POPUP_GLASS}; border: 1px solid {RIM};
+                                   border-radius: {R['md']}px; padding: 4px; outline: 0;
+                                   selection-background-color: {p['accent']};
+                                   selection-color: {ON_ACCENT}; color: {p['fg']}; }}
+    QComboBox QAbstractItemView::item {{ padding: 4px 8px; border-radius: {R['sm']}px;
+                                         min-height: 20px; }}
+    QComboBox QAbstractItemView::item:selected {{ background: {p['accent']};
+                                                  color: {ON_ACCENT}; }}
+
+    /* ---- the search beside Help. The field keeps an opaque fill like every other field; the list
+       under it is a glass pane inside the window, so it is translucent on any display. ---- */
+    QLineEdit#HelpSearchField {{ background: {FIELD_GREY}; border: 1px solid {p['border']};
+                                 border-radius: {R['md'] - 2}px; padding: 2px 8px;
+                                 font-size: {MENU}px; color: {FIELD_TEXT}; }}
+    QLineEdit#HelpSearchField:focus {{ border-color: {p['accent']}; }}
+    QFrame#HelpSearchResults {{ background: {POPUP_GLASS}; border: 1px solid {INNER_RIM};
+                                border-radius: {R['lg']}px; }}
+    QLabel#HelpSearchNote {{ background: transparent; color: {p['fg_muted']};
+                             padding: 7px 12px; font-size: {MENU}px; }}
+    QListWidget#HelpSearchResultList {{ background: transparent; border: none; padding: 4px;
+                                        outline: 0; }}
+    QListWidget#HelpSearchResultList::item {{ background: transparent; color: {p['fg']};
+                                              border-radius: {R['sm'] + 1}px; }}
+    QListWidget#HelpSearchResultList::item:selected {{ background: {p['accent_soft']};
+                                                       color: {p['fg']}; }}
+    *[helpSearchHit="true"] {{ border: 2px solid {p['accent']}; border-radius: {R['sm']}px; }}
+
+    /* ---- Starplast's own windows, dressed as glass cards by `starplast.glass.dress`. The card
+       paints the body; the window and its plain containers let it through; controls keep their
+       own opaque surfaces, because a field you can see through is one you cannot read. ---- */
+    QDialog[glass="true"], QMainWindow[glass="true"] {{ background: transparent; }}
+    *[glass="true"] .QWidget, *[glass="true"] QStackedWidget,
+    *[glass="true"] QScrollArea, *[glass="true"] QDialogButtonBox {{ background: transparent; }}
+    *[glass="true"] QTabWidget::pane {{ background: {PANE_GLASS}; border: 1px solid {INNER_RIM};
+                                        border-radius: {R['md']}px; }}
+    *[glass="true"] QGroupBox {{ background: {PANE_GLASS}; border-color: {INNER_RIM}; }}
+    *[glass="true"] QTabBar {{ background: transparent; }}
+    QToolButton#GlassClose {{ background: transparent; border: none; color: {p['fg_muted']};
+                              font-size: {BODY}px; padding: 2px 6px;
+                              border-radius: {R['sm']}px; }}
+    QToolButton#GlassClose:hover {{ background: {p['error']}; color: #ffffff; }}
+    QLabel#GlassMessageText {{ padding: 4px 6px 8px 6px; }}
     """
 
 
