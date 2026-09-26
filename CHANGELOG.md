@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.44.0
+
+- Add a **Strategies** tab to the right of Evidence and Analysis: 32 named ways of using the combined data for inference, grouped into eight families, each with a tooltip, an explanation, a walkthrough, settings that explain themselves, and Run / Test / Stop.
+- Give every strategy a self-test that hides known information -- labels, gene-set members, edges or values -- asks for it back, and compares the answer with the same procedure on shuffled labels, random sets or permuted identities. A strategy passes only above its null's 95th percentile by a stated margin.
+- Include the two founding questions as strategies 01 and 02: hold out a category and search maps for the structure that recovers it, and find the map where a gene list forms one cluster with high precision and recall.
+- Measure every strategy on the shipped tables and show the verdict beside it: 26 pass, 5 fail and 1 is inconclusive on *T. gondii*; 24, 5 and 3 on *P. falciparum*. The [strategy catalogue](docs/strategies.md) and `results/strategies_2026-09-25/` record every number, failures included.
+- Add `starplast.strategies` (context, leakage guard, five holdout test patterns, a planted organism for testing) and `starplast.strategy_catalog`; strategies run headless as well as from the tab.
+- Add a `join="louvain"` option to `methods.multiplex_communities`: joining agreed pairs by connected components chains every gene into one community when layers agree about different genes.
+- Group evidence into families by the slot catalogue's axis, so knockout screens named for a second background or a genetic interaction count as fitness.
+
 ## 0.43.0
 
 - Add a 40-slide introduction and practical guide, presented like spaCR's deck: README cover, linked GitHub slide pages, web viewer, PDF and editable PowerPoint.

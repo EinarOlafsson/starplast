@@ -118,6 +118,19 @@ accuracy across held-out orthogroups. UMAP neighbours performed less well, and
 several rare classes remained poorly recovered. These are model hypotheses,
 not experimentally established annotations.
 
+## Strategies
+
+The **strategies** tab, beside Evidence and Analysis, lists 32 named ways of turning
+the combined data into a claim: hold a category out and search for a map that finds
+it again; hand over a gene list and hunt for the one cluster that holds it; carry a
+label along crosslinks or shared folds; predict a screen from other evidence; call a
+gene only where independent methods agree. Each has a guide, a walkthrough and a
+self-test that hides known information, asks for it back and compares the answer with
+the same procedure on shuffled data. On the shipped *T. gondii* table 26 strategies
+pass their self-test, 5 fail and 1 is inconclusive; the verdict is shown beside each.
+
+[All 32 strategies, with their tests and measured verdicts](https://github.com/EinarOlafsson/starplast/blob/main/docs/strategies.md)
+
 [Guided workflows](https://github.com/EinarOlafsson/starplast/blob/main/docs/workflows.md) ·
 [Local AF3 structures](https://github.com/EinarOlafsson/starplast/blob/main/docs/structures.md) ·
 [Protein sequence features](https://github.com/EinarOlafsson/starplast/blob/main/docs/protein-sequences.md)

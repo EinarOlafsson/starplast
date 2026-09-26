@@ -1334,6 +1334,39 @@ class Window(QtWidgets.QMainWindow):
         self.analysis_dock = d
         self.panel = panel
         self._gallery()
+        self._strategies()
+
+    def _strategies(self):
+        """The strategies dock: named ways of inferring something, each explained and self-testing.
+
+        Tabbed to the right of Evidence and Analysis, because it is used the same way -- beside the
+        map, on the same genes -- and shares the analysis panel's job runner and results-table
+        wiring. Its maps and clusterings go through the same `use_embedding` and `use_clusters` the
+        analysis panel uses, so a strategy's map is the application's own 3D view, not a picture.
+        """
+        try:
+            from .strategy_panel import StrategyPanel
+        except Exception as e:                        # the browser must open without it
+            self.statusBar().showMessage(f"strategies unavailable: {e}")
+            return
+        code = SPECIES.get(self.species, {}).get("code")
+        panel = StrategyPanel(
+            self.nodes, runner=self.jobs, analysis=self.panel, organism=code,
+            gated=lambda: ([] if self.gated is None
+                           else self.nodes["gene_id"].iloc[np.asarray(self.gated, dtype=int)]
+                           .astype(str).tolist()))
+        panel.status.connect(lambda m: self.statusBar().showMessage(m))
+        panel.embedding_ready.connect(self.use_embedding)
+        panel.clusters_ready.connect(self.use_clusters)
+        panel.gene_selected.connect(self._workflow_gene)
+        d = QtWidgets.QDockWidget("strategies")
+        d.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
+        d.setWidget(panel)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, d)
+        self.tabifyDockWidget(self.analysis_dock, d)
+        self.right_dock.raise_()
+        self.strategies_dock = d
+        self.strategy_panel = panel
 
     def _open_workflows(self, tab=0):
         """Open task-oriented exploration, prediction and measured-screen comparison."""

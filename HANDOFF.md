@@ -97,6 +97,26 @@ where it used to give `"nan"`. Re-check anything touching a dataframe under the 
 There is a second, **stale** checkout at `../toxoplasma_projects/starplast` from before the move.
 Nothing reads it; do not commit into it.
 
+## The Strategies tab (2026-09-25, 0.44.0) -- read `instructions/done/49` before changing it
+
+A dock to the right of Evidence and Analysis listing 32 strategies -- named ways of inferring
+something from the combined data -- each with a guide, settings and a **self-test** that hides known
+information and scores the answer against the same procedure on shuffled data. The machinery is
+`strategies.py`, the strategies `strategy_catalog.py`, the tab `strategy_panel.py`, and
+`scripts/strategy_selftests.py` measures every one on the shipped tables and writes the verdicts
+the tab shows (`starplast/data/strategy_selftests.json`, `docs/strategies.md`). Four things not to
+undo:
+
+* **Every tester is one of the five patterns** in `strategies.py`, so a PASS means the same thing
+  everywhere: above its own null's 95th percentile by a stated margin. A new strategy gets a tester
+  from a pattern, not a bespoke metric with no null.
+* **The planted organism must pass and its null twin must not.** `tests/test_strategies.py` runs
+  every strategy on both; a self-test that passes on noise is a self-test of nothing.
+* **FAILs stay in the catalogue.** The shipped verdicts are 26/5/1 on *T. gondii*; a strategy that
+  fails here is a measured statement about this data, and hiding it would be survivorship.
+* **Cluster-based strategies choose HDBSCAN selection explicitly.** The default ("eom") returns a
+  handful of giant clusters on the real proteome; see `Context.cluster`.
+
 ## Design decisions, and why (do not silently reverse these)
 
 **1. Position = UMAP of a feature matrix, not force-directed layout.**

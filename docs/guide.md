@@ -59,6 +59,32 @@ result. Right-click a results table to export it. Save named embeddings and resu
 to compare configurations later. A high score after trying many configurations
 needs confirmation on evidence that was not used to choose the configuration.
 
+## Strategies
+
+The **strategies** tab, to the right of Evidence and Analysis, lists named ways of
+using the combined data for inference, grouped by how they work: searching the map
+space, borrowing from neighbours, walking the measured networks, learning from
+examples, starting from a gene list, contrasting two kinds of evidence, crossing
+species, and combining strategies. The column beside each name is the verdict its
+self-test earned on the shipped data.
+
+1. Select a strategy and read **Guide**: what it infers, why that can work, how it
+   fails, a walkthrough, and how it is tested.
+2. Set its parameters under **Settings**. Every control has a tooltip. Gene-list
+   strategies take pasted accessions, a file, an example set, or the genes gated on
+   the map.
+3. Press **Test (hold-out)** first. Known information is hidden, the strategy is asked
+   for it back, and the answer is compared with the same procedure run on shuffled
+   labels, random gene sets or permuted identities. PASS means it beat that null's
+   95th percentile by the stated margin *with these settings on this table*.
+4. Press **Run**. **Results** shows the summary and tables; click a row to find its
+   gene, right-click to save, and use **Show on map** for strategies that build a map.
+
+Every strategy removes the held-out label, anything that restates it, the experiment
+that produced it, and any edge layer built from it before it looks at anything else.
+The [strategy catalogue](strategies.md) lists all of them with their measured
+verdicts, including the ones that fail on this data.
+
 ## Appearance and performance
 
 **View → Preferences** contains theme, colour maps, point rendering, lighting,

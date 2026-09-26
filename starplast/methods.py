@@ -410,7 +410,7 @@ def layer_communities(layer: str, n_nodes: int, resolution: float = 1.0, seed: i
 
 
 def multiplex_communities(layers, n_nodes: int, resolution: float = 1.0, seed: int = 42,
-                          graph=None, min_agreement: float = 0.5) -> dict:
+                          graph=None, min_agreement: float = 0.5, join: str = "components") -> dict:
     """Communities that several layers AGREE on, built as a consensus rather than a merged graph.
 
     Design decision 2 of this project says the thirteen edge types are not one graph and are never
@@ -423,7 +423,16 @@ def multiplex_communities(layers, n_nodes: int, resolution: float = 1.0, seed: i
     together. A merge is then a statement several independent measurements make, and the layers that
     cannot see a pair abstain rather than voting no -- which matters here, because layer sizes span
     four orders of magnitude and `ip_ms` has 64 edges against `compartment`'s 118,712.
+
+    `join` decides how the agreed pairs become groups. ``"components"`` joins every chain of agreed
+    pairs, which is exact when agreement is rare and chains everything into one group when two
+    layers each agree with a third about different genes -- on a planted table with four layers
+    and a 0.5 threshold it put all 480 genes in one component. ``"louvain"`` instead finds
+    communities in the agreement graph weighted by how many layers agree, which a chain of single
+    agreements cannot merge.
     """
+    if join not in ("components", "louvain"):
+        raise ValueError("join must be 'components' or 'louvain'")
     import scipy.sparse as sp
     partitions = [layer_communities(L, n_nodes, resolution=resolution, seed=seed, graph=graph)
                   for L in layers]
@@ -449,13 +458,27 @@ def multiplex_communities(layers, n_nodes: int, resolution: float = 1.0, seed: i
     consensus = (agreement >= min_agreement).astype(float)
     consensus.setdiag(0)
     consensus.eliminate_zeros()
-    n_groups, labels = sp.csgraph.connected_components(consensus, directed=False)
+    if join == "louvain":
+        import networkx as nx
+        weights = sp.triu(agreement.multiply(consensus), k=1).tocoo()
+        G = nx.Graph()
+        G.add_nodes_from(range(n_nodes))
+        G.add_weighted_edges_from(zip(weights.row.tolist(), weights.col.tolist(),
+                                      weights.data.tolist()))
+        labels = np.arange(n_nodes)
+        for i, members in enumerate(nx.community.louvain_communities(
+                G, weight="weight", resolution=resolution, seed=seed)):
+            labels[list(members)] = n_nodes + i
+        n_groups = len(np.unique(labels))
+    else:
+        n_groups, labels = sp.csgraph.connected_components(consensus, directed=False)
     sizes = pd.Series(labels).value_counts()
     singletons = set(sizes[sizes < 2].index)
     out = np.array([-1 if v in singletons else v for v in labels])
     return {"partition": out, "classes": [], "model": None, "unsupervised": True,
             "settings": {"method": "multiplex", "layers": list(layers), "resolution": resolution,
-                         "min_agreement": min_agreement, "groups": int(n_groups)}}
+                         "min_agreement": min_agreement, "groups": int(n_groups),
+                         "join": join}}
 
 
 def classification_recovery(codes, truth, classes):
