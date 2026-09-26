@@ -154,6 +154,13 @@ share-alike, **V** verify the terms first, **X** local build only.
 
 ## TRAPS
 
+* **The shipped Pf map is built from 20 of its 168 columns** (found by the second data audit,
+  instruction 52). `embedding.BLOCKS`/`SLOT_BLOCKS` are built at import from the Toxoplasma slot
+  catalogue, so `rebuild_layouts.py` embeds Pf on the blocks the two catalogues share. The
+  strategies are not affected: `Context.blocks()` on Pf covers all 144 usable numeric columns
+  (checked 2026-09-26). Fix it in R1 by building the blocks per space. It changes the shipped Pf
+  map, so it needs a new layout and a changelog line, not a silent rebuild.
+
 * The host table stacks human and mouse. Splitting it changes `host_columns` and every deposit with
   organism "host".
 * `calibration.write` overwrites the whole file. Merge per space before calibrating a third one.
