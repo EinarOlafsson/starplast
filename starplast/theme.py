@@ -810,6 +810,13 @@ class Switch(QtWidgets.QWidget):
         w = QtGui.QFontMetrics(self.font()).horizontalAdvance(self.text)
         return QtCore.QSize(w + 60, 24)
 
+    def _light(self) -> bool:
+        return self.palette().color(QtGui.QPalette.ColorRole.Window).lightness() > 128
+
+    def track_color(self) -> str:
+        """White on dark windows, as in spaCR; a mid grey on light ones, where white vanishes."""
+        return "#c9ced5" if self._light() else "#ffffff"
+
     def paintEvent(self, _ev):
         p = QtGui.QPainter(self)
         p.setRenderHint(QtGui.QPainter.RenderHint.Antialiasing)
@@ -821,8 +828,12 @@ class Switch(QtWidgets.QWidget):
                            | QtCore.Qt.AlignmentFlag.AlignLeft), self.text)
         left = self.width() - 42
         p.setPen(QtCore.Qt.PenStyle.NoPen)
-        p.setBrush(QtGui.QColor("#ffffff"))
+        p.setBrush(QtGui.QColor(self.track_color()))
+        if self._light():
+            # A white track on a light window is invisible: outline a grey one instead.
+            p.setPen(QtGui.QPen(QtGui.QColor("#8c939c"), 1.0))
         p.drawRoundedRect(QtCore.QRectF(left, 2, 36, 16), 8, 8)
+        p.setPen(QtCore.Qt.PenStyle.NoPen)
         p.setBrush(QtGui.QColor(SWITCH_ON if self._on else SWITCH_OFF))
         p.drawEllipse(QtCore.QRectF(left + self._x - 2, 4, 12, 12))
         p.end()

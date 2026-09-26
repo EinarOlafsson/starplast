@@ -295,3 +295,17 @@ def test_an_empty_column_is_categorical_rather_than_a_ramp_over_nothing():
     """A filter that matched no genes leaves an empty column, and computing a range over it gives
     NaN bounds -- so the color bar would be drawn from NaN to NaN."""
     assert TH.kind_for_column(pd.Series([], dtype=float)) == "categorical"
+
+
+def test_the_switch_track_stays_visible_on_light_and_dark_windows():
+    """The track was painted white always, which vanished on the light themes."""
+    from PyQt6 import QtGui, QtWidgets
+    _app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    from starplast import theme as TH
+    for window, expect in (("#f4f5f7", "#c9ced5"), ("#15171a", "#ffffff")):
+        sw = TH.Switch("x")
+        pal = sw.palette()
+        pal.setColor(QtGui.QPalette.ColorRole.Window, QtGui.QColor(window))
+        sw.setPalette(pal)
+        assert sw.track_color() == expect
+        assert QtGui.QColor(sw.track_color()) != QtGui.QColor(window)
