@@ -1250,6 +1250,11 @@ def space(ctx: S.Context, *, exclude=None, per_layer: int = PER_LAYER, knn: int 
 
 
 # --------------------------------------------------------------------------- the self-test
+def _scorecard_ranking(score, positive) -> dict:
+    from . import scorecard
+    return scorecard.ranking(score, positive)
+
+
 def hidden_edge_test(ctx: S.Context, key: str, *, layer: str | None = None, exclude=None,
                      model: str = "logistic", fraction: float = TEST_FRACTION,
                      embed_dim: int = EMBED_DIM, n_null: int = 10,
@@ -1346,4 +1351,5 @@ def hidden_edge_test(ctx: S.Context, key: str, *, layer: str | None = None, excl
                    numbers={"auroc_random": auroc_random, "fame_gap": auroc_random - observed,
                             "precision_at_k": m["precision_at_k"], "brier": m["brier"],
                             "reliability_gap": m["reliability_gap"], "model": model,
-                            "layer": layer})
+                            "layer": layer},
+                   task="ranking", scorecard=_scorecard_ranking(np.r_[p_test, p_matched], y))

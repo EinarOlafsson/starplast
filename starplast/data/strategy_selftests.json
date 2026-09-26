@@ -101,6 +101,82 @@
    "strategy": "condition_shift",
    "verdict": "PASS"
   },
+  "conformal_calls": {
+   "effect": 0.243092105263158,
+   "hidden": "25% of the pb_transferred_phenotype labels, whole orthogroups at a time",
+   "metric": "set efficiency: 1 - (mean set size - 1) / (classes - 1)",
+   "min_effect": 0.05,
+   "n_hidden": 608,
+   "note": "",
+   "null_high": 0.169860197368421,
+   "null_kind": "10 runs on shuffled labels, calibrated the same way",
+   "null_mean": 0.15082236842105262,
+   "null_sd": 0.02420111641360416,
+   "numbers": {
+    "classes": 3,
+    "mean_set_size": 2.2121710526315788,
+    "null_set_coverage": 0.8927631578947368,
+    "promised_coverage": 0.9,
+    "set_coverage": 0.9243421052631579,
+    "singleton_share": 0.14473684210526316
+   },
+   "observed": 0.3939144736842106,
+   "p_value": 0.09090909090909091,
+   "scorecard": {
+    "accuracy": 0.13157894736842105,
+    "coverage": 0.14473684210526316,
+    "kappa": 0.08245825640087576,
+    "macro_auprc": 0.5972584164115519,
+    "macro_auroc": 0.7588305798514398,
+    "macro_f1": 0.18334031395440398,
+    "macro_precision": 0.7447368421052633,
+    "macro_recall": 0.11907006301625134,
+    "mcc": 0.1939347194684408,
+    "precision_of_calls": 0.9090909090909091,
+    "weighted_f1": 0.20276366607897484
+   },
+   "seconds": 0.7,
+   "skill": 0.2862676738330429,
+   "strategy": "conformal_calls",
+   "task": "label calls",
+   "verdict": "PASS"
+  },
+  "conformal_values": {
+   "effect": 0.4929150927379425,
+   "hidden": "20% of the piggybac_mis values",
+   "metric": "rank correlation of predicted and hidden values",
+   "min_effect": 0.1,
+   "n_hidden": 1077,
+   "note": "",
+   "null_high": 0.05014871007988719,
+   "null_kind": "the chance distribution of a rank correlation",
+   "null_mean": 0.0,
+   "null_sd": 0.030485538042484616,
+   "numbers": {
+    "interval_coverage": 0.9090064995357474,
+    "interval_width_in_sd": 2.914815411984031,
+    "promised_coverage": 0.9,
+    "shuffled_refits": -0.001292936710773898
+   },
+   "observed": 0.4929150927379425,
+   "p_value": 4.184482062598847e-59,
+   "scorecard": {
+    "bottom_decile_recall": 0.19444444444444445,
+    "kendall": 0.348833825538868,
+    "mae": 0.2888476708864147,
+    "nrmse": 0.8823048133879998,
+    "pearson": 0.482369640726825,
+    "r2": 0.22153821627236692,
+    "spearman": 0.4929150927379425,
+    "top_decile_recall": 0.2777777777777778,
+    "value_coverage": 1.0
+   },
+   "seconds": 1.9,
+   "skill": 0.4929150927379425,
+   "strategy": "conformal_values",
+   "task": "values",
+   "verdict": "PASS"
+  },
   "conjunctions": {
    "effect": null,
    "hidden": "half of the genes' pb_transferred_phenotype x stage_enriched_derived combinations",
@@ -178,6 +254,42 @@
    "p_value": 0.047619047619047616,
    "seconds": 37.4,
    "strategy": "geneset_hunt",
+   "verdict": "PASS"
+  },
+  "graph_convolution": {
+   "effect": 0.2392794537742382,
+   "hidden": "25% of the pb_transferred_phenotype labels, whole orthogroups at a time",
+   "metric": "correct calls per hidden gene",
+   "min_effect": 0.05,
+   "n_hidden": 608,
+   "note": "",
+   "null_high": 0.3779873740856246,
+   "null_kind": "the analytic chance level",
+   "null_mean": 0.34624686201523547,
+   "null_sd": 0.019295144115738082,
+   "numbers": {
+    "calls": 608,
+    "coverage": 1.0
+   },
+   "observed": 0.5855263157894737,
+   "p_value": 1.2901024361889604e-35,
+   "scorecard": {
+    "accuracy": 0.5855263157894737,
+    "coverage": 1.0,
+    "kappa": 0.36600887991426284,
+    "macro_auprc": 0.5961111769669817,
+    "macro_auroc": 0.7599794692956716,
+    "macro_f1": 0.5518662819414245,
+    "macro_precision": 0.5576153106982703,
+    "macro_recall": 0.5518285742500989,
+    "mcc": 0.36796614122185883,
+    "precision_of_calls": 0.5855263157894737,
+    "weighted_f1": 0.5954027646406579
+   },
+   "seconds": 0.0,
+   "skill": 0.36600887991426284,
+   "strategy": "graph_convolution",
+   "task": "label calls",
    "verdict": "PASS"
   },
   "holdout_search": {
@@ -468,6 +580,42 @@
    "strategy": "positive_unlabeled",
    "verdict": "PASS"
   },
+  "random_forest": {
+   "effect": 0.24405676506232687,
+   "hidden": "25% of the pb_transferred_phenotype labels, whole orthogroups at a time",
+   "metric": "correct calls per hidden gene",
+   "min_effect": 0.05,
+   "n_hidden": 608,
+   "note": "",
+   "null_high": 0.4367053275945494,
+   "null_kind": "the analytic chance level",
+   "null_mean": 0.4039695507271468,
+   "null_sd": 0.019900168308451413,
+   "numbers": {
+    "calls": 608,
+    "coverage": 1.0
+   },
+   "observed": 0.6480263157894737,
+   "p_value": 7.062499432359325e-35,
+   "scorecard": {
+    "accuracy": 0.6480263157894737,
+    "coverage": 1.0,
+    "kappa": 0.40947029696229764,
+    "macro_auprc": 0.6220125597213942,
+    "macro_auroc": 0.7776412670911039,
+    "macro_f1": 0.4814267588820642,
+    "macro_precision": 0.4445835817928841,
+    "macro_recall": 0.539282395784638,
+    "mcc": 0.44774143478549855,
+    "precision_of_calls": 0.6480263157894737,
+    "weighted_f1": 0.5733374006522522
+   },
+   "seconds": 0.5,
+   "skill": 0.40947029696229764,
+   "strategy": "random_forest",
+   "task": "label calls",
+   "verdict": "PASS"
+  },
   "recoverability_atlas": {
    "effect": 0.2531587980723021,
    "hidden": "30% of the pb_transferred_phenotype labels",
@@ -541,6 +689,42 @@
    "seconds": 0.0,
    "strategy": "split_clusters",
    "verdict": "INCONCLUSIVE"
+  },
+  "stacking": {
+   "effect": 0.2604202735457064,
+   "hidden": "25% of the pb_transferred_phenotype labels, whole orthogroups at a time",
+   "metric": "correct calls per hidden gene",
+   "min_effect": 0.05,
+   "n_hidden": 608,
+   "note": "",
+   "null_high": 0.3815927542157937,
+   "null_kind": "the analytic chance level",
+   "null_mean": 0.34977709487534625,
+   "null_sd": 0.019340826346776568,
+   "numbers": {
+    "calls": 608,
+    "coverage": 1.0
+   },
+   "observed": 0.6101973684210527,
+   "p_value": 1.2600731695252768e-41,
+   "scorecard": {
+    "accuracy": 0.6101973684210527,
+    "coverage": 1.0,
+    "kappa": 0.40050922767136515,
+    "macro_auprc": 0.60678698244858,
+    "macro_auroc": 0.7585506603855285,
+    "macro_f1": 0.5768103757501712,
+    "macro_precision": 0.5789857936455657,
+    "macro_recall": 0.5778142011325867,
+    "mcc": 0.4015849565312877,
+    "precision_of_calls": 0.6101973684210527,
+    "weighted_f1": 0.6168464441478302
+   },
+   "seconds": 0.2,
+   "skill": 0.40050922767136515,
+   "strategy": "stacking",
+   "task": "label calls",
+   "verdict": "PASS"
   },
   "stratum_focus": {
    "effect": null,
@@ -797,6 +981,82 @@
    "strategy": "condition_shift",
    "verdict": "FAIL"
   },
+  "conformal_calls": {
+   "effect": 0.505568509120834,
+   "hidden": "25% of the compartment labels, whole orthogroups at a time",
+   "metric": "set efficiency: 1 - (mean set size - 1) / (classes - 1)",
+   "min_effect": 0.05,
+   "n_hidden": 951,
+   "note": "",
+   "null_high": 0.28771316234627164,
+   "null_kind": "10 runs on shuffled labels, calibrated the same way",
+   "null_mean": 0.25107209802039043,
+   "null_sd": 0.024233487072956836,
+   "numbers": {
+    "classes": 24,
+    "mean_set_size": 6.59726603575184,
+    "null_set_coverage": 0.8758149316508937,
+    "promised_coverage": 0.9,
+    "set_coverage": 0.9106203995793901,
+    "singleton_share": 0.002103049421661409
+   },
+   "observed": 0.7566406071412244,
+   "p_value": 0.09090909090909091,
+   "scorecard": {
+    "accuracy": 0.002103049421661409,
+    "coverage": 0.002103049421661409,
+    "kappa": 0.002021392704187755,
+    "macro_auprc": 0.4523434590737471,
+    "macro_auroc": 0.9139365321120123,
+    "macro_f1": 0.00729646697388633,
+    "macro_precision": 0.08333333333333333,
+    "macro_recall": 0.003888188314417823,
+    "mcc": 0.032822421931897744,
+    "precision_of_calls": 1.0,
+    "weighted_f1": 0.00402196087552758
+   },
+   "seconds": 36.8,
+   "skill": 0.6750563142119368,
+   "strategy": "conformal_calls",
+   "task": "label calls",
+   "verdict": "PASS"
+  },
+  "conformal_values": {
+   "effect": 0.7261023445936007,
+   "hidden": "20% of the fit_invitro_hff values",
+   "metric": "rank correlation of predicted and hidden values",
+   "min_effect": 0.1,
+   "n_hidden": 1465,
+   "note": "",
+   "null_high": 0.0429927637194963,
+   "null_kind": "the chance distribution of a rank correlation",
+   "null_mean": 0.0,
+   "null_sd": 0.026135418674465834,
+   "numbers": {
+    "interval_coverage": 0.9078498293515358,
+    "interval_width_in_sd": 2.3973608927029275,
+    "promised_coverage": 0.9,
+    "shuffled_refits": -0.019333545572976143
+   },
+   "observed": 0.7261023445936007,
+   "p_value": 3.548121375346575e-170,
+   "scorecard": {
+    "bottom_decile_recall": 0.3561643835616438,
+    "kendall": 0.5237912652791112,
+    "mae": 1.239744739490562,
+    "nrmse": 0.697633885951108,
+    "pearson": 0.7164742958777447,
+    "r2": 0.5133069611727565,
+    "spearman": 0.7261023445936007,
+    "top_decile_recall": 0.4315068493150685,
+    "value_coverage": 1.0
+   },
+   "seconds": 3.6,
+   "skill": 0.7261023445936007,
+   "strategy": "conformal_values",
+   "task": "values",
+   "verdict": "PASS"
+  },
   "conjunctions": {
    "effect": 0.6666666666666666,
    "hidden": "lopit_unified x dtm_class combinations made on half the genes, checked on the other half",
@@ -877,6 +1137,42 @@
    "seconds": 44.9,
    "strategy": "geneset_hunt",
    "verdict": "FAIL"
+  },
+  "graph_convolution": {
+   "effect": 0.40774391005759614,
+   "hidden": "25% of the compartment labels, whole orthogroups at a time",
+   "metric": "correct calls per hidden gene",
+   "min_effect": 0.05,
+   "n_hidden": 951,
+   "note": "",
+   "null_high": 0.09806007269506008,
+   "null_kind": "the analytic chance level",
+   "null_mean": 0.08331812990034287,
+   "null_sd": 0.008961667352411672,
+   "numbers": {
+    "calls": 951,
+    "coverage": 1.0
+   },
+   "observed": 0.491062039957939,
+   "p_value": 0.0,
+   "scorecard": {
+    "accuracy": 0.491062039957939,
+    "coverage": 1.0,
+    "kappa": 0.4448041609171001,
+    "macro_auprc": 0.48825580052791934,
+    "macro_auroc": 0.9226121743542451,
+    "macro_f1": 0.4313284674153044,
+    "macro_precision": 0.415280697768272,
+    "macro_recall": 0.4953508431185519,
+    "mcc": 0.44611887529984096,
+    "precision_of_calls": 0.491062039957939,
+    "weighted_f1": 0.5000170493958244
+   },
+   "seconds": 27.5,
+   "skill": 0.4448041609171001,
+   "strategy": "graph_convolution",
+   "task": "label calls",
+   "verdict": "PASS"
   },
   "holdout_search": {
    "effect": 0.09333601833808401,
@@ -1166,6 +1462,42 @@
    "strategy": "positive_unlabeled",
    "verdict": "PASS"
   },
+  "random_forest": {
+   "effect": 0.38396795226896036,
+   "hidden": "25% of the compartment labels, whole orthogroups at a time",
+   "metric": "correct calls per hidden gene",
+   "min_effect": 0.05,
+   "n_hidden": 951,
+   "note": "",
+   "null_high": 0.13031743505205032,
+   "null_kind": "the analytic chance level",
+   "null_mean": 0.1134032359539629,
+   "null_sd": 0.010282187901572898,
+   "numbers": {
+    "calls": 951,
+    "coverage": 1.0
+   },
+   "observed": 0.49737118822292326,
+   "p_value": 1.6455386271664125e-305,
+   "scorecard": {
+    "accuracy": 0.49737118822292326,
+    "coverage": 1.0,
+    "kappa": 0.43308070572770846,
+    "macro_auprc": 0.5060904849707711,
+    "macro_auroc": 0.9113004111508864,
+    "macro_f1": 0.43525225940273254,
+    "macro_precision": 0.508345264567802,
+    "macro_recall": 0.4199616397412811,
+    "mcc": 0.43776613944207404,
+    "precision_of_calls": 0.49737118822292326,
+    "weighted_f1": 0.47938951984418543
+   },
+   "seconds": 2.2,
+   "skill": 0.43308070572770846,
+   "strategy": "random_forest",
+   "task": "label calls",
+   "verdict": "PASS"
+  },
   "recoverability_atlas": {
    "effect": 0.31850360995502336,
    "hidden": "30% of the compartment labels",
@@ -1239,6 +1571,42 @@
    "seconds": 0.0,
    "strategy": "split_clusters",
    "verdict": "INCONCLUSIVE"
+  },
+  "stacking": {
+   "effect": 0.3893328291322102,
+   "hidden": "25% of the compartment labels, whole orthogroups at a time",
+   "metric": "correct calls per hidden gene",
+   "min_effect": 0.05,
+   "n_hidden": 951,
+   "note": "",
+   "null_high": 0.08952901456535607,
+   "null_kind": "the analytic chance level",
+   "null_mean": 0.07544109305496122,
+   "null_sd": 0.00856408602455614,
+   "numbers": {
+    "calls": 951,
+    "coverage": 1.0
+   },
+   "observed": 0.4647739221871714,
+   "p_value": 0.0,
+   "scorecard": {
+    "accuracy": 0.4647739221871714,
+    "coverage": 1.0,
+    "kappa": 0.42110116100515205,
+    "macro_auprc": 0.5346003464372294,
+    "macro_auroc": 0.9252038776167734,
+    "macro_f1": 0.44632464821631773,
+    "macro_precision": 0.43246234645722215,
+    "macro_recall": 0.5454198444618977,
+    "mcc": 0.42399860807768597,
+    "precision_of_calls": 0.4647739221871714,
+    "weighted_f1": 0.4804189254765808
+   },
+   "seconds": 42.1,
+   "skill": 0.42110116100515205,
+   "strategy": "stacking",
+   "task": "label calls",
+   "verdict": "PASS"
   },
   "stratum_focus": {
    "effect": 0.2373170731707317,

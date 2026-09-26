@@ -1,4 +1,4 @@
-"""The Strategies tab: thirty-four ways to infer something, each explained, runnable and self-testing.
+"""The Strategies tab: thirty-nine ways to infer something, each explained, runnable and self-testing.
 
 Docked to the right of Evidence and Analysis. The top half lists the strategies by family, with the
 verdict each one earned when its self-test was run on the shipped data; the bottom half has three
@@ -27,7 +27,9 @@ import pandas as pd
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 from . import calibration as CAL
+from . import scorecard as SC
 from . import strategies as S
+from . import techniques as TQ
 from . import theme as TH
 from .jobs import Stopped
 
@@ -64,8 +66,8 @@ BUTTON_TIPS = {
     "tuned": "Fill the settings with the combination calibration found best for this strategy "
              "(chosen on some held-out seeds and confirmed on others). The held-out label or gene "
              "list stays yours to choose.",
-    "filter": "Type to show only strategies whose title, question or family contains the text -- "
-              "for example 'list', 'network', 'held-out' or 'Plasmodium'.",
+    "filter": "Type to show only strategies whose name, method, question or family contains the "
+              "text -- for example 'list', 'network', 'HDBSCAN', 'logistic' or 'Plasmodium'.",
 }
 
 
@@ -305,10 +307,60 @@ class StrategyPanel(QtWidgets.QWidget):
             mline = (f"<p style='color:{gcol}'><b>{e(CAL.sentence(s.key, self.ctx.organism))}"
                      f"</b></p>" + mline)
         return (f"<h3>{s.number:02d} · {e(s.name)}</h3><p><i>{e(s.question)}</i></p>{mline}"
-                f"{paras}<h4>Walkthrough</h4><ol>{steps}</ol>"
+                f"{self.techniques_html(s)}{paras}{self.scorecard_html(s)}"
+                f"<h4>Walkthrough</h4><ol>{steps}</ol>"
                 f"<h4>How it is tested</h4><p>{e(s.test_description)}</p>"
                 f"<h4>Settings</h4><ul>{params}</ul>{needs}"
                 f"<p><i>Typical cost: {e(s.cost)}.</i></p>")
+
+    def techniques_html(self, s: S.Strategy) -> str:
+        """What the method is made of: each technique, what it does and why it is used here."""
+        e = html.escape
+        items = "".join(f"<li><b>{e(t.name)}</b> -- {e(t.what)} <i>{e(t.why)}</i></li>"
+                        for t in (TQ.TECHNIQUES[k] for k in s.techniques))
+        return f"<h4>Method: {e(s.method)}</h4><ul>{items}</ul>"
+
+    def shipped_card(self, key: str) -> dict:
+        """metric -> (value, low, high) measured on the shipped data: the calibration's defaults with
+        their 95% interval where the sweep recorded scorecards, else the single self-test."""
+        cal = (CAL.entry(key, self.ctx.organism) or {}).get("default") or {}
+        card = cal.get("scorecard") or {}
+        if card:
+            return {k: (v.get("mean"), v.get("low"), v.get("high")) for k, v in card.items()
+                    if isinstance(v, dict)}
+        m = (self.measured.get(key) or {}).get("scorecard") or {}
+        return {k: (v, None, None) for k, v in m.items()}
+
+    def scorecard_html(self, s: S.Strategy) -> str:
+        """The strategy's scorecard: its task's standard metrics, each explained, with the values
+        measured on the shipped data where they exist."""
+        e = html.escape
+        task = SC.TASKS[s.task]
+        shipped = self.shipped_card(s.key)
+
+        def fmt(v):
+            if not v or v[0] is None or not np.isfinite(v[0]):
+                return "--"
+            text = f"{v[0]:.3f}" if abs(v[0]) < 100 else f"{v[0]:,.0f}"
+            if v[1] is not None and v[2] is not None and np.isfinite(v[1]) and np.isfinite(v[2]):
+                text += f" [{v[1]:.2f}, {v[2]:.2f}]"
+            return text
+
+        rows = "".join(
+            f"<tr><td title='{e(m.definition)}'><b>{e(m.label)}</b></td>"
+            f"<td align='right'>{fmt(shipped.get(k))}</td><td>{e(m.chance)}</td>"
+            f"<td>{e(m.reading)}</td></tr>"
+            for k, m in ((k, SC.METRICS[k]) for k in task.metrics))
+        where = ("Values are the mean over held-out labels and seeds at the default settings, "
+                 "with 95% intervals." if any(v[1] is not None for v in shipped.values()) else
+                 "Values are from one self-test on the shipped data." if shipped else
+                 "Press Test to fill it in on your data.")
+        return (f"<h4>Scorecard: {e(task.key)}</h4><p>{e(task.description)} What is hidden: "
+                f"{e(task.hidden)}. Every strategy doing this task reports these metrics, in this "
+                f"order. {e(where)}</p>"
+                f"<table cellspacing='0' cellpadding='3' border='0'><tr><th align='left'>Metric"
+                f"</th><th align='right'>Shipped data</th><th align='left'>Chance</th>"
+                f"<th align='left'>How to read it</th></tr>{rows}</table>")
 
     # ------------------------------------------------------------------ the settings form
     def _options(self, p: S.Param) -> list:
@@ -615,12 +667,24 @@ class StrategyPanel(QtWidgets.QWidget):
         self.verdict.setText(f"<span style='color:{colour}'><b>{html.escape(test.verdict)}</b></span>"
                              f" -- {html.escape(rest)}<br><i>Hidden: "
                              f"{html.escape(test.hidden)}. Null: {html.escape(test.null_kind)}.</i>")
-        tables = {"self-test": test.details} if len(test.details) else {}
+        tables = {}
+        card = test.card()
+        if len(card):
+            tables["scorecard"] = card[["section", "metric", "value", "reading"]]
+        if len(test.details):
+            tables["self-test"] = test.details
         if test.numbers:
             tables["numbers"] = pd.DataFrame({"quantity": list(test.numbers),
                                               "value": list(test.numbers.values())})
         if tables:
             self._show_tables(tables)
+            if "scorecard" in tables:
+                # Each metric explains itself on hover, as every control in the application does.
+                table = self.tables[0]
+                for i, key in enumerate(card["key"]):
+                    item = table.item(i, 1)
+                    if item is not None:
+                        item.setToolTip(TH.tip(SC.explain(key)))
         self.tabs.setCurrentIndex(2)
         self.status.emit(f"{test.strategy}: {test.verdict}")
         self.test_ready.emit(test)

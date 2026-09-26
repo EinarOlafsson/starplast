@@ -82,7 +82,7 @@ def test_the_two_founding_questions_are_the_first_two_strategies():
 
 def test_the_families_are_grouped_and_each_holds_several_strategies():
     fams = S.families()
-    assert len(fams) == 8
+    assert len(fams) == 9
     for f in fams:
         members = [s for s in CATALOG if s.family == f]
         assert len(members) >= 2, f
@@ -460,6 +460,15 @@ def test_every_strategy_finds_what_was_planted(key, planted, planted_big):
     s = S.get(key)
     result = s.test(ctx, **{**_genes_for(ctx, s), **BIG.get(key, {})})
     assert result.verdict == "PASS", result.summary()
+    # The scorecard it reports is the one it declares, complete, and consistent with the verdict.
+    from starplast import scorecard as SC
+    assert result.task == s.task
+    assert list(result.scorecard) == list(SC.TASKS[s.task].metrics)
+    filled = [k for k, v in result.scorecard.items() if np.isfinite(v)]
+    assert len(filled) >= len(result.scorecard) - 2, result.scorecard
+    assert np.isfinite(result.skill) and result.skill > 0
+    card = result.card()
+    assert card["section"].iloc[0] == "verdict" and card["value"].iloc[0] == "PASS"
 
 
 @pytest.mark.parametrize("key", KEYS)

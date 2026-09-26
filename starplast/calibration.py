@@ -110,6 +110,27 @@ def _cell(g: pd.DataFrame) -> dict:
             "not_run": int((g["verdict"] == "NOT RUN").sum())}
 
 
+def scorecard_cell(g: pd.DataFrame, n_boot: int = 1000) -> dict:
+    """metric -> {mean, low, high, runs}: each scorecard metric over the conclusive runs of `g`,
+    with the same two-stage bootstrap over held-out targets as skill. Empty for runs recorded
+    before scorecards existed."""
+    if "scorecard" not in g.columns:
+        return {}
+    c = g[g["conclusive"] & g["scorecard"].map(lambda d: isinstance(d, dict) and bool(d))]
+    if c.empty:
+        return {}
+    cards = pd.DataFrame(list(c["scorecard"]), index=c.index)
+    out = {}
+    for metric in cards.columns:
+        vals = pd.to_numeric(cards[metric], errors="coerce")
+        ok = vals.notna()
+        if not ok.any():
+            continue
+        m, lo, hi = cluster_bootstrap(vals[ok], c.loc[ok, "target"], n_boot=n_boot)
+        out[metric] = {"mean": m, "low": lo, "high": hi, "runs": int(ok.sum())}
+    return out
+
+
 def grade(entry: dict) -> str:
     """One word for how far to trust a strategy, from its default and tuned calibration."""
     d, t = entry.get("default") or {}, entry.get("tuned") or {}
@@ -137,10 +158,15 @@ def summarise(runs: pd.DataFrame, defaults: dict | None = None) -> dict:
         entry = {"metric": str(g["metric"].dropna().iloc[0]) if g["metric"].notna().any() else "",
                  "runs": int(len(g)), "settings_tested": int(g["setting"].nunique()),
                  "targets": sorted(set(g["target"]) - {""})}
+        if "task" in g.columns and g["task"].fillna("").astype(bool).any():
+            entry["task"] = str(g.loc[g["task"].fillna("").astype(bool), "task"].iloc[0])
         dkey = (defaults or {}).get((org, key))
         if dkey is None or dkey not in set(g["setting"]):
             dkey = g["setting"].value_counts().index[0]
         entry["default"] = {"setting": json.loads(dkey), **_cell(g[g["setting"] == dkey])}
+        card = scorecard_cell(g[g["setting"] == dkey])
+        if card:
+            entry["default"]["scorecard"] = card
         # Choose on some seeds, report on the others.
         choose = g[g["seed"].isin(CHOOSE_SEEDS) & g["conclusive"]]
         best_key, best_low = None, -np.inf
@@ -155,6 +181,9 @@ def summarise(runs: pd.DataFrame, defaults: dict | None = None) -> dict:
             entry["tuned"] = {"setting": json.loads(best_key), **_cell(report),
                               "chosen_on_seeds": list(CHOOSE_SEEDS),
                               "reported_on_seeds": list(REPORT_SEEDS)}
+            card = scorecard_cell(report)
+            if card:
+                entry["tuned"]["scorecard"] = card
             per_target = {}
             for tgt, tg in g[g["setting"] == best_key].groupby("target"):
                 cell = _cell(tg)
@@ -305,3 +334,41 @@ def markdown_table(organism: str = "Tg", path: str = CALIBRATION) -> str:
                      f"{pct(r.default_pass)} | {ci(r.tuned_skill, r.tuned_low, r.tuned_high)} | "
                      f"{pct(r.tuned_pass)} | {setting} | {r.runs:,} |")
     return "\n".join(lines) + "\n"
+
+
+def scorecard_markdown(organism: str = "Tg", path: str = CALIBRATION, setting: str = "default",
+                       intervals: bool = True) -> str:
+    """One table per scorecard task: every strategy doing that task, its task's metrics in their
+    standard order, as mean [95% CI] over held-out targets and seeds at `setting` ("default" or
+    "tuned"). Strategies without recorded scorecards are listed with dashes, not left out."""
+    from . import scorecard as SC
+    from . import strategies as S
+    data = (load(path).get("organisms") or {}).get(organism) or {}
+    if not data:
+        return "_No calibration shipped yet._\n"
+
+    def cell(v):
+        if not isinstance(v, dict) or v.get("mean") is None:
+            return "--"
+        m, lo, hi = v["mean"], v.get("low"), v.get("high")
+        big = abs(m) >= 10
+        text = f"{m:.1f}" if big else f"{m:.2f}"
+        if intervals and lo is not None and hi is not None:
+            text += f" [{lo:.1f}, {hi:.1f}]" if big else f" [{lo:.2f}, {hi:.2f}]"
+        return text
+    out = []
+    for task, spec in SC.TASKS.items():
+        members = [s for s in S.catalog() if s.task == task and s.key in data]
+        if not members:
+            continue
+        labels = [SC.METRICS[k].label for k in spec.metrics]
+        out += [f"**{task}** -- {spec.description} Hidden: {spec.hidden}.", "",
+                "| # | Strategy | Grade | " + " | ".join(labels) + " |",
+                "|---|---|---|" + "---|" * len(labels)]
+        for s in members:
+            e = data[s.key]
+            card = (e.get(setting) or {}).get("scorecard") or {}
+            out.append(f"| {s.number:02d} | {s.name} | {e.get('grade', '')} | "
+                       + " | ".join(cell(card.get(k)) for k in spec.metrics) + " |")
+        out.append("")
+    return "\n".join(out)

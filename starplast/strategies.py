@@ -48,6 +48,7 @@ from typing import Callable
 import numpy as np
 import pandas as pd
 
+from . import scorecard as SC
 from .jobs import Stopped
 
 #: Label values that mean "not measured" rather than naming a class. Shared with `search`, so a
@@ -257,6 +258,10 @@ class TestResult:
     #: How many hidden items make a verdict conclusive. Hidden genes for most patterns; findings to
     #: replicate for pattern 5, where three findings are already a real test.
     min_hidden: int = MIN_HIDDEN
+    #: Which of the scorecard's tasks this test measured ("label calls", "ranking", ...), and that
+    #: task's standard metrics on the same hidden genes -- see :mod:`starplast.scorecard`.
+    task: str = ""
+    scorecard: dict = field(default_factory=dict)
 
     @property
     def null_mean(self) -> float:
@@ -287,6 +292,29 @@ class TestResult:
     def effect(self) -> float:
         """Observed minus chance: the part of the answer that luck does not explain."""
         return float(self.observed - self.null_mean)
+
+    @property
+    def skill(self) -> float:
+        """(observed - chance) / (1 - chance): 0 is chance, 1 is perfect -- one scale for all."""
+        chance = self.null_mean
+        if not (np.isfinite(self.observed) and np.isfinite(chance)) or chance >= 1:
+            return float("nan")
+        return float((self.observed - chance) / (1 - chance))
+
+    def card(self) -> pd.DataFrame:
+        """The scorecard as one table: the verdict block every test shares, then the task's metrics
+        in their standard order, each with its one-line reading."""
+        from . import scorecard as SC
+        head = {"verdict": self.verdict, "metric": self.metric, "observed": self.observed,
+                "chance": self.null_mean, "bar": self.null_high, "p_value": self.p_value,
+                "skill": self.skill, "n_hidden": self.n_hidden}
+        rows = [{"section": "verdict", "metric": label, "key": k, "value": head[k],
+                 "reading": text} for k, label, text in SC.VERDICT]
+        if self.task in SC.TASKS:
+            for _, r in SC.frame(self.scorecard, self.task).iterrows():
+                rows.append({"section": self.task, "metric": r["metric"], "key": r["key"],
+                             "value": r["value"], "reading": r["reading"]})
+        return pd.DataFrame(rows)
 
     @property
     def p_value(self) -> float:
@@ -345,8 +373,20 @@ class TestResult:
         from html import escape
         colour = {"PASS": "#2e8b57", "FAIL": "#c0392b"}.get(self.verdict, "#888")
         rest = escape(self.summary().split(" -- ", 1)[-1])
+        rows = ""
+        if self.task:
+            from . import scorecard as SC
+            for _, r in SC.frame(self.scorecard, self.task).iterrows():
+                v = r["value"]
+                shown = "--" if not np.isfinite(v) else (f"{v:,.0f}" if abs(v) >= 100 or float(
+                    v).is_integer() and abs(v) >= 2 else f"{v:.3f}")
+                rows += (f"<tr><td title='{escape(r['reading'])}'>{escape(r['metric'])}</td>"
+                         f"<td style='text-align:right'>{shown}</td></tr>")
+            rows = (f"<p><b>Scorecard ({escape(self.task)})</b></p><table>{rows}</table>"
+                    if rows else "")
         return (f"<p><b style='color:{colour}'>{self.verdict}</b> -- {rest}</p>"
-                f"<p><i>Hidden: {escape(self.hidden)}. Null: {escape(self.null_kind)}.</i></p>")
+                f"<p><i>Hidden: {escape(self.hidden)}. Null: {escape(self.null_kind)}.</i></p>"
+                + rows)
 
     def to_dict(self) -> dict:
         """JSON-safe, for the shipped record of what each strategy measured on the real data."""
@@ -357,21 +397,28 @@ class TestResult:
                 "p_value": clean(self.p_value), "effect": clean(self.effect),
                 "min_effect": self.min_effect, "n_hidden": int(self.n_hidden),
                 "hidden": self.hidden, "null_kind": self.null_kind, "note": self.note,
-                "seconds": round(float(self.seconds), 1),
+                "seconds": round(float(self.seconds), 1), "skill": clean(self.skill),
+                "task": self.task,
+                "scorecard": {k: clean(float(v)) for k, v in self.scorecard.items()},
                 "numbers": {k: clean(v) for k, v in self.numbers.items()}}
 
 
 def judge(strategy: str, metric: str, observed: float, null, *, min_effect: float,
           n_hidden: int, hidden: str, null_kind: str, t0: float, details=None, note: str = "",
           quantile: float = 95.0, analytic=None, numbers=None,
-          min_hidden: int = MIN_HIDDEN) -> TestResult:
-    """Build a :class:`TestResult` -- the one place a verdict's arithmetic lives."""
+          min_hidden: int = MIN_HIDDEN, task: str = "", scorecard=None) -> TestResult:
+    """Build a :class:`TestResult` -- the one place a verdict's arithmetic lives.
+
+    `task` names the scorecard task and `scorecard` carries its metrics; an inconclusive test may
+    leave both empty.
+    """
     return TestResult(strategy=strategy, metric=metric, observed=float(observed),
                       null=[float(v) for v in (null or [])], min_effect=float(min_effect),
                       n_hidden=int(n_hidden), hidden=hidden, null_kind=null_kind,
                       details=details if details is not None else pd.DataFrame(),
                       seconds=time.monotonic() - t0, note=note, quantile=quantile,
-                      analytic=analytic, numbers=dict(numbers or {}), min_hidden=int(min_hidden))
+                      analytic=analytic, numbers=dict(numbers or {}), min_hidden=int(min_hidden),
+                      task=task, scorecard=dict(scorecard or {}))
 
 
 # --------------------------------------------------------------------------- parameters and strategies
@@ -424,6 +471,10 @@ class Strategy:
     cost: str = "seconds"
     needs: tuple = ()
     method: str = ""
+    #: The scorecard task its self-test reports (see :mod:`starplast.scorecard`), and the
+    #: techniques its method is built from (see :mod:`starplast.techniques`).
+    task: str = ""
+    techniques: tuple = ()
 
     @property
     def name(self) -> str:
@@ -463,17 +514,41 @@ class Strategy:
                                   None if callable(p.default) else p.default),
                               "why": p.tip} for p in self.params])
 
+    @property
+    def metrics(self) -> tuple:
+        """The scorecard metrics its self-test reports, in the task's standard order."""
+        return SC.TASKS[self.task].metrics
+
+    def techniques_table(self) -> pd.DataFrame:
+        """The techniques its method is built from: name, kind, what each does and why."""
+        from . import techniques
+        return techniques.glossary(self.techniques)
+
+    def scorecard_table(self) -> pd.DataFrame:
+        """Its scorecard's metrics, each with definition, range, chance level and how to read it."""
+        return SC.glossary(self.task)
+
     def _repr_html_(self) -> str:
         from html import escape
+        from .techniques import TECHNIQUES
         steps = "".join(f"<li>{escape(x)}</li>" for x in self.walkthrough)
+        tech = ", ".join(escape(TECHNIQUES[t].name) for t in self.techniques)
+        mets = ", ".join(escape(SC.METRICS[m].label) for m in self.metrics)
         return (f"<p><b>{self.number:02d} · {escape(self.name)}</b> ({escape(self.family)})</p>"
                 f"<p><i>{escape(self.question)}</i></p><p>{escape(self.tooltip)}</p>"
+                f"<p><b>Techniques:</b> {tech}.<br><b>Scorecard ({escape(self.task)}):</b> "
+                f"{mets}.</p>"
                 f"<ol>{steps}</ol><p><b>How it is tested:</b> {escape(self.test_description)}</p>")
 
     def help_text(self) -> str:
         """Everything the panel shows about this strategy, as plain text."""
+        from .techniques import TECHNIQUES
         steps = "\n".join(f"  {i}. {s}" for i, s in enumerate(self.walkthrough, 1))
-        return (f"{self.number:02d} · {self.name}\n\n{self.question}\n\n{self.explanation}\n\n"
+        tech = "\n".join(f"  {TECHNIQUES[t].name}: {TECHNIQUES[t].what}" for t in self.techniques)
+        mets = "\n".join(f"  {SC.METRICS[m].label}: {SC.METRICS[m].reading}" for m in self.metrics)
+        return (f"{self.number:02d} · {self.name}\n\n{self.question}\n\n"
+                f"Method: {self.method}\n{tech}\n\n{self.explanation}\n\n"
+                f"Scorecard ({self.task})\n{mets}\n\n"
                 f"Walkthrough\n{steps}\n\nHow it is tested\n{self.test_description}")
 
 
@@ -486,6 +561,13 @@ def register(strategy: Strategy) -> Strategy:
         raise ValueError(f"strategy {strategy.key!r} registered twice")
     if not strategy.method.strip():
         raise ValueError(f"{strategy.key}: name the method it runs, e.g. method=\"UMAP + HDBSCAN\"")
+    from .techniques import TECHNIQUES
+    if strategy.task not in SC.TASKS:
+        raise ValueError(f"{strategy.key}: task must be one of {', '.join(SC.TASKS)}")
+    unknown = [t for t in strategy.techniques if t not in TECHNIQUES]
+    if not strategy.techniques or unknown:
+        raise ValueError(f"{strategy.key}: list its techniques from starplast.techniques"
+                         + (f"; unknown: {', '.join(unknown)}" if unknown else ""))
     bad = [p.name for p in strategy.params if p.kind not in PARAM_KINDS]
     if bad:
         raise ValueError(f"{strategy.key}: unknown parameter kind for {', '.join(bad)}")
@@ -497,6 +579,7 @@ def catalog() -> list:
     """Every strategy, in catalogue order."""
     from . import strategy_catalog  # noqa: F401 -- registers on import
     from . import strategy_graph  # noqa: F401 -- registers on import
+    from . import strategy_learning  # noqa: F401 -- registers on import
     return sorted(REGISTRY.values(), key=lambda s: s.number)
 
 
@@ -526,10 +609,22 @@ def overview(organism: str = "Tg") -> pd.DataFrame:
         e = C.entry(s.key, organism) or {}
         d, t = e.get("default") or {}, e.get("tuned") or {}
         rows.append({"number": s.number, "key": s.key, "family": s.family, "name": s.name,
-                     "method": s.method, "question": s.question, "cost": s.cost,
+                     "method": s.method, "task": s.task, "question": s.question, "cost": s.cost,
                      "grade": e.get("grade", ""), "skill_default": d.get("skill"),
                      "skill_tuned": t.get("skill")})
     return pd.DataFrame(rows)
+
+
+def metrics(task: str | None = None) -> pd.DataFrame:
+    """Every scorecard metric (or one task's), with its definition, range, chance level and how to
+    read it -- the glossary the Strategies tab shows beside each number."""
+    return SC.glossary(task)
+
+
+def techniques() -> pd.DataFrame:
+    """Every technique the strategies are built from: what it does and why a strategy uses it."""
+    from . import techniques as TQ
+    return TQ.glossary()
 
 
 def calibration(key: str, organism: str = "Tg") -> dict:
@@ -1148,6 +1243,54 @@ def analytic_null(pred: pd.Series, truth: pd.Series, positions) -> tuple:
 
 
 # --------------------------------------------------------------------------- inference primitives
+class _ClassScores:
+    """Per-class scores riding on a prediction. pandas deep-copies `attrs` on every operation, so
+    the holder copies as itself: the scores are never modified after they are attached."""
+    __slots__ = ("frame",)
+
+    def __init__(self, frame: pd.DataFrame):
+        self.frame = frame
+
+    def __deepcopy__(self, memo):
+        return self
+
+
+def with_class_scores(pred: pd.Series, scores: pd.DataFrame) -> pd.Series:
+    """Attach per-class scores (genes x classes, higher = more likely) to a label prediction.
+
+    The label test reads them back for the scorecard's macro AUROC and AUPRC. A prediction without
+    them is still scored on everything else; those two are reported missing, not estimated.
+    """
+    pred.attrs["class_scores"] = _ClassScores(scores)
+    return pred
+
+
+def class_scores_of(pred) -> pd.DataFrame | None:
+    """The per-class scores attached by :func:`with_class_scores`, or None."""
+    holder = getattr(pred, "attrs", {}).get("class_scores")
+    return holder.frame if isinstance(holder, _ClassScores) else None
+
+
+def expand_prediction(pred, positions, n: int) -> pd.Series:
+    """A prediction over a subset of genes (a map's sample) spread over all `n`, scores included."""
+    positions = np.asarray(positions, dtype=int)
+    out = pd.Series([np.nan] * n, dtype=object)
+    out.iloc[positions] = pd.Series(pred).to_numpy()
+    scores = class_scores_of(pred)
+    if scores is not None:
+        full = pd.DataFrame(np.nan, index=range(n), columns=list(scores.columns))
+        full.iloc[positions] = scores.to_numpy()
+        with_class_scores(out, full)
+    return out
+
+
+def _score_frame(n: int, query, matrix, classes) -> pd.DataFrame:
+    out = np.full((n, len(classes)), np.nan)
+    if len(query):
+        out[np.asarray(query, dtype=int)] = matrix
+    return pd.DataFrame(out, columns=list(classes))
+
+
 def knn_vote(X: np.ndarray, visible: pd.Series, k: int = 15, query=None) -> tuple:
     """(prediction, vote share) from the `k` nearest labelled genes, distance-weighted.
 
@@ -1167,6 +1310,9 @@ def knn_vote(X: np.ndarray, visible: pd.Series, k: int = 15, query=None) -> tupl
     nn = NearestNeighbors(n_neighbors=kk).fit(X[known])
     dist, idx = nn.kneighbors(X[query])
     labels = vis.iloc[known].to_numpy(dtype=object)
+    classes = sorted(set(labels), key=str)
+    col = {c: j for j, c in enumerate(classes)}
+    matrix = np.zeros((len(query), len(classes)))
     for row, (q, d, i) in enumerate(zip(query, dist, idx)):
         # At least two labelled genes are consulted, so dropping the query itself never empties this.
         keep = known[i] != q
@@ -1176,9 +1322,12 @@ def knn_vote(X: np.ndarray, visible: pd.Series, k: int = 15, query=None) -> tupl
         for lab, wt in zip(labels[i], w):
             votes[lab] = votes.get(lab, 0.0) + wt
         best = max(votes, key=votes.get)
+        total = sum(votes.values())
         pred.iloc[q] = best
-        share.iloc[q] = votes[best] / sum(votes.values())
-    return pred, share
+        share.iloc[q] = votes[best] / total
+        for lab, wt in votes.items():
+            matrix[row, col[lab]] = wt / total
+    return with_class_scores(pred, _score_frame(n, query, matrix, classes)), share
 
 
 def onehot(visible: pd.Series) -> tuple:
@@ -1214,7 +1363,8 @@ def graph_vote(A, visible: pd.Series, query=None, min_support: float = 0.0) -> t
         if total[row] > min_support and counts[row, best[row]] > 0:
             pred.iloc[q] = classes[best[row]]
             support.iloc[q] = float(counts[row, best[row]] / total[row])
-    return pred, support
+    shares = np.where(total[:, None] > 0, counts / np.maximum(total[:, None], 1e-12), np.nan)
+    return with_class_scores(pred, _score_frame(n, query, shares, classes)), support
 
 
 def propagate(operator, visible: pd.Series, query=None, restart: float = 0.5,
@@ -1244,7 +1394,9 @@ def propagate(operator, visible: pd.Series, query=None, restart: float = 0.5,
         if top[row] > 0:
             pred.iloc[q] = classes[best[row]]
             strength.iloc[q] = float(top[row] / max(F[row].sum(), 1e-12))
-    return pred, strength
+    rows = F.sum(axis=1, keepdims=True)
+    fields = np.where(rows > 0, F / np.maximum(rows, 1e-12), np.nan)
+    return with_class_scores(pred, _score_frame(n, query, fields, classes)), strength
 
 
 def diffuse(operator, seeds, restart: float = 0.3, iterations: int = 30) -> np.ndarray:
@@ -1403,7 +1555,7 @@ def label_transfer_test(ctx: Context, key: str, target: str, predict: Callable, 
     if len(hidden) < MIN_HIDDEN:
         return judge(key, metric or "correct calls per hidden gene", float("nan"), [],
                      min_effect=min_effect, n_hidden=len(hidden), hidden=f"{target} labels",
-                     null_kind="shuffled labels", t0=t0,
+                     null_kind="shuffled labels", t0=t0, task=SC.T_LABEL,
                      note=note or "too few labelled genes this strategy can speak about")
 
     def score(pred):
@@ -1415,6 +1567,7 @@ def label_transfer_test(ctx: Context, key: str, target: str, predict: Callable, 
     observed = score(pred)
     calls = int(pd.Series(pred).iloc[hidden].notna().sum())
     details = per_class(pred, truth, hidden)
+    card = SC.label_calls(pred, truth, hidden, class_scores_of(pred))
     nulls, analytic = [], None
     if null == "analytic" and not precision:
         analytic = analytic_null(pred, truth, hidden)
@@ -1439,7 +1592,8 @@ def label_transfer_test(ctx: Context, key: str, target: str, predict: Callable, 
                  null_kind=("the analytic chance level" if analytic is not None
                             else f"{n_null} runs on shuffled labels"),
                  t0=t0, details=details, note=note, analytic=analytic,
-                 numbers={"calls": calls, "coverage": calls / max(len(hidden), 1)})
+                 numbers={"calls": calls, "coverage": calls / max(len(hidden), 1)},
+                 task=SC.T_LABEL, scorecard=card)
 
 
 def set_expansion_test(ctx: Context, key: str, members, rank: Callable, *, frac: float = 0.3,
@@ -1456,19 +1610,23 @@ def set_expansion_test(ctx: Context, key: str, members, rank: Callable, *, frac:
     universe = np.arange(ctx.n) if universe is None else np.asarray(universe, dtype=int)
     rng = ctx.rng(202)
 
+    cards = []
+
     def once(pos):
         pos = rng.permutation(pos)
         k = int(round(frac * len(pos)))
         hidden, query = pos[:k], pos[k:]
         scores = np.asarray(rank(query), dtype=float)
         cand = np.setdiff1d(universe, query)
+        cards.append((scores[cand], np.isin(cand, hidden)))
         return auroc(scores[cand], np.isin(cand, hidden)), len(hidden)
 
     if len(members) < 10:
         return judge(key, "AUROC of hidden members", float("nan"), [], min_effect=min_effect,
                      n_hidden=0, hidden=label, null_kind="random gene sets", t0=t0,
-                     note=note or "fewer than ten genes to split")
+                     note=note or "fewer than ten genes to split", task=SC.T_RANK)
     observed, n_hidden = once(members)
+    card = SC.ranking(*cards[0])
     nulls = []
     for i in range(int(n_null)):
         ctx.say(f"{key}: random set {i + 1} of {n_null}")
@@ -1476,7 +1634,8 @@ def set_expansion_test(ctx: Context, key: str, members, rank: Callable, *, frac:
     return judge(key, "AUROC of hidden members against every other gene", observed, nulls,
                  min_effect=min_effect, n_hidden=n_hidden,
                  hidden=f"{frac:.0%} of {label} ({len(members)} genes)",
-                 null_kind=f"{n_null} random sets of the same size", t0=t0, note=note)
+                 null_kind=f"{n_null} random sets of the same size", t0=t0, note=note,
+                 task=SC.T_RANK, scorecard=card)
 
 
 def pair_test(key: str, score_fn: Callable, positives: np.ndarray, negatives: np.ndarray,
@@ -1491,7 +1650,8 @@ def pair_test(key: str, score_fn: Callable, positives: np.ndarray, negatives: np
     """
     pairs = np.vstack([positives, negatives]) if len(negatives) else positives
     y = np.r_[np.ones(len(positives), bool), np.zeros(len(negatives), bool)]
-    observed = auroc(score_fn(pairs), y)
+    scored = np.asarray(score_fn(pairs), dtype=float)
+    observed = auroc(scored, y)
     nulls = []
     for i in range(int(n_null)):
         if ctx is not None:
@@ -1499,7 +1659,8 @@ def pair_test(key: str, score_fn: Callable, positives: np.ndarray, negatives: np
         nulls.append(auroc(null_fn(pairs, i), y))
     return judge(key, metric, observed, nulls,
                  min_effect=min_effect, n_hidden=len(positives), hidden=hidden,
-                 null_kind=null_kind, t0=t0, note=note)
+                 null_kind=null_kind, t0=t0, note=note, task=SC.T_RANK,
+                 scorecard=SC.ranking(scored, y))
 
 
 def value_test(ctx: Context, key: str, y: pd.Series, predict: Callable, *, frac: float = 0.2,
@@ -1523,7 +1684,8 @@ def value_test(ctx: Context, key: str, y: pd.Series, predict: Callable, *, frac:
     if len(hidden) < MIN_HIDDEN:
         return judge(key, "rank correlation on hidden values", float("nan"), [],
                      min_effect=min_effect, n_hidden=len(hidden), hidden=label,
-                     null_kind="shuffled values", t0=t0, note=note or "too few measured values")
+                     null_kind="shuffled values", t0=t0, note=note or "too few measured values",
+                     task=SC.T_VALUES)
     visible = y.copy()
     visible.iloc[hidden] = np.nan
     pred = np.asarray(predict(visible), dtype=float)
@@ -1539,7 +1701,8 @@ def value_test(ctx: Context, key: str, y: pd.Series, predict: Callable, *, frac:
                  min_effect=min_effect, n_hidden=len(hidden), hidden=f"{frac:.0%} of {label}",
                  null_kind="the chance distribution of a rank correlation", t0=t0, note=note,
                  analytic=(0.0, 1.0 / math.sqrt(max(len(hidden) - 1, 1))),
-                 numbers={"shuffled_refits": float(np.nanmean(nulls)) if nulls else float("nan")})
+                 numbers={"shuffled_refits": float(np.nanmean(nulls)) if nulls else float("nan")},
+                 task=SC.T_VALUES, scorecard=SC.values(pred[hidden], y.iloc[hidden].to_numpy()))
 
 
 def replication_test(ctx: Context, key: str, find: Callable, replicate: Callable,
@@ -1563,7 +1726,8 @@ def replication_test(ctx: Context, key: str, find: Callable, replicate: Callable
         return judge(key, "share of findings that replicate", float("nan"), [],
                      min_effect=min_effect, n_hidden=n, hidden=f"half of the genes' {label}",
                      null_kind="the second half scrambled", t0=t0, min_hidden=min_findings,
-                     note=note or f"only {n} findings on the first half, {min_findings} needed")
+                     note=note or f"only {n} findings on the first half, {min_findings} needed",
+                     task=SC.T_REPL)
     rate = lambda state: float(np.mean([bool(replicate(f, half_b, state)) for f in findings]))
     observed = rate(None)
     nulls = []
@@ -1575,7 +1739,8 @@ def replication_test(ctx: Context, key: str, find: Callable, replicate: Callable
                  nulls, min_effect=min_effect, n_hidden=n, min_hidden=min_findings,
                  hidden=f"{label} made on half the genes, checked on the other half",
                  null_kind=f"{n_null} runs with the second half scrambled", t0=t0,
-                 note=note, numbers={"findings": n})
+                 note=note, numbers={"findings": n}, task=SC.T_REPL,
+                 scorecard=SC.replication(int(round(observed * n)), n, nulls))
 
 
 # --------------------------------------------------------------------------- a planted table

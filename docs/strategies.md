@@ -42,6 +42,11 @@ Measured 2026-09-26.
 | 32 | [Put the understudied genes first (kNN + logistic + network vote)](#32-understudied_first) | Combine strategies | PASS | PASS |
 | 33 | [Put every layer into one space and read a gene's neighbourhood (logistic edge model)](#33-neighbour_space) | Combine strategies | PASS | PASS |
 | 34 | [Train on the networks and rank the edges they are missing (logistic / spectral embedding)](#34-network_training) | Combine strategies | PASS | PASS |
+| 35 | [Call genes with a stated error rate (split conformal prediction)](#35-conformal_calls) | Advanced models | PASS | PASS |
+| 36 | [Smooth the measurements along the networks, then classify (graph convolution + logistic regression)](#36-graph_convolution) | Advanced models | PASS | PASS |
+| 37 | [Let a random forest find what defines a label (random forest + permutation importance)](#37-random_forest) | Advanced models | PASS | PASS |
+| 38 | [Learn how much to trust each kind of evidence (stacked logistic regression)](#38-stacking) | Advanced models | PASS | PASS |
+| 39 | [Predict a value with an interval that holds (gradient boosting / ridge + split conformal)](#39-conformal_values) | Advanced models | PASS | PASS |
 
 ## Search the map space
 
@@ -861,3 +866,120 @@ A learned spectral embedding is fitted beside the interpretable baseline and off
 *On Plasmodium falciparum:* **PASS** -- AUROC of hidden coexpression edges against degree-matched non-pairs 0.688 against 0.503 under 10 configuration-model rewirings of the hidden edges; 3,874 hidden
 
 **Settings:** `exclude` -- A label this space must stay blind to, if the neighbourhoods are going to be used while scoring that label. Its whole closure is applied: the column, anything restating it, the experiment that produced it, and any edge layer built from it.; `layer` -- Which layer's edges are hidden and asked back when the strategy tests itself. It is removed from its own features, so the question is whether the OTHER evidence finds its edges; a dense layer gives a stricter test than a sparse one.; `model` -- The logistic baseline on the pair features is interpretable and always fitted. The embedding adds spectral node vectors and is used for ranking only if it beats the baseline on the degree-matched null; otherwise it is reported and the baseline ranks.; `top` -- How many of the highest-probability pairs that no layer records to list. Every candidate pair is scored; this only limits what is shown and saved.; `min_probability` -- Gaps below this calibrated probability are not listed. The probability is against a degree-matched non-pair, not an absolute posterior, so treat it as a ranking with a scale rather than as a chance of being true.; `fraction` -- How much of the graph is hidden for scoring, by orthogroup. A larger share is a harder test on less training data; a smaller one leaves too few hidden edges in a sparse layer to score at all.; `knn` -- How many nearest genes in measurement space become candidate neighbours for each gene, on top of its partners in every layer. This is what lets the space speak about a pair no network touches at all; zero restricts it to pairs some layer already links.; `per_layer` -- How many partners per gene are kept from each layer, strongest weight first. A dense layer such as the shared-compartment one would otherwise supply more than a hundred thousand pairs that all make the same claim.
+
+## Advanced models
+
+### 35 conformal_calls
+
+**Call genes with a stated error rate (split conformal prediction).** *Which genes can be given a label with a guaranteed error rate -- and for which does the data leave two or more labels equally possible?*
+
+Every other label strategy returns a call and, at best, a score. A score is not an error rate: a probability of 0.8 from a logistic regression is right far more or far less than 80% of the time depending on the class and the data. Conformal prediction fixes that without assumptions about the model. The labelled genes are split by orthogroup; the model learns on one part, and on the other the strategy records how low a score the TRUE label can get. The threshold that covers all but alpha of those genes then defines, for every new gene, the set of labels that score within it -- and at least 1 - alpha of such sets contain the truth, for any model, as long as new genes resemble the calibration genes.
+
+A set of one label is a call made with that guarantee behind it. A set of two labels is a finding in itself -- the data cannot tell those compartments apart for this gene -- and an empty set says the gene is unlike every calibration gene. With per-class thresholds (Mondrian conformal) each class gets its own guarantee, so a rare compartment is not covered by borrowing the common ones' accuracy. The self-test checks both the calls and the promise: the precision of single-label calls against shuffled labels, and the share of hidden genes whose set contains their true label, against the 1 - alpha it promised.
+
+**Walkthrough**
+
+1. Choose the label; keep alpha at 0.1 (90% of sets hold the truth).
+2. Press Test: read 'set_coverage' in numbers -- it should be close to or above the promised coverage -- and 'mean_set_size' out of 'classes': how far the data narrows the answer.
+3. Press Run: 'calls' are single-label sets; 'prediction sets' lists every unlabelled gene with its set, smallest first.
+4. Lower alpha for a stronger promise (bigger sets, fewer calls); switch the model to kNN for a faster, model-free base score.
+
+**How it is tested.** 25% of the label hidden by whole orthogroups; the model is trained and calibrated on the rest (itself split by orthogroup) and builds a set for every hidden gene. Metric: set efficiency, 1 - (mean set size - 1) / (classes - 1) -- how far the sets narrow the possibilities. Null: 10 runs on shuffled labels, where the model learns nothing and the sets must grow to keep the promise. Pass: above the null's 95th percentile by 0.05. Also reported: set coverage on the hidden genes beside the 1 - alpha promised, and the scorecard of the single-label calls.
+
+*On Toxoplasma gondii:* **PASS** -- set efficiency: 1 - (mean set size - 1) / (classes - 1) 0.757 against 0.251 under 10 runs on shuffled labels, calibrated the same way; 951 hidden
+
+*On Plasmodium falciparum:* **PASS** -- set efficiency: 1 - (mean set size - 1) / (classes - 1) 0.394 against 0.151 under 10 runs on shuffled labels, calibrated the same way; 608 hidden
+
+**Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `alpha` -- The share of new genes whose true answer may fall outside what is returned. 0.1 promises that at least 90% of prediction sets contain the true label (or 90% of intervals the true value); smaller alpha gives bigger sets and wider intervals.; `model` -- Where the scores the sets are built from come from: a class-balanced logistic regression on every permitted measurement, or the distance-weighted vote of the nearest labelled genes. The guarantee holds for either.; `thresholds` -- 'per class' calibrates a threshold for each label separately (Mondrian conformal), so the promise holds within every class; 'overall' uses one threshold, which can over-cover common classes and under-cover rare ones.; `C` -- Inverse penalty strength of the logistic base model: small values force a simple model, large values let it fit detail. Unused by the kNN base model.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.
+
+### 36 graph_convolution
+
+**Smooth the measurements along the networks, then classify (graph convolution + logistic regression).** *Does a gene's label follow from its own measurements together with those of its network neighbours -- and how much does the model lean on each?*
+
+Strategy 19 sees a gene's own measurements; strategies 11-13 see its partners' labels. Neither sees its partners' MEASUREMENTS, which is what a graph neural network learns from. This strategy does it in the simplest form that works well in practice, a simplified graph convolution: the permitted measured layers are merged into one graph with self-loops, normalised by degree, and multiplied into the measurement matrix once and twice. The result is three blocks per gene -- itself, its neighbourhood, and its neighbourhood's neighbourhood -- and a logistic regression learns from all three.
+
+Only measurements travel along the edges, never labels, so a hidden gene's label cannot leak through its neighbours; the held-out label's closure is removed from both the columns and the layers first. The 'where the model looks' table is a finding: a compartment whose weight sits on the neighbourhood blocks is one the networks encode better than the gene's own profile does. For genes with no edges the neighbourhood blocks equal the gene itself, so the strategy degrades to strategy 19 rather than failing.
+
+**Walkthrough**
+
+1. Choose the label; keep two steps and C at 0.5.
+2. Press Test and compare its scorecard with strategy 19's: the difference is what the networks add.
+3. Press Run; read 'where the model looks' before the calls.
+4. Try one step if the networks are dense -- two steps on a dense graph average most of the proteome together.
+
+**How it is tested.** Pattern 1: 25% of the label hidden by whole orthogroups; the smoothed features are computed from measurements only, and the model is trained on the visible genes. Metric: hidden genes called correctly. Null: the analytic chance level for the same predicted and true class mixes. Pass: above that level's 95% bound by 0.05.
+
+*On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.491 against 0.083 under the analytic chance level; 951 hidden
+
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.586 against 0.346 under the analytic chance level; 608 hidden
+
+**Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `hops` -- How many steps of neighbourhood averaging are added as feature blocks. Zero is strategy 19; one adds direct partners; two adds partners of partners, which helps on sparse networks and blurs everything on dense ones.; `C` -- Inverse penalty strength of the logistic regression. Smoothing multiplies the number of features, so a stronger penalty (smaller C) than strategy 19's is often right.; `min_probability` -- A gene is called only when the model's top probability reaches this. Zero calls every gene; 0.6 keeps the calls the model is sure of.
+
+### 37 random_forest
+
+**Let a random forest find what defines a label (random forest + permutation importance).** *Which measurements, in which combinations and past which thresholds, define a label -- and which unlabelled genes carry that definition?*
+
+A logistic regression draws straight boundaries: more of this measurement, more of that class. Biology is often not like that. A secreted protein might be recognised by high tachyzoite expression AND a signal peptide, but not by either alone; an essential gene by fitness below a threshold whatever its other values. A random forest finds such interactions and thresholds by growing hundreds of decision trees on random subsets of genes and measurements and letting them vote, with each class weighted so the commonest compartment does not win by default.
+
+What it gains in flexibility it loses in transparency, so the strategy reports permutation importance rather than the forest's own impurity importance: each of the forest's top thirty measurements is shuffled among genes of orthogroups the forest never trained on, and the loss of balanced accuracy is recorded. A measurement the forest merely split on often scores near zero here, which is the point. Compare its scorecard with strategy 19's: if the forest is not better, the label's signal is linear and the simpler model's weights are the better explanation.
+
+**Walkthrough**
+
+1. Choose the label; keep 300 trees and a minimum leaf of 2.
+2. Press Test and compare the scorecard with strategies 19 and 36.
+3. Press Run; read 'what defines the label' -- measurements whose importance is within two standard deviations of zero do not matter, whatever their impurity importance.
+4. Raise the minimum leaf size if the labels are noisy; more trees only make the answer steadier, never more flexible.
+
+**How it is tested.** Pattern 1: 25% of the label hidden by whole orthogroups; the forest is trained on the visible genes and calls the hidden ones. Metric: hidden genes called correctly. Null: the analytic chance level for the same predicted and true class mixes. Pass: above that level's 95% bound by 0.05.
+
+*On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.497 against 0.113 under the analytic chance level; 951 hidden
+
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.648 against 0.404 under the analytic chance level; 608 hidden
+
+**Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `trees` -- How many decision trees vote. More trees give a steadier answer and a smoother probability, never a more flexible model; 300 is past the point of change for a few hundred measurements.; `min_leaf` -- The smallest group of genes a tree may end on. Larger leaves smooth the model and resist noisy labels; 1 lets every tree memorise its training genes.
+
+### 38 stacking
+
+**Learn how much to trust each kind of evidence (stacked logistic regression).** *Given measurement neighbours, a linear model and the measured networks, how should their answers be combined for THIS label -- and what does the combination call?*
+
+Strategy 31 calls a gene when enough independent strategies agree; strategy 12 weights each source by one accuracy figure. Stacking learns the combination instead. Each kind of evidence -- the nearest genes in the measurements, a logistic regression on them, and the vote of network partners -- predicts every labelled gene out of fold, from orthogroups it was not trained on, and a second logistic regression learns from those predictions which evidence to believe for which class. The networks might be decisive for complexes and useless for secreted proteins; the meta-model can learn exactly that, and whether a network's silence (no labelled partner) is itself informative.
+
+Because the meta-model only ever sees out-of-fold predictions, it cannot learn to trust a base model for having memorised its training genes -- the classic failure of naive blending. 'trust by evidence' reports each source's share of the meta-model's weight, a per-label answer to which experiments matter. Stacking is usually the most accurate strategy here and the slowest; its scorecard beside strategies 07, 13 and 19 says how much combining is worth for your label.
+
+**Walkthrough**
+
+1. Choose the label; keep 5 folds and 15 neighbours.
+2. Press Test (several model fits; a few minutes) and compare the scorecard with 07, 19 and 31.
+3. Press Run; read 'trust by evidence' before the calls.
+4. Fewer folds are faster and give the meta-model noisier training data; more are slower and steadier.
+
+**How it is tested.** Pattern 1: 25% of the label hidden by whole orthogroups; base predictions for the meta-model are out of fold within the visible genes only, so no hidden label reaches either level. Metric: hidden genes called correctly. Null: the analytic chance level for the same predicted and true class mixes. Pass: above that level's 95% bound by 0.05.
+
+*On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.465 against 0.075 under the analytic chance level; 951 hidden
+
+*On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.610 against 0.350 under the analytic chance level; 608 hidden
+
+**Settings:** `target` -- The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses.; `k` -- How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored.; `folds` -- How many orthogroup folds the base predictions are made in. Each fold's genes are predicted by base models that never saw them, which is what keeps the meta-model honest.
+
+### 39 conformal_values
+
+**Predict a value with an interval that holds (gradient boosting / ridge + split conformal).** *For a gene never measured, what value is expected -- and within what range, with a guaranteed chance of containing the truth?*
+
+Strategy 21 predicts a value; this one says how far to trust it, in the measurement's own units. The measured genes are split by orthogroup: a model learns on one part, and on the other the strategy records how large its errors are. The conformal quantile of those errors becomes the half-width of every interval, and at least 1 - alpha of new genes' true values fall inside -- a guarantee that holds for any model, provided new genes resemble the calibration genes.
+
+Two readings follow. For unmeasured genes, an interval narrower than the measurement's spread is a prediction worth acting on, and one as wide as the spread says the other measurements know little about this one. For measured genes, a value outside its interval is a surprise the rest of the data cannot explain -- by construction about alpha of genes will be, so the list is ranked by how far outside, and the count is shown beside what chance predicts. The self-test scores the predictions against hidden values and checks the coverage promised on them.
+
+**Walkthrough**
+
+1. Choose a measurement (a fitness score is the classic case); keep alpha at 0.1.
+2. Press Test: read 'interval_coverage' against 'promised_coverage', and the interval width in standard deviations.
+3. Press Run; 'predicted intervals' fills unmeasured genes, 'surprises' lists measured ones outside their range.
+4. Switch to ridge for a faster, linear model; leave its own kind of measurement out so the answer is not one screen predicting another.
+
+**How it is tested.** Pattern 4: 20% of the measured values hidden; the model is trained and calibrated on the rest (split by orthogroup) and predicts the hidden ones. Metric: rank correlation of predicted and hidden values. Null: the chance distribution of a rank correlation, with refits on shuffled values reported. Pass: above its 95th percentile by 0.1. Also reported: the share of hidden values inside their intervals, beside the coverage promised.
+
+*On Toxoplasma gondii:* **PASS** -- rank correlation of predicted and hidden values 0.726 against 0.000 under the chance distribution of a rank correlation; 1,465 hidden
+
+*On Plasmodium falciparum:* **PASS** -- rank correlation of predicted and hidden values 0.493 against 0.000 under the chance distribution of a rank correlation; 1,077 hidden
+
+**Settings:** `target` -- The numeric measurement to predict from everything else. Its own closure -- the same experiment's other outputs and anything restating it -- is withheld first.; `alpha` -- The share of new genes whose true answer may fall outside what is returned. 0.1 promises that at least 90% of prediction sets contain the true label (or 90% of intervals the true value); smaller alpha gives bigger sets and wider intervals.; `model` -- 'boosted' is gradient-boosted trees: nonlinear, tolerant of missing values, slower. 'ridge' is a penalised straight-line fit: fast, and its weights can be read.; `own_kind` -- 'leave out' removes every column measured the same way as the target -- all the fitness screens, when the target is a fitness screen -- so the answer says what OTHER evidence knows. 'include' keeps them, which mostly measures how well the screens agree with each other.

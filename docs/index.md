@@ -23,6 +23,7 @@ starplast
 - [Tutorials](tutorial/index.html): five task walkthroughs, each as a GUI tour and a notebook, plus one long guide to every feature.
 - [Dataset catalogue](datasets.md): source records, assay types, and coverage.
 - [Strategy calibration](calibration.md): how well each strategy recovers held-out knowledge, over a grid of its settings, with intervals.
+- [Strategy scorecards](scorecards.md): every strategy's standard metrics for its task (accuracy, macro F1, kappa, MCC, AUROC, AUPRC, R-precision, Spearman, R-squared, ARI, ...), each metric and technique explained.
 - [The integrated neighbour space](graphspace.md): one graph from every layer, and the three nulls that decide whether its edges mean anything.
 - [0.43 benchmark](benchmark-0.43.md): held-out model comparisons, controls and limitations.
 - [Scientific roadmap](scientific-roadmap.md): inference goals, validation priorities, and proposed improvements.

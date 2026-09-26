@@ -156,6 +156,83 @@ write_observations(records, "results/observations.parquet")
 Each record preserves its source and missingness before aggregation. Numerical
 zero, measured False and unassayed None have distinct meanings.
 
+## Run, test and trust a strategy
+
+`starplast.strategies` is the Strategies tab without the window: 39 named ways of turning the
+tables into a claim, each with a self-test and a scorecard. Nothing here imports Qt.
+
+```python
+from starplast import strategies as S
+
+table = S.overview("Tg")            # one row per strategy: name (with its method), task, grade, skill
+print(table[["number", "name", "task", "grade", "skill_default"]].head(10))
+
+s = S.get("feature_knn")            # one strategy: its question, explanation and settings
+print(s.name, "|", s.method, "|", s.task)
+print(s.parameters())               # every setting, its default and why it exists
+print(s.techniques_table())         # what the method is built from, each technique explained
+print(s.scorecard_table())          # the metrics its self-test reports, each explained
+```
+
+Run it, or test it. A run answers the strategy's question on the whole table. A test hides known
+information, asks for it back, and judges the answer against the same procedure on shuffled data:
+
+```python
+result = S.run("feature_knn", "Tg", target="compartment")
+print(result.summary)
+calls = result.tables["calls"]      # every output is a DataFrame; result.save(folder) writes them
+
+test = S.test("feature_knn", "Tg", target="compartment")
+print(test.summary())               # the verdict and the number it rests on
+print(test.card())                  # verdict block, then the task's metrics in their standard order
+print(test.scorecard["macro_f1"], test.scorecard["mcc"], test.skill)
+```
+
+Every self-test returns the same verdict block (observed, chance, bar, p, skill, hidden) and then
+its task's metrics, always in the same order: **label calls** (accuracy, coverage, precision of
+calls, macro precision, macro recall, macro F1, weighted F1, Cohen's kappa, MCC, macro AUROC,
+macro AUPRC), **ranking** (AUROC, AUPRC, AUPRC lift, prevalence, partial AUROC, R-precision,
+precision and enrichment at the top 1%, recall at the top 10%, best F1, nDCG), **set retrieval**,
+**cluster recovery** (weighted F1, ARI, NMI, homogeneity, completeness ...), **values**
+(Spearman, Pearson, Kendall, R-squared, normalised RMSE, MAE, decile recall) and
+**replication**. `S.metrics()` defines each one -- its range, its chance level and how to read
+it -- and `S.techniques()` explains every technique. [The scorecards page](scorecards.md) has
+the same glossaries and every strategy's measured card.
+
+How far to trust a strategy before running it comes from its calibration: its self-test run over
+a grid of settings, several held-out labels and five seeds.
+
+```python
+cal = S.calibration("feature_knn", "Tg")
+print(cal["grade"], cal["default"]["skill"], cal["default"]["skill_low"], cal["default"]["skill_high"])
+print(cal["default"].get("scorecard", {}).get("macro_f1"))  # {mean, low, high, runs}
+best = S.tuned("feature_knn", "Tg")                          # the setting calibration chose
+result = S.run("feature_knn", "Tg", target="compartment", **best)
+```
+
+To run several strategies on one table, or on your own table, keep a context. It caches maps and
+matrices, so a second strategy walking the same grid pays nothing:
+
+```python
+ctx = S.Context.shipped("Tg").bound(log=print)   # log= shows progress; should_stop= can cancel
+for key in ("feature_knn", "supervised_classifier", "stacking"):
+    t = S.get(key).test(ctx, target="compartment")
+    print(key, t.verdict, round(t.scorecard["macro_f1"], 3))
+
+mine = S.Context(my_nodes, organism="Tg")        # any gene x column table with a gene_id column
+```
+
+The scorecard functions work on predictions from anywhere, so a method outside Starplast can be
+scored exactly as the strategies are:
+
+```python
+from starplast import scorecard as SC
+
+SC.label_calls(predicted_labels, true_labels, positions)   # NaN = no call, counted as wrong
+SC.ranking(scores, is_positive)                             # higher score = more likely positive
+SC.values(predicted, measured)
+```
+
 ## Module map
 
 | Task | Modules |
@@ -174,6 +251,11 @@ zero, measured False and unassayed None have distinct meanings.
 | Weighted transductive networks | [network_prediction](api/starplast/network_prediction.html) |
 | Typed observations and reviewed assertions | [evidence](api/starplast/evidence.html) |
 | Explain results and compare measurements | [prioritization](api/starplast/prioritization.html) |
+| Named inference strategies, their self-tests and calibration | [strategies](api/starplast/strategies.html), [calibration](api/starplast/calibration.html) |
+| Standard metrics for every task, and their glossary | [scorecard](api/starplast/scorecard.html) |
+| What each strategy's method is built from | [techniques](api/starplast/techniques.html) |
+| One neighbour space over every layer; learned edge strengths | [graphspace](api/starplast/graphspace.html) |
+| Deposited datasets, derived into columns | [deposits](api/starplast/deposits.html) |
 
 `app.Window(species=...)` requires an existing `PyQt6.QtWidgets.QApplication`.
 Call it on the GUI thread. `app.main()` owns the application event loop and is

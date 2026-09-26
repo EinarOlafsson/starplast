@@ -1,8 +1,8 @@
-"""The strategies: thirty-four ways to use the combined data for inference, each testing itself.
+"""The strategies: thirty-nine ways to use the combined data for inference, each testing itself.
 
 Registered into `strategies.REGISTRY` on import. Each entry is a runner, a tester, and the prose the
 Strategies tab shows -- tooltip, explanation, walkthrough and a description of its self-test. They
-are grouped into eight families by MECHANISM rather than by question, because the mechanism is what
+are grouped into nine families by MECHANISM rather than by question, because the mechanism is what
 decides what a strategy can be trusted for:
 
     1  Search the map space          maps, walks and held-out labels             01-06
@@ -12,7 +12,12 @@ decides what a strategy can be trusted for:
     5  Start from a gene list        a list in, a ranking and a profile out      24-25
     6  Contrast and combine layers   where two kinds of evidence part or meet    26-28
     7  Cross species and strata      orthologs, and the genes orthology misses   29-30
-    8  Combine strategies            agreement, and the understudied genes       31-32
+    8  Combine strategies            agreement, and the integrated networks      31-34
+    9  Advanced models               stated error rates, graph convolution,      35-39
+                                     forests and stacking
+
+33-34 live in `strategy_graph` and 35-39 in `strategy_learning`; every strategy also declares its
+scorecard task and its techniques (`scorecard`, `techniques`).
 
 Every tester follows one of the five patterns in `strategies`, so every verdict means the same
 thing: the strategy beat the 95th percentile of the same procedure run without the information it
@@ -25,6 +30,7 @@ import time
 import numpy as np
 import pandas as pd
 
+from . import scorecard as SC
 from . import strategies as S
 from .strategies import (NOISE, MIN_CLASS, Param, Strategy, StrategyResult, register,
                          default_category, default_numeric, example_set, expand, parse_grid)
@@ -205,6 +211,15 @@ def _hidden_f1(labels, positions, per: pd.DataFrame, truth: pd.Series, hidden) -
     return total / weight if weight else float("nan")
 
 
+def _hidden_cluster_card(labels, positions, per: pd.DataFrame, truth: pd.Series, hidden) -> dict:
+    """The cluster-recovery scorecard on the same hidden genes `_hidden_f1` scores."""
+    at = {g: i for i, g in enumerate(np.asarray(positions))}
+    h = np.array([at[g] for g in hidden if g in at], dtype=int)
+    chosen = dict(zip(per["label"], per["cluster"])) if len(per) else {}
+    ht = pd.Series(truth).iloc[np.asarray(positions)[h]].to_numpy(dtype=object)
+    return SC.cluster_recovery(np.asarray(labels)[h], ht, chosen, noise=NOISE)
+
+
 def _hidden_f1_null(labels, positions, per: pd.DataFrame, truth: pd.Series, hidden, rng,
                     n: int = 100) -> list:
     """`_hidden_f1` with the hidden genes' labels permuted among themselves, clusters fixed.
@@ -332,13 +347,16 @@ def _holdout_search_test(ctx, p):
                    null_kind="100 permutations of the hidden genes' labels over the same chosen "
                              "clusters",
                    t0=t0, numbers={"maps": len(configs), "genes_per_map": len(rows),
-                                   "visible_mean_f1": float(best_f)})
+                                   "visible_mean_f1": float(best_f)},
+                   task=SC.T_CLUSTER, scorecard=_hidden_cluster_card(
+                       best["labels"], best["positions"], best_per, truth, hidden))
 
 
 register(Strategy(
     key="holdout_search", number=1, family=MAP,
     title="Hold out a category and search for a map that finds it",
     method="UMAP + HDBSCAN",
+    task="cluster recovery", techniques=("umap", "hdbscan", "settings_walk"),
     question="Is there a combination of measurements and map settings under which a label nobody "
              "showed the map falls out as clusters -- and which unlabelled genes land in them?",
     tooltip="Hides one label entirely, walks feature sets and UMAP/HDBSCAN settings, and keeps the "
@@ -489,7 +507,7 @@ def _geneset_hunt_test(ctx, p):
     if len(members) < 10:
         return S.judge("geneset_hunt", "share of hidden members in the best cluster", float("nan"),
                        [], min_effect=0.1, n_hidden=0, hidden=what, null_kind="random sets",
-                       t0=t0, note="no gene set of a usable size to test on")
+                       t0=t0, note="no gene set of a usable size to test on", task=SC.T_SET)
     rows = ctx.sample_rows(min(p["sample"] or ctx.n, TEST_MAX_GENES), must=members)
     configs = _walk(ctx, exclude, _blocksets(ctx, exclude, p["features"]),
                     parse_grid(p["n_neighbors"], int)[:TEST_GRID],
@@ -497,6 +515,8 @@ def _geneset_hunt_test(ctx, p):
                     parse_grid(p["min_cluster_size"], int)[:TEST_GRID], rows,
                     parse_grid(p["selection"], str)[:2])
     rng = ctx.rng(13)
+
+    cards = []
 
     def once(genes):
         genes = rng.permutation(genes)
@@ -513,12 +533,14 @@ def _geneset_hunt_test(ctx, p):
         # third of any set scores its precision, not its size.
         candidates = np.setdiff1d(inside, query)
         hits = int(np.isin(candidates, hidden).sum())
+        cards.append(SC.set_retrieval(candidates, hidden, np.setdiff1d(best["positions"], query)))
         if not hits:
             return 0.0, len(hidden)
         prec, rec = hits / len(candidates), hits / len(hidden)
         return float(2 * prec * rec / (prec + rec)), len(hidden)
 
     observed, n_hidden = once(members)
+    card = cards[0]
     placed = configs[0]["positions"]
     nulls = []
     for i in range(20):
@@ -527,13 +549,14 @@ def _geneset_hunt_test(ctx, p):
     return S.judge("geneset_hunt", "F1 of the hidden members against the best cluster's other genes",
                    observed, nulls, min_effect=0.05, n_hidden=n_hidden,
                    hidden=f"30% of {what}", null_kind="20 random sets of the same size, same walk",
-                   t0=t0, numbers={"maps": len(configs)})
+                   t0=t0, numbers={"maps": len(configs)}, task=SC.T_SET, scorecard=card)
 
 
 register(Strategy(
     key="geneset_hunt", number=2, family=MAP,
     title="Find the map where your gene list is one cluster",
     method="UMAP + HDBSCAN",
+    task="set retrieval", techniques=("umap", "hdbscan", "settings_walk"),
     question="Under some combination of measurements and settings, do the genes on my list fall "
              "into a single cluster -- and what else is in it?",
     tooltip="Walks maps and clusterings looking for one cluster with high precision AND recall "
@@ -655,6 +678,8 @@ def _atlas_test(ctx, p):
     hid = np.array([at[g] for g in hidden if g in at], dtype=int)
     k = int(p["k"])
 
+    cards = []
+
     def score(vis):
         lab = vis.iloc[pos].to_numpy(dtype=object)
         sources = np.flatnonzero([isinstance(v, str) for v in lab])
@@ -663,16 +688,22 @@ def _atlas_test(ctx, p):
         atlas = _atlas(coords, lab, sources, k)
         shares, classes = _neighbour_shares(coords, lab, sources, hid, k)
         true_hidden = truth.iloc[pos[hid]].to_numpy(dtype=object)
-        held = {}
+        held, column = {}, {}
         for j, c in enumerate(classes):
             hit = true_hidden == c
             if hit.sum() >= 3:
                 held[c] = S.auroc(shares[:, j], hit)
+                column[c] = j
         atlas = atlas[atlas["category"].isin(held)].sort_values("auroc", ascending=False)
         if len(atlas) < 2:
             return float("nan"), float("nan")
         top = atlas["category"].iloc[: max(1, len(atlas) // 2)]
         rho = S.spearman(atlas["auroc"], [held[c] for c in atlas["category"]])
+        if not cards:
+            # The ranking scorecard of each top-half category, averaged: the same hidden genes and
+            # neighbour shares the verdict's AUROC is computed from.
+            per = pd.DataFrame([SC.ranking(shares[:, column[c]], true_hidden == c) for c in top])
+            cards.append(per.mean(numeric_only=True).to_dict())
         return float(np.mean([held[c] for c in top])), rho
 
     observed, rho = score(visible)
@@ -686,13 +717,15 @@ def _atlas_test(ctx, p):
                    observed, nulls, min_effect=0.05, n_hidden=len(hid),
                    hidden=f"30% of the {target} labels", t0=t0,
                    null_kind="20 atlases and recoveries from shuffled labels",
-                   numbers={"rank_agreement": rho})
+                   numbers={"rank_agreement": rho}, task=SC.T_RANK,
+                   scorecard=cards[0] if cards else {})
 
 
 register(Strategy(
     key="recoverability_atlas", number=3, family=MAP,
     title="Ask which categories the data can rediscover",
     method="UMAP + neighbour AUROC",
+    task="ranking", techniques=("umap", "knn"),
     question="Of all the categories of a label, which ones do the measurements actually encode -- "
              "and which would no map, however tuned, ever find?",
     tooltip="Builds one map blind to a label and scores every category of that label by how "
@@ -816,13 +849,16 @@ def _consensus_test(ctx, p):
                    hidden=f"25% of the {target} labels, whole orthogroups at a time",
                    null_kind="100 permutations of the hidden genes' labels over the same "
                              "chosen modules", t0=t0,
-                   numbers={"modules": int(len(set(modules.tolist()) - {NOISE}))})
+                   numbers={"modules": int(len(set(modules.tolist()) - {NOISE}))},
+                   task=SC.T_CLUSTER,
+                   scorecard=_hidden_cluster_card(modules, rows, per, truth, hidden))
 
 
 register(Strategy(
     key="consensus_modules", number=4, family=MAP,
     title="Keep only the modules that survive the whole walk",
     method="UMAP + HDBSCAN co-clustering",
+    task="cluster recovery", techniques=("umap", "hdbscan", "settings_walk", "co_association"),
     question="Which groups of genes stay together whatever map settings are chosen -- the "
              "structure that is in the data rather than in one lucky configuration?",
     tooltip="Clusters many maps, counts how often each pair of genes lands in the same cluster, and "
@@ -1011,6 +1047,8 @@ register(Strategy(
     key="blind_battery", number=5, family=MAP,
     title="Tune a map without labels, then read what it encodes",
     method="UMAP + HDBSCAN, chi-square / Kruskal-Wallis",
+    task="replication",
+    techniques=("umap", "hdbscan", "map_quality", "chi_square", "kruskal_wallis", "bh_fdr"),
     question="If I build a map from one kind of evidence only -- expression, say -- and tune it for "
              "structure alone, which OTHER measurements do its clusters turn out to separate?",
     tooltip="Builds a map from one family of measurements, tunes it only for cluster structure, "
@@ -1120,11 +1158,12 @@ def _ablation_test(ctx, p):
     visible, hidden = S.hide(truth, 0.25, ctx.seed, groups=ctx.groups())
     units = _units(ctx, target, p["unit"])
     k = int(p["k"])
-    hidden_acc = {}
+    hidden_acc, preds = {}, {}
     for u, cols in units.items():
         ctx.check()
         pred, _s = S.knn_vote(ctx.matrix(cols), visible, k, query=hidden)
         hidden_acc[u] = S.correct_rate(pred, truth, hidden)
+        preds[u] = pred
     ranking = {u: _cv_knn(ctx.matrix(cols), visible, ctx.groups(), k)
                for u, cols in units.items()}
     top = max(ranking, key=lambda u: (np.nan_to_num(ranking[u], nan=-1.0), u))
@@ -1137,13 +1176,16 @@ def _ablation_test(ctx, p):
                    null_kind=f"the {len(units)} kinds of evidence chosen at random",
                    t0=t0, details=details, quantile=80.0,
                    numbers={"rank_agreement": S.spearman(details["visible_cv"],
-                                                         details["hidden"])})
+                                                         details["hidden"])},
+                   task=SC.T_LABEL, scorecard=SC.label_calls(preds[top], truth, hidden,
+                                                             S.class_scores_of(preds[top])))
 
 
 register(Strategy(
     key="block_ablation", number=6, family=MAP,
     title="Find which kind of evidence carries a label",
     method="kNN ablation",
+    task="label calls", techniques=("knn", "ablation", "grouped_cv"),
     question="Which measurements actually carry the information about this label -- and which "
              "are redundant with others or irrelevant to it?",
     tooltip="Scores each kind of measurement alone and the combination without it, out of fold, "
@@ -1231,6 +1273,7 @@ register(Strategy(
     key="feature_knn", number=7, family=NEIGHBOURS,
     title="Call a gene by the genes that behave like it",
     method="kNN",
+    task="label calls", techniques=("knn",),
     question="For a gene with no label, what label do the genes most similar to it across every "
              "permitted measurement carry?",
     tooltip="Finds each unlabelled gene's nearest labelled genes across all permitted measurements "
@@ -1309,9 +1352,7 @@ def _map_nn_test(ctx, p):
     def predict(vis):
         sub = vis.iloc[pos].reset_index(drop=True)
         pr, sh = S.knn_vote(coords, sub, k, query=_unlabelled_but_known(sub, tsub))
-        out = pd.Series([np.nan] * ctx.n, dtype=object)
-        out.iloc[pos] = pr.where(sh >= floor).to_numpy()
-        return out
+        return S.expand_prediction(pr.where(sh >= floor), pos, ctx.n)
 
     return S.label_transfer_test(ctx, "map_neighbours", target, predict, restrict=inside,
                                  n_null=20)
@@ -1321,6 +1362,7 @@ register(Strategy(
     key="map_neighbours", number=8, family=NEIGHBOURS,
     title="Call a gene by its neighbours on the map",
     method="UMAP + kNN",
+    task="label calls", techniques=("umap", "knn"),
     question="On a map built without the label, which label do a gene's nearest placed neighbours "
              "carry?",
     tooltip="Builds one map blind to the label and calls each unlabelled gene by the vote of its "
@@ -1382,6 +1424,16 @@ def _enriched(labels: np.ndarray, vis: pd.Series, min_lift: float, q_max: float 
     table["called"] = table.index.isin(chosen.index)
     for r in chosen.itertuples():
         pred[labels == r.cluster] = r.label
+    # Each gene's score for a class: that class's share of its cluster's labelled genes.
+    classes = sorted(counts.index, key=str)
+    shares = pd.DataFrame(np.nan, index=range(len(labels)), columns=classes)
+    for k in np.unique(labels[labels != NOISE]):
+        in_k = labels == k
+        here = v[in_k & known].value_counts()
+        if here.sum():
+            shares.loc[np.flatnonzero(in_k), classes] = [here.get(c, 0) / here.sum()
+                                                        for c in classes]
+    pred = S.with_class_scores(pred, shares)
     return pred, table.sort_values("q", kind="stable").reset_index(drop=True)
 
 
@@ -1420,9 +1472,7 @@ def _guilt_test(ctx, p):
 
     def predict(vis):
         pr, _t = _enriched(labels, vis.iloc[pos].reset_index(drop=True), float(p["min_lift"]))
-        out = pd.Series([np.nan] * ctx.n, dtype=object)
-        out.iloc[pos] = pr.to_numpy()
-        return out
+        return S.expand_prediction(pr, pos, ctx.n)
 
     return S.label_transfer_test(ctx, "cluster_guilt", target, predict, restrict=inside, n_null=20,
                                  precision=True, min_effect=0.1)
@@ -1432,6 +1482,7 @@ register(Strategy(
     key="cluster_guilt", number=9, family=NEIGHBOURS,
     title="Name a cluster by the label it is enriched for",
     method="UMAP + HDBSCAN, hypergeometric",
+    task="label calls", techniques=("umap", "hdbscan", "hypergeometric", "bh_fdr"),
     question="Which clusters of a label-blind map hold one label far more often than chance, and "
              "what does that make of their unlabelled members?",
     tooltip="Clusters a label-blind map, tests every cluster against every label for enrichment "
@@ -1533,7 +1584,8 @@ def _outliers_test(ctx, p):
     if len(known) < 3 * n_bad or t.nunique() < 2:
         return S.judge("label_outliers", "AUROC for the corrupted labels", float("nan"), [],
                        min_effect=0.1, n_hidden=0, hidden="corrupted labels",
-                       null_kind="random sets", t0=t0, note="too few labelled genes to corrupt")
+                       null_kind="random sets", t0=t0, note="too few labelled genes to corrupt",
+                       task=SC.T_RANK)
     bad = rng.choice(known, size=n_bad, replace=False)
     freq = t.value_counts(normalize=True)
     corrupted = t.copy()
@@ -1549,13 +1601,15 @@ def _outliers_test(ctx, p):
     return S.judge("label_outliers", "AUROC of surprise for the swapped labels", observed, nulls,
                    min_effect=0.1, n_hidden=n_bad,
                    hidden=f"{n_bad} labels (5%) swapped to a wrong class, in proportion to class size",
-                   null_kind="20 random sets of the same size", t0=t0)
+                   null_kind="20 random sets of the same size", t0=t0, task=SC.T_RANK,
+                   scorecard=SC.ranking(table["surprise"].to_numpy(dtype=float), is_bad))
 
 
 register(Strategy(
     key="label_outliers", number=10, family=NEIGHBOURS,
     title="Find genes whose label their neighbours contradict",
     method="kNN + network neighbours",
+    task="ranking", techniques=("knn", "network_vote"),
     question="Which labelled genes sit among genes that almost all carry a different label -- "
              "possible mislabels, dual-localized or moonlighting proteins?",
     tooltip="Scores every labelled gene by how little its measurement neighbours and network "
@@ -1640,6 +1694,7 @@ register(Strategy(
     key="layer_propagation", number=11, family=NETWORKS,
     title="Diffuse a label across one measured network",
     method="random walk with restart",
+    task="label calls", techniques=("random_walk_restart",),
     question="If labels flow along the edges of one kind of measured relationship, where do they "
              "end up -- and how much of a label does that relationship carry?",
     tooltip="Seeds each label on the genes that carry it and lets it diffuse along one edge layer "
@@ -1711,11 +1766,15 @@ def _weighted_vote(ctx, sources: dict, vis: pd.Series, query) -> tuple:
                 tally[g][v] += weights[name]
     pred = pd.Series([np.nan] * len(vis), dtype=object)
     support = pd.Series(np.nan, index=range(len(vis)))
+    classes = sorted(vis.dropna().unique(), key=str)
+    shares = pd.DataFrame(np.nan, index=range(len(vis)), columns=classes)
     for g, votes in tally.items():
         best = max(votes, key=votes.get)
         pred.iloc[g] = best
-        support.iloc[g] = votes[best] / sum(votes.values())
-    return pred, support, weights
+        total = sum(votes.values())
+        support.iloc[g] = votes[best] / total
+        shares.iloc[g] = [votes.get(c, 0.0) / total for c in classes]
+    return S.with_class_scores(pred, shares), support, weights
 
 
 def _vote_run(ctx, p):
@@ -1746,6 +1805,7 @@ register(Strategy(
     key="layer_vote", number=12, family=NETWORKS,
     title="Let every network vote, weighted by what it has earned",
     method="chance-weighted ensemble vote",
+    task="label calls", techniques=("knn", "network_vote", "chance_weighting"),
     question="If every measured relationship and the measurements themselves vote on a gene's "
              "label, each weighted by how good it has proven to be, what is the verdict?",
     tooltip="Each permitted edge layer and the measurement-space neighbours vote on every gene; "
@@ -1818,7 +1878,7 @@ def _physical_test(ctx, p):
     if A is None:
         return S.judge("physical_partners", "correct calls per hidden gene", float("nan"), [],
                        min_effect=0.05, n_hidden=0, hidden="labels", null_kind="shuffled labels",
-                       t0=time.monotonic(), note="no crosslink or IP-MS layer")
+                       t0=time.monotonic(), note="no crosslink or IP-MS layer", task=SC.T_LABEL)
     has = np.asarray((A > 0).sum(axis=1)).ravel() > 0
     predict = lambda vis: S.graph_vote(A, vis, _unlabelled_but_known(vis, truth))[0]
     return S.label_transfer_test(ctx, "physical_partners", target, predict, restrict=has,
@@ -1829,6 +1889,7 @@ register(Strategy(
     key="physical_partners", number=13, family=NETWORKS,
     title="Place a protein by the proteins it physically touches",
     method="weighted partner vote",
+    task="label calls", techniques=("network_vote",),
     question="For a protein crosslinked to or pulled down with labelled proteins, what does its "
              "physical company say about where it lives and what it joins?",
     tooltip="Calls genes by the labels of their measured physical partners -- crosslinks and "
@@ -1915,6 +1976,7 @@ register(Strategy(
     key="structural_homology", number=14, family=NETWORKS,
     title="Annotate function through shared fold",
     method="TM-score-weighted vote",
+    task="label calls", techniques=("tm_score", "network_vote"),
     question="What does a protein's fold -- its structural similarity to annotated proteins -- say "
              "about its enzymatic class or domain family, even without sequence homology?",
     tooltip="Transfers a functional annotation (EC class by default) along the structural-"
@@ -2014,13 +2076,16 @@ def _multiplex_test(ctx, p):
                    hidden=f"25% of the {target} labels, whole orthogroups at a time",
                    null_kind="100 permutations of the hidden genes' labels over the same "
                              "chosen communities", t0=t0,
-                   numbers={"communities": int(len(set(part.tolist()) - {NOISE}))})
+                   numbers={"communities": int(len(set(part.tolist()) - {NOISE}))},
+                   task=SC.T_CLUSTER,
+                   scorecard=_hidden_cluster_card(part[pos], pos, per, truth, hidden))
 
 
 register(Strategy(
     key="multiplex_modules", number=15, family=NETWORKS,
     title="Find the communities several networks agree on",
     method="modularity + Louvain consensus",
+    task="cluster recovery", techniques=("greedy_modularity", "louvain"),
     question="Which groups of genes are communities in more than one kind of measured relationship "
              "at once -- co-expressed AND co-fit AND crosslinked?",
     tooltip="Finds communities in each permitted edge layer and keeps the groupings the layers "
@@ -2227,7 +2292,8 @@ def _link_test(ctx, p):
     if len(edges) < LINK_MIN_EDGES:
         return S.judge("link_prediction", "AUROC", float("nan"), [], min_effect=0.05,
                        n_hidden=0, hidden=f"{layer} edges", null_kind="permuted identities",
-                       t0=t0, note=f"the {layer} layer has {len(edges)} edges, too few to learn from")
+                       t0=t0, note=f"the {layer} layer has {len(edges)} edges, too few to learn from",
+                       task=SC.T_RANK)
     n = ctx.n
     rng = ctx.rng(37)
     order = rng.permutation(len(edges))
@@ -2267,6 +2333,7 @@ register(Strategy(
     key="link_prediction", number=16, family=NETWORKS,
     title="Predict the contacts an interactome missed",
     method="logistic regression",
+    task="ranking", techniques=("logistic_regression", "triadic_closure", "degree_matched"),
     question="Which pairs of proteins are probably in physical contact although the crosslinking "
              "or pulldown experiment never saw them together?",
     tooltip="Learns what distinguishes a measured contact from a random pair -- shared partners, "
@@ -2367,7 +2434,8 @@ def _attention_test(ctx, p):
     if len(pool) < 2 * k:
         return S.judge("attention_correction", "same-label share of the top pairs", float("nan"),
                        [], min_effect=0.05, n_hidden=0, hidden="pairs", null_kind="random pairs",
-                       t0=t0, note="too few co-mentioned pairs with both genes labelled")
+                       t0=t0, note="too few co-mentioned pairs with both genes labelled",
+                       task=SC.T_RANK)
     top_r = pool[np.argsort(-r[pool], kind="stable")[:k]]
     top_w = pool[np.argsort(-w[pool], kind="stable")[:k]]
     rng = ctx.rng(41)
@@ -2378,13 +2446,17 @@ def _attention_test(ctx, p):
                    hidden=f"the {target} labels, never used to build the literature layer",
                    null_kind="20 random sets of co-mentioned pairs", t0=t0,
                    note="" if has_r else "the layer has no residual; raw counts were ranked",
-                   numbers={"raw_ranking_share": float(same[top_w].mean())})
+                   numbers={"raw_ranking_share": float(same[top_w].mean())},
+                   # Every co-mentioned pair with both genes labelled, ranked by the residual;
+                   # a pair sharing the label is a positive.
+                   task=SC.T_RANK, scorecard=SC.ranking(r[pool], same[pool].astype(bool)))
 
 
 register(Strategy(
     key="attention_correction", number=17, family=NETWORKS,
     title="Read the literature for biology, not fame",
     method="publication-count residual",
+    task="ranking", techniques=("attention_residual",),
     question="Which pairs of genes are written about together more than their popularity "
              "explains -- and are those pairs biologically related?",
     tooltip="Ranks co-mentioned gene pairs by the residual over what each gene's publication count "
@@ -2476,7 +2548,7 @@ def _unwritten_test(ctx, p):
     if M is None or L is None:
         return S.judge("unwritten_links", "AUROC", float("nan"), [], min_effect=0.02, n_hidden=0,
                        hidden="literature pairs", null_kind="permuted identities", t0=t0,
-                       note="needs both measurement and literature layers")
+                       note="needs both measurement and literature layers", task=SC.T_RANK)
     universe = np.flatnonzero(np.asarray((M > 0).sum(axis=1)).ravel() > 0)
     inside = np.zeros(ctx.n, bool)
     inside[universe] = True
@@ -2501,6 +2573,7 @@ register(Strategy(
     key="unwritten_links", number=18, family=NETWORKS,
     title="List what the data says and the literature has not written",
     method="multi-layer support count",
+    task="ranking", techniques=("support_count",),
     question="Which gene pairs do several independent measurements link that no paper has ever "
              "mentioned together?",
     tooltip="Counts, for every gene pair, how many independent measurement layers link it, and "
@@ -2558,6 +2631,7 @@ def _logistic(X, vis: pd.Series, query, C: float = 0.5, min_prob: float = 0.0) -
     pred.iloc[query] = np.where(top >= float(min_prob), model.classes_[best], None)
     pred = pred.where(pred.notna(), np.nan)
     prob.iloc[query] = top
+    pred = S.with_class_scores(pred, S._score_frame(len(vis), query, P, model.classes_))
     return pred, prob, model
 
 
@@ -2598,6 +2672,7 @@ register(Strategy(
     key="supervised_classifier", number=19, family=LEARN,
     title="Train a classifier on the known genes and call the rest",
     method="logistic regression",
+    task="label calls", techniques=("logistic_regression", "grouped_cv"),
     question="Given every permitted measurement, which label does a model trained on the labelled "
              "genes assign to each unlabelled one -- and which measurements does it rely on?",
     tooltip="Fits a class-balanced logistic regression from the permitted measurements to the "
@@ -2699,6 +2774,7 @@ register(Strategy(
     key="positive_unlabeled", number=20, family=LEARN,
     title="Learn what makes your list special, from positives alone",
     method="PU bagging, logistic regression",
+    task="ranking", techniques=("pu_bagging", "logistic_regression"),
     question="Given only genes that ARE something -- no list of genes that are not -- which other "
              "genes look most like them?",
     tooltip="Trains many classifiers, each separating your list from a random draw of the rest of "
@@ -2833,6 +2909,7 @@ register(Strategy(
     key="trait_regression", number=21, family=LEARN,
     title="Predict a measurement, and find the genes that defy the prediction",
     method="gradient boosting / ridge",
+    task="values", techniques=("gradient_boosting", "ridge", "grouped_cv"),
     question="How well does everything else predict this measurement -- and which genes are far "
              "from what their profile says they should be?",
     tooltip="Predicts a numeric measurement such as a fitness score from every other permitted "
@@ -2886,7 +2963,7 @@ def _soft_impute(M: np.ndarray, rank: int, iterations: int = 30) -> np.ndarray:
     return R
 
 
-def _column_reliability(ctx, M, cols, rank, frac=0.1, salt=0) -> pd.DataFrame:
+def _column_reliability(ctx, M, cols, rank, frac=0.1, salt=0, cards=None) -> pd.DataFrame:
     rng = ctx.rng(70 + salt)
     obs = np.argwhere(np.isfinite(M))
     pick = obs[rng.random(len(obs)) < frac]
@@ -2899,6 +2976,8 @@ def _column_reliability(ctx, M, cols, rank, frac=0.1, salt=0) -> pd.DataFrame:
         if len(sel) >= 20:
             rows.append({"column": c, "hidden": len(sel), "reliability": S.spearman(R[sel, j],
                                                                                     M[sel, j])})
+            if cards is not None:
+                cards.append(SC.values(R[sel, j], M[sel, j]))
     return pd.DataFrame(rows)
 
 
@@ -2932,8 +3011,14 @@ def _impute_test(ctx, p):
     t0 = time.monotonic()
     cols = ctx.numeric_columns(ctx.banned(p.get("target")))
     M = ctx.matrix(cols, impute=False)
-    rel = _column_reliability(ctx, M, cols, int(p["rank"]))
+    cards = []
+    rel = _column_reliability(ctx, M, cols, int(p["rank"]), cards=cards)
     observed = float(np.nanmedian(rel["reliability"])) if len(rel) else float("nan")
+    # Each column scored on its own hidden entries, then the median over columns. Mean absolute
+    # error is left out: its units differ between columns, so a median of it means nothing.
+    med = pd.DataFrame(cards).median(numeric_only=True).to_dict() if cards else {}
+    card = {k: (float("nan") if k == "mae" else med.get(k, float("nan")))
+            for k in SC.TASKS[SC.T_VALUES].metrics}
     rng = ctx.rng(71)
     nulls = []
     for i in range(3):
@@ -2945,13 +3030,14 @@ def _impute_test(ctx, p):
                    observed, nulls, min_effect=0.1, n_hidden=int(rel["hidden"].sum()) if len(rel)
                    else 0, hidden="10% of every column's measured entries",
                    null_kind="3 completions of the table with each column shuffled independently",
-                   t0=t0, details=rel)
+                   t0=t0, details=rel, task=SC.T_VALUES, scorecard=card)
 
 
 register(Strategy(
     key="masked_imputation", number=22, family=LEARN,
     title="Fill in what was never measured, and say where that is honest",
     method="soft-impute, low-rank SVD",
+    task="values", techniques=("soft_impute",),
     question="For each measurement, can its missing values be estimated from the rest of the table "
              "-- and for which measurements is that impossible?",
     tooltip="Completes the whole measurement table with a low-rank model, after first hiding a "
@@ -3056,6 +3142,7 @@ register(Strategy(
     key="condition_shift", number=23, family=LEARN,
     title="Find what matters more in one condition, and why",
     method="residual + gradient boosting / ridge",
+    task="values", techniques=("residualisation", "gradient_boosting", "ridge", "grouped_cv"),
     question="Which genes matter more (or less) in one condition than a baseline predicts -- in "
              "the mouse rather than the dish, say -- and can the rest of the data explain which?",
     tooltip="Takes a condition screen and its baseline, keeps the part of the condition the "
@@ -3214,6 +3301,7 @@ register(Strategy(
     key="set_enrichment", number=24, family=LISTS,
     title="Describe what your gene list has in common",
     method="hypergeometric + rank-sum",
+    task="ranking", techniques=("hypergeometric", "rank_sum", "bh_fdr"),
     question="What distinguishes the genes on my list from the rest -- which categories are they "
              "enriched in, which measurements are shifted, which networks are dense among them?",
     tooltip="Tests a gene list against every category, every measurement and every measured "
@@ -3297,6 +3385,7 @@ register(Strategy(
     key="seed_expansion", number=25, family=LISTS,
     title="Grow your gene list along the networks",
     method="random walk with restart",
+    task="ranking", techniques=("random_walk_restart", "knn_graph"),
     question="Starting from my genes, which others does a walk across every measured network "
              "keep returning to?",
     tooltip="Seeds a random walk on your list and lets it wander across every permitted measured "
@@ -3497,6 +3586,7 @@ register(Strategy(
     key="split_clusters", number=26, family=CONTRAST,
     title="Find categories that split in two on another measurement",
     method="UMAP + HDBSCAN",
+    task="replication", techniques=("umap", "hdbscan", "hypergeometric", "bimodal_split", "bh_fdr"),
     question="Which clusters agree about one thing -- a compartment -- and split cleanly on "
              "another -- a stage, a phase, a fitness level?",
     tooltip="Finds clusters that are homogeneous for one label and divided on a second label or "
@@ -3596,6 +3686,7 @@ register(Strategy(
     key="conjunctions", number=27, family=CONTRAST,
     title="Find kinds of gene defined by two labels at once",
     method="UMAP + HDBSCAN",
+    task="replication", techniques=("umap", "hdbscan", "hypergeometric", "bh_fdr"),
     question="Which clusters are enriched for a COMBINATION of two labels -- more than either "
              "label alone would make them?",
     tooltip="Finds clusters enriched for a pair of labels beyond what each label's own enrichment "
@@ -3707,7 +3798,8 @@ def _paralog_test(ctx, p):
     if ok.sum() < 20 or differ.all() or not differ.any():
         return S.judge("paralog_divergence", "AUROC", float("nan"), [], min_effect=0.05,
                        n_hidden=int(ok.sum()), hidden="paralog labels", null_kind="permuted",
-                       t0=t0, note="too few paralog pairs with both genes labelled, or no contrast")
+                       t0=t0, note="too few paralog pairs with both genes labelled, or no contrast",
+                       task=SC.T_RANK)
     rng = ctx.rng(81)
     d = div[ok]
     observed = S.auroc(d, differ)
@@ -3717,13 +3809,15 @@ def _paralog_test(ctx, p):
                    observed, nulls, min_effect=0.05, n_hidden=int(ok.sum()),
                    hidden=f"the {target} labels, withheld from the profiles",
                    null_kind="20 random reassignments of divergence to pairs", t0=t0,
-                   numbers={"pairs_that_differ": int(differ.sum())})
+                   numbers={"pairs_that_differ": int(differ.sum())},
+                   task=SC.T_RANK, scorecard=SC.ranking(d, differ))
 
 
 register(Strategy(
     key="paralog_divergence", number=28, family=CONTRAST,
     title="Find paralogs that changed jobs",
     method="profile correlation",
+    task="ranking", techniques=("profile_correlation",),
     question="Which duplicated genes behave differently across the measurements -- evidence that "
              "one copy took on a new role?",
     tooltip="Compares every paralog pair's measurement profiles and ranks them by divergence; "
@@ -3879,6 +3973,9 @@ def _transfer_test(ctx, p):
         return S.spearman(pred.iloc[hidden], y.iloc[hidden])
 
     observed = score(src)
+    transferred = _transfer_map(src, visible, numeric_src, True)(src)
+    card = SC.values(transferred.iloc[hidden].to_numpy(dtype=float),
+                     y.iloc[hidden].to_numpy(dtype=float))
     carried = np.flatnonzero(src.notna().to_numpy())
     nulls = []
     for _ in range(20):
@@ -3888,13 +3985,15 @@ def _transfer_test(ctx, p):
     return S.judge("ortholog_transfer", "rank correlation of transferred and hidden values",
                    observed, nulls, min_effect=0.1, n_hidden=len(hidden),
                    hidden=f"25% of the genes measured in both species",
-                   null_kind="20 runs with the orthologs' values dealt to random genes", t0=t0)
+                   null_kind="20 runs with the orthologs' values dealt to random genes", t0=t0,
+                   task=SC.T_VALUES, scorecard=card)
 
 
 register(Strategy(
     key="ortholog_transfer", number=29, family=SPECIES,
     title="Carry what one parasite shows to the other",
     method="orthogroup mapping",
+    task="values", techniques=("orthogroup_mapping",),
     question="What does a gene's ortholog in the other parasite say about it -- its essentiality, "
              "its stage, its localization?",
     tooltip="Maps a measurement or label from the other species onto this one through shared "
@@ -4014,6 +4113,7 @@ register(Strategy(
     key="stratum_focus", number=30, family=SPECIES,
     title="Test inference on the genes orthology cannot reach",
     method="kNN",
+    task="label calls", techniques=("knn",),
     question="Can lineage-specific, hypothetical or understudied genes be called as reliably as "
              "the rest -- and what are they?",
     tooltip="Calls genes in one stratum -- lineage-specific, hypothetical, understudied -- from "
@@ -4072,6 +4172,15 @@ def _triangulate(sources: dict, vis: pd.Series, query, min_agree: int) -> tuple:
             if top.iloc[0] >= min_agree:
                 pred.iloc[g] = top.index[0]
                 agree.iloc[g] = int(top.iloc[0])
+    # The scores behind the calls: the sources' per-class scores, averaged where they speak.
+    frames = [f for f in (S.class_scores_of(p_) for p_ in preds.values()) if f is not None]
+    if frames:
+        import warnings
+        cols = sorted(set().union(*[set(f.columns) for f in frames]), key=str)
+        stack = np.stack([f.reindex(columns=cols).to_numpy(dtype=float) for f in frames])
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", RuntimeWarning)
+            pred = S.with_class_scores(pred, pd.DataFrame(np.nanmean(stack, axis=0), columns=cols))
     return pred, agree, preds
 
 
@@ -4121,6 +4230,7 @@ register(Strategy(
     key="triangulation", number=31, family=COMBINE,
     title="Call a gene only when independent strategies agree",
     method="kNN + logistic + network vote",
+    task="label calls", techniques=("knn", "logistic_regression", "network_vote", "agreement"),
     question="Where do measurement neighbours, a trained classifier and the networks give the same "
              "answer -- and how much more often is that answer right?",
     tooltip="Runs three strategies built on different evidence -- measurement neighbours, a "
@@ -4185,6 +4295,7 @@ register(Strategy(
     key="understudied_first", number=32, family=COMBINE,
     title="Put the understudied genes first",
     method="kNN + logistic + network vote",
+    task="label calls", techniques=("knn", "logistic_regression", "network_vote", "agreement"),
     question="Which genes nobody has written about can the data say something trustworthy about?",
     tooltip="Makes agreed calls for genes with no focal or substantive publication and ranks them "
             "by agreement times novelty; its test scores precision on understudied genes alone, "
