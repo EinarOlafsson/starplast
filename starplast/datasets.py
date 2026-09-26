@@ -2787,7 +2787,7 @@ REGISTRY = [
             ("resistance_selection_clones", "resistance_selection_compounds",
              "resistance_selection_variants", "resistance_target_compounds",
              "pf6_field_dnds", "pf6_field_nonsyn_snvs"),
-            "732 selected / 4,941 field genes", pmid="39607932",
+            "735 selected / 4,941 field genes", pmid="39607932",
             accession="Science Supplementary Data 3, 5, 6",
             citation="Luth MR et al., Systematic in vitro evolution in Plasmodium falciparum "
                      "reveals key determinants of drug resistance. Science 2024;386:eadk9893",
