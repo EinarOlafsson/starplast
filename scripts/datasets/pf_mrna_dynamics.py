@@ -8,7 +8,7 @@ Transcripts made per minute, and transcripts lost per minute, at each gene's pea
     coverage     : 4,373 / 4,420 genes
     citation     : Painter HJ, Chung NC, Sebastian A, Albert I, Storey JD, Llinas M. Genome-wide real-time in vivo transcriptional dynamics during Plasmodium falciparum blood-stage development. Nat Commun 2018;9:2656
     PMID         : 29985403
-    accession    : GSE114621 / Nat Commun Supplementary Data 2
+    accession    : GSE66669 / Nat Commun Supplementary Data 2
     url          : https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6037754/supplementaryFiles
     local path   : datasets/transcription/RNAseq/29985403/41467_2018_4966_MOESM5_ESM.xlsx
 

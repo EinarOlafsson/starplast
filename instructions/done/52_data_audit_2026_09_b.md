@@ -147,6 +147,29 @@ monocyte response** (PMID 41246354), which would have answered two empty human-m
 ships one PDF data sheet and no machine-readable table. A search for a mouse-brain host proteome or
 transcriptome during chronic infection returned nothing genome-scale with a per-gene table.
 
+## One error this audit made, and how it was caught
+
+Four repository accessions were written into the registry from inference rather than from a lookup,
+and three of them were wrong in the worst way available: `PXD056300` is a prostate-cancer study,
+`PXD059118` is a crosslinking-method paper, `MSV000093488` does not exist, and `GSE114621` exists but
+is not Painter's series. They were caught by resolving every accession in the finished registry
+against PRIDE, MassIVE and GEO before the work was reported -- which is the only reason to have the
+rule that an identifier is never typed from memory.
+
+The right ones come from each paper's own data-availability sentence, pulled from its full text
+(`/<PMCID>/fullTextXML`) and then re-checked against the repository:
+
+    PXD070842      "High-resolution spatial proteomics of Plasmodium falciparum schizonts ..."
+    PXD059080      "Protein signature of sexually committed malaria parasites"
+    MSV000091565   the R-DeeP dataset (MSV000091228 is the same paper's IP-MS)
+    GSE66669       "Plasmodium falciparum whole-genome real-time transcription and decay"
+
+The lesson is narrower than "check accessions", because every PMID, PMCID and DOI here WAS resolved
+through an API. What was not is the accession printed inside a paper: a PMID resolves to a record
+that names the article, so a wrong one is obvious, while a plausible-looking PXD number resolves to
+somebody else's perfectly real experiment. The check that works is the paper's own sentence, and then
+the repository's title.
+
 ## Leakage: the new columns were tested, and nothing had to be closed
 
 `scripts/leakage_audit.py` was re-run on both tables with eight new Plasmodium held-out targets

@@ -2660,7 +2660,7 @@ REGISTRY = [
             "post_translation", "LOPIT",
             "Which of 24 cellular niches each protein sits in, and the classifier's confidence",
             ("lopit_pf_location", "lopit_pf_svm_score"), "1,646 classified of 3,000 (29%)",
-            pmid="42218142", accession="PXD056300 / Nat Commun Supplementary Data 1",
+            pmid="42218142", accession="PXD070842 / Nat Commun Supplementary Data 1",
             citation="Chisholm SA et al., The spatial proteome of the Plasmodium falciparum "
                      "schizont illuminates the composition and evolutionary trajectories of its "
                      "organelles. Nat Commun 2026;17:6192",
@@ -2698,7 +2698,7 @@ REGISTRY = [
             "transcription", "RNAseq",
             "Transcripts made per minute, and transcripts lost per minute, at each gene's peak",
             ("transcription_rate_4tu", "mrna_decay_rate_4tu"), "4,373 / 4,420 genes",
-            pmid="29985403", accession="GSE114621 / Nat Commun Supplementary Data 2",
+            pmid="29985403", accession="GSE66669 / Nat Commun Supplementary Data 2",
             citation="Painter HJ, Chung NC, Sebastian A, Albert I, Storey JD, Llinas M. "
                      "Genome-wide real-time in vivo transcriptional dynamics during Plasmodium "
                      "falciparum blood-stage development. Nat Commun 2018;9:2656",
@@ -2746,7 +2746,7 @@ REGISTRY = [
     Dataset("pf_rna_dependence", "RNA-dependent proteins (R-DeeP)", "post_translation", "RDeeP",
             "Whether a protein's complex falls apart when the RNA is digested",
             ("rna_dependent", "rna_dependence_qvalue"), "3,671 proteins (64%)",
-            pmid="38355719", accession="MassIVE MSV000093488 / Nat Commun Supplementary Data 1",
+            pmid="38355719", accession="MassIVE MSV000091565 / Nat Commun Supplementary Data 1",
             citation="Hollin T et al., Proteome-wide identification of RNA-dependent proteins and "
                      "an emerging role for RNAs in Plasmodium falciparum protein complexes. "
                      "Nat Commun 2024;15:1365",
@@ -2767,7 +2767,7 @@ REGISTRY = [
             "translation", "proteomics",
             "How much more or less of each protein a committed parasite carries",
             ("committed_vs_asexual_log2fc", "committed_vs_asexual_fdr"), "1,950 proteins (34%)",
-            pmid="41482054", accession="PXD059118 / MCP Table S3",
+            pmid="41482054", accession="PXD059080 / MCP Table S3",
             citation="Venugopal K et al., Defining the proteome of sexually committed parasites in "
                      "Plasmodium falciparum. Mol Cell Proteomics 2026;25:101505",
             url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12878696/supplementaryFiles",

@@ -858,7 +858,7 @@ NEW_PLASMODIUM = [
     # same question asked where it had never been asked. `one`, because there is one such experiment.
     ("localization · schizont", "localization", "late schizont, hyperLOPIT", "gene",
      ["lopit_pf_location", "lopit_pf_svm_score"], "one",
-     [("42218142", "PXD056300", "hyperLOPIT over 3,000 schizont proteins, 24 niches")]),
+     [("42218142", "PXD070842", "hyperLOPIT over 3,000 schizont proteins, 24 niches")]),
     # Which proteins need a chaperone to stay folded. Its columns are the paper's hit CALL; the two
     # fold changes it is computed from answer `protein abundance · under stress`, so one measurement
     # is not claimed twice, and `search.SAME_QUANTITY` holds all three out together.
@@ -870,20 +870,20 @@ NEW_PLASMODIUM = [
     # a complex together, and nothing in either organism's catalogue asked it.
     ("RNA dependence of complexes", "relation", "sucrose gradient with and without RNase", "gene",
      ["rna_dependent", "rna_dependence_qvalue"], "one",
-     [("38355719", "MSV000093488", "R-DeeP: 898 RNA-dependent proteins of 3,671 quantified")]),
+     [("38355719", "MSV000091565", "R-DeeP: 898 RNA-dependent proteins of 3,671 quantified")]),
     # How fast a transcript is MADE, which no column in either table carried: every transcription
     # slot until now holds an amount, and an amount is the balance of synthesis and decay. Its decay
     # half answers the RNA-stability slot, from the same model, and the two are one family.
     ("transcription rate · asexual blood stage", "transcription", "4-thiouracil labelling, hourly",
      "gene", ["transcription_rate_4tu"], "one",
-     [("29985403", "GSE114621", "nascent transcription rate at every hour of the cycle")]),
+     [("29985403", "GSE66669", "nascent transcription rate at every hour of the cycle")]),
     # The decision to become a gametocyte, a cycle before the gametocyte proteome already in the
     # map. A stage of its own rather than a contrast inside the blood-stage slot: a committed
     # schizont is still an asexual-looking parasite, which is the whole difficulty of studying it.
     ("protein abundance · sexually committed", "protein abundance",
      "MSRP1-sorted committed parasites", "gene",
      ["committed_vs_asexual_log2fc", "committed_vs_asexual_fdr"], "one",
-     [("41482054", "PXD059118", "proteome of committed parasites against their asexual siblings")]),
+     [("41482054", "PXD059080", "proteome of committed parasites against their asexual siblings")]),
     # Selection BETWEEN species, which is not what `field variation and resistance markers` or
     # `strain variation` ask: those are variation inside P. falciparum. dN/dS against Laverania and
     # wider Plasmodium orthologs says what has been conserved since the species split.

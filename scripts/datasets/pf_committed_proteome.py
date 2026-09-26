@@ -8,7 +8,7 @@ How much more or less of each protein a committed parasite carries
     coverage     : 1,950 proteins (34%)
     citation     : Venugopal K et al., Defining the proteome of sexually committed parasites in Plasmodium falciparum. Mol Cell Proteomics 2026;25:101505
     PMID         : 41482054
-    accession    : PXD059118 / MCP Table S3
+    accession    : PXD059080 / MCP Table S3
     url          : https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12878696/supplementaryFiles
     local path   : datasets/translation/proteomics/41482054/mmc4.xlsx
 

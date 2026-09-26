@@ -8,7 +8,7 @@ Whether a protein's complex falls apart when the RNA is digested
     coverage     : 3,671 proteins (64%)
     citation     : Hollin T et al., Proteome-wide identification of RNA-dependent proteins and an emerging role for RNAs in Plasmodium falciparum protein complexes. Nat Commun 2024;15:1365
     PMID         : 38355719
-    accession    : MassIVE MSV000093488 / Nat Commun Supplementary Data 1
+    accession    : MassIVE MSV000091565 / Nat Commun Supplementary Data 1
     url          : https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10866993/supplementaryFiles
     local path   : datasets/post_translation/RDeeP/38355719/41467_2024_45519_MOESM4_ESM.xlsx
 

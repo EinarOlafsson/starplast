@@ -8,7 +8,7 @@ Which of 24 cellular niches each protein sits in, and the classifier's confidenc
     coverage     : 1,646 classified of 3,000 (29%)
     citation     : Chisholm SA et al., The spatial proteome of the Plasmodium falciparum schizont illuminates the composition and evolutionary trajectories of its organelles. Nat Commun 2026;17:6192
     PMID         : 42218142
-    accession    : PXD056300 / Nat Commun Supplementary Data 1
+    accession    : PXD070842 / Nat Commun Supplementary Data 1
     url          : https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13369866/supplementaryFiles
     local path   : datasets/post_translation/LOPIT/42218142/41467_2026_73664_MOESM3_ESM.xlsx
 
