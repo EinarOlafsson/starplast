@@ -398,3 +398,193 @@ def test_withdrawing_a_nutrient_is_held_out_with_fibroblast_fitness(tg):
     assert {"fit_no_glucose", "fit_no_glutamine"} <= banned
     assert "fit_glucose_dependence" not in banned
     assert "fit_serum_differential_p8" not in banned
+
+
+# --------------------------------------------------------------------------- the fourth wave
+def test_a_label_two_rows_disagree_about_is_dropped_rather_than_voted_on(tmp_path, monkeypatch):
+    """A compartment has no mean. Where two accessions resolve to one gene, the label survives only
+    if they agree -- otherwise the gene gets no label, which is what every other absence looks like.
+
+    The numeric columns of the same deposit keep averaging, so this is a rule about labels and not a
+    new rule about rows.
+    """
+    frame = pd.DataFrame({"gene_id": ["TGGT1_310000", "TGGT1_310000A", "TGGT1_320000A",
+                                      "TGGT1_320000B", "TGGT1_330000A", "TGGT1_330000B"],
+                          "label": ["nucleus", "cytosol", "rhoptries", "rhoptries",
+                                    "cytosol", "apicoplast"],
+                          "score": [1.0, 0.0, 2.0, 4.0, 1.0, 3.0]})
+    frame.to_csv(tmp_path / "deposit_planted.tsv", sep="\t", index=False)
+    monkeypatch.setattr(D, "DEPOSITS", (D.Deposit("planted", "Tg", lambda root: frame),))
+    monkeypatch.setattr(D, "table_path", lambda base, key: str(tmp_path / f"deposit_{key}.tsv"))
+    out = D.parasite_columns(str(tmp_path), "Tg",
+                             ["TGME49_310000", "TGME49_320000", "TGME49_330000"],
+                             resolve=lambda a: "TGME49_" + a.split("_")[1].rstrip("AB"),
+                             log=lambda *a: None)
+    # The whole locus beats its half, so the label is the whole locus's and nothing is averaged.
+    assert out["label"].iloc[0] == "nucleus" and out["score"].iloc[0] == 1.0
+    # Two halves that agree keep the label; their numbers still average.
+    assert out["label"].iloc[1] == "rhoptries" and out["score"].iloc[1] == 3.0
+    # Two halves that disagree get no label at all, and still get the mean of their numbers.
+    assert pd.isna(out["label"].iloc[2]) and out["score"].iloc[2] == 2.0
+
+
+def test_the_spatial_proteome_reproduces_the_paper_and_puts_the_markers_where_they_belong(pf):
+    """3,000 proteins mapped, 1,646 classified, 24 niches -- and then the proteins whose location
+    nobody disputes have to be in the right one, or the join is wrong however well the counts agree.
+    """
+    assert int(pf["lopit_pf_svm_score"].notna().sum()) == 3000
+    assert int(pf["lopit_pf_location"].notna().sum()) == 1646
+    assert pf["lopit_pf_location"].nunique() == 24
+    where = pf.set_index("gene_id")["lopit_pf_location"]
+    for gene, niche in (("PF3D7_0105200", "rhoptries"),        # RAP1
+                        ("PF3D7_1370300", "Maurer's cleft"),   # MAHRP1
+                        ("PF3D7_0208500", "apicoplast"),       # ACP
+                        ("PF3D7_1471100", "PVM"),              # EXP2
+                        ("PF3D7_1116800", "PVM"),              # HSP101
+                        ("PF3D7_1462800", "cytosol")):         # GAPDH
+        assert where.get(gene) == niche, gene
+
+
+def test_a_protein_the_classifier_could_not_place_has_no_label_rather_than_unknown(pf):
+    """`unknown` is 1,354 of the deposit's 3,000 rows. Shipped as a label it would be a 25th
+    compartment and every count of localized proteins would include it."""
+    labels = set(pf["lopit_pf_location"].dropna().astype(str))
+    assert not {"unknown", "Unknown", "nan", "unassigned"} & labels
+
+
+def test_field_variation_is_not_the_laboratory_strain_snp_ratio_again(pf):
+    """The slot was empty while `snp_` was full, and that was right: PlasmoDB's counts are over
+    laboratory strains. If the field columns were a copy of them the slot would still be empty."""
+    from scipy import stats
+    both = pf[["field_pnps_adj", "snp_nonsyn_syn_ratio"]].dropna()
+    assert len(both) > 4000
+    rho = abs(stats.spearmanr(both["field_pnps_adj"], both["snp_nonsyn_syn_ratio"]).correlation)
+    assert 0.1 < rho < 0.6, rho
+
+
+def test_the_synthesis_and_decay_rates_carry_the_signs_they_must(pf):
+    """Transcription makes transcripts and decay removes them. 19 of 4,420 decay values are
+    positive in the deposit, which is noise in a fitted rate, so the test allows a few."""
+    rate = pf["transcription_rate_4tu"].dropna()
+    decay = pf["mrna_decay_rate_4tu"].dropna()
+    assert len(rate) > 4000 and len(decay) > 4000
+    assert (rate > 0).all()
+    assert (decay < 0).mean() > 0.99
+
+
+def test_the_decay_rate_is_a_flux_and_says_so_by_tracking_abundance(pf):
+    """Transcripts per minute, not a fraction remaining: an abundant transcript loses more of them.
+
+    This is why the Plasmodium RNA-stability slot's policy is `separate` from the Toxoplasma
+    actinomycin columns rather than `average` -- the two are different units, and averaging them
+    would produce a number in neither.
+    """
+    from scipy import stats
+    frame = pf[["mrna_decay_rate_4tu", "expr_asexual_blood"]].dropna()
+    rho = stats.spearmanr(frame["mrna_decay_rate_4tu"].abs(),
+                          frame["expr_asexual_blood"]).correlation
+    assert rho > 0.2, rho
+
+
+def test_hsp90_dependence_is_the_papers_rule_applied_not_its_list_copied(pf):
+    """Every protein the column calls dependent must satisfy the rule in both arms, and the count
+    must be the paper's 131 less the seven protein groups that name more than one gene."""
+    dependent = pf[pf["hsp90_dependent"] == 1]
+    assert len(dependent) == 124
+    assert (dependent["hsp90_inhibition_ga_log2fc"] < -0.5).all()
+    assert (dependent["hsp90_inhibition_xl_log2fc"] < -0.5).all()
+    # And the flag is a flag: the merge must never write a fraction from two protein groups.
+    assert set(pf["hsp90_dependent"].dropna().unique()) <= {0.0, 1.0}
+
+
+def test_the_blood_stage_proteome_is_an_abundance_and_not_a_stage_share(pf):
+    """The slot stayed empty for years because the only candidate summed to a constant across the
+    cycle. An abundance must not: it must spread over orders of magnitude and rank the ribosome
+    high.
+    """
+    abundance = pf["proteome_blood_log2"].dropna()
+    assert len(abundance) > 3000
+    assert abundance.max() - abundance.min() > 8
+    ribosomal = pf["product"].fillna("").str.contains("ribosomal protein", case=False)
+    assert pf.loc[ribosomal, "proteome_blood_log2"].median() > abundance.median()
+
+
+def test_rna_dependence_reproduces_the_paper_and_its_classes(pf):
+    """898 of 3,671 at the deposit's own q-values, RNA helicases enriched, and the proteasome -- a
+    big complex that needs no RNA -- not called at all."""
+    assert int((pf["rna_dependent"] == 1).sum()) == 898
+    assert int(pf["rna_dependent"].notna().sum()) == 3671
+    product = pf["product"].fillna("")
+    dependent = pf["rna_dependent"] == 1
+    helicase = product.str.contains("helicase", case=False) & pf["rna_dependent"].notna()
+    proteasome = (product.str.contains("proteasome subunit", case=False)
+                  & pf["rna_dependent"].notna())
+    assert (dependent & helicase).sum() / helicase.sum() > dependent[
+        pf["rna_dependent"].notna()].mean()
+    assert int((dependent & proteasome).sum()) == 0
+
+
+def test_the_committed_proteome_carries_its_marker_and_the_merozoite_proteins(pf):
+    """MSRP1 being up proves only that the sort worked -- it is what the sort was on. MSP1 and MSP2
+    are the paper's finding and are the check."""
+    frame = pf.set_index("gene_id")
+    assert frame.loc["PF3D7_1335000", "committed_vs_asexual_log2fc"] > 1.5      # MSRP1
+    assert frame.loc["PF3D7_1335000", "committed_vs_asexual_fdr"] < 0.01
+    for gene in ("PF3D7_0930300", "PF3D7_0206800"):                            # MSP1, MSP2
+        assert frame.loc[gene, "committed_vs_asexual_log2fc"] > 0.3, gene
+        assert frame.loc[gene, "committed_vs_asexual_fdr"] < 0.05, gene
+
+
+def test_the_resistome_names_the_known_resistance_genes_and_the_counts_do_not(pf):
+    """Two columns, two claims. The paper's classification puts the canonical targets on top; the
+    raw selection counts put AP2-G there, because losing gametocyte production is cheap in a flask.
+    Shipping only the counts would have called AP2-G the parasite's leading resistance gene.
+    """
+    frame = pf.set_index("gene_id")
+    called = frame["resistance_target_compounds"].dropna().sort_values(ascending=False)
+    assert {"PF3D7_1211900", "PF3D7_0523000", "PF3D7_0709700"} <= set(called.index[:5])
+    assert "PF3D7_1222600" not in called.index                       # AP2-G is not called
+    counts = frame["resistance_selection_compounds"].dropna().sort_values(ascending=False)
+    assert counts.index[0] == "PF3D7_1222600"                        # but it leads the counts
+    # Atovaquone's gene is in the deposit under a pre-2010 mitochondrial name and must survive it.
+    assert frame.loc["PF3D7_MIT02300", "resistance_target_compounds"] >= 3
+
+
+def test_a_gene_no_compound_selected_has_no_count_rather_than_a_zero(pf):
+    """118 compounds are not a test of 5,720 genes, so absence here is absence of evidence. The
+    R-DeeP flag makes the opposite choice for the opposite reason, and both are in the map."""
+    assert int(pf["resistance_selection_clones"].notna().sum()) < 1000
+    assert (pf["resistance_selection_clones"].dropna() > 0).all()
+    assert int(pf["rna_dependent"].notna().sum()) == 3671
+    assert int((pf["rna_dependent"] == 0).sum()) == 3671 - 898
+
+
+def test_the_fourth_wave_columns_are_grouped_with_what_they_restate(pf):
+    from starplast import search
+    # A label and the classifier's confidence in that label.
+    assert "lopit_pf_svm_score" in search.excluded_for(pf, "lopit_pf_location")
+    # The hit call is a function of the two responses it is thresholded from.
+    banned = search.excluded_for(pf, "hsp90_dependent")
+    assert {"hsp90_inhibition_ga_log2fc", "hsp90_inhibition_xl_log2fc"} <= banned
+    assert "hsp90_dependent" in search.excluded_for(pf, "hsp90_inhibition_ga_log2fc")
+    # One model, two rates.
+    assert "transcription_rate_4tu" in search.excluded_for(pf, "mrna_decay_rate_4tu")
+    # Two papers reading the same field isolates.
+    assert "pf6_field_dnds" in search.excluded_for(pf, "field_pnps_adj")
+    # But the laboratory-strain counts are a different population and stay available.
+    assert "snp_nonsyn_syn_ratio" not in search.excluded_for(pf, "field_pnps_adj")
+    # One resistome.
+    assert "resistance_selection_compounds" in search.excluded_for(pf,
+                                                                   "resistance_target_compounds")
+    # A flag and its q-value; a contrast and its FDR.
+    assert "rna_dependence_qvalue" in search.excluded_for(pf, "rna_dependent")
+    assert "committed_vs_asexual_fdr" in search.excluded_for(pf, "committed_vs_asexual_log2fc")
+
+
+def test_every_fourth_wave_target_holds_itself_out(pf):
+    from starplast import search
+    for target in ("lopit_pf_location", "proteome_blood_log2", "hsp90_dependent", "rna_dependent",
+                   "mrna_decay_rate_4tu", "transcription_rate_4tu", "field_pnps_adj",
+                   "dnds_laverania", "resistance_target_compounds",
+                   "committed_vs_asexual_log2fc"):
+        assert target in search.excluded_for(pf, target), target

@@ -209,7 +209,7 @@ are dense-granule proteins, which are disordered, so this is expected rather tha
 
 **3e. Standalone means every measurement ships; coordinates are the one exception.** (Added v1.3.) The
 cache is 65 MB and carries 438 columns for all 8,140 Toxoplasma genes, and lives INSIDE the package.
-Beside it sits the Plasmodium cache -- `pf_nodes.parquet`, 146 columns for 5,720 genes, and
+Beside it sits the Plasmodium cache -- `pf_nodes.parquet`, 168 columns for 5,720 genes, and
 `pf_graph.npz` -- which is a separate table and graph on purpose and never joined to the first
 (`starplast/data/`) so a wheel carries it and `paths.py` resolves it with no configuration. An earlier `keep` allowlist silently shipped
 3 of 18 RNA columns and 7 of 8 fitness screens; the build now ships every column that survives, with an

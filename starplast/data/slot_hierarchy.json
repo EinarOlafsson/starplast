@@ -1092,7 +1092,8 @@
         "RNA": {
           "transcript abundance": {
             "asexual blood stage": {
-              "Pf_transcription_asexual_blood_stage": {}
+              "Pf_transcription_asexual_blood_stage": {},
+              "Pf_transcription_rate_asexual_blood_stage": {}
             },
             "ring": {
               "Pf_transcription_ring": {}
@@ -1158,7 +1159,9 @@
             },
             "stage-unspecified": {
               "Pf_protein_abundance_other_life_stages": {},
-              "Pf_protein_abundance_under_stress": {}
+              "Pf_protein_abundance_under_stress": {},
+              "Pf_chaperone_dependence": {},
+              "Pf_protein_abundance_sexually_committed": {}
             },
             "gametocyte": {
               "Pf_protein_abundance_gametocyte": {}
@@ -1189,6 +1192,9 @@
               "Pf_exposure_to_host_cytosol": {},
               "Pf_secretome_excreted": {},
               "Pf_export_pexel_trafficking": {}
+            },
+            "schizont": {
+              "Pf_localization_schizont": {}
             }
           }
         },
@@ -1286,7 +1292,8 @@
               "Pf_paralogy": {},
               "Pf_sequence_basics": {},
               "Pf_strain_variation": {},
-              "Pf_field_variation_and_resistance_markers": {}
+              "Pf_field_variation_and_resistance_markers": {},
+              "Pf_between_species_selection_dn_ds": {}
             }
           }
         },
@@ -1321,7 +1328,8 @@
               "Pf_interaction_degree_ip_ms": {},
               "Pf_interaction_degree_structural_similarity": {},
               "Pf_rna_binding_protein_targets": {},
-              "Pf_complex_membership": {}
+              "Pf_complex_membership": {},
+              "Pf_rna_dependence_of_complexes": {}
             }
           }
         },
@@ -1383,7 +1391,8 @@
         "RNA abundance": {
           "asexual blood stage": {
             "unperturbed": {
-              "Pf_transcription_asexual_blood_stage": {}
+              "Pf_transcription_asexual_blood_stage": {},
+              "Pf_transcription_rate_asexual_blood_stage": {}
             }
           },
           "ring": {
@@ -1480,7 +1489,9 @@
           "stage-unspecified": {
             "unperturbed": {
               "Pf_protein_abundance_other_life_stages": {},
-              "Pf_protein_abundance_under_stress": {}
+              "Pf_protein_abundance_under_stress": {},
+              "Pf_chaperone_dependence": {},
+              "Pf_protein_abundance_sexually_committed": {}
             }
           },
           "gametocyte": {
@@ -1522,6 +1533,11 @@
               "Pf_exposure_to_host_cytosol": {},
               "Pf_secretome_excreted": {},
               "Pf_export_pexel_trafficking": {}
+            }
+          },
+          "schizont": {
+            "unperturbed": {
+              "Pf_localization_schizont": {}
             }
           }
         }
@@ -1618,7 +1634,8 @@
               "Pf_paralogy": {},
               "Pf_sequence_basics": {},
               "Pf_strain_variation": {},
-              "Pf_field_variation_and_resistance_markers": {}
+              "Pf_field_variation_and_resistance_markers": {},
+              "Pf_between_species_selection_dn_ds": {}
             }
           }
         }
@@ -1641,7 +1658,8 @@
               "Pf_interaction_degree_ip_ms": {},
               "Pf_interaction_degree_structural_similarity": {},
               "Pf_rna_binding_protein_targets": {},
-              "Pf_complex_membership": {}
+              "Pf_complex_membership": {},
+              "Pf_rna_dependence_of_complexes": {}
             }
           }
         },
@@ -1735,7 +1753,8 @@
           "tissue-unspecified": {
             "asexual blood stage": {
               "transcription": {
-                "Pf_transcription_asexual_blood_stage": {}
+                "Pf_transcription_asexual_blood_stage": {},
+                "Pf_transcription_rate_asexual_blood_stage": {}
               },
               "translation": {
                 "Pf_translation_asexual_blood_stage": {},
@@ -1780,6 +1799,9 @@
             "schizont": {
               "transcription": {
                 "Pf_transcription_schizont": {}
+              },
+              "localization": {
+                "Pf_localization_schizont": {}
               }
             },
             "ookinete": {
@@ -1829,7 +1851,9 @@
               },
               "protein abundance": {
                 "Pf_protein_abundance_other_life_stages": {},
-                "Pf_protein_abundance_under_stress": {}
+                "Pf_protein_abundance_under_stress": {},
+                "Pf_chaperone_dependence": {},
+                "Pf_protein_abundance_sexually_committed": {}
               },
               "PTM": {
                 "Pf_phosphorylation_kinase_substrate": {},
@@ -1857,7 +1881,8 @@
               "sequence": {
                 "Pf_5_utr_architecture": {},
                 "Pf_strain_variation": {},
-                "Pf_field_variation_and_resistance_markers": {}
+                "Pf_field_variation_and_resistance_markers": {},
+                "Pf_between_species_selection_dn_ds": {}
               },
               "relation": {
                 "Pf_co_transcription": {},
@@ -1869,7 +1894,8 @@
                 "Pf_interaction_degree_crosslink_ms": {},
                 "Pf_interaction_degree_ip_ms": {},
                 "Pf_rna_binding_protein_targets": {},
-                "Pf_complex_membership": {}
+                "Pf_complex_membership": {},
+                "Pf_rna_dependence_of_complexes": {}
               },
               "NEVER a feature": {
                 "Pf_downloaded_study_membership": {},

@@ -2656,6 +2656,161 @@ REGISTRY = [
                  "it for a number they reported. A targeted screen against nucleic-acid binding "
                  "proteins, so 240 genes is its full extent and not a coverage failure. Which member "
                  "is which sample comes from the series matrix, never from the file name."),
+    Dataset("pf_spatial_proteome", "Spatial proteome of the schizont (hyperLOPIT)",
+            "post_translation", "LOPIT",
+            "Which of 24 cellular niches each protein sits in, and the classifier's confidence",
+            ("lopit_pf_location", "lopit_pf_svm_score"), "1,646 classified of 3,000 (29%)",
+            pmid="42218142", accession="PXD070842 / Nat Commun Supplementary Data 1",
+            citation="Chisholm SA et al., The spatial proteome of the Plasmodium falciparum "
+                     "schizont illuminates the composition and evolutionary trajectories of its "
+                     "organelles. Nat Commun 2026;17:6192",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13369866/supplementaryFiles",
+            path="datasets/post_translation/LOPIT/42218142/41467_2026_73664_MOESM3_ESM.xlsx",
+            note="The FIRST subcellular localization of any kind in the Plasmodium table, which had "
+                 "no compartment at all -- the question hyperLOPIT answers for Toxoplasma in this "
+                 "same map. Reproduces the paper exactly: 3,000 proteins mapped, 1,646 classified, "
+                 "24 niches, and the markers where they must be (RAP1 rhoptries, MAHRP1 Maurer's "
+                 "cleft, ACP apicoplast, EXP2 and HSP101 at the PVM, GAPDH cytosol). `unknown` is "
+                 "shipped as a MISSING label, not a 25th niche. The two-experiment classifier "
+                 "(S1-S2) ships rather than the three-experiment one: it is the paper's headline and "
+                 "classifies more proteins, and shipping both would be one measurement twice."),
+    Dataset("pf_field_variation", "Population and between-species variation per gene",
+            "reference", "sequence",
+            "Non-synonymous variation in field isolates, and dN/dS against Plasmodium orthologs",
+            ("field_pnps_adj", "field_variant_fraction", "dnds_laverania", "dnds_plasmodium"),
+            "4,282-5,232 genes", pmid="42218142",
+            accession="Nat Commun Supplementary Data 3",
+            citation="Chisholm SA et al., The spatial proteome of the Plasmodium falciparum "
+                     "schizont illuminates the composition and evolutionary trajectories of its "
+                     "organelles. Nat Commun 2026;17:6192",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13369866/supplementaryFiles",
+            path="datasets/post_translation/LOPIT/42218142/41467_2026_73664_MOESM5_ESM.xlsx",
+            note="The second half of the spatial-proteome paper, and a different question from its "
+                 "first: pN/pS and variant fraction are computed over FIELD isolates, so they answer "
+                 "the field-variation slot that had nothing, while dN/dS over Laverania and over "
+                 "Plasmodium orthologs measures selection since the species split. They are not "
+                 "restatements of the PlasmoDB lab-strain SNP columns already shipped: pN/pS agrees "
+                 "with them at rho 0.29, which is a related quantity measured on a different "
+                 "population, not a copy. Registered as its own entry because the columns belong to "
+                 "different slots from the localization ones and provenance is a statement about "
+                 "which measurements a dataset produced."),
+    Dataset("pf_mrna_dynamics", "mRNA synthesis and decay rates through the blood-stage cycle",
+            "transcription", "RNAseq",
+            "Transcripts made per minute, and transcripts lost per minute, at each gene's peak",
+            ("transcription_rate_4tu", "mrna_decay_rate_4tu"), "4,373 / 4,420 genes",
+            pmid="29985403", accession="GSE66669 / Nat Commun Supplementary Data 2",
+            citation="Painter HJ, Chung NC, Sebastian A, Albert I, Storey JD, Llinas M. "
+                     "Genome-wide real-time in vivo transcriptional dynamics during Plasmodium "
+                     "falciparum blood-stage development. Nat Commun 2018;9:2656",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6037754/supplementaryFiles",
+            path="datasets/transcription/RNAseq/29985403/41467_2018_4966_MOESM5_ESM.xlsx",
+            note="4-thiouracil labelling at every one of the 48 hours, which is why this is the only "
+                 "RNA-stability measurement for this organism. FLUXES, in transcripts per minute at "
+                 "the gene's own peak -- NOT half-lives, and not comparable with the Toxoplasma "
+                 "actinomycin columns, which are fractions remaining: an abundant transcript loses "
+                 "more transcripts per minute than a scarce stable one, and the decay column tracks "
+                 "abundance at rho 0.42 for exactly that reason. The paper's claim that transcription "
+                 "runs in every stage reproduces (616-962 genes peak in each of the six windows), and "
+                 "the timing agrees with a series this study had no part in: of the genes whose "
+                 "transcription peaks in a ring window, 87-92% also peak in the shipped ring "
+                 "expression column. The peak-stage labels in the deposit are NOT shipped -- they "
+                 "would restate the stage expression series the table already carries."),
+    Dataset("pf_hsp90_chemoproteome", "Blood-stage proteome and Hsp90 dependence",
+            "translation", "proteomics",
+            "Protein abundance in a DMSO control, what two Hsp90 inhibitors do to it, and the "
+            "paper's chaperone-dependent call",
+            ("proteome_blood_log2", "hsp90_inhibition_ga_log2fc", "hsp90_inhibition_xl_log2fc",
+             "hsp90_dependent"), "3,049 proteins (53%)",
+            accession="PXD079493 / bioRxiv 10.64898/2026.08.28.747854 Tables S1-S2",
+            citation="Ibrasheva N et al., Chemoproteomic profiling of Plasmodium falciparum Hsp90 "
+                     "inhibition reveals functional link to DNA replication pathways. bioRxiv 2026, "
+                     "doi:10.64898/2026.08.28.747854 (preprint)",
+            url="https://www.biorxiv.org/content/10.64898/2026.08.28.747854v1."
+                "supplementary-material",
+            path="datasets/translation/proteomics/pf_hsp90_2026/TableS1_media-2.xlsx",
+            note="Two empty slots and one new question. The DMSO arm is the first protein abundance "
+                 "in the map for the asexual blood stage -- the stage this parasite spends its life "
+                 "in, confirmed from the PRIDE record rather than assumed -- and the two inhibitors "
+                 "are the first abundance under stress. Chaperone dependence is the new question: "
+                 "which proteins need Hsp90 to stay folded, measured with two chemically unrelated "
+                 "inhibitors so the answer is the chaperone's and not one compound's -- and that "
+                 "conjunction is doing real work, because the two continuous responses agree only at "
+                 "rho 0.17. The paper's "
+                 "131 hits reproduce EXACTLY from its own rule (down by at least 0.5 log2 at p < "
+                 "0.05 under both), all 131 of them; 124 survive into the table, because seven "
+                 "protein groups name more than one gene and are dropped rather than assigned to the "
+                 "first. UniProt accessions are mapped to genes through the deposit's own "
+                 "Spectronaut report, not an external lookup. The PRIDE description says 133 hits "
+                 "where the table lists 131; the reproducible number ships and the discrepancy is "
+                 "recorded. A preprint."),
+    Dataset("pf_rna_dependence", "RNA-dependent proteins (R-DeeP)", "post_translation", "RDeeP",
+            "Whether a protein's complex falls apart when the RNA is digested",
+            ("rna_dependent", "rna_dependence_qvalue"), "3,671 proteins (64%)",
+            pmid="38355719", accession="MassIVE MSV000091565 / Nat Commun Supplementary Data 1",
+            citation="Hollin T et al., Proteome-wide identification of RNA-dependent proteins and "
+                     "an emerging role for RNAs in Plasmodium falciparum protein complexes. "
+                     "Nat Commun 2024;15:1365",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10866993/supplementaryFiles",
+            path="datasets/post_translation/RDeeP/38355719/41467_2024_45519_MOESM4_ESM.xlsx",
+            note="A question nothing in either table asked: not what a protein binds, but whether "
+                 "RNA is holding its complex together. One lysate down a sucrose gradient twice, "
+                 "with and without RNase, 25 fractions each; a protein that shifts towards the light "
+                 "fractions was being held by RNA. It is NOT RNA binding -- a protein can shift "
+                 "because its partner binds RNA, which is why the authors call them RNA-dependent. "
+                 "The 898 significant shifters at q < 0.05 are the paper's own number, reproduced "
+                 "from the deposit's q-values, and the flag is 0 rather than blank for the other "
+                 "2,773 proteins the run quantified: that experiment did test them. The classes come "
+                 "out the right way round -- RNA helicases enriched (28 of 61, odds 2.7, p 2e-4), the "
+                 "proteasome 0 of 14 -- while ribosomal proteins are DEPLETED (23 of 137), which is "
+                 "the reminder that this is not a column about binding RNA."),
+    Dataset("pf_committed_proteome", "Proteome of sexually committed parasites",
+            "translation", "proteomics",
+            "How much more or less of each protein a committed parasite carries",
+            ("committed_vs_asexual_log2fc", "committed_vs_asexual_fdr"), "1,950 proteins (34%)",
+            pmid="41482054", accession="PXD059080 / MCP Table S3",
+            citation="Venugopal K et al., Defining the proteome of sexually committed parasites in "
+                     "Plasmodium falciparum. Mol Cell Proteomics 2026;25:101505",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12878696/supplementaryFiles",
+            path="datasets/translation/proteomics/41482054/mmc4.xlsx",
+            note="Commitment, not the gametocyte: the decision a cycle before the stage V proteome "
+                 "already in the map, isolated by sorting on MSRP1, which this study establishes as "
+                 "the marker. The combined contrast over both reporter lines and both sorting "
+                 "directions ships, because the four arms are one comparison done four ways. MSRP1 "
+                 "itself is +1.68 at FDR 0 and that is a positive control and nothing more -- it is "
+                 "what the sort was done on. The check that means something is the paper's finding "
+                 "that merozoite surface proteins separate the populations: MSP1 +0.34 at FDR 0, "
+                 "MSP2 +0.67."),
+    Dataset("pf_resistome", "In vitro evolution resistome and field variation", "DNA",
+            "in_vitro_evolution",
+            "How often a gene mutated under compound selection, and whether the paper calls it a "
+            "target",
+            ("resistance_selection_clones", "resistance_selection_compounds",
+             "resistance_selection_variants", "resistance_target_compounds",
+             "pf6_field_dnds", "pf6_field_nonsyn_snvs"),
+            "735 selected / 4,941 field genes", pmid="39607932",
+            accession="Science Supplementary Data 3, 5, 6",
+            citation="Luth MR et al., Systematic in vitro evolution in Plasmodium falciparum "
+                     "reveals key determinants of drug resistance. Science 2024;386:eadk9893",
+            url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11809290/supplementaryFiles",
+            path="datasets/DNA/in_vitro_evolution/39607932/SupplementaryData3_SNVs-INDELs.xlsx",
+            note="724 clones, each evolved against one of 118 compounds and sequenced whole-genome; "
+                 "both numbers reproduce from the deposit. Two kinds of column, and the difference "
+                 "is the point. The COUNTS are of coding variants per gene and their top is AP2-G "
+                 "(13 compounds) and PfEMP1, genes that mutate under prolonged culture whatever the "
+                 "drug, so a count is not a claim of resistance. `resistance_target_compounds` is "
+                 "the paper's own classification, restricted to the two classes its hypergeometric "
+                 "test supports, and its top is the canonical set: PfATP4 and PfMDR1 at 5 compounds "
+                 "each, the prodrug-activating esterase at 4, then cytochrome b, CARL, PI4K beta and "
+                 "the Niemann-Pick C1-related protein at 3, with DHODH, PfCRT, the tRNA ligases and "
+                 "DHFR-TS behind them. Cytochrome b is in the deposit under the pre-2010 name "
+                 "`mal_mito_3` and matches no accession pattern: it is mapped on the deposit's own "
+                 "description naming exactly one product in the shipped table, because dropping it "
+                 "would lose the atovaquone gene and its 32 selected clones. A gene with no selected "
+                 "mutation gets NO value rather than a "
+                 "zero -- 118 compounds are not a test of the other 4,600 genes -- which is the "
+                 "opposite of the choice made for the R-DeeP flag, where the run did quantify every "
+                 "protein it reports. The Pf6 columns are field variation over 5,970 isolates, with "
+                 "the deposit's -1 for 'not computable' read as missing."),
 ]
 
 _BY_KEY = {d.key: d for d in REGISTRY}

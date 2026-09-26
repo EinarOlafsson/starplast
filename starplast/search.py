@@ -125,7 +125,12 @@ SAME_QUANTITY = {
     "localization": ("compartment", "compartment_best", "compartment_source", "lopit_map",
                      "lopit_mcmc", "lopit_unified", "lopit_prob_map", "lopit_prob_mcmc",
                      "lopit_methods_agree", "lopit_confident", "ortholopit_label",
-                     "ortholopit_donors", "ortholopit_accuracy", "ortholopit_accepted"),
+                     "ortholopit_donors", "ortholopit_accuracy", "ortholopit_accepted",
+                     # The Plasmodium spatial proteome, added 2026-09-26. Its label and the
+                     # classifier's confidence in that label are the same quantity twice, exactly as
+                     # `compartment` and `lopit_prob_map` are on the Toxoplasma side -- and that pair
+                     # is the leak this family was created for.
+                     "lopit_pf_location", "lopit_pf_svm_score"),
     "attention": ("attention_depth", "lit_tier", "n_publications", "n_fulltext",
                   "n_papers_focal", "n_papers_substantive", "n_papers_incidental"),
     # The per-phase expression series of a synchronised time course is the same quantity as the
@@ -169,6 +174,38 @@ SAME_QUANTITY = {
     # barcode counts.
     "berghei knockout transfer": ("^pb_transferred_", "pb_transfer_confidence",
                                   "fertility_female", "fertility_male"),
+    # Added 2026-09-26 with the second data audit. Each group is one experiment's outputs, or one
+    # quantity measured twice, written out for the same reason as the families above: a rule that
+    # guessed family from a column name would eventually throw away a real measurement.
+    #
+    # The hit call is a FUNCTION of the two fold changes -- down by half a log2 at p < 0.05 under
+    # both inhibitors -- so holding out chaperone dependence has to hold out the response it is
+    # computed from, and holding out the response has to hold out the call.
+    "Hsp90 inhibition response": ("hsp90_inhibition_ga_log2fc", "hsp90_inhibition_xl_log2fc",
+                                  "hsp90_dependent"),
+    # Synthesis and decay come out of ONE statistical model fitted to one 4-thiouracil experiment,
+    # and they correlate at rho 0.32 because both scale with the transcript's peak. Separate slots,
+    # one family.
+    "4-thiouracil mRNA dynamics": ("transcription_rate_4tu", "mrna_decay_rate_4tu"),
+    # Non-synonymous variation among field isolates, from two independent papers reading overlapping
+    # MalariaGEN releases. Two datasets, one quantity: recovering one from the other would be
+    # recovering the same sequencing. The PlasmoDB lab-strain SNP columns are NOT here -- they agree
+    # with these at rho 0.29-0.46, a related quantity on a different population.
+    "field variation": ("field_pnps_adj", "field_variant_fraction", "pf6_field_dnds",
+                        "pf6_field_nonsyn_snvs"),
+    # dN/dS against two nested ortholog sets: the same estimator on two samples of species.
+    "between-species selection": ("dnds_laverania", "dnds_plasmodium"),
+    # One resistome: how many selections, compounds and variants hit the gene, and the paper's call
+    # from those events. The call is not a copy of the counts -- AP2-G tops the counts and is not
+    # called -- but it is computed from the same 724 clones.
+    "in vitro evolution selection": ("resistance_selection_clones",
+                                     "resistance_selection_compounds",
+                                     "resistance_selection_variants",
+                                     "resistance_target_compounds"),
+    # A flag and the q-value it is thresholded from.
+    "RNA dependence": ("rna_dependent", "rna_dependence_qvalue"),
+    # One contrast and its FDR.
+    "sexual commitment proteome": ("committed_vs_asexual_log2fc", "committed_vs_asexual_fdr"),
 }
 
 

@@ -36,8 +36,13 @@ TARGETS = {"Tg": ("compartment", "lopit_unified", "cellcycle_phase", "stage_enri
                   "fit_serum_differential_p8", "fit_invivo_heart",
                   "mrna_log2_remaining_4h_actinomycin", "fit_glucose_dependence",
                   "iron_depletion_protein_log2fc", "utr5_n_uaugs", "bzsub_A_expr"),
+           # The six 2026-09-26 additions are targets too, and `lopit_pf_location` is the one to
+           # watch: a localization label is the most leak-prone target in this project's history.
            "Pf": ("pb_transferred_phenotype", "stage_enriched_derived", "is_exported",
-                  "piggybac_mis", "melting_temperature_tm", "fertility_female")}
+                  "piggybac_mis", "melting_temperature_tm", "fertility_female",
+                  "lopit_pf_location", "proteome_blood_log2", "hsp90_dependent",
+                  "rna_dependent", "mrna_decay_rate_4tu", "field_pnps_adj",
+                  "resistance_target_compounds", "committed_vs_asexual_log2fc")}
 THRESHOLD = 0.8
 
 

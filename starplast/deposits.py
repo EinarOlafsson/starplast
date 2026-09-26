@@ -28,6 +28,28 @@ What each one is, and the check it had to pass:
   transcript, not a half-life. Replicates agree at rho 0.96, ribosomal-protein mRNAs are stable.
   Genome-wide (6,406 genes) where the shipped column is the 412-gene unstable tail of another
   study; the two do not correlate (rho -0.03), which the tail's selection explains.
+The second pass, 2026-09-26 (instruction 52), added six Plasmodium deposits and the checks that
+admitted them:
+
+* **The spatial proteome** (PMID 42218142): the first subcellular localization in the Plasmodium
+  table, 1,646 of 3,000 proteins into 24 niches, reproduced exactly, with RAP1, MAHRP1, ACP, EXP2
+  and GAPDH each where they belong. The same paper's field pN/pS and between-species dN/dS come with
+  it.
+* **mRNA synthesis and decay rates** (PMID 29985403): 4-thiouracil labelling every hour of the
+  blood-stage cycle. Fluxes in transcripts per minute, NOT half-lives, so not comparable with the
+  Toxoplasma actinomycin columns; the paper's claim of transcription in every stage reproduces, and
+  the timing agrees with an independent expression series.
+* **The blood-stage proteome and Hsp90 dependence** (bioRxiv 10.64898/2026.08.28.747854): abundance
+  in a DMSO control and what two chemically distinct Hsp90 inhibitors do to it. The paper's 131
+  chaperone-dependent proteins reproduce exactly from its stated rule.
+* **RNA dependence** (PMID 38355719): 898 of 3,671 proteins shift towards the light fractions when
+  RNA is removed -- the paper's number, from its own q-values.
+* **The sexually committed proteome** (PMID 41482054): commitment, a cycle before the gametocyte
+  proteome already in the map.
+* **The resistome** (PMID 39607932): 724 clones evolved against 118 compounds. Per gene, how many
+  selections and compounds mutated it -- the ranking is PfMDR1, PfATP4, PfCRT, PI4K -- plus field
+  variation over 5,970 Pf6 isolates.
+
 * **Host**: the human fibroblast response to Toxoplasma (GSE335016, moderated contrast of infected
   against uninfected on log FPKM; CXCL8, IL6 and the interferon genes up, GAPDH flat), baseline mouse
   bone-marrow macrophage expression (GSE267544, M0 arm only -- LPS+IFN-gamma is not infection), and
@@ -37,6 +59,7 @@ What each one is, and the check it had to pass:
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass
 from typing import Callable
 
@@ -943,6 +966,350 @@ def pf_chromatin_proxiome(root: str) -> pd.DataFrame:
     return out.reset_index()
 
 
+# ------------------------------------------------------------------- Plasmodium, fourth wave
+#: A nuclear, apicoplast or mitochondrial gene of P. falciparum 3D7. Written once here because five
+#: of the six deposits below filter on it.
+PF_ACCESSION = r"^PF3D7_(?:\d{7}|API\d{5}|MIT\d{5})$"
+
+PF_LOPIT = ("post_translation", "LOPIT", "42218142")
+PF_LOPIT_SUMMARY = "41467_2026_73664_MOESM3_ESM.xlsx"
+PF_LOPIT_VARIATION = "41467_2026_73664_MOESM5_ESM.xlsx"
+#: The two-experiment map, not the three-experiment one. S1-S2 is the paper's headline classifier --
+#: 1,646 of 3,000 proteins into 24 niches -- while S1-S2-S3 covers 2,496 proteins and classifies
+#: fewer of them (1,323), because adding a third replicate to the concatenation costs proteins that
+#: were not quantified in it. Both are in the deposit; shipping both would be one measurement twice.
+PF_LOPIT_LOCATION = "Final location (S1-S2)"
+PF_LOPIT_SCORE = "svm.score (S1-S2)"
+
+
+def pf_spatial_proteome(root: str) -> pd.DataFrame:
+    """Where each P. falciparum protein sits in a late schizont (Chisholm et al., Nat Commun 2026,
+    Supplementary Data 1 and 3): hyperLOPIT over density gradients, classified by a support-vector
+    machine into 24 cellular niches.
+
+    The first subcellular localization of any kind in the Plasmodium table, which until now had no
+    compartment at all. `lopit_pf_location` is the label and `lopit_pf_svm_score` the classifier's
+    confidence in it; `unknown` becomes a MISSING label rather than a 25th niche, because the map's
+    first rule is that absence must not read as a measurement.
+
+    Reproduces the paper exactly: 3,000 proteins, 1,646 classified, 24 niches. The markers land
+    where they must -- RAP1 in the rhoptries, MAHRP1 in the Maurer's clefts, ACP in the apicoplast,
+    EXP2 and HSP101 at the parasitophorous vacuole membrane, GAPDH in the cytosol.
+
+    The same paper's variation table is a separate deposit (`pf_field_variation`) rather than more
+    columns here, because holding out a localization must not also withdraw a dN/dS: the closure
+    excludes columns that share provenance, and a genomic analysis printed in the same paper is not
+    an output of this gradient experiment.
+    """
+    folder = _file(root, *PF_LOPIT)
+    if folder is None:
+        return pd.DataFrame()
+    summary = pd.read_excel(os.path.join(folder, PF_LOPIT_SUMMARY),
+                            sheet_name="PlasmoLOPIT_data_summary")
+    label = summary[PF_LOPIT_LOCATION].astype(str).str.strip()
+    out = pd.DataFrame({"gene_id": summary["Gene accession"].astype(str).str.strip(),
+                        "lopit_pf_location": label.where(label.str.lower() != "unknown"),
+                        "lopit_pf_svm_score": pd.to_numeric(summary[PF_LOPIT_SCORE],
+                                                            errors="coerce")})
+    return out[out["gene_id"].str.match(PF_ACCESSION)].reset_index(drop=True)
+
+
+def pf_field_variation(root: str) -> pd.DataFrame:
+    """How variable each gene is in the field, and how fast it has evolved between species
+    (Chisholm et al., Nat Commun 2026, Supplementary Data 3).
+
+    `field_pnps_adj` and `field_variant_fraction` are computed over FIELD isolates, which is the
+    question the map had no data for -- the SNP columns already shipped are PlasmoDB's counts over
+    laboratory strains, and the two agree at rho 0.29, a related quantity on a different population
+    rather than a copy of it. `dnds_laverania` and `dnds_plasmodium` are ratios against orthologs in
+    other species: selection since the species split, not variation inside this one.
+    """
+    folder = _file(root, *PF_LOPIT)
+    if folder is None:
+        return pd.DataFrame()
+    variation = pd.read_excel(os.path.join(folder, PF_LOPIT_VARIATION),
+                              sheet_name="Plasmodium falciparum variation")
+    var = pd.DataFrame({"gene_id": variation["Gene accession"].astype(str).str.strip(),
+                        "field_pnps_adj": pd.to_numeric(variation["Adj. pN/pS"], errors="coerce"),
+                        "field_variant_fraction": pd.to_numeric(variation["Variant fraction"],
+                                                                errors="coerce"),
+                        "dnds_laverania": pd.to_numeric(variation["Avg. dN/dS (L)"],
+                                                        errors="coerce"),
+                        "dnds_plasmodium": pd.to_numeric(variation["Avg. dN/dS (P)"],
+                                                         errors="coerce")})
+    return var[var["gene_id"].str.match(PF_ACCESSION)].reset_index(drop=True)
+
+
+PF_4TU = ("transcription", "RNAseq", "29985403", "41467_2018_4966_MOESM5_ESM.xlsx")
+
+
+def pf_mrna_dynamics(root: str) -> pd.DataFrame:
+    """How fast each transcript is made and how fast it disappears (Painter et al., Nat Commun 2018,
+    Supplementary Data 2): 4-thiouracil labelling every hour through the 48-hour blood-stage cycle,
+    with the rates read off a model of total and nascent RNA.
+
+    Transcripts per minute at the gene's own peak, so these are FLUXES and not half-lives: an
+    abundant transcript decays faster in transcripts per minute than a scarce stable one, which is
+    why the decay column correlates with abundance (rho 0.42) and why it is not comparable with the
+    Toxoplasma actinomycin columns, which are fractions remaining. Signs as published: transcription
+    positive (4,414 of 4,416), decay negative (4,443 of 4,462).
+
+    The paper's claim is active transcription in every stage of the cycle, and the deposit carries
+    it: 616 to 962 genes take their peak transcription in each of the six windows. The timing checks
+    out against a series this study had nothing to do with -- of the genes whose transcription peaks
+    in a ring window, 87% to 92% also peak in the shipped ring expression column.
+
+    The peak-stage labels are in the deposit and are deliberately NOT shipped: which stage a gene's
+    transcription peaks in is what the stage expression series in the table already says, and a
+    second copy of it would be a column the leakage closure has to guess at.
+    """
+    path = _file(root, *PF_4TU)
+    if path is None:
+        return pd.DataFrame()
+    rate = pd.read_excel(path, sheet_name="Transcription Rate")
+    decay = pd.read_excel(path, sheet_name="Decay Rate")
+    rate.columns = ["gene_id", "peak_stage", "transcription_rate_4tu"]
+    decay.columns = ["gene_id", "peak_stage", "mrna_decay_rate_4tu"]
+    frames = []
+    for frame, column in ((rate, "transcription_rate_4tu"), (decay, "mrna_decay_rate_4tu")):
+        t = pd.DataFrame({"gene_id": frame["gene_id"].astype(str).str.strip(),
+                          column: pd.to_numeric(frame[column], errors="coerce")})
+        frames.append(t[t["gene_id"].str.match(r"^PF3D7_\w+$")].set_index("gene_id"))
+    out = frames[0].join(frames[1], how="outer")
+    out.index.name = "gene_id"
+    return out.reset_index()
+
+
+PF_HSP90 = ("translation", "proteomics", "pf_hsp90_2026")
+PF_HSP90_TABLE = "TableS1_media-2.xlsx"
+PF_HSP90_HITS = "TableS2_media-3.xlsx"
+PF_HSP90_REPORT = "20240914_094033_10643_hu_pf_loc_091424_Report_protein_abundances.tsv"
+#: The paper's own rule for a chaperone-dependent protein, from its Table S2A: down by at least half
+#: a log2 and p < 0.05 under BOTH inhibitors. It reproduces their list exactly -- 131 proteins, all
+#: 131 of them -- which is why it is written here as a rule rather than the list being copied.
+PF_HSP90_MIN_DROP = -0.5
+PF_HSP90_MAX_P = 0.05
+
+
+def pf_hsp90_chemoproteome(root: str) -> pd.DataFrame:
+    """The asexual blood-stage proteome, and what falls when Hsp90 is inhibited (Ibrasheva et al.,
+    bioRxiv 2026, Tables S1 and S2; PRIDE PXD079493).
+
+    Three columns for three questions. `proteome_blood_log2` is how much of each protein a
+    DMSO-treated culture contains -- log2 of the mean of the four control replicates' normalized
+    abundances -- which is the first protein abundance in the map for the stage the parasite spends
+    its life in. The two fold changes are what geldanamycin and XL888 do to it, two inhibitors with
+    different scaffolds; their continuous responses agree only at rho 0.17, which is why the hit
+    call demands BOTH -- what survives that conjunction is the chaperone's, while either column
+    alone is largely one compound's. `hsp90_dependent` is the paper's own hit call, reproduced from
+    the fold changes and p-values by the rule its methods state.
+
+    The deposit gives UniProt accessions and the map is keyed by gene, so the mapping comes from the
+    deposit's OWN Spectronaut report (`PG.UniProtIds` beside `PG.Genes`), never from a lookup that
+    could have drifted: 3,050 of 3,265 rows resolve, and a protein group naming more than one gene
+    is dropped rather than assigned to the first.
+
+    The PRIDE record says 133 hits and the supplementary table lists 131. The 131 are what is
+    reproducible, so they are what ships, and the difference is recorded rather than reconciled.
+    """
+    folder = _file(root, *PF_HSP90)
+    if folder is None:
+        return pd.DataFrame()
+    valid = re.compile(PF_ACCESSION)
+    report = pd.read_csv(os.path.join(folder, PF_HSP90_REPORT), sep="\t",
+                         usecols=["PG.Genes", "PG.UniProtIds"])
+    mapping = {}
+    for genes, accessions in zip(report["PG.Genes"].fillna("").astype(str),
+                                 report["PG.UniProtIds"].fillna("").astype(str)):
+        named = {g.split(".")[0] for g in genes.split(";") if valid.match(g.split(".")[0])}
+        if len(named) != 1:
+            continue                      # a group spanning two genes names neither
+        gene = named.pop()
+        for accession in accessions.split(";"):
+            mapping[accession.strip()] = gene
+    table = pd.read_excel(os.path.join(folder, PF_HSP90_TABLE), sheet_name=0, header=1)
+    control = [c for c in table.columns if "DMSO" in str(c) and "N_abund" in str(c)]
+    ga = pd.to_numeric(table["Average lg2fc (GA)"], errors="coerce")
+    xl = pd.to_numeric(table["Average lg2fc (XL)"], errors="coerce")
+    p_ga = pd.to_numeric(table["p-value (GA)"], errors="coerce")
+    p_xl = pd.to_numeric(table["p-value (XL)"], errors="coerce")
+    mean = table[control].apply(pd.to_numeric, errors="coerce").mean(axis=1)
+    out = pd.DataFrame({"gene_id": table["UniProt ID"].astype(str).str.strip().map(mapping),
+                        "proteome_blood_log2": np.log2(mean.where(mean > 0)),
+                        "hsp90_inhibition_ga_log2fc": ga,
+                        "hsp90_inhibition_xl_log2fc": xl,
+                        "hsp90_dependent": ((ga < PF_HSP90_MIN_DROP) & (p_ga < PF_HSP90_MAX_P)
+                                            & (xl < PF_HSP90_MIN_DROP)
+                                            & (p_xl < PF_HSP90_MAX_P)).astype(float)})
+    out = out.dropna(subset=["gene_id"])
+    # The hit call takes the MAXIMUM where two protein groups resolve to one gene: averaging a yes
+    # with a no would write 0.5, which the column's own definition has no meaning for.
+    return out.groupby("gene_id", as_index=False).agg(
+        {"proteome_blood_log2": "mean", "hsp90_inhibition_ga_log2fc": "mean",
+         "hsp90_inhibition_xl_log2fc": "mean", "hsp90_dependent": "max"})
+
+
+PF_RDEEP = ("post_translation", "RDeeP", "38355719", "41467_2024_45519_MOESM4_ESM.xlsx")
+PF_RDEEP_SHEET = "Left-shifting"
+PF_RDEEP_HEADER = 5
+PF_RDEEP_MAX_Q = 0.05
+
+
+def pf_rna_dependence(root: str) -> pd.DataFrame:
+    """Whether a protein needs RNA to stay in the complex it is in (Hollin et al., Nat Commun 2024,
+    Supplementary Data 2): R-DeeP -- the same lysate run down a sucrose gradient with and without
+    RNase, 25 fractions each, and a protein whose distribution shifts towards the light fractions
+    when the RNA is gone was held there by RNA.
+
+    A question nothing in the map asked. It is not RNA binding: a protein can shift because its
+    PARTNER binds RNA, which is why the study calls them RNA-DEPENDENT rather than RNA-binding.
+
+    `rna_dependent` is 1 for the 898 significantly left-shifted proteins and 0 for the rest of the
+    3,671 the run quantified -- a zero here means tested and not shifted, which is why the flag
+    ships beside the q-value rather than as a list. The 898 at q < 0.05 is the paper's own number,
+    reproduced from the deposit.
+
+    The classes come out the right way round: RNA helicases are enriched among the dependent (28 of
+    61, odds 2.7, p 2e-4) and the proteasome, a large complex that needs no RNA, has 0 of 14.
+    Ribosomal proteins are DEPLETED rather than enriched (23 of 137, odds 0.6) -- a ribosome is
+    mostly RNA and does not come apart in this assay the way an mRNA-bridged complex does -- so this
+    column must not be read as 'binds RNA'.
+    """
+    path = _file(root, *PF_RDEEP)
+    if path is None:
+        return pd.DataFrame()
+    d = pd.read_excel(path, sheet_name=PF_RDEEP_SHEET, header=PF_RDEEP_HEADER)
+    q = pd.to_numeric(d["q-value"], errors="coerce")
+    out = pd.DataFrame({"gene_id": d["Protein"].astype(str).str.strip(),
+                        "rna_dependence_qvalue": q,
+                        "rna_dependent": (q < PF_RDEEP_MAX_Q).astype(float)})
+    out = out[out["gene_id"].str.match(PF_ACCESSION)]
+    # A protein quantified twice keeps its strongest evidence rather than the mean of two q-values.
+    return out.sort_values("rna_dependence_qvalue").drop_duplicates(
+        "gene_id").reset_index(drop=True)
+
+
+PF_COMMITTED = ("translation", "proteomics", "41482054", "mmc4.xlsx")
+
+
+def pf_committed_proteome(root: str) -> pd.DataFrame:
+    """What changes in a parasite that has committed to becoming a gametocyte but still looks
+    asexual (Venugopal et al., Mol Cell Proteomics 2026, Table S3): parasites sorted on MSRP1, a
+    marker this study establishes, and compared with their uncommitted siblings.
+
+    Commitment, not the gametocyte -- the map already has a stage V gametocyte proteome, and this is
+    the decision that precedes it by a cycle. Positive means more abundant in the committed cells.
+    The columns are the study's combined contrast over both reporter lines and both sorting
+    directions (`logfc.all`, `fdr.all`), because the four arms are the same comparison done four
+    ways.
+
+    MSRP1 itself is +1.68 at FDR 0, which is a positive control and nothing more: it is the
+    protein the sort was done on. The check that means something is the paper's finding that
+    merozoite surface proteins separate the two populations: MSP1 (+0.34, FDR 0) and MSP2 (+0.67)
+    are up in the committed cells.
+    """
+    path = _file(root, *PF_COMMITTED)
+    if path is None:
+        return pd.DataFrame()
+    d = pd.read_excel(path, sheet_name="stats")
+    out = pd.DataFrame({"gene_id": d["protein"].astype(str).str.strip(),
+                        "committed_vs_asexual_log2fc": pd.to_numeric(d["logfc.all"],
+                                                                     errors="coerce"),
+                        "committed_vs_asexual_fdr": pd.to_numeric(d["fdr.all"], errors="coerce")})
+    out = out[out["gene_id"].str.match(PF_ACCESSION)]
+    return out.groupby("gene_id", as_index=False).mean()
+
+
+PF_RESISTOME = ("DNA", "in_vitro_evolution", "39607932")
+PF_RESISTOME_SNVS = "SupplementaryData3_SNVs-INDELs.xlsx"
+PF_RESISTOME_GENES = "SupplementaryData6_Pf6Genes.xlsx"
+PF_RESISTOME_TARGETS = "SupplementaryData5_CompoundTarget.xlsx"
+#: The two classes in which the paper's hypergeometric test supports the call. `Other Evidence`,
+#: `Unclear`, `Ambiguous CNV` and the copy-number-only class are left out: a count that mixed a
+#: statistically supported target with a compound whose own authors wrote `Unclear` would be a
+#: curated column that curates nothing.
+PF_RESISTOME_SUPPORTED = ("Overrepresented SNVs", "Overrepresented SNVs and CNVs")
+#: The deposit names the three mitochondrial-genome genes by their pre-2010 identifiers, which match
+#: no accession pattern and would be dropped -- and one of them is apocytochrome b, the atovaquone
+#: resistance gene, so dropping it would lose the best-known entry in the table. Each is mapped on
+#: the deposit's OWN gene description matching exactly one product in the shipped table:
+#: `apocytochrome B` -> the single gene whose product is `cytochrome b`, `cytochrome c oxidase
+#: subunit I (cox1)` and `... subunit 3 (COX3)` likewise. Written out rather than pattern-matched,
+#: because a legacy name resolved by guesswork attaches a measurement to the wrong protein.
+PF_RESISTOME_LEGACY = {"mal_mito_1": "PF3D7_MIT01400",     # cytochrome c oxidase subunit 3
+                       "mal_mito_2": "PF3D7_MIT02100",     # cytochrome c oxidase subunit 1
+                       "mal_mito_3": "PF3D7_MIT02300"}     # apocytochrome b
+#: Variant classes that change the protein. An intergenic or intron variant is recorded against the
+#: nearest gene by the deposit's annotation and is not evidence that this gene's product changed, so
+#: the counts are of coding variants and the rest are left out rather than silently included.
+PF_RESISTOME_CODING = ("missense_variant", "frameshift_variant", "stop_gained", "inframe_deletion",
+                       "disruptive_inframe_deletion", "inframe_insertion",
+                       "disruptive_inframe_insertion", "stop_lost", "start_lost",
+                       "splice_acceptor_variant", "splice_donor_variant")
+
+
+def pf_resistome(root: str) -> pd.DataFrame:
+    """Which genes mutate when the parasite is selected for drug resistance, and how variable they
+    are in the field (Luth et al., Science 2024, Supplementary Data 3 and 6): 724 clones, each
+    evolved in vitro against one of 118 compounds and sequenced whole-genome.
+
+    Four columns. Three are counts over CODING variants only: how many independently selected clones
+    carry one, how many distinct compounds those selections used, and how many distinct variants
+    there are. The fourth, `resistance_target_compounds`, is the paper's own call -- for how many
+    compounds is this gene the classified target or resistance gene, counting only the classes its
+    hypergeometric test supports -- and it is the column that answers the slot, because a COUNT of
+    mutations is not a claim that the gene confers resistance.
+
+    The difference is visible at the top of each column and is the reason both ship. By raw
+    selections the leaders are AP2-G (13 compounds) and PfEMP1, which mutate under prolonged culture
+    whatever the drug: losing gametocyte production is cheap in a flask. By the paper's
+    classification the leaders are PfATP4 and PfMDR1 (5 compounds each), the prodrug-activating
+    esterase (4), then cytochrome b, CARL, PI4K beta and the Niemann-Pick C1-related protein at 3,
+    with DHODH, PfCRT, the tRNA ligases and DHFR-TS behind them -- the canonical antimalarial
+    resistance set, arrived at without being told what it should contain.
+
+    A gene with no selected mutation gets NO value rather than a zero. That is deliberate and it is
+    the opposite of the choice made for the R-DeeP flag: a screen that tested every gene can say
+    'not a hit', whereas 118 compounds are not a test of the other 4,600 genes.
+
+    Beside them, the same paper's field variation from 5,970 Pf6 isolates: `pf6_field_dnds` and the
+    non-synonymous SNV count. The deposit writes -1 where a ratio could not be computed, which
+    becomes missing here -- carried through as a number it would be a strong negative selection
+    signal that nobody measured.
+    """
+    folder = _file(root, *PF_RESISTOME)
+    if folder is None:
+        return pd.DataFrame()
+    valid = re.compile(PF_ACCESSION)
+    snv = pd.read_excel(os.path.join(folder, PF_RESISTOME_SNVS), header=1)
+    snv["gene_id"] = snv["Gene Name"].astype(str).str.strip().replace(PF_RESISTOME_LEGACY)
+    snv = snv[snv["gene_id"].str.match(valid)
+              & snv["Effect"].astype(str).str.strip().isin(PF_RESISTOME_CODING)]
+    counts = snv.groupby("gene_id").agg(
+        resistance_selection_clones=("Clone Name", "nunique"),
+        resistance_selection_compounds=("Compound", "nunique"),
+        resistance_selection_variants=("Variant ID", "nunique")).astype(float)
+    genes = pd.read_excel(os.path.join(folder, PF_RESISTOME_GENES),
+                          sheet_name="evolved_vs_pf6_dNdS", header=1)
+    field = pd.DataFrame({"gene_id": genes["Gene ID"].astype(str).str.strip(),
+                          "pf6_field_dnds": pd.to_numeric(genes["Pf6 dN/dS"], errors="coerce"),
+                          "pf6_field_nonsyn_snvs": pd.to_numeric(
+                              genes["Numer of Pf6 Non-synonymous unique SNVs"], errors="coerce")})
+    field = field[field["gene_id"].str.match(valid)].set_index("gene_id")
+    field["pf6_field_dnds"] = field["pf6_field_dnds"].where(field["pf6_field_dnds"] >= 0)
+    targets = pd.read_excel(os.path.join(folder, PF_RESISTOME_TARGETS), header=1)
+    supported = targets[targets["Evidence classification"].astype(str).str.strip()
+                        .isin(PF_RESISTOME_SUPPORTED)].copy()
+    names = supported["Target or Resistance Gene ID"].astype(str).str.strip()
+    supported["gene_id"] = names.replace(PF_RESISTOME_LEGACY)
+    supported = supported[supported["gene_id"].str.match(valid)]
+    called = supported.groupby("gene_id")["Compound"].nunique().astype(float).rename(
+        "resistance_target_compounds")
+    out = counts.join(field, how="outer").join(called, how="outer")
+    out.index.name = "gene_id"
+    return out.reset_index()
+
+
 # --------------------------------------------------------------------------- the list
 @dataclass(frozen=True)
 class Deposit:
@@ -976,6 +1343,13 @@ DEPOSITS = (
     Deposit("pf_target_engagement", "Pf", pf_target_engagement),
     Deposit("pf_febrile_phospho", "Pf", pf_febrile_phospho),
     Deposit("pf_chromatin_proxiome", "Pf", pf_chromatin_proxiome),
+    Deposit("pf_spatial_proteome", "Pf", pf_spatial_proteome),
+    Deposit("pf_field_variation", "Pf", pf_field_variation),
+    Deposit("pf_mrna_dynamics", "Pf", pf_mrna_dynamics),
+    Deposit("pf_hsp90_chemoproteome", "Pf", pf_hsp90_chemoproteome),
+    Deposit("pf_rna_dependence", "Pf", pf_rna_dependence),
+    Deposit("pf_committed_proteome", "Pf", pf_committed_proteome),
+    Deposit("pf_resistome", "Pf", pf_resistome),
     Deposit("host_hff_tg_infection", "host", hff_tg_infection),
     Deposit("host_bmdm_baseline", "host", bmdm_baseline),
     Deposit("host_hepatocyte_pf_infection", "host", hepatocyte_pf_infection),
@@ -1021,6 +1395,11 @@ def parasite_columns(base: str, organism: str, ids, resolve=None, log=print) -> 
     over the A/B halves of a locus GT1 splits (TGGT1_224540A/B); only a gene reached by halves
     alone gets their mean. Averaging all three once moved TGME49_224540 from -3.99 to +0.20 --
     the halves are different gene models, not replicates of the whole.
+
+    A LABEL column (a compartment name, a stage) has no mean, so where two rows land on one gene it
+    is carried only if they agree; where they disagree the gene gets no label rather than the first
+    row's. Added for the Plasmodium spatial proteome, whose measurement IS a label -- before that
+    every deposit column was numeric and `mean(numeric_only=True)` dropped anything else in silence.
     """
     ids = pd.Index([str(i) for i in ids])
     out = pd.DataFrame(index=ids)
@@ -1036,8 +1415,13 @@ def parasite_columns(base: str, organism: str, ids, resolve=None, log=print) -> 
         whole_genes = set(genes[~half])
         keep = ~half | ~genes.isin(whole_genes).to_numpy()
         values = frame.drop(columns="gene_id")[keep].set_index(genes[keep].to_numpy())
-        values = values.groupby(level=0).mean(numeric_only=True)
-        aligned = values.reindex(ids)
+        labels = [c for c in values.columns if not pd.api.types.is_numeric_dtype(values[c])]
+        numeric = values.groupby(level=0).mean(numeric_only=True)
+        if labels:
+            agreed = values[labels].groupby(level=0).agg(
+                lambda s: s.dropna().iloc[0] if s.dropna().nunique() == 1 else None)
+            numeric = numeric.join(agreed)[[c for c in values.columns]]
+        aligned = numeric.reindex(ids)
         for c in aligned.columns:
             out[c] = aligned[c].to_numpy()
         log(f"deposit {dep.key}: " + ", ".join(

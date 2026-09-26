@@ -210,7 +210,131 @@ def build(dataset_root: str) -> str:
             " 'm6A transcripts with a site': int((D.pf_m6a(DATA).m6a_n_canonical_sites > 0).sum()),",
             " 'proteins engaged by at least one antimalarial': int((D.pf_target_engagement(DATA).engaged_n_compounds_hit > 0).sum())}")
 
-    nb.md("## 13. Write the tables",
+    nb.md("## 13. The spatial proteome of the schizont (Chisholm et al. 2026, PMID 42218142)",
+          "The first subcellular localization in the Plasmodium table. Three numbers have to come "
+          "back exactly -- 3,000 proteins mapped, 1,646 classified, 24 niches -- and then the "
+          "markers have to be where cell biology has put them for thirty years.")
+    nb.code("lopit = D.pf_spatial_proteome(DATA).set_index('gene_id')",
+            "pfid = pd.read_csv(os.path.join(ROOT, 'starplast', 'data', 'plasmodb_identity.tsv'), sep='\\t')",
+            "symbol = pfid.dropna(subset=['gene_name']).drop_duplicates('gene_name').set_index('gene_name')['gene_id']",
+            "{'proteins mapped (paper: 3000)': int(lopit.lopit_pf_svm_score.notna().sum()),",
+            " 'classified (paper: 1646)': int(lopit.lopit_pf_location.notna().sum()),",
+            " 'niches (paper: 24)': int(lopit.lopit_pf_location.nunique())}")
+    nb.code("markers = ['RAP1', 'MAHRP1', 'ACP', 'EXP2', 'HSP101', 'GAPDH', 'SERA5']",
+            "pd.DataFrame([{'marker': m, 'gene': symbol.get(m),",
+            "               'location': lopit.lopit_pf_location.get(symbol.get(m)),",
+            "               'svm score': lopit.lopit_pf_svm_score.get(symbol.get(m))}",
+            "              for m in markers])")
+
+    nb.md("## 14. Field variation and between-species dN/dS, from the same paper",
+          "Two different questions, which is why they are a separate deposit. The field pN/pS must "
+          "NOT be a copy of the laboratory-strain SNP ratio the table already carries -- if it were, "
+          "the field-variation slot would be answered by data the map already had.")
+    nb.code("var = D.pf_field_variation(DATA).set_index('gene_id')",
+            "base = pf[['snp_nonsyn_syn_ratio', 'piggybac_mis', 'ortholog_number']]",
+            "j = var.join(base)",
+            "rows = []",
+            "for c in ['field_pnps_adj', 'field_variant_fraction', 'dnds_laverania', 'dnds_plasmodium']:",
+            "    for other in ['snp_nonsyn_syn_ratio', 'piggybac_mis']:",
+            "        ok = j[[c, other]].dropna()",
+            "        rows.append({'column': c, 'against': other, 'genes': len(ok),",
+            "                     'rho': stats.spearmanr(ok[c], ok[other]).correlation})",
+            "pd.DataFrame(rows).round(3)")
+
+    nb.md("## 15. mRNA synthesis and decay rates (Painter et al. 2018, PMID 29985403)",
+          "Fluxes in transcripts per minute, not half-lives. The paper's claim is that transcription "
+          "runs in every stage of the cycle; the deposit's own peak-stage labels say how many genes "
+          "peak in each window, and the timing is then checked against an expression series this "
+          "study had nothing to do with.")
+    nb.code("dyn = D.pf_mrna_dynamics(DATA).set_index('gene_id')",
+            "raw = pd.read_excel(os.path.join(DATA, *D.PF_4TU), sheet_name='Transcription Rate')",
+            "raw.columns = ['gene_id', 'stage', 'rate']",
+            "print(raw.stage.value_counts().to_dict())",
+            "{'transcription rate > 0': int((dyn.transcription_rate_4tu > 0).sum()),",
+            " 'of': int(dyn.transcription_rate_4tu.notna().sum()),",
+            " 'decay rate < 0': int((dyn.mrna_decay_rate_4tu < 0).sum()),",
+            " 'of ': int(dyn.mrna_decay_rate_4tu.notna().sum())}")
+    nb.code("expr = pf[['expr_ring', 'expr_early_trophozoite', 'expr_late_trophozoite', 'expr_schizont']]",
+            "peak = expr.idxmax(axis=1).reindex(raw.gene_id.values)",
+            "ring = raw[raw.stage.isin(['Early Ring', 'Mid Ring', 'Late Ring'])]",
+            "share = {s: float((peak.reindex(g.gene_id.values) == 'expr_ring').mean())",
+            "         for s, g in ring.groupby('stage')}",
+            "mx = expr.max(axis=1).reindex(dyn.index)",
+            "{'share peaking in the shipped ring column': {k: round(v, 3) for k, v in share.items()},",
+            " 'rho(transcription rate, max stage expression)': round(float(stats.spearmanr(dyn.transcription_rate_4tu, mx, nan_policy='omit').correlation), 3),",
+            " 'rho(|decay rate|, max stage expression)': round(float(stats.spearmanr(dyn.mrna_decay_rate_4tu.abs(), mx, nan_policy='omit').correlation), 3)}")
+
+    nb.md("## 16. The blood-stage proteome and Hsp90 dependence (bioRxiv 2026)",
+          "The paper lists 131 chaperone-dependent proteins. Its methods give the rule, so the rule "
+          "is applied to the abundance table and the answer is compared with their list -- not "
+          "copied from it. Two inhibitors with unrelated scaffolds, so what agrees between them is "
+          "the chaperone's.")
+    nb.code("hsp = D.pf_hsp90_chemoproteome(DATA).set_index('gene_id')",
+            "s1 = pd.read_excel(os.path.join(DATA, *D.PF_HSP90, D.PF_HSP90_TABLE), sheet_name=0, header=1)",
+            "s2 = pd.read_excel(os.path.join(DATA, *D.PF_HSP90, D.PF_HSP90_HITS), sheet_name='A. PfHsp90-dependent proteins', header=1)",
+            "num = lambda c: pd.to_numeric(s1[c], errors='coerce')",
+            "rule = ((num('Average lg2fc (GA)') < D.PF_HSP90_MIN_DROP) & (num('p-value (GA)') < D.PF_HSP90_MAX_P)",
+            "        & (num('Average lg2fc (XL)') < D.PF_HSP90_MIN_DROP) & (num('p-value (XL)') < D.PF_HSP90_MAX_P))",
+            "mine = set(s1.loc[rule, 'UniProt ID'].astype(str).str.strip())",
+            "theirs = set(s2['UniProt ID'].astype(str).str.strip())",
+            "{'the paper\\'s list': len(theirs), 'the rule applied here': len(mine),",
+            " 'in both': len(mine & theirs), 'genes after mapping': int(hsp.hsp90_dependent.sum()),",
+            " 'rho(GA, XL)': round(float(stats.spearmanr(hsp.hsp90_inhibition_ga_log2fc, hsp.hsp90_inhibition_xl_log2fc).correlation), 3)}")
+    nb.code("prod = pf['product'].reindex(hsp.index).fillna('')",
+            "dependent = hsp.hsp90_dependent == 1",
+            "{'proteins quantified': len(hsp),",
+            " 'median log2 abundance, dependent': round(float(hsp.loc[dependent, 'proteome_blood_log2'].median()), 2),",
+            " 'median log2 abundance, the rest': round(float(hsp.loc[~dependent, 'proteome_blood_log2'].median()), 2),",
+            " 'ribosomal proteins among the dependent': int(prod[dependent].str.contains('ribosomal protein', case=False).sum())}")
+
+    nb.md("## 17. RNA dependence (Hollin et al. 2024, PMID 38355719)",
+          "A protein whose sedimentation moves to the light fractions once the RNA is digested was "
+          "being held there by RNA. The paper reports 898 of them; the q-values in the deposit have "
+          "to give that number, and the classes that should be RNA-dependent have to be.")
+    nb.code("rdeep = D.pf_rna_dependence(DATA).set_index('gene_id')",
+            "prod = pf['product'].reindex(rdeep.index).fillna('')",
+            "dep = rdeep.rna_dependent == 1",
+            "families = {'ribosomal protein': 'ribosomal protein', 'RNA helicase': 'helicase',",
+            "            'tRNA ligase': 'tRNA ligase', 'proteasome': 'proteasome subunit'}",
+            "rows = [{'quantified (paper: 3671)': len(rdeep), 'RNA-dependent (paper: 898)': int(dep.sum())}]",
+            "for name, word in families.items():",
+            "    hit = prod.str.contains(word, case=False)",
+            "    table = [[int((hit & dep).sum()), int((hit & ~dep).sum())],",
+            "             [int((~hit & dep).sum()), int((~hit & ~dep).sum())]]",
+            "    odds, p = stats.fisher_exact(table)",
+            "    rows.append({'family': name, 'n': int(hit.sum()), 'dependent': int((hit & dep).sum()),",
+            "                 'odds': round(odds, 2), 'p': p})",
+            "pd.DataFrame(rows)")
+
+    nb.md("## 18. The sexually committed proteome (Venugopal et al. 2026, PMID 41482054)",
+          "MSRP1 must be up, and that proves nothing -- it is the protein the sort was done on. The "
+          "check is the paper's finding that merozoite surface proteins separate the two "
+          "populations.")
+    nb.code("committed = D.pf_committed_proteome(DATA).set_index('gene_id')",
+            "wanted = ['MSRP1', 'MSP1', 'MSP2', 'MSP3', 'AP2-G', 'GEXP5']",
+            "pd.DataFrame([{'protein': w, 'gene': symbol.get(w),",
+            "               'log2FC': committed.committed_vs_asexual_log2fc.get(symbol.get(w)),",
+            "               'FDR': committed.committed_vs_asexual_fdr.get(symbol.get(w))}",
+            "              for w in wanted]).round(4)")
+
+    nb.md("## 19. The resistome (Luth et al. 2024, PMID 39607932)",
+          "The design reproduces from the deposit -- 724 clones, 118 compounds -- and then the two "
+          "kinds of column part company. Counting mutations puts culture-adaptation loci on top; the "
+          "paper's own classification puts the antimalarial targets there.")
+    nb.code("res = D.pf_resistome(DATA).set_index('gene_id')",
+            "snv = pd.read_excel(os.path.join(DATA, *D.PF_RESISTOME, D.PF_RESISTOME_SNVS), header=1)",
+            "print({'clones (paper: 724)': snv['Clone Name'].nunique(), 'compounds (paper: 118)': snv['Compound'].nunique()})",
+            "product = pf['product']",
+            "top = res.sort_values('resistance_selection_compounds', ascending=False).head(6)",
+            "top.assign(product=product.reindex(top.index))[['resistance_selection_compounds', 'resistance_selection_clones', 'product']]")
+    nb.code("called = res[res.resistance_target_compounds.notna()].sort_values('resistance_target_compounds', ascending=False)",
+            "called.assign(product=product.reindex(called.index))[['resistance_target_compounds', 'resistance_selection_clones', 'product']].head(10)")
+    nb.code("{'genes with a selected coding mutation': int(res.resistance_selection_clones.notna().sum()),",
+            " 'genes the paper calls a target or resistance gene': int(res.resistance_target_compounds.notna().sum()),",
+            " 'field dN/dS genes': int(res.pf6_field_dnds.notna().sum()),",
+            " 'rho(field dN/dS, selected compounds)': round(float(stats.spearmanr(res.pf6_field_dnds, res.resistance_selection_compounds, nan_policy='omit').correlation), 3)}")
+
+    nb.md("## 20. Write the tables",
           "Each derivation is written to `starplast/data/deposit_<key>.tsv`. "
           "`scripts/add_deposits.py` merges them into the node and host tables, refusing any merge "
           "that would lose a value.")

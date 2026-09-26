@@ -110,6 +110,22 @@ quantity were approximating on 2026-08-13.
 #: and because a proposal that names a PMID without its title asks the reader to go and find
 #: out what was being proposed. Titles are as PubMed gives them.
 REFERENCES = {
+    # Added 2026-09-26 by the second data audit. Each was resolved through Europe PMC
+    # (`EXT_ID:<pmid> AND SRC:MED`, resultType=core) rather than typed from memory.
+    "42218142": ("2026", "Nat Commun",
+                 "The spatial proteome of the Plasmodium falciparum schizont illuminates the "
+                 "composition and evolutionary trajectories of its organelles."),
+    "38355719": ("2024", "Nat Commun",
+                 "Proteome-Wide Identification of RNA-dependent proteins and an emerging role for "
+                 "RNAs in Plasmodium falciparum protein complexes."),
+    "29985403": ("2018", "Nat Commun",
+                 "Genome-wide real-time in vivo transcriptional dynamics during Plasmodium "
+                 "falciparum blood-stage development."),
+    "41482054": ("2026", "Mol Cell Proteomics",
+                 "Defining the Proteome of Sexually Committed Parasites in Plasmodium falciparum."),
+    "39607932": ("2024", "Science",
+                 "Systematic in vitro evolution in Plasmodium falciparum reveals key determinants "
+                 "of drug resistance."),
     "42580337": ("2026", "Cell",
                  "Convergent evolution of metabolic regulation governs redox adaptation in "
                  "Toxoplasma."),
@@ -834,6 +850,46 @@ NEW_PLASMODIUM = [
     ("export / PEXEL trafficking", "localization", "erythrocyte cytosol", "gene", [], "one"),
     ("host receptor binding", "host effect", "endothelium, erythrocyte", "gene", [], "separate"),
     ("field variation and resistance markers", "sequence", "clinical isolates", "gene", [], "one"),
+    # Six slots added 2026-09-26 (instruction 52). Each is a question the catalogue could not
+    # express, and each has data: an empty slot describing wished-for data is not wanted.
+    #
+    # The Plasmodium table had NO localization of any kind -- the question hyperLOPIT answers for
+    # Toxoplasma in this same map -- so this is not a Plasmodium mirror of a Toxoplasma slot but the
+    # same question asked where it had never been asked. `one`, because there is one such experiment.
+    ("localization · schizont", "localization", "late schizont, hyperLOPIT", "gene",
+     ["lopit_pf_location", "lopit_pf_svm_score"], "one",
+     [("42218142", "PXD070842", "hyperLOPIT over 3,000 schizont proteins, 24 niches")]),
+    # Which proteins need a chaperone to stay folded. Its columns are the paper's hit CALL; the two
+    # fold changes it is computed from answer `protein abundance · under stress`, so one measurement
+    # is not claimed twice, and `search.SAME_QUANTITY` holds all three out together.
+    ("chaperone dependence", "protein abundance", "Hsp90 inhibition, two scaffolds", "gene",
+     ["hsp90_dependent"], "one",
+     [("", "PXD079493", "geldanamycin and XL888 chemoproteomics, 131 dependent proteins")]),
+    # NOT RNA binding, which is the slot above it, and the distinction is the study's own: a protein
+    # can shift on the gradient because its PARTNER binds RNA. The question is whether RNA is holding
+    # a complex together, and nothing in either organism's catalogue asked it.
+    ("RNA dependence of complexes", "relation", "sucrose gradient with and without RNase", "gene",
+     ["rna_dependent", "rna_dependence_qvalue"], "one",
+     [("38355719", "MSV000091565", "R-DeeP: 898 RNA-dependent proteins of 3,671 quantified")]),
+    # How fast a transcript is MADE, which no column in either table carried: every transcription
+    # slot until now holds an amount, and an amount is the balance of synthesis and decay. Its decay
+    # half answers the RNA-stability slot, from the same model, and the two are one family.
+    ("transcription rate · asexual blood stage", "transcription", "4-thiouracil labelling, hourly",
+     "gene", ["transcription_rate_4tu"], "one",
+     [("29985403", "GSE66669", "nascent transcription rate at every hour of the cycle")]),
+    # The decision to become a gametocyte, a cycle before the gametocyte proteome already in the
+    # map. A stage of its own rather than a contrast inside the blood-stage slot: a committed
+    # schizont is still an asexual-looking parasite, which is the whole difficulty of studying it.
+    ("protein abundance · sexually committed", "protein abundance",
+     "MSRP1-sorted committed parasites", "gene",
+     ["committed_vs_asexual_log2fc", "committed_vs_asexual_fdr"], "one",
+     [("41482054", "PXD059080", "proteome of committed parasites against their asexual siblings")]),
+    # Selection BETWEEN species, which is not what `field variation and resistance markers` or
+    # `strain variation` ask: those are variation inside P. falciparum. dN/dS against Laverania and
+    # wider Plasmodium orthologs says what has been conserved since the species split.
+    ("between-species selection (dN/dS)", "sequence", "Laverania and Plasmodium orthologs", "gene",
+     ["dnds_laverania", "dnds_plasmodium"], "separate",
+     [("42218142", "Nat Commun Supplementary Data 3", "dN/dS per gene over two ortholog sets")]),
 ] + _host_slots(HOST_CONTEXTS_PF)
 
 #: Toxoplasma-specific slots, for the same reason in the other direction.
@@ -1786,11 +1842,35 @@ PF_PATTERNS = {
     # Curated first: `one` picks the leading candidate, and the orthology-derived field is inference.
     "enzyme classification": ["ec_number", "has_ec", "ec_number_orthology"],
     "host interaction degree": ["n_host_targets"],
-    # `protein abundance · asexual blood stage` is deliberately NOT claimed by the proteome columns
-    # in this table. PlasmoDB serves that TMT study row-normalised, so its three values are a
-    # protein's distribution ACROSS the cycle and sum to a constant; they answer "which stage" and
-    # the slot asks "how much". Claiming it would have put a compositional share where an abundance
-    # belongs, and the tell would have been buried: ring protein correlates -0.25 with ring mRNA.
+    # `protein abundance · asexual blood stage` WAS deliberately unclaimed, because the only
+    # candidate was PlasmoDB's row-normalised TMT study, whose three values are a protein's
+    # distribution ACROSS the cycle and sum to a constant: they answer "which stage" where the slot
+    # asks "how much", and the tell would have been buried (ring protein correlates -0.25 with ring
+    # mRNA). It is answered now by an actual abundance -- the DMSO arm of the Hsp90 chemoproteomics,
+    # 3,049 proteins in a blood-stage culture -- and the compositional columns stay where they were.
+    "protein abundance · asexual blood stage": ["proteome_blood_log2"],
+    # Chemical stress: what two Hsp90 inhibitors do to every protein's abundance. The paper's own
+    # hit call from these two columns answers `chaperone dependence` instead, one slot down, so that
+    # no column answers both.
+    "protein abundance · under stress": ["hsp90_inhibition_ga_log2fc",
+                                         "hsp90_inhibition_xl_log2fc"],
+    # Transcripts lost per minute, from 4-thiouracil labelling at every hour of the cycle. A FLUX,
+    # not a fraction remaining like the Toxoplasma actinomycin columns that answer the mirrored
+    # slot -- the policy stays `separate` for that reason, because averaging the two would average
+    # two different units.
+    "RNA stability / half-life · asexual blood stage": ["mrna_decay_rate_4tu"],
+    # Variation measured over FIELD isolates, which is what this slot asks and what `strain
+    # variation` above does not answer: those are PlasmoDB's counts over laboratory strains, and the
+    # two agree at rho 0.29. Two studies' field columns, so the policy is `separate`.
+    "field variation and resistance markers": ["field_pnps_adj", "field_variant_fraction",
+                                               "pf6_field_dnds", "pf6_field_nonsyn_snvs"],
+    # In vitro evolution against 118 compounds. `resistance_target_compounds` is the paper's own
+    # classification and the counts are the raw selections, which are NOT the same claim: counting
+    # mutations puts AP2-G and PfEMP1 on top, genes that mutate in culture whatever the drug.
+    "resistance-conferring mutation": ["resistance_target_compounds",
+                                       "resistance_selection_clones",
+                                       "resistance_selection_compounds",
+                                       "resistance_selection_variants"],
 }
 
 
