@@ -14,6 +14,7 @@
   - **Conformal values** wraps a predicted measurement in an interval that holds for a stated share of new genes, and lists the measured genes outside theirs.
 - Label-calling strategies now pass their per-class scores to the scorecard (k-nearest neighbours, network vote, random walk, logistic regression, weighted vote, triangulation, map neighbours, cluster guilt), so macro AUROC and AUPRC are measured rather than missing.
 - Document the strategies API in [docs/API.md](docs/API.md): overview, run, test, card, calibration, tuned settings, contexts, and scoring predictions made outside Starplast.
+- Add `starplast.organisms`, one declaration per species space: code, reference, id pattern, tables, partner, life stages, calibration targets and record links. It declares *T. gondii* and *P. falciparum* today, and tests hold it to every literal it will replace. This is the first step towards separate host and vector spaces ([instruction 53](instructions/open/53_organism_spaces.md)).
 - `import starplast` now reaches the main modules as attributes (`starplast.strategies`, `starplast.scorecard`, `starplast.techniques`, `starplast.calibration`, ...), each loaded on first use. Importing the strategies no longer imports Qt: the `Stopped` exception moved to `starplast.stopping`, and `jobs.Stopped` is the same class.
 
 ## 0.45.0

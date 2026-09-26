@@ -1,6 +1,6 @@
 # 53 · One space per organism, then links between pathogen, vector and host
 
-**Status: open (designed 2026-09-26; WP0 waits for the data-audit-b and UI branches to merge).**
+**Status: open (designed 2026-09-26). R0 done: `starplast/organisms.py` declares Tg and Pf, and `tests/test_organisms.py` holds it to every literal it will replace. R1 onward waits for the data-audit-b and UI branches to merge.**
 
 The user, 2026-09-26: "we should also make the host and vector datasets more comprehensive!
 (plasmodium, cryptosporidium, human, mouse, feline, anophelus, rat, datasets and informationslots
