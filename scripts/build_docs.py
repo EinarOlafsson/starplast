@@ -15,7 +15,8 @@ PAGES = {"index": "docs/index.md", "guide": "docs/guide.md", "API": "docs/API.md
          "protein-sequences": "docs/protein-sequences.md", "releases": "docs/releases.md",
          "workflows": "docs/workflows.md", "benchmark-0.43": "docs/benchmark-0.43.md",
          "repository-review": "docs/repository-review.md",
-         "scientific-roadmap": "docs/scientific-roadmap.md", "changelog": "CHANGELOG.md"}
+         "scientific-roadmap": "docs/scientific-roadmap.md", "changelog": "CHANGELOG.md",
+         "calibration": "docs/calibration.md", "graphspace": "docs/graphspace.md"}
 
 
 def main():

@@ -85,7 +85,7 @@ pre.code .ln:hover { background:#324257; }
 .card p { font-size:13.5px; color:var(--muted); margin:0 0 10px 0; }
 .card a { margin-right:14px; font-size:14px; }
 .toc { columns:2; font-size:14px; }
-</style></head><body><div class='topbar'><h1>Start from a gene list, from Python</h1><div class='nav'><a href='index.html'>All tutorials</a><a href='complete_guide.html'>Complete guide</a><a href='../strategies.md'>Strategy catalogue</a></div></div><div class='nb'><h1>Start from a gene list</h1><p>Four strategies take a list: 02 looks for the cluster that holds it, 20 learns what makes it special from positives alone, 24 describes what it has in common, and 25 grows it along the networks. Here the list is the 135 genes of PM - integral; hold out the compartment column so no strategy can read the list back from the label that defined it.</p><div class='cell'><div class='in'><div class='prompt'>In [1]:</div><pre class='code'><span class='ln' data-tip='Import.'>from starplast import strategies as S</span><span class='ln' data-tip='The table.'>ctx = S.shipped(&#x27;Tg&#x27;)</span><span class='ln' data-tip='A known category of about 120 genes -- stand-in for your own list.'>cat, members = S.example_set(ctx, &#x27;compartment&#x27;)</span><span class='ln' data-tip='As accessions, which is what you would paste.'>genes = list(ctx.gene_ids[members])</span><span class='ln' data-tip='What the list is.'>print(cat, len(genes), genes[:5])</span></pre></div><div class='outp'><div class='prompt'>Out[1]:</div><div class='outbox'><pre>PM - integral 135 [&#x27;TGME49_254370&#x27;, &#x27;TGME49_216620&#x27;, &#x27;TGME49_247195&#x27;, &#x27;TGME49_211640&#x27;, &#x27;TGME49_316730&#x27;]</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [2]:</div><pre class='code'><span class='ln' data-tip='Strategy 02 with the label that defined the list withheld.'>hunt = S.run(&#x27;geneset_hunt&#x27;, genes=genes, exclude=&#x27;compartment&#x27;,</span><span class='ln' data-tip='A small grid.'>             n_neighbors=&#x27;15, 50&#x27;, min_dist=&#x27;0.0&#x27;, min_cluster_size=&#x27;20, 50&#x27;,</span><span class='ln' data-tip='Both cluster selections.'>             selection=&#x27;eom, leaf&#x27;, sample=2000)</span><span class='ln' data-tip='The best cluster, its precision and recall, and the search-corrected p-value against random lists.'>print(hunt.summary)</span></pre></div><div class='outp'><div class='prompt'>Out[2]:</div><div class='outbox'><pre>135 genes found (0 not found). Best of 8 configurations: all permitted, n_neighbors 15, min_dist 0.0, min cluster 20 (leaf) -- cluster 3 holds 25 of your 135 placed genes among 138 (precision 0.18, recall 0.19, F1 0.18). Random sets of the same size reach F1 0.13 ± 0.01 at their best over the same walk (search-corrected p = 0.0099). 113 genes in that cluster are not on your list.</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [3]:</div><pre class='code'><span class='ln' data-tip='The cluster&#x27;s other members, nearest its centre first.'>hunt.tables[&#x27;candidates&#x27;].head(10)</span></pre></div><div class='outp'><div class='prompt'>Out[3]:</div><div class='outbox'><table border="1" class="dataframe">
+</style></head><body><div class='topbar'><h1>Start from a gene list, from Python</h1><div class='nav'><a href='index.html'>All tutorials</a><a href='complete_guide.html'>Complete guide</a><a href='../strategies.md'>Strategy catalogue</a></div></div><div class='nb'><h1>Start from a gene list</h1><p>Four strategies take a list: 02 looks for the cluster that holds it, 20 learns what makes it special from positives alone, 24 describes what it has in common, and 25 grows it along the networks. Here the list is the 135 genes of PM - integral; hold out the compartment column so no strategy can read the list back from the label that defined it.</p><div class='cell'><div class='in'><div class='prompt'>In [1]:</div><pre class='code'><span class='ln' data-tip='Import.'>from starplast import strategies as S</span><span class='ln' data-tip='The table.'>ctx = S.shipped(&#x27;Tg&#x27;)</span><span class='ln' data-tip='A known category of about 120 genes -- stand-in for your own list.'>cat, members = S.example_set(ctx, &#x27;compartment&#x27;)</span><span class='ln' data-tip='As accessions, which is what you would paste.'>genes = list(ctx.gene_ids[members])</span><span class='ln' data-tip='What the list is.'>print(cat, len(genes), genes[:5])</span></pre></div><div class='outp'><div class='prompt'>Out[1]:</div><div class='outbox'><pre>PM - integral 135 [&#x27;TGME49_254370&#x27;, &#x27;TGME49_216620&#x27;, &#x27;TGME49_247195&#x27;, &#x27;TGME49_211640&#x27;, &#x27;TGME49_316730&#x27;]</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [2]:</div><pre class='code'><span class='ln' data-tip='Strategy 02 with the label that defined the list withheld.'>hunt = S.run(&#x27;geneset_hunt&#x27;, genes=genes, exclude=&#x27;compartment&#x27;,</span><span class='ln' data-tip='A small grid.'>             n_neighbors=&#x27;15, 50&#x27;, min_dist=&#x27;0.0&#x27;, min_cluster_size=&#x27;20, 50&#x27;,</span><span class='ln' data-tip='Both cluster selections.'>             selection=&#x27;eom, leaf&#x27;, sample=2000)</span><span class='ln' data-tip='The best cluster, its precision and recall, and the search-corrected p-value against random lists.'>print(hunt.summary)</span></pre></div><div class='outp'><div class='prompt'>Out[2]:</div><div class='outbox'><pre>135 genes found (0 not found). Best of 8 configurations: all permitted, n_neighbors 15, min_dist 0.0, min cluster 20 (leaf) -- cluster 5 holds 22 of your 135 placed genes among 96 (precision 0.23, recall 0.16, F1 0.19). Random sets of the same size reach F1 0.13 ± 0.00 at their best over the same walk (search-corrected p = 0.0099). 74 genes in that cluster are not on your list.</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [3]:</div><pre class='code'><span class='ln' data-tip='The cluster&#x27;s other members, nearest its centre first.'>hunt.tables[&#x27;candidates&#x27;].head(10)</span></pre></div><div class='outp'><div class='prompt'>Out[3]:</div><div class='outbox'><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>gene_id</th>
@@ -96,64 +96,64 @@ pre.code .ln:hover { background:#324257; }
   </thead>
   <tbody>
     <tr>
-      <td>TGME49_267070</td>
-      <td>aquaporin 2</td>
-      <td>False</td>
-      <td>0.821</td>
-    </tr>
-    <tr>
-      <td>TGME49_221480</td>
-      <td>hypothetical protein</td>
-      <td>False</td>
-      <td>0.878</td>
-    </tr>
-    <tr>
-      <td>TGME49_249200</td>
-      <td>Ctr copper transporter family protein</td>
-      <td>False</td>
-      <td>1.13</td>
-    </tr>
-    <tr>
-      <td>TGME49_251840</td>
-      <td>hypothetical protein</td>
-      <td>False</td>
-      <td>1.15</td>
-    </tr>
-    <tr>
-      <td>TGME49_265520</td>
-      <td>hypothetical protein</td>
-      <td>False</td>
-      <td>1.27</td>
-    </tr>
-    <tr>
       <td>TGME49_318660</td>
       <td>protein phosphatase PPM5B</td>
       <td>False</td>
-      <td>1.52</td>
-    </tr>
-    <tr>
-      <td>TGME49_276930</td>
-      <td>IMP1-like protein, putative</td>
-      <td>False</td>
-      <td>1.76</td>
+      <td>0.402</td>
     </tr>
     <tr>
       <td>TGME49_271610</td>
       <td>pyrroline-5-carboxylate reductase</td>
       <td>False</td>
-      <td>1.92</td>
+      <td>1.62</td>
+    </tr>
+    <tr>
+      <td>TGME49_267070</td>
+      <td>aquaporin 2</td>
+      <td>False</td>
+      <td>1.66</td>
     </tr>
     <tr>
       <td>TGME49_306190</td>
       <td>hypothetical protein</td>
       <td>False</td>
-      <td>1.93</td>
+      <td>1.72</td>
+    </tr>
+    <tr>
+      <td>TGME49_226740</td>
+      <td>zinc finger, C3HC4 type (RING finger) domain-containing protein</td>
+      <td>False</td>
+      <td>1.82</td>
     </tr>
     <tr>
       <td>TGME49_208550</td>
       <td>hypothetical protein</td>
       <td>False</td>
-      <td>2.15</td>
+      <td>2.07</td>
+    </tr>
+    <tr>
+      <td>TGME49_214950</td>
+      <td>hypothetical protein</td>
+      <td>False</td>
+      <td>2.35</td>
+    </tr>
+    <tr>
+      <td>TGME49_240570</td>
+      <td>hypothetical protein</td>
+      <td>False</td>
+      <td>2.38</td>
+    </tr>
+    <tr>
+      <td>TGME49_249200</td>
+      <td>Ctr copper transporter family protein</td>
+      <td>False</td>
+      <td>2.42</td>
+    </tr>
+    <tr>
+      <td>TGME49_265520</td>
+      <td>hypothetical protein</td>
+      <td>False</td>
+      <td>2.46</td>
     </tr>
   </tbody>
 </table></div></div></div><h2>Three more ways to use a list</h2><div class='cell'><div class='in'><div class='prompt'>In [4]:</div><pre class='code'><span class='ln' data-tip='Learn the list against random draws of the rest, scoring genes only out of bag.'>pu = S.run(&#x27;positive_unlabeled&#x27;, genes=genes, exclude=&#x27;compartment&#x27;)</span><span class='ln' data-tip='Genes that most resemble the list.'>pu.tables[&#x27;candidates&#x27;].head(8)</span></pre></div><div class='outp'><div class='prompt'>Out[4]:</div><div class='outbox'><table border="1" class="dataframe">

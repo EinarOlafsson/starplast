@@ -153,7 +153,7 @@ pre.code .ln:hover { background:#324257; }
       <td>Each label's best cluster names its unlabelled members only if it isolates that label at least this well on the known genes. Lower names more clusters and is wrong more often; every call carries its cluster's F1 as its support.</td>
     </tr>
   </tbody>
-</table></div></div></div><h2>Test before you run</h2><p>The self-test hides 25% of the compartment labels (whole orthogroups together), lets the search choose the map and each label's cluster on the rest, and scores how well those clusters hold the hidden genes -- against the same search made on shuffled labels.</p><div class='cell'><div class='in'><div class='prompt'>In [3]:</div><pre class='code'><span class='ln' data-tip='Run the self-test with a small grid.'>test = S.test(&#x27;holdout_search&#x27;, target=&#x27;compartment&#x27;, n_neighbors=&#x27;15, 50&#x27;,</span><span class='ln' data-tip='Two neighbourhood sizes, one min_dist, two cluster sizes, both HDBSCAN selections.'>              min_dist=&#x27;0.0&#x27;, min_cluster_size=&#x27;20, 50&#x27;, selection=&#x27;eom, leaf&#x27;)</span><span class='ln' data-tip='PASS/FAIL, the number, the chance level and the margin.'>test</span></pre></div><div class='outp'><div class='prompt'>Out[3]:</div><div class='outbox'><p><b style='color:#2e8b57'>PASS</b> -- F1 of hidden genes in the cluster chosen for their label on known genes 0.138 against 0.055 ± 0.010 under 100 permutations of the hidden genes&#x27; labels over the same chosen clusters (bar 0.072, p 0.0099); effect +0.083, needed +0.050; 607 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 100 permutations of the hidden genes&#x27; labels over the same chosen clusters.</i></p></div></div></div><h2>Run it</h2><div class='cell'><div class='in'><div class='prompt'>In [4]:</div><pre class='code'><span class='ln' data-tip='The same search on 2,000 genes, keeping the best map.'>result = S.run(&#x27;holdout_search&#x27;, target=&#x27;compartment&#x27;, n_neighbors=&#x27;15, 50&#x27;,</span><span class='ln' data-tip='The grid.'>                min_dist=&#x27;0.0&#x27;, min_cluster_size=&#x27;20, 50&#x27;, selection=&#x27;eom, leaf&#x27;,</span><span class='ln' data-tip='Genes per map; 0 would embed all of them.'>                sample=2000)</span><span class='ln' data-tip='What was found, and the chance level beside it.'>print(result.summary)</span></pre></div><div class='outp'><div class='prompt'>Out[4]:</div><div class='outbox'><pre>Best of 8 configurations: all permitted, n_neighbors 50, min_dist 0.0, min cluster 20 (leaf). Mean F1 0.284 over the compartment labels, against 0.166 ± 0.009 for the same clustering with the labels shuffled; 1 label(s) recovered at F1 &gt;= 0.5, best mitochondrion - membranes at 0.50. 67 unlabelled genes sit in the cluster that best isolates a label at F1 &gt;= 0.20, and are called with it; &#x27;support&#x27; is that F1.</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [5]:</div><pre class='code'><span class='ln' data-tip='Every map of the walk, ranked by how well its clusters recover the label.'>result.tables[&#x27;configurations&#x27;].head(8)</span></pre></div><div class='outp'><div class='prompt'>Out[5]:</div><div class='outbox'><table border="1" class="dataframe">
+</table></div></div></div><h2>Test before you run</h2><p>The self-test hides 25% of the compartment labels (whole orthogroups together), lets the search choose the map and each label's cluster on the rest, and scores how well those clusters hold the hidden genes -- against the same search made on shuffled labels.</p><div class='cell'><div class='in'><div class='prompt'>In [3]:</div><pre class='code'><span class='ln' data-tip='Run the self-test with a small grid.'>test = S.test(&#x27;holdout_search&#x27;, target=&#x27;compartment&#x27;, n_neighbors=&#x27;15, 50&#x27;,</span><span class='ln' data-tip='Two neighbourhood sizes, one min_dist, two cluster sizes, both HDBSCAN selections.'>              min_dist=&#x27;0.0&#x27;, min_cluster_size=&#x27;20, 50&#x27;, selection=&#x27;eom, leaf&#x27;)</span><span class='ln' data-tip='PASS/FAIL, the number, the chance level and the margin.'>test</span></pre></div><div class='outp'><div class='prompt'>Out[3]:</div><div class='outbox'><p><b style='color:#2e8b57'>PASS</b> -- F1 of hidden genes in the cluster chosen for their label on known genes 0.132 against 0.039 ± 0.011 under 100 permutations of the hidden genes&#x27; labels over the same chosen clusters (bar 0.058, p 0.0099); effect +0.093, needed +0.050; 607 hidden</p><p><i>Hidden: 25% of the compartment labels, whole orthogroups at a time. Null: 100 permutations of the hidden genes&#x27; labels over the same chosen clusters.</i></p></div></div></div><h2>Run it</h2><div class='cell'><div class='in'><div class='prompt'>In [4]:</div><pre class='code'><span class='ln' data-tip='The same search on 2,000 genes, keeping the best map.'>result = S.run(&#x27;holdout_search&#x27;, target=&#x27;compartment&#x27;, n_neighbors=&#x27;15, 50&#x27;,</span><span class='ln' data-tip='The grid.'>                min_dist=&#x27;0.0&#x27;, min_cluster_size=&#x27;20, 50&#x27;, selection=&#x27;eom, leaf&#x27;,</span><span class='ln' data-tip='Genes per map; 0 would embed all of them.'>                sample=2000)</span><span class='ln' data-tip='What was found, and the chance level beside it.'>print(result.summary)</span></pre></div><div class='outp'><div class='prompt'>Out[4]:</div><div class='outbox'><pre>Best of 8 configurations: all permitted, n_neighbors 15, min_dist 0.0, min cluster 20 (leaf). Mean F1 0.271 over the compartment labels, against 0.160 ± 0.006 for the same clustering with the labels shuffled; 2 label(s) recovered at F1 &gt;= 0.5, best 60S ribosome at 0.58. 37 unlabelled genes sit in the cluster that best isolates a label at F1 &gt;= 0.20, and are called with it; &#x27;support&#x27; is that F1.</pre></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [5]:</div><pre class='code'><span class='ln' data-tip='Every map of the walk, ranked by how well its clusters recover the label.'>result.tables[&#x27;configurations&#x27;].head(8)</span></pre></div><div class='outp'><div class='prompt'>Out[5]:</div><div class='outbox'><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>features</th>
@@ -172,28 +172,15 @@ pre.code .ln:hover { background:#324257; }
   <tbody>
     <tr>
       <td>all permitted</td>
-      <td>50</td>
-      <td>0</td>
-      <td>20</td>
-      <td>leaf</td>
-      <td>13</td>
-      <td>0.645</td>
-      <td>0.284</td>
-      <td>0.5</td>
-      <td>mitochondrion - membranes</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>all permitted</td>
       <td>15</td>
       <td>0</td>
       <td>20</td>
       <td>leaf</td>
-      <td>14</td>
-      <td>0.552</td>
-      <td>0.28</td>
-      <td>0.548</td>
-      <td>mitochondrion - membranes</td>
+      <td>16</td>
+      <td>0.597</td>
+      <td>0.271</td>
+      <td>0.583</td>
+      <td>60S ribosome</td>
       <td>2</td>
     </tr>
     <tr>
@@ -202,10 +189,36 @@ pre.code .ln:hover { background:#324257; }
       <td>0</td>
       <td>50</td>
       <td>leaf</td>
-      <td>5</td>
-      <td>0.327</td>
-      <td>0.259</td>
-      <td>0.436</td>
+      <td>6</td>
+      <td>0.545</td>
+      <td>0.268</td>
+      <td>0.379</td>
+      <td>nucleus - chromatin</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>50</td>
+      <td>0</td>
+      <td>20</td>
+      <td>eom</td>
+      <td>6</td>
+      <td>0.312</td>
+      <td>0.253</td>
+      <td>0.427</td>
+      <td>nucleus - chromatin</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>50</td>
+      <td>0</td>
+      <td>20</td>
+      <td>leaf</td>
+      <td>10</td>
+      <td>0.492</td>
+      <td>0.253</td>
+      <td>0.373</td>
       <td>nucleus - chromatin</td>
       <td>0</td>
     </tr>
@@ -215,49 +228,10 @@ pre.code .ln:hover { background:#324257; }
       <td>0</td>
       <td>50</td>
       <td>leaf</td>
-      <td>7</td>
-      <td>0.532</td>
-      <td>0.251</td>
-      <td>0.331</td>
-      <td>cytosol</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>all permitted</td>
-      <td>50</td>
-      <td>0</td>
-      <td>20</td>
-      <td>eom</td>
-      <td>8</td>
-      <td>0.455</td>
-      <td>0.235</td>
-      <td>0.31</td>
-      <td>dense granules</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>all permitted</td>
-      <td>15</td>
-      <td>0</td>
-      <td>50</td>
-      <td>eom</td>
-      <td>4</td>
-      <td>0.199</td>
-      <td>0.224</td>
-      <td>0.413</td>
-      <td>nucleus - chromatin</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>all permitted</td>
-      <td>50</td>
-      <td>0</td>
-      <td>50</td>
-      <td>eom</td>
-      <td>4</td>
-      <td>0.217</td>
-      <td>0.221</td>
-      <td>0.424</td>
+      <td>6</td>
+      <td>0.527</td>
+      <td>0.252</td>
+      <td>0.35</td>
       <td>nucleus - chromatin</td>
       <td>0</td>
     </tr>
@@ -267,11 +241,37 @@ pre.code .ln:hover { background:#324257; }
       <td>0</td>
       <td>20</td>
       <td>eom</td>
-      <td>10</td>
-      <td>0.334</td>
-      <td>0.214</td>
-      <td>0.478</td>
+      <td>11</td>
+      <td>0.369</td>
+      <td>0.246</td>
+      <td>0.444</td>
       <td>rhoptries 2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>50</td>
+      <td>0</td>
+      <td>50</td>
+      <td>eom</td>
+      <td>3</td>
+      <td>0.104</td>
+      <td>0.22</td>
+      <td>0.426</td>
+      <td>nucleus - chromatin</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>all permitted</td>
+      <td>15</td>
+      <td>0</td>
+      <td>50</td>
+      <td>eom</td>
+      <td>3</td>
+      <td>0.113</td>
+      <td>0.217</td>
+      <td>0.409</td>
+      <td>nucleus - chromatin</td>
       <td>0</td>
     </tr>
   </tbody>
@@ -289,67 +289,76 @@ pre.code .ln:hover { background:#324257; }
   </thead>
   <tbody>
     <tr>
-      <td>mitochondrion - membranes</td>
-      <td>4</td>
-      <td>27</td>
-      <td>12</td>
-      <td>0.571</td>
-      <td>0.444</td>
-      <td>0.5</td>
-    </tr>
-    <tr>
-      <td>mitochondrion - soluble</td>
-      <td>8</td>
-      <td>45</td>
-      <td>17</td>
-      <td>0.321</td>
-      <td>0.378</td>
-      <td>0.347</td>
-    </tr>
-    <tr>
-      <td>dense granules</td>
-      <td>2</td>
-      <td>26</td>
-      <td>22</td>
-      <td>0.193</td>
-      <td>0.846</td>
-      <td>0.314</td>
-    </tr>
-    <tr>
-      <td>nucleus - chromatin</td>
+      <td>60S ribosome</td>
       <td>10</td>
-      <td>88</td>
-      <td>20</td>
-      <td>0.465</td>
-      <td>0.227</td>
-      <td>0.305</td>
+      <td>15</td>
+      <td>14</td>
+      <td>0.424</td>
+      <td>0.933</td>
+      <td>0.583</td>
+    </tr>
+    <tr>
+      <td>mitochondrion - membranes</td>
+      <td>8</td>
+      <td>31</td>
+      <td>15</td>
+      <td>0.652</td>
+      <td>0.484</td>
+      <td>0.556</td>
+    </tr>
+    <tr>
+      <td>rhoptries 2</td>
+      <td>2</td>
+      <td>18</td>
+      <td>10</td>
+      <td>0.385</td>
+      <td>0.556</td>
+      <td>0.455</td>
     </tr>
     <tr>
       <td>cytosol</td>
-      <td>5</td>
-      <td>63</td>
+      <td>4</td>
+      <td>74</td>
       <td>16</td>
-      <td>0.327</td>
-      <td>0.254</td>
-      <td>0.286</td>
+      <td>0.41</td>
+      <td>0.216</td>
+      <td>0.283</td>
     </tr>
     <tr>
-      <td>apicoplast</td>
-      <td>12</td>
-      <td>28</td>
-      <td>6</td>
-      <td>0.316</td>
-      <td>0.214</td>
-      <td>0.255</td>
+      <td>dense granules</td>
+      <td>5</td>
+      <td>36</td>
+      <td>23</td>
+      <td>0.177</td>
+      <td>0.639</td>
+      <td>0.277</td>
+    </tr>
+    <tr>
+      <td>nucleus - chromatin</td>
+      <td>11</td>
+      <td>83</td>
+      <td>19</td>
+      <td>0.268</td>
+      <td>0.229</td>
+      <td>0.247</td>
+    </tr>
+    <tr>
+      <td>mitochondrion - soluble</td>
+      <td>13</td>
+      <td>55</td>
+      <td>11</td>
+      <td>0.282</td>
+      <td>0.2</td>
+      <td>0.234</td>
     </tr>
     <tr>
       <td>Golgi</td>
-      <td>9</td>
-      <td>24</td>
-      <td>11</td>
-      <td>0.141</td>
-      <td>0.458</td>
-      <td>0.216</td>
+      <td>6</td>
+      <td>25</td>
+      <td>12</td>
+      <td>0.154</td>
+      <td>0.48</td>
+      <td>0.233</td>
     </tr>
   </tbody>
 </table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [7]:</div><pre class='code'><span class='ln' data-tip='Unlabelled genes in those clusters, called with the compartment; support is the cluster&#x27;s F1.'>result.tables[&#x27;calls&#x27;].head(10)</span></pre></div><div class='outp'><div class='prompt'>Out[7]:</div><div class='outbox'><table border="1" class="dataframe">
@@ -367,71 +376,71 @@ pre.code .ln:hover { background:#324257; }
       <td>TGME49_310360</td>
       <td>ATP synthase-associated protein</td>
       <td>mitochondrion - membranes</td>
-      <td>0.5</td>
-      <td>4</td>
+      <td>0.556</td>
+      <td>8</td>
     </tr>
     <tr>
       <td>TGME49_310470</td>
       <td>cytochrome c oxidase subunit COX2b</td>
       <td>mitochondrion - membranes</td>
-      <td>0.5</td>
-      <td>4</td>
+      <td>0.556</td>
+      <td>8</td>
     </tr>
     <tr>
-      <td>TGME49_273815</td>
+      <td>TGME49_249425</td>
       <td>hypothetical protein</td>
-      <td>mitochondrion - soluble</td>
-      <td>0.347</td>
-      <td>8</td>
+      <td>dense granules</td>
+      <td>0.277</td>
+      <td>5</td>
     </tr>
     <tr>
-      <td>TGME49_208090</td>
-      <td>5-formyltetrahydrofolate cyclo-ligase</td>
-      <td>mitochondrion - soluble</td>
-      <td>0.347</td>
-      <td>8</td>
+      <td>TGME49_312950</td>
+      <td>RAP-1 family protein</td>
+      <td>dense granules</td>
+      <td>0.277</td>
+      <td>5</td>
     </tr>
     <tr>
-      <td>TGME49_243240</td>
-      <td>WD domain, G-beta repeat-containing protein</td>
-      <td>mitochondrion - soluble</td>
-      <td>0.347</td>
-      <td>8</td>
-    </tr>
-    <tr>
-      <td>TGME49_248770</td>
+      <td>TGME49_215520</td>
       <td>hypothetical protein</td>
-      <td>mitochondrion - soluble</td>
-      <td>0.347</td>
-      <td>8</td>
+      <td>dense granules</td>
+      <td>0.277</td>
+      <td>5</td>
     </tr>
     <tr>
-      <td>TGME49_254280</td>
-      <td>DNA-directed RNA polymerase III RPC9</td>
-      <td>mitochondrion - soluble</td>
-      <td>0.347</td>
-      <td>8</td>
-    </tr>
-    <tr>
-      <td>TGME49_301300</td>
-      <td>PHAX RNA-binding domain protein</td>
-      <td>mitochondrion - soluble</td>
-      <td>0.347</td>
-      <td>8</td>
-    </tr>
-    <tr>
-      <td>TGME49_225720</td>
+      <td>TGME49_219730</td>
       <td>hypothetical protein</td>
-      <td>mitochondrion - soluble</td>
-      <td>0.347</td>
-      <td>8</td>
+      <td>dense granules</td>
+      <td>0.277</td>
+      <td>5</td>
     </tr>
     <tr>
-      <td>TGME49_264010</td>
-      <td>U4/U6.U5 small nuclear ribonucleoprotein, putative</td>
-      <td>mitochondrion - soluble</td>
-      <td>0.347</td>
-      <td>8</td>
+      <td>TGME49_203740</td>
+      <td>hypothetical protein</td>
+      <td>dense granules</td>
+      <td>0.277</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>TGME49_260400</td>
+      <td>hypothetical protein</td>
+      <td>dense granules</td>
+      <td>0.277</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>TGME49_248360</td>
+      <td>hypothetical protein</td>
+      <td>dense granules</td>
+      <td>0.277</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>TGME49_270170</td>
+      <td>hypothetical protein</td>
+      <td>dense granules</td>
+      <td>0.277</td>
+      <td>5</td>
     </tr>
   </tbody>
 </table></div></div></div><div class='cell'><div class='in'><div class='prompt'>In [8]:</div><pre class='code'><span class='ln' data-tip='Plotting.'>import matplotlib.pyplot as plt</span><span class='ln' data-tip='Match the application.'>plt.style.use(&#x27;dark_background&#x27;)</span><span class='ln' data-tip='The result&#x27;s own map, colored by the held-out label it never saw.'>ax = result.plot(S.shipped(&#x27;Tg&#x27;), color=&#x27;compartment&#x27;)</span><span class='ln' data-tip='Show the figure.'>ax.figure</span></pre></div><div class='outp'><div class='prompt'>Out[8]:</div><div class='outbox'><img src='resources/2_holdout_search/2_holdout_search_nb1.png'></div></div></div></div><div id='help-overlay' class='help-box'></div><script>

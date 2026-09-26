@@ -20,7 +20,10 @@ starplast
 - [User guide](guide.md): import results, explore genes, and understand settings.
 - [Python API](API.md): work with tables, embeddings, and analyses in scripts.
 - [Module reference](api/starplast.html): generated signatures and docstrings.
+- [Tutorials](tutorial/index.html): five task walkthroughs, each as a GUI tour and a notebook, plus one long guide to every feature.
 - [Dataset catalogue](datasets.md): source records, assay types, and coverage.
+- [Strategy calibration](calibration.md): how well each strategy recovers held-out knowledge, over a grid of its settings, with intervals.
+- [The integrated neighbour space](graphspace.md): one graph from every layer, and the three nulls that decide whether its edges mean anything.
 - [0.43 benchmark](benchmark-0.43.md): held-out model comparisons, controls and limitations.
 - [Scientific roadmap](scientific-roadmap.md): inference goals, validation priorities, and proposed improvements.
 - [Repository review](repository-review.md): architecture and scientific limitations.

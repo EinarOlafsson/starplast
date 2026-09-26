@@ -16,7 +16,7 @@ Measured 2026-09-26.
 | 06 | [Find which kind of evidence carries a label](#06-block_ablation) | Search the map space | PASS | PASS |
 | 07 | [Call a gene by the genes that behave like it](#07-feature_knn) | Borrow from neighbours | PASS | PASS |
 | 08 | [Call a gene by its neighbours on the map](#08-map_neighbours) | Borrow from neighbours | PASS | PASS |
-| 09 | [Name a cluster by the label it is enriched for](#09-cluster_guilt) | Borrow from neighbours | PASS | PASS |
+| 09 | [Name a cluster by the label it is enriched for](#09-cluster_guilt) | Borrow from neighbours | FAIL | PASS |
 | 10 | [Find genes whose label their neighbours contradict](#10-label_outliers) | Borrow from neighbours | PASS | PASS |
 | 11 | [Diffuse a label across one measured network](#11-layer_propagation) | Walk the networks | PASS | PASS |
 | 12 | [Let every network vote, weighted by what it has earned](#12-layer_vote) | Walk the networks | PASS | PASS |
@@ -66,7 +66,7 @@ Choose 'families' to also walk each kind of measurement alone -- transcription o
 
 **How it is tested.** 25% of the label is hidden (whole orthogroups together, so no gene is recovered through a visible paralog). The walk is built as set -- its genes per map (up to 4,000), feature sets and grids (up to three values each); the configuration, and the one cluster that best isolates each label, are both chosen using visible labels only. Metric: for each label, the F1 of its hidden genes against its chosen cluster, weighted by size -- does the structure found on known genes hold the unknown ones? Null: the same chosen clusters scored after permuting the hidden genes' labels, 100 times. (A second search on shuffled labels was the null once; it picks the largest cluster for every label, which scores F1 near 2p by size alone and made the null beat real labels.) Pass: above the null's 95th percentile by at least 0.05.
 
-*On Toxoplasma gondii:* **PASS** -- F1 of hidden genes in the cluster chosen for their label on known genes 0.138 against 0.055 under 100 permutations of the hidden genes' labels over the same chosen clusters; 607 hidden
+*On Toxoplasma gondii:* **PASS** -- F1 of hidden genes in the cluster chosen for their label on known genes 0.132 against 0.039 under 100 permutations of the hidden genes' labels over the same chosen clusters; 607 hidden
 
 *On Plasmodium falciparum:* **FAIL** -- F1 of hidden genes in the cluster chosen for their label on known genes 0.523 against 0.523 under 100 permutations of the hidden genes' labels over the same chosen clusters; 552 hidden
 
@@ -93,7 +93,7 @@ If the list was made from a column of this table (all genes of one compartment, 
 
 **How it is tested.** 30% of the set is hidden; the walk as set (genes per map up to 4,000, feature sets, up to three values of each grid) picks the cluster with the best F1 for the other 70%. Metric: F1 of the hidden members against that cluster's other genes -- precision is the share of the cluster's candidates that are hidden members, recall the share of hidden members among them. Null: 20 random sets of the same size through the same walk. Pass: above the null's 95th percentile by at least 0.05 (an F1 margin; random sets score about 0.04).
 
-*On Toxoplasma gondii:* **FAIL** -- F1 of the hidden members against the best cluster's other genes 0.041 against 0.023 under 20 random sets of the same size, same walk; 40 hidden
+*On Toxoplasma gondii:* **FAIL** -- F1 of the hidden members against the best cluster's other genes 0.052 against 0.024 under 20 random sets of the same size, same walk; 40 hidden
 
 *On Plasmodium falciparum:* **PASS** -- F1 of the hidden members against the best cluster's other genes 0.487 against 0.030 under 20 random sets of the same size, same walk; 47 hidden
 
@@ -117,7 +117,7 @@ This is knowledge about the data, not about genes: it says which biological dist
 
 **How it is tested.** 30% of the label is hidden. The atlas is built from visible genes only (leave-one-out neighbour AUROC per category); hidden genes are then scored by their visible neighbours. Metric: mean hidden-gene AUROC over the categories the atlas ranks in its top half. Null: the same with the visible labels shuffled, 20 times. Pass: above the null's 95th percentile by 0.05. The rank agreement between atlas and hidden recovery is reported.
 
-*On Toxoplasma gondii:* **PASS** -- hidden-gene AUROC of the categories the atlas ranks in its top half 0.826 against 0.498 under 20 atlases and recoveries from shuffled labels; 508 hidden
+*On Toxoplasma gondii:* **PASS** -- hidden-gene AUROC of the categories the atlas ranks in its top half 0.818 against 0.500 under 20 atlases and recoveries from shuffled labels; 508 hidden
 
 *On Plasmodium falciparum:* **PASS** -- hidden-gene AUROC of the categories the atlas ranks in its top half 0.741 against 0.488 under 20 atlases and recoveries from shuffled labels; 482 hidden
 
@@ -141,7 +141,7 @@ A module that survives is robust to the arbitrary choices a map requires, which 
 
 **How it is tested.** Modules are built from a small walk on 1,500 genes without the label. 25% of the label is hidden; the module that best isolates each label is chosen on the visible genes. Metric: the size-weighted F1 of each label's hidden genes against its chosen module. Null: the same modules scored after permuting the hidden genes' labels, 100 times -- a large module scores the same either way and earns nothing. Pass: above the null's 95th percentile by 0.05.
 
-*On Toxoplasma gondii:* **FAIL** -- F1 of hidden genes in the module chosen for their label on known genes 0.170 against 0.167 under 100 permutations of the hidden genes' labels over the same chosen modules; 305 hidden
+*On Toxoplasma gondii:* **FAIL** -- F1 of hidden genes in the module chosen for their label on known genes 0.170 against 0.168 under 100 permutations of the hidden genes' labels over the same chosen modules; 305 hidden
 
 *On Plasmodium falciparum:* **PASS** -- F1 of hidden genes in the module chosen for their label on known genes 0.211 against 0.137 under 100 permutations of the hidden genes' labels over the same chosen modules; 301 hidden
 
@@ -189,7 +189,7 @@ A map is built from dozens of datasets, and a good result says nothing about whi
 
 **How it is tested.** 25% of the label is hidden. Each kind of evidence is ranked by cross-validated accuracy on the visible labels; the top-ranked one then predicts the hidden labels. Metric: its hidden accuracy. Null: the hidden accuracy of every kind of evidence, i.e. choosing at random. Pass: above the null's 80th percentile by 0.02 (with ~15 kinds of evidence the 95th would demand the single best, which asks more than a ranking must deliver).
 
-*On Toxoplasma gondii:* **PASS** -- hidden accuracy of the evidence ranked first (transcription) 0.321 against 0.214 under the 14 kinds of evidence chosen at random; 951 hidden
+*On Toxoplasma gondii:* **PASS** -- hidden accuracy of the evidence ranked first (transcription) 0.321 against 0.215 under the 14 kinds of evidence chosen at random; 951 hidden
 
 *On Plasmodium falciparum:* **PASS** -- hidden accuracy of the evidence ranked first (expr) 0.523 against 0.449 under the 37 kinds of evidence chosen at random; 608 hidden
 
@@ -238,7 +238,7 @@ The difference from strategy 07 is the map. UMAP keeps local neighbourhoods and 
 
 **How it is tested.** Pattern 1 on the genes the map places (up to 2,500): 25% of the label hidden by whole orthogroups; hidden genes called by their k nearest visible genes in the map. Null: 20 runs on shuffled visible labels. Pass: above the null's 95th percentile by 0.05.
 
-*On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.239 against 0.061 under 20 runs on shuffled labels; 511 hidden
+*On Toxoplasma gondii:* **PASS** -- correct calls per hidden gene 0.225 against 0.057 under 20 runs on shuffled labels; 511 hidden
 
 *On Plasmodium falciparum:* **PASS** -- correct calls per hidden gene 0.570 against 0.392 under 20 runs on shuffled labels; 479 hidden
 
@@ -261,7 +261,7 @@ Enrichment is also how a cluster can be NAMED without being pure: a cluster that
 
 **How it is tested.** Pattern 1 scored by precision, on the genes a blind map places (up to 2,500): 25% of the label hidden; the enrichment is recomputed from visible labels, and the calls it makes on hidden genes are scored -- the strategy abstains on noise and unenriched clusters by design, so what matters is how often a call is right. Null: 20 runs on shuffled visible labels. Pass: above the null's 95th percentile by 0.1.
 
-*On Toxoplasma gondii:* **PASS** -- precision of calls on hidden genes 0.166 against 0.000 under 20 runs on shuffled labels; 169 hidden
+*On Toxoplasma gondii:* **FAIL** -- precision of calls on hidden genes 0.096 against 0.000 under 20 runs on shuffled labels; 135 hidden
 
 *On Plasmodium falciparum:* **PASS** -- precision of calls on hidden genes 0.875 against 0.000 under 20 runs on shuffled labels; 40 hidden
 
@@ -542,7 +542,7 @@ By default the target's own kind of measurement is left out -- every knockout sc
 
 **How it is tested.** Pattern 4: 20% of the measured values hidden; the model is trained on the rest. Metric: rank correlation between predicted and hidden values. Null: 3 models trained on the visible values shuffled among the measured genes. Pass: above the null's 95th percentile by 0.1.
 
-*On Toxoplasma gondii:* **PASS** -- rank correlation of predicted and hidden values 0.745 against 0.000 under the chance distribution of a rank correlation; 1,465 hidden
+*On Toxoplasma gondii:* **PASS** -- rank correlation of predicted and hidden values 0.729 against 0.000 under the chance distribution of a rank correlation; 1,465 hidden
 
 *On Plasmodium falciparum:* **PASS** -- rank correlation of predicted and hidden values 0.500 against 0.000 under the chance distribution of a rank correlation; 1,077 hidden
 
@@ -588,7 +588,7 @@ Then it asks whether the shift is predictable from the other measurements, with 
 
 **How it is tested.** Pattern 4 on the shift: 20% of genes with both measurements hidden; a model trained on the rest predicts their shift. Metric: rank correlation on hidden genes. Null: 3 models trained on shuffled shifts. Pass: above the null's 95th percentile by 0.1.
 
-*On Toxoplasma gondii:* **FAIL** -- rank correlation of predicted and hidden values 0.063 against 0.000 under the chance distribution of a rank correlation; 1,465 hidden
+*On Toxoplasma gondii:* **FAIL** -- rank correlation of predicted and hidden values 0.038 against 0.000 under the chance distribution of a rank correlation; 1,465 hidden
 
 *On Plasmodium falciparum:* **PASS** -- rank correlation of predicted and hidden values 0.631 against 0.000 under the chance distribution of a rank correlation; 1,144 hidden
 
@@ -684,7 +684,7 @@ The replication test checks the interaction itself rather than the enrichment: w
 
 **How it is tested.** Pattern 5: conjunctions found on a random half; each is checked on the other half as the second label's enrichment in the cluster among genes carrying the first label (hypergeometric p < 0.05). Metric: share replicating. Null: 20 runs with the second label shuffled within the second half. Pass: above the null's 95th percentile by 0.2 with at least three findings.
 
-*On Toxoplasma gondii:* **PASS** -- share of first-half findings that replicate on the second half 0.600 against 0.000 under 20 runs with the second half scrambled; 5 hidden
+*On Toxoplasma gondii:* **PASS** -- share of first-half findings that replicate on the second half 0.667 against 0.000 under 20 runs with the second half scrambled; 3 hidden
 
 *On Plasmodium falciparum:* INCONCLUSIVE (only 0 findings on the first half, 3 needed)
 

@@ -4,4 +4,4 @@ Use the analysis modules from Python, ``starplast-discover`` for batch searches,
 or ``starplast`` for the desktop browser. The user guide and API examples are
 available at https://einarolafsson.github.io/starplast/.
 """
-__version__ = "0.44.0"
+__version__ = "0.45.0"

@@ -122,7 +122,95 @@ def build(dataset_root: str) -> str:
             "print(int((hep.hepatocyte_pf_infection_padj < 0.05).sum()), 'genes at padj < 0.05 of', len(hep))",
             "hep.sort_values('hepatocyte_pf_infection_log2fc', ascending=False).head(10).round(3)")
 
-    nb.md("## 6. Write the tables",
+    nb.md("## 6. Carbon-source withdrawal (Uboldi et al., bioRxiv 2025)",
+          "The dependence column is the authors' contrast, glutamine-only minus glucose-only: "
+          "negative means the gene is needed when glucose is absent. The genes of glutamine "
+          "catabolism must come first, and the ribosome must be needed in complete medium.")
+    nb.code("carbon = D.glucose_limitation(DATA)",
+            "carbon['rank'] = carbon.fit_glucose_dependence.rank()",
+            "known = {'TGGT1_249390': 'GDH1', 'TGGT1_289650': 'PEPCK'}",
+            "print(carbon.set_index('gene_id').loc[list(known), ['fit_glucose_dependence', 'fit_glucose_dependence_fdr', 'rank']].rename(index=known).round(3))",
+            "c = carbon.assign(me49=me49(carbon.gene_id).values).drop_duplicates('me49').set_index('me49')",
+            "rib = ribosomal.reindex(c.index).fillna(False).astype(bool)",
+            "{'ribosomal median, complete medium': c.loc[rib, 'fit_complete_medium_2025'].median(),",
+            " 'others median, complete medium': c.loc[~rib, 'fit_complete_medium_2025'].median(),",
+            " 'genes at FDR 0.05': int((carbon.fit_glucose_dependence_fdr < 0.05).sum())}")
+
+    nb.md("## 7. 5' UTR architecture (Peters et al., bioRxiv 2025)",
+          "Sequence features, admitted because they predict translation the way they must: more "
+          "upstream AUGs, less translation; a better start context, more.")
+    nb.code("utr = D.utr5_architecture(DATA).set_index('gene_id')",
+            "te_mean = nodes.set_index('gene_id').filter(regex=r'^te\\d').mean(axis=1)",
+            "{c: stats.spearmanr(utr[c], te_mean.reindex(utr.index), nan_policy='omit').correlation",
+            " for c in ['utr5_n_uaugs', 'utr5_n_uorfs', 'utr5_length', 'utr5_kozak_score']}")
+
+    nb.md("## 8. Bradyzoite subtypes in the brain (Ulu et al. 2026)",
+          "Five groups, all of them bradyzoites: the bradyzoite markers high everywhere, the "
+          "tachyzoite antigen SAG1 low everywhere, and SRS22A marking Group B.")
+    nb.code("bz = D.bradyzoite_subtypes(DATA).set_index('gene_id')",
+            "pct = bz.rank(pct=True)",
+            "pct.loc[['TGME49_259020', 'TGME49_291040', 'TGME49_268860', 'TGME49_233460']].rename(index={'TGME49_259020': 'BAG1', 'TGME49_291040': 'LDH2', 'TGME49_268860': 'ENO1', 'TGME49_233460': 'SAG1'}).round(2)")
+
+    nb.md("## 9. Iron depletion (Hanna et al., mBio 2026)",
+          "Iron-sulfur proteins need the iron that was withdrawn, so they should shift down -- and "
+          "they do, modestly; protein and transcript should move together, though not in lockstep.")
+    nb.code("iron = D.iron_depletion(DATA)",
+            "iron['me49'] = me49(iron.gene_id).values",
+            "# Proteins arrive on GT1 accessions and transcripts on ME49 ones; pair them by gene.",
+            "i = iron.groupby('me49')[['iron_depletion_protein_log2fc', 'iron_depletion_rna_log2fc']].first()",
+            "# The paper's own iron-sulfur flag, rather than a guess from product names.",
+            "s1 = pd.read_excel(os.path.join(DATA, *D.IRON, 'mbio.03788-25-s0002.xlsx'), sheet_name=0, header=1)",
+            "fes = set(me49(s1.loc[s1['FeS'].notna(), 'Protein_Accessions']).dropna())",
+            "flag = i.index.isin(fes)",
+            "{'iron-sulfur proteins': int(flag.sum()),",
+            " 'iron-sulfur median log2fc': i.loc[flag, 'iron_depletion_protein_log2fc'].median(),",
+            " 'others median log2fc': i.loc[~flag, 'iron_depletion_protein_log2fc'].median(),",
+            " 'protein vs RNA rho': stats.spearmanr(i.iron_depletion_protein_log2fc, i.iron_depletion_rna_log2fc, nan_policy='omit').correlation}")
+
+    nb.md("## 10. Organelle surfaces (Parker & Huet, bioRxiv 2026)",
+          "A bait on the outside of the mitochondrion should find mitochondrial proteins, and one on "
+          "the ER should find ER proteins -- judged against hyperLOPIT, which measured location "
+          "independently. The apicoplast bait is the weak one, and the notebook shows it.")
+    nb.code("surf = D.organelle_surface(DATA).set_index('gene_id')",
+            "comp = nodes.set_index('gene_id')['compartment'].reindex(surf.index)",
+            "rows = []",
+            "for bait, words in (('mitochondrion', 'mitochondri'), ('er', 'ER'), ('apicoplast', 'apicoplast')):",
+            "    seen = surf[f'surface_{bait}_stringent'].notna() & comp.notna()",
+            "    hit = surf[f'surface_{bait}_stringent'] == 1",
+            "    lab = comp.astype(str).str.contains(words)",
+            "    table = [[int((seen & hit & lab).sum()), int((seen & hit & ~lab).sum())],",
+            "             [int((seen & ~hit & lab).sum()), int((seen & ~hit & ~lab).sum())]]",
+            "    odds, p = stats.fisher_exact(table)",
+            "    rows.append({'bait': bait, 'stringent hits': int(hit.sum()), 'odds ratio': odds, 'p': p})",
+            "pd.DataFrame(rows)")
+
+    nb.md("## 11. Host genes rhoptry discharge needs (Valleau et al., bioRxiv 2025)",
+          "The screen must recover its own pathway: SLC35A2 first, the N-glycan genes near the top, "
+          "and the glycosylation genes the paper rules out nowhere near it.")
+    nb.code("k562 = D.k562_rhoptry_screen(DATA).drop_duplicates('host_name').set_index('host_name')",
+            "rank = k562.rhoptry_discharge_score.rank(ascending=False)",
+            "rank.reindex(['SLC35A2', 'RFT1', 'DPAGT1', 'GFPT1', 'MGAT1', 'MGAT2', 'B4GALT1', 'FUT8', 'ST6GAL1']).astype('Int64')")
+
+    nb.md("## 12. Plasmodium: melting temperature, fertility, and the third wave",
+          "Melting points are fitted by `scripts/fit_meltome.py`, since none is published. The "
+          "checks: chaperones labile and glycolysis stable; HAP2 needed by males only; and the "
+          "counts the papers report, reproduced.")
+    nb.code("pf = pd.read_parquet(os.path.join(ROOT, 'starplast', 'data', 'pf_nodes.parquet')).set_index('gene_id')",
+            "tm = D.pf_melting_temperature(DATA).set_index('gene_id')['melting_temperature_tm']",
+            "prod = pf['product'].reindex(tm.index).fillna('')",
+            "{'HSP70/90 median Tm': tm[prod.str.contains('heat shock protein 70|heat shock protein 90', case=False)].median(),",
+            " 'glycolytic median Tm': tm[prod.str.contains('glyceraldehyde-3-phosphate|enolase|pyruvate kinase', case=False)].median(),",
+            " 'proteins': len(tm)}")
+    nb.code("D.pb_fertility(DATA).set_index('gene_id').loc[['PF3D7_1014200']].rename(index={'PF3D7_1014200': 'HAP2'})")
+    nb.code("{'gametocyte proteins newly made (paper: 705)': int(D.pf_gametocyte_proteome(DATA).gametocyte_newly_made.sum()),",
+            " 'latency classifier genes (paper: 200)': int(D.pf_latency(DATA).latency_classifier_member.sum()),",
+            " 'H3K27ac high-confidence (paper: 99)': int(D.pf_chromatin_proxiome(DATA).chromprox_h3k27ac_hit.sum()),",
+            " 'H3K4me3 high-confidence (paper: 48)': int(D.pf_chromatin_proxiome(DATA).chromprox_h3k4me3_hit.sum()),",
+            " 'febrile unique sites up / down (paper rows: 143 / 53)': tuple(int(x) for x in D.pf_febrile_phospho(DATA)[['febrile_phospho_n_sites_up', 'febrile_phospho_n_sites_down']].sum()),",
+            " 'm6A transcripts with a site': int((D.pf_m6a(DATA).m6a_n_canonical_sites > 0).sum()),",
+            " 'proteins engaged by at least one antimalarial': int((D.pf_target_engagement(DATA).engaged_n_compounds_hit > 0).sum())}")
+
+    nb.md("## 13. Write the tables",
           "Each derivation is written to `starplast/data/deposit_<key>.tsv`. "
           "`scripts/add_deposits.py` merges them into the node and host tables, refusing any merge "
           "that would lose a value.")

@@ -15,9 +15,9 @@ Quirks that cost time once:
     Baits anchored in each outer membrane with their tail in the cytosol, so this is the OUTSIDE
     of an organelle -- a different question from hyperLOPIT, which says which organelle a
     protein is in. Checked against it anyway: stringent mitochondrial hits are mitochondrial at
-    odds 30 and ER hits ER at 11.7, but the apicoplast bait reaches only 2.5 (p = 0.05) and its
-    hits are mostly ER and nuclear, so that arm is recorded as proximity and not as a location.
-    A protein a bait never detected keeps a MISSING flag, not a zero: that bait did not test it.
+    odds 13.8 and ER hits ER at 7.6, but the apicoplast bait shows no enrichment for apicoplast
+    proteins (odds 1.2, p = 0.8), so that arm is recorded as proximity and not as a location. A
+    protein a bait never detected keeps a MISSING flag, not a zero: that bait did not test it.
     One accession in the deposit is a backtick, repaired from its product text only because that
     text names exactly one gene. A preprint.
 

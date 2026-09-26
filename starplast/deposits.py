@@ -448,7 +448,8 @@ def iron_depletion(root: str) -> pd.DataFrame:
     The proteome is genome-scale: 5,052 protein groups, three replicates each side. The RNA
     contrast covers only the 3,113 genes of the paper's joint analysis, which is a
     significance-filtered subset, so a missing RNA value means 'not reported' rather than
-    'unchanged'. Iron-sulfur proteins fall furthest, as they must. Despite the paper's title there
+    'unchanged'. The paper's 61 iron-sulfur proteins shift down on balance (median -0.04 against
+    +0.02; 12 of the 16 that change significantly fall), a modest effect. Despite the paper's title there
     is no ribosome profiling in it -- translation is measured by microscopy -- so this fills protein
     abundance under stress, not translation.
     """
@@ -465,6 +466,10 @@ def iron_depletion(root: str) -> pd.DataFrame:
     prot = prot[prot["gene_id"].str.match(r"^TG[A-Z0-9]+_\d{5,6}[A-Z]?$")]
     prot = prot.groupby("gene_id").agg({"iron_depletion_protein_log2fc": "mean",
                                         "iron_depletion_protein_padj": "min"})
+    # The two halves are keyed differently on purpose: the proteome gives only GT1 accessions, and
+    # the transcripts are keyed on the ME49 accessions the paper pairs them with, because keyed on
+    # GT1 ten of them no longer resolve. They meet after the identity layer resolves both, so no row
+    # of THIS table holds a protein beside its own transcript; the notebook pairs them to check it.
     rna = pd.DataFrame({"gene_id": d["ME49"].astype(str).str.strip(),
                         "iron_depletion_rna_log2fc": pd.to_numeric(d["RNA_log2FoldChange"],
                                                                    errors="coerce")})
@@ -510,9 +515,9 @@ def organelle_surface(root: str) -> pd.DataFrame:
 
     Per bait, the enrichment of each protein with biotin over without, and whether it is one of the
     paper's stringent hits -- also enriched over a cytosolic TurboID, so not merely abundant near
-    everything. Against hyperLOPIT the stringent mitochondrial hits are mitochondrial at odds 30
-    and the ER hits ER at 11.7; the apicoplast arm reaches only 2.5 (p = 0.05) and its hits are
-    mostly ER and nuclear, so that bait reports proximity, not location.
+    everything. Against hyperLOPIT the stringent mitochondrial hits are mitochondrial at odds 13.8
+    and the ER hits ER at 7.6; the apicoplast bait shows no enrichment for apicoplast proteins
+    (odds 1.2, p = 0.8), so that bait reports proximity, not location.
 
     A protein a bait never detected keeps a missing stringent flag rather than a zero: that bait
     did not test it.

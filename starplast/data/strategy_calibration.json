@@ -1,0 +1,7761 @@
+{
+ "meta": {
+  "date": "2026-09-26",
+  "runs": 5940,
+  "run_dir": "results/calibration_2026-09-26",
+  "seeds": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "targets": {
+   "Tg": [
+    "compartment",
+    "lopit_unified",
+    "dtm_class",
+    "screen_any_phenotype",
+    "stage_enriched_derived"
+   ],
+   "Pf": [
+    "pb_transferred_phenotype",
+    "stage_enriched_derived",
+    "is_exported"
+   ]
+  },
+  "numbers": {
+   "Tg": [
+    "fit_invitro_hff",
+    "fit_invivo_PE",
+    "expr_tachy"
+   ],
+   "Pf": [
+    "piggybac_mis",
+    "expr_schizont",
+    "mean_plddt"
+   ]
+  },
+  "method": "starplast.calibration: skill = (observed - chance)/(1 - chance); tuned setting chosen on seeds 1-3, reported on seeds 4-5; 95% CI by two-stage bootstrap over targets then runs"
+ },
+ "organisms": {
+  "Pf": {
+   "attention_correction": {
+    "metric": "share of the top 22 corrected pairs sharing a pb_transferred_phenotype label",
+    "runs": 45,
+    "settings_tested": 3,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "top": 200
+     },
+     "runs": 15,
+     "conclusive": 10,
+     "skill": 0.2612,
+     "skill_low": 0.2137,
+     "skill_high": 0.2972,
+     "pass_rate": 0.1,
+     "pass_low": 0.0179,
+     "pass_high": 0.4042,
+     "observed": 0.8095,
+     "chance": 0.7337,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "top": 1000
+     },
+     "runs": 6,
+     "conclusive": 4,
+     "skill": 0.2557,
+     "skill_low": 0.195,
+     "skill_high": 0.3142,
+     "pass_rate": 0.0,
+     "pass_low": 0.0,
+     "pass_high": 0.4899,
+     "observed": 0.8095,
+     "chance": 0.7389,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.2374,
+      "skill_low": 0.1875,
+      "skill_high": 0.2919,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.2851,
+      "skill_low": 0.2608,
+      "skill_high": 0.3093,
+      "pass_rate": 0.2,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": null,
+      "skill_low": null,
+      "skill_high": null,
+      "pass_rate": null,
+      "conclusive": 0
+     }
+    },
+    "sensitivity": {
+     "top": {
+      "1000": {
+       "skill": 0.2612,
+       "skill_low": 0.2071,
+       "skill_high": 0.2972,
+       "runs": 10
+      },
+      "200": {
+       "skill": 0.2612,
+       "skill_low": 0.2115,
+       "skill_high": 0.2975,
+       "runs": 10
+      },
+      "50": {
+       "skill": 0.0655,
+       "skill_low": -0.2576,
+       "skill_high": 0.2971,
+       "runs": 10
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "blind_battery": {
+    "metric": "share of first-half findings that replicate on the second half",
+    "runs": 195,
+    "settings_tested": 39,
+    "targets": [],
+    "default": {
+     "setting": {
+      "map_from": "expr"
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.9506,
+     "skill_low": 0.8926,
+     "skill_high": 0.9864,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.9542,
+     "chance": 0.0611,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "map_from": "polysomal"
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.9568,
+     "skill_low": 0.9472,
+     "skill_high": 0.9664,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.9586,
+     "chance": 0.039,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.9753,
+      "skill_low": 0.9603,
+      "skill_high": 0.9896,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "map_from": {
+      "antisense": {
+       "skill": 0.9566,
+       "skill_low": 0.9461,
+       "skill_high": 0.9713,
+       "runs": 5
+      },
+      "chromprox": {
+       "skill": 0.9425,
+       "skill_low": 0.9322,
+       "skill_high": 0.9567,
+       "runs": 5
+      },
+      "codon": {
+       "skill": 0.9414,
+       "skill_low": 0.883,
+       "skill_high": 0.9873,
+       "runs": 5
+      },
+      "complex": {
+       "skill": 0.8741,
+       "skill_low": 0.7396,
+       "skill_high": 0.9656,
+       "runs": 4
+      },
+      "engaged": {
+       "skill": 0.9551,
+       "skill_low": 0.9358,
+       "skill_high": 0.9655,
+       "runs": 5
+      },
+      "ev": {
+       "skill": 0.5719,
+       "skill_low": 0.3622,
+       "skill_high": 0.7899,
+       "runs": 5
+      },
+      "exon": {
+       "skill": 0.8054,
+       "skill_low": 0.7693,
+       "skill_high": 0.8479,
+       "runs": 5
+      },
+      "export": {
+       "skill": 0.8994,
+       "skill_low": 0.8482,
+       "skill_high": 0.9453,
+       "runs": 5
+      },
+      "expr": {
+       "skill": 0.9506,
+       "skill_low": 0.8909,
+       "skill_high": 0.9882,
+       "runs": 5
+      },
+      "febrile": {
+       "skill": 0.9666,
+       "skill_low": 0.9526,
+       "skill_high": 0.9794,
+       "runs": 5
+      },
+      "fertility": {
+       "skill": 0.8233,
+       "skill_low": 0.6927,
+       "skill_high": 0.9499,
+       "runs": 5
+      },
+      "gametocyte": {
+       "skill": 0.9205,
+       "skill_low": 0.9039,
+       "skill_high": 0.9388,
+       "runs": 5
+      },
+      "has": {
+       "skill": 0.9399,
+       "skill_low": 0.911,
+       "skill_high": 0.9682,
+       "runs": 5
+      },
+      "idc": {
+       "skill": 0.8625,
+       "skill_low": 0.8278,
+       "skill_high": 0.8939,
+       "runs": 5
+      },
+      "is": {
+       "skill": 0.9305,
+       "skill_low": 0.8923,
+       "skill_high": 0.9578,
+       "runs": 5
+      },
+      "isoelectric": {
+       "skill": 0.977,
+       "skill_low": 0.9429,
+       "skill_high": 1.0,
+       "runs": 5
+      },
+      "latency": {
+       "skill": 0.8733,
+       "skill_low": 0.825,
+       "skill_high": 0.9263,
+       "runs": 5
+      },
+      "length": {
+       "skill": 0.9301,
+       "skill_low": 0.8971,
+       "skill_high": 0.9589,
+       "runs": 5
+      },
+      "m6a": {
+       "skill": 0.9688,
+       "skill_low": 0.9346,
+       "skill_high": 0.9917,
+       "runs": 5
+      },
+      "mean": {
+       "skill": 0.9749,
+       "skill_low": 0.9581,
+       "skill_high": 0.9893,
+       "runs": 5
+      },
+      "melting": {
+       "skill": 0.9298,
+       "skill_low": 0.8949,
+       "skill_high": 0.9627,
+       "runs": 5
+      },
+      "molecular": {
+       "skill": 0.9511,
+       "skill_low": 0.9205,
+       "skill_high": 0.9794,
+       "runs": 5
+      },
+      "n": {
+       "skill": 0.9565,
+       "skill_low": 0.9401,
+       "skill_high": 0.9702,
+       "runs": 5
+      },
+      "novel": {
+       "skill": 0.9188,
+       "skill_low": 0.8863,
+       "skill_high": 0.9509,
+       "runs": 5
+      },
+      "ortholog": {
+       "skill": 0.9208,
+       "skill_low": 0.8881,
+       "skill_high": 0.9556,
+       "runs": 5
+      },
+      "paralog": {
+       "skill": 0.9198,
+       "skill_low": 0.8462,
+       "skill_high": 0.9816,
+       "runs": 5
+      },
+      "pb": {
+       "skill": 0.9517,
+       "skill_low": 0.9424,
+       "skill_high": 0.9607,
+       "runs": 5
+      },
+      "piggybac": {
+       "skill": 0.8503,
+       "skill_low": 0.8045,
+       "skill_high": 0.9072,
+       "runs": 5
+      },
+      "plddt": {
+       "skill": 0.9225,
+       "skill_low": 0.8961,
+       "skill_high": 0.9419,
+       "runs": 5
+      },
+      "polysomal": {
+       "skill": 0.9753,
+       "skill_low": 0.9562,
+       "skill_high": 0.9894,
+       "runs": 5
+      },
+      "protein": {
+       "skill": 0.9652,
+       "skill_low": 0.9555,
+       "skill_high": 0.976,
+       "runs": 5
+      },
+      "riboseq": {
+       "skill": 0.952,
+       "skill_low": 0.9252,
+       "skill_high": 0.9723,
+       "runs": 5
+      },
+      "sir2": {
+       "skill": 0.8331,
+       "skill_low": 0.7506,
+       "skill_high": 0.9261,
+       "runs": 5
+      },
+      "sir2a": {
+       "skill": 0.847,
+       "skill_low": 0.7421,
+       "skill_high": 0.9501,
+       "runs": 5
+      },
+      "sir2b": {
+       "skill": 0.8668,
+       "skill_low": 0.8056,
+       "skill_high": 0.9392,
+       "runs": 5
+      },
+      "snp": {
+       "skill": 0.9539,
+       "skill_low": 0.9244,
+       "skill_high": 0.9814,
+       "runs": 5
+      },
+      "stage": {
+       "skill": 0.8621,
+       "skill_low": 0.7549,
+       "skill_high": 0.9536,
+       "runs": 5
+      },
+      "steady": {
+       "skill": 0.9566,
+       "skill_low": 0.9369,
+       "skill_high": 0.9791,
+       "runs": 5
+      },
+      "transcript": {
+       "skill": 0.9336,
+       "skill_low": 0.9162,
+       "skill_high": 0.9527,
+       "runs": 5
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "block_ablation": {
+    "metric": "hidden accuracy of the evidence ranked first (expr)",
+    "runs": 45,
+    "settings_tested": 3,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.1091,
+     "skill_low": 0.0386,
+     "skill_high": 0.1779,
+     "pass_rate": 0.5333,
+     "pass_low": 0.3012,
+     "pass_high": 0.7519,
+     "observed": 0.7375,
+     "chance": 0.6922,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 5
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.1217,
+     "skill_low": 0.0533,
+     "skill_high": 0.1863,
+     "pass_rate": 0.6667,
+     "pass_low": 0.3,
+     "pass_high": 0.9032,
+     "observed": 0.7308,
+     "chance": 0.6841,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.1135,
+      "skill_low": 0.0532,
+      "skill_high": 0.1792,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.1475,
+      "skill_low": 0.1254,
+      "skill_high": 0.1694,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.1492,
+      "skill_low": 0.0895,
+      "skill_high": 0.2089,
+      "pass_rate": 0.6,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": 0.1091,
+       "skill_low": 0.0393,
+       "skill_high": 0.1792,
+       "runs": 15
+      },
+      "5": {
+       "skill": 0.1367,
+       "skill_low": 0.0993,
+       "skill_high": 0.1695,
+       "runs": 15
+      },
+      "50": {
+       "skill": 0.1449,
+       "skill_low": 0.0374,
+       "skill_high": 0.2288,
+       "runs": 15
+      }
+     }
+    },
+    "grade": "works when tuned"
+   },
+   "cluster_guilt": {
+    "metric": "precision of calls on hidden genes",
+    "runs": 180,
+    "settings_tested": 12,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_cluster_size": 25,
+      "min_lift": 1.5,
+      "selection": "leaf"
+     },
+     "runs": 15,
+     "conclusive": 10,
+     "skill": 0.5299,
+     "skill_low": 0.2768,
+     "skill_high": 0.7665,
+     "pass_rate": 1.0,
+     "pass_low": 0.7225,
+     "pass_high": 1.0,
+     "observed": 0.5313,
+     "chance": 0.0066,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_cluster_size": 10,
+      "min_lift": 1.5,
+      "selection": "leaf"
+     },
+     "runs": 6,
+     "conclusive": 3,
+     "skill": 0.6154,
+     "skill_low": 0.1818,
+     "skill_high": 0.8584,
+     "pass_rate": 1.0,
+     "pass_low": 0.4385,
+     "pass_high": 1.0,
+     "observed": 0.6154,
+     "chance": 0.0,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.2696,
+      "skill_low": 0.2045,
+      "skill_high": 0.3345,
+      "pass_rate": 1.0,
+      "conclusive": 4
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.8877,
+      "skill_low": 0.8227,
+      "skill_high": 0.9549,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": null,
+      "skill_low": null,
+      "skill_high": null,
+      "pass_rate": null,
+      "conclusive": 0
+     }
+    },
+    "sensitivity": {
+     "min_cluster_size": {
+      "10": {
+       "skill": 0.5044,
+       "skill_low": 0.3004,
+       "skill_high": 0.94,
+       "runs": 20
+      },
+      "25": {
+       "skill": 0.4823,
+       "skill_low": 0.35,
+       "skill_high": 0.8234,
+       "runs": 22
+      },
+      "60": {
+       "skill": 0.4335,
+       "skill_low": 0.3272,
+       "skill_high": 0.7007,
+       "runs": 27
+      }
+     },
+     "min_lift": {
+      "1.5": {
+       "skill": 0.498,
+       "skill_low": 0.3251,
+       "skill_high": 0.7408,
+       "runs": 41
+      },
+      "3.0": {
+       "skill": 0.4281,
+       "skill_low": 0.3302,
+       "skill_high": 1.0,
+       "runs": 28
+      }
+     },
+     "selection": {
+      "eom": {
+       "skill": 0.4066,
+       "skill_low": 0.3355,
+       "skill_high": 0.5849,
+       "runs": 24
+      },
+      "leaf": {
+       "skill": 0.5032,
+       "skill_low": 0.3057,
+       "skill_high": 0.8095,
+       "runs": 45
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "condition_shift": {
+    "metric": "rank correlation of predicted and hidden values",
+    "runs": 20,
+    "settings_tested": 4,
+    "targets": [],
+    "default": {
+     "setting": {
+      "model": "boosted",
+      "own_kind": "leave out"
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.6418,
+     "skill_low": 0.638,
+     "skill_high": 0.6457,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.6418,
+     "chance": 0.0,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "model": "boosted",
+      "own_kind": "include"
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.647,
+     "skill_low": 0.646,
+     "skill_high": 0.648,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.647,
+     "chance": 0.0,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.6418,
+      "skill_low": 0.638,
+      "skill_high": 0.6457,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "model": {
+      "boosted": {
+       "skill": 0.6418,
+       "skill_low": 0.6389,
+       "skill_high": 0.6445,
+       "runs": 10
+      },
+      "ridge": {
+       "skill": 0.5798,
+       "skill_low": 0.5747,
+       "skill_high": 0.5862,
+       "runs": 10
+      }
+     },
+     "own_kind": {
+      "include": {
+       "skill": 0.6108,
+       "skill_low": 0.5944,
+       "skill_high": 0.6313,
+       "runs": 10
+      },
+      "leave out": {
+       "skill": 0.6108,
+       "skill_low": 0.5928,
+       "skill_high": 0.6311,
+       "runs": 10
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "conjunctions": {
+    "metric": "share of findings that replicate",
+    "runs": 15,
+    "settings_tested": 3,
+    "targets": [],
+    "default": {
+     "setting": {
+      "min_cluster_size": 15
+     },
+     "runs": 5,
+     "conclusive": 0,
+     "skill": null,
+     "skill_low": null,
+     "skill_high": null,
+     "pass_rate": null,
+     "pass_low": null,
+     "pass_high": null,
+     "observed": null,
+     "chance": null,
+     "targets": [],
+     "not_run": 0
+    },
+    "sensitivity": {
+     "min_cluster_size": {}
+    },
+    "grade": "untestable"
+   },
+   "consensus_modules": {
+    "metric": "F1 of hidden genes in the module chosen for their label on known genes",
+    "runs": 45,
+    "settings_tested": 3,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "threshold": 0.5
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.1435,
+     "skill_low": 0.019,
+     "skill_high": 0.3244,
+     "pass_rate": 0.1333,
+     "pass_low": 0.0374,
+     "pass_high": 0.3788,
+     "observed": 0.5786,
+     "chance": 0.5453,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "threshold": 0.5
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.1765,
+     "skill_low": 0.0165,
+     "skill_high": 0.4338,
+     "pass_rate": 0.1667,
+     "pass_low": 0.0301,
+     "pass_high": 0.5635,
+     "observed": 0.6333,
+     "chance": 0.5999,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.3478,
+      "skill_low": 0.2381,
+      "skill_high": 0.4416,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.0625,
+      "skill_low": 0.0363,
+      "skill_high": 0.0882,
+      "pass_rate": 0.4,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.0202,
+      "skill_low": -0.0028,
+      "skill_high": 0.0444,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "threshold": {
+      "0.3": {
+       "skill": 0.1487,
+       "skill_low": 0.0113,
+       "skill_high": 0.3185,
+       "runs": 15
+      },
+      "0.5": {
+       "skill": 0.1435,
+       "skill_low": 0.0196,
+       "skill_high": 0.3453,
+       "runs": 15
+      },
+      "0.8": {
+       "skill": 0.0324,
+       "skill_low": 0.0174,
+       "skill_high": 0.0501,
+       "runs": 15
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "feature_knn": {
+    "metric": "correct calls per hidden gene",
+    "runs": 135,
+    "settings_tested": 9,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15,
+      "min_share": 0.3
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": -0.0204,
+     "skill_low": -0.5152,
+     "skill_high": 0.3618,
+     "pass_rate": 0.4,
+     "pass_low": 0.1982,
+     "pass_high": 0.6425,
+     "observed": 0.7584,
+     "chance": 0.6875,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 5,
+      "min_share": 0.0
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.2448,
+     "skill_low": 0.0167,
+     "skill_high": 0.392,
+     "pass_rate": 0.6667,
+     "pass_low": 0.3,
+     "pass_high": 0.9032,
+     "observed": 0.7756,
+     "chance": 0.6579,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": -0.5368,
+      "skill_low": -1.1007,
+      "skill_high": 0.0035,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.357,
+      "skill_low": 0.3475,
+      "skill_high": 0.3664,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.3194,
+      "skill_low": 0.2816,
+      "skill_high": 0.384,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": -0.0277,
+       "skill_low": -0.4452,
+       "skill_high": 0.3679,
+       "runs": 45
+      },
+      "5": {
+       "skill": 0.0403,
+       "skill_low": -0.4145,
+       "skill_high": 0.3475,
+       "runs": 45
+      },
+      "50": {
+       "skill": -0.0965,
+       "skill_low": -0.5023,
+       "skill_high": 0.3565,
+       "runs": 45
+      }
+     },
+     "min_share": {
+      "0.0": {
+       "skill": -0.0175,
+       "skill_low": -0.4019,
+       "skill_high": 0.3547,
+       "runs": 45
+      },
+      "0.3": {
+       "skill": -0.0175,
+       "skill_low": -0.4466,
+       "skill_high": 0.3537,
+       "runs": 45
+      },
+      "0.6": {
+       "skill": -0.0488,
+       "skill_low": -0.5127,
+       "skill_high": 0.3633,
+       "runs": 45
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "geneset_hunt": {
+    "metric": "F1 of the hidden members against the best cluster's other genes",
+    "runs": 60,
+    "settings_tested": 4,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_cluster_size": "20, 50",
+      "n_neighbors": "15, 50"
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.2355,
+     "skill_low": 0.0597,
+     "skill_high": 0.4264,
+     "pass_rate": 0.8667,
+     "pass_low": 0.6212,
+     "pass_high": 0.9626,
+     "observed": 0.2521,
+     "chance": 0.023,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_cluster_size": "10, 25",
+      "n_neighbors": "10, 30"
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.2605,
+     "skill_low": 0.0378,
+     "skill_high": 0.5185,
+     "pass_rate": 0.6667,
+     "pass_low": 0.3,
+     "pass_high": 0.9032,
+     "observed": 0.2764,
+     "chance": 0.0231,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.2093,
+      "skill_low": 0.1784,
+      "skill_high": 0.2411,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.4703,
+      "skill_low": 0.4131,
+      "skill_high": 0.524,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.063,
+      "skill_low": 0.0437,
+      "skill_high": 0.0823,
+      "pass_rate": 0.6,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_cluster_size": {
+      "10, 25": {
+       "skill": 0.2456,
+       "skill_low": 0.0605,
+       "skill_high": 0.4043,
+       "runs": 30
+      },
+      "20, 50": {
+       "skill": 0.2347,
+       "skill_low": 0.0608,
+       "skill_high": 0.3664,
+       "runs": 30
+      }
+     },
+     "n_neighbors": {
+      "10, 30": {
+       "skill": 0.2407,
+       "skill_low": 0.0637,
+       "skill_high": 0.3806,
+       "runs": 30
+      },
+      "15, 50": {
+       "skill": 0.2396,
+       "skill_low": 0.0558,
+       "skill_high": 0.39,
+       "runs": 30
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "holdout_search": {
+    "metric": "F1 of hidden genes in the cluster chosen for their label on known genes",
+    "runs": 90,
+    "settings_tested": 6,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_cluster_size": "20, 50",
+      "n_neighbors": "15, 50",
+      "selection": "eom, leaf"
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.0765,
+     "skill_low": -0.0004,
+     "skill_high": 0.2156,
+     "pass_rate": 0.0,
+     "pass_low": 0.0,
+     "pass_high": 0.2039,
+     "observed": 0.698,
+     "chance": 0.689,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_cluster_size": "20, 50",
+      "n_neighbors": "10, 30",
+      "selection": "eom, leaf"
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.0251,
+     "skill_low": -0.0,
+     "skill_high": 0.0696,
+     "pass_rate": 0.0,
+     "pass_low": 0.0,
+     "pass_high": 0.3903,
+     "observed": 0.7121,
+     "chance": 0.7082,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.2258,
+      "skill_low": 0.0965,
+      "skill_high": 0.3606,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.0001,
+      "skill_low": -0.0,
+      "skill_high": 0.0002,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.016,
+      "skill_low": -0.0,
+      "skill_high": 0.0345,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_cluster_size": {
+      "10, 25": {
+       "skill": 0.0484,
+       "skill_low": 0.0,
+       "skill_high": 0.1191,
+       "runs": 45
+      },
+      "20, 50": {
+       "skill": 0.0793,
+       "skill_low": 0.0003,
+       "skill_high": 0.1865,
+       "runs": 45
+      }
+     },
+     "n_neighbors": {
+      "10, 30": {
+       "skill": 0.066,
+       "skill_low": 0.0007,
+       "skill_high": 0.1634,
+       "runs": 30
+      },
+      "15, 50": {
+       "skill": 0.0618,
+       "skill_low": -0.0001,
+       "skill_high": 0.1556,
+       "runs": 30
+      },
+      "25, 100": {
+       "skill": 0.0638,
+       "skill_low": 0.0007,
+       "skill_high": 0.1677,
+       "runs": 30
+      }
+     },
+     "selection": {
+      "eom, leaf": {
+       "skill": 0.0639,
+       "skill_low": 0.0002,
+       "skill_high": 0.1802,
+       "runs": 90
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "label_outliers": {
+    "metric": "AUROC of surprise for the swapped labels",
+    "runs": 45,
+    "settings_tested": 3,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.7575,
+     "skill_low": 0.5106,
+     "skill_high": 0.9917,
+     "pass_rate": 1.0,
+     "pass_low": 0.7961,
+     "pass_high": 1.0,
+     "observed": 0.8796,
+     "chance": 0.5025,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 5
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.7772,
+     "skill_low": 0.5199,
+     "skill_high": 0.9894,
+     "pass_rate": 1.0,
+     "pass_low": 0.6097,
+     "pass_high": 1.0,
+     "observed": 0.8893,
+     "chance": 0.5024,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.991,
+      "skill_low": 0.9898,
+      "skill_high": 0.992,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.5015,
+      "skill_low": 0.4782,
+      "skill_high": 0.5224,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.7463,
+      "skill_low": 0.6614,
+      "skill_high": 0.8275,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": 0.7575,
+       "skill_low": 0.5696,
+       "skill_high": 0.9912,
+       "runs": 15
+      },
+      "5": {
+       "skill": 0.7462,
+       "skill_low": 0.5513,
+       "skill_high": 0.9904,
+       "runs": 15
+      },
+      "50": {
+       "skill": 0.7146,
+       "skill_low": 0.5109,
+       "skill_high": 0.9905,
+       "runs": 15
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "layer_propagation": {
+    "metric": "correct calls per hidden gene",
+    "runs": 360,
+    "settings_tested": 24,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "layer": "coexpression",
+      "restart": 0.5
+     },
+     "runs": 15,
+     "conclusive": 10,
+     "skill": 0.2572,
+     "skill_low": 0.1588,
+     "skill_high": 0.3971,
+     "pass_rate": 0.9,
+     "pass_low": 0.5958,
+     "pass_high": 0.9821,
+     "observed": 0.5829,
+     "chance": 0.4538,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 5
+    },
+    "tuned": {
+     "setting": {
+      "layer": "coexpression",
+      "restart": 0.2
+     },
+     "runs": 6,
+     "conclusive": 4,
+     "skill": 0.2982,
+     "skill_low": 0.1401,
+     "skill_high": 0.4574,
+     "pass_rate": 1.0,
+     "pass_low": 0.5101,
+     "pass_high": 1.0,
+     "observed": 0.5897,
+     "chance": 0.4419,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 2,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.3764,
+      "skill_low": 0.265,
+      "skill_high": 0.4686,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.1765,
+      "skill_low": 0.1517,
+      "skill_high": 0.2013,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": null,
+      "skill_low": null,
+      "skill_high": null,
+      "pass_rate": null,
+      "conclusive": 0
+     }
+    },
+    "sensitivity": {
+     "layer": {
+      "coexpression": {
+       "skill": 0.2595,
+       "skill_low": 0.1601,
+       "skill_high": 0.3764,
+       "runs": 30
+      },
+      "comention": {
+       "skill": 0.0066,
+       "skill_low": 0.002,
+       "skill_high": 0.0104,
+       "runs": 45
+      },
+      "cotranslation": {
+       "skill": 0.0448,
+       "skill_low": 0.0354,
+       "skill_high": 0.0573,
+       "runs": 45
+      },
+      "domain": {
+       "skill": 0.0994,
+       "skill_low": 0.0743,
+       "skill_high": 0.1264,
+       "runs": 45
+      },
+      "ip_ms": {
+       "skill": -0.0055,
+       "skill_low": -0.009,
+       "skill_high": -0.0029,
+       "runs": 45
+      },
+      "orthogroup": {
+       "skill": 0.0,
+       "skill_low": 0.0,
+       "skill_high": 0.0,
+       "runs": 45
+      },
+      "struct": {
+       "skill": 0.0154,
+       "skill_low": -0.0124,
+       "skill_high": 0.0357,
+       "runs": 45
+      },
+      "xlms": {
+       "skill": 0.0025,
+       "skill_low": -0.0012,
+       "skill_high": 0.0072,
+       "runs": 45
+      }
+     },
+     "restart": {
+      "0.2": {
+       "skill": 0.0459,
+       "skill_low": 0.0186,
+       "skill_high": 0.0753,
+       "runs": 115
+      },
+      "0.5": {
+       "skill": 0.0435,
+       "skill_low": 0.0201,
+       "skill_high": 0.0749,
+       "runs": 115
+      },
+      "0.8": {
+       "skill": 0.0421,
+       "skill_low": 0.0186,
+       "skill_high": 0.0692,
+       "runs": 115
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "layer_vote": {
+    "metric": "correct calls per hidden gene",
+    "runs": 45,
+    "settings_tested": 3,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.493,
+     "skill_low": 0.3498,
+     "skill_high": 0.6363,
+     "pass_rate": 0.7333,
+     "pass_low": 0.4805,
+     "pass_high": 0.891,
+     "observed": 0.6681,
+     "chance": 0.3574,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.3731,
+     "skill_low": 0.1028,
+     "skill_high": 0.6406,
+     "pass_rate": 0.6667,
+     "pass_low": 0.3,
+     "pass_high": 0.9032,
+     "observed": 0.6375,
+     "chance": 0.3853,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.5103,
+      "skill_low": 0.1561,
+      "skill_high": 0.8118,
+      "pass_rate": 0.2,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.4169,
+      "skill_low": 0.3742,
+      "skill_high": 0.4602,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.552,
+      "skill_low": 0.3473,
+      "skill_high": 0.6626,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": 0.493,
+       "skill_low": 0.3657,
+       "skill_high": 0.6249,
+       "runs": 15
+      },
+      "5": {
+       "skill": 0.554,
+       "skill_low": 0.31,
+       "skill_high": 0.8195,
+       "runs": 15
+      },
+      "50": {
+       "skill": 0.3107,
+       "skill_low": -0.0421,
+       "skill_high": 0.5617,
+       "runs": 15
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "link_prediction": {
+    "metric": "AUROC of hidden pairs against degree-matched non-pairs",
+    "runs": 5,
+    "settings_tested": 1,
+    "targets": [],
+    "default": {
+     "setting": {
+      "layer": "struct"
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.9583,
+     "skill_low": 0.9567,
+     "skill_high": 0.961,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.9795,
+     "chance": 0.5075,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "layer": "struct"
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.9605,
+     "skill_low": 0.9575,
+     "skill_high": 0.9635,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.9804,
+     "chance": 0.5043,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.9583,
+      "skill_low": 0.9567,
+      "skill_high": 0.961,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "layer": {
+      "struct": {
+       "skill": 0.9583,
+       "skill_low": 0.9567,
+       "skill_high": 0.9611,
+       "runs": 5
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "map_neighbours": {
+    "metric": "correct calls per hidden gene",
+    "runs": 135,
+    "settings_tested": 9,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15,
+      "n_neighbors": 25
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": -0.1265,
+     "skill_low": -0.7774,
+     "skill_high": 0.27,
+     "pass_rate": 0.5333,
+     "pass_low": 0.3012,
+     "pass_high": 0.7519,
+     "observed": 0.7298,
+     "chance": 0.6745,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 5,
+      "n_neighbors": 10
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.1943,
+     "skill_low": 0.0187,
+     "skill_high": 0.3351,
+     "pass_rate": 0.6667,
+     "pass_low": 0.3,
+     "pass_high": 0.9032,
+     "observed": 0.738,
+     "chance": 0.6404,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": -0.4785,
+      "skill_low": -1.1266,
+      "skill_high": 0.0031,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.252,
+      "skill_low": 0.2287,
+      "skill_high": 0.2715,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.2522,
+      "skill_low": 0.1603,
+      "skill_high": 0.335,
+      "pass_rate": 0.6,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": -0.1196,
+       "skill_low": -0.6489,
+       "skill_high": 0.268,
+       "runs": 45
+      },
+      "5": {
+       "skill": -0.049,
+       "skill_low": -0.5245,
+       "skill_high": 0.2557,
+       "runs": 45
+      },
+      "50": {
+       "skill": -0.0868,
+       "skill_low": -0.4377,
+       "skill_high": 0.2718,
+       "runs": 45
+      }
+     },
+     "n_neighbors": {
+      "10": {
+       "skill": -0.0462,
+       "skill_low": -0.4602,
+       "skill_high": 0.2667,
+       "runs": 45
+      },
+      "25": {
+       "skill": -0.0907,
+       "skill_low": -0.5384,
+       "skill_high": 0.2668,
+       "runs": 45
+      },
+      "60": {
+       "skill": -0.1184,
+       "skill_low": -0.5599,
+       "skill_high": 0.2583,
+       "runs": 45
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "masked_imputation": {
+    "metric": "median per-column rank correlation on hidden entries",
+    "runs": 15,
+    "settings_tested": 3,
+    "targets": [],
+    "default": {
+     "setting": {
+      "rank": 20
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.6999,
+     "skill_low": 0.6897,
+     "skill_high": 0.709,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.6998,
+     "chance": -0.0003,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "rank": 20
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.7044,
+     "skill_low": 0.6958,
+     "skill_high": 0.713,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.7037,
+     "chance": -0.0024,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.6999,
+      "skill_low": 0.6897,
+      "skill_high": 0.709,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "rank": {
+      "20": {
+       "skill": 0.6999,
+       "skill_low": 0.6904,
+       "skill_high": 0.7096,
+       "runs": 5
+      },
+      "5": {
+       "skill": 0.526,
+       "skill_low": 0.5201,
+       "skill_high": 0.5358,
+       "runs": 5
+      },
+      "60": {
+       "skill": 0.671,
+       "skill_low": 0.6444,
+       "skill_high": 0.6937,
+       "runs": 5
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "multiplex_modules": {
+    "metric": "F1 of hidden genes in the community chosen for their label on known genes",
+    "runs": 90,
+    "settings_tested": 6,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "agreement": 0.5,
+      "resolution": 1.0
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.0108,
+     "skill_low": -0.0448,
+     "skill_high": 0.0897,
+     "pass_rate": 0.3333,
+     "pass_low": 0.1518,
+     "pass_high": 0.5829,
+     "observed": 0.263,
+     "chance": 0.2548,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "agreement": 0.3,
+      "resolution": 2.0
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.0383,
+     "skill_low": -0.0111,
+     "skill_high": 0.0927,
+     "pass_rate": 0.3333,
+     "pass_low": 0.0968,
+     "pass_high": 0.7,
+     "observed": 0.1907,
+     "chance": 0.1613,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.0246,
+      "skill_low": 0.0195,
+      "skill_high": 0.0299,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.0829,
+      "skill_low": 0.074,
+      "skill_high": 0.0936,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.0209,
+      "skill_low": -0.0577,
+      "skill_high": 0.0996,
+      "pass_rate": 0.2,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "agreement": {
+      "0.3": {
+       "skill": 0.0176,
+       "skill_low": -0.0385,
+       "skill_high": 0.0987,
+       "runs": 45
+      },
+      "0.5": {
+       "skill": 0.0286,
+       "skill_low": -0.0194,
+       "skill_high": 0.0984,
+       "runs": 45
+      }
+     },
+     "resolution": {
+      "0.5": {
+       "skill": 0.0137,
+       "skill_low": -0.0596,
+       "skill_high": 0.0894,
+       "runs": 30
+      },
+      "1.0": {
+       "skill": 0.0129,
+       "skill_low": -0.0401,
+       "skill_high": 0.0679,
+       "runs": 30
+      },
+      "2.0": {
+       "skill": 0.0427,
+       "skill_low": 0.0036,
+       "skill_high": 0.0798,
+       "runs": 30
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "neighbour_space": {
+    "metric": "AUROC of hidden coexpression edges against degree-matched non-pairs",
+    "runs": 90,
+    "settings_tested": 18,
+    "targets": [],
+    "default": {
+     "setting": {
+      "k": 10,
+      "knn": 15,
+      "layer": "coexpression"
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.3924,
+     "skill_low": 0.3704,
+     "skill_high": 0.413,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.7068,
+     "chance": 0.5184,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 5,
+      "knn": 15,
+      "layer": "struct"
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.7493,
+     "skill_low": 0.6787,
+     "skill_high": 0.8199,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.8917,
+     "chance": 0.559,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.7949,
+      "skill_low": 0.7351,
+      "skill_high": 0.843,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "10": {
+       "skill": 0.5431,
+       "skill_low": 0.4822,
+       "skill_high": 0.6075,
+       "runs": 30
+      },
+      "25": {
+       "skill": 0.5431,
+       "skill_low": 0.4832,
+       "skill_high": 0.61,
+       "runs": 30
+      },
+      "5": {
+       "skill": 0.5431,
+       "skill_low": 0.4814,
+       "skill_high": 0.611,
+       "runs": 30
+      }
+     },
+     "knn": {
+      "15": {
+       "skill": 0.5431,
+       "skill_low": 0.4896,
+       "skill_high": 0.6117,
+       "runs": 45
+      },
+      "5": {
+       "skill": 0.5431,
+       "skill_low": 0.484,
+       "skill_high": 0.5953,
+       "runs": 45
+      }
+     },
+     "layer": {
+      "coexpression": {
+       "skill": 0.3924,
+       "skill_low": 0.3825,
+       "skill_high": 0.4016,
+       "runs": 30
+      },
+      "cotranslation": {
+       "skill": 0.4421,
+       "skill_low": 0.4249,
+       "skill_high": 0.458,
+       "runs": 30
+      },
+      "struct": {
+       "skill": 0.7949,
+       "skill_low": 0.7702,
+       "skill_high": 0.8188,
+       "runs": 30
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "network_training": {
+    "metric": "AUROC of hidden coexpression edges against degree-matched non-pairs",
+    "runs": 60,
+    "settings_tested": 12,
+    "targets": [],
+    "default": {
+     "setting": {
+      "fraction": 0.25,
+      "layer": "coexpression",
+      "model": "logistic"
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.3924,
+     "skill_low": 0.3704,
+     "skill_high": 0.4143,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.7068,
+     "chance": 0.5184,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "fraction": 0.4,
+      "layer": "struct",
+      "model": "logistic"
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.7319,
+     "skill_low": 0.7099,
+     "skill_high": 0.7539,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.8911,
+     "chance": 0.5935,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.7861,
+      "skill_low": 0.7408,
+      "skill_high": 0.8226,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "fraction": {
+      "0.25": {
+       "skill": 0.5404,
+       "skill_low": 0.4796,
+       "skill_high": 0.615,
+       "runs": 30
+      },
+      "0.4": {
+       "skill": 0.5356,
+       "skill_low": 0.4784,
+       "skill_high": 0.5971,
+       "runs": 30
+      }
+     },
+     "layer": {
+      "coexpression": {
+       "skill": 0.3813,
+       "skill_low": 0.3691,
+       "skill_high": 0.3948,
+       "runs": 20
+      },
+      "cotranslation": {
+       "skill": 0.4374,
+       "skill_low": 0.4216,
+       "skill_high": 0.4519,
+       "runs": 20
+      },
+      "struct": {
+       "skill": 0.7954,
+       "skill_low": 0.7727,
+       "skill_high": 0.8153,
+       "runs": 20
+      }
+     },
+     "model": {
+      "embedding": {
+       "skill": 0.5334,
+       "skill_low": 0.4653,
+       "skill_high": 0.6052,
+       "runs": 30
+      },
+      "logistic": {
+       "skill": 0.5426,
+       "skill_low": 0.4782,
+       "skill_high": 0.6078,
+       "runs": 30
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "ortholog_transfer": {
+    "metric": "rank correlation of transferred and hidden values",
+    "runs": 5,
+    "settings_tested": 1,
+    "targets": [],
+    "default": {
+     "setting": {},
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.3132,
+     "skill_low": 0.2985,
+     "skill_high": 0.3282,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.3161,
+     "chance": 0.0042,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {},
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.3225,
+     "skill_low": 0.3122,
+     "skill_high": 0.3327,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.3294,
+     "chance": 0.0102,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.3132,
+      "skill_low": 0.2985,
+      "skill_high": 0.3282,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {},
+    "grade": "reliable"
+   },
+   "paralog_divergence": {
+    "metric": "AUROC of profile divergence for paralogs with different pb_transferred_phenotype",
+    "runs": 45,
+    "settings_tested": 3,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_shared": 10
+     },
+     "runs": 15,
+     "conclusive": 10,
+     "skill": -0.0214,
+     "skill_low": -0.1642,
+     "skill_high": 0.1194,
+     "pass_rate": 0.5,
+     "pass_low": 0.2366,
+     "pass_high": 0.7634,
+     "observed": 0.4929,
+     "chance": 0.5029,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_shared": 10
+     },
+     "runs": 6,
+     "conclusive": 4,
+     "skill": -0.0182,
+     "skill_low": -0.1507,
+     "skill_high": 0.1121,
+     "pass_rate": 0.5,
+     "pass_low": 0.15,
+     "pass_high": 0.85,
+     "observed": 0.4929,
+     "chance": 0.5019,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.1161,
+      "skill_low": 0.1105,
+      "skill_high": 0.1233,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": -0.1589,
+      "skill_low": -0.1707,
+      "skill_high": -0.1479,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": null,
+      "skill_low": null,
+      "skill_high": null,
+      "pass_rate": null,
+      "conclusive": 0
+     }
+    },
+    "sensitivity": {
+     "min_shared": {
+      "10": {
+       "skill": -0.0214,
+       "skill_low": -0.1626,
+       "skill_high": 0.1199,
+       "runs": 10
+      },
+      "30": {
+       "skill": -0.0214,
+       "skill_low": -0.1626,
+       "skill_high": 0.1199,
+       "runs": 10
+      },
+      "5": {
+       "skill": -0.0214,
+       "skill_low": -0.1626,
+       "skill_high": 0.1199,
+       "runs": 10
+      }
+     }
+    },
+    "grade": "no skill"
+   },
+   "physical_partners": {
+    "metric": "correct calls per hidden gene",
+    "runs": 15,
+    "settings_tested": 1,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {},
+     "runs": 15,
+     "conclusive": 10,
+     "skill": 0.0835,
+     "skill_low": -0.0367,
+     "skill_high": 0.2401,
+     "pass_rate": 0.0,
+     "pass_low": 0.0,
+     "pass_high": 0.2775,
+     "observed": 0.5567,
+     "chance": 0.5356,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {},
+     "runs": 6,
+     "conclusive": 4,
+     "skill": 0.0534,
+     "skill_low": 0.0154,
+     "skill_high": 0.1014,
+     "pass_rate": 0.0,
+     "pass_low": 0.0,
+     "pass_high": 0.4899,
+     "observed": 0.5386,
+     "chance": 0.5068,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.1487,
+      "skill_low": 0.0388,
+      "skill_high": 0.341,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.0184,
+      "skill_low": -0.0998,
+      "skill_high": 0.1089,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": null,
+      "skill_low": null,
+      "skill_high": null,
+      "pass_rate": null,
+      "conclusive": 0
+     }
+    },
+    "sensitivity": {},
+    "grade": "weak"
+   },
+   "positive_unlabeled": {
+    "metric": "AUROC of hidden members against every other gene",
+    "runs": 45,
+    "settings_tested": 3,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "bags": 15
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.892,
+     "skill_low": 0.7727,
+     "skill_high": 0.9952,
+     "pass_rate": 1.0,
+     "pass_low": 0.7961,
+     "pass_high": 1.0,
+     "observed": 0.9442,
+     "chance": 0.4928,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "bags": 15
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.9001,
+     "skill_low": 0.7871,
+     "skill_high": 0.9958,
+     "pass_rate": 1.0,
+     "pass_low": 0.6097,
+     "pass_high": 1.0,
+     "observed": 0.949,
+     "chance": 0.4972,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.9124,
+      "skill_low": 0.8993,
+      "skill_high": 0.929,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.9954,
+      "skill_low": 0.9945,
+      "skill_high": 0.9964,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.7682,
+      "skill_low": 0.7554,
+      "skill_high": 0.7835,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "bags": {
+      "15": {
+       "skill": 0.892,
+       "skill_low": 0.7734,
+       "skill_high": 0.9725,
+       "runs": 15
+      },
+      "40": {
+       "skill": 0.8916,
+       "skill_low": 0.7727,
+       "skill_high": 0.9728,
+       "runs": 15
+      },
+      "5": {
+       "skill": 0.8892,
+       "skill_low": 0.7654,
+       "skill_high": 0.9719,
+       "runs": 15
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "recoverability_atlas": {
+    "metric": "hidden-gene AUROC of the categories the atlas ranks in its top half",
+    "runs": 45,
+    "settings_tested": 3,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.6236,
+     "skill_low": 0.4888,
+     "skill_high": 0.7594,
+     "pass_rate": 1.0,
+     "pass_low": 0.7961,
+     "pass_high": 1.0,
+     "observed": 0.8117,
+     "chance": 0.5048,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 50
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.6207,
+     "skill_low": 0.5377,
+     "skill_high": 0.6985,
+     "pass_rate": 1.0,
+     "pass_low": 0.6097,
+     "pass_high": 1.0,
+     "observed": 0.8091,
+     "chance": 0.4976,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.7254,
+      "skill_low": 0.6488,
+      "skill_high": 0.8254,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.5229,
+      "skill_low": 0.4616,
+      "skill_high": 0.5843,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.7645,
+      "skill_low": 0.6379,
+      "skill_high": 0.862,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": 0.6236,
+       "skill_low": 0.4949,
+       "skill_high": 0.7469,
+       "runs": 15
+      },
+      "5": {
+       "skill": 0.5306,
+       "skill_low": 0.4411,
+       "skill_high": 0.6344,
+       "runs": 15
+      },
+      "50": {
+       "skill": 0.6709,
+       "skill_low": 0.5518,
+       "skill_high": 0.7835,
+       "runs": 15
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "seed_expansion": {
+    "metric": "AUROC of hidden members against every other gene",
+    "runs": 90,
+    "settings_tested": 6,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "mode": "networks + measurements",
+      "restart": 0.3
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.8575,
+     "skill_low": 0.6888,
+     "skill_high": 0.9913,
+     "pass_rate": 1.0,
+     "pass_low": 0.7961,
+     "pass_high": 1.0,
+     "observed": 0.9286,
+     "chance": 0.4986,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "mode": "networks + measurements",
+      "restart": 0.6
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.8471,
+     "skill_low": 0.6716,
+     "skill_high": 0.9945,
+     "pass_rate": 1.0,
+     "pass_low": 0.6097,
+     "pass_high": 1.0,
+     "observed": 0.9248,
+     "chance": 0.4994,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.9029,
+      "skill_low": 0.8811,
+      "skill_high": 0.9344,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.9926,
+      "skill_low": 0.9888,
+      "skill_high": 0.995,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.6884,
+      "skill_low": 0.6504,
+      "skill_high": 0.733,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "mode": {
+      "networks": {
+       "skill": 0.4258,
+       "skill_low": -0.268,
+       "skill_high": 0.7891,
+       "runs": 45
+      },
+      "networks + measurements": {
+       "skill": 0.8574,
+       "skill_low": 0.6902,
+       "skill_high": 0.9917,
+       "runs": 45
+      }
+     },
+     "restart": {
+      "0.1": {
+       "skill": 0.6393,
+       "skill_low": 0.2228,
+       "skill_high": 0.8889,
+       "runs": 30
+      },
+      "0.3": {
+       "skill": 0.6416,
+       "skill_low": 0.2197,
+       "skill_high": 0.8893,
+       "runs": 30
+      },
+      "0.6": {
+       "skill": 0.6439,
+       "skill_low": 0.2334,
+       "skill_high": 0.8903,
+       "runs": 30
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "set_enrichment": {
+    "metric": "AUROC of hidden members against every other gene",
+    "runs": 15,
+    "settings_tested": 1,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {},
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.8468,
+     "skill_low": 0.699,
+     "skill_high": 0.9483,
+     "pass_rate": 1.0,
+     "pass_low": 0.7961,
+     "pass_high": 1.0,
+     "observed": 0.9234,
+     "chance": 0.5003,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {},
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.8436,
+     "skill_low": 0.7068,
+     "skill_high": 0.9464,
+     "pass_rate": 1.0,
+     "pass_low": 0.6097,
+     "pass_high": 1.0,
+     "observed": 0.9217,
+     "chance": 0.4997,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.8987,
+      "skill_low": 0.8834,
+      "skill_high": 0.9149,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.9487,
+      "skill_low": 0.9459,
+      "skill_high": 0.9514,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.6929,
+      "skill_low": 0.6626,
+      "skill_high": 0.7204,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {},
+    "grade": "reliable"
+   },
+   "split_clusters": {
+    "metric": "share of findings that replicate",
+    "runs": 15,
+    "settings_tested": 3,
+    "targets": [],
+    "default": {
+     "setting": {
+      "min_cluster_size": 40
+     },
+     "runs": 5,
+     "conclusive": 0,
+     "skill": null,
+     "skill_low": null,
+     "skill_high": null,
+     "pass_rate": null,
+     "pass_low": null,
+     "pass_high": null,
+     "observed": null,
+     "chance": null,
+     "targets": [],
+     "not_run": 0
+    },
+    "sensitivity": {
+     "min_cluster_size": {}
+    },
+    "grade": "untestable"
+   },
+   "stratum_focus": {
+    "metric": "correct calls per hidden gene",
+    "runs": 60,
+    "settings_tested": 4,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "stratum": "lineage-specific"
+     },
+     "runs": 15,
+     "conclusive": 2,
+     "skill": -0.0204,
+     "skill_low": -0.0204,
+     "skill_high": -0.0204,
+     "pass_rate": 0.0,
+     "pass_low": 0.0,
+     "pass_high": 0.6576,
+     "observed": 0.6591,
+     "chance": 0.6659,
+     "targets": [
+      "is_exported",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "stratum": "conserved"
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.1541,
+     "skill_low": -0.0199,
+     "skill_high": 0.3692,
+     "pass_rate": 0.5,
+     "pass_low": 0.1876,
+     "pass_high": 0.8124,
+     "observed": 0.7765,
+     "chance": 0.6955,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": -0.5489,
+      "skill_low": -1.1184,
+      "skill_high": -0.0141,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.3665,
+      "skill_low": 0.3601,
+      "skill_high": 0.373,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.1172,
+      "skill_low": 0.0626,
+      "skill_high": 0.1718,
+      "pass_rate": 0.2,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "stratum": {
+      "conserved": {
+       "skill": -0.0217,
+       "skill_low": -0.5,
+       "skill_high": 0.3055,
+       "runs": 15
+      },
+      "lineage-specific": {
+       "skill": -0.0204,
+       "skill_low": -0.0204,
+       "skill_high": -0.0204,
+       "runs": 2
+      },
+      "understudied": {
+       "skill": -0.1065,
+       "skill_low": -0.6531,
+       "skill_high": 0.2694,
+       "runs": 15
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "structural_homology": {
+    "metric": "correct calls per hidden gene",
+    "runs": 15,
+    "settings_tested": 3,
+    "targets": [],
+    "default": {
+     "setting": {
+      "level": 1
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.5871,
+     "skill_low": 0.5437,
+     "skill_high": 0.6135,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.6934,
+     "chance": 0.2581,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "level": 2
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.5879,
+     "skill_low": 0.5613,
+     "skill_high": 0.6146,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.6442,
+     "chance": 0.1365,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.6632,
+      "skill_low": 0.6039,
+      "skill_high": 0.7162,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "level": {
+      "1": {
+       "skill": 0.5871,
+       "skill_low": 0.5437,
+       "skill_high": 0.6136,
+       "runs": 5
+      },
+      "2": {
+       "skill": 0.6632,
+       "skill_low": 0.5964,
+       "skill_high": 0.7144,
+       "runs": 5
+      },
+      "3": {
+       "skill": 0.7491,
+       "skill_low": 0.6877,
+       "skill_high": 0.8183,
+       "runs": 5
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "supervised_classifier": {
+    "metric": "correct calls per hidden gene",
+    "runs": 60,
+    "settings_tested": 4,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "C": 0.01
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.3867,
+     "skill_low": 0.3366,
+     "skill_high": 0.4399,
+     "pass_rate": 1.0,
+     "pass_low": 0.7961,
+     "pass_high": 1.0,
+     "observed": 0.6943,
+     "chance": 0.5151,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "C": 0.01
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.4016,
+     "skill_low": 0.3143,
+     "skill_high": 0.4986,
+     "pass_rate": 1.0,
+     "pass_low": 0.6097,
+     "pass_high": 1.0,
+     "observed": 0.7008,
+     "chance": 0.5295,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.4298,
+      "skill_low": 0.3594,
+      "skill_high": 0.4964,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.3354,
+      "skill_low": 0.3176,
+      "skill_high": 0.3566,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.3949,
+      "skill_low": 0.3418,
+      "skill_high": 0.4479,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "C": {
+      "0.01": {
+       "skill": 0.3867,
+       "skill_low": 0.3397,
+       "skill_high": 0.4378,
+       "runs": 15
+      },
+      "0.1": {
+       "skill": 0.398,
+       "skill_low": 0.3451,
+       "skill_high": 0.4446,
+       "runs": 15
+      },
+      "1.0": {
+       "skill": 0.3991,
+       "skill_low": 0.3242,
+       "skill_high": 0.4797,
+       "runs": 15
+      },
+      "10.0": {
+       "skill": 0.3583,
+       "skill_low": 0.3159,
+       "skill_high": 0.4034,
+       "runs": 15
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "trait_regression": {
+    "metric": "rank correlation of predicted and hidden values",
+    "runs": 60,
+    "settings_tested": 4,
+    "targets": [
+     "expr_schizont",
+     "mean_plddt",
+     "piggybac_mis"
+    ],
+    "default": {
+     "setting": {
+      "model": "boosted",
+      "own_kind": "leave out"
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.5166,
+     "skill_low": 0.2535,
+     "skill_high": 0.8425,
+     "pass_rate": 1.0,
+     "pass_low": 0.7961,
+     "pass_high": 1.0,
+     "observed": 0.5166,
+     "chance": 0.0,
+     "targets": [
+      "expr_schizont",
+      "mean_plddt",
+      "piggybac_mis"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "model": "boosted",
+      "own_kind": "include"
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.5236,
+     "skill_low": 0.2778,
+     "skill_high": 0.8368,
+     "pass_rate": 1.0,
+     "pass_low": 0.6097,
+     "pass_high": 1.0,
+     "observed": 0.5236,
+     "chance": 0.0,
+     "targets": [
+      "expr_schizont",
+      "mean_plddt",
+      "piggybac_mis"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "expr_schizont": {
+      "skill": 0.2442,
+      "skill_low": 0.195,
+      "skill_high": 0.2911,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "mean_plddt": {
+      "skill": 0.8449,
+      "skill_low": 0.8363,
+      "skill_high": 0.8508,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "piggybac_mis": {
+      "skill": 0.4608,
+      "skill_low": 0.4454,
+      "skill_high": 0.4719,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "model": {
+      "boosted": {
+       "skill": 0.5166,
+       "skill_low": 0.2442,
+       "skill_high": 0.7195,
+       "runs": 30
+      },
+      "ridge": {
+       "skill": 0.4558,
+       "skill_low": 0.1165,
+       "skill_high": 0.6966,
+       "runs": 30
+      }
+     },
+     "own_kind": {
+      "include": {
+       "skill": 0.4862,
+       "skill_low": 0.1794,
+       "skill_high": 0.7108,
+       "runs": 30
+      },
+      "leave out": {
+       "skill": 0.4862,
+       "skill_low": 0.1873,
+       "skill_high": 0.7101,
+       "runs": 30
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "triangulation": {
+    "metric": "precision of calls on hidden genes",
+    "runs": 45,
+    "settings_tested": 3,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_agree": 2
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.1507,
+     "skill_low": -0.4575,
+     "skill_high": 0.5246,
+     "pass_rate": 0.6667,
+     "pass_low": 0.4171,
+     "pass_high": 0.8482,
+     "observed": 0.806,
+     "chance": 0.6682,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_agree": 3
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.6676,
+     "skill_low": 0.5126,
+     "skill_high": 0.8282,
+     "pass_rate": 0.5,
+     "pass_low": 0.1876,
+     "pass_high": 0.8124,
+     "observed": 0.8823,
+     "chance": 0.7013,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.7902,
+      "skill_low": 0.6534,
+      "skill_high": 0.9296,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.5542,
+      "skill_low": 0.521,
+      "skill_high": 0.5873,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.5003,
+      "skill_low": 0.0611,
+      "skill_high": 0.7628,
+      "pass_rate": 0.3333,
+      "conclusive": 3
+     }
+    },
+    "sensitivity": {
+     "min_agree": {
+      "1": {
+       "skill": 0.0347,
+       "skill_low": -0.49,
+       "skill_high": 0.3496,
+       "runs": 15
+      },
+      "2": {
+       "skill": 0.1507,
+       "skill_low": -0.3879,
+       "skill_high": 0.5265,
+       "runs": 15
+      },
+      "3": {
+       "skill": 0.6325,
+       "skill_low": 0.4319,
+       "skill_high": 0.8047,
+       "runs": 13
+      }
+     }
+    },
+    "grade": "works when tuned"
+   },
+   "understudied_first": {
+    "metric": "precision of calls on hidden genes",
+    "runs": 45,
+    "settings_tested": 3,
+    "targets": [
+     "is_exported",
+     "pb_transferred_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_agree": 2
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.0649,
+     "skill_low": -0.6226,
+     "skill_high": 0.4587,
+     "pass_rate": 0.6,
+     "pass_low": 0.3575,
+     "pass_high": 0.8018,
+     "observed": 0.8002,
+     "chance": 0.6805,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_agree": 3
+     },
+     "runs": 6,
+     "conclusive": 4,
+     "skill": 0.641,
+     "skill_low": 0.4833,
+     "skill_high": 0.8789,
+     "pass_rate": 0.5,
+     "pass_low": 0.15,
+     "pass_high": 0.85,
+     "observed": 0.8656,
+     "chance": 0.7194,
+     "targets": [
+      "is_exported",
+      "pb_transferred_phenotype"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "is_exported": {
+      "skill": 0.7866,
+      "skill_low": 0.6319,
+      "skill_high": 0.946,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "pb_transferred_phenotype": {
+      "skill": 0.5502,
+      "skill_low": 0.5058,
+      "skill_high": 0.5944,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": null,
+      "skill_low": null,
+      "skill_high": null,
+      "pass_rate": null,
+      "conclusive": 0
+     }
+    },
+    "sensitivity": {
+     "min_agree": {
+      "1": {
+       "skill": -0.0478,
+       "skill_low": -0.6524,
+       "skill_high": 0.3418,
+       "runs": 15
+      },
+      "2": {
+       "skill": 0.0649,
+       "skill_low": -0.5411,
+       "skill_high": 0.4546,
+       "runs": 15
+      },
+      "3": {
+       "skill": 0.6684,
+       "skill_low": 0.533,
+       "skill_high": 0.8553,
+       "runs": 10
+      }
+     }
+    },
+    "grade": "works when tuned"
+   },
+   "unwritten_links": {
+    "metric": "AUROC of hidden pairs against random non-pairs",
+    "runs": 15,
+    "settings_tested": 3,
+    "targets": [],
+    "default": {
+     "setting": {
+      "min_layers": 2
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.108,
+     "skill_low": 0.1061,
+     "skill_high": 0.1094,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.5536,
+     "chance": 0.4996,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_layers": 1
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.1097,
+     "skill_low": 0.1095,
+     "skill_high": 0.1099,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.5543,
+     "chance": 0.4994,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.108,
+      "skill_low": 0.106,
+      "skill_high": 0.1094,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_layers": {
+      "1": {
+       "skill": 0.108,
+       "skill_low": 0.1061,
+       "skill_high": 0.1096,
+       "runs": 5
+      },
+      "2": {
+       "skill": 0.108,
+       "skill_low": 0.1059,
+       "skill_high": 0.1094,
+       "runs": 5
+      },
+      "3": {
+       "skill": 0.108,
+       "skill_low": 0.1061,
+       "skill_high": 0.1096,
+       "runs": 5
+      }
+     }
+    },
+    "grade": "reliable"
+   }
+  },
+  "Tg": {
+   "attention_correction": {
+    "metric": "share of the top 50 corrected pairs sharing a compartment label",
+    "runs": 75,
+    "settings_tested": 3,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "top": 200
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.3756,
+     "skill_low": 0.2073,
+     "skill_high": 0.5451,
+     "pass_rate": 0.8,
+     "pass_low": 0.6087,
+     "pass_high": 0.9114,
+     "observed": 0.7066,
+     "chance": 0.5229,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "top": 200
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.3786,
+     "skill_low": 0.21,
+     "skill_high": 0.5474,
+     "pass_rate": 0.8,
+     "pass_low": 0.4902,
+     "pass_high": 0.9433,
+     "observed": 0.7066,
+     "chance": 0.5214,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.5868,
+      "skill_low": 0.585,
+      "skill_high": 0.5888,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.1552,
+      "skill_low": 0.1415,
+      "skill_high": 0.17,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.6085,
+      "skill_low": 0.6024,
+      "skill_high": 0.6149,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.1833,
+      "skill_low": 0.169,
+      "skill_high": 0.1965,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.3442,
+      "skill_low": 0.3224,
+      "skill_high": 0.3594,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "top": {
+      "1000": {
+       "skill": 0.2556,
+       "skill_low": 0.1504,
+       "skill_high": 0.3427,
+       "runs": 25
+      },
+      "200": {
+       "skill": 0.3756,
+       "skill_low": 0.2082,
+       "skill_high": 0.5436,
+       "runs": 25
+      },
+      "50": {
+       "skill": 0.4099,
+       "skill_low": 0.2065,
+       "skill_high": 0.6135,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "blind_battery": {
+    "metric": "share of first-half findings that replicate on the second half",
+    "runs": 70,
+    "settings_tested": 14,
+    "targets": [],
+    "default": {
+     "setting": {
+      "map_from": "transcription"
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.9488,
+     "skill_low": 0.8843,
+     "skill_high": 0.9969,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.9524,
+     "chance": 0.059,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "map_from": "chemistry"
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.9645,
+     "skill_low": 0.9472,
+     "skill_high": 0.9818,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.9662,
+     "chance": 0.046,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.9676,
+      "skill_low": 0.9572,
+      "skill_high": 0.9781,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "map_from": {
+      "PTM": {
+       "skill": 0.9486,
+       "skill_low": 0.9246,
+       "skill_high": 0.9781,
+       "runs": 5
+      },
+      "chemistry": {
+       "skill": 0.9676,
+       "skill_low": 0.9571,
+       "skill_high": 0.9781,
+       "runs": 5
+      },
+      "fitness": {
+       "skill": 0.9435,
+       "skill_low": 0.9018,
+       "skill_high": 0.9766,
+       "runs": 5
+      },
+      "host effect": {
+       "skill": 0.8583,
+       "skill_low": 0.7354,
+       "skill_high": 0.9587,
+       "runs": 5
+      },
+      "immunity": {
+       "skill": 0.6419,
+       "skill_low": 0.4334,
+       "skill_high": 0.8064,
+       "runs": 5
+      },
+      "localization": {
+       "skill": 0.9625,
+       "skill_low": 0.9335,
+       "skill_high": 0.9892,
+       "runs": 5
+      },
+      "metabolism": {
+       "skill": 0.8403,
+       "skill_low": 0.7761,
+       "skill_high": 0.8965,
+       "runs": 5
+      },
+      "phenotype": {
+       "skill": 0.8192,
+       "skill_low": 0.7545,
+       "skill_high": 0.8867,
+       "runs": 5
+      },
+      "protein abundance": {
+       "skill": 0.9414,
+       "skill_low": 0.922,
+       "skill_high": 0.9644,
+       "runs": 5
+      },
+      "regulation": {
+       "skill": 0.9052,
+       "skill_low": 0.8288,
+       "skill_high": 0.9602,
+       "runs": 5
+      },
+      "relation": {
+       "skill": 0.9233,
+       "skill_low": 0.8703,
+       "skill_high": 0.9664,
+       "runs": 5
+      },
+      "sequence": {
+       "skill": 0.9598,
+       "skill_low": 0.9462,
+       "skill_high": 0.9732,
+       "runs": 5
+      },
+      "transcription": {
+       "skill": 0.9488,
+       "skill_low": 0.8813,
+       "skill_high": 0.9969,
+       "runs": 5
+      },
+      "translation": {
+       "skill": 0.966,
+       "skill_low": 0.9544,
+       "skill_high": 0.9777,
+       "runs": 5
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "block_ablation": {
+    "metric": "hidden accuracy of the evidence ranked first (transcription)",
+    "runs": 75,
+    "settings_tested": 3,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.1399,
+     "skill_low": 0.0587,
+     "skill_high": 0.249,
+     "pass_rate": 0.64,
+     "pass_low": 0.4452,
+     "pass_high": 0.7975,
+     "observed": 0.6044,
+     "chance": 0.543,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 5
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.1593,
+     "skill_low": 0.0821,
+     "skill_high": 0.2475,
+     "pass_rate": 0.7,
+     "pass_low": 0.3968,
+     "pass_high": 0.8922,
+     "observed": 0.5901,
+     "chance": 0.5253,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.0937,
+      "skill_low": 0.0738,
+      "skill_high": 0.1135,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.0785,
+      "skill_low": 0.068,
+      "skill_high": 0.0869,
+      "pass_rate": 0.8,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.1391,
+      "skill_low": 0.1274,
+      "skill_high": 0.1562,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.1648,
+      "skill_low": 0.1229,
+      "skill_high": 0.2266,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.3486,
+      "skill_low": 0.3157,
+      "skill_high": 0.3736,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": 0.1399,
+       "skill_low": 0.0588,
+       "skill_high": 0.2531,
+       "runs": 25
+      },
+      "5": {
+       "skill": 0.1649,
+       "skill_low": 0.0948,
+       "skill_high": 0.2584,
+       "runs": 25
+      },
+      "50": {
+       "skill": 0.1045,
+       "skill_low": 0.0287,
+       "skill_high": 0.1928,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "cluster_guilt": {
+    "metric": "precision of calls on hidden genes",
+    "runs": 300,
+    "settings_tested": 12,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_cluster_size": 25,
+      "min_lift": 1.5,
+      "selection": "leaf"
+     },
+     "runs": 25,
+     "conclusive": 20,
+     "skill": 0.3321,
+     "skill_low": 0.2493,
+     "skill_high": 0.4226,
+     "pass_rate": 1.0,
+     "pass_low": 0.8389,
+     "pass_high": 1.0,
+     "observed": 0.3332,
+     "chance": 0.0015,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_cluster_size": 10,
+      "min_lift": 3.0,
+      "selection": "leaf"
+     },
+     "runs": 10,
+     "conclusive": 8,
+     "skill": 0.4089,
+     "skill_low": 0.3032,
+     "skill_high": 0.501,
+     "pass_rate": 1.0,
+     "pass_low": 0.6756,
+     "pass_high": 1.0,
+     "observed": 0.4112,
+     "chance": 0.0045,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.3673,
+      "skill_low": 0.2712,
+      "skill_high": 0.4598,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.2759,
+      "skill_low": 0.2072,
+      "skill_high": 0.3564,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.5481,
+      "skill_low": 0.4927,
+      "skill_high": 0.6027,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": null,
+      "skill_low": null,
+      "skill_high": null,
+      "pass_rate": null,
+      "conclusive": 0
+     },
+     "stage_enriched_derived": {
+      "skill": 0.4799,
+      "skill_low": 0.4017,
+      "skill_high": 0.5571,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_cluster_size": {
+      "10": {
+       "skill": 0.3525,
+       "skill_low": 0.2651,
+       "skill_high": 0.4547,
+       "runs": 60
+      },
+      "25": {
+       "skill": 0.3092,
+       "skill_low": 0.229,
+       "skill_high": 0.4135,
+       "runs": 54
+      },
+      "60": {
+       "skill": 0.2232,
+       "skill_low": 0.1488,
+       "skill_high": 0.3378,
+       "runs": 45
+      }
+     },
+     "min_lift": {
+      "1.5": {
+       "skill": 0.2669,
+       "skill_low": 0.2105,
+       "skill_high": 0.3543,
+       "runs": 97
+      },
+      "3.0": {
+       "skill": 0.3549,
+       "skill_low": 0.2507,
+       "skill_high": 0.4552,
+       "runs": 62
+      }
+     },
+     "selection": {
+      "eom": {
+       "skill": 0.2085,
+       "skill_low": 0.177,
+       "skill_high": 0.2555,
+       "runs": 48
+      },
+      "leaf": {
+       "skill": 0.3413,
+       "skill_low": 0.252,
+       "skill_high": 0.425,
+       "runs": 111
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "condition_shift": {
+    "metric": "rank correlation of predicted and hidden values",
+    "runs": 20,
+    "settings_tested": 4,
+    "targets": [],
+    "default": {
+     "setting": {
+      "model": "boosted",
+      "own_kind": "leave out"
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.0727,
+     "skill_low": 0.0601,
+     "skill_high": 0.0852,
+     "pass_rate": 0.0,
+     "pass_low": 0.0,
+     "pass_high": 0.4345,
+     "observed": 0.0727,
+     "chance": 0.0,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "model": "ridge",
+      "own_kind": "include"
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.0682,
+     "skill_low": 0.0547,
+     "skill_high": 0.0816,
+     "pass_rate": 0.0,
+     "pass_low": 0.0,
+     "pass_high": 0.6576,
+     "observed": 0.0682,
+     "chance": 0.0,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.0947,
+      "skill_low": 0.0701,
+      "skill_high": 0.118,
+      "pass_rate": 0.4,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "model": {
+      "boosted": {
+       "skill": 0.096,
+       "skill_low": 0.0782,
+       "skill_high": 0.1162,
+       "runs": 10
+      },
+      "ridge": {
+       "skill": 0.0792,
+       "skill_low": 0.0605,
+       "skill_high": 0.0975,
+       "runs": 10
+      }
+     },
+     "own_kind": {
+      "include": {
+       "skill": 0.107,
+       "skill_low": 0.0897,
+       "skill_high": 0.1231,
+       "runs": 10
+      },
+      "leave out": {
+       "skill": 0.0681,
+       "skill_low": 0.0565,
+       "skill_high": 0.0791,
+       "runs": 10
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "conjunctions": {
+    "metric": "share of first-half findings that replicate on the second half",
+    "runs": 15,
+    "settings_tested": 3,
+    "targets": [],
+    "default": {
+     "setting": {
+      "min_cluster_size": 15
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.4896,
+     "skill_low": 0.3759,
+     "skill_high": 0.6226,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.5024,
+     "chance": 0.0265,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_cluster_size": 15
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.5311,
+     "skill_low": 0.322,
+     "skill_high": 0.7403,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.5417,
+     "chance": 0.0271,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.4896,
+      "skill_low": 0.3759,
+      "skill_high": 0.6226,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_cluster_size": {
+      "15": {
+       "skill": 0.4896,
+       "skill_low": 0.3759,
+       "skill_high": 0.639,
+       "runs": 5
+      },
+      "30": {
+       "skill": 0.6609,
+       "skill_low": 0.6552,
+       "skill_high": 0.6667,
+       "runs": 2
+      },
+      "8": {
+       "skill": 0.4826,
+       "skill_low": 0.2238,
+       "skill_high": 0.8256,
+       "runs": 4
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "consensus_modules": {
+    "metric": "F1 of hidden genes in the module chosen for their label on known genes",
+    "runs": 75,
+    "settings_tested": 3,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "threshold": 0.5
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.073,
+     "skill_low": 0.0124,
+     "skill_high": 0.1253,
+     "pass_rate": 0.56,
+     "pass_low": 0.3707,
+     "pass_high": 0.7333,
+     "observed": 0.3864,
+     "chance": 0.3356,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "threshold": 0.3
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.0451,
+     "skill_low": -0.0412,
+     "skill_high": 0.1042,
+     "pass_rate": 0.5,
+     "pass_low": 0.2366,
+     "pass_high": 0.7634,
+     "observed": 0.3698,
+     "chance": 0.3363,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.0625,
+      "skill_low": 0.0241,
+      "skill_high": 0.0959,
+      "pass_rate": 0.6,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.0867,
+      "skill_low": 0.0646,
+      "skill_high": 0.1087,
+      "pass_rate": 0.4,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.0837,
+      "skill_low": 0.0389,
+      "skill_high": 0.1226,
+      "pass_rate": 0.8,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": -0.0334,
+      "skill_low": -0.1193,
+      "skill_high": 0.0238,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.1488,
+      "skill_low": 0.1163,
+      "skill_high": 0.186,
+      "pass_rate": 0.8,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "threshold": {
+      "0.3": {
+       "skill": 0.0697,
+       "skill_low": 0.0047,
+       "skill_high": 0.1162,
+       "runs": 25
+      },
+      "0.5": {
+       "skill": 0.073,
+       "skill_low": 0.0096,
+       "skill_high": 0.1235,
+       "runs": 25
+      },
+      "0.8": {
+       "skill": 0.05,
+       "skill_low": 0.0194,
+       "skill_high": 0.08,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "feature_knn": {
+    "metric": "correct calls per hidden gene",
+    "runs": 225,
+    "settings_tested": 9,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15,
+      "min_share": 0.3
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.2246,
+     "skill_low": 0.0786,
+     "skill_high": 0.3582,
+     "pass_rate": 0.6,
+     "pass_low": 0.4074,
+     "pass_high": 0.766,
+     "observed": 0.619,
+     "chance": 0.4763,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 5,
+      "min_share": 0.3
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.2935,
+     "skill_low": 0.1633,
+     "skill_high": 0.4301,
+     "pass_rate": 0.8,
+     "pass_low": 0.4902,
+     "pass_high": 0.9433,
+     "observed": 0.6243,
+     "chance": 0.4592,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.2998,
+      "skill_low": 0.2814,
+      "skill_high": 0.32,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.1809,
+      "skill_low": 0.1733,
+      "skill_high": 0.1894,
+      "pass_rate": 0.8,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.3791,
+      "skill_low": 0.3713,
+      "skill_high": 0.3866,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.0501,
+      "skill_low": -0.0272,
+      "skill_high": 0.1106,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.4957,
+      "skill_low": 0.4542,
+      "skill_high": 0.5336,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": 0.2032,
+       "skill_low": 0.0737,
+       "skill_high": 0.3466,
+       "runs": 75
+      },
+      "5": {
+       "skill": 0.2712,
+       "skill_low": 0.1432,
+       "skill_high": 0.4334,
+       "runs": 75
+      },
+      "50": {
+       "skill": 0.1202,
+       "skill_low": 0.019,
+       "skill_high": 0.2181,
+       "runs": 75
+      }
+     },
+     "min_share": {
+      "0.0": {
+       "skill": 0.2187,
+       "skill_low": 0.0855,
+       "skill_high": 0.3432,
+       "runs": 75
+      },
+      "0.3": {
+       "skill": 0.2268,
+       "skill_low": 0.0872,
+       "skill_high": 0.3579,
+       "runs": 75
+      },
+      "0.6": {
+       "skill": 0.1492,
+       "skill_low": 0.0371,
+       "skill_high": 0.2938,
+       "runs": 75
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "geneset_hunt": {
+    "metric": "F1 of the hidden members against the best cluster's other genes",
+    "runs": 100,
+    "settings_tested": 4,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_cluster_size": "20, 50",
+      "n_neighbors": "15, 50"
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.0251,
+     "skill_low": 0.0041,
+     "skill_high": 0.0425,
+     "pass_rate": 0.16,
+     "pass_low": 0.064,
+     "pass_high": 0.3465,
+     "observed": 0.058,
+     "chance": 0.0335,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_cluster_size": "20, 50",
+      "n_neighbors": "10, 30"
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.0283,
+     "skill_low": 0.0016,
+     "skill_high": 0.0471,
+     "pass_rate": 0.1,
+     "pass_low": 0.0179,
+     "pass_high": 0.4042,
+     "observed": 0.0596,
+     "chance": 0.032,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.0371,
+      "skill_low": 0.0287,
+      "skill_high": 0.047,
+      "pass_rate": 0.2,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.0236,
+      "skill_low": 0.008,
+      "skill_high": 0.0372,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.0399,
+      "skill_low": 0.0281,
+      "skill_high": 0.0543,
+      "pass_rate": 0.2,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.0469,
+      "skill_low": 0.0316,
+      "skill_high": 0.0622,
+      "pass_rate": 0.4,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": -0.0092,
+      "skill_low": -0.0187,
+      "skill_high": 0.0001,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_cluster_size": {
+      "10, 25": {
+       "skill": 0.0268,
+       "skill_low": 0.0088,
+       "skill_high": 0.0446,
+       "runs": 50
+      },
+      "20, 50": {
+       "skill": 0.0264,
+       "skill_low": 0.0091,
+       "skill_high": 0.0424,
+       "runs": 50
+      }
+     },
+     "n_neighbors": {
+      "10, 30": {
+       "skill": 0.0299,
+       "skill_low": 0.0109,
+       "skill_high": 0.047,
+       "runs": 50
+      },
+      "15, 50": {
+       "skill": 0.0234,
+       "skill_low": 0.0068,
+       "skill_high": 0.0392,
+       "runs": 50
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "holdout_search": {
+    "metric": "F1 of hidden genes in the cluster chosen for their label on known genes",
+    "runs": 150,
+    "settings_tested": 6,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_cluster_size": "20, 50",
+      "n_neighbors": "15, 50",
+      "selection": "eom, leaf"
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.0711,
+     "skill_low": 0.0345,
+     "skill_high": 0.1053,
+     "pass_rate": 0.44,
+     "pass_low": 0.2667,
+     "pass_high": 0.6293,
+     "observed": 0.3762,
+     "chance": 0.3225,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_cluster_size": "10, 25",
+      "n_neighbors": "25, 100",
+      "selection": "eom, leaf"
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.0701,
+     "skill_low": 0.0257,
+     "skill_high": 0.1147,
+     "pass_rate": 0.4,
+     "pass_low": 0.1682,
+     "pass_high": 0.6873,
+     "observed": 0.3935,
+     "chance": 0.342,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.0743,
+      "skill_low": 0.0501,
+      "skill_high": 0.1033,
+      "pass_rate": 0.6,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.0785,
+      "skill_low": 0.0612,
+      "skill_high": 0.0963,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.1078,
+      "skill_low": 0.0954,
+      "skill_high": 0.1204,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": -0.0054,
+      "skill_low": -0.0228,
+      "skill_high": 0.0063,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.1589,
+      "skill_low": 0.1058,
+      "skill_high": 0.2081,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_cluster_size": {
+      "10, 25": {
+       "skill": 0.0618,
+       "skill_low": 0.0264,
+       "skill_high": 0.0871,
+       "runs": 75
+      },
+      "20, 50": {
+       "skill": 0.0729,
+       "skill_low": 0.0379,
+       "skill_high": 0.1105,
+       "runs": 75
+      }
+     },
+     "n_neighbors": {
+      "10, 30": {
+       "skill": 0.0639,
+       "skill_low": 0.0327,
+       "skill_high": 0.0911,
+       "runs": 50
+      },
+      "15, 50": {
+       "skill": 0.0604,
+       "skill_low": 0.031,
+       "skill_high": 0.089,
+       "runs": 50
+      },
+      "25, 100": {
+       "skill": 0.0777,
+       "skill_low": 0.0367,
+       "skill_high": 0.1163,
+       "runs": 50
+      }
+     },
+     "selection": {
+      "eom, leaf": {
+       "skill": 0.0673,
+       "skill_low": 0.0316,
+       "skill_high": 0.0929,
+       "runs": 150
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "label_outliers": {
+    "metric": "AUROC of surprise for the swapped labels",
+    "runs": 75,
+    "settings_tested": 3,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.6377,
+     "skill_low": 0.4903,
+     "skill_high": 0.7688,
+     "pass_rate": 1.0,
+     "pass_low": 0.8668,
+     "pass_high": 1.0,
+     "observed": 0.818,
+     "chance": 0.4976,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.6502,
+     "skill_low": 0.505,
+     "skill_high": 0.776,
+     "pass_rate": 1.0,
+     "pass_low": 0.7225,
+     "pass_high": 1.0,
+     "observed": 0.8231,
+     "chance": 0.4959,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.6081,
+      "skill_low": 0.587,
+      "skill_high": 0.6312,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.7964,
+      "skill_low": 0.7889,
+      "skill_high": 0.8035,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.6325,
+      "skill_low": 0.6101,
+      "skill_high": 0.6549,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.3419,
+      "skill_low": 0.2813,
+      "skill_high": 0.3962,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.8098,
+      "skill_low": 0.7972,
+      "skill_high": 0.8244,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": 0.6377,
+       "skill_low": 0.4987,
+       "skill_high": 0.7614,
+       "runs": 25
+      },
+      "5": {
+       "skill": 0.6271,
+       "skill_low": 0.4856,
+       "skill_high": 0.754,
+       "runs": 25
+      },
+      "50": {
+       "skill": 0.6259,
+       "skill_low": 0.4914,
+       "skill_high": 0.7497,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "layer_propagation": {
+    "metric": "correct calls per hidden gene",
+    "runs": 900,
+    "settings_tested": 36,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "layer": "coexpression",
+      "restart": 0.5
+     },
+     "runs": 25,
+     "conclusive": 20,
+     "skill": 0.1247,
+     "skill_low": 0.0824,
+     "skill_high": 0.1686,
+     "pass_rate": 0.75,
+     "pass_low": 0.5313,
+     "pass_high": 0.8881,
+     "observed": 0.2915,
+     "chance": 0.1865,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype"
+     ],
+     "not_run": 5
+    },
+    "tuned": {
+     "setting": {
+      "layer": "coexpression",
+      "restart": 0.2
+     },
+     "runs": 10,
+     "conclusive": 8,
+     "skill": 0.1364,
+     "skill_low": 0.0952,
+     "skill_high": 0.176,
+     "pass_rate": 0.875,
+     "pass_low": 0.5291,
+     "pass_high": 0.9776,
+     "observed": 0.2881,
+     "chance": 0.1748,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype"
+     ],
+     "not_run": 2,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.0888,
+      "skill_low": 0.0821,
+      "skill_high": 0.0955,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.1588,
+      "skill_low": 0.1504,
+      "skill_high": 0.165,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.1878,
+      "skill_low": 0.1756,
+      "skill_high": 0.1988,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.0988,
+      "skill_low": 0.0878,
+      "skill_high": 0.1143,
+      "pass_rate": 0.4,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": null,
+      "skill_low": null,
+      "skill_high": null,
+      "pass_rate": null,
+      "conclusive": 0
+     }
+    },
+    "sensitivity": {
+     "layer": {
+      "coexpression": {
+       "skill": 0.1257,
+       "skill_low": 0.0814,
+       "skill_high": 0.1681,
+       "runs": 60
+      },
+      "cofitness": {
+       "skill": 0.0707,
+       "skill_low": 0.0316,
+       "skill_high": 0.1151,
+       "runs": 75
+      },
+      "comention": {
+       "skill": 0.0107,
+       "skill_low": 0.0042,
+       "skill_high": 0.0177,
+       "runs": 75
+      },
+      "comention_ft": {
+       "skill": 0.0592,
+       "skill_low": 0.0115,
+       "skill_high": 0.1013,
+       "runs": 75
+      },
+      "cotranslation": {
+       "skill": 0.0173,
+       "skill_low": -0.0056,
+       "skill_high": 0.0466,
+       "runs": 75
+      },
+      "domain": {
+       "skill": 0.0445,
+       "skill_low": -0.0018,
+       "skill_high": 0.0848,
+       "runs": 75
+      },
+      "ip_ms": {
+       "skill": 0.0018,
+       "skill_low": -0.0005,
+       "skill_high": 0.0044,
+       "runs": 75
+      },
+      "orthogroup": {
+       "skill": 0.0,
+       "skill_low": 0.0,
+       "skill_high": 0.0,
+       "runs": 75
+      },
+      "struct": {
+       "skill": 0.0752,
+       "skill_low": 0.0169,
+       "skill_high": 0.1245,
+       "runs": 75
+      },
+      "structural_hole": {
+       "skill": 0.0077,
+       "skill_low": 0.0019,
+       "skill_high": 0.0167,
+       "runs": 75
+      },
+      "unwritten_interaction": {
+       "skill": 0.0673,
+       "skill_low": 0.002,
+       "skill_high": 0.1218,
+       "runs": 75
+      },
+      "xlms": {
+       "skill": 0.0745,
+       "skill_low": 0.0065,
+       "skill_high": 0.1338,
+       "runs": 75
+      }
+     },
+     "restart": {
+      "0.2": {
+       "skill": 0.0454,
+       "skill_low": 0.0242,
+       "skill_high": 0.0672,
+       "runs": 295
+      },
+      "0.5": {
+       "skill": 0.045,
+       "skill_low": 0.0216,
+       "skill_high": 0.0675,
+       "runs": 295
+      },
+      "0.8": {
+       "skill": 0.0442,
+       "skill_low": 0.0199,
+       "skill_high": 0.0662,
+       "runs": 295
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "layer_vote": {
+    "metric": "correct calls per hidden gene",
+    "runs": 75,
+    "settings_tested": 3,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.3003,
+     "skill_low": -0.0403,
+     "skill_high": 0.5371,
+     "pass_rate": 0.8,
+     "pass_low": 0.6087,
+     "pass_high": 0.9114,
+     "observed": 0.5765,
+     "chance": 0.3834,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 5
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.2636,
+     "skill_low": -0.1824,
+     "skill_high": 0.5202,
+     "pass_rate": 0.9,
+     "pass_low": 0.5958,
+     "pass_high": 0.9821,
+     "observed": 0.5691,
+     "chance": 0.4004,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.309,
+      "skill_low": 0.2936,
+      "skill_high": 0.3301,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.4389,
+      "skill_low": 0.3386,
+      "skill_high": 0.5415,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.3905,
+      "skill_low": 0.3648,
+      "skill_high": 0.4216,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": -0.2585,
+      "skill_low": -0.7728,
+      "skill_high": 0.1843,
+      "pass_rate": 0.2,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.6101,
+      "skill_low": 0.537,
+      "skill_high": 0.6901,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": 0.3003,
+       "skill_low": -0.0405,
+       "skill_high": 0.5369,
+       "runs": 25
+      },
+      "5": {
+       "skill": 0.298,
+       "skill_low": 0.0172,
+       "skill_high": 0.5136,
+       "runs": 25
+      },
+      "50": {
+       "skill": 0.3265,
+       "skill_low": 0.0567,
+       "skill_high": 0.5364,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "link_prediction": {
+    "metric": "AUROC of hidden pairs against degree-matched non-pairs",
+    "runs": 10,
+    "settings_tested": 2,
+    "targets": [],
+    "default": {
+     "setting": {
+      "layer": "xlms"
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.6061,
+     "skill_low": 0.5902,
+     "skill_high": 0.6231,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.8045,
+     "chance": 0.5036,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "layer": "struct"
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.9258,
+     "skill_low": 0.9247,
+     "skill_high": 0.9269,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.9634,
+     "chance": 0.506,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.9275,
+      "skill_low": 0.9253,
+      "skill_high": 0.9308,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "layer": {
+      "struct": {
+       "skill": 0.9275,
+       "skill_low": 0.9252,
+       "skill_high": 0.9311,
+       "runs": 5
+      },
+      "xlms": {
+       "skill": 0.6061,
+       "skill_low": 0.5897,
+       "skill_high": 0.6241,
+       "runs": 5
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "map_neighbours": {
+    "metric": "correct calls per hidden gene",
+    "runs": 225,
+    "settings_tested": 9,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15,
+      "n_neighbors": 25
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.1254,
+     "skill_low": 0.0069,
+     "skill_high": 0.2363,
+     "pass_rate": 0.6,
+     "pass_low": 0.4074,
+     "pass_high": 0.766,
+     "observed": 0.5648,
+     "chance": 0.4742,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 5,
+      "n_neighbors": 60
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.1143,
+     "skill_low": -0.0372,
+     "skill_high": 0.2286,
+     "pass_rate": 0.6,
+     "pass_low": 0.3127,
+     "pass_high": 0.8318,
+     "observed": 0.5377,
+     "chance": 0.4597,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.1687,
+      "skill_low": 0.1484,
+      "skill_high": 0.1879,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.0336,
+      "skill_low": 0.004,
+      "skill_high": 0.0567,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.2314,
+      "skill_low": 0.217,
+      "skill_high": 0.2434,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": -0.0562,
+      "skill_low": -0.1849,
+      "skill_high": 0.0303,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.2963,
+      "skill_low": 0.2604,
+      "skill_high": 0.3277,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": 0.1335,
+       "skill_low": 0.026,
+       "skill_high": 0.2407,
+       "runs": 75
+      },
+      "5": {
+       "skill": 0.1525,
+       "skill_low": 0.0265,
+       "skill_high": 0.282,
+       "runs": 75
+      },
+      "50": {
+       "skill": 0.1337,
+       "skill_low": 0.0421,
+       "skill_high": 0.2245,
+       "runs": 75
+      }
+     },
+     "n_neighbors": {
+      "10": {
+       "skill": 0.1517,
+       "skill_low": 0.042,
+       "skill_high": 0.2589,
+       "runs": 75
+      },
+      "25": {
+       "skill": 0.1403,
+       "skill_low": 0.0372,
+       "skill_high": 0.2463,
+       "runs": 75
+      },
+      "60": {
+       "skill": 0.1276,
+       "skill_low": 0.0236,
+       "skill_high": 0.2352,
+       "runs": 75
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "masked_imputation": {
+    "metric": "median per-column rank correlation on hidden entries",
+    "runs": 15,
+    "settings_tested": 3,
+    "targets": [],
+    "default": {
+     "setting": {
+      "rank": 20
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.8683,
+     "skill_low": 0.8637,
+     "skill_high": 0.8726,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.8683,
+     "chance": 0.0006,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "rank": 60
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.9031,
+     "skill_low": 0.9025,
+     "skill_high": 0.9037,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.903,
+     "chance": -0.0011,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.9021,
+      "skill_low": 0.8988,
+      "skill_high": 0.9042,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "rank": {
+      "20": {
+       "skill": 0.8683,
+       "skill_low": 0.8639,
+       "skill_high": 0.8736,
+       "runs": 5
+      },
+      "5": {
+       "skill": 0.7371,
+       "skill_low": 0.7342,
+       "skill_high": 0.74,
+       "runs": 5
+      },
+      "60": {
+       "skill": 0.9021,
+       "skill_low": 0.8987,
+       "skill_high": 0.9042,
+       "runs": 5
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "multiplex_modules": {
+    "metric": "F1 of hidden genes in the community chosen for their label on known genes",
+    "runs": 150,
+    "settings_tested": 6,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "agreement": 0.5,
+      "resolution": 1.0
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.054,
+     "skill_low": 0.0178,
+     "skill_high": 0.0845,
+     "pass_rate": 0.4,
+     "pass_low": 0.234,
+     "pass_high": 0.5926,
+     "observed": 0.3451,
+     "chance": 0.3036,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "agreement": 0.5,
+      "resolution": 1.0
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.0483,
+     "skill_low": -0.0004,
+     "skill_high": 0.0869,
+     "pass_rate": 0.4,
+     "pass_low": 0.1682,
+     "pass_high": 0.6873,
+     "observed": 0.3376,
+     "chance": 0.2987,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.0406,
+      "skill_low": 0.0366,
+      "skill_high": 0.0446,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.0708,
+      "skill_low": 0.0618,
+      "skill_high": 0.0797,
+      "pass_rate": 0.6,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.0975,
+      "skill_low": 0.091,
+      "skill_high": 0.1042,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": -0.0147,
+      "skill_low": -0.0381,
+      "skill_high": 0.0074,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.0759,
+      "skill_low": 0.0525,
+      "skill_high": 0.1009,
+      "pass_rate": 0.4,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "agreement": {
+      "0.3": {
+       "skill": 0.0392,
+       "skill_low": 0.0234,
+       "skill_high": 0.0582,
+       "runs": 75
+      },
+      "0.5": {
+       "skill": 0.0379,
+       "skill_low": 0.0209,
+       "skill_high": 0.0572,
+       "runs": 75
+      }
+     },
+     "resolution": {
+      "0.5": {
+       "skill": 0.0135,
+       "skill_low": -0.0022,
+       "skill_high": 0.0404,
+       "runs": 50
+      },
+      "1.0": {
+       "skill": 0.0539,
+       "skill_low": 0.0189,
+       "skill_high": 0.085,
+       "runs": 50
+      },
+      "2.0": {
+       "skill": 0.0482,
+       "skill_low": 0.0332,
+       "skill_high": 0.069,
+       "runs": 50
+      }
+     }
+    },
+    "grade": "weak"
+   },
+   "neighbour_space": {
+    "metric": "AUROC of hidden coexpression edges against degree-matched non-pairs",
+    "runs": 150,
+    "settings_tested": 30,
+    "targets": [],
+    "default": {
+     "setting": {
+      "k": 10,
+      "knn": 15,
+      "layer": "coexpression"
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.5874,
+     "skill_low": 0.5824,
+     "skill_high": 0.5924,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.7899,
+     "chance": 0.4908,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 5,
+      "knn": 5,
+      "layer": "cotranslation"
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.9013,
+     "skill_low": 0.8639,
+     "skill_high": 0.9386,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.9493,
+     "chance": 0.4812,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.8945,
+      "skill_low": 0.8718,
+      "skill_high": 0.918,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "10": {
+       "skill": 0.4741,
+       "skill_low": 0.4017,
+       "skill_high": 0.5477,
+       "runs": 50
+      },
+      "25": {
+       "skill": 0.4741,
+       "skill_low": 0.4067,
+       "skill_high": 0.5473,
+       "runs": 50
+      },
+      "5": {
+       "skill": 0.4741,
+       "skill_low": 0.4087,
+       "skill_high": 0.5366,
+       "runs": 50
+      }
+     },
+     "knn": {
+      "15": {
+       "skill": 0.4741,
+       "skill_low": 0.4078,
+       "skill_high": 0.5378,
+       "runs": 75
+      },
+      "5": {
+       "skill": 0.4741,
+       "skill_low": 0.425,
+       "skill_high": 0.5382,
+       "runs": 75
+      }
+     },
+     "layer": {
+      "coexpression": {
+       "skill": 0.5874,
+       "skill_low": 0.5855,
+       "skill_high": 0.5893,
+       "runs": 30
+      },
+      "cofitness": {
+       "skill": 0.1351,
+       "skill_low": 0.1289,
+       "skill_high": 0.1404,
+       "runs": 30
+      },
+      "cotranslation": {
+       "skill": 0.8945,
+       "skill_low": 0.8848,
+       "skill_high": 0.9032,
+       "runs": 30
+      },
+      "struct": {
+       "skill": 0.49,
+       "skill_low": 0.4581,
+       "skill_high": 0.5283,
+       "runs": 30
+      },
+      "xlms": {
+       "skill": 0.2635,
+       "skill_low": 0.2524,
+       "skill_high": 0.28,
+       "runs": 30
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "network_training": {
+    "metric": "AUROC of hidden coexpression edges against degree-matched non-pairs",
+    "runs": 100,
+    "settings_tested": 20,
+    "targets": [],
+    "default": {
+     "setting": {
+      "fraction": 0.25,
+      "layer": "coexpression",
+      "model": "logistic"
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.5874,
+     "skill_low": 0.582,
+     "skill_high": 0.5923,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.7899,
+     "chance": 0.4908,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "fraction": 0.4,
+      "layer": "cotranslation",
+      "model": "logistic"
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.8803,
+     "skill_low": 0.8766,
+     "skill_high": 0.884,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.9392,
+     "chance": 0.4921,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.8893,
+      "skill_low": 0.881,
+      "skill_high": 0.8995,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "fraction": {
+      "0.25": {
+       "skill": 0.497,
+       "skill_low": 0.4325,
+       "skill_high": 0.566,
+       "runs": 50
+      },
+      "0.4": {
+       "skill": 0.4849,
+       "skill_low": 0.4213,
+       "skill_high": 0.5503,
+       "runs": 50
+      }
+     },
+     "layer": {
+      "coexpression": {
+       "skill": 0.588,
+       "skill_low": 0.5847,
+       "skill_high": 0.5912,
+       "runs": 20
+      },
+      "cofitness": {
+       "skill": 0.1441,
+       "skill_low": 0.1369,
+       "skill_high": 0.1499,
+       "runs": 20
+      },
+      "cotranslation": {
+       "skill": 0.8873,
+       "skill_low": 0.8774,
+       "skill_high": 0.8975,
+       "runs": 20
+      },
+      "struct": {
+       "skill": 0.4974,
+       "skill_low": 0.4546,
+       "skill_high": 0.5397,
+       "runs": 20
+      },
+      "xlms": {
+       "skill": 0.3379,
+       "skill_low": 0.2935,
+       "skill_high": 0.3737,
+       "runs": 20
+      }
+     },
+     "model": {
+      "embedding": {
+       "skill": 0.5148,
+       "skill_low": 0.4499,
+       "skill_high": 0.5786,
+       "runs": 50
+      },
+      "logistic": {
+       "skill": 0.4671,
+       "skill_low": 0.3956,
+       "skill_high": 0.5386,
+       "runs": 50
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "ortholog_transfer": {
+    "metric": "rank correlation of transferred and hidden values",
+    "runs": 5,
+    "settings_tested": 1,
+    "targets": [],
+    "default": {
+     "setting": {},
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.3138,
+     "skill_low": 0.2985,
+     "skill_high": 0.3326,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.3159,
+     "chance": 0.003,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {},
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.3212,
+     "skill_low": 0.2933,
+     "skill_high": 0.3491,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.3233,
+     "chance": 0.0029,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.3138,
+      "skill_low": 0.2985,
+      "skill_high": 0.3326,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {},
+    "grade": "reliable"
+   },
+   "paralog_divergence": {
+    "metric": "AUROC of profile divergence for paralogs with different compartment",
+    "runs": 75,
+    "settings_tested": 3,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_shared": 10
+     },
+     "runs": 25,
+     "conclusive": 20,
+     "skill": 0.1637,
+     "skill_low": 0.0566,
+     "skill_high": 0.3119,
+     "pass_rate": 0.6,
+     "pass_low": 0.3866,
+     "pass_high": 0.7812,
+     "observed": 0.5817,
+     "chance": 0.4999,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_shared": 10
+     },
+     "runs": 10,
+     "conclusive": 8,
+     "skill": 0.1637,
+     "skill_low": 0.0556,
+     "skill_high": 0.3122,
+     "pass_rate": 0.625,
+     "pass_low": 0.3057,
+     "pass_high": 0.8632,
+     "observed": 0.5817,
+     "chance": 0.4999,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.0941,
+      "skill_low": 0.0849,
+      "skill_high": 0.1032,
+      "pass_rate": 0.4,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.0261,
+      "skill_low": 0.0219,
+      "skill_high": 0.0303,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.1505,
+      "skill_low": 0.141,
+      "skill_high": 0.1598,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": null,
+      "skill_low": null,
+      "skill_high": null,
+      "pass_rate": null,
+      "conclusive": 0
+     },
+     "stage_enriched_derived": {
+      "skill": 0.3841,
+      "skill_low": 0.3764,
+      "skill_high": 0.3921,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_shared": {
+      "10": {
+       "skill": 0.1637,
+       "skill_low": 0.0584,
+       "skill_high": 0.3172,
+       "runs": 20
+      },
+      "30": {
+       "skill": 0.1637,
+       "skill_low": 0.0573,
+       "skill_high": 0.3161,
+       "runs": 20
+      },
+      "5": {
+       "skill": 0.1637,
+       "skill_low": 0.0589,
+       "skill_high": 0.3172,
+       "runs": 20
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "physical_partners": {
+    "metric": "correct calls per hidden gene",
+    "runs": 25,
+    "settings_tested": 1,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {},
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.2495,
+     "skill_low": 0.0764,
+     "skill_high": 0.4285,
+     "pass_rate": 0.6,
+     "pass_low": 0.4074,
+     "pass_high": 0.766,
+     "observed": 0.3855,
+     "chance": 0.1937,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {},
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.2566,
+     "skill_low": 0.0751,
+     "skill_high": 0.4251,
+     "pass_rate": 0.6,
+     "pass_low": 0.3127,
+     "pass_high": 0.8318,
+     "observed": 0.3896,
+     "chance": 0.1885,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.4281,
+      "skill_low": 0.4137,
+      "skill_high": 0.4425,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.3024,
+      "skill_low": 0.2798,
+      "skill_high": 0.3348,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.4878,
+      "skill_low": 0.4624,
+      "skill_high": 0.5095,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.0076,
+      "skill_low": -0.013,
+      "skill_high": 0.0212,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.0214,
+      "skill_low": 0.0079,
+      "skill_high": 0.0349,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {},
+    "grade": "reliable"
+   },
+   "positive_unlabeled": {
+    "metric": "AUROC of hidden members against every other gene",
+    "runs": 75,
+    "settings_tested": 3,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "bags": 15
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.7874,
+     "skill_low": 0.7215,
+     "skill_high": 0.848,
+     "pass_rate": 1.0,
+     "pass_low": 0.8668,
+     "pass_high": 1.0,
+     "observed": 0.8947,
+     "chance": 0.5042,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "bags": 5
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.7995,
+     "skill_low": 0.7411,
+     "skill_high": 0.8526,
+     "pass_rate": 1.0,
+     "pass_low": 0.7225,
+     "pass_high": 1.0,
+     "observed": 0.8998,
+     "chance": 0.5001,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.8804,
+      "skill_low": 0.8691,
+      "skill_high": 0.8917,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.6634,
+      "skill_low": 0.6354,
+      "skill_high": 0.6914,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.8404,
+      "skill_low": 0.8268,
+      "skill_high": 0.8527,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.7866,
+      "skill_low": 0.768,
+      "skill_high": 0.8046,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.7573,
+      "skill_low": 0.745,
+      "skill_high": 0.7767,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "bags": {
+      "15": {
+       "skill": 0.7874,
+       "skill_low": 0.7143,
+       "skill_high": 0.8503,
+       "runs": 25
+      },
+      "40": {
+       "skill": 0.7881,
+       "skill_low": 0.729,
+       "skill_high": 0.8504,
+       "runs": 25
+      },
+      "5": {
+       "skill": 0.7856,
+       "skill_low": 0.7153,
+       "skill_high": 0.8484,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "recoverability_atlas": {
+    "metric": "hidden-gene AUROC of the categories the atlas ranks in its top half",
+    "runs": 75,
+    "settings_tested": 3,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.4995,
+     "skill_low": 0.2156,
+     "skill_high": 0.6739,
+     "pass_rate": 0.8,
+     "pass_low": 0.6087,
+     "pass_high": 0.9114,
+     "observed": 0.7504,
+     "chance": 0.501,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "k": 15
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.5024,
+     "skill_low": 0.2215,
+     "skill_high": 0.6804,
+     "pass_rate": 0.8,
+     "pass_low": 0.4902,
+     "pass_high": 0.9433,
+     "observed": 0.7505,
+     "chance": 0.5006,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.6166,
+      "skill_low": 0.5444,
+      "skill_high": 0.6855,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.5629,
+      "skill_low": 0.5387,
+      "skill_high": 0.5871,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.6989,
+      "skill_low": 0.6621,
+      "skill_high": 0.734,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": -0.0573,
+      "skill_low": -0.143,
+      "skill_high": 0.0236,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.6762,
+      "skill_low": 0.6321,
+      "skill_high": 0.7118,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "k": {
+      "15": {
+       "skill": 0.4995,
+       "skill_low": 0.2314,
+       "skill_high": 0.6671,
+       "runs": 25
+      },
+      "5": {
+       "skill": 0.4508,
+       "skill_low": 0.2335,
+       "skill_high": 0.6155,
+       "runs": 25
+      },
+      "50": {
+       "skill": 0.5239,
+       "skill_low": 0.2683,
+       "skill_high": 0.6972,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "seed_expansion": {
+    "metric": "AUROC of hidden members against every other gene",
+    "runs": 150,
+    "settings_tested": 6,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "mode": "networks + measurements",
+      "restart": 0.3
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.5937,
+     "skill_low": 0.4882,
+     "skill_high": 0.6828,
+     "pass_rate": 1.0,
+     "pass_low": 0.8668,
+     "pass_high": 1.0,
+     "observed": 0.7992,
+     "chance": 0.5061,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "mode": "networks + measurements",
+      "restart": 0.6
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.608,
+     "skill_low": 0.5329,
+     "skill_high": 0.6686,
+     "pass_rate": 1.0,
+     "pass_low": 0.7225,
+     "pass_high": 1.0,
+     "observed": 0.8056,
+     "chance": 0.5043,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.6962,
+      "skill_low": 0.6551,
+      "skill_high": 0.7374,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.6044,
+      "skill_low": 0.6009,
+      "skill_high": 0.6085,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.6983,
+      "skill_low": 0.6607,
+      "skill_high": 0.7286,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.5904,
+      "skill_low": 0.5653,
+      "skill_high": 0.6236,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.3909,
+      "skill_low": 0.3385,
+      "skill_high": 0.4449,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "mode": {
+      "networks": {
+       "skill": 0.4425,
+       "skill_low": 0.2897,
+       "skill_high": 0.5424,
+       "runs": 75
+      },
+      "networks + measurements": {
+       "skill": 0.5932,
+       "skill_low": 0.489,
+       "skill_high": 0.6788,
+       "runs": 75
+      }
+     },
+     "restart": {
+      "0.1": {
+       "skill": 0.5156,
+       "skill_low": 0.384,
+       "skill_high": 0.6106,
+       "runs": 50
+      },
+      "0.3": {
+       "skill": 0.5183,
+       "skill_low": 0.3983,
+       "skill_high": 0.61,
+       "runs": 50
+      },
+      "0.6": {
+       "skill": 0.5196,
+       "skill_low": 0.3928,
+       "skill_high": 0.6134,
+       "runs": 50
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "set_enrichment": {
+    "metric": "AUROC of hidden members against every other gene",
+    "runs": 25,
+    "settings_tested": 1,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {},
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.6148,
+     "skill_low": 0.5124,
+     "skill_high": 0.7165,
+     "pass_rate": 1.0,
+     "pass_low": 0.8668,
+     "pass_high": 1.0,
+     "observed": 0.8071,
+     "chance": 0.4994,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {},
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.6441,
+     "skill_low": 0.5183,
+     "skill_high": 0.748,
+     "pass_rate": 1.0,
+     "pass_low": 0.7225,
+     "pass_high": 1.0,
+     "observed": 0.8219,
+     "chance": 0.4997,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.7911,
+      "skill_low": 0.7661,
+      "skill_high": 0.8136,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.5648,
+      "skill_low": 0.4762,
+      "skill_high": 0.6578,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.6779,
+      "skill_low": 0.6434,
+      "skill_high": 0.7061,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.598,
+      "skill_low": 0.5283,
+      "skill_high": 0.672,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.4422,
+      "skill_low": 0.3885,
+      "skill_high": 0.4977,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {},
+    "grade": "reliable"
+   },
+   "split_clusters": {
+    "metric": "share of findings that replicate",
+    "runs": 15,
+    "settings_tested": 3,
+    "targets": [],
+    "default": {
+     "setting": {
+      "min_cluster_size": 40
+     },
+     "runs": 5,
+     "conclusive": 0,
+     "skill": null,
+     "skill_low": null,
+     "skill_high": null,
+     "pass_rate": null,
+     "pass_low": null,
+     "pass_high": null,
+     "observed": null,
+     "chance": null,
+     "targets": [],
+     "not_run": 0
+    },
+    "sensitivity": {
+     "min_cluster_size": {}
+    },
+    "grade": "untestable"
+   },
+   "stratum_focus": {
+    "metric": "correct calls per hidden gene",
+    "runs": 100,
+    "settings_tested": 4,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "stratum": "lineage-specific"
+     },
+     "runs": 25,
+     "conclusive": 20,
+     "skill": 0.2645,
+     "skill_low": 0.1456,
+     "skill_high": 0.345,
+     "pass_rate": 0.75,
+     "pass_low": 0.5313,
+     "pass_high": 0.8881,
+     "observed": 0.5857,
+     "chance": 0.416,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "stratum": "lineage-specific"
+     },
+     "runs": 10,
+     "conclusive": 8,
+     "skill": 0.2809,
+     "skill_low": 0.1656,
+     "skill_high": 0.3577,
+     "pass_rate": 0.75,
+     "pass_low": 0.4093,
+     "pass_high": 0.9285,
+     "observed": 0.5911,
+     "chance": 0.4116,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.2906,
+      "skill_low": 0.2507,
+      "skill_high": 0.3205,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.0862,
+      "skill_low": 0.0659,
+      "skill_high": 0.1073,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.3491,
+      "skill_low": 0.3392,
+      "skill_high": 0.3612,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": null,
+      "skill_low": null,
+      "skill_high": null,
+      "pass_rate": null,
+      "conclusive": 0
+     },
+     "stage_enriched_derived": {
+      "skill": 0.3319,
+      "skill_low": 0.2901,
+      "skill_high": 0.3714,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "stratum": {
+      "conserved": {
+       "skill": 0.2544,
+       "skill_low": 0.0776,
+       "skill_high": 0.4579,
+       "runs": 25
+      },
+      "hypothetical protein": {
+       "skill": 0.2072,
+       "skill_low": 0.1154,
+       "skill_high": 0.2934,
+       "runs": 25
+      },
+      "lineage-specific": {
+       "skill": 0.2645,
+       "skill_low": 0.1487,
+       "skill_high": 0.3433,
+       "runs": 20
+      },
+      "understudied": {
+       "skill": 0.2145,
+       "skill_low": 0.0913,
+       "skill_high": 0.3329,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "structural_homology": {
+    "metric": "correct calls per hidden gene",
+    "runs": 15,
+    "settings_tested": 3,
+    "targets": [],
+    "default": {
+     "setting": {
+      "level": 1
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.6368,
+     "skill_low": 0.6021,
+     "skill_high": 0.664,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.7329,
+     "chance": 0.2656,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "level": 3
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.7125,
+     "skill_low": 0.7056,
+     "skill_high": 0.7195,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.7364,
+     "chance": 0.0828,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.7132,
+      "skill_low": 0.699,
+      "skill_high": 0.726,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "level": {
+      "1": {
+       "skill": 0.6368,
+       "skill_low": 0.6096,
+       "skill_high": 0.6644,
+       "runs": 5
+      },
+      "2": {
+       "skill": 0.6972,
+       "skill_low": 0.6652,
+       "skill_high": 0.7296,
+       "runs": 5
+      },
+      "3": {
+       "skill": 0.7132,
+       "skill_low": 0.7003,
+       "skill_high": 0.7273,
+       "runs": 5
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "supervised_classifier": {
+    "metric": "correct calls per hidden gene",
+    "runs": 100,
+    "settings_tested": 4,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "C": 0.01
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.3183,
+     "skill_low": 0.1805,
+     "skill_high": 0.4649,
+     "pass_rate": 0.8,
+     "pass_low": 0.6087,
+     "pass_high": 0.9114,
+     "observed": 0.5417,
+     "chance": 0.3261,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "C": 10.0
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.369,
+     "skill_low": 0.2122,
+     "skill_high": 0.496,
+     "pass_rate": 0.8,
+     "pass_low": 0.4902,
+     "pass_high": 0.9433,
+     "observed": 0.612,
+     "chance": 0.3619,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.4073,
+      "skill_low": 0.394,
+      "skill_high": 0.4166,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.3394,
+      "skill_low": 0.3219,
+      "skill_high": 0.3596,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.4962,
+      "skill_low": 0.4881,
+      "skill_high": 0.505,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": 0.043,
+      "skill_low": -0.0199,
+      "skill_high": 0.1059,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.5734,
+      "skill_low": 0.5418,
+      "skill_high": 0.6035,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "C": {
+      "0.01": {
+       "skill": 0.3183,
+       "skill_low": 0.1944,
+       "skill_high": 0.4628,
+       "runs": 25
+      },
+      "0.1": {
+       "skill": 0.3684,
+       "skill_low": 0.1973,
+       "skill_high": 0.5295,
+       "runs": 25
+      },
+      "1.0": {
+       "skill": 0.3763,
+       "skill_low": 0.1446,
+       "skill_high": 0.5591,
+       "runs": 25
+      },
+      "10.0": {
+       "skill": 0.3718,
+       "skill_low": 0.2062,
+       "skill_high": 0.5143,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "trait_regression": {
+    "metric": "rank correlation of predicted and hidden values",
+    "runs": 60,
+    "settings_tested": 4,
+    "targets": [
+     "expr_tachy",
+     "fit_invitro_hff",
+     "fit_invivo_PE"
+    ],
+    "default": {
+     "setting": {
+      "model": "boosted",
+      "own_kind": "leave out"
+     },
+     "runs": 15,
+     "conclusive": 15,
+     "skill": 0.5597,
+     "skill_low": 0.0513,
+     "skill_high": 0.9086,
+     "pass_rate": 0.6667,
+     "pass_low": 0.4171,
+     "pass_high": 0.8482,
+     "observed": 0.5597,
+     "chance": 0.0,
+     "targets": [
+      "expr_tachy",
+      "fit_invitro_hff",
+      "fit_invivo_PE"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "model": "boosted",
+      "own_kind": "include"
+     },
+     "runs": 6,
+     "conclusive": 6,
+     "skill": 0.6662,
+     "skill_low": 0.1478,
+     "skill_high": 0.9691,
+     "pass_rate": 1.0,
+     "pass_low": 0.6097,
+     "pass_high": 1.0,
+     "observed": 0.6662,
+     "chance": 0.0,
+     "targets": [
+      "expr_tachy",
+      "fit_invitro_hff",
+      "fit_invivo_PE"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "expr_tachy": {
+      "skill": 0.9688,
+      "skill_low": 0.9655,
+      "skill_high": 0.9721,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "fit_invitro_hff": {
+      "skill": 0.8917,
+      "skill_low": 0.8903,
+      "skill_high": 0.8929,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "fit_invivo_PE": {
+      "skill": 0.128,
+      "skill_low": 0.114,
+      "skill_high": 0.1479,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "model": {
+      "boosted": {
+       "skill": 0.6113,
+       "skill_low": 0.3074,
+       "skill_high": 0.9372,
+       "runs": 30
+      },
+      "ridge": {
+       "skill": 0.5737,
+       "skill_low": 0.0763,
+       "skill_high": 0.8583,
+       "runs": 30
+      }
+     },
+     "own_kind": {
+      "include": {
+       "skill": 0.6361,
+       "skill_low": 0.1171,
+       "skill_high": 0.9253,
+       "runs": 30
+      },
+      "leave out": {
+       "skill": 0.5488,
+       "skill_low": 0.0502,
+       "skill_high": 0.8331,
+       "runs": 30
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "triangulation": {
+    "metric": "precision of calls on hidden genes",
+    "runs": 75,
+    "settings_tested": 3,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_agree": 2
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.348,
+     "skill_low": 0.1618,
+     "skill_high": 0.4847,
+     "pass_rate": 0.6,
+     "pass_low": 0.4074,
+     "pass_high": 0.766,
+     "observed": 0.7051,
+     "chance": 0.5135,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_agree": 3
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.6083,
+     "skill_low": 0.3311,
+     "skill_high": 0.774,
+     "pass_rate": 0.8,
+     "pass_low": 0.4902,
+     "pass_high": 0.9433,
+     "observed": 0.8349,
+     "chance": 0.5234,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.7226,
+      "skill_low": 0.6758,
+      "skill_high": 0.7695,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.7902,
+      "skill_low": 0.7613,
+      "skill_high": 0.8191,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.7301,
+      "skill_low": 0.7115,
+      "skill_high": 0.7469,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": -0.0338,
+      "skill_low": -0.1521,
+      "skill_high": 0.0705,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.7806,
+      "skill_low": 0.7517,
+      "skill_high": 0.818,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_agree": {
+      "1": {
+       "skill": 0.2796,
+       "skill_low": 0.1527,
+       "skill_high": 0.3998,
+       "runs": 25
+      },
+      "2": {
+       "skill": 0.348,
+       "skill_low": 0.1996,
+       "skill_high": 0.4846,
+       "runs": 25
+      },
+      "3": {
+       "skill": 0.598,
+       "skill_low": 0.3012,
+       "skill_high": 0.7765,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "understudied_first": {
+    "metric": "precision of calls on hidden genes",
+    "runs": 75,
+    "settings_tested": 3,
+    "targets": [
+     "compartment",
+     "dtm_class",
+     "lopit_unified",
+     "screen_any_phenotype",
+     "stage_enriched_derived"
+    ],
+    "default": {
+     "setting": {
+      "min_agree": 2
+     },
+     "runs": 25,
+     "conclusive": 25,
+     "skill": 0.3196,
+     "skill_low": 0.1459,
+     "skill_high": 0.4562,
+     "pass_rate": 0.6,
+     "pass_low": 0.4074,
+     "pass_high": 0.766,
+     "observed": 0.7015,
+     "chance": 0.5297,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_agree": 3
+     },
+     "runs": 10,
+     "conclusive": 10,
+     "skill": 0.5851,
+     "skill_low": 0.3156,
+     "skill_high": 0.7542,
+     "pass_rate": 0.8,
+     "pass_low": 0.4902,
+     "pass_high": 0.9433,
+     "observed": 0.8305,
+     "chance": 0.5455,
+     "targets": [
+      "compartment",
+      "dtm_class",
+      "lopit_unified",
+      "screen_any_phenotype",
+      "stage_enriched_derived"
+     ],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "compartment": {
+      "skill": 0.6894,
+      "skill_low": 0.6147,
+      "skill_high": 0.76,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "dtm_class": {
+      "skill": 0.7732,
+      "skill_low": 0.7408,
+      "skill_high": 0.8051,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "lopit_unified": {
+      "skill": 0.7018,
+      "skill_low": 0.6805,
+      "skill_high": 0.7238,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     },
+     "screen_any_phenotype": {
+      "skill": -0.0603,
+      "skill_low": -0.2078,
+      "skill_high": 0.0382,
+      "pass_rate": 0.0,
+      "conclusive": 5
+     },
+     "stage_enriched_derived": {
+      "skill": 0.7538,
+      "skill_low": 0.7276,
+      "skill_high": 0.7899,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_agree": {
+      "1": {
+       "skill": 0.2568,
+       "skill_low": 0.1216,
+       "skill_high": 0.3792,
+       "runs": 25
+      },
+      "2": {
+       "skill": 0.3196,
+       "skill_low": 0.1344,
+       "skill_high": 0.456,
+       "runs": 25
+      },
+      "3": {
+       "skill": 0.5716,
+       "skill_low": 0.2354,
+       "skill_high": 0.7568,
+       "runs": 25
+      }
+     }
+    },
+    "grade": "reliable"
+   },
+   "unwritten_links": {
+    "metric": "AUROC of hidden pairs against random non-pairs",
+    "runs": 15,
+    "settings_tested": 3,
+    "targets": [],
+    "default": {
+     "setting": {
+      "min_layers": 2
+     },
+     "runs": 5,
+     "conclusive": 5,
+     "skill": 0.1118,
+     "skill_low": 0.1114,
+     "skill_high": 0.1121,
+     "pass_rate": 1.0,
+     "pass_low": 0.5655,
+     "pass_high": 1.0,
+     "observed": 0.5557,
+     "chance": 0.4998,
+     "targets": [],
+     "not_run": 0
+    },
+    "tuned": {
+     "setting": {
+      "min_layers": 1
+     },
+     "runs": 2,
+     "conclusive": 2,
+     "skill": 0.1114,
+     "skill_low": 0.1113,
+     "skill_high": 0.1115,
+     "pass_rate": 1.0,
+     "pass_low": 0.3424,
+     "pass_high": 1.0,
+     "observed": 0.5556,
+     "chance": 0.4999,
+     "targets": [],
+     "not_run": 0,
+     "chosen_on_seeds": [
+      1,
+      2,
+      3
+     ],
+     "reported_on_seeds": [
+      4,
+      5
+     ]
+    },
+    "per_target": {
+     "(none)": {
+      "skill": 0.1118,
+      "skill_low": 0.1114,
+      "skill_high": 0.1121,
+      "pass_rate": 1.0,
+      "conclusive": 5
+     }
+    },
+    "sensitivity": {
+     "min_layers": {
+      "1": {
+       "skill": 0.1118,
+       "skill_low": 0.1114,
+       "skill_high": 0.1121,
+       "runs": 5
+      },
+      "2": {
+       "skill": 0.1118,
+       "skill_low": 0.1114,
+       "skill_high": 0.1122,
+       "runs": 5
+      },
+      "3": {
+       "skill": 0.1118,
+       "skill_low": 0.1115,
+       "skill_high": 0.1121,
+       "runs": 5
+      }
+     }
+    },
+    "grade": "reliable"
+   }
+  }
+ }
+}

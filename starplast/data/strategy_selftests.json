@@ -36,7 +36,7 @@
    },
    "observed": 1.0,
    "p_value": 0.09090909090909091,
-   "seconds": 2.5,
+   "seconds": 2.0,
    "strategy": "blind_battery",
    "verdict": "PASS"
   },
@@ -56,7 +56,7 @@
    },
    "observed": 0.5230263157894737,
    "p_value": 0.18421052631578946,
-   "seconds": 2.8,
+   "seconds": 2.5,
    "strategy": "block_ablation",
    "verdict": "PASS"
   },
@@ -97,7 +97,7 @@
    },
    "observed": 0.6313707867980614,
    "p_value": 2.1438760254992042e-101,
-   "seconds": 2.0,
+   "seconds": 209.8,
    "strategy": "condition_shift",
    "verdict": "PASS"
   },
@@ -156,7 +156,7 @@
    },
    "observed": 0.5986842105263158,
    "p_value": 0.09090909090909091,
-   "seconds": 1.6,
+   "seconds": 1.5,
    "strategy": "feature_knn",
    "verdict": "PASS"
   },
@@ -176,7 +176,7 @@
    },
    "observed": 0.48704663212435234,
    "p_value": 0.047619047619047616,
-   "seconds": 25.5,
+   "seconds": 37.4,
    "strategy": "geneset_hunt",
    "verdict": "PASS"
   },
@@ -190,7 +190,7 @@
    "null_high": 0.5234682356917609,
    "null_kind": "100 permutations of the hidden genes' labels over the same chosen clusters",
    "null_mean": 0.5228882506377834,
-   "null_sd": 0.0002845857034960837,
+   "null_sd": 0.00028458570349608757,
    "numbers": {
     "genes_per_map": 3000,
     "maps": 16,
@@ -198,7 +198,7 @@
    },
    "observed": 0.5229993576748945,
    "p_value": 0.45544554455445546,
-   "seconds": 25.0,
+   "seconds": 39.5,
    "strategy": "holdout_search",
    "verdict": "FAIL"
   },
@@ -216,7 +216,7 @@
    "numbers": {},
    "observed": 0.7384772941748405,
    "p_value": 0.047619047619047616,
-   "seconds": 0.5,
+   "seconds": 0.8,
    "strategy": "label_outliers",
    "verdict": "PASS"
   },
@@ -237,7 +237,7 @@
    },
    "observed": 0.42269736842105265,
    "p_value": 0.09090909090909091,
-   "seconds": 0.2,
+   "seconds": 0.4,
    "strategy": "layer_propagation",
    "verdict": "PASS"
   },
@@ -258,7 +258,7 @@
    },
    "observed": 0.5986842105263158,
    "p_value": 0.16666666666666666,
-   "seconds": 0.5,
+   "seconds": 1.6,
    "strategy": "layer_vote",
    "verdict": "PASS"
   },
@@ -315,7 +315,7 @@
    "numbers": {},
    "observed": 0.7195235752028717,
    "p_value": 0.25,
-   "seconds": 35.3,
+   "seconds": 76.0,
    "strategy": "masked_imputation",
    "verdict": "PASS"
   },
@@ -326,7 +326,7 @@
    "min_effect": 0.05,
    "n_hidden": 602,
    "note": "",
-   "null_high": 0.29836903399321746,
+   "null_high": 0.2983690339932174,
    "null_kind": "100 permutations of the hidden genes' labels over the same chosen communities",
    "null_mean": 0.27248978223480763,
    "null_sd": 0.015259698599104466,
@@ -361,7 +361,7 @@
    },
    "observed": 0.6881683656955765,
    "p_value": 0.09090909090909091,
-   "seconds": 1.4,
+   "seconds": 1.9,
    "strategy": "neighbour_space",
    "verdict": "PASS"
   },
@@ -387,7 +387,7 @@
    },
    "observed": 0.6881683656955765,
    "p_value": 0.09090909090909091,
-   "seconds": 1.4,
+   "seconds": 1.8,
    "strategy": "network_training",
    "verdict": "PASS"
   },
@@ -425,7 +425,7 @@
    },
    "observed": 0.42902711323763953,
    "p_value": 0.7142857142857143,
-   "seconds": 0.1,
+   "seconds": 0.2,
    "strategy": "paralog_divergence",
    "verdict": "FAIL"
   },
@@ -464,7 +464,7 @@
    "numbers": {},
    "observed": 0.996297061366262,
    "p_value": 0.09090909090909091,
-   "seconds": 5.4,
+   "seconds": 13.5,
    "strategy": "positive_unlabeled",
    "verdict": "PASS"
   },
@@ -484,7 +484,7 @@
    },
    "observed": 0.7410854867092711,
    "p_value": 0.047619047619047616,
-   "seconds": 3.5,
+   "seconds": 3.9,
    "strategy": "recoverability_atlas",
    "verdict": "PASS"
   },
@@ -520,7 +520,7 @@
    "numbers": {},
    "observed": 0.9678772623756442,
    "p_value": 0.09090909090909091,
-   "seconds": 4.8,
+   "seconds": 5.7,
    "strategy": "set_enrichment",
    "verdict": "PASS"
   },
@@ -598,7 +598,7 @@
    },
    "observed": 0.5756578947368421,
    "p_value": 7.189309366331528e-33,
-   "seconds": 0.0,
+   "seconds": 0.1,
    "strategy": "supervised_classifier",
    "verdict": "PASS"
   },
@@ -618,7 +618,7 @@
    },
    "observed": 0.4998895920062477,
    "p_value": 9.947537961012884e-61,
-   "seconds": 1.9,
+   "seconds": 854.6,
    "strategy": "trait_regression",
    "verdict": "PASS"
   },
@@ -645,7 +645,7 @@
    },
    "observed": 0.6302367941712204,
    "p_value": 0.16666666666666666,
-   "seconds": 0.9,
+   "seconds": 1.5,
    "strategy": "triangulation",
    "verdict": "PASS"
   },
@@ -672,7 +672,7 @@
    },
    "observed": 0.645083932853717,
    "p_value": 0.16666666666666666,
-   "seconds": 0.9,
+   "seconds": 1.9,
    "strategy": "understudied_first",
    "verdict": "PASS"
   },
@@ -732,12 +732,12 @@
    },
    "observed": 0.9811320754716981,
    "p_value": 0.09090909090909091,
-   "seconds": 1.0,
+   "seconds": 1.6,
    "strategy": "blind_battery",
    "verdict": "PASS"
   },
   "block_ablation": {
-   "effect": 0.10642932251765053,
+   "effect": 0.10590356016223518,
    "hidden": "25% of the compartment labels",
    "metric": "hidden accuracy of the evidence ranked first (transcription)",
    "min_effect": 0.02,
@@ -745,40 +745,40 @@
    "note": "",
    "null_high": 0.26729758149316507,
    "null_kind": "the 14 kinds of evidence chosen at random",
-   "null_mean": 0.21428571428571436,
-   "null_sd": 0.04988956203761286,
+   "null_mean": 0.2148114766411297,
+   "null_sd": 0.049550024543234206,
    "numbers": {
-    "rank_agreement": 0.9680270492198639
+    "rank_agreement": 0.954796611189524
    },
    "observed": 0.3207150368033649,
    "p_value": 0.13333333333333333,
-   "seconds": 1.8,
+   "seconds": 2.2,
    "strategy": "block_ablation",
    "verdict": "PASS"
   },
   "cluster_guilt": {
-   "effect": 0.16568047337278108,
-   "hidden": "25% of the compartment labels, whole orthogroups at a time; 169 calls made on 511 hidden genes",
+   "effect": 0.0962962962962963,
+   "hidden": "25% of the compartment labels, whole orthogroups at a time; 135 calls made on 511 hidden genes",
    "metric": "precision of calls on hidden genes",
    "min_effect": 0.1,
-   "n_hidden": 169,
+   "n_hidden": 135,
    "note": "",
    "null_high": 0.0,
    "null_kind": "20 runs on shuffled labels",
    "null_mean": 0.0,
    "null_sd": 0.0,
    "numbers": {
-    "calls": 169,
-    "coverage": 0.33072407045009783
+    "calls": 135,
+    "coverage": 0.26418786692759294
    },
-   "observed": 0.16568047337278108,
+   "observed": 0.0962962962962963,
    "p_value": 0.047619047619047616,
    "seconds": 0.2,
    "strategy": "cluster_guilt",
-   "verdict": "PASS"
+   "verdict": "FAIL"
   },
   "condition_shift": {
-   "effect": 0.06317260122942613,
+   "effect": 0.03765461999621553,
    "hidden": "20% of the fit_invivo_PE-specific shift",
    "metric": "rank correlation of predicted and hidden values",
    "min_effect": 0.1,
@@ -789,50 +789,50 @@
    "null_mean": 0.0,
    "null_sd": 0.026135418674465834,
    "numbers": {
-    "shuffled_refits": -0.00786933817594896
+    "shuffled_refits": -0.009920463025377349
    },
-   "observed": 0.06317260122942613,
-   "p_value": 0.0078217994525919,
-   "seconds": 3.7,
+   "observed": 0.03765461999621553,
+   "p_value": 0.0748275778151257,
+   "seconds": 1456.4,
    "strategy": "condition_shift",
    "verdict": "FAIL"
   },
   "conjunctions": {
-   "effect": 0.6,
+   "effect": 0.6666666666666666,
    "hidden": "lopit_unified x dtm_class combinations made on half the genes, checked on the other half",
    "metric": "share of first-half findings that replicate on the second half",
    "min_effect": 0.2,
-   "n_hidden": 5,
+   "n_hidden": 3,
    "note": "",
    "null_high": 0.0,
    "null_kind": "20 runs with the second half scrambled",
    "null_mean": 0.0,
    "null_sd": 0.0,
    "numbers": {
-    "findings": 5
+    "findings": 3
    },
-   "observed": 0.6,
+   "observed": 0.6666666666666666,
    "p_value": 0.047619047619047616,
    "seconds": 0.1,
    "strategy": "conjunctions",
    "verdict": "PASS"
   },
   "consensus_modules": {
-   "effect": 0.0030496033705949555,
+   "effect": 0.0018517955355818738,
    "hidden": "25% of the compartment labels, whole orthogroups at a time",
    "metric": "F1 of hidden genes in the module chosen for their label on known genes",
    "min_effect": 0.05,
    "n_hidden": 305,
    "note": "",
-   "null_high": 0.16921419921700875,
+   "null_high": 0.1694993742459769,
    "null_kind": "100 permutations of the hidden genes' labels over the same chosen modules",
-   "null_mean": 0.16723174914629052,
-   "null_sd": 0.0011963220317112253,
+   "null_mean": 0.16771496841525418,
+   "null_sd": 0.001099638332503088,
    "numbers": {
     "modules": 2
    },
-   "observed": 0.17028135251688548,
-   "p_value": 0.019801980198019802,
+   "observed": 0.16956676395083606,
+   "p_value": 0.0594059405940594,
    "seconds": 0.1,
    "strategy": "consensus_modules",
    "verdict": "FAIL"
@@ -854,49 +854,49 @@
    },
    "observed": 0.3312302839116719,
    "p_value": 0.09090909090909091,
-   "seconds": 0.5,
+   "seconds": 0.7,
    "strategy": "feature_knn",
    "verdict": "PASS"
   },
   "geneset_hunt": {
-   "effect": 0.017955221081736795,
+   "effect": 0.027182472367767746,
    "hidden": "30% of the 'PM - integral' genes of compartment",
    "metric": "F1 of the hidden members against the best cluster's other genes",
    "min_effect": 0.05,
    "n_hidden": 40,
    "note": "",
-   "null_high": 0.05405549189720085,
+   "null_high": 0.053636910951781525,
    "null_kind": "20 random sets of the same size, same walk",
-   "null_mean": 0.02342408926309079,
-   "null_sd": 0.014865675802156662,
+   "null_mean": 0.024430430858038706,
+   "null_sd": 0.015110710373717376,
    "numbers": {
     "maps": 16
    },
-   "observed": 0.041379310344827586,
+   "observed": 0.05161290322580645,
    "p_value": 0.14285714285714285,
-   "seconds": 36.6,
+   "seconds": 44.9,
    "strategy": "geneset_hunt",
    "verdict": "FAIL"
   },
   "holdout_search": {
-   "effect": 0.08329635614185199,
+   "effect": 0.09333601833808401,
    "hidden": "25% of the compartment labels, whole orthogroups at a time",
    "metric": "F1 of hidden genes in the cluster chosen for their label on known genes",
    "min_effect": 0.05,
    "n_hidden": 607,
    "note": "",
-   "null_high": 0.0717623867783953,
+   "null_high": 0.0579550089808839,
    "null_kind": "100 permutations of the hidden genes' labels over the same chosen clusters",
-   "null_mean": 0.05455444726417927,
-   "null_sd": 0.010227188357140881,
+   "null_mean": 0.039136229559073324,
+   "null_sd": 0.010994219177555052,
    "numbers": {
     "genes_per_map": 3000,
     "maps": 16,
-    "visible_mean_f1": 0.31718957612316445
+    "visible_mean_f1": 0.3193296710977047
    },
-   "observed": 0.13785080340603126,
+   "observed": 0.13247224789715734,
    "p_value": 0.009900990099009901,
-   "seconds": 51.7,
+   "seconds": 56.9,
    "strategy": "holdout_search",
    "verdict": "PASS"
   },
@@ -914,7 +914,7 @@
    "numbers": {},
    "observed": 0.8015859377275507,
    "p_value": 0.047619047619047616,
-   "seconds": 1.3,
+   "seconds": 1.5,
    "strategy": "label_outliers",
    "verdict": "PASS"
   },
@@ -935,7 +935,7 @@
    },
    "observed": 0.12723449001051526,
    "p_value": 0.09090909090909091,
-   "seconds": 0.4,
+   "seconds": 0.5,
    "strategy": "layer_propagation",
    "verdict": "PASS"
   },
@@ -956,7 +956,7 @@
    },
    "observed": 0.40904311251314407,
    "p_value": 0.16666666666666666,
-   "seconds": 0.8,
+   "seconds": 1.0,
    "strategy": "layer_vote",
    "verdict": "PASS"
   },
@@ -974,28 +974,28 @@
    "numbers": {},
    "observed": 0.7786239981600644,
    "p_value": 0.16666666666666666,
-   "seconds": 1.4,
+   "seconds": 1.0,
    "strategy": "link_prediction",
    "verdict": "PASS"
   },
   "map_neighbours": {
-   "effect": 0.1776908023483366,
+   "effect": 0.1681017612524462,
    "hidden": "25% of the compartment labels, whole orthogroups at a time",
    "metric": "correct calls per hidden gene",
    "min_effect": 0.05,
    "n_hidden": 511,
    "note": "",
-   "null_high": 0.0728962818003914,
+   "null_high": 0.06937377690802349,
    "null_kind": "20 runs on shuffled labels",
-   "null_mean": 0.06105675146771037,
-   "null_sd": 0.010236161902639545,
+   "null_mean": 0.056947162426614475,
+   "null_sd": 0.010223059011044209,
    "numbers": {
-    "calls": 346,
-    "coverage": 0.6771037181996086
+    "calls": 336,
+    "coverage": 0.6575342465753424
    },
-   "observed": 0.23874755381604695,
+   "observed": 0.22504892367906065,
    "p_value": 0.047619047619047616,
-   "seconds": 0.3,
+   "seconds": 0.4,
    "strategy": "map_neighbours",
    "verdict": "PASS"
   },
@@ -1013,27 +1013,27 @@
    "numbers": {},
    "observed": 0.8700230141554206,
    "p_value": 0.25,
-   "seconds": 72.3,
+   "seconds": 156.1,
    "strategy": "masked_imputation",
    "verdict": "PASS"
   },
   "multiplex_modules": {
-   "effect": 0.03203387246346487,
+   "effect": 0.03203387246346498,
    "hidden": "25% of the compartment labels, whole orthogroups at a time",
    "metric": "F1 of hidden genes in the community chosen for their label on known genes",
    "min_effect": 0.05,
    "n_hidden": 948,
    "note": "",
-   "null_high": 0.14527120993674714,
+   "null_high": 0.1452712099367472,
    "null_kind": "100 permutations of the hidden genes' labels over the same chosen communities",
    "null_mean": 0.13729268771966296,
-   "null_sd": 0.0057107595103535955,
+   "null_sd": 0.005710759510353587,
    "numbers": {
     "communities": 6
    },
-   "observed": 0.16932656018312783,
+   "observed": 0.16932656018312794,
    "p_value": 0.009900990099009901,
-   "seconds": 0.1,
+   "seconds": 0.2,
    "strategy": "multiplex_modules",
    "verdict": "FAIL"
   },
@@ -1059,7 +1059,7 @@
    },
    "observed": 0.7779582468907195,
    "p_value": 0.09090909090909091,
-   "seconds": 2.4,
+   "seconds": 5.4,
    "strategy": "neighbour_space",
    "verdict": "PASS"
   },
@@ -1085,7 +1085,7 @@
    },
    "observed": 0.7779582468907195,
    "p_value": 0.09090909090909091,
-   "seconds": 2.4,
+   "seconds": 4.5,
    "strategy": "network_training",
    "verdict": "PASS"
   },
@@ -1123,7 +1123,7 @@
    },
    "observed": 0.5464268181499404,
    "p_value": 0.047619047619047616,
-   "seconds": 0.3,
+   "seconds": 0.5,
    "strategy": "paralog_divergence",
    "verdict": "PASS"
   },
@@ -1162,27 +1162,27 @@
    "numbers": {},
    "observed": 0.9246439725171768,
    "p_value": 0.09090909090909091,
-   "seconds": 7.5,
+   "seconds": 12.4,
    "strategy": "positive_unlabeled",
    "verdict": "PASS"
   },
   "recoverability_atlas": {
-   "effect": 0.3280772193993785,
+   "effect": 0.31850360995502336,
    "hidden": "30% of the compartment labels",
    "metric": "hidden-gene AUROC of the categories the atlas ranks in its top half",
    "min_effect": 0.05,
    "n_hidden": 508,
    "note": "",
-   "null_high": 0.5345656732723533,
+   "null_high": 0.5428799488967992,
    "null_kind": "20 atlases and recoveries from shuffled labels",
-   "null_mean": 0.4980719983393741,
-   "null_sd": 0.02704676573114431,
+   "null_mean": 0.4999714264252093,
+   "null_sd": 0.02720347333772508,
    "numbers": {
-    "rank_agreement": 0.7688311688311688
+    "rank_agreement": 0.7285714285714285
    },
-   "observed": 0.8261492177387526,
+   "observed": 0.8184750363802327,
    "p_value": 0.047619047619047616,
-   "seconds": 5.7,
+   "seconds": 8.4,
    "strategy": "recoverability_atlas",
    "verdict": "PASS"
   },
@@ -1218,7 +1218,7 @@
    "numbers": {},
    "observed": 0.907058088694566,
    "p_value": 0.09090909090909091,
-   "seconds": 19.9,
+   "seconds": 21.9,
    "strategy": "set_enrichment",
    "verdict": "PASS"
   },
@@ -1257,7 +1257,7 @@
    },
    "observed": 0.29024390243902437,
    "p_value": 0.09090909090909091,
-   "seconds": 0.2,
+   "seconds": 1.5,
    "strategy": "stratum_focus",
    "verdict": "PASS"
   },
@@ -1299,12 +1299,12 @@
    },
    "observed": 0.4605678233438486,
    "p_value": 0.0,
-   "seconds": 6.4,
+   "seconds": 11.8,
    "strategy": "supervised_classifier",
    "verdict": "PASS"
   },
   "trait_regression": {
-   "effect": 0.7451903665489908,
+   "effect": 0.7292379206588524,
    "hidden": "20% of the measured fit_invitro_hff values",
    "metric": "rank correlation of predicted and hidden values",
    "min_effect": 0.1,
@@ -1315,11 +1315,11 @@
    "null_mean": 0.0,
    "null_sd": 0.026135418674465834,
    "numbers": {
-    "shuffled_refits": 0.014228697574443972
+    "shuffled_refits": 0.02535084512768847
    },
-   "observed": 0.7451903665489908,
-   "p_value": 4.080677478433674e-179,
-   "seconds": 4.0,
+   "observed": 0.7292379206588524,
+   "p_value": 1.2515061032550454e-171,
+   "seconds": 14.2,
    "strategy": "trait_regression",
    "verdict": "PASS"
   },
@@ -1346,7 +1346,7 @@
    },
    "observed": 0.5385852090032154,
    "p_value": 0.16666666666666666,
-   "seconds": 25.1,
+   "seconds": 56.5,
    "strategy": "triangulation",
    "verdict": "PASS"
   },
@@ -1373,7 +1373,7 @@
    },
    "observed": 0.5278810408921933,
    "p_value": 0.16666666666666666,
-   "seconds": 22.3,
+   "seconds": 56.4,
    "strategy": "understudied_first",
    "verdict": "PASS"
   },
@@ -1391,7 +1391,7 @@
    "numbers": {},
    "observed": 0.5558576730991112,
    "p_value": 0.09090909090909091,
-   "seconds": 0.2,
+   "seconds": 0.3,
    "strategy": "unwritten_links",
    "verdict": "PASS"
   }

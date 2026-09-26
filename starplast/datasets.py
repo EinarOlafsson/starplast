@@ -1028,7 +1028,9 @@ REGISTRY = [
                  "row never took. Genome-scale on the protein side (5,052 groups, 3 + 3 "
                  "replicates); the RNA side is only the 3,113 genes of the paper's joint analysis, "
                  "a significance-filtered subset, so a missing RNA value is 'not reported' rather "
-                 "than 'unchanged'. Iron-sulfur proteins fall furthest, as they must. Despite the "
+                 "than 'unchanged'. The paper's 61 iron-sulfur proteins shift down on balance "
+                 "(median -0.04 against +0.02; 12 of the 16 that change significantly fall), a "
+                 "modest effect. Despite the "
                  "title there is NO ribosome profiling in this paper -- translation is measured by "
                  "microscopy -- so it fills protein abundance under stress, not translation, and "
                  "the earlier reading of it as a translation dataset was wrong."),
@@ -1048,9 +1050,9 @@ REGISTRY = [
             note="Baits anchored in each outer membrane with their tail in the cytosol, so this is "
                  "the OUTSIDE of an organelle -- a different question from hyperLOPIT, which says "
                  "which organelle a protein is in. Checked against it anyway: stringent "
-                 "mitochondrial hits are mitochondrial at odds 30 and ER hits ER at 11.7, but the "
-                 "apicoplast bait reaches only 2.5 (p = 0.05) and its hits are mostly ER and "
-                 "nuclear, so that arm is recorded as proximity and not as a location. A protein a "
+                 "mitochondrial hits are mitochondrial at odds 13.8 and ER hits ER at 7.6, but the "
+                 "apicoplast bait shows no enrichment for apicoplast proteins (odds 1.2, p = 0.8), "
+                 "so that arm is recorded as proximity and not as a location. A protein a "
                  "bait never detected keeps a MISSING flag, not a zero: that bait did not test it. "
                  "One accession in the deposit is a backtick, repaired from its product text only "
                  "because that text names exactly one gene. A preprint."),

@@ -16,10 +16,11 @@ Quirks that cost time once:
     The same paper the metabolome_iron row cites, whose proteome and RNA-seq that row never
     took. Genome-scale on the protein side (5,052 groups, 3 + 3 replicates); the RNA side is
     only the 3,113 genes of the paper's joint analysis, a significance-filtered subset, so a
-    missing RNA value is 'not reported' rather than 'unchanged'. Iron-sulfur proteins fall
-    furthest, as they must. Despite the title there is NO ribosome profiling in this paper --
-    translation is measured by microscopy -- so it fills protein abundance under stress, not
-    translation, and the earlier reading of it as a translation dataset was wrong.
+    missing RNA value is 'not reported' rather than 'unchanged'. The paper's 61 iron-sulfur
+    proteins shift down on balance (median -0.04 against +0.02; 12 of the 16 that change
+    significantly fall), a modest effect. Despite the title there is NO ribosome profiling in
+    this paper -- translation is measured by microscopy -- so it fills protein abundance under
+    stress, not translation, and the earlier reading of it as a translation dataset was wrong.
 
 Fetches the source, reads it, resolves its accessions to current ToxoDB ME49, and reports the
 coverage that resolution achieves. The shipped columns are assembled by

@@ -47,7 +47,7 @@ wins and the halves are used only where nothing else reaches that gene.
 Twenty-one deposits derive into the tables through `starplast/deposits.py`, each with the
 computation between the file and the column written down, and each re-derived by
 `notebooks/derive_deposits_2026_09.ipynb`. Toxoplasma went from 402 to 438 columns, Plasmodium from
-123 to 127, the host table from 34,630 to 36,579 proteins, and slot coverage from 156/204 to 173/219
+123 to 146, the host table from 34,630 to 36,579 proteins, and slot coverage from 156/204 to 169/215
 genes-unit slots.
 
 The additions worth naming:
