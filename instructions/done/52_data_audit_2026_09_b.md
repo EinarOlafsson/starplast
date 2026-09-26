@@ -64,9 +64,10 @@ Three things about the search route worth keeping:
 
 ## What was added
 
-Six deposits, 22 columns, all Plasmodium. `starplast/deposits.py` derives each one and
-`notebooks/derive_deposits_2026_09.ipynb` (sections 13–19) re-derives every number below from the
-raw file. The table goes from **146 to 168 columns**, and slot coverage from **169/215 to 180/221**
+Six datasets, 22 columns, all Plasmodium -- seven deposit entries, because the spatial proteome's
+variation table is registered separately from its localization. `starplast/deposits.py` derives
+each one and `notebooks/derive_deposits_2026_09.ipynb` (sections 13-19) re-derives every number
+below from the raw file. The table goes from **146 to 168 columns**, and slot coverage from **169/215 to 180/221**
 genes-unit slots: five slots that were empty are answered, and six new ones exist because the
 catalogue could not express what these datasets measure.
 
