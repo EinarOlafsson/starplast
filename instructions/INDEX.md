@@ -51,6 +51,7 @@ One file per task. This index is the status table; the files carry the reasoning
 | 49 | A Strategies tab: 32 ways to infer something, each testing itself |
 | 50 | The September 2026 data audit: a wrong citation, 21 deposits, two leaks closed |
 | 51 | How good each strategy is: calibration over settings, targets and seeds |
+| 52 | The second September 2026 data audit: six Plasmodium deposits, five refusals |
 
 ## Open
 
