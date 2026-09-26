@@ -18,13 +18,17 @@ Quirks that cost time once:
     The COUNTS are of coding variants per gene and their top is AP2-G (13 compounds) and PfEMP1,
     genes that mutate under prolonged culture whatever the drug, so a count is not a claim of
     resistance. `resistance_target_compounds` is the paper's own classification, restricted to
-    the two classes its hypergeometric test supports, and its top is the canonical set: PfATP4 5
-    compounds, the prodrug-activating esterase 4, CARL 3, cytochrome b 3, then PfCRT, PfMDR1,
-    PI4K beta and DHFR-TS. A gene with no selected mutation gets NO value rather than a zero --
-    118 compounds are not a test of the other 4,600 genes -- which is the opposite of the choice
-    made for the R-DeeP flag, where the run did quantify every protein it reports. The Pf6
-    columns are field variation over 5,970 isolates, with the deposit's -1 for 'not computable'
-    read as missing.
+    the two classes its hypergeometric test supports, and its top is the canonical set: PfATP4
+    and PfMDR1 at 5 compounds each, the prodrug-activating esterase at 4, then cytochrome b,
+    CARL, PI4K beta and the Niemann-Pick C1-related protein at 3, with DHODH, PfCRT, the tRNA
+    ligases and DHFR-TS behind them. Cytochrome b is in the deposit under the pre-2010 name
+    `mal_mito_3` and matches no accession pattern: it is mapped on the deposit's own description
+    naming exactly one product in the shipped table, because dropping it would lose the
+    atovaquone gene and its 32 selected clones. A gene with no selected mutation gets NO value
+    rather than a zero -- 118 compounds are not a test of the other 4,600 genes -- which is the
+    opposite of the choice made for the R-DeeP flag, where the run did quantify every protein it
+    reports. The Pf6 columns are field variation over 5,970 isolates, with the deposit's -1 for
+    'not computable' read as missing.
 
 Fetches the source, reads it, resolves its accessions to current ToxoDB ME49, and reports the
 coverage that resolution achieves. The shipped columns are assembled by
