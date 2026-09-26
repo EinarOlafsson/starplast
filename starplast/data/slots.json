@@ -7661,7 +7661,9 @@
     "axis": "protein abundance",
     "context": "asexual blood stage",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "proteome_blood_log2"
+    ],
     "policy": "fill",
     "candidates": [
       [
@@ -8452,7 +8454,10 @@
     "axis": "protein abundance",
     "context": "iron depletion, 24 h",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "hsp90_inhibition_ga_log2fc",
+      "hsp90_inhibition_xl_log2fc"
+    ],
     "policy": "separate",
     "candidates": [],
     "evidence_path": [
@@ -9285,7 +9290,9 @@
     "axis": "regulation",
     "context": "asexual blood stage",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "mrna_decay_rate_4tu"
+    ],
     "policy": "separate",
     "candidates": [
       [
@@ -10888,7 +10895,12 @@
     "axis": "chemistry",
     "context": "in vitro evolution",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "resistance_target_compounds",
+      "resistance_selection_clones",
+      "resistance_selection_compounds",
+      "resistance_selection_variants"
+    ],
     "policy": "separate",
     "candidates": [
       [
@@ -12513,7 +12525,12 @@
     "axis": "sequence",
     "context": "clinical isolates",
     "unit": "gene",
-    "patterns": [],
+    "patterns": [
+      "field_pnps_adj",
+      "field_variant_fraction",
+      "pf6_field_dnds",
+      "pf6_field_nonsyn_snvs"
+    ],
     "policy": "one",
     "candidates": [
       [
@@ -12577,6 +12594,250 @@
       "sequence"
     ],
     "target_family": "field_variation_and_resistance_markers",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "localization · schizont",
+    "axis": "localization",
+    "context": "late schizont, hyperLOPIT",
+    "unit": "gene",
+    "patterns": [
+      "lopit_pf_location",
+      "lopit_pf_svm_score"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "42218142",
+        "PXD056300",
+        "hyperLOPIT over 3,000 schizont proteins, 24 niches"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "spatial biology",
+      "localization",
+      "schizont"
+    ],
+    "biology_path": [
+      "cell organization",
+      "localization and topology",
+      "schizont",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "schizont",
+      "localization"
+    ],
+    "target_family": "localization_schizont",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "chaperone dependence",
+    "axis": "protein abundance",
+    "context": "Hsp90 inhibition, two scaffolds",
+    "unit": "gene",
+    "patterns": [
+      "hsp90_dependent"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "",
+        "PXD079493",
+        "geldanamycin and XL888 chemoproteomics, 131 dependent proteins"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "protein abundance"
+    ],
+    "target_family": "chaperone_dependence",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "RNA dependence of complexes",
+    "axis": "relation",
+    "context": "sucrose gradient with and without RNase",
+    "unit": "gene",
+    "patterns": [
+      "rna_dependent",
+      "rna_dependence_qvalue"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "38355719",
+        "MSV000093488",
+        "R-DeeP: 898 RNA-dependent proteins of 3,671 quantified"
+      ]
+    ],
+    "evidence_path": [
+      "relational measurements",
+      "gene-gene",
+      "association or interaction",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "molecular relationships",
+      "parasite-parasite",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "relation"
+    ],
+    "target_family": "rna_dependence_of_complexes",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "transcription rate · asexual blood stage",
+    "axis": "transcription",
+    "context": "4-thiouracil labelling, hourly",
+    "unit": "gene",
+    "patterns": [
+      "transcription_rate_4tu"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "29985403",
+        "GSE114621",
+        "nascent transcription rate at every hour of the cycle"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "RNA",
+      "transcript abundance",
+      "asexual blood stage"
+    ],
+    "biology_path": [
+      "gene expression",
+      "RNA abundance",
+      "asexual blood stage",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "asexual blood stage",
+      "transcription"
+    ],
+    "target_family": "transcription_rate_asexual_blood_stage",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "protein abundance · sexually committed",
+    "axis": "protein abundance",
+    "context": "MSRP1-sorted committed parasites",
+    "unit": "gene",
+    "patterns": [
+      "committed_vs_asexual_log2fc",
+      "committed_vs_asexual_fdr"
+    ],
+    "policy": "one",
+    "candidates": [
+      [
+        "41482054",
+        "PXD059118",
+        "proteome of committed parasites against their asexual siblings"
+      ]
+    ],
+    "evidence_path": [
+      "molecular measurements",
+      "protein",
+      "abundance",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "gene expression",
+      "protein abundance",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "protein abundance"
+    ],
+    "target_family": "protein_abundance_sexually_committed",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Pf",
+    "name": "between-species selection (dN/dS)",
+    "axis": "sequence",
+    "context": "Laverania and Plasmodium orthologs",
+    "unit": "gene",
+    "patterns": [
+      "dnds_laverania",
+      "dnds_plasmodium"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42218142",
+        "Nat Commun Supplementary Data 3",
+        "dN/dS per gene over two ortholog sets"
+      ]
+    ],
+    "evidence_path": [
+      "intrinsic and reference",
+      "sequence and evolution",
+      "gene attributes",
+      "stage-unspecified"
+    ],
+    "biology_path": [
+      "intrinsic properties",
+      "sequence structure and evolution",
+      "stage-unspecified",
+      "unperturbed"
+    ],
+    "context_path": [
+      "in vitro or assay-defined",
+      "no host",
+      "tissue-unspecified",
+      "stage-unspecified",
+      "sequence"
+    ],
+    "target_family": "between_species_selection_dn_ds",
     "target_columns": [],
     "role": "feature"
   },
