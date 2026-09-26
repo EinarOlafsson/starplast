@@ -325,9 +325,15 @@ def test_the_compositional_proteome_is_a_share_and_never_an_abundance():
     It used to assert that NOTHING claimed these columns, which was right while they had no slot and
     wrong afterwards: a column no slot claims can never be held out or audited, and the slot tree's
     orphan alarm found these three sitting unclaimed. They now have a slot that says `share` in its
-    name, and the rule that matters is the narrower one -- the ABUNDANCE slot must still be empty,
-    because row sums are constant and the stages anti-correlate, so these say what fraction of a
-    protein's signal falls in each stage rather than how much of it there is.
+    name, and the rule that matters is the narrower one: no abundance slot may be answered by a
+    share.
+
+    The blood-stage abundance slot stayed EMPTY for as long as the compositional proteome was the
+    only candidate, and on 2026-09-26 it was answered by a real abundance -- the DMSO arm of the
+    Hsp90 chemoproteomics. So the assertion is no longer "that slot is empty" but the property that
+    made it empty, checked on the shipped table: a share's three values sum to a constant per
+    protein, and an abundance's do not. Written as a measurement rather than as a list of approved
+    column names, because the next abundance to arrive should pass this test without editing it.
     """
     import importlib.util
     spec = importlib.util.spec_from_file_location(
@@ -337,22 +343,28 @@ def test_the_compositional_proteome_is_a_share_and_never_an_abundance():
     claimants = [slot for slot, patterns in gst.PF_PATTERNS.items()
                  for p in patterns if p.startswith("protein_stage_share")]
     assert claimants == ["protein stage share"], claimants
-    for slot, patterns in gst.PF_PATTERNS.items():
-        if slot.startswith("protein abundance"):
-            assert not patterns, f"{slot} must stay empty until a true abundance arrives"
     from starplast import slots as S
     abundance = [s for s in S.all_slots("Pf") if s.name.startswith("protein abundance")]
     assert abundance, "the abundance slots vanished rather than staying empty"
-    # A true abundance has now arrived for one stage -- label-free quantification of the stage V
-    # gametocyte, replicates at about 0.99 -- and it is exactly what this test was waiting for. The
-    # rule that must hold is still the one above: no SHARE column in an abundance slot, and nothing
-    # in the blood-stage abundance slot, which the compositional proteome was nearly given.
-    true_abundance = {"gametocyte_proteome_log2"}
+    nodes = pd.read_parquet(os.path.join(ROOT, "starplast", "data", P.TABLE))
+    share = [c for c in nodes.columns if c.startswith("protein_stage_share")]
+    measured = nodes[share].dropna(how="any")          # a protein the TMT run never saw sums to 0
+    total = measured.sum(axis=1)
+    assert total.std() / total.mean() < 0.05, "the share columns no longer sum to a constant"
     for slot in abundance:
         assert not any(p.startswith("protein_stage_share") for p in slot.patterns), slot.name
-        assert set(slot.patterns) <= true_abundance, f"{slot.name} claims {slot.patterns}"
-    blood = [s for s in abundance if "asexual" in s.name or "blood" in s.name]
-    assert all(not s.patterns for s in blood), [s.patterns for s in blood]
+        columns = [c for c in slot.patterns if c in nodes.columns]
+        rows = nodes[columns].dropna(how="any") if len(columns) > 1 else None
+        if rows is not None and len(rows) > 50:
+            sums = rows.sum(axis=1)
+            assert sums.std() / max(abs(sums.mean()), 1e-9) > 0.05, \
+                f"{slot.name}: its columns sum to a constant, so they are shares"
+        # A level -- as opposed to a contrast or an FDR -- has to span orders of magnitude.
+        for column in columns:
+            if column.endswith(("_fdr", "_padj")) or "log2fc" in column:
+                continue
+            values = nodes[column].dropna()
+            assert values.max() - values.min() > 4, f"{slot.name}: {column} looks compositional"
 
 
 # --------------------------------------------------------------------------- export prediction
