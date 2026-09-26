@@ -28,6 +28,9 @@ os.environ.setdefault("PYQTGRAPH_QT_LIB", "PyQt6")
 from PyQt6 import QtCore, QtGui, QtWidgets  # noqa: E402
 
 from . import theme as TH  # noqa: E402
+from . import glass  # noqa: E402
+from . import help_index  # noqa: E402
+from . import help_search  # noqa: E402
 import pyqtgraph as pg  # noqa: E402
 import pyqtgraph.opengl as gl  # noqa: E402
 
@@ -112,6 +115,42 @@ DISPLAY_HELP = {
     "Full screen": "Use the whole monitor. Turn this off to restore a movable window with its title bar.",
     "Fade with distance": "Fade distant genes for depth. Turn this off when comparing the exact colours of points.",
     "Reference grid": "Show a plane below the map to make rotation easier to follow. Its spacing has no biological unit.",
+}
+
+#: What each colouring says. The menu item names the quantity; this says where it comes from and
+#: what grey means, which is the part a reader needs before trusting a colour.
+COLOR_MODE_HELP = {
+    "compartment": "Colour each gene by the category chosen in the find panel, compartment by "
+                   "default. Grey means unassigned or not measured, never a class of its own.",
+    "compartment (incl. transferred)": "Compartments including labels transferred from orthologs "
+                                       "in another species. Inferences, offered for coverage and "
+                                       "kept apart from measured labels.",
+    "clusters": "Colour by the clustering from the analysis panel. Genes left unclustered, and "
+                "every gene before a clustering exists, stay grey.",
+    "in vitro fitness": "Fitness in fibroblasts from the genome-wide CRISPR screen, on a sequential "
+                        "colour map. Genes the screen did not measure are grey.",
+    "publications": "How much has been published about each gene, on a log scale. Attention, not "
+                    "importance: a colour to read beside the others.",
+    "depth of attention": "Whether papers are about the gene, discuss it, or only mention it in "
+                          "passing. Categories, not a scale; never-named genes are grey.",
+    "structure confidence (pLDDT)": "Mean AlphaFold confidence of the predicted structure. Low "
+                                    "values often mark disordered regions, not bad data.",
+    "cyst / tachyzoite expression": "Expression in the cyst stage minus the tachyzoite stage, on a "
+                                    "diverging map. Grey where either stage is missing.",
+    "annotations": "Genes with a saved annotation in their own colour; everything else grey, "
+                   "meaning nobody has proposed anything for it.",
+}
+
+#: The panels the Tools menu shows and hides, and what each is for.
+PANEL_HELP = {
+    "console": "Show the console: everything the program printed, including errors from jobs.",
+    "jobs": "Show the jobs panel: every job this session, with stop buttons and memory use.",
+    "assistant": "Show the assistant, which answers questions about the map on screen.",
+    "analysis": "Show the analysis panel: data, maps, clusters, inference, search and validation.",
+    "strategies": "Show the Strategies tab: named ways of inferring something, each self-testing.",
+    "gallery": "Show the gallery of maps a walk or search built. Click one to display it.",
+    "evidence": "Show the evidence panel for the selected gene, with links to source records.",
+    "find": "Show the find panel: gene search, colour-by and the class filter.",
 }
 
 EDGE_EXPLANATION = (
@@ -787,6 +826,9 @@ class Window(QtWidgets.QMainWindow):
     def __init__(self, species: str = None):
         """Load one organism and construct its map, evidence docks, menus, and analysis panel."""
         super().__init__()
+        # Before any menu, tooltip or drop-down list is polished: the style gives each one its
+        # alpha channel at that moment, and a popup polished before it exists stays square and grey.
+        glass.install()
         self.theme = 'dark'
         self.point_style = TH.DEFAULT_POINT_STYLE
         self.point_mode = 'occlude'
@@ -1098,6 +1140,7 @@ class Window(QtWidgets.QMainWindow):
         buttons.rejected.connect(d.reject)
         lay.addWidget(buttons)
         d.resize(760, 560)
+        glass.dress(d)
         return d
 
     def _reload_import_sheet(self, dialog, sheet: str):
@@ -1261,12 +1304,25 @@ class Window(QtWidgets.QMainWindow):
             return TH.CMAPS[self.cmap_name][1]
         return TH.DEFAULT_CMAP[kind]
 
+    def stylesheet(self) -> str:
+        """The application stylesheet for the current theme, panel opacity, text size and display.
+
+        One place, because three settings rebuild it and each used to spell the call out: whether
+        the display composites decides whether menus and tooltips are translucent black glass or
+        the same colour made opaque (see `starplast.glass`).
+        """
+        return TH.stylesheet(self.theme, self._container_opacity, self._ui_scale,
+                             translucent=glass.compositing_available())
+
     def apply_theme(self, name: str):
         """Repaint everything from the palette -- widgets, GL background, and the compartment colors."""
         self.theme = name
         app = QtWidgets.QApplication.instance()
         if app is not None:
-            app.setStyleSheet(TH.stylesheet(name, self._container_opacity, self._ui_scale))
+            # Read by the painted parts -- glass cards, search rows -- which draw with QPainter
+            # rather than through the stylesheet and so need to know which palette is in force.
+            app.setProperty("starplastTheme", name)
+            app.setStyleSheet(self.stylesheet())
         self.view.setBackgroundColor(pg.mkColor(TH.palette_for(name)["bg"]))
         # Recolor the classes for this ground, then restore the deliberate grey for "unknown".
         self.color_of = dict(zip(self.comps,
@@ -1374,6 +1430,7 @@ class Window(QtWidgets.QMainWindow):
         if not hasattr(self, 'workflows_dialog'):
             self.workflows_dialog = WorkflowDialog(self.nodes, runner=self.jobs, parent=self)
             self.workflows_dialog.gene_selected.connect(self._workflow_gene)
+            glass.dress(self.workflows_dialog)
         self.workflows_dialog.tabs.setCurrentIndex(tab)
         self.workflows_dialog.show()
         self.workflows_dialog.raise_()
@@ -1473,16 +1530,32 @@ class Window(QtWidgets.QMainWindow):
 
     # ------------------------------------------------------------------ menus
     def _menus(self):
-        """Every setting, in the menu bar. The panel keeps only what is used continuously."""
+        """Every setting, in the menu bar. The panel keeps only what is used continuously.
+
+        Formatted like spaCR's: a flat bar whose words light up when pointed at, rounded glass menus
+        with rounded item pills, and a search field directly to the right of Help. Every command
+        carries a tooltip and a status tip, which is what the search matches on as well as what the
+        status bar says while a command is pointed at.
+        """
         mb = self.menuBar()
+        if sys.platform == "darwin":
+            # The native macOS bar draws no widgets of its own, and the search lives in this one.
+            mb.setNativeMenuBar(False)
 
         # ---- File
         f = mb.addMenu("&File")
         a = f.addAction("Export image…")
         a.setShortcut("Ctrl+E")
+        a.setToolTip("Save the map as it is on screen, as a PNG the size of the view.")
         a.triggered.connect(self.export_image)
-        f.addAction("Export visible genes (CSV)…").triggered.connect(self.export_visible)
-        f.addAction("Export gated selection (CSV)…").triggered.connect(self.export_gated)
+        a = f.addAction("Export visible genes (CSV)…")
+        a.setToolTip("Write every gene passing the current filter, with its map coordinates and "
+                     "the columns you choose to carry along.")
+        a.triggered.connect(self.export_visible)
+        a = f.addAction("Export gated selection (CSV)…")
+        a.setToolTip("Write the genes inside the gate you drew, with their coordinates. Draw a "
+                     "gate by setting the left mouse button to Select in the View menu.")
+        a.triggered.connect(self.export_gated)
         a = f.addAction("Import data…")
         a.setShortcut("Ctrl+I")
         a.setToolTip("Read your own table -- CSV, TSV, Excel or parquet -- resolve its identifiers "
@@ -1497,6 +1570,7 @@ class Window(QtWidgets.QMainWindow):
         # much larger change than opening the arm someone asked for.
         species = f.addMenu("Species")
         species.setToolTipsVisible(True)
+        species.menuAction().setToolTip("Open the map of another parasite, in a window of its own.")
         self.species_group = QtGui.QActionGroup(self)
         for name in available_species():
             act = species.addAction(name)
@@ -1513,6 +1587,8 @@ class Window(QtWidgets.QMainWindow):
         a = f.addAction("Preferences…")
         a.setShortcut("Ctrl+,")
         a.setMenuRole(QtWidgets.QMenu.__mro__ and QtGui.QAction.MenuRole.PreferencesRole)
+        a.setToolTip("Theme, colour map, points, lighting, background, text size, window size and "
+                     "logging, in a window that stays open beside the map while you change them.")
         a.triggered.connect(self.open_preferences)
         f.addSeparator()
         # Results are the expensive thing this program produces -- a search is minutes to hours --
@@ -1526,31 +1602,45 @@ class Window(QtWidgets.QMainWindow):
                      "clickable as a computed one: it carries the recipe that rebuilds its map.")
         a.triggered.connect(lambda: self.panel.load_all_results()
                             if hasattr(self, "panel") else None)
-        f.addAction("Export relationships (CSV)…").triggered.connect(self.export_relationships)
-        f.addAction("Export graph (GraphML)…").triggered.connect(self.export_graphml)
+        a = f.addAction("Export relationships (CSV)…")
+        a.setToolTip("Every active edge between two visible genes, one row per edge, with its edge "
+                     "type kept as a column and never merged -- for a spreadsheet.")
+        a.triggered.connect(self.export_relationships)
+        a = f.addAction("Export graph (GraphML)…")
+        a.setToolTip("The active edge types over the visible genes as GraphML, for Cytoscape or "
+                     "networkx; each edge keeps its type as an attribute.")
+        a.triggered.connect(self.export_graphml)
         f.addSeparator()
         q = f.addAction("Quit")
         q.setShortcut("Ctrl+Q")
+        q.setToolTip("Close this window and quit Starplast.")
         q.triggered.connect(self.close)
 
         # ---- View
         v = mb.addMenu("&View")
         col = v.addMenu("Color by")
+        col.menuAction().setToolTip("What colour means on the map. Each choice is a different "
+                                    "claim about the data; grey always means unknown.")
         self.color_group = QtGui.QActionGroup(self)
         for name in COLOR_MODES:
             act = col.addAction(name)
             act.setCheckable(True)
             act.setChecked(name == self.color_mode)
+            act.setToolTip(COLOR_MODE_HELP.get(name, ""))
             self.color_group.addAction(act)
             act.triggered.connect(lambda _c, n=name: self.set_color_mode(n))
 
         ps = v.addMenu("Point size")
+        ps.menuAction().setToolTip("How large each gene is drawn, in pixels. Automatic follows the "
+                                   "point style chosen in Preferences.")
         self.size_group = QtGui.QActionGroup(self)
         for label, val in POINT_SIZES:
             act = ps.addAction(label)
             act.setCheckable(True)
             act.setChecked(val == DEFAULT_POINT_SIZE)
             act.setData(val)
+            act.setToolTip("Follow the point style's own size." if val is None else
+                           f"Draw every gene {val:g} pixels across, whatever the point style says.")
             self.size_group.addAction(act)
             act.triggered.connect(lambda _c, s=val: self.set_point_size(s))
 
@@ -1610,7 +1700,9 @@ class Window(QtWidgets.QMainWindow):
             "Spin while something is running and stop where it started, so the motion says 'working' "
             "without also moving the camera you had set up.")
         v.addSeparator()
-        v.addAction("Reset view / clear filters").triggered.connect(self.reset)
+        a = v.addAction("Reset view / clear filters")
+        a.setToolTip("Clear the selection and every class filter, and frame the whole map again.")
+        a.triggered.connect(self.reset)
 
         # ---- Edges
         self.edge_menu = mb.addMenu("&Edges")
@@ -1644,7 +1736,10 @@ class Window(QtWidgets.QMainWindow):
             "Corrected shows log2 observed/expected given each gene's own publication count.")
         self.attn_act.toggled.connect(lambda on: (setattr(self, "attn_on", on), self.redraw()))
         self.edge_menu.addSeparator()
-        self.edge_menu.addAction("Why are these never combined?").triggered.connect(self.explain_edges)
+        a = self.edge_menu.addAction("Why are these never combined?")
+        a.setToolTip("Why a crosslink, a co-mention and a correlation stay separate layers rather "
+                     "than one 'interaction' score.")
+        a.triggered.connect(self.explain_edges)
 
         # ---- Tools
         t = mb.addMenu("&Tools")
@@ -1666,33 +1761,133 @@ class Window(QtWidgets.QMainWindow):
             "clean catalog while the build sees a broken one, and it shows BOTH arms whichever one "
             "this window is displaying.")
         self.slot_tree_act.toggled.connect(self.toggle_slot_tree)
+        # Found by the search, it is OPENED rather than toggled: a search that closes the window it
+        # was asked for, because it happened to be open already, does the opposite of what was asked.
+        self.slot_tree_act.setProperty("helpSearchOpens", True)
         t.addSeparator()
         for dock in (self.console_dock, self.jobs_dock, self.chat_dock,
                      getattr(self, "analysis_dock", None), getattr(self, "strategies_dock", None),
                      getattr(self, "gallery_dock", None), self.right_dock):
             if dock is not None:
-                t.addAction(dock.toggleViewAction())
+                toggle = dock.toggleViewAction()
+                toggle.setToolTip(PANEL_HELP.get(dock.windowTitle(), toggle.text()))
+                t.addAction(toggle)
 
         # The same action in both menus, deliberately. It was asked for in Tools and found in View, and
         # one QAction in two places keeps a single tick rather than two that can disagree.
         v.addSeparator()
         v.addAction(self.slot_tree_act)
 
+        # ---- Help, grouped the way spaCR's is: finding things, then the documents, then the
+        # explanations, then About. The search field sits directly to the right of this menu.
         h = mb.addMenu("&Help")
-        h.setToolTipsVisible(True)
-        for label, page in (("User guide", "guide.html"), ("Python API", "API.html")):
-            action = h.addAction(label)
-            action.setToolTip("Open the Starplast documentation in your web browser. Requires an internet connection.")
-            action.triggered.connect(lambda _checked=False, target=page:
-                QtGui.QDesktopServices.openUrl(QtCore.QUrl("https://einarolafsson.github.io/starplast/" + target)))
+        self.search_act = h.addAction("Search Starplast…")
+        self.search_act.setShortcut(help_search.SHORTCUT)
+        self.search_act.setToolTip(
+            "Put the cursor in the search box beside this menu. It finds every menu command, panel, "
+            "strategy, setting, slot, dataset and page of the guide, and takes you to the one you "
+            "choose.")
+        self.search_act.triggered.connect(lambda: help_search.focus_field(self))
+        a = h.addAction("Keyboard shortcuts")
+        a.setToolTip("Every key Starplast binds, and the command it runs.")
+        a.triggered.connect(self.show_shortcuts)
         h.addSeparator()
-        h.addAction("What this map does and does not show").triggered.connect(self.explain_map)
-        h.addAction("Precision, recall, and how each can be gamed").triggered.connect(
-            self.explain_scoring)
+        for label, page, tip in (
+                ("User guide", "guide.html", "Open the user guide in your web browser."),
+                ("Python API", "API.html", "Open the reference for every public module and "
+                                           "function in your web browser."),
+                ("Dataset catalogue", "datasets.html", "Every registered dataset: what it "
+                 "measures, its coverage, its publication and where to download it.")):
+            action = h.addAction(label)
+            action.setToolTip(f"{tip} Requires an internet connection.")
+            action.triggered.connect(lambda _checked=False, target=page:
+                QtGui.QDesktopServices.openUrl(QtCore.QUrl(help_index.SITE + target)))
+        a = h.addAction("Tutorials")
+        a.setToolTip("Step-by-step lessons, each as a walkthrough of this window and as a notebook "
+                     "doing the same from Python.")
+        a.triggered.connect(self.open_tutorials)
+        h.addSeparator()
+        a = h.addAction("What this map does and does not show")
+        a.setToolTip("What a position on the map represents, and what held-out testing says it "
+                     "does not support.")
+        a.triggered.connect(self.explain_map)
+        a = h.addAction("Precision, recall, and how each can be gamed")
+        a.setToolTip("How a clustering is scored against a known label, with the table showing how "
+                     "each score can be made perfect by a useless answer.")
+        a.triggered.connect(lambda: self.explain_scoring().show())
         h.addSeparator()
         a = h.addAction("About starplast")
         a.setMenuRole(QtGui.QAction.MenuRole.AboutRole)
+        a.setToolTip("The version running, the data it was built from, and whose work it rests on.")
         a.triggered.connect(self.about)
+        self._explain_menus()
+        help_search.install(self)
+
+    def _explain_menus(self):
+        """Give every menu command a status tip and a readable tooltip, and show tooltips in menus.
+
+        The status tip is the plain sentence the status bar shows while a command is pointed at --
+        spaCR's convention -- and what the search matches on. The tooltip is the same sentence
+        wrapped into a block, because Qt lays a plain tooltip out as one line wider than the screen.
+        """
+        def walk(menu):
+            """Explain every command in one menu and, depth first, in its submenus."""
+            menu.setToolTipsVisible(True)
+            for act in menu.actions():
+                if act.isSeparator():
+                    continue
+                tip = act.toolTip()
+                if tip and tip != act.text().replace("&", "") and "white-space:pre" not in tip:
+                    if not act.statusTip():
+                        act.setStatusTip(" ".join(tip.split()))
+                    act.setToolTip(TH.tip(tip))
+                if act.menu() is not None:
+                    walk(act.menu())
+        for top in self.menuBar().actions():
+            if top.menu() is not None:
+                walk(top.menu())
+
+    def open_tutorials(self):
+        """The tutorial index: from this checkout when there is one, otherwise the repository."""
+        local = os.path.join(help_index.DOCS_DIR, "tutorial", "index.html")
+        url = (QtCore.QUrl.fromLocalFile(local) if os.path.exists(local)
+               else QtCore.QUrl(help_index.REPO + "docs/tutorial/index.html"))
+        QtGui.QDesktopServices.openUrl(url)
+        return url
+
+    def shortcut_rows(self) -> list:
+        """Every keyboard shortcut in the menu bar, as (keys, menu path) rows."""
+        rows = []
+
+        def walk(menu, path):
+            """Collect the shortcut of every command in one menu and, depth first, its submenus."""
+            for act in menu.actions():
+                if act.isSeparator():
+                    continue
+                label = help_index.clean_label(act.text())
+                if act.menu() is not None:
+                    walk(act.menu(), path + [label])
+                elif not act.shortcut().isEmpty():
+                    rows.append((act.shortcut().toString(
+                        QtGui.QKeySequence.SequenceFormat.NativeText), " ▸ ".join(path + [label])))
+        for top in self.menuBar().actions():
+            if top.menu() is not None:
+                walk(top.menu(), [help_index.clean_label(top.text())])
+        seen, out = set(), []
+        for row in rows:
+            if row[0] not in seen:
+                seen.add(row[0])
+                out.append(row)
+        return out
+
+    def show_shortcuts(self):
+        """A glass window listing every key the menu bar binds."""
+        from html import escape
+        body = "<table cellspacing='0' cellpadding='5'>" + "".join(
+            f"<tr><td><b>{escape(k)}</b></td><td>{escape(p)}</td></tr>"
+            for k, p in self.shortcut_rows()) + "</table>"
+        self._shortcuts = glass.message(self, "Keyboard shortcuts", body, rich=True)
+        return self._shortcuts
 
     def _context_menu(self, pos):
         """Right-click on the map. Shows the menu; `build_context_menu` makes it."""
@@ -1847,17 +2042,25 @@ class Window(QtWidgets.QMainWindow):
         self.redraw()
 
     def explain_edges(self):
-        """Explain, in words, why relationship types are kept separate."""
-        QtWidgets.QMessageBox.information(self, "Why edge types are kept separate", EDGE_EXPLANATION)
+        """Explain, in words, why relationship types are kept separate.
+
+        In a glass window beside the map rather than a modal box: the explanation is about the layers
+        on screen, and a modal box froze them. Returns the window.
+        """
+        self._explanation = glass.message(self, "Why edge types are kept separate",
+                                          EDGE_EXPLANATION)
+        return self._explanation
 
     def explain_map(self):
         """Explain what the map is and what held-out testing says it does not support."""
-        QtWidgets.QMessageBox.information(self, "What this map shows", MAP_EXPLANATION)
+        self._explanation = glass.message(self, "What this map shows", MAP_EXPLANATION)
+        return self._explanation
 
     def about(self):
-        """What this is, what it is standing on, and who drew the cell."""
-        QtWidgets.QMessageBox.about(self, "About starplast", self.about_text())
-        return self.about_text()
+        """What this is, what it is standing on, and who drew the cell. Returns the text shown."""
+        text = self.about_text()
+        self._about = glass.message(self, "About starplast", text, rich=True)
+        return text
 
     def about_text(self) -> str:
         """The About text, built rather than written down, so it cannot go stale.
@@ -1904,6 +2107,7 @@ class Window(QtWidgets.QMainWindow):
         b.rejected.connect(d.reject)
         b.accepted.connect(d.accept)
         lay.addWidget(b)
+        glass.dress(d)
         return d
 
     # ------------------------------------------------------------------ interaction modes
@@ -2282,7 +2486,7 @@ class Window(QtWidgets.QMainWindow):
             # And the stylesheet, which carries font sizes of its own -- a stylesheet font-size
             # BEATS the application font, so without this the setting changed the font and the
             # sheet immediately overrode it on every widget. That is why it appeared to do nothing.
-            app.setStyleSheet(TH.stylesheet(self.theme, self._container_opacity, scale))
+            app.setStyleSheet(self.stylesheet())
             self.updateGeometry()
         return scale
 
@@ -2608,13 +2812,23 @@ class Window(QtWidgets.QMainWindow):
         one stays open beside the window, is moved independently of it, and changes take effect
         under it while it sits there.
         """
+        prefs = self.preferences_dialog()
+        prefs.show()
+        prefs.raise_()
+        prefs.activateWindow()
+        return prefs
+
+    def preferences_dialog(self):
+        """The one Preferences window, built on first use and dressed as glass, but not shown.
+
+        Split from `open_preferences` so the search can read the settings it holds -- to find
+        "spin speed" it has to know which tab the control is on -- without opening a window.
+        """
         if getattr(self, "_prefs", None) is None:
             self._prefs = self.build_preferences()
             self._prefs.setModal(False)
             self._prefs.setWindowFlag(QtCore.Qt.WindowType.Window, True)
-        self._prefs.show()
-        self._prefs.raise_()
-        self._prefs.activateWindow()
+            glass.dress(self._prefs)
         return self._prefs
 
     def toggle_slot_tree(self, on: bool):
@@ -2637,6 +2851,11 @@ class Window(QtWidgets.QMainWindow):
             # typed against what was on screen returned nothing.
             self._slot_tree = SlotTreeWindow(
                 organism=SPECIES[self.species]["code"], parent=self)
+            self._slot_tree.setWindowFlag(QtCore.Qt.WindowType.Window, True)
+            if glass.dress(self._slot_tree):
+                # Closing it from its own close mark unticks the menu item that opened it.
+                self._slot_tree._glass_chrome.close.clicked.connect(
+                    lambda: self.slot_tree_act.setChecked(False))
         self._slot_tree.show()
         self._slot_tree.raise_()
         return self._slot_tree
@@ -2749,6 +2968,7 @@ class Window(QtWidgets.QMainWindow):
         close = QtWidgets.QPushButton("close")
         close.clicked.connect(d.accept)
         lay.addWidget(close)
+        glass.dress(d)
         return d
 
     def build_preferences(self):
@@ -3962,6 +4182,7 @@ class Window(QtWidgets.QMainWindow):
         bb.rejected.connect(d.reject)
         L.addWidget(bb)
         d.column_list = lst          # so a caller can read the ticks without entering exec()
+        glass.dress(d)
         return d
 
     @staticmethod

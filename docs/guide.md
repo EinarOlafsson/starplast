@@ -4,6 +4,29 @@ Starplast opens a gene map and an evidence panel. Start with a gene or a table o
 screen results, then compare the relevant measurements. The bundled organism maps
 are separate: use **File → Species** to open the other organism.
 
+## Search Starplast
+
+The box directly to the right of the **Help** menu searches everything the program
+can do, as in spaCR. **Ctrl+Shift+H** (or **Help → Search Starplast…**) puts the
+cursor in it. Type a few letters and a list drops down; **Up**/**Down** choose a
+result, **Return** or a click goes to it, and **Esc** closes the list.
+
+| Result | Where it takes you |
+|---|---|
+| command | Carries out the menu command; a submenu opens where it sits in the menu bar |
+| panel | Shows the dock on the named tab, or opens Preferences, a guided workflow or the slot tree |
+| strategy | Raises the Strategies tab with that strategy selected and its Guide showing |
+| setting | Opens the analysis tab or Preferences page holding the control, scrolls to it and outlines it; a display choice such as **Theme: paper** is applied |
+| slot | Opens the slot tree on the slot's organism with the slot selected |
+| dataset | Shows what the dataset provides, its coverage, publication and source |
+| guide | Opens the page of this guide at the heading |
+| tutorial | Opens the tutorial in the browser at the section |
+
+Words are matched against names first and descriptions second, and every word
+must match, so a second word narrows the list. A method name finds every strategy
+that uses it ("hdbscan", "logistic"), and a misspelling close enough still matches.
+**Help → Keyboard shortcuts** lists every key the menus bind.
+
 ## Map controls
 
 | Control | Action |
@@ -87,10 +110,18 @@ verdicts, including the ones that fail on this data.
 
 ## Appearance and performance
 
-**View → Preferences** contains theme, colour maps, point rendering, lighting,
+**File → Preferences** contains theme, colour maps, point rendering, lighting,
 background, text size, window size, and logging. Hover over settings for guidance.
 For clearer figures, use neutral lighting and disable distance fading when
 comparing colours. Lighting and camera settings change presentation only.
+
+Menus, tooltips, drop-down lists and Starplast's own windows (Preferences, the
+guided workflows, the slot tree, explanations) are rounded panes of translucent
+black, or translucent white on a light theme, as in spaCR. These windows have no
+title bar: drag the background to move one, drag an edge to resize it, and close it
+with the **✕** in its corner (**Esc** also closes a dialog). On an X11 desktop without a compositor the
+same panes are drawn opaque near-black with their corners cut; set
+`STARPLAST_TRANSLUCENT=0` or `1` to override the check.
 
 CPU analysis is available by default. The GPU switch uses installed, available
 backends; it cannot install a driver. The GPU comparison tool benchmarks a small

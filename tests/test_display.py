@@ -461,13 +461,13 @@ def test_a_tick_with_the_lights_off_does_nothing(win):
     win._light_tick()
 
 
-def test_about_opens(win, monkeypatch):
-    from PyQt6 import QtWidgets
-    shown = []
-    monkeypatch.setattr(QtWidgets.QMessageBox, "about",
-                        staticmethod(lambda *a: shown.append(a[-1])))
+def test_about_opens(win):
+    """In a glass window beside the map now, not a modal box; the text shown is the text returned."""
     text = win.about()
-    assert shown and "starplast" in shown[0] and text == shown[0]
+    shown = win._about
+    assert shown.isVisible() and shown.windowTitle() == "About starplast"
+    assert "starplast" in shown.text and text == shown.text
+    shown.close()
 
 
 # --------------------------------------------------------------------------- the console, quiet
