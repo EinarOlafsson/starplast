@@ -372,12 +372,20 @@ def _read(*parts):
 def test_single_distribution_contains_code_and_optional_gpu():
     """A normal install must work without CUDA or a second Starplast project."""
     import tomllib
+    from pathlib import Path
     from starplast import __version__
     metadata = tomllib.loads(_read("pyproject.toml"))
     project = metadata["project"]
     assert project["name"] == "starplast"
     assert project["version"] == __version__
-    assert metadata["tool"]["setuptools"]["packages"] == ["starplast"]
+    # One distribution can contain several Python packages. Require every source subpackage
+    # so a wheel cannot silently omit the space builders, while excluding unrelated namespaces.
+    root = Path(__file__).resolve().parents[1]
+    expected = {".".join(p.parent.relative_to(root).parts)
+                for p in (root / "starplast").rglob("__init__.py")}
+    declared = metadata["tool"]["setuptools"]["packages"]
+    assert set(declared) == expected
+    assert len(declared) == len(expected)
     defaults = project["dependencies"]
     assert not any(r.lower().startswith(("cuml", "cupy", "starplast")) for r in defaults)
     cuda = project["optional-dependencies"]["gpu"]

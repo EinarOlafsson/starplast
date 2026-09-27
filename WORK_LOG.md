@@ -24,9 +24,13 @@ permitted component; do not bypass safeguards or repeatedly disguise the same re
 
 This file supports resuming work after interruption. It is not a background session watchdog.
 
-Remote Tests/Documentation jobs remained pending when last checked; newer commits superseded the
-older queued runs through the repository's concurrency policy. Local
-validation is recorded separately; queued CI is not reported as passed.
+After crash recovery, all commits through `05650fd` were present locally and on origin; the working
+tree was clean and 45 focused recovery checks passed. Documentation CI passed. Test CI completed
+with 4,138 passed, 42 skipped, 6 deselected and one failure: an obsolete packaging assertion required
+exactly `['starplast']`, excluding the intentional `starplast.spaces` subpackage. The test now
+requires every source package under the Starplast namespace in the single distribution. Recovery
+validation: all 50 publishing/release checks passed, alongside the 45 focused recovery checks.
+Follow-up remote CI is pending; a queued run is not a passing run.
 
 Next work: Hs/Mm source-specific gene-space builders, validated pack artifacts and their download
 catalogue, then the Space menu. The pack framework does not yet supply a published human/mouse

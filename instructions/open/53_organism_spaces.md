@@ -2,6 +2,12 @@
 
 **Status: open (designed 2026-09-26).**
 
+Crash recovery: all implementation commits through `05650fd` survived and were pushed. The 45
+focused recovery checks passed. Documentation CI passed; test CI had 4,138 passes and one stale
+packaging assertion that disallowed subpackages. The assertion now checks that every Starplast
+source package is included in the single distribution, including `starplast.spaces`.
+All 50 publishing/release checks pass with this correction. Follow-up remote CI remains pending.
+
 ### Continued implementation
 
 The user authorized sustained work on 2026-09-27, prioritizing token efficiency. See
