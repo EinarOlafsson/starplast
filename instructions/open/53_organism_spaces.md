@@ -16,6 +16,14 @@ sweep provenance and atomically replace the file. Corrupt existing files fail be
 Generated pages include all published spaces. Calibration/registry checks: 37 passed; shipped
 calibration values were not changed. Remaining WP8 strategy applicability work is still open.
 
+WP1 framework implemented: `packs.py` verifies complete ZIP manifests and SHA256 values, rejects
+unsafe members and unreviewed/local-only license codes, downloads with bounded size and timeout,
+and activates immutable versions atomically. `spaces.build_pack` and `scripts/build_space.py`
+validate canonical unique IDs, graph order/indices and per-cell preservation against the previous
+table. Registry paths resolve active packs without downloading or silently falling back. CLI and
+usage are in `docs/space-packs.md`. 380 relevant checks passed and a clean 53.4 MB wheel includes
+the new subpackage. Source-specific builders, acquisition and published download URLs remain open.
+
 ### Implementation pass, 2026-09-27
 
 R3 implemented and validated with the baseline test failures recorded below. All 161 datasets now declare their organism;

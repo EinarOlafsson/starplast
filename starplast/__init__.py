@@ -15,7 +15,7 @@ __version__ = "0.46.0"
 
 #: Submodules reachable as attributes of the package, imported when first touched.
 _LAZY = ("strategies", "scorecard", "techniques", "calibration", "graphspace", "deposits",
-         "datasets", "slots", "paths", "search", "leakage")
+         "datasets", "slots", "paths", "search", "leakage", "organisms", "packs", "spaces")
 
 
 def __getattr__(name: str):

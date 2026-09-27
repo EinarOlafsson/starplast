@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add versioned data packs with SHA256 manifests, per-column license declarations, checked HTTPS
+  downloads and atomic activation. A shared space builder refuses lost identifiers, columns or
+  measured cells and validates graph order and indices. Pack paths resolve from the user's cache;
+  organism builders and published download URLs remain pending.
+
 - Publishing a calibration sweep now merges by organism and strategy, preserving unswept results
   and their original provenance. Writes are atomic; malformed existing files are refused. Generated
   calibration pages include every published space and distinguish the latest sweep from older results.

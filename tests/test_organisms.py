@@ -103,7 +103,7 @@ def test_record_links_name_the_gene():
 ORGANISM_LITERALS = {
     "scripts/add_deposits.py": 3,
     "scripts/build_tutorials.py": 5,
-    "scripts/calibrate_strategies.py": 11,
+    "scripts/calibrate_strategies.py": 5,
     "scripts/fetch_candidates.py": 4,
     "scripts/fit_meltome.py": 1,
     "scripts/generate_slot_table.py": 24,

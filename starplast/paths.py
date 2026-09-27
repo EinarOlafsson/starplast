@@ -97,6 +97,23 @@ def cache_file(name: str) -> str:
     return os.path.join(data_dir(), name)
 
 
+def space_file(space, name: str) -> str:
+    """Resolve a wheel file or the active downloaded pack, never falling back across species."""
+    from . import packs
+    packs._filename(name)
+    if space.distribution == "wheel":
+        return cache_file(name)
+    if space.distribution != "pack":
+        raise ValueError(f"unknown space distribution: {space.distribution}")
+    installed = packs.installed(space.code)
+    if installed is None:
+        raise FileNotFoundError(f"{space.species} has no installed data pack")
+    path = installed / name
+    if not path.is_file():
+        raise FileNotFoundError(f"{space.species} pack has no {name}")
+    return str(path)
+
+
 REQUIRED = ("nodes.parquet", "graph.npz", "toxodb_identity.tsv")
 
 

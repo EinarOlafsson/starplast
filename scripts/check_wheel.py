@@ -28,7 +28,8 @@ def check_wheel(path: Path) -> None:
                     "starplast/data/esm_manifest.parquet", "starplast/data/pf_mentions.parquet",
                     "starplast/data/hs_host_proteins.parquet",
                     "starplast/data/mm_host_proteins.parquet",
-                    "starplast/data/host_species_migration.json"}
+                    "starplast/data/host_species_migration.json", "starplast/packs.py",
+                    "starplast/spaces/__init__.py"}
         missing = required - names
         if missing:
             raise ValueError(f"Incomplete wheel: {sorted(missing)}")

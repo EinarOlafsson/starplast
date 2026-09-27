@@ -13,6 +13,11 @@ are unaffected was disproved in `notebooks/pf_layout_dependency_2026_09_27.ipynb
 the affected calibration before adopting those groupings. Full host gene spaces and the Space menu
 are still pending.
 
+**Continued work:** partial calibration publishing now preserves unswept species/strategies and
+their provenance. The versioned pack framework and guarded build/install commands are implemented;
+see `docs/space-packs.md` and `WORK_LOG.md`. Published packs and organism-specific builders remain
+pending. The user has authorized continued implementation and asked for token efficiency.
+
 ---
 
 ## 1. Where things stand
@@ -178,7 +183,7 @@ the acceptance tests.
 |---|---|---|
 | 1 | **R3 implemented**: separate Hs/Mm protein tables and explicit dataset/deposit organisms | All 36,579 identifiers and measurements retained; see instruction 53 for validation. |
 | 2 | **Pf map from all eligible columns** | The shipped Pf layout uses 20 columns. Build blocks per space and regenerate the layout. This also changes strategy grouping through the shared default builder: audit and refresh calibration, or explicitly separate display and inference recipes. |
-| 3 | Space packs: download human, mouse and others on demand | The wheel is 53.4 MB (PyPI's limit is 100 MB). The plan is in 53 (WP1). |
+| 3 | Space packs: framework implemented; build and publish organism packs next | Hash-checked build/install/download commands are in `docs/space-packs.md`; wheel is 53.4 MB. |
 | 4 | Build the **Hs and Mm spaces** from the downloaded data | WP3. The data is at `<STARPLAST_DATA>/spaces/Hs`, `/Mm`, each with a `MANIFEST.json`. |
 | 5 | UI: a Space menu (parasites / hosts / vectors), with a download for spaces not installed | WP9 |
 | ► | **0.47.0** | Registry complete, Pf map fixed, Hs and Mm spaces |

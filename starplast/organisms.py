@@ -105,8 +105,13 @@ def get(code: str) -> Space:
 
 def codes(kind: str | None = None, available: bool = False) -> list:
     """Space codes in registry order, optionally of one kind or only those whose table is present."""
+    def present(code):
+        try:
+            return os.path.exists(nodes_path(code))
+        except FileNotFoundError:
+            return False
     return [c for c, s in SPACES.items() if (kind is None or s.kind == kind)
-            and (not available or os.path.exists(nodes_path(c)))]
+            and (not available or present(c))]
 
 
 def by_species(name: str) -> Space:
@@ -120,13 +125,15 @@ def by_species(name: str) -> Space:
 def nodes_path(code: str) -> str:
     """Where a space's node table lives (honouring STARPLAST_CACHE, as every table does)."""
     from . import paths
-    return paths.cache_file(get(code).nodes)
+    space = get(code)
+    return paths.space_file(space, space.nodes)
 
 
 def graph_path(code: str) -> str:
     """Where a space's edge layers live."""
     from . import paths
-    return paths.cache_file(get(code).graph)
+    space = get(code)
+    return paths.space_file(space, space.graph)
 
 
 def table_map() -> dict:
