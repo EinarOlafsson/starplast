@@ -25,10 +25,15 @@ def check_wheel(path: Path) -> None:
                     "starplast/workflows.py", "starplast/prediction.py", "starplast/evidence.py",
                     "starplast/data/af3_features.parquet", "starplast/data/af3_manifest.parquet",
                     "starplast/data/af3_features.json", "starplast/data/esm_features.parquet",
-                    "starplast/data/esm_manifest.parquet", "starplast/data/pf_mentions.parquet"}
+                    "starplast/data/esm_manifest.parquet", "starplast/data/pf_mentions.parquet",
+                    "starplast/data/hs_host_proteins.parquet",
+                    "starplast/data/mm_host_proteins.parquet",
+                    "starplast/data/host_species_migration.json"}
         missing = required - names
         if missing:
             raise ValueError(f"Incomplete wheel: {sorted(missing)}")
+        if "starplast/data/host_proteins.parquet" in names:
+            raise ValueError("The wheel contains the legacy mixed-species host table; clean the build")
         if any(n.startswith("starplast/data/embeddings/") for n in names):
             raise ValueError("The wheel contains local saved embeddings")
         for requirement in info.get_all("Requires-Dist", []):

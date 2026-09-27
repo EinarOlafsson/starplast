@@ -17,6 +17,11 @@ import re
 from dataclasses import dataclass, field
 
 PARASITE, HOST, VECTOR = "parasite", "host", "vector"
+TOXOPLASMA, FALCIPARUM, HUMAN, MOUSE = "Tg", "Pf", "Hs", "Mm"
+
+#: Protein reference tables precede the full host gene spaces. UniProt identifiers do not encode
+#: their organism, so callers must select a species explicitly instead of guessing from a prefix.
+HOST_TABLES = {HUMAN: "hs_host_proteins.parquet", MOUSE: "mm_host_proteins.parquet"}
 
 
 @dataclass(frozen=True)

@@ -116,7 +116,6 @@ ORGANISM_LITERALS = {
     "starplast/build_graph.py": 1,
     "starplast/calibration.py": 6,
     "starplast/chromatin.py": 1,
-    "starplast/datasets.py": 2,
     "starplast/deposits.py": 24,
     "starplast/embedding.py": 3,
     "starplast/expression.py": 2,

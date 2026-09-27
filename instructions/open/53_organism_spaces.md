@@ -2,6 +2,52 @@
 
 **Status: open (designed 2026-09-26).**
 
+### Implementation pass, 2026-09-27
+
+R3 implemented and validated with the baseline test failures recorded below. All 161 datasets now declare their organism;
+the four host deposits declare Hs/Mm. The mixed protein cache is replaced by
+`hs_host_proteins.parquet` (20,989 rows) and `mm_host_proteins.parquet` (15,590 rows). No identifier,
+name, measurement or bridge endpoint was lost. The 54 identity-only rows were resolved from local
+UniProt mapping files and human bridge sources, not guessed from names. The executed migration is
+`notebooks/split_host_tables_2026_09_27.ipynb`; its manifest records checksums and coverage. The
+script refuses unassigned/conflicting rows, unknown columns and overwriting later acquisitions.
+Readers and builders select one host species at a time, including the slot viewer and generated
+atlas. `slots.json` and the generated atlas remain byte-identical. Full host gene spaces, packs and
+the Space menu remain subsequent work packages.
+
+**Correction to the Pf follow-up:** the handoff's claim that strategies are unaffected is false.
+`Context.blocks()` calls `embedding.default_spec()`. A proposed per-species recipe expands the
+display from 20 source columns to 118 resolved features, but changes inference grouping from 50
+to 62 blocks without a target, and changes it for every shipped calibration holdout. The experiment
+is recorded in `notebooks/pf_layout_dependency_2026_09_27.ipynb`; production recipes/layouts were not
+changed. The fix needs a strategy/calibration audit and refreshed affected calibration, or an
+explicit separation of display and calibrated inference recipes. Do not reuse the old scores for
+changed groupings.
+
+Validation (Python 3.12, pandas 3, offscreen Qt, local GPU environment):
+
+* Focused host/deposit/dataset/organism/slot checks: 246 passed. The new migration and reader
+  regressions also pass, including identity-only rows, zero/false measurements, ambiguous species,
+  and refusing to overwrite later acquisitions. Leakage/search/source checks: 178 passed, 2 skipped.
+* Full suite: **4,145 passed, 9 skipped, 7 failed** in 19 minutes. All seven failure cases reproduce
+  on untouched `f02d075`: import-column counts, gated point sizes, persisted display settings,
+  sprite caching, CPU UMAP fallback with cuML available, offscreen shortcut focus, and attention
+  colors. These are existing GUI state/test-order and GPU-environment issues, not a green suite.
+  A baseline run of `test_app_controls.py`, `test_display.py`, `test_build_graph.py`,
+  `test_help_search.py`, and `test_app_smoke.py` with `--randomly-seed=42` reproduced six of them
+  (11 failed, 356 passed). The seventh is reproduced by running
+  `test_searching_an_exact_gene_id_selects_it` immediately before
+  `test_a_gated_set_recedes_the_rest_of_the_map_without_recoloring_it` in `test_app_controls.py`
+  with `-p no:randomly`: the selected gene retains its larger point size.
+* `add_deposits.py --dry-run` found no loss. The migration checked every retained cell and parquet
+  round trip; all 36,579 protein identifiers and all human bridge endpoints remain present.
+* Regenerating the slot catalogue and atlas produced byte-identical files. Parasite node tables,
+  graphs and calibration are unchanged. Both species' slot audits have zero orphan columns,
+  double ownership or missing citations.
+* A clean wheel builds and passes `check_wheel.py` (53.4 MB). Negative checks reject a wheel with
+  the old mixed cache or a missing mouse cache. `release.py check`, Python 3.11 syntax parsing and
+  `git diff --check` pass. No release/version bump is part of this milestone.
+
 * **R0 done:** `starplast/organisms.py` declares Tg and Pf, and `tests/test_organisms.py` holds it to every literal it replaces.
 * **R1 done:** these now read the registry:
   * `slots.SPECIES_TABLES`, `SPECIES_PREFIXES` and `SPECIES_BRIDGE_TABLES`;
@@ -10,7 +56,7 @@
   * the calibration `TARGETS`/`NUMBERS`;
   * the slot generator's `STAGES_BY_ORGANISM` (regenerated `slots.json` byte-identical).
 * **R2 started:** `test_no_file_gains_an_organism_literal` is a ratchet. It measured 156 bare "Tg"/"Pf" literals in 32 files, and any file that gains one fails. Lower the numbers as files move to the registry.
-* **Next: R3** (`Dataset.organism`; split the host table into Hs and Mm).
+* **R3 implemented:** explicit dataset organisms and separate Hs/Mm protein tables (see above).
 
 The user, 2026-09-26: "we should also make the host and vector datasets more comprehensive!
 (plasmodium, cryptosporidium, human, mouse, feline, anophelus, rat, datasets and informationslots
@@ -215,12 +261,12 @@ share-alike, **V** verify the terms first, **X** local build only.
 * **The shipped Pf map is built from 20 of its 168 columns** (found by the second data audit,
   instruction 52). `embedding.BLOCKS`/`SLOT_BLOCKS` are built at import from the Toxoplasma slot
   catalogue, so `rebuild_layouts.py` embeds Pf on the blocks the two catalogues share. The
-  strategies are not affected: `Context.blocks()` on Pf covers all 144 usable numeric columns
-  (checked 2026-09-26). Fix it in R1 by building the blocks per space. It changes the shipped Pf
-  map, so it needs a new layout and a changelog line, not a silent rebuild.
+  original observation that `Context.blocks()` covers 144 numeric columns does not mean strategies
+  are unaffected: the shared recipe changes their grouping. See the 2026-09-27 dependency experiment
+  above. A fix needs a new layout, a changelog line and an explicit calibration decision.
 
-* The host table stacks human and mouse. Splitting it changes `host_columns` and every deposit with
-  organism "host".
+* R3 resolved the mixed human/mouse host cache. Host readers and deposits must continue to select
+  one explicit organism; full host gene spaces remain pending.
 * `calibration.write` overwrites the whole file. Merge per space before calibrating a third one.
 * HPA consensus integrates GTEx; BioGRID ORCS and OGEE reuse DepMap; STRING's combined channel
   contains BioGRID and IntAct. These are one family each: holding one out must hold out the others.

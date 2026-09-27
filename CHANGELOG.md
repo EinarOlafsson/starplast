@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Split host protein references into separate human and mouse tables, retaining all 36,579
+  identifiers, names and measurements. Resolve the 54 identity-only rows from local UniProt and
+  bridge records; keep the migration and source checksums in an executed notebook and manifest.
+- Require an explicit organism for every dataset and distinguish human/mouse deposits. Provenance
+  queries for one species no longer fall back to another. Host loaders, merges, slot coverage and
+  the slot audit now read separate species tables; merges refuse lost values even when new rows
+  keep the total coverage unchanged.
+
 ## 0.46.0
 
 - **Name each strategy's method.** Every strategy's name now ends with the method it runs in brackets, for example "Hold out a category and search for a map that finds it (UMAP + HDBSCAN)" or "Diffuse a label across one measured network (random walk with restart)". The label is taken from the code each strategy calls, not from its prose. The name appears in the Strategies tab, its Guide, the README calibration table, the strategy and calibration pages and the tutorials. The tab's filter matches it, so typing "HDBSCAN" or "logistic" lists every strategy that uses that method.

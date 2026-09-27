@@ -648,16 +648,18 @@ def test_every_tissue_reference_is_a_loader_this_module_has(tmp_path):
     at build time rather than here."""
     for name in H.TISSUE_REFERENCES:
         assert callable(getattr(H, name)), name
-    assert H.tissue_references(str(tmp_path), log=lambda *a: None).empty
+    assert H.tissue_references(str(tmp_path), "Hs", log=lambda *a: None).empty
 
 
-def test_the_tissues_merge_onto_one_key(tmp_path):
+def test_the_tissues_merge_only_within_their_species(tmp_path):
     _rbc_book(tmp_path)
     _cspa_book(tmp_path)
-    out = H.tissue_references(str(tmp_path), log=lambda *a: None).set_index("host_id")
-    assert out.loc["P11277", "rbc_membrane_psms"] == 500
-    assert bool(out.loc["P11835", "bmdm_surface_detected"]) is True
-    assert pd.isna(out.loc["P11277", "bmdm_surface_detected"]), "a red cell was never captured"
+    human = H.tissue_references(str(tmp_path), "Hs", log=lambda *a: None).set_index("host_id")
+    mouse = H.tissue_references(str(tmp_path), "Mm", log=lambda *a: None).set_index("host_id")
+    assert human.loc["P11277", "rbc_membrane_psms"] == 500
+    assert bool(mouse.loc["P11835", "bmdm_surface_detected"]) is True
+    assert "bmdm_surface_detected" not in human
+    assert "rbc_membrane_psms" not in mouse
 
 
 # --------------------------------------------------------------------- the red cell surface itself
@@ -716,7 +718,7 @@ def test_the_surface_and_the_contents_of_a_red_cell_are_different_columns(tmp_pa
     at all."""
     _rbc_book(tmp_path)
     _surface_book(tmp_path)
-    out = H.tissue_references(str(tmp_path), log=lambda *a: None).set_index("host_id")
+    out = H.tissue_references(str(tmp_path), "Hs", log=lambda *a: None).set_index("host_id")
     assert out.loc["P11277", "rbc_membrane_psms"] == 500
     assert pd.isna(out.loc["P11277", "rbc_surface_copies_uk"]), "not on the surface list"
     assert out.loc["P02730", "rbc_surface_copies_uk"] == pytest.approx(1304561.5)

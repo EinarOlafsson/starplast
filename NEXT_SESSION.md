@@ -5,6 +5,14 @@ stand, how the work is done here, and what to do next, in order. `HANDOFF.md` ho
 design decisions and their reasons, and `instructions/` is the task ledger. This page ties them
 together.
 
+**Follow-up, 2026-09-27:** R3 is implemented on nightly, with validation tracked in instruction 53.
+The host cache is now separate human (20,989 proteins) and mouse (15,590 proteins) tables, with no
+lost identifiers or measurements. Dataset organisms are explicit. The next Pf layout fix also
+changes inference strategy grouping through `Context.blocks()`; the claim below that strategies
+are unaffected was disproved in `notebooks/pf_layout_dependency_2026_09_27.ipynb`. Audit and refresh
+the affected calibration before adopting those groupings. Full host gene spaces and the Space menu
+are still pending.
+
 ---
 
 ## 1. Where things stand
@@ -168,8 +176,8 @@ the acceptance tests.
 
 | # | Item | Notes |
 |---|---|---|
-| 1 | **R3**: split `host_proteins.parquet` into Hs and Mm; add `Dataset.organism`; `Deposit.organism` "host" becomes "Hs"/"Mm" | Human and mouse columns never overlap today. `datasets.organism_of` returns "Tg" for every `host_*`. |
-| 2 | **Pf map from all 168 columns** | `embedding.BLOCKS`/`SLOT_BLOCKS` are built from the Tg catalogue, so the shipped Pf layout uses 20 columns. Build the blocks per space. This changes the shipped Pf map: new layout plus a changelog line. Strategies are unaffected. |
+| 1 | **R3 implemented**: separate Hs/Mm protein tables and explicit dataset/deposit organisms | All 36,579 identifiers and measurements retained; see instruction 53 for validation. |
+| 2 | **Pf map from all eligible columns** | The shipped Pf layout uses 20 columns. Build blocks per space and regenerate the layout. This also changes strategy grouping through the shared default builder: audit and refresh calibration, or explicitly separate display and inference recipes. |
 | 3 | Space packs: download human, mouse and others on demand | The wheel is 53.4 MB (PyPI's limit is 100 MB). The plan is in 53 (WP1). |
 | 4 | Build the **Hs and Mm spaces** from the downloaded data | WP3. The data is at `<STARPLAST_DATA>/spaces/Hs`, `/Mm`, each with a `MANIFEST.json`. |
 | 5 | UI: a Space menu (parasites / hosts / vectors), with a download for spaces not installed | WP9 |

@@ -748,6 +748,13 @@ def host_row_space(hosts, tissue: str, columns=()):
     repertoire as 2% covered -- the same denominator error the Plasmodium branch already refuses one
     unit in. A tissue's row space is the rows any of ITS columns have a value for.
     """
+    if isinstance(hosts, dict):
+        parts = [host_row_space(frame, tissue, columns) for frame in hosts.values()]
+        matches = [frame for frame in parts if len(frame)]
+        if len(matches) > 1:
+            raise ValueError(f"host slot {tissue!r} matches more than one organism")
+        import pandas as pd
+        return matches[0] if matches else pd.DataFrame()
     have = list(getattr(hosts, "columns", ()))
     cols = [c for slot, cols_ in HOST_COLUMNS.items()
             if slot.endswith(f"· {tissue}") for c in cols_ if c in have]
@@ -2560,8 +2567,8 @@ def main() -> int:
     pf_graph = np.load(_pg, allow_pickle=True) if os.path.exists(_pg) else None
     _pb = paths.cache_file("pf_host_bridges.parquet")
     pf_bridges = pd.read_parquet(_pb) if os.path.exists(_pb) else pd.DataFrame()
-    _hp = paths.cache_file("host_proteins.parquet")
-    hosts = pd.read_parquet(_hp) if os.path.exists(_hp) else pd.DataFrame()
+    from starplast import host
+    hosts = host.shipped_tables()
     rows = _rows(definitions, nodes, z, metabolites, bridges, pf_nodes, pf_graph, pf_bridges, hosts)
     toxo_rows = [row for row in rows if row["organism"] == "Tg"]
     pf_rows = [row for row in rows if row["organism"] == "Pf"]

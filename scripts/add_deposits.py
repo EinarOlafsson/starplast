@@ -3,7 +3,7 @@
 
 `starplast.deposits` derives each deposit into `starplast/data/deposit_<key>.tsv`; this puts those
 columns into `nodes.parquet` (Toxoplasma), `pf_nodes.parquet` (Plasmodium) and
-`host_proteins.parquet` (host), the same columns a full `build_graph` would produce. Idempotent: a
+the separate human/mouse host tables. Idempotent: a
 column is replaced from its table each time, never appended twice.
 
 It refuses to write when a merge would LOSE something -- a column that had values and now has
@@ -70,8 +70,9 @@ def merge_parasite(path: str, organism: str, base: str, resolve=None, log=print,
     return 0
 
 
-def merge_host(path: str, base: str, log=print, dry_run: bool = False) -> int:
-    new = deposits.host_columns(base)
+def merge_host(path: str, base: str, organism: str, log=print, dry_run: bool = False) -> int:
+    """Merge one host species' deposits, refusing loss of identifiers, names or measurements."""
+    new = deposits.host_columns(base, organism)
     if new.empty:
         log("host: no deposit columns")
         return 0
@@ -80,16 +81,19 @@ def merge_host(path: str, base: str, log=print, dry_run: bool = False) -> int:
     if len(existing):
         gone = set(existing["host_id"]) - set(merged["host_id"])
         named_before = int(existing["host_name"].notna().sum())
-        named_after = int(merged.set_index("host_id").loc[list(existing["host_id"]),
-                                                          "host_name"].notna().sum())
-        if gone or named_after < named_before:
-            log(f"REFUSED (host): {len(gone)} proteins lost, names {named_before} -> "
-                f"{named_after}")
+        old = existing.set_index("host_id")
+        aligned = merged.set_index("host_id").reindex(old.index)
+        named_after = int(aligned["host_name"].notna().sum())
+        lost = [c for c in old if c not in aligned
+                or (old[c].notna() & aligned[c].isna()).any()]
+        if gone or named_after < named_before or lost:
+            log(f"REFUSED ({organism}): {len(gone)} proteins lost, names {named_before} -> "
+                f"{named_after}, columns losing values: {lost}")
             return 2
     for c in new.columns:
         if c not in ("host_id", "host_name"):
             log(f"  {c:<40} {int(merged[c].notna().sum()):>6,} host proteins")
-    log(f"host: {len(existing):,} -> {len(merged):,} proteins, {merged.shape[1]} columns")
+    log(f"{organism}: {len(existing):,} -> {len(merged):,} proteins, {merged.shape[1]} columns")
     if not dry_run:
         merged.to_parquet(path, index=False)
     return 0
@@ -109,8 +113,9 @@ def main(argv=None, log=print) -> int:
     pf = os.path.join(data, "pf_nodes.parquet")
     if os.path.exists(pf) and any(d.organism == "Pf" for d in deposits.DEPOSITS):
         status = max(status, merge_parasite(pf, "Pf", args.base, log=log, dry_run=args.dry_run))
-    status = max(status, merge_host(os.path.join(data, "host_proteins.parquet"), args.base,
-                                    log=log, dry_run=args.dry_run))
+    for code, name in host.HOST_TABLES.items():
+        status = max(status, merge_host(os.path.join(data, name), args.base, code,
+                                        log=log, dry_run=args.dry_run))
     return status
 
 

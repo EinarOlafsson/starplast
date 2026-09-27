@@ -31,6 +31,7 @@ import os
 import re
 
 from dataclasses import dataclass, field, asdict
+from . import organisms
 
 
 @dataclass(frozen=True)
@@ -47,6 +48,7 @@ class Dataset:
     level: str
     kind: str
     provides: str
+    organism: str = field(kw_only=True)  # the species measured, independent of the dataset key
     columns: tuple = ()          # node-table columns this produces
     coverage: str = ""           # genes covered, as measured at build time
     pmid: str | None = None
@@ -60,6 +62,10 @@ class Dataset:
     # suffix that names them. Declared rather than inferred, because "fetch every per-sample file"
     # would pull the coverage tracks too -- 139 MB of wiggle for 250 kB of per-gene numbers.
     geo_file_suffix: str | None = None
+
+    def __post_init__(self):
+        if self.organism not in organisms.SPACES and self.organism not in organisms.HOST_TABLES:
+            raise ValueError(f"unknown dataset organism: {self.organism}")
 
 
 # Springer and PLOS serve supplementary directly; PMC's /bin/ path 404s.
@@ -200,7 +206,7 @@ REGISTRY = [
             note="Computed representation, not an experimentally measured trait. Model revision and "
                  "sequence hashes are in esm_manifest.parquet. Long proteins use overlapping windows "
                  "with residue-complete pooling. Features are loaded for prediction rather than "
-                 "adding 320 uninterpretable colour controls to the display map."),
+                 "adding 320 uninterpretable colour controls to the display map.", organism=organisms.TOXOPLASMA),
     Dataset("local_af3", "Local AlphaFold 3 protein models", "post_translation", "computed structure",
             "sequence-verified AF3 confidence, coverage and confident-region geometry",
             columns=("af3_sequence_coverage", "af3_mean_plddt", "af3_plddt_q25",
@@ -213,7 +219,7 @@ REGISTRY = [
             path="starplast/data/af3_features.parquet",
             note="Computed predictions, not experimental measurements. Fragments retain residue ranges; "
                  "confidence summaries combine overlapping fragments per residue. Geometry only from "
-                 "complete models. Coordinates remain on the local shared drive; see source manifest."),
+                 "complete models. Coordinates remain on the local shared drive; see source manifest.", organism=organisms.TOXOPLASMA),
     # ------------------------------------------------------------------ transcription
     Dataset("xue_singlecell", "Single-parasite transcriptional atlas (cell cycle)", "transcription",
             "scRNAseq",
@@ -225,7 +231,7 @@ REGISTRY = [
             path="datasets/transcription/scRNAseq/32065584/cellcycle_phase_RH.csv",
             note="Tab-separated despite the .csv extension. RH files use TGGT1_ accessions and the "
                  "Pru files in the same supplement use TGME49_; the prefix is the only thing that "
-                 "distinguishes them. The only MEASURED discrete cell-cycle label in the project."),
+                 "distinguishes them. The only MEASURED discrete cell-cycle label in the project.", organism=organisms.TOXOPLASMA),
     # kind names the ASSAY, not the provenance. This was "derived", which answers how the column was
     # produced rather than what kind of measurement is underneath it -- and left the one entry in the
     # registry whose type you could not read off its type field. It is bulk RNA-seq: the argmax of
@@ -239,14 +245,14 @@ REGISTRY = [
             note="DERIVED, not measured: computed here from expr_tachy / expr_cyst / expr_sporulated "
                  "by z-scoring each and taking the argmax where it leads by 0.5 z. It is a "
                  "restatement of those columns, so holding it out against an embedding built on them "
-                 "is circular by construction. Left unlabeled where no stage leads clearly."),
+                 "is circular by construction. Left unlabeled where no stage leads clearly.", organism=organisms.TOXOPLASMA),
 
     # ------------------------------------------------------------------ reference
     Dataset("toxodb_identity", "ToxoDB gene identity", "reference", "identity",
             "Symbols, previous IDs, product descriptions", ("gene_id", "product"),
             "8,843 ME49 genes", accession="ToxoDB ME49", url=TOXODB,
             path="starplast/data/toxodb_identity.tsv",
-            note="Retrieved 2026-08-11 via the REST API; strain tables for GT1 and VEG alongside."),
+            note="Retrieved 2026-08-11 via the REST API; strain tables for GT1 and VEG alongside.", organism=organisms.TOXOPLASMA),
     Dataset("toxodb_strain_snps", "Strain variation (ToxoDB HTS SNPs)", "reference", "variation",
             "SNPs per gene across every sequenced strain, split by effect",
             ("snp_total_all_strains", "snp_nonsynonymous", "snp_synonymous", "snp_noncoding",
@@ -260,7 +266,7 @@ REGISTRY = [
                  "SRS surface antigens, 55 for the ROP5/ROP18/GRA15 virulence loci, 30 across all "
                  "genes and 2.9 for ribosomal proteins. That ordering -- what immunity sees, then "
                  "the strain-typing markers, then the conserved core -- is the check. Zero is a "
-                 "measurement here, not a gap: 690 genes carry no SNP in any sequenced strain."),
+                 "measurement here, not a gap: 690 genes carry no SNP in any sequenced strain.", organism=organisms.TOXOPLASMA),
     Dataset("toxodb_codon_usage", "Codon usage bias (COMPUTED)", "reference", "sequence",
             "Effective number of codons, GC3, and codon adaptation index",
             ("codon_enc", "codon_gc3", "codon_cai_ribosomal"), "8,140 genes (100%)",
@@ -277,7 +283,7 @@ REGISTRY = [
                  "translational selection predicts: ribosomal proteins are more biased than the rest "
                  "(ENC 46.5 against 54.0), and CAI rises with transcription (rho +0.37) and with "
                  "protein abundance (rho +0.24) while ENC falls with both. Those correlations are a "
-                 "finding here rather than a construction."),
+                 "finding here rather than a construction.", organism=organisms.TOXOPLASMA),
     Dataset("orthomcl", "OrthoMCL orthogroups", "reference", "orthology",
             "Orthogroup assignment and cross-species bridge", ("orthogroup",),
             "16,793 groups", accession="OrthoMCL release 6.21",
@@ -287,7 +293,7 @@ REGISTRY = [
                  "from 6.21, while 6.20 differs in 180 cells and Current_Release (v7) renumbers "
                  "every group into an OG7_ namespace that matches nothing here. The shipped CSV is "
                  "derived from this file -- filter to tgon/pfal/cpar/tbrt, then pivot wide. Note the "
-                 "T. brucei taxon code is tbrt, though the CSV column is tbru."),
+                 "T. brucei taxon code is tbrt, though the CSV column is tbru.", organism=organisms.TOXOPLASMA),
     Dataset("interpro", "InterPro domains", "reference", "domains",
             "Domain identity and count", ("n_interpro", "interpro_id", "interpro_desc", "pfam_id"),
             "8,140",
@@ -296,7 +302,7 @@ REGISTRY = [
                           "interpro_description%22%2C%22pfam_id%22%2C%22pfam_description%22%5D%2C%22"
                           "includeHeader%22%3Atrue%2C%22attachmentType%22%3A%22plain%22%7D"),
             path="datasets/interpro_tgon.csv",
-            note="Domain annotation partly records study effort, not conserved architecture."),
+            note="Domain annotation partly records study effort, not conserved architecture.", organism=organisms.TOXOPLASMA),
     Dataset("alphafold", "AlphaFold DB", "reference", "structure",
             "Per-gene mean pLDDT; coordinates fetched on demand", ("mean_plddt",),
             "6,480 (79.6%)", accession="UP000001529 (taxid 508771), AlphaFold DB",
@@ -308,7 +314,7 @@ REGISTRY = [
                  ".tar but plain HTTPS returns 403, so it needs `gcloud storage cp` and a Google "
                  "account. The per-accession API above is the credential-free route and is what "
                  "structures.py uses. The database paper is Varadi et al., not Jumper et al. -- "
-                 "Jumper is the method, and there is no paper by Jumper titled after the database."),
+                 "Jumper is the method, and there is no paper by Jumper titled after the database.", organism=organisms.TOXOPLASMA),
 
     # ------------------------------------------------------------------ localization
     Dataset("lopit_tgon", "T. gondii hyperLOPIT", "post_translation", "LOPIT",
@@ -328,7 +334,7 @@ REGISTRY = [
             url="https://ars.els-cdn.com/content/image/1-s2.0-S193131282030514X-mmc5.xls",
             path="datasets/lopit_toxoplasma_gondii_ME49.csv",
             note="MAP and MCMC disagree for 980 of 3,827 (26%). Assignment tracks abundance, so the "
-                 "unassigned half is biased toward low-abundance proteins."),
+                 "unassigned half is biased toward low-abundance proteins.", organism=organisms.TOXOPLASMA),
     Dataset("lopit_pfal", "P. falciparum LOPIT", "post_translation", "LOPIT",
             "Donor labels for orthoLOPIT transfer", (), "1,646 usable", pmid="42218142",
             citation="Chisholm SA et al., The spatial proteome of the Plasmodium falciparum "
@@ -338,31 +344,31 @@ REGISTRY = [
             path="datasets/lopit_plasmodium_falciparum_3D7.csv",
             note="The URL downloads and is the right kind of data, but this file predates the "
                  "registry entry, so that this paper is the source of THIS csv is inference, not "
-                 "verification. Confirm against the file before citing."),
+                 "verification. Confirm against the file before citing.", organism=organisms.TOXOPLASMA),
     Dataset("lopit_cpar", "C. parvum hyperLOPIT", "post_translation", "LOPIT",
             "Donor labels for orthoLOPIT transfer", (), "1,107 usable",
             citation="Guerin et al. 2023",
             url="https://ars.els-cdn.com/content/image/1-s2.0-S1931312823001051-mmc4.xlsx",
             path="datasets/lopit_cryptosporidium_parvum_MEASURED_Guerin2023.csv",
             note="MASTER_parasite_wide_by_orthogroup.csv has an empty cpar_lopit_native column; this "
-                 "data is joined from source instead."),
+                 "data is joined from source instead.", organism=organisms.TOXOPLASMA),
 
     # ------------------------------------------------------------------ transcription
     Dataset("gse108740", "Stage transcriptome", "transcription", "RNAseq",
             "Tachyzoite, day 3/5/7, in vivo tissue cyst (12 columns)",
             GSE108740_COLUMNS, "7,739 (95.1%)", accession="GSE108740",
-            url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE108740"),
+            url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE108740", organism=organisms.TOXOPLASMA),
     Dataset("gse206344", "Oocyst sporulation series", "transcription", "RNAseq",
             "Unsporulated / sporulating / sporulated, 2 replicates (6 columns)",
             GSE206344_COLUMNS, "7,974 (98.0%)", accession="GSE206344",
-            url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE206344"),
+            url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE206344", organism=organisms.TOXOPLASMA),
     Dataset("gse22258", "Pru tachyzoite / 72-hour bradyzoite stage array", "transcription",
             "microarray", "Matched tachyzoite and alkaline-induced bradyzoite expression",
             GSE22258_COLUMNS, "7,253 genes", accession="GSE22258",
             url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE22258",
             path="datasets/stagetranscriptome_GSE22258_series_matrix.txt.gz",
             note="Already keyed by TGME49 accessions. Kept separate from the newer RNA-seq stage "
-                 "series; it is not averaged as though microarray intensity were FPKM."),
+                 "series; it is not averaged as though microarray intensity were FPKM.", organism=organisms.TOXOPLASMA),
     Dataset("gse168465", "Primary brain-cell parasite differentiation time course",
             "transcription", "RNAseq",
             "Parasite base mean and log2 fold-change at days 1, 2, 4, 7 and 14",
@@ -372,7 +378,7 @@ REGISTRY = [
             url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE168465",
             path="datasets/stagetranscriptome_GSE168465_DESeq2-Toxo-all-time-points.xlsx",
             note="Dual host-parasite RNA-seq; only the workbook explicitly containing Toxoplasma "
-                 "gene results enters this map. p-values remain evidence metadata, not features."),
+                 "gene results enters this map. p-values remain evidence metadata, not features.", organism=organisms.TOXOPLASMA),
     Dataset("gse99395", "Intracellular/extracellular ribosome profiling", "translation",
             "Ribo-seq", "Ribosome footprints, matched RNA and relative translation efficiency",
             GSE99395_COLUMNS, "measured at build time", pmid="29228904", accession="GSE99395",
@@ -380,7 +386,7 @@ REGISTRY = [
                      "for translational control in Toxoplasma gondii. BMC Genomics 2017;18:961",
             url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE99nnn/GSE99395/suppl/"
                 "GSE99395_Raw_counts.txt.gz",
-            path="datasets/toxoplasma_acquisition_2026_08_14/GSE99395_Raw_counts.txt.gz"),
+            path="datasets/toxoplasma_acquisition_2026_08_14/GSE99395_Raw_counts.txt.gz", organism=organisms.TOXOPLASMA),
     Dataset("gse129869", "Host-context parasite ribosome profiling", "translation", "Ribo-seq",
             "Parasite ribosome footprints, RNA and translation efficiency in two HFF states",
             GSE129869_COLUMNS, "measured at build time", pmid="31167946", accession="GSE129869",
@@ -388,7 +394,7 @@ REGISTRY = [
                      "Infected with Toxoplasma gondii. mSphere 2019;4:e00292-19",
             url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE129nnn/GSE129869/suppl/"
                 "GSE129869_RAW.tar",
-            path="datasets/toxoplasma_acquisition_2026_08_14/GSE129869_RAW.tar"),
+            path="datasets/toxoplasma_acquisition_2026_08_14/GSE129869_RAW.tar", organism=organisms.TOXOPLASMA),
     Dataset("gse19092", "Synchronized tachyzoite cell-cycle transcriptome", "transcription",
             "microarray", "Two replicates across blocked, asynchronous and hourly release states",
             GSE19092_COLUMNS, "measured at build time", pmid="20865045", accession="GSE19092",
@@ -398,7 +404,7 @@ REGISTRY = [
                 "GSE19092_series_matrix.txt.gz",
             path="datasets/toxoplasma_acquisition_2026_08_14/GSE19092_series_matrix.txt.gz",
             note="Legacy GPL7186 probes are mapped through the platform ToxoDB field and the "
-                 "project's previous-ID resolver."),
+                 "project's previous-ID resolver.", organism=organisms.TOXOPLASMA),
     Dataset("gse51780", "Feline merozoite transcriptome", "transcription", "microarray",
             "Merozoite expression with matched tachyzoite comparators", GSE51780_COLUMNS,
             "measured at build time", pmid="24885521", accession="GSE51780",
@@ -406,7 +412,7 @@ REGISTRY = [
                      "comparison to the life cycle. BMC Genomics 2014;15:350",
             url="https://ftp.ncbi.nlm.nih.gov/geo/series/GSE51nnn/GSE51780/matrix/"
                 "GSE51780_series_matrix.txt.gz",
-            path="datasets/toxoplasma_acquisition_2026_08_14/GSE51780_series_matrix.txt.gz"),
+            path="datasets/toxoplasma_acquisition_2026_08_14/GSE51780_series_matrix.txt.gz", organism=organisms.TOXOPLASMA),
     Dataset("gse168155", "CPSF4 RNA-processing perturbation transcriptome", "transcription",
             "RNAseq", "RNA response at 7, 24 and 48 hours after CPSF4 depletion",
             GSE168155_COLUMNS, "measured at build time", pmid="34263725", accession="GSE168155",
@@ -416,7 +422,7 @@ REGISTRY = [
                 "GSE168155_Matrix_table_processed_data.xlsx",
             path="datasets/toxoplasma_acquisition_2026_08_14/"
                  "GSE168155_Matrix_table_processed_data.xlsx",
-            note="This is a perturbation-response transcriptome, not a direct gene-wise m6A map."),
+            note="This is a perturbation-response transcriptome, not a direct gene-wise m6A map.", organism=organisms.TOXOPLASMA),
     Dataset("gse200962", "Bradyzoite restriction-checkpoint transcriptome", "transcription",
             "RNAseq", "Cyclin perturbations in tachyzoite and bradyzoite conditions",
             GSE200962_COLUMNS, "measured at build time", accession="GSE200962",
@@ -425,7 +431,7 @@ REGISTRY = [
             path="datasets/toxoplasma_acquisition_2026_08_14/"
                  "GSE200962_gene_count_matrix_geo.csv.gz",
             note="No publication is linked from GEO; raw sample identifiers are retained verbatim "
-                 "in column names rather than assigned conditions by guesswork."),
+                 "in column names rather than assigned conditions by guesswork.", organism=organisms.TOXOPLASMA),
     Dataset("gse253884_5", "In-vivo fitness of hyperLOPIT-unassigned proteins", "DNA",
             "CRISPR_screen", "Two targeted libraries tested during mouse infection",
             GSE25388_COLUMNS, "measured at build time", pmid="39082802", accession="GSE253884;GSE253885",
@@ -434,7 +440,7 @@ REGISTRY = [
             url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE253884",
             path="datasets/toxoplasma_acquisition_2026_08_14/",
             note="Only the newly measured in-vivo fitness values enter; copied comparator columns "
-                 "in the summary workbook are not duplicated."),
+                 "in the summary workbook are not duplicated.", organism=organisms.TOXOPLASMA),
     Dataset("invivo_brain_transcriptome", "In vivo brain-stage transcriptome", "transcription",
             "RNAseq", "Tachyzoites, acute/chronic whole brain, and purified bradyzoites",
             INVIVO_BRAIN_COLUMNS, "7,663 (94.1%)", pmid="31726967",
@@ -446,14 +452,14 @@ REGISTRY = [
             path="datasets/translation/proteomics/31726967/12864_2019_6213_MOESM4_ESM.csv",
             note="These columns are FPKM-derived transcript abundance, despite the mixed "
                  "transcriptome/proteome paper and the legacy proteomics directory. They belong "
-                 "to transcription slots, never fitness."),
+                 "to transcription slots, never fitness.", organism=organisms.TOXOPLASMA),
     Dataset("gse132248_stress", "Alkaline-stress differentiation transcriptome", "transcription",
             "RNAseq", "Unstressed tachyzoites and alkaline-stressed bradyzoites",
             STRESS_COLUMNS, "7,880 (96.8%)", pmid="31955846", accession="GSE132248",
             citation="Waldman BS et al., Identification of a Master Regulator of Differentiation "
                      "in Toxoplasma. Cell 2020;180:359-372.e16",
             url="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE132248",
-            path="toxo_stage_atlas/data/transcriptomics/GSE132248_STAR_counts_matrix.tsv"),
+            path="toxo_stage_atlas/data/transcriptomics/GSE132248_STAR_counts_matrix.tsv", organism=organisms.TOXOPLASMA),
     Dataset("morc_depletion", "MORC depletion and BFD1 perturbation transcriptome",
             "transcription", "RNAseq",
             "MORC knockdown, BFD1 knockout and BFD1 stabilization series", MORC_COLUMNS,
@@ -463,7 +469,7 @@ REGISTRY = [
                  "PXD058095_supp_DatasetEV1_MORC_RNAseq_counts_TPM.xlsx",
             note="The accession and file location sit in a proteomics collection, but the shipped "
                  "workbook is explicitly RNA-seq counts/TPM and is normalized as transcription. "
-                 "The originating publication still needs confirmation before citation."),
+                 "The originating publication still needs confirmation before citation.", organism=organisms.TOXOPLASMA),
 
     # ------------------------------------------------------------------ genetic screens
     Dataset("crispr_invitro", "In vitro CRISPR fitness (HFF)", "DNA", "CRISPR_screen",
@@ -473,7 +479,7 @@ REGISTRY = [
                      "(Sidik et al. 2016)",
             url="https://ars.els-cdn.com/content/image/1-s2.0-S0092867416310704-mmc3.xlsx",
             note="Competitive growth, NOT essentiality. Predicted from protein features at R2 = 0.453, "
-                 "while the other screens are predicted at -0.105 to +0.102."),
+                 "while the other screens are predicted at -0.105 to +0.102.", organism=organisms.TOXOPLASMA),
     Dataset("crispr_invivo_composite", "In vivo CRISPR composite scores", "DNA", "CRISPR_screen",
             "Differential fitness x significance in six mouse tissues after acute infection",
             ("fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver", "fit_invivo_spleen",
@@ -497,7 +503,7 @@ REGISTRY = [
                  "-7.9 and -7.1 raw), so most genes carry little information there. The ToxoDB "
                  "attributes are gone from release 71, so the supplement is now the durable "
                  "source. GT1 accessions; the 68 loci GT1 splits into A/B and ME49 does not are "
-                 "averaged onto the one ME49 gene."),
+                 "averaged onto the one ME49 gene.", organism=organisms.TOXOPLASMA),
     Dataset("crispr_serum_restriction", "Serum-restriction CRISPR screens (10% vs 1% FBS)",
             "DNA", "CRISPR_screen",
             "Fitness in lipid-rich and lipid-limited medium, and the lipid-dependence difference",
@@ -520,7 +526,7 @@ REGISTRY = [
                  "either serum IS fibroblast fitness again (rho 0.79-0.85 with fit_invitro_hff) "
                  "and is grouped with it for leakage; the differential is orthogonal to it "
                  "(rho 0.06) and is the new axis. The workbook's lipidomics sheets are not "
-                 "gene-level and are not used."),
+                 "gene-level and are not used.", organism=organisms.TOXOPLASMA),
     Dataset("crispr_glucose_limitation", "CRISPR screen without glucose or glutamine", "DNA",
             "CRISPR_screen",
             "Fitness on glucose alone, on glutamine alone, and which carbon source a gene needs",
@@ -540,7 +546,7 @@ REGISTRY = [
                  "subunits on the other side. The differential is NOISY -- replicates agree at rho "
                  "0.10-0.17 and only 175 genes reach FDR 0.05 -- so the FDR ships beside it and the "
                  "column is a screen, not a measurement of one gene. A preprint: cite the journal "
-                 "version once it exists."),
+                 "version once it exists.", organism=organisms.TOXOPLASMA),
     Dataset("crispr_macrophage", "Macrophage CRISPR screens", "DNA", "CRISPR_screen",
             "Naive BMDM and IFN-gamma survival", ("fit_naive_bmdm", "fit_ifng"), "7,402 (90.9%)",
             pmid="33067458",
@@ -554,7 +560,7 @@ REGISTRY = [
                  "against PubMed -- not a CRISPR screen, and it predates the first one. The entry "
                  "had copied that protocol's title verbatim. A video protocol cannot be the source "
                  "of 7,402 per-gene fitness scores; Wang 2020 is genome-wide in IFN-gamma-activated "
-                 "macrophages, which is exactly what these two columns are."),
+                 "macrophages, which is exactly what these two columns are.", organism=organisms.TOXOPLASMA),
     Dataset("crispr_young2019", "Young 2019 in vivo screen", "DNA", "CRISPR_screen",
             "In vivo fitness", ("fit_invivo_young2019",), "115", pmid="31481656",
             citation="Young J et al., A CRISPR platform for targeted in vivo screens identifies "
@@ -562,7 +568,7 @@ REGISTRY = [
             url=SPRINGER.format(doi="s41467-019-11855-w", f="41467_2019_11855_MOESM6_ESM.xlsx"),
             note="Same paper as invivo_platform, a different supplementary table (MOESM6 vs MOESM5). "
                  "TARGETED, not genome-wide: the libraries are 200, 800 and 3200 gRNAs, which is why "
-                 "this covers 115 genes rather than the proteome."),
+                 "this covers 115 genes rather than the proteome.", organism=organisms.TOXOPLASMA),
     Dataset("gra17_synthlethal", "GRA17 synthetic-lethal screen", "DNA", "CRISPR_screen",
             "RH and RH-delta-gra17 phenotype by passage; MAGeCK p-values",
             ("crispr_gra17ko_phenotype", "crispr_gra17_synthlethal_delta", "crispr_gra17_candidate"),
@@ -570,7 +576,7 @@ REGISTRY = [
             citation="Genome-wide CRISPR screen identifies genes synthetically lethal with GRA17, "
                      "a nutrient channel encoding gene in Toxoplasma",
             url=PLOS.format(doi="journal.ppat.1011543", s="s001"),
-            path="datasets/DNA/CRISPR_screen/37498952/"),
+            path="datasets/DNA/CRISPR_screen/37498952/", organism=organisms.TOXOPLASMA),
     Dataset("invivo_platform", "In vivo CRISPR platform", "DNA", "CRISPR_screen",
             "Mean log fold-change across replicates", ("crispr_invivo_platform_lfc",), "168",
             pmid="31481656",
@@ -578,7 +584,7 @@ REGISTRY = [
                      "virulence factors in mice",
             url=SPRINGER.format(doi="s41467-019-11855-w", f="41467_2019_11855_MOESM5_ESM.xlsx"),
             path="datasets/DNA/CRISPR_screen/31481656/",
-            note="Cites pre-2012 TGME49_0xxxxx accessions for every gene; must go through identity.py."),
+            note="Cites pre-2012 TGME49_0xxxxx accessions for every gene; must go through identity.py.", organism=organisms.TOXOPLASMA),
     Dataset("gra12", "GRA12 strains and mouse subspecies", "DNA", "CRISPR_screen",
             "Median L2FC in vitro and in vivo, DISCO score; two screens",
             ("crispr_gra12s1_l2fc_invitro", "crispr_gra12s1_l2fc_invivo",
@@ -589,7 +595,7 @@ REGISTRY = [
                      "mouse subspecies",
             url=SPRINGER.format(doi="s41467-025-58876-2", f="41467_2025_58876_MOESM5_ESM.xlsx"),
             path="datasets/DNA/CRISPR_screen/40240328/",
-            note="The two screens are NOT replicates: in-vivo L2FC correlate at r = 0.41."),
+            note="The two screens are NOT replicates: in-vivo L2FC correlate at r = 0.41.", organism=organisms.TOXOPLASMA),
     Dataset("hosttx_effectors", "Host-transcription effector screen", "DNA", "CRISPR_screen",
             "Hotelling T2 plus full per-effector host-response signature",
             ("hosttx_T2", "hosttx_padj") + HOST_SIGNATURE_COLUMNS, "252 screened / 22 full signatures",
@@ -600,7 +606,7 @@ REGISTRY = [
             path="datasets/DNA/CRISPR_screen/37827122/",
             note="The 737,726-row host differential-expression table is represented by 20 PCA "
                  "coordinates, its L2 norm and substantial-DE count; PCA is a dimensional summary, "
-                 "not a host-gene measurement."),
+                 "not a host-gene measurement.", organism=organisms.TOXOPLASMA),
 
     Dataset("bioid_corpus_membership", "BioID/TurboID supplement membership corpus",
             "post_translation", "proximity_labelling",
@@ -608,14 +614,14 @@ REGISTRY = [
             ("n_bioid_studies",), "measured at build time",
             url=EPMC.format(pmcid="{pmcid}"),
             path="datasets/post_translation/BioID/",
-            note="Membership is not enrichment and is never converted to an interaction edge."),
+            note="Membership is not enrichment and is never converted to an interaction edge.", organism=organisms.TOXOPLASMA),
     Dataset("ipms_corpus_membership", "IP-MS supplement membership corpus",
             "post_translation", "IP-MS",
             "Number of downloaded pulldown studies whose supplement names each gene",
             ("n_ipms_studies",), "measured at build time",
             url=EPMC.format(pmcid="{pmcid}"),
             path="datasets/post_translation/IPMS/",
-            note="Membership is not enrichment and is never converted to an interaction edge."),
+            note="Membership is not enrichment and is never converted to an interaction edge.", organism=organisms.TOXOPLASMA),
 
     # ------------------------------------------------------------------ protein level
     Dataset("proteome_pru", "Pru proteome and IP abundance", "translation", "proteomics",
@@ -624,7 +630,7 @@ REGISTRY = [
             url="https://proteomecentral.proteomexchange.org/cgi/GetDataset?ID=PXD065585",
             path="toxo_stage_atlas/data/proteomics/",
             note="Immunoprecipitation experiments of 424 and 594 proteins. Enrichment, NOT a deep "
-                 "proteome; do not report as proteome-wide."),
+                 "proteome; do not report as proteome-wide.", organism=organisms.TOXOPLASMA),
     Dataset("proteome_total", "AP2XII-1/AP2XI-2 perturbation total proteome", "translation",
             "proteomics", "Replicate abundance and log2 fold-change during pre-sexual conversion",
             TOTAL_PROTEOME_COLUMNS, "3,005 (36.9%)", pmid="38093015",
@@ -636,7 +642,7 @@ REGISTRY = [
                  "PXD039400_PXD042658_supp_SupplTable3_total_proteome.xlsx",
             note="An actual total proteome, not IP enrichment. The abundance and fold-change "
                  "columns are distinct quantification types and expression.total_proteome "
-                 "normalizes them separately before they enter the cache."),
+                 "normalizes them separately before they enter the cache.", organism=organisms.TOXOPLASMA),
     Dataset("phosphosites", "Phosphosite counts", "post_translation", "phosphoproteomics",
             "Count of phosphosites per protein, no positions", ("n_phosphosites", "has_phospho"),
             "1,175 (14.4%)",
@@ -645,7 +651,7 @@ REGISTRY = [
             note="The URL downloads a real phosphoproteomics table, but that it is the source of "
                  "THIS column is inference rather than verification; confirm before citing. "
                  "Missing for 85.6% of genes; effectively an indicator of having been in a "
-                 "phosphoproteomics experiment."),
+                 "phosphoproteomics experiment.", organism=organisms.TOXOPLASMA),
     Dataset("phospho_quantitative", "Oocyst-versus-tachyzoite phosphoproteome",
             "post_translation", "phosphoproteomics",
             "Measured-site counts and strongest up/down phosphosite ratios",
@@ -659,7 +665,7 @@ REGISTRY = [
                  "PXD017032_supp_TableS1_upregulated_phosphosites_oocyst_vs_tachy.xlsx",
             note="A per-gene cache cannot retain residue positions. It carries how many sites were "
                  "measured, how many moved each way and the median ratios; the source workbooks "
-                 "remain the residue-level record."),
+                 "remain the residue-level record.", organism=organisms.TOXOPLASMA),
     Dataset("oocyst_itraq", "Oocyst developmental-stage iTRAQ proteome", "translation",
             "proteomics", "iTRAQ abundance ratios across oocyst developmental stages",
             OOCYST_ITRAQ_COLUMNS, "2,079 (25.5%)", pmid="28626452", accession="PXD003765",
@@ -671,7 +677,7 @@ REGISTRY = [
                  "PXD003765_supp_mmc2_iTRAQ_ratios_2095proteins.xls",
             note="The legacy XLS needs conversion before pandas can read it. Ratios are retained as "
                  "ratios rather than logged or centered, because moving their reference changes "
-                 "the measurement."),
+                 "the measurement.", organism=organisms.TOXOPLASMA),
 
     # ------------------------------------------------------------------ interactions
     Dataset("starpath_xlms", "StarPath crosslink MS", "post_translation", "XLMS",
@@ -682,21 +688,21 @@ REGISTRY = [
             url=EPMC.format(pmcid="PMC12505969"),
             path="starpath_crosslinks.json, starpath_dump/cifs/",
             note="RH88 accessions do NOT map to ME49 by suffix; use the alias column. 60% of predicted "
-                 "complexes place no crosslink within reach; only 162 pairs are trustworthy."),
+                 "complexes place no crosslink within reach; only 162 pairs are trustworthy.", organism=organisms.TOXOPLASMA),
     Dataset("ipms_baits", "IP-MS of tagged baits", "post_translation", "IPMS",
             "Replicated pulldown vs untagged control", ("n_ipms_partners",), "64 pairs / 48 genes",
             accession="PXD043808, PXD065585",
             url="https://www.ebi.ac.uk/pride/ws/archive/v3/projects/PXD043808/files",
             note="The PRIDE API lists the files for one accession; swap the accession in the path "
                  "for PXD065585. It returns JSON metadata, not the data -- follow the download "
-                 "links it gives."),
+                 "links it gives.", organism=organisms.TOXOPLASMA),
     Dataset("foldseek_struct", "Foldseek structural similarity", "post_translation", "structure",
             "TM-align over Toxoplasma AlphaFold models, TM >= 0.7", ("n_struct_similar",),
             "11,684 pairs / 2,338 genes",
             derived_from=("mean_plddt",),
             note="COMPUTED HERE, so there is nothing to download: Foldseek all-vs-all over the "
                  "Toxoplasma AlphaFold models (see the alphafold entry for how to obtain those), "
-                 "keeping pairs at TM >= 0.7. Needs no orthology, so it reaches lineage-specific effectors homology edges cannot."),
+                 "keeping pairs at TM >= 0.7. Needs no orthology, so it reaches lineage-specific effectors homology edges cannot.", organism=organisms.TOXOPLASMA),
     Dataset("bioid_corpus", "Proximity-labeling corpus", "post_translation", "BioID",
             "42 BioID/TurboID/APEX studies with a tagged Toxoplasma protein", (),
             "28 studies with data, 127 files",
@@ -706,14 +712,14 @@ REGISTRY = [
                  "harvest of many papers, so there is no single URL -- but nothing is lost. Every "
                  "one of the 97 studies has its PMCID and every file its filename recorded in "
                  "interaction_studies.parquet and interaction_study_members.parquet, so the whole "
-                 "corpus reconstructs by substituting each PMCID into the URL above."),
+                 "corpus reconstructs by substituting each PMCID into the URL above.", organism=organisms.TOXOPLASMA),
     Dataset("pulldown_corpus", "Pulldown corpus", "post_translation", "IPMS",
             "55 IP-MS / co-IP studies with a tagged Toxoplasma protein", (),
             "29 studies with data, 140 files",
             url=EPMC.format(pmcid="{pmcid}"),
             path="datasets/post_translation/IPMS/",
             note="Downloaded and indexed; NOT yet parsed into edges. Refetch as for bioid_corpus: "
-                 "substitute each recorded PMCID into the URL above."),
+                 "substitute each recorded PMCID into the URL above.", organism=organisms.TOXOPLASMA),
 
     # ------------------------------------------------------------------ literature
     Dataset("pubmed", "PubMed abstracts", "reference", "literature",
@@ -732,14 +738,14 @@ REGISTRY = [
             note="ASSEMBLED HERE from an E-utilities query rather than downloaded as a file: the "
                  "esearch above returns the PMID set, and efetch retrieves each record. The count "
                  "grows over time, so a rebuild will not reproduce 33,924 exactly -- record the "
-                 "date. This corpus was built 2026."),
+                 "date. This corpus was built 2026.", organism=organisms.TOXOPLASMA),
     Dataset("pmc_oa", "PubMed Central open-access full texts", "reference", "literature",
             "Sectioned JATS XML", ("n_fulltext",), "6,667 articles",
             url="https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML",
             path="/mnt/wd4tb/skill_corpora/toxoplasma-scientist/",
             note="A biased subset: only what publishers deposited open access. ASSEMBLED HERE: for "
                  "each PMID in the pubmed corpus that has a PMCID, fetch the JATS from the URL "
-                 "above. Machine-local by size, which is why the built cache is what ships."),
+                 "above. Machine-local by size, which is why the built cache is what ships.", organism=organisms.TOXOPLASMA),
 
     Dataset("gse223620_bfd2_rip", "BFD2-bound transcriptome (RIP-seq, COMPUTED)", "transcription",
             "RIPseq", "Enrichment of each transcript in the BFD2 immunoprecipitation",
@@ -756,7 +762,7 @@ REGISTRY = [
                  "own transcript is unremarkable at +0.31, which is what says the enrichment is not "
                  "an artefact of the tagged locus. One column and not a set: the slot holds one "
                  "protein's targets, and a second RIP would sit beside this rather than be averaged "
-                 "into it."),
+                 "into it.", organism=organisms.TOXOPLASMA),
     Dataset("gse245775", "Differentiation ribosome profiling (eIF1.2)", "translation", "RiboSeq",
             "RPF and RNA counts, and their ratio, in tachyzoites and pre-bradyzoites",
             GSE245775_COLUMNS, "7,880 genes (97%)", pmid="38782906", accession="GSE245775",
@@ -770,7 +776,7 @@ REGISTRY = [
                  "and 2.6 in the knockout, and BFD2 rises 1.4 and 0.1, so the knockout's failure to "
                  "induce BFD2 is visible in the column itself. LDH2, BAG1 and SRS also rise on "
                  "conversion, which is what confirms the arms are not swapped. Reached the map "
-                 "proposed for `stage-conversion phenotype`, which it is not."),
+                 "proposed for `stage-conversion phenotype`, which it is not.", organism=organisms.TOXOPLASMA),
 
     Dataset("gse313048_atac", "Promoter accessibility (ATAC-seq, COMPUTED)", "DNA", "ATACseq",
             "Mean ATAC coverage over the promoter, relative to the genome mean",
@@ -786,7 +792,7 @@ REGISTRY = [
                  "answers a different question. Verified against expression: rho +0.50, and the top "
                  "decile of expressed genes carries 2.0 log2 more promoter signal than the bottom "
                  "decile. Correlates with fitness at rho +0.02, so it is not merely tracking "
-                 "essentiality."),
+                 "essentiality.", organism=organisms.TOXOPLASMA),
     Dataset("gse277553_cuttag", "HDAC3 occupancy (CUT&TAG, COMPUTED)", "DNA", "CUTandTAG",
             "Mean HDAC3 CUT&TAG coverage over the promoter, relative to the genome mean",
             ("cuttag_hdac3_promoter_ut",), "8,140 genes (100%)", accession="GSE277553",
@@ -799,7 +805,7 @@ REGISTRY = [
                  "whether taken from the series tar or fetched from GEO as a sample file, so the "
                  "corruption is in the deposit. It is skipped with a message rather than silently, "
                  "because a replicate dropped without saying so makes the mean smaller than the "
-                 "note beside the column claims."),
+                 "note beside the column claims.", organism=organisms.TOXOPLASMA),
 
     Dataset("toxodb_palmitome", "S-palmitoylome (Foe 2015, via ToxoDB)", "post_translation",
             "proteomics", "17-ODYA enrichment per gene, against hydroxylamine and against palmitate",
@@ -819,7 +825,7 @@ REGISTRY = [
                  "substrates: ROP5 +2.20, GAP45 +1.34, AMA1 +0.93, MLC1 +0.71, IMC proteins +0.34, "
                  "against a measured-gene median of -0.17. ToxoDB reports a SIGNED fold difference "
                  "and not a ratio -- -3.12 means three-fold down -- so reading it as a ratio would "
-                 "have made every depleted protein NaN and dropped half the table."),
+                 "have made every depleted protein NaN and dropped half the table.", organism=organisms.TOXOPLASMA),
 
     Dataset("iedb_bcell", "Antibody epitopes (IEDB)", "reference", "immunity",
             "Distinct antibody epitope sequences per gene", ("n_bcell_epitopes",),
@@ -837,7 +843,7 @@ REGISTRY = [
                  "GRA7 16, MIC3 11, which is the panel commercial Toxoplasma serodiagnostic kits "
                  "are built from. Antigens are mapped by their product description, because IEDB "
                  "names them verbatim from ToxoDB; the trailing-symbol route resolves ten fewer and "
-                 "loses SRS29B, the most studied antigen in the organism."),
+                 "loses SRS29B, the most studied antigen in the organism.", organism=organisms.TOXOPLASMA),
     Dataset("toxodb_epitopes", "IEDB epitopes mapped to genes (via ToxoDB)", "reference",
             "immunity", "How many IEDB epitopes ToxoDB maps to this gene",
             ("iedb_epitope_count",), "221 genes", accession="ToxoDB / IEDB",
@@ -849,7 +855,7 @@ REGISTRY = [
                  "the count is T-cell and B-cell epitopes alike, which is why the column is named "
                  "iedb_ and not t_cell_. Verified by what comes out on top: SRS29B (SAG1) with 45, "
                  "then GRA6, GRA7, GRA2 and ROP18. Those are the canonical Toxoplasma serology "
-                 "antigens, in the order a serologist would put them."),
+                 "antigens, in the order a serologist would put them.", organism=organisms.TOXOPLASMA),
     Dataset("toxodb_h4_acetylation", "Histone H4 acetylation (ChIP-chip, via ToxoDB)", "DNA",
             "ChIPchip", "Genome-wide H4 K5/K8/K12/K16 acetylation score within 1 kb of the gene",
             ("h4_acetylation_chip_score",), "7,515 genes (92%)",
@@ -862,7 +868,7 @@ REGISTRY = [
                  "times as highly as those in its bottom. The Einstein H3K4me1 report from the same "
                  "site, the same assay type and the same query shape does the opposite -- its marked "
                  "genes have LESS accessible promoters -- and is in quarantine. This entry is the "
-                 "counter-example that says that refusal is about the data and not about the reader."),
+                 "counter-example that says that refusal is about the data and not about the reader.", organism=organisms.TOXOPLASMA),
     Dataset("toxodb_macrophage", "Expression in infected macrophages (via ToxoDB)",
             "transcription", "RNAseq",
             "Expression percentile in ME49-infected murine macrophages",
@@ -878,7 +884,7 @@ REGISTRY = [
                  "which host cell it is in -- and not a construction: it is an independent "
                  "measurement in a different host context, with nothing to declare in derived_from. "
                  "It is written down here so that nobody counts the two as independent evidence when "
-                 "they agree, which they mostly will."),
+                 "they agree, which they mostly will.", organism=organisms.TOXOPLASMA),
     Dataset("toxodb_ec_numbers", "Enzyme classification (ToxoDB)", "reference", "annotation",
             "EC number per gene, and whether it has one", ("ec_number", "has_ec"),
             "1,313 enzymes of 8,140 genes", accession="ToxoDB ME49",
@@ -892,7 +898,7 @@ REGISTRY = [
                  "enzymes have a Plasmodium ortholog 59.6% of the time against 30.4% for other "
                  "genes (odds 3.39, p = 8e-88), are lineage-specific a third as often, and are more "
                  "costly to lose in vitro. `has_ec` is 0 and not missing where ToxoDB reports no EC: "
-                 "the whole proteome was asked, so no assignment is an answer about the gene."),
+                 "the whole proteome was asked, so no assignment is an answer about the gene.", organism=organisms.TOXOPLASMA),
     Dataset("crosslink_interactome", "Crosslinking MS interactome", "post_translation", "XLMS",
             "How many proteins this one crosslinks to", ("n_crosslink_partners",),
             "494 proteins", pmid="40874616", accession="mBio 02159-25 supplementary file s0004",
@@ -903,7 +909,7 @@ REGISTRY = [
                  "interactome (odds 30.8, p = 1e-18) and 57 of 158 ribosomal proteins (odds 9.7, "
                  "p = 4e-30). Crosslinking finds stable abundant complexes, and if it did not find "
                  "those two it would not be finding complexes. Absent is absent: a protein with no "
-                 "partner here may be in no complex or may simply not have crosslinked."),
+                 "partner here may be in no complex or may simply not have crosslinked.", organism=organisms.TOXOPLASMA),
     Dataset("pvm_proximity", "PVM proximity labelling", "post_translation", "proteomics",
             "Whether the study placed this protein at the parasitophorous vacuole membrane",
             ("pvm_proximity_positive",), "1,274 genes (73 positive)", pmid="34749525",
@@ -916,7 +922,7 @@ REGISTRY = [
                  "is NaN. Verified by what the positives are: 53 of 73 are dense granule proteins "
                  "against 0 of 1,201 negatives (Fisher p = 2e-77), and dense granule proteins are "
                  "exactly what Toxoplasma secretes into the vacuole and inserts into the membrane "
-                 "it shares with the host cytosol."),
+                 "it shares with the host cytosol.", organism=organisms.TOXOPLASMA),
     Dataset("cdpk1_substrates", "CDPK1 substrates (thiophosphate labelling)", "post_translation",
             "proteomics", "Thiophosphorylated peptides per gene from analog-sensitive CDPK1",
             ("cdpk1_thiophospho_peptides",), "361 genes", pmid="37933960",
@@ -930,7 +936,7 @@ REGISTRY = [
                  "it is nonetheless CDPK1's substrate set is the enrichment: microneme proteins are "
                  "11-fold over-represented (Fisher p = 2e-05) and CDPK1 is the kinase that governs "
                  "microneme secretion, myosin A is in it, and so is the HOOK protein that the paper "
-                 "exists to report."),
+                 "exists to report.", organism=organisms.TOXOPLASMA),
     Dataset("mrna_stability", "mRNA stability after actinomycin D", "transcription", "RNAseq",
             "Proportion of transcript remaining after five hours of transcription block",
             ("mrna_remaining_5h_actinomycin",), "412 genes", pmid="39899594",
@@ -943,7 +949,7 @@ REGISTRY = [
                  "is the 426 transcripts that fell below 75% remaining, so it describes the unstable "
                  "tail and a gene absent from it is stable OR was not measured, which the column "
                  "cannot distinguish. Consistent with that: ribosomal-protein transcripts, which are "
-                 "classically stable, are under-represented among the responders at odds 0.37."),
+                 "classically stable, are under-represented among the responders at odds 0.37.", organism=organisms.TOXOPLASMA),
     Dataset("mrna_decay_gse329845", "Genome-wide mRNA decay after actinomycin D",
             "transcription", "RNAseq",
             "Wild-type mRNA remaining after 4 h of transcription block, relative to the median",
@@ -963,7 +969,7 @@ REGISTRY = [
                  "(+1.4 against -0.15, p = 6e-14). Genome-wide where mrna_stability is the "
                  "412-gene unstable tail of another study; the two do not correlate (rho -0.03 on "
                  "286 shared genes), which that tail's selection explains, so they are kept as "
-                 "separate columns in different units."),
+                 "separate columns in different units.", organism=organisms.TOXOPLASMA),
     Dataset("gse302107_riboseq", "High-resolution ribosome profiling (5'UTR study)",
             "translation", "Ribo-seq",
             "Translation efficiency per replicate, footprints over matched RNA",
@@ -981,7 +987,7 @@ REGISTRY = [
                  "(replicates rho 0.973, against 0.87 for GSE99395 and 0.67 for GSE245775) and "
                  "concordant with both (rho 0.78-0.79). Ribosomal proteins are the high-TE class "
                  "(median ratio 2.86 against 1.08). A preprint: cite the journal version once it "
-                 "exists. The host sheet (7,943 human genes) is not used yet."),
+                 "exists. The host sheet (7,943 human genes) is not used yet.", organism=organisms.TOXOPLASMA),
     Dataset("gse302108_utr5", "5' UTR architecture from reannotated transcripts", "transcription",
             "RNAseq",
             "Length, upstream AUGs and ORFs, and start-context strength of each 5' UTR",
@@ -999,7 +1005,7 @@ REGISTRY = [
                  "predict translation the way they should: upstream AUGs against efficiency at rho "
                  "-0.47, Kozak strength with it at +0.22. The study's reporter assay is NOT here: "
                  "its 30,235 scored sequences are variants of twelve endogenous UTRs, so it "
-                 "describes sequences, not genes."),
+                 "describes sequences, not genes.", organism=organisms.TOXOPLASMA),
     Dataset("brady_subtypes", "Bradyzoite subtypes in the mouse brain (single-cell)",
             "transcription", "scRNAseq",
             "Average expression in each of five subtypes of in vivo bradyzoite",
@@ -1013,7 +1019,7 @@ REGISTRY = [
                  "the paper's finding. All five are bradyzoites -- BAG1, LDH2, ENO1, SRS9 and CST1 "
                  "above the 92nd percentile in every group, SAG1 below the 41st -- and Group B "
                  "carries SRS22A at 3.27 against 0.34-0.66 elsewhere, the subtype signature. Mean "
-                 "expression agrees with the shipped in vivo bradyzoite column at rho 0.75."),
+                 "expression agrees with the shipped in vivo bradyzoite column at rho 0.75.", organism=organisms.TOXOPLASMA),
     Dataset("iron_depletion_proteome", "Proteome and transcriptome without iron", "translation",
             "proteomics",
             "Change in each protein, and in each transcript, after 24 h of iron depletion",
@@ -1033,7 +1039,7 @@ REGISTRY = [
                  "modest effect. Despite the "
                  "title there is NO ribosome profiling in this paper -- translation is measured by "
                  "microscopy -- so it fills protein abundance under stress, not translation, and "
-                 "the earlier reading of it as a translation dataset was wrong."),
+                 "the earlier reading of it as a translation dataset was wrong.", organism=organisms.TOXOPLASMA),
     Dataset("organelle_surface_turboid", "Organelle-surface proximity proteomes", "post_translation",
             "BioID",
             "Enrichment near the cytosolic face of the apicoplast, mitochondrion and ER",
@@ -1055,7 +1061,7 @@ REGISTRY = [
                  "so that arm is recorded as proximity and not as a location. A protein a "
                  "bait never detected keeps a MISSING flag, not a zero: that bait did not test it. "
                  "One accession in the deposit is a backtick, repaired from its product text only "
-                 "because that text names exactly one gene. A preprint."),
+                 "because that text names exactly one gene. A preprint.", organism=organisms.TOXOPLASMA),
     Dataset("myristoylome", "N-myristoylated proteome", "post_translation", "proteomics",
             "The authors' confidence that this protein is myristoylated, 3 high to 1 low",
             ("myristoylation_confidence",), "65 substrates", pmid="32618271",
@@ -1070,7 +1076,7 @@ REGISTRY = [
                  "(Fisher p = 4e-79). No other column in the map can be checked that cleanly. "
                  "Taken from the paper rather than from PXD019677, its PRIDE deposit, which ships "
                  "MaxQuant archives of 250-340 MB apiece; the answer is a 65-row table in "
-                 "supplementary file 4."),
+                 "supplementary file 4.", organism=organisms.TOXOPLASMA),
     Dataset("toxodb_arginine_methylation", "Monomethylarginine proteome (via ToxoDB)",
             "post_translation", "proteomics",
             "Monomethylarginine sites reported per gene", ("n_arginine_methylation_sites",),
@@ -1085,7 +1091,7 @@ REGISTRY = [
                  "RG and RGG motifs sit in RNA-binding proteins. The slot it fills did not exist "
                  "before: arginine methylation has its own writers, its own substrate class and its "
                  "own deposit, and its absence from the catalog was a gap rather than a lack of "
-                 "data."),
+                 "data.", organism=organisms.TOXOPLASMA),
     Dataset("toxodb_nanopore_isoforms", "Novel transcript models (Nanopore, via ToxoDB)",
             "transcription", "LongRead",
             "How many novel TALON transcript models long reads support for this gene",
@@ -1102,7 +1108,7 @@ REGISTRY = [
                  "one. Verified on that basis: genes with a novel model have a median of 6 exons "
                  "against 4 for genes without, Mann-Whitney p = 9e-43, which is the relationship "
                  "alternative splicing has to produce. Absent is NOT zero: a gene with no novel "
-                 "model here may simply not have been sequenced deeply enough."),
+                 "model here may simply not have been sequenced deeply enough.", organism=organisms.TOXOPLASMA),
     Dataset("toxodb_enteroepithelial", "Enteroepithelial stage transcriptome (via ToxoDB)",
             "transcription", "RNAseq",
             "Expression in the feline enteroepithelial stages against tachyzoites",
@@ -1117,7 +1123,7 @@ REGISTRY = [
                  "GRA11B, which is merozoite-specific, comes out at +8.99 log2 and the family A/B/C "
                  "merozoite antigens at +2.66, against a genome median of -0.14. ToxoDB reports a "
                  "SIGNED fold difference, so -1257.4 means 1257-fold down and is converted rather "
-                 "than logged."),
+                 "than logged.", organism=organisms.TOXOPLASMA),
 
     # ------------------------------------------------------------------ PRIDE deposits
     # Counted from the submitters' own search output by `proteomics.deposit_counts`, never from the
@@ -1132,7 +1138,7 @@ REGISTRY = [
             note="Read from the deposit's own MaxQuant Sites tables. Held in quarantine rather than "
                  "the dataset archive: a deposit is promoted by being checked, not by being "
                  "downloaded, and the check here was reading the files and finding both Toxoplasma "
-                 "genes and the modification named."),
+                 "genes and the modification named.", organism=organisms.TOXOPLASMA),
     Dataset("pride_proximity", "Proximity labelling", "post_translation", "proteomics",
             "Proximity partners reported per gene", ("n_proximity_partners",),
             "1,734 genes measured", accession="PXD059579",
@@ -1140,7 +1146,7 @@ REGISTRY = [
             path="datasets/quarantine/2026_08_16_pride/Tg/interaction_proximity_labelling/",
             note="mzIdentML rather than MaxQuant, and shipped as a lone .gz -- which is one "
                  "compressed file and not an archive, a distinction that read as an empty deposit "
-                 "until it was handled."),
+                 "until it was handled.", organism=organisms.TOXOPLASMA),
     Dataset("pride_glycosylation", "O-fucosylated glycoproteins (AAL pulldown)",
             "post_translation", "proteomics",
             "Peptide identifications in the AAL lectin pulldown, per gene",
@@ -1154,7 +1160,7 @@ REGISTRY = [
                  "odds 3.71 (p = 1.5e-22) and cytosol at 2.61, and not enriched for mitochondrion. "
                  "O-fucosylation through SPY is a nucleocytoplasmic modification and the paper "
                  "describes punctiform signal beside the nuclei, so that is the right answer. Keyed "
-                 "on TGGT1_ accessions throughout."),
+                 "on TGGT1_ accessions throughout.", organism=organisms.TOXOPLASMA),
     Dataset("pride_nitrosylation", "S-nitrosylation (iodoTMT)", "post_translation", "proteomics",
             "S-nitrosylation sites reported per gene", ("n_nitrosylation_sites",),
             "660 genes measured", accession="PXD046083",
@@ -1162,7 +1168,7 @@ REGISTRY = [
             path="datasets/quarantine/2026_08_16_pride/Tg/S_nitrosylation/",
             note="Counted only from the iodoTMT tables. Counting the whole txt folder put 90% of the "
                  "proteome in this slot, which is what a modification measured on nearly every gene "
-                 "should always look like: a bug."),
+                 "should always look like: a bug.", organism=organisms.TOXOPLASMA),
     Dataset("pride_lactylation", "Lysine lactylome", "post_translation", "proteomics",
             "Lactylation sites reported per gene", ("n_lactylation_sites",),
             "515 genes measured", accession="PXD031526",
@@ -1172,12 +1178,12 @@ REGISTRY = [
                  "open, and the 0 genes that produced was a fact about the reader, not about a study "
                  "that names 537 proteins. This one reads, and its `La (K)Sites` table is MaxQuant's "
                  "lactylation search. Keyed entirely on TGGT1_ accessions -- 515 of its 524 genes "
-                 "reach the map through the identity layer and would reach none without it."),
+                 "reach the map through the identity layer and would reach none without it.", organism=organisms.TOXOPLASMA),
     Dataset("pride_ubiquitination", "Ubiquitination / SUMOylation (GlyGly)", "post_translation", "proteomics",
             "GlyGly sites reported per gene", ("n_ubiquitination_sites",),
             "128 genes measured", accession="PXD042937",
             url="https://www.ebi.ac.uk/pride/archive/projects/PXD042937",
-            path="datasets/quarantine/2026_08_16_pride/Tg/ubiquitination_SUMOylation/"),
+            path="datasets/quarantine/2026_08_16_pride/Tg/ubiquitination_SUMOylation/", organism=organisms.TOXOPLASMA),
 
     Dataset("oxidative_stress_screen", "Oxidative-stress CRISPR screen", "DNA", "CRISPR_screen",
             "Screening score per gene under oxidative challenge",
@@ -1191,7 +1197,7 @@ REGISTRY = [
                  "catalase comes out at -6.15, essentially the bottom of the whole screen, and it "
                  "is the enzyme that disposes of hydrogen peroxide. Peroxiredoxin (-1.57), "
                  "superoxide dismutase (-1.01), glutaredoxin (-0.71) and thioredoxin (-0.63) all "
-                 "sit below the genome median of -0.38."),
+                 "sit below the genome median of -0.38.", organism=organisms.TOXOPLASMA),
     # UNPUBLISHED. Manuscript under submission; this ships inside the data cache, so it is the first
     # thing to remove before any package release. Flagged here rather than only in a note because
     # `datasets.registry()` is what a release check would read.
@@ -1217,7 +1223,7 @@ REGISTRY = [
                  "TGGT1_244480 EAF1 and said EAF1 was rank 1; both were wrong, and the deposit's "
                  "own abstract is what settled it. "
                  "The MYR1 host bridge added the same day is verified by ESCRT machinery topping "
-                 "it, so two unrelated datasets in this map now point at the same biology."),
+                 "it, so two unrelated datasets in this map now point at the same biology.", organism=organisms.TOXOPLASMA),
     Dataset("myr1_host_ip", "MYR1 host interactome (bridge)", "post_translation", "IPMS",
             "Host proteins co-immunoprecipitating with the parasite protein MYR1",
             ("bridge:host",), "219 host proteins, 1 parasite gene", pmid="32075880",
@@ -1235,13 +1241,13 @@ REGISTRY = [
                  "were got wrong first: a group is a contaminant group if ANY entry in it is one -- "
                  "MaxQuant prefixes only on the leading entry, so keratin hides mid-group and is "
                  "otherwise the four most enriched host proteins -- and two unique peptides are "
-                 "required in BOTH bait replicates, which takes 674 host groups to 219."),
+                 "required in BOTH bait replicates, which takes 674 host groups to 219.", organism=organisms.TOXOPLASMA),
     Dataset("pv_host_uptake", "Host proteins at the vacuole", "post_translation", "proteomics",
             "How enriched a host protein is at the parasitophorous vacuole",
             ("pv_enrichment_log2",), "12 host proteins", pmid="34898650",
             accession="PLoS Pathogens 1010138 supplementary table",
             url="https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8700025/supplementaryFiles",
-            path="starplast/data/host_proteins.parquet",
+            path="starplast/data/hs_host_proteins.parquet",
             note="A property OF a host protein rather than a bridge, because the bait is the "
                  "compartment and not a named parasite gene -- a bridge needs a parasite gene at one "
                  "end. Averaged over three infection contexts: tachyzoite-infected fibroblast, "
@@ -1250,7 +1256,7 @@ REGISTRY = [
                  "dense granule proteins top it -- and only the host rows are kept. Top of those: "
                  "PDCD6/ALG-2 at +5.90, VPS37C at +4.47, then CHMP4B, PEF1 and VPS28. That is the "
                  "FOURTH independent dataset in this map to put ALG-2 at the host-parasite "
-                 "interface, after the MYR1, EAF1 and GRA35 pulldowns."),
+                 "interface, after the MYR1, EAF1 and GRA35 pulldowns.", organism=organisms.HUMAN),
     Dataset("metabolome_iron", "Metabolome and isotope labelling under iron deprivation",
             "reference", "metabolomics",
             "Steady-state metabolite levels and the fraction labelled from glucose or glutamine",
@@ -1268,7 +1274,7 @@ REGISTRY = [
                  "did not silently dropped the glucose arm: the sheet read fine and had no column "
                  "called `Metabolite`. Joining a second study means matching compound NAMES, which "
                  "is lossy; that cost is unpaid with one study and is the first thing to fix when a "
-                 "second arrives."),
+                 "second arrives.", organism=organisms.TOXOPLASMA),
     Dataset("lipidome_vesicles", "Membrane lipid composition of parasite vesicles",
             "reference", "lipidomics",
             "Lipid species abundance, and its proportion against the host cell",
@@ -1288,7 +1294,7 @@ REGISTRY = [
                  "would not have supported this slot at all -- most of that lipid is host. The "
                  "`vs_host` column is COMPUTED here, sample-centred so it compares proportion "
                  "rather than amount; the archive's own EV-minus-cell column is not used because "
-                 "its transform could not be reproduced to better than 3 log units."),
+                 "its transform could not be reproduced to better than 3 log units.", organism=organisms.TOXOPLASMA),
     Dataset("curated_enteric_fitness", "Enteric / sexual-cycle fitness per gene (CURATED)",
             "reference", "literature",
             "Gene disruptions carried through the feline stage with oocyst output measured",
@@ -1310,7 +1316,7 @@ REGISTRY = [
                  "that never sporulate while Grx5 sheds fewer that sporulate poorly, and those are "
                  "different events. Magnitudes stay in the evidence text: they are not comparable "
                  "across cats, strains and inocula, and one numeric column would invent a precision "
-                 "the experiments do not have."),
+                 "the experiments do not have.", organism=organisms.TOXOPLASMA),
     Dataset("curated_drug_sensitivity", "Drug sensitivity per gene (CURATED)", "reference",
             "literature",
             "Knockouts with a measured shift in sensitivity to a named compound",
@@ -1329,7 +1335,7 @@ REGISTRY = [
                  "measured in a ΔTgAT1 background and say so, because reading a double mutant's "
                  "phenotype off one of its genes is its own error. The per-row product check earned "
                  "its keep immediately: the annotation calls TGME49_244440 'adenosine transporter "
-                 "AT1', which is independent confirmation the accession is TgAT1."),
+                 "AT1', which is independent confirmation the accession is TgAT1.", organism=organisms.TOXOPLASMA),
     Dataset("curated_resistance_alleles", "Validated resistance-conferring mutations (CURATED)",
             "reference", "literature",
             "Mutations shown to CAUSE drug resistance by putting them back into a clean background",
@@ -1353,7 +1359,7 @@ REGISTRY = [
                  "alleles (mitochondrially encoded, so no row exists in a table of nuclear genes -- "
                  "the eighteen nuclear cytochrome b hits are b-c1 subunits and would be the wrong "
                  "gene). Absence here is ignorance rather than a negative result: nobody selected "
-                 "resistance in most genes, so only curated genes carry a value."),
+                 "resistance in most genes, so only curated genes carry a value.", organism=organisms.TOXOPLASMA),
     Dataset("splitcas9_imaging_screen", "Arrayed splitCas9 imaging screen", "DNA",
             "imaging_screen",
             "What a parasite looks like when a gene is off: egress, actin, apicoplast, replication",
@@ -1379,7 +1385,7 @@ REGISTRY = [
                  "invented from a digit is a number with no measurement behind it. Missingness "
                  "carries the other half of the meaning -- a screened gene with no egress call was "
                  "looked at and was normal, and the 7,800 unscreened genes stay missing, because "
-                 "collapsing those would tell the map that nearly every gene has been checked."),
+                 "collapsing those would tell the map that nearly every gene has been checked.", organism=organisms.TOXOPLASMA),
     Dataset("plasmodb_pf3d7_attributes", "Plasmodium falciparum 3D7 gene attributes",
             "reference", "annotation",
             "The second species: gene structure and the protein's sequence properties",
@@ -1404,7 +1410,7 @@ REGISTRY = [
                  "2026-09-25: its columns' median association with each other was 0.13, with 70% "
                  "of pairs under 0.2 -- the loosest 'experiment' in either table -- so holding out "
                  "the piggyBac screen also removed codon usage, orthology and SNPs. They are five "
-                 "entries now, and the closure's 'shared experiment' rule means what it says."),
+                 "entries now, and the closure's 'shared experiment' rule means what it says.", organism=organisms.FALCIPARUM),
     Dataset("plasmodb_pf3d7_orthology", "Plasmodium falciparum 3D7 orthology and paralogy",
             "reference", "orthology",
             "OrthoMCL group, ortholog and paralog counts from the same PlasmoDB report",
@@ -1416,7 +1422,7 @@ REGISTRY = [
             path="starplast/data/pf_nodes.parquet",
             note="Split from the attribute report on 2026-09-25 (see plasmodb_pf3d7_attributes): "
                  "orthology is computed from sequence across species, not measured on this gene, "
-                 "and grouping it with the piggyBac screen closed one over the other for nothing."),
+                 "and grouping it with the piggyBac screen closed one over the other for nothing.", organism=organisms.FALCIPARUM),
     Dataset("plasmodb_pf3d7_domains", "Plasmodium falciparum 3D7 InterPro domains",
             "reference", "domains",
             "InterPro and Pfam domain content from the same PlasmoDB report",
@@ -1426,7 +1432,7 @@ REGISTRY = [
             url="https://plasmodb.org/plasmo/service/record-types/transcript/searches/"
                 "GenesByTaxon/reports/attributesTabular",
             path="starplast/data/pf_nodes.parquet",
-            note="Split from the attribute report on 2026-09-25 (see plasmodb_pf3d7_attributes)."),
+            note="Split from the attribute report on 2026-09-25 (see plasmodb_pf3d7_attributes).", organism=organisms.FALCIPARUM),
     Dataset("plasmodb_pf3d7_snps", "Plasmodium falciparum strain variation",
             "reference", "variation",
             "SNP counts across sequenced strains, from the same PlasmoDB report",
@@ -1439,7 +1445,7 @@ REGISTRY = [
             path="starplast/data/pf_nodes.parquet",
             note="Split from the attribute report on 2026-09-25 (see plasmodb_pf3d7_attributes): "
                  "population sequencing is its own experiment, and its columns are the only ones "
-                 "of the report that are associated with each other."),
+                 "of the report that are associated with each other.", organism=organisms.FALCIPARUM),
     Dataset("pf_latency_transcriptome", "Transcription in a drug-tolerant latent state",
             "transcription", "scRNAseq",
             "Change in each gene in latent parasites, and the paper's 200-gene latency classifier",
@@ -1457,7 +1463,7 @@ REGISTRY = [
                  "would call almost everything significant. And absence as evidence: ribosomal "
                  "protein genes and most var and rifin genes are missing from the table entirely, "
                  "so a gene with no value was not shown to be unchanged. No GEO or SRA accession "
-                 "is given in the preprint, which is why the accession field names the supplement."),
+                 "is given in the preprint, which is why the accession field names the supplement.", organism=organisms.FALCIPARUM),
     Dataset("pf_m6a_nanopore", "m6A methylation per transcript", "transcription",
             "RNAseq",
             "How many canonical methylation sites a transcript has, and how fully methylated",
@@ -1478,7 +1484,7 @@ REGISTRY = [
                  "deposit's two groups are UNLABELLED; the second has about half the methylation, "
                  "consistent with the paper's knock-sideways of the methyltransferase, which is "
                  "enough to choose the control arm but not enough to ship a difference, so no "
-                 "difference is shipped."),
+                 "difference is shipped.", organism=organisms.FALCIPARUM),
     Dataset("pf_gametocyte_proteome", "Mature gametocyte proteome and translatome",
             "translation", "proteomics",
             "What a stage V gametocyte contains, and which proteins it is still making",
@@ -1498,7 +1504,7 @@ REGISTRY = [
                  "MEMBERSHIP rather than an enrichment on purpose: there is one pooled sample per "
                  "condition and most labelled proteins are absent from the controls, so a ratio "
                  "would be a ratio to nothing. A protein the label found but the abundance run did "
-                 "not quantify keeps its flag and has no abundance."),
+                 "not quantify keeps its flag and has no abundance.", organism=organisms.FALCIPARUM),
     Dataset("pf_target_engagement", "Antimalarial target engagement (thermal profiling)",
             "post_translation", "proteomics",
             "How many of 25 antimalarials measurably engage each protein, and how many tested it",
@@ -1519,7 +1525,7 @@ REGISTRY = [
                  "is not the evidence of one hit twice out of 25. NOT a melting temperature: this "
                  "design holds temperature fixed and varies dose, so it cannot give one -- the "
                  "melting points are the separate MAP-X meltome, a different experiment from the "
-                 "same laboratory."),
+                 "same laboratory.", organism=organisms.FALCIPARUM),
     Dataset("pf_febrile_phospho", "Phosphorylation under febrile heat stress",
             "post_translation", "proteomics",
             "How far each protein's phosphorylation moves at 39 degrees, and at how many sites",
@@ -1540,7 +1546,7 @@ REGISTRY = [
                  "128 and 51, which is what these columns count. Specific rather than global: 60% "
                  "of proteins with a rising site are exported to the host cell against 7% of all "
                  "quantified proteins. A site whose peptide could belong to more than one gene is "
-                 "dropped rather than assigned to the first."),
+                 "dropped rather than assigned to the first.", organism=organisms.FALCIPARUM),
     Dataset("pf_chromatin_proxiome", "Chromatin-state proximity proteomes", "post_translation",
             "BioID",
             "How enriched each protein is near heterochromatin, active marks and the centromere",
@@ -1565,7 +1571,7 @@ REGISTRY = [
                  "not the same quantity. Controls land correctly: HP1, HDA2, GDV1 and AP2-HC in "
                  "heterochromatin, CENH3 at the centromere, BDP1 and GCN5 in active chromatin. "
                  "SIR2A is in none, because no bait detected it -- absence of evidence. A protein "
-                 "group spanning two genes is dropped, not assigned to the first."),
+                 "group spanning two genes is dropped, not assigned to the first.", organism=organisms.FALCIPARUM),
     Dataset("pf_meltome", "Protein melting temperature across the blood-stage cycle",
             "translation", "proteomics",
             "The temperature at which each protein leaves solution in an intact cell",
@@ -1591,7 +1597,7 @@ REGISTRY = [
                  "protein's melting point varies 3.7 degrees across the cycle against 1.15 of "
                  "replicate noise, so per-stage columns would claim a resolution the data lacks. "
                  "The worst run by fit acceptance is the replicate the authors themselves "
-                 "excluded, found independently here and dropped."),
+                 "excluded, found independently here and dropped.", organism=organisms.FALCIPARUM),
     Dataset("pf_pb_fertility_transfer", "Male and female fertility, transferred from P. berghei",
             "DNA", "CRISPR_screen",
             "Whether a knockout loses male or female fertility, measured in the rodent parasite",
@@ -1611,7 +1617,7 @@ REGISTRY = [
                  "table names the falciparum ortholog itself, so no orthology call is made here; a "
                  "gene named by two mutants, or a mutant covering two genes, is dropped rather "
                  "than averaged. A TRANSFER, grouped with orthology for leakage: an ortholog's "
-                 "phenotype is not an independent measurement of this gene."),
+                 "phenotype is not an independent measurement of this gene.", organism=organisms.FALCIPARUM),
     Dataset("plasmodb_pf3d7_piggybac", "Plasmodium falciparum piggyBac saturation mutagenesis",
             "DNA", "insertion screen",
             "Mutagenesis index and fitness score from a genome-saturating transposon screen",
@@ -1631,7 +1637,7 @@ REGISTRY = [
                  "trap: a LOW mutagenesis index means the gene resists disruption and is therefore "
                  "essential, and inverting it would swap the essential and dispensable genomes "
                  "without crashing, so the test checks it against biology -- ribosomal proteins "
-                 "come out at median MIS 0.15 and the var, rifin and stevor families at 0.94."),
+                 "come out at median MIS 0.15 and the var, rifin and stevor families at 0.94.", organism=organisms.FALCIPARUM),
     Dataset("plasmodb_pf3d7_expression", "Plasmodium falciparum life-stage and polysomal RNA",
             "transcription", "RNAseq",
             "Transcript abundance across seven life stages, and what is on ribosomes",
@@ -1674,7 +1680,7 @@ REGISTRY = [
                  "not how much there is, so `protein abundance · asexual blood stage` is left EMPTY "
                  "rather than filled with a share. The tell would have been well hidden: ring "
                  "protein correlates -0.25 with ring mRNA, which reads as a biological puzzle and "
-                 "is only the normalisation showing through."),
+                 "is only the normalisation showing through.", organism=organisms.FALCIPARUM),
     Dataset("pf_alphafold_confidence", "Plasmodium model confidence and disorder (AlphaFold DB)",
             "reference", "structure",
             "Mean pLDDT per protein, and the fraction of it at each confidence band",
@@ -1696,7 +1702,7 @@ REGISTRY = [
                  "against 56.0 for those without (p = 2e-159), because a domain is a thing that "
                  "folds. The correlation with protein length is NEGATIVE at -0.555, which is not a "
                  "fault -- it is this proteome's low-complexity asparagine insertions, which are "
-                 "long and disordered."),
+                 "long and disordered.", organism=organisms.FALCIPARUM),
     Dataset("pf_febrile_stress", "Plasmodium transcription at febrile temperature",
             "transcription", "RNAseq",
             "Wild type and two mutants at 37 C and at the 41 C of a malarial fever",
@@ -1716,7 +1722,7 @@ REGISTRY = [
                  "log2, matching published fever-driven surface remodelling. But a null result on "
                  "the one available prediction is not a validation, and a derived column would imply "
                  "it had passed one. A test asserts the arms are on a comparable scale, which is the "
-                 "precondition for the caller making the contrast themselves."),
+                 "precondition for the caller making the contrast themselves.", organism=organisms.FALCIPARUM),
     Dataset("pf_sir2_perturbation", "Plasmodium transcription under Sir2 knockout",
             "transcription", "microarray",
             "Wild type and sir2a / sir2b knockout at ring, trophozoite and schizont",
@@ -1738,7 +1744,7 @@ REGISTRY = [
                  "confirmation. The conditions themselves are unambiguous -- PlasmoDB names them, "
                  "the values are log intensities, and the medians align across arrays within 0.1, "
                  "which a test asserts because it is the precondition that makes differencing them "
-                 "meaningful at all."),
+                 "meaningful at all.", organism=organisms.FALCIPARUM),
     # `kind` names the measurement underneath, not the fact of derivation -- the same rule the
     # Toxoplasma `stage_enriched` entry records. It is RNA-seq: the argmax of nine expression columns.
     Dataset("pf_iedb_bcell", "Plasmodium antibody epitopes (IEDB)", "reference", "immunity",
@@ -1757,7 +1763,7 @@ REGISTRY = [
                  "to a protein, and attaching it to whichever paralogue sorted first would be "
                  "inventing the answer. 434 of 444 antigens resolve. Absent is absent and not zero, "
                  "because IEDB records what somebody tested. Validated on the history of the field: "
-                 "MSP1 is the top antigen and CSP, the RTS,S vaccine antigen, is present."),
+                 "MSP1 is the top antigen and CSP, the RTS,S vaccine antigen, is present.", organism=organisms.FALCIPARUM),
     Dataset("pf_iedb_tcell", "Plasmodium T-cell epitopes (IEDB)", "reference", "immunity",
             "Distinct T-cell epitope sequences per gene", ("n_tcell_epitopes",),
             "44 antigens, 1,542 distinct epitopes", accession="IEDB tcell_search",
@@ -1769,7 +1775,7 @@ REGISTRY = [
                  "T-cell one. Pooling them, or filling either slot with the other, would answer one "
                  "question with the other's number. Same UniProt keying and same distinct-sequence "
                  "counting as the antibody table, and the loader reads whichever halves are present "
-                 "so one fetch failing does not cost the other column."),
+                 "so one fetch failing does not cost the other column.", organism=organisms.FALCIPARUM),
     Dataset("pf_derived_stage_labels", "Plasmodium peak expression and stage label (DERIVED)",
             "transcription", "RNAseq",
             "Maximum expression across stages, and which stage a gene belongs to",
@@ -1790,7 +1796,7 @@ REGISTRY = [
                  "of the 310 not because it uses more genes but because ring, trophozoite and "
                  "schizont are highly correlated with one another and rarely win by a margin, while "
                  "the mosquito stages are separable. The margin rule is working; the interpretation "
-                 "is what needs care."),
+                 "is what needs care.", organism=organisms.FALCIPARUM),
     Dataset("plasmodb_identity", "PlasmoDB gene identity", "reference", "identity",
             "Symbols, previous IDs, product descriptions for the Plasmodium arm",
             ("gene_id", "product"), "5,791 P. falciparum 3D7 transcripts", accession="PlasmoDB 3D7",
@@ -1804,7 +1810,7 @@ REGISTRY = [
                  "previous ids resolve; 66 are claimed by two current genes each -- a gene model "
                  "SPLIT, seen from the other side -- and those are withdrawn rather than assigned "
                  "to whichever came first, the same rule the Toxoplasma layer applies to 153 "
-                 "strings."),
+                 "strings.", organism=organisms.FALCIPARUM),
     Dataset("pf_riboseq", "Plasmodium ribosome profiling across the asexual cycle",
             "translation", "riboseq",
             "Ribosome-footprint and mRNA density per gene at five points of the blood-stage cycle",
@@ -1839,7 +1845,7 @@ REGISTRY = [
                  "the cycle rather than a contradiction. Strain W2, not 3D7, so the surface-antigen "
                  "families are the place to distrust it. Keyed on pre-2012 accessions and resolved "
                  "through `plasmodb_identity`; the deposit's `-a`/`-b` split entries are dropped "
-                 "rather than summed, since RPKM is already length-normalised."),
+                 "rather than summed, since RPKM is already length-normalised.", organism=organisms.FALCIPARUM),
     Dataset("pf_berghei_liver_transfer", "P. berghei liver-stage fitness, transferred to falciparum",
             "DNA", "CRISPR_screen",
             "How a berghei knockout fares through the liver, carried onto its falciparum ortholog",
@@ -1863,7 +1869,7 @@ REGISTRY = [
                  "hepatocyte egress. The same file's two MOSQUITO transitions are NOT shipped: the "
                  "markers available to check them (P25, P28, SOAP, chitinase) are the redundant "
                  "ones, so nothing in the data confirms the direction, and a transmission slot "
-                 "filled on an unchecked axis is what this campaign refuses."),
+                 "filled on an unchecked axis is what this campaign refuses.", organism=organisms.FALCIPARUM),
     Dataset("host_erythrocyte_proteome", "Human red blood cell proteome, by fraction",
             "reference", "proteomics",
             "Which human proteins are present in the cell the blood stage lives in",
@@ -1882,7 +1888,7 @@ REGISTRY = [
                  "membrane list and haemoglobin alpha the cytoplasmic one. Rows are HUMAN proteins "
                  "keyed by UniProt accession and live in the host table, never in a parasite one; a "
                  "row can name several genes (`HBA1; HBA2`) and the string is kept as given rather "
-                 "than one of them chosen."),
+                 "than one of them chosen.", organism=organisms.HUMAN),
     Dataset("pf_foldseek_struct", "Foldseek structural similarity (Plasmodium)",
             "post_translation", "structure",
             "Which parasite proteins fold alike, without asking whether they are related",
@@ -1915,7 +1921,7 @@ REGISTRY = [
                  "exist. The Toxoplasma claim that it `reaches genes homology cannot` does NOT "
                  "transfer verbatim: PlasmoDB gives all 5,720 genes an orthogroup, so there are "
                  "none without one to reach, and the cross-orthogroup share is the honest form of "
-                 "that statement here."),
+                 "that statement here.", organism=organisms.FALCIPARUM),
     Dataset("host_erythrocyte_surface", "Human red blood cell SURFACE proteome, by population",
             "reference", "proteomics",
             "Which host proteins are reachable from outside the cell the merozoite invades",
@@ -1938,7 +1944,7 @@ REGISTRY = [
                  "Reconciles with the paper's own sheets: 230 proteins in both populations, 11 in "
                  "UK donors only, 26 in Senegalese donors only. Self-validating against numbers "
                  "measured long before mass spectrometry -- band 3 at 1.3 million copies per cell "
-                 "and glycophorin A at 3.3 million, with basigin present in both populations."),
+                 "and glycophorin A at 3.3 million, with basigin present in both populations.", organism=organisms.HUMAN),
     Dataset("host_mouse_tissue_transcriptome", "FANTOM5 mouse brain and skeletal muscle",
             "reference", "transcription",
             "How much of each gene the mouse tissues a bradyzoite persists in transcribe",
@@ -1966,7 +1972,7 @@ REGISTRY = [
                  "markers that must separate and do, by four to five orders of magnitude in both "
                  "directions: Acta1 is 102,086 in muscle against 1.0 in brain and Ckm 54,636 "
                  "against 0.6, while Snap25 is 1,171 in brain and below cutoff in muscle, as is "
-                 "Gfap at 34."),
+                 "Gfap at 34.", organism=organisms.MOUSE),
     Dataset("host_gtex_transcriptome", "GTEx median expression in two host cell types",
             "reference", "transcription",
             "How much of each gene the host cell transcribes, in the cell each parasite lives in",
@@ -1994,7 +2000,7 @@ REGISTRY = [
                  "against 0.24 in fibroblast, APOA1 3,330 against 0.40, and in the other direction "
                  "COL1A1 is 4,009 in fibroblast against 3.4 in hepatocyte and fibronectin 21,268 "
                  "against 200. Three to four orders of magnitude the right way round in both "
-                 "directions is the check that the Ensembl keying is correct."),
+                 "directions is the check that the Ensembl keying is correct.", organism=organisms.HUMAN),
     Dataset("host_k562_rhoptry_screen", "Host genes required for rhoptry discharge", "reference",
             "CRISPR_screen",
             "Whether knocking out a human gene stops Toxoplasma discharging its rhoptries",
@@ -2014,7 +2020,7 @@ REGISTRY = [
                  "involved, are not hits. The Wald FDR is shipped rather than the permutation one, "
                  "which is quantised into a few values and would read as ties. Keyed by reviewed "
                  "UniProt through gene symbol; 155 microRNA loci and other unresolvable symbols "
-                 "are dropped. A preprint."),
+                 "are dropped. A preprint.", organism=organisms.HUMAN),
     Dataset("host_hff_tg_infection", "Human fibroblast response to Toxoplasma infection",
             "reference", "transcription",
             "Infected against uninfected HFF, per host gene: moderated log2 change and FDR",
@@ -2030,7 +2036,7 @@ REGISTRY = [
                  "arm, genes at a mean FPKM of 1, wild-type infection against uninfected. The "
                  "TGGT1_245740 knockout arm is not shipped -- it answers a question about one "
                  "parasite gene. Textbook response: CXCL8 +5.4, IL6 +2.7, CXCL10 +2.3, ISG15 "
-                 "+2.1; GAPDH and ACTB flat. 315 genes at padj < 0.05."),
+                 "+2.1; GAPDH and ACTB flat. 315 genes at padj < 0.05.", organism=organisms.HUMAN),
     Dataset("host_bmdm_baseline", "Baseline mouse bone-marrow macrophage transcriptome",
             "reference", "transcription",
             "How much of each gene an unstimulated macrophage transcribes (TPM)",
@@ -2044,7 +2050,7 @@ REGISTRY = [
             note="The three unstimulated M0 samples only; the LPS + IFN-gamma arms are a "
                  "stimulus, not infection, and do not answer any slot. Keyed on Ensembl through "
                  "reviewed UniProt, never on the deposit's symbols, which are old (Emr1, Irg1). "
-                 "Markers behave: Lyz2 27,505 TPM, Cd68 2,791, Csf1r 1,276, Adgre1 903, Alb 0."),
+                 "Markers behave: Lyz2 27,505 TPM, Cd68 2,791, Csf1r 1,276, Adgre1 903, Alb 0.", organism=organisms.MOUSE),
     Dataset("host_hepatocyte_pf_infection", "Human hepatocyte response to P. falciparum",
             "reference", "transcription",
             "Infected against uninfected primary hepatocytes, per host gene: log2 change and FDR",
@@ -2063,7 +2069,7 @@ REGISTRY = [
                  "are infected, two donors -- and only 25 genes reach padj < 0.05; what does is a "
                  "type-I interferon response in both strains (IFI44L, CXCL10, CXCL11, RSAD2, "
                  "IFIT1). Whether the uninfected wells received mock mosquito material is not "
-                 "described, so part of that signal may come from the sporozoite preparation."),
+                 "described, so part of that signal may come from the sporozoite preparation.", organism=organisms.HUMAN),
     Dataset("host_macrophage_surfaceome", "Mouse bone-marrow macrophage cell-surface repertoire",
             "reference", "proteomics",
             "Which host proteins are EXPOSED on the surface of the macrophage a tachyzoite invades",
@@ -2090,7 +2096,7 @@ REGISTRY = [
                  "nine with a macrophage intensity and no detection mark and three the other way; "
                  "either sheet counts as the authors having measured it there, and the count of "
                  "disagreements is logged rather than smoothed. Self-validating: the strongest "
-                 "signals are Emr1 (F4/80), Siglec1 (CD169), Itgb2, Cd47 and H2-K1."),
+                 "signals are Emr1 (F4/80), Siglec1 (CD169), Itgb2, Cd47 and H2-K1.", organism=organisms.MOUSE),
     Dataset("pf_literature", "Plasmodium falciparum abstract corpus (COMPUTED layer)",
             "reference", "literature",
             "Who is named in the malaria literature, how deeply, and which genes appear together",
@@ -2112,7 +2118,7 @@ REGISTRY = [
                  "than constants in it. Hard-coded to Toxoplasma they registered 9 of 9,106 "
                  "previous accessions and the corpus read as one that never mentions a gene. "
                  "Abstracts only: there is no `incidental` tier, since that means a mention in a "
-                 "body or a caption, and no full-text corpus is loaded for this arm."),
+                 "body or a caption, and no full-text corpus is loaded for this arm.", organism=organisms.FALCIPARUM),
     Dataset("pf_berghei_transfer", "P. berghei knockout fitness, transferred to falciparum",
             "DNA", "CRISPR_screen",
             "Relative growth of berghei knockouts, carried onto their falciparum orthologs",
@@ -2137,7 +2143,7 @@ REGISTRY = [
                  "ribosomal proteins come out essential. The 12 mutants the screen calls "
                  "`Insufficient data` keep their confidence and lose their phenotype and growth "
                  "rate: that phrase is the absence of a measurement, not a middle value. The other "
-                 "3,272 falciparum genes are UNSCREENED, not dispensable, and stay missing."),
+                 "3,272 falciparum genes are UNSCREENED, not dispensable, and stay missing.", organism=organisms.FALCIPARUM),
     Dataset("pf_idc_timing", "Plasmodium intraerythrocytic cycle timing", "transcription", "RNAseq",
             "When in the 48-hour cycle each transcript peaks, and how strongly it cycles",
             ("idc_peak_hour", "idc_cycling_amplitude"),
@@ -2166,7 +2172,7 @@ REGISTRY = [
                  "36.2 h, KAHRP 25.1 h, SBP1 15.1 h -- and AMA1 at 2.5 h, which is five hours from "
                  "MSP1 across the wrap and not the other way round. READ IT AS A CIRCLE. Genes "
                  "whose first harmonic explains less than 40% of their variation are left missing, "
-                 "because a flat profile still has an angle."),
+                 "because a flat profile still has an angle.", organism=organisms.FALCIPARUM),
     Dataset("pf_ip_ms", "Plasmodium co-immunoprecipitation interactome (EPIC)",
             "post_translation", "IP-MS",
             "Which parasite proteins came down with each tagged bait, against its own control",
@@ -2193,7 +2199,7 @@ REGISTRY = [
                  "table, and one PV2 row (PIESP2) that carries seven counts instead of eight, since "
                  "the missing number could be either arm. Degree is missing outside the experiment "
                  "-- four pulldowns are not a survey, and a zero would say `nothing binds this` "
-                 "about a protein nobody tested."),
+                 "about a protein nobody tested.", organism=organisms.FALCIPARUM),
     Dataset("pf_cdpk1_dependent_sites", "Plasmodium CDPK1-dependent phosphosites",
             "post_translation", "phosphoproteomics",
             "Phosphosites per gene that are lost when PfCDPK1 is knocked down",
@@ -2218,7 +2224,7 @@ REGISTRY = [
                  "GAP45, myosin A, actin I and IMC1c/1g are all in it. Named for DEPENDENCE and "
                  "not for substrate -- a site lost under knockdown may be phosphorylated by this "
                  "kinase or by something downstream of it, and the file cannot tell them apart. "
-                 "The paper's PfPKA-R result is not in this sheet and is not claimed here."),
+                 "The paper's PfPKA-R result is not in this sheet and is not claimed here.", organism=organisms.FALCIPARUM),
     Dataset("pf_secretome", "Plasmodium extracellular vesicle proteome",
             "post_translation", "proteomics",
             "Parasite proteins found in extracellular vesicles, and how many preparations found them",
@@ -2246,7 +2252,7 @@ REGISTRY = [
                  "Absence is unknown and stays missing. A companion boolean completed with "
                  "False would have read as 5,720 genes tested and 5,536 negative, and graded the "
                  "slot A at 100% for an experiment that identified 184 proteins -- so this one "
-                 "ships a single column whose presence is the evidence."),
+                 "ships a single column whose presence is the evidence.", organism=organisms.FALCIPARUM),
     Dataset("pf_isoforms", "Plasmodium long-read transcript models", "transcription", "nanopore",
             "Transcript models per gene, and how many the annotation does not contain",
             ("n_transcript_models", "novel_transcript_models"),
@@ -2264,7 +2270,7 @@ REGISTRY = [
                  "methylome, and was refused for that -- the isoform table beside it is the usable "
                  "one. The obvious correlation holds: more expressed genes yield more models "
                  "(rho +0.36), which is detection depth and is why the count is not read as "
-                 "isoform diversity."),
+                 "isoform diversity.", organism=organisms.FALCIPARUM),
     Dataset("pf_lactylome", "Plasmodium lysine lactylome (resolved from NF54)",
             "post_translation", "lactylation",
             "Lactylated lysines per gene, reported against NF54 and resolved to 3D7",
@@ -2283,7 +2289,7 @@ REGISTRY = [
                  "should look like when one line was cloned from the other, and a test fails if a "
                  "future release breaks it. 144 of 186 genes resolve; the rest are in multi-gene "
                  "groups. Site counts use a 0.75 localisation cut and the flag does not, the same "
-                 "split as acetylation."),
+                 "split as acetylation.", organism=organisms.FALCIPARUM),
     Dataset("pf_acetylome", "Plasmodium lysine acetylome", "post_translation", "acetylation",
             "Acetylated lysines per gene, and whether the gene was seen acetylated at all",
             ("n_acetylsites", "has_acetyl"), "1,145 genes, 2,163 localised sites", pmid="26813983",
@@ -2298,7 +2304,7 @@ REGISTRY = [
                  "to 0 -- so taking its length as a site count would have been wrong by about a "
                  "quarter. Self-validating: fourteen histones appear, and the most heavily "
                  "acetylated proteins are the PHD finger proteins, the MYST acetyltransferase and "
-                 "the coactivator ADA2, which is to say the acetylation machinery itself."),
+                 "the coactivator ADA2, which is to say the acetylation machinery itself.", organism=organisms.FALCIPARUM),
     Dataset("pf_myristoylome", "Plasmodium N-myristoylome (NMT-inhibitor sensitive)",
             "post_translation", "myristoylation",
             "Proteins whose click-chemistry capture drops when N-myristoyltransferase is blocked",
@@ -2316,7 +2322,7 @@ REGISTRY = [
                  "myristoylation by one experiment that saw 609 proteins. Sparse because the "
                  "biology is: Plasmodium has roughly thirty predicted NMT substrates. The list "
                  "validates itself -- GAP45, ARO, CDPK1, Rab-5B, ARF1 and ISP3 are the canonical "
-                 "N-myristoylated families in apicomplexans and all are present."),
+                 "N-myristoylated families in apicomplexans and all are present.", organism=organisms.FALCIPARUM),
     Dataset("pf_palmitome", "Plasmodium palmitome (observed only)", "post_translation",
             "palmitoylation",
             "Proteins observed S-palmitoylated, with the motif prediction deliberately excluded",
@@ -2334,7 +2340,7 @@ REGISTRY = [
                  "the canonical Plasmodium substrates, are both present, and membrane proteins are "
                  "enriched 2.1-fold among the palmitoylated (44% against 27%, p = 7e-15), which is "
                  "what a membrane-anchoring modification has to do. ARO is a known miss -- no "
-                 "palmitome is complete, and absence here means not observed."),
+                 "palmitome is complete, and absence here means not observed.", organism=organisms.FALCIPARUM),
     Dataset("pf_phosphoproteome_meta", "Plasmodium phosphosites (re-analysis of all public data)",
             "post_translation", "phosphoproteomics",
             "Distinct phosphorylated residues per gene, pooled across every public study",
@@ -2357,7 +2363,7 @@ REGISTRY = [
                  "because whether it was ever observed phosphorylated is a question about the "
                  "evidence and the answer is no. Validated on orderings rather than totals: 67% of "
                  "kinases carry a site against 44% of genes at large, and site count rises with "
-                 "protein length at rho +0.46."),
+                 "protein length at rho +0.46.", organism=organisms.FALCIPARUM),
     Dataset("plasmodb_pf3d7_exportpred", "Plasmodium export prediction (ExportPred)",
             "reference", "annotation",
             "Predicted export to the erythrocyte, as an ordinal confidence tier",
@@ -2377,7 +2383,7 @@ REGISTRY = [
                  "biology: MESA and PfEMP3 are exported by any textbook and both fall below 10, "
                  "while KAHRP and the FIKK kinases sit above it. Absence is a real negative here "
                  "and not a gap -- a sequence model was evaluated on every protein, so its silence "
-                 "is a prediction of not-exported, which is the opposite of the screen columns."),
+                 "is a prediction of not-exported, which is the opposite of the screen columns.", organism=organisms.FALCIPARUM),
     Dataset("pf_host_degree", "Plasmodium host interaction degree (COMPUTED)", "reference",
             "crosslink_MS",
             "How many host proteins a gene was crosslinked to, where it was looked at",
@@ -2394,7 +2400,7 @@ REGISTRY = [
                  "test found: a PF3D7 accession the node table does not carry is a PARASITE protein "
                  "with no row, and reading it as host inflated this count. The shipped numbers were "
                  "unaffected, because every accession in this file is in the table, but the fix is "
-                 "what stops the next file from being wrong."),
+                 "what stops the next file from being wrong.", organism=organisms.FALCIPARUM),
     Dataset("pf_enzyme_classification", "Plasmodium enzyme classification (PlasmoDB)",
             "reference", "annotation",
             "EC number per gene, curated and orthology-derived kept apart",
@@ -2410,7 +2416,7 @@ REGISTRY = [
                  "1,584 genes with no way to tell which 335 were never annotated here at all, which "
                  "is inference standing where annotation should. The slot lists the curated column "
                  "first and its policy is `one`, so the leading candidate wins and the derived field "
-                 "is there to be chosen deliberately rather than by default."),
+                 "is there to be chosen deliberately rather than by default.", organism=organisms.FALCIPARUM),
     Dataset("pf_codon_usage", "Plasmodium codon usage (COMPUTED)", "reference", "annotation",
             "Effective number of codons, GC3, and CAI against the ribosomal proteins",
             ("codon_enc", "codon_gc3", "codon_cai_ribosomal"), "5,318 genes",
@@ -2428,7 +2434,7 @@ REGISTRY = [
                  "against 53.9 -- P. falciparum has the most AT-rich genome of any eukaryote, so "
                  "extreme codon bias is what has to appear, and a test fails if the two arms ever "
                  "converge. The sequence report API returned 422, 400 and 500 to three different "
-                 "request shapes; the static release FASTA is what works."),
+                 "request shapes; the static release FASTA is what works.", organism=organisms.FALCIPARUM),
     Dataset("pf_host_bridge_xlms", "Plasmodium to human contacts (crosslinking MS)", "reference",
             "crosslink_MS",
             "Parasite protein to erythrocyte protein, measured as a crosslink",
@@ -2445,7 +2451,7 @@ REGISTRY = [
                  "the parasite end can. Validated on an interaction that is in the textbooks: MESA "
                  "(PF3D7_0500800) crosslinks to erythrocyte ankyrin, and the rest of the human side "
                  "is stomatin, calpain, actin and spectrin beta -- the membrane skeleton, which is "
-                 "what an exported parasite protein should be touching."),
+                 "what an exported parasite protein should be touching.", organism=organisms.FALCIPARUM),
     Dataset("pf_complexes", "Plasmodium complexes from crosslinking MS", "reference",
             "crosslink_MS",
             "Which crosslink-derived complex a gene belongs to, and whether it reaches the host",
@@ -2461,7 +2467,7 @@ REGISTRY = [
                  "value would over-count its parasite neighbours. Only parasite members get a row; "
                  "the host members belong to a bridge table. Same study as the crosslink edge layer "
                  "and a different question: that one is which pairs touch, this one is which "
-                 "assembly a protein sits in."),
+                 "assembly a protein sits in.", organism=organisms.FALCIPARUM),
     Dataset("pf_crosslink_ms", "Plasmodium crosslinking MS contacts", "reference", "crosslink_MS",
             "Protein pairs joined by a measured crosslink", ("edge:xlms",),
             "79 parasite-parasite pairs", pmid="41966402",
@@ -2484,7 +2490,7 @@ REGISTRY = [
                  "symbol instead -- `sp|Q6ZMA7|Pfs16` is PF3D7_0406200, a parasite gene -- so six "
                  "real contacts were dropped as host-at-one-end and a parasite protein was on its "
                  "way into a host bridge. Resolving recovers all 79, and a test fails if the count "
-                 "ever drops back."),
+                 "ever drops back.", organism=organisms.FALCIPARUM),
     Dataset("pf_relation_layers", "Plasmodium relation layers (COMPUTED)", "reference", "graph",
             "Gene pairs sharing an orthogroup or a domain, and pairs whose stages covary",
             ("edge:orthogroup", "edge:domain", "edge:coexpression"),
@@ -2503,7 +2509,7 @@ REGISTRY = [
                  "and stevor families that share whole multi-domain architectures. The count is now "
                  "the weight, so a pair sharing eleven domains says so. The Toxoplasma arm emits no "
                  "duplicates at all today -- checked rather than assumed -- and would acquire the "
-                 "same fault the moment its annotation gained a pair sharing two domains."),
+                 "same fault the moment its annotation gained a pair sharing two domains.", organism=organisms.FALCIPARUM),
     Dataset("cotranslation_edges", "Co-translation layer (COMPUTED)", "translation", "RiboSeq",
             "Gene pairs whose ribosome footprints covary", ("edge:cotranslation",),
             "6,231 edges over 7,437 genes",
@@ -2517,7 +2523,7 @@ REGISTRY = [
                  "is that ribosomal proteins pair with each other 464 times where chance gives 3; "
                  "they are made together stoichiometrically, which is the textbook case of "
                  "co-translational regulation. 85 of its edges are also measured crosslink "
-                 "contacts."),
+                 "contacts.", organism=organisms.TOXOPLASMA),
     Dataset("m6a_peaks", "m6A methylome (MeRIP peaks)", "transcription", "MeRIP",
             "How many m6A peaks the authors called on this gene in tachyzoites",
             ("n_m6a_peaks",), "837 genes (10%)", pmid="34324585",
@@ -2532,7 +2538,7 @@ REGISTRY = [
                  "order for m6A. Verified against the paper's own second dataset: marked genes are "
                  "enriched among those responding to METTL3 depletion, odds 1.35, p = 2e-03 -- "
                  "modest because removing a writer has broad indirect effects, but the direction a "
-                 "writer's own substrates have to take."),
+                 "writer's own substrates have to take.", organism=organisms.TOXOPLASMA),
     Dataset("sexual_stages", "Sexual development in the cat (single-cell atlas)", "transcription",
             "scRNAseq", "Enrichment at 8 days post-infection, when gametogony happens",
             ("sexual_stage_8dpi_log2fc",), "4,463 genes (55%)", pmid="42020723",
@@ -2547,7 +2553,7 @@ REGISTRY = [
                  "is built at the end of the sexual cycle, while ribosomal housekeeping genes sit "
                  "at the 23rd. Accessions arrive as `DEAD/DEAHboxhelicase-TGME49-220860` -- product "
                  "description glued to the accession with hyphens for underscores -- so they are "
-                 "extracted and normalised rather than matched."),
+                 "extracted and normalised rather than matched.", organism=organisms.TOXOPLASMA),
     Dataset("secretome_partition", "Secreted-fraction partition", "post_translation", "proteomics",
             "How a secreted protein splits between the soluble and vesicular fractions",
             ("secretome_soluble_over_vesicle_log2",), "165 proteins", pmid="40874616",
@@ -2565,7 +2571,7 @@ REGISTRY = [
                  "micronemes, which dominate classical excretory-secretory antigen preparations, at "
                  "+3.72, and the GPI-anchored surface antigens at -0.68. Its limit is that there is "
                  "no negative list -- 171 proteins were seen in secreted material and nothing says "
-                 "what was looked for and missed, so absence is not evidence."),
+                 "what was looked for and missed, so absence is not evidence.", organism=organisms.TOXOPLASMA),
     Dataset("antisense_level", "Antisense transcription (via ToxoDB)", "transcription", "RNAseq",
             "Percentile of antisense signal at this gene, across the life cycle",
             ("antisense_expression_percentile",), "8,140 genes (100%)",
@@ -2581,7 +2587,7 @@ REGISTRY = [
                  "series it shares 197 of its top 500 where chance gives 31, a six-fold enrichment. "
                  "How much antisense a gene has is a property of the gene; how much it changed was a "
                  "property of the run. Correlates with sense transcription at only rho = +0.23, so "
-                 "it is not a restatement of expression."),
+                 "it is not a restatement of expression.", organism=organisms.TOXOPLASMA),
     Dataset("melting_temperature", "Protein melting temperature (mineCETSA)", "post_translation",
             "proteomics", "Where this protein's melting curve sits, in degrees",
             ("melting_temperature_tm",), "3,120 proteins (38%)", pmid="35976251",
@@ -2594,7 +2600,7 @@ REGISTRY = [
                  "0.8 or a Tm outside 30-80 C are dropped -- the fit reports values up to 8,563, "
                  "which is a failed fit and not a thermophile. Verified by reproducing across "
                  "independent replicates at rho = +0.78 over 1,623 proteins; a Tm that did not "
-                 "reproduce would be describing the run."),
+                 "reproduce would be describing the run.", organism=organisms.TOXOPLASMA),
     Dataset("thermal_shift_cetsa", "Calcium thermal-shift proteome (mineCETSA)", "post_translation",
             "proteomics", "How far a protein's melting curve moves when calcium is added",
             ("cetsa_calcium_ed_score",), "2,348 proteins", pmid="35976251",
@@ -2609,7 +2615,7 @@ REGISTRY = [
                  "about PP1, and PP1 is unremarkable in THIS column. That claim comes from the "
                  "zaprinast time course in the same paper, a different experiment; this is the "
                  "calcium mineCETSA sheet. PXD033642, the deposit for the same study, publishes "
-                 "only identifications and could not have filled this slot."),
+                 "only identifications and could not have filled this slot.", organism=organisms.TOXOPLASMA),
     Dataset("cyst_wall_interactome", "Cyst wall interactome", "post_translation", "IPMS",
             "Strongest bait signal and how many baits saw the protein",
             ("cyst_wall_max_spectral", "cyst_wall_n_baits"), "56 proteins", pmid="32019789",
@@ -2621,7 +2627,7 @@ REGISTRY = [
                  "is not. Verified by what comes out on top -- MAG1 and MAG2, the canonical cyst "
                  "matrix proteins, with MCP3, MCP4 and SRS44 beside them. 57 of the table's 265 "
                  "rows name a Toxoplasma accession; the rest are human, because the pulldowns were "
-                 "done on infected cultures and the table lists everything identified."),
+                 "done on infected cultures and the table lists everything identified.", organism=organisms.TOXOPLASMA),
 
     # ------------------------------------------------------------------ differentiation
     Dataset("second_background_fitness", "Fitness in the reporter strain (COMPUTED)", "DNA",
@@ -2639,7 +2645,7 @@ REGISTRY = [
                  "with the RH screen where it should: rho = +0.62 against fit_invitro_hff over 130 "
                  "shared genes, close enough that the direction and the join are right and far "
                  "enough that it is not a copy. The deposit sat in a folder named for this slot all "
-                 "day while only its differentiation arms were read."),
+                 "day while only its differentiation arms were read.", organism=organisms.TOXOPLASMA),
     Dataset("differentiation_screen", "Differentiation reporter CRISPR screen (COMPUTED)",
             "DNA", "CRISPR_screen",
             "Guide enrichment in reporter-positive parasites against the bulk population",
@@ -2655,7 +2661,7 @@ REGISTRY = [
                  "design names, and the column says ratio rather than phenotype so nobody mistakes "
                  "it for a number they reported. A targeted screen against nucleic-acid binding "
                  "proteins, so 240 genes is its full extent and not a coverage failure. Which member "
-                 "is which sample comes from the series matrix, never from the file name."),
+                 "is which sample comes from the series matrix, never from the file name.", organism=organisms.TOXOPLASMA),
     Dataset("pf_spatial_proteome", "Spatial proteome of the schizont (hyperLOPIT)",
             "post_translation", "LOPIT",
             "Which of 24 cellular niches each protein sits in, and the classifier's confidence",
@@ -2673,7 +2679,7 @@ REGISTRY = [
                  "cleft, ACP apicoplast, EXP2 and HSP101 at the PVM, GAPDH cytosol). `unknown` is "
                  "shipped as a MISSING label, not a 25th niche. The two-experiment classifier "
                  "(S1-S2) ships rather than the three-experiment one: it is the paper's headline and "
-                 "classifies more proteins, and shipping both would be one measurement twice."),
+                 "classifies more proteins, and shipping both would be one measurement twice.", organism=organisms.FALCIPARUM),
     Dataset("pf_field_variation", "Population and between-species variation per gene",
             "reference", "sequence",
             "Non-synonymous variation in field isolates, and dN/dS against Plasmodium orthologs",
@@ -2693,7 +2699,7 @@ REGISTRY = [
                  "with them at rho 0.29, which is a related quantity measured on a different "
                  "population, not a copy. Registered as its own entry because the columns belong to "
                  "different slots from the localization ones and provenance is a statement about "
-                 "which measurements a dataset produced."),
+                 "which measurements a dataset produced.", organism=organisms.FALCIPARUM),
     Dataset("pf_mrna_dynamics", "mRNA synthesis and decay rates through the blood-stage cycle",
             "transcription", "RNAseq",
             "Transcripts made per minute, and transcripts lost per minute, at each gene's peak",
@@ -2714,7 +2720,7 @@ REGISTRY = [
                  "the timing agrees with a series this study had no part in: of the genes whose "
                  "transcription peaks in a ring window, 87-92% also peak in the shipped ring "
                  "expression column. The peak-stage labels in the deposit are NOT shipped -- they "
-                 "would restate the stage expression series the table already carries."),
+                 "would restate the stage expression series the table already carries.", organism=organisms.FALCIPARUM),
     Dataset("pf_hsp90_chemoproteome", "Blood-stage proteome and Hsp90 dependence",
             "translation", "proteomics",
             "Protein abundance in a DMSO control, what two Hsp90 inhibitors do to it, and the "
@@ -2742,7 +2748,7 @@ REGISTRY = [
                  "first. UniProt accessions are mapped to genes through the deposit's own "
                  "Spectronaut report, not an external lookup. The PRIDE description says 133 hits "
                  "where the table lists 131; the reproducible number ships and the discrepancy is "
-                 "recorded. A preprint."),
+                 "recorded. A preprint.", organism=organisms.FALCIPARUM),
     Dataset("pf_rna_dependence", "RNA-dependent proteins (R-DeeP)", "post_translation", "RDeeP",
             "Whether a protein's complex falls apart when the RNA is digested",
             ("rna_dependent", "rna_dependence_qvalue"), "3,671 proteins (64%)",
@@ -2762,7 +2768,7 @@ REGISTRY = [
                  "2,773 proteins the run quantified: that experiment did test them. The classes come "
                  "out the right way round -- RNA helicases enriched (28 of 61, odds 2.7, p 2e-4), the "
                  "proteasome 0 of 14 -- while ribosomal proteins are DEPLETED (23 of 137), which is "
-                 "the reminder that this is not a column about binding RNA."),
+                 "the reminder that this is not a column about binding RNA.", organism=organisms.FALCIPARUM),
     Dataset("pf_committed_proteome", "Proteome of sexually committed parasites",
             "translation", "proteomics",
             "How much more or less of each protein a committed parasite carries",
@@ -2779,7 +2785,7 @@ REGISTRY = [
                  "itself is +1.68 at FDR 0 and that is a positive control and nothing more -- it is "
                  "what the sort was done on. The check that means something is the paper's finding "
                  "that merozoite surface proteins separate the populations: MSP1 +0.34 at FDR 0, "
-                 "MSP2 +0.67."),
+                 "MSP2 +0.67.", organism=organisms.FALCIPARUM),
     Dataset("pf_resistome", "In vitro evolution resistome and field variation", "DNA",
             "in_vitro_evolution",
             "How often a gene mutated under compound selection, and whether the paper calls it a "
@@ -2810,21 +2816,18 @@ REGISTRY = [
                  "zero -- 118 compounds are not a test of the other 4,600 genes -- which is the "
                  "opposite of the choice made for the R-DeeP flag, where the run did quantify every "
                  "protein it reports. The Pf6 columns are field variation over 5,970 isolates, with "
-                 "the deposit's -1 for 'not computable' read as missing."),
+                 "the deposit's -1 for 'not computable' read as missing.", organism=organisms.FALCIPARUM),
 ]
 
 _BY_KEY = {d.key: d for d in REGISTRY}
-#: Datasets measured in Plasmodium. The registry serves both organisms and 29 column names occur
+#: The registry serves several organisms and column names can occur
 #: in both tables -- `stage_enriched_derived`, `mean_plddt`, the codon and literature columns -- so
 #: a lookup by name alone answered for whichever organism's dataset came first. The Plasmodium stage
 #: label was closed over Toxoplasma's `expr_tachy`, `expr_cyst` and `expr_sporulated`, columns that
 #: table does not even have, and its own sources were left in.
-PLASMODIUM_PREFIXES = ("pf_", "plasmodb_")
-
-
 def organism_of(dataset) -> str:
-    """"Pf" or "Tg": which organism's table a dataset's columns live in."""
-    return "Pf" if str(dataset.key).startswith(PLASMODIUM_PREFIXES) else "Tg"
+    """The explicitly declared organism; dataset names are not species identifiers."""
+    return dataset.organism
 
 
 _BY_COLUMN = {c: d for d in REGISTRY for c in d.columns}
@@ -2853,9 +2856,7 @@ def provenance(column: str, organism: str | None = None) -> Dataset | None:
     resolves to whichever dataset was registered first.
     """
     if organism:
-        found = _BY_ORGANISM_COLUMN.get((organism, column))
-        if found is not None:
-            return found
+        return _BY_ORGANISM_COLUMN.get((organism, column))
     return _BY_COLUMN.get(column)
 
 
@@ -2871,8 +2872,7 @@ def derived_sources(column: str, organism: str | None = None) -> tuple:
     """
     candidates = [d for d in REGISTRY if column in d.columns and d.derived_from]
     if organism:
-        own = [d for d in candidates if organism_of(d) == organism]
-        candidates = own or candidates
+        candidates = [d for d in candidates if organism_of(d) == organism]
     return tuple(candidates[0].derived_from) if candidates else ()
 
 

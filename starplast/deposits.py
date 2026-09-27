@@ -1320,7 +1320,7 @@ class Deposit:
     and look exactly like a dataset with no coverage.
     """
     key: str                 # the registry entry it belongs to
-    organism: str            # "Tg", "Pf" or "host"
+    organism: str            # the species measured, including separate human and mouse deposits
     derive: Callable         # dataset_root -> frame; first column gene_id, or host_id + host_name
     combine: str = "mean"    # rows resolving to one gene: "mean" for replicate-like rows
 
@@ -1350,10 +1350,10 @@ DEPOSITS = (
     Deposit("pf_rna_dependence", "Pf", pf_rna_dependence),
     Deposit("pf_committed_proteome", "Pf", pf_committed_proteome),
     Deposit("pf_resistome", "Pf", pf_resistome),
-    Deposit("host_hff_tg_infection", "host", hff_tg_infection),
-    Deposit("host_bmdm_baseline", "host", bmdm_baseline),
-    Deposit("host_hepatocyte_pf_infection", "host", hepatocyte_pf_infection),
-    Deposit("host_k562_rhoptry_screen", "host", k562_rhoptry_screen),
+    Deposit("host_hff_tg_infection", "Hs", hff_tg_infection),
+    Deposit("host_bmdm_baseline", "Mm", bmdm_baseline),
+    Deposit("host_hepatocyte_pf_infection", "Hs", hepatocyte_pf_infection),
+    Deposit("host_k562_rhoptry_screen", "Hs", k562_rhoptry_screen),
 )
 
 
@@ -1429,11 +1429,13 @@ def parasite_columns(base: str, organism: str, ids, resolve=None, log=print) -> 
     return out
 
 
-def host_columns(base: str) -> pd.DataFrame:
-    """The host deposits merged on the host key, for `host.merge_tissue`."""
+def host_columns(base: str, organism: str) -> pd.DataFrame:
+    """One host species' deposits merged on its own protein key."""
     from . import host
+    if organism not in host.HOST_TABLES:
+        raise ValueError(f"unknown host organism: {organism}")
     out = pd.DataFrame()
     for dep in DEPOSITS:
-        if dep.organism == "host":
+        if dep.organism == organism:
             out = host.merge_tissue(out, _read(base, dep.key))
     return out

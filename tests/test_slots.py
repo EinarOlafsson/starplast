@@ -278,7 +278,8 @@ def test_every_unit_with_a_table_names_it():
     because edges are not rows and the host tables are not built."""
     # `host_gene` joined when the host table gained columns of its own rather than only keys.
     # `pair` stays out: edges and bridges are not rows.
-    assert set(slots.UNIT_TABLES) == {"gene", "metabolite", "host_gene"}
+    assert set(slots.UNIT_TABLES) == {"gene", "metabolite"}
+    assert set(slots.HOST_TABLES) == {"Hs", "Mm"}
     assert "pair" not in slots.UNIT_TABLES
 
 
@@ -516,10 +517,10 @@ def test_host_columns_never_appear_in_a_parasite_embedding():
     import pandas as pd
     from starplast import paths
     from starplast.embedding import SLOT_BLOCKS, EmbeddingSpec, columns_for
-    path = paths.cache_file(slots.UNIT_TABLES.get("host_gene", "host_proteins.parquet"))
-    if not os.path.exists(path):
-        pytest.skip("the host table is not built")
-    host = set(pd.read_parquet(path).columns) - {"gene_id"}
+    from starplast import host as H
+    tables = H.shipped_tables()
+    assert tables, "host tables not built"
+    host = set().union(*(set(t.columns) for t in tables.values())) - {"gene_id"}
     nodes = pd.read_parquet(paths.cache_file("nodes.parquet"))
     used = {c for cols in columns_for(nodes, EmbeddingSpec(blocks=tuple(SLOT_BLOCKS))).values()
             for c in cols}
@@ -744,10 +745,10 @@ def test_every_host_column_named_by_the_catalog_is_in_the_host_table():
     """A pattern naming a column nothing writes leaves the slot empty and says nothing about why."""
     gst = _generator()
     from starplast import paths
-    path = paths.cache_file("host_proteins.parquet")
-    if not os.path.exists(path):
-        pytest.skip("host table not built")
-    have = set(pd.read_parquet(path).columns)
+    from starplast import host
+    tables = host.shipped_tables()
+    assert tables, "host tables not built"
+    have = set().union(*(set(t.columns) for t in tables.values()))
     missing = {slot: [c for c in cols if c not in have]
                for slot, cols in gst.HOST_COLUMNS.items()
                if any(c not in have for c in cols)}

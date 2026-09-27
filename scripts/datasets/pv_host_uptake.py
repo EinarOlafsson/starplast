@@ -9,7 +9,7 @@ How enriched a host protein is at the parasitophorous vacuole
     PMID         : 34898650
     accession    : PLoS Pathogens 1010138 supplementary table
     url          : https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8700025/supplementaryFiles
-    local path   : starplast/data/host_proteins.parquet
+    local path   : starplast/data/hs_host_proteins.parquet
 
 Quirks that cost time once:
     A property OF a host protein rather than a bridge, because the bait is the compartment and

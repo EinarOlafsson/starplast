@@ -41,10 +41,10 @@ UNITS = ("gene", "host_gene", "pair", "ortholog_group", "metabolite")
 RESOLVABLE_UNIT = "gene"
 
 #: Units that have a table of their own to be resolved against, and where it lives. `pair` is absent
-#: because pair slots are answered by edge layers rather than by a table of rows, and `host_gene` is
-#: absent until instruction 39 builds the host tables -- an entry here is a promise that rows exist.
-UNIT_TABLES = {"gene": "nodes.parquet", "metabolite": "metabolites.parquet",
-               "host_gene": "host_proteins.parquet"}
+#: because pair slots are answered by edge layers. Host tables are keyed by species in HOST_TABLES,
+#: since a unit alone cannot choose between human and mouse rows.
+UNIT_TABLES = {"gene": "nodes.parquet", "metabolite": "metabolites.parquet"}
+HOST_TABLES = _organisms.HOST_TABLES
 
 #: A bridge is a pair whose two ends live in DIFFERENT tables, so it is neither a column nor an edge
 #: in `graph.npz` -- those are index pairs into the parasite table and a host protein has no index
@@ -231,9 +231,20 @@ def is_filled(slot: Slot, nodes: pd.DataFrame = None, graph=None,
         present = {str(name).split("__")[0] for name in getattr(graph, "files", ())}
         return all(edge in present for edge in wanted)
     if slot.unit != RESOLVABLE_UNIT:
-        table = (tables or {}).get(slot.unit)
+        table = unit_table(slot, tables)
         return bool(table is not None and len(table) and declared_columns(table, slot))
     return bool(nodes is not None and declared_columns(nodes, slot))
+
+
+def unit_table(slot: Slot, tables: dict | None = None) -> pd.DataFrame | None:
+    """The one side table answering a slot, refusing to combine species for a host slot."""
+    table = (tables or {}).get(slot.unit)
+    if not isinstance(table, dict):
+        return table
+    matches = [frame for frame in table.values() if declared_columns(frame, slot)]
+    if len(matches) > 1:
+        raise ValueError(f"{slot.key}: host slot matches more than one organism")
+    return matches[0] if matches else None
 
 
 def coverage(organism: str = "Tg", nodes: pd.DataFrame = None, graph=None,

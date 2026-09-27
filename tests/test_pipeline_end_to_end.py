@@ -173,7 +173,7 @@ def test_every_registered_dataset_contributes_at_least_one_column(nodes):
         # deliberately mirrored from the Toxoplasma ones and `length` exists in both tables. The
         # second one, whose stage names are Plasmodium-specific, is what exposed it.
         elsewhere = set()
-        for name in list(slots.UNIT_TABLES.values()) + list(slots.SPECIES_TABLES.values()):
+        for name in list(slots.UNIT_TABLES.values()) + list(slots.SPECIES_TABLES.values()) + list(slots.HOST_TABLES.values()):
             if name == "nodes.parquet":
                 continue
             path = os.path.join(P.data_dir(), name)

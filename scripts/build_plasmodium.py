@@ -98,21 +98,19 @@ def main(argv=None, log=print) -> int:
     root = args.dataset_root or paths.dataset_root()
     table = paths.cache_file(plasmodium.TABLE)
     graph = paths.cache_file(pf_graph.GRAPH)
-    # The host table first, because a host slot is graded against it. It is not a Plasmodium file
-    # -- a mouse macrophage surfaceome answers a Toxoplasma slot -- but this is the one build that
-    # already assembles it, and splitting it out would give two scripts one output. Merged rather
-    # than overwritten: `build_graph` writes the Toxoplasma pulldown's columns into the same file,
-    # and the owners share a key rather than a column.
-    tissue = host.tissue_references(root, log=log)
-    if not tissue.empty:
-        host_path = paths.cache_file("host_proteins.parquet")
+    # Host slots are graded against one species' tissue references at a time.
+    for code, name in host.HOST_TABLES.items():
+        tissue = host.tissue_references(root, code, log=log)
+        if tissue.empty:
+            continue
+        host_path = paths.cache_file(name)
         existing = pd.read_parquet(host_path) if os.path.exists(host_path) else pd.DataFrame()
         merged = host.merge_tissue(existing, tissue)
         # Diffed like the gene table, and for the same reason: this merge silently dropped 311 host
         # symbols the first time it ran, and nothing said so because nothing was looking.
         if len(existing):
             host_diff = diff(existing, merged, key="host_id")
-            log("host table:")
+            log(f"{code} host table:")
             report(host_diff, log=log)
             problems = regressions(host_diff)
             if problems and not args.allow_loss:

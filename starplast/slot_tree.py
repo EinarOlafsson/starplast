@@ -130,9 +130,8 @@ def _side_tables(organism: str) -> dict:
     metabolites = paths.cache_file(S.UNIT_TABLES.get("metabolite", "metabolites.parquet"))
     if os.path.exists(metabolites):
         out["metabolite"] = pd.read_parquet(metabolites)
-    host = paths.cache_file(S.UNIT_TABLES.get("host_gene", "host_proteins.parquet"))
-    if os.path.exists(host):
-        out["host_gene"] = pd.read_parquet(host)
+    from . import host
+    out["host_gene"] = host.shipped_tables()
     # One bridge table per arm, and they must not be swapped: both key their rows `host`, so only the
     # parasite accessions say whose contacts these are. `is_filled` checks that with `same_species`.
     bridge = S.SPECIES_BRIDGE_TABLES.get(organism, {}).get("host")
@@ -178,8 +177,10 @@ def audit(organism: str, nodes=None, tables=None, graph=None, rows: dict = None)
     # TISSUE, not to a parasite -- `rbc_*` is claimed only by a Plasmodium slot and `bmdm_*` only by
     # a Toxoplasma one -- so walking one arm's catalogue would report the other arm's columns as
     # orphans in every window.
-    host = (tables or {}).get("host_gene")
-    if host is not None and len(host):
+    hosts = (tables or {}).get("host_gene")
+    for host in (hosts.values() if isinstance(hosts, dict) else (hosts,)):
+        if host is None or not len(host):
+            continue
         host_claimed = set()
         for slot in S.all_slots():
             if slot.unit == "host_gene":

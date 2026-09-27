@@ -153,7 +153,8 @@ def pf():
 @pytest.fixture(scope="module")
 def hosts():
     from starplast import paths
-    return pd.read_parquet(paths.cache_file("host_proteins.parquet"))
+    from starplast import host
+    return pd.concat(host.shipped_tables().values(), ignore_index=True)
 
 
 def test_the_new_in_vivo_tissues_are_there_and_agree_with_the_four_that_were(tg):

@@ -42,8 +42,10 @@ import re
 
 import numpy as np
 import pandas as pd
+from . import organisms
 
-HOST_TABLE = "host_proteins.parquet"
+HOST_TABLES = organisms.HOST_TABLES
+HOST_TABLE = HOST_TABLES[organisms.HUMAN]
 BRIDGE_TABLE = "host_bridges.parquet"
 
 #: The deposit, its bait, and the columns that make the comparison. `bait` is a parasite gene, and
@@ -378,6 +380,50 @@ def load(base: str, name: str = HOST_TABLE) -> pd.DataFrame:
     return pd.read_parquet(path) if os.path.exists(path) else pd.DataFrame()
 
 
+def shipped_tables(data_dir: str | None = None) -> dict:
+    """Load each available host protein table separately, keyed by its organism."""
+    from . import paths
+    data_dir = data_dir or paths.data_dir()
+    return {code: pd.read_parquet(os.path.join(data_dir, name))
+            for code, name in HOST_TABLES.items() if os.path.exists(os.path.join(data_dir, name))}
+
+
+def split_legacy_table(frame: pd.DataFrame, identities: dict | None = None) -> dict:
+    """Migrate the old mixed table using dataset provenance and explicit identity memberships.
+
+    Source columns have an organism declared in the dataset registry. Rows with no measured value
+    need membership in a species-specific source (`identities`: code -> accessions). Unknown columns,
+    unassigned rows and conflicting species are refused; no identifier or measurement is dropped.
+    This is a migration only, not an organism detector for new tables.
+    """
+    from .datasets import REGISTRY
+    if "host_id" not in frame or frame.host_id.isna().any() or not frame.host_id.is_unique:
+        raise ValueError("host migration requires unique, nonmissing host_id values")
+    metadata = {"host_id", "host_name"}
+    owners = {}
+    for dataset in REGISTRY:
+        if dataset.organism in HOST_TABLES:
+            for column in dataset.columns:
+                owners.setdefault(column, set()).add(dataset.organism)
+    unknown = set(frame) - metadata - set(owners)
+    if unknown:
+        raise ValueError(f"host columns without organism provenance: {sorted(unknown)}")
+    ambiguous = {c for c in frame if len(owners.get(c, ())) > 1}
+    if ambiguous:
+        raise ValueError(f"host columns with ambiguous organisms: {sorted(ambiguous)}")
+    columns = {code: [c for c in frame if code in owners.get(c, ())] for code in HOST_TABLES}
+    membership = pd.DataFrame({
+        code: frame[cols].notna().any(axis=1) | frame.host_id.isin((identities or {}).get(code, ()))
+        for code, cols in columns.items()}, index=frame.index)
+    invalid = membership.sum(axis=1) != 1
+    if invalid.any():
+        raise ValueError("host rows need exactly one organism: "
+                         + ", ".join(frame.loc[invalid, "host_id"].astype(str)))
+    return {code: frame.loc[membership[code],
+                            [c for c in frame if c in metadata or c in columns[code]]]
+            .reset_index(drop=True) for code in HOST_TABLES}
+
+
 # --------------------------------------------------------------------------- host tissue proteomes
 #: The red blood cell the blood stage lives in, measured as two fractions of one preparation.
 #: `(folder, pmid, file)`; the sheets are named for the fractions.
@@ -488,9 +534,8 @@ def surface_repertoire(dataset_root: str, log=print) -> pd.DataFrame:
         "host_name": [symbols.get(i, "") for i in ids],
         "bmdm_surface_intensity": [values.get(i, np.nan) for i in ids]})
     out["marked"] = (matrix[CSPA_BMDM["mouse_matrix"]] == 1).to_numpy()
-    # Nullable boolean on purpose. This column joins a table that also holds human red cell rows,
-    # where the question was never asked, and a plain numpy bool would turn those into `False` --
-    # "cell-surface capture looked and did not find it" said about a cell it never touched. The
+    # Nullable boolean on purpose. Other mouse tissues include proteins this experiment never
+    # measured, and missingness must not become `False` when the references are joined. The
     # dtype also survives the parquet round trip as a boolean, which is what makes the atlas count
     # its TRUEs rather than its rows.
     out["bmdm_surface_detected"] = (out["marked"]
@@ -510,10 +555,9 @@ def surface_repertoire(dataset_root: str, log=print) -> pd.DataFrame:
 def merge_tissue(existing: pd.DataFrame, new: pd.DataFrame) -> pd.DataFrame:
     """One host table, several owners, and a shared key rather than a shared column.
 
-    `build_graph` writes the Toxoplasma pulldown's columns into the same file a tissue reference
-    writes into, and a tissue of one host species has no accession in common with a tissue of
-    another. Joined on the key so both survive: a column the new frame does not carry keeps its
-    old values, and a row it does not mention keeps existing.
+    Callers select a species before merging its deposits. A column the new frame does not carry
+    keeps its old values, and a row it does not mention keeps existing. Shared measurements are
+    replaced, so build commands must check for lost values before writing the result.
     """
     if new.empty:
         return existing
@@ -755,13 +799,19 @@ def mouse_tissue_transcriptome(dataset_root: str, log=print) -> pd.DataFrame:
 
 #: Every tissue reference the project has loaded, newest last. A tissue is one entry, so adding one
 #: is a line here plus its loader rather than an edit to a build script.
-TISSUE_REFERENCES = ("erythrocyte_proteome", "surface_receptors", "surface_repertoire",
-                     "gtex_transcriptome", "mouse_tissue_transcriptome")
+TISSUE_REFERENCES = {"erythrocyte_proteome": organisms.HUMAN,
+                     "surface_receptors": organisms.HUMAN,
+                     "surface_repertoire": organisms.MOUSE,
+                     "gtex_transcriptome": organisms.HUMAN,
+                     "mouse_tissue_transcriptome": organisms.MOUSE}
 
 
-def tissue_references(dataset_root: str, log=print) -> pd.DataFrame:
-    """The host tissues, merged onto one key. Empty if none of them are on disk."""
+def tissue_references(dataset_root: str, organism: str, log=print) -> pd.DataFrame:
+    """One species' host tissues on their own key; human and mouse never share a table."""
+    if organism not in HOST_TABLES:
+        raise ValueError(f"unknown host organism: {organism}")
     out = pd.DataFrame()
-    for name in TISSUE_REFERENCES:
-        out = merge_tissue(out, globals()[name](dataset_root, log=log))
+    for name, code in TISSUE_REFERENCES.items():
+        if code == organism:
+            out = merge_tissue(out, globals()[name](dataset_root, log=log))
     return out

@@ -60,7 +60,7 @@ One file per task. This index is the status table; the files carry the reasoning
 |---|---|
 | 38 | Build a provenance-first pan-Apicomplexan dataset archive |
 | 41 | Fill as many slots as possible: Toxoplasma, Plasmodium, and host |
-| 53 | [One space per organism](open/53_organism_spaces.md), then links between pathogen, vector and host. R0-R2 done; deferred to after 0.46.0, in this order: R3 (split host into Hs/Mm, `Dataset.organism`) · Pf map from all 168 columns · space packs · Hs/Mm spaces · Space menu (►0.47.0) · Cp/Pb, Ag/As, Rn/Fc spaces · per-space leakage and calibration (►0.48.0) · cross-space bridges (►0.49.0). Small follow-ups: retry active learning with conformal uncertainty; next Tg/host data audit; `spaces/As/abundance/PXD001647/` is junk to delete. |
+| 53 | [One space per organism](open/53_organism_spaces.md), then links between pathogen, vector and host. R0-R3 implemented (R3 validation tracked in task 53); remaining order: Pf map from all eligible columns (also changes strategy grouping: audit/calibrate it) · space packs · Hs/Mm spaces · Space menu (►0.47.0) · Cp/Pb, Ag/As, Rn/Fc spaces · per-space leakage and calibration (►0.48.0) · cross-space bridges (►0.49.0). Small follow-ups: retry active learning with conformal uncertainty; next Tg/host data audit; `spaces/As/abundance/PXD001647/` is junk to delete. |
 
 ## The one ordering constraint that is not negotiable — now satisfied
 
