@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 from PyQt6 import QtCore, QtWidgets
 
-from .embedding import (BLOCKS, SLOT_BLOCKS, EmbeddingSpec, NA_POLICIES, SCALINGS, columns_for,
+from .embedding import (BLOCKS, slot_blocks, default_spec, EmbeddingSpec, NA_POLICIES, SCALINGS, columns_for,
                         variance_share)
 from .theme import (CMAPS, POINT_MODES, POINT_STYLES, THEMES, CheckList, CheckTree,
                     cmaps_of, kind_for_column)
@@ -312,6 +312,11 @@ class AnalysisPanel(QtWidgets.QWidget):
         """Build analysis tabs for a gene table, with optional stores and job services."""
         super().__init__(parent)
         self.nodes = nodes
+        from . import organisms, slots
+        self.organism = slots.table_organism(nodes) or organisms.TOXOPLASMA
+        self._slot_blocks = slot_blocks(self.organism)
+        if self.organism != organisms.TOXOPLASMA:
+            self.DEFAULT_BLOCKS = default_spec(nodes).blocks
         self.store = store
         #: Where annotations are written. A separate file from everything else, always: the node
         #: table is measurement, and an inference stored beside it becomes indistinguishable from
@@ -472,7 +477,7 @@ class AnalysisPanel(QtWidgets.QWidget):
             "A block with no columns in this cache is greyed and cannot be ticked. Anything fed in "
             "here cannot afterwards be evidence about the clusters it produced.")
         self._block_columns = {
-            b: columns_for(self.nodes, EmbeddingSpec(blocks=(b,))).get(b, []) for b in SLOT_BLOCKS}
+            b: columns_for(self.nodes, EmbeddingSpec(blocks=(b,))).get(b, []) for b in self._slot_blocks}
         self._rebuild_blocks()
         bl.addWidget(self.blocks, 1)
 
@@ -581,7 +586,7 @@ class AnalysisPanel(QtWidgets.QWidget):
         # Pruned to the FEATURE BLOCKS. The hierarchy addresses all 119 Tg slots, but a target label
         # or a bookkeeping slot is not something a map can be built on, and showing them greyed here
         # would read as "measured but unavailable" rather than "not a feature".
-        tree = _prune(S.relationship_tree("Tg", hierarchy), set(SLOT_BLOCKS))
+        tree = _prune(S.relationship_tree(self.organism, hierarchy), set(self._slot_blocks))
         self.blocks.build(tree,
                           label=lambda key: f"{key}  ({len(self._block_columns.get(key, []))} columns)",
                           enabled=lambda key: bool(self._block_columns.get(key)))

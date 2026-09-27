@@ -18,6 +18,11 @@ their provenance. The versioned pack framework and guarded build/install command
 see `docs/space-packs.md` and `WORK_LOG.md`. Published packs and organism-specific builders remain
 pending. The user has authorized continued implementation and asked for token efficiency.
 
+The Pf display fix is also implemented: all 145 eligible source columns resolve to 118 features
+for 5,720 genes. Feature controls and the optimizer use Pf slots. Calibrated inference deliberately
+retains its previous recipe; 17 groupings and both compatibility matrices were verified unchanged
+in `notebooks/pf_display_layout_2026_09_27.ipynb`. Adopting new inference groupings still needs a sweep.
+
 ---
 
 ## 1. Where things stand
@@ -182,14 +187,14 @@ the acceptance tests.
 | # | Item | Notes |
 |---|---|---|
 | 1 | **R3 implemented**: separate Hs/Mm protein tables and explicit dataset/deposit organisms | All 36,579 identifiers and measurements retained; see instruction 53 for validation. |
-| 2 | **Pf map from all eligible columns** | The shipped Pf layout uses 20 columns. Build blocks per space and regenerate the layout. This also changes strategy grouping through the shared default builder: audit and refresh calibration, or explicitly separate display and inference recipes. |
+| 2 | **Pf display implemented** | 145 source columns / 118 resolved features; explicit compatibility recipe preserves calibrated inference. |
 | 3 | Space packs: framework implemented; build and publish organism packs next | Hash-checked build/install/download commands are in `docs/space-packs.md`; wheel is 53.4 MB. |
 | 4 | Build the **Hs and Mm spaces** from the downloaded data | WP3. The data is at `<STARPLAST_DATA>/spaces/Hs`, `/Mm`, each with a `MANIFEST.json`. |
 | 5 | UI: a Space menu (parasites / hosts / vectors), with a download for spaces not installed | WP9 |
 | ► | **0.47.0** | Registry complete, Pf map fixed, Hs and Mm spaces |
 | 6 | Cryptosporidium (Cp) and P. berghei (Pb) spaces | WP6. Pb: the real PlasmoGEM tables are in `spaces/Pb/essentiality/`; the old dataset-tree copies are HTML placeholders. |
 | 7 | *Anopheles* (Ag, As), rat (Rn) and cat (Fc) spaces | WP4 and WP5. Mind the id-space traps listed in 53. |
-| 8 | Leakage families per space; strategies and calibration across N spaces | WP7 and WP8. `calibration.write` overwrites the whole file, so merge per space first. |
+| 8 | Leakage families per space; strategies and calibration across N spaces | WP7 and WP8. Calibration publishing now merges measured entries; applicability and new-space calibration remain. |
 | ► | **0.48.0** | Every organism in its own space |
 | 9 | Phase 2: cross-space bridges (orthology, host–pathogen PPI, vector–parasite), `Context.bridge`, a linked-windows dock | WP10–12 |
 | ► | **0.49.0** (or 0.5.0) | Pathogen–host–vector inference |

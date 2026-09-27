@@ -66,7 +66,7 @@ def test_a_closure_that_cannot_be_computed_bans_the_label_and_says_so(monkeypatc
 
 def test_a_table_the_catalogue_cannot_describe_is_grouped_by_prefix(monkeypatch):
     from starplast import embedding, slots
-    monkeypatch.setattr(embedding, "default_spec", lambda *a, **k: 1 / 0)
+    monkeypatch.setattr(embedding, "inference_spec", lambda *a, **k: 1 / 0)
     monkeypatch.setattr(slots, "all_slots", lambda *a, **k: 1 / 0)
     ctx = _bare()
     assert set(ctx.blocks()) == {"m1", "m2", "m3"}

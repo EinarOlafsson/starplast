@@ -926,8 +926,8 @@ class Context:
             banned = self.banned(target)
             out = {}
             try:
-                from .embedding import EmbeddingSpec, columns_for, default_spec
-                spec = default_spec(self.nodes)
+                from .embedding import EmbeddingSpec, columns_for, inference_spec
+                spec = inference_spec(self.nodes)
                 for b, cols in columns_for(self.nodes, EmbeddingSpec(blocks=spec.blocks)).items():
                     cols = [c for c in cols if not NEVER_FEATURES.search(c)]
                     if cols and not set(cols) & banned:

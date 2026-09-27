@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Rebuild the Pf display from its own feature slots: 118 resolved features now place all 5,720
+  genes, instead of the 20-feature legacy fallback. Display recipes are separate from the shipped
+  calibration's inference recipe. Seventeen strategy groupings and both compatibility input matrices
+  were checked unchanged; edges, node tables, Tg coordinates and calibration values were preserved.
+
 - Add versioned data packs with SHA256 manifests, per-column license declarations, checked HTTPS
   downloads and atomic activation. A shared space builder refuses lost identifiers, columns or
   measured cells and validates graph order and indices. Pack paths resolve from the user's cache;

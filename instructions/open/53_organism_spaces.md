@@ -11,6 +11,18 @@ Acceptance: publishing a subset preserves untouched results/provenance; corrupt 
 are not overwritten; a pack round-trips hashes, rejects tampering/unsafe paths, installs atomically,
 and refuses to build over lost identifiers, columns or measured values.
 
+Pf display fix implemented: per-space display recipes resolve 118 Pf features for all 5,720 genes.
+`inference_spec` explicitly retains the recipe used by the shipped calibration. The executed
+`notebooks/pf_display_layout_2026_09_27.ipynb` compares 17 target-specific/no-target strategy groupings
+and both species' compatibility input matrices against pre-change fingerprints: all unchanged.
+Only Pf coordinates and layout metadata changed; every edge array, both node tables, Tg layout,
+slots and calibration were preserved. Focused checks: 156 passed. UI/docstring checks: 305 passed,
+1 skipped offscreen; the real shared-OpenGL test then passed under Xvfb. UI/optimizer checks:
+219 passed. Search/leakage/graph/strategy checks: 405 passed, 2 skipped. A final fingerprint check
+confirmed all 17 groupings and both compatibility matrices unchanged. The clean 53.4 MB wheel
+passes validation and package modules parse under Python 3.10 syntax. The earlier full-suite
+GUI/GPU baseline failures remain documented below; no full-suite rerun or release was performed.
+
 WP8 publication implemented: updates merge by organism/strategy, retain each result's original
 sweep provenance and atomically replace the file. Corrupt existing files fail before writing.
 Generated pages include all published spaces. Calibration/registry checks: 37 passed; shipped
@@ -42,9 +54,8 @@ the Space menu remain subsequent work packages.
 display from 20 source columns to 118 resolved features, but changes inference grouping from 50
 to 62 blocks without a target, and changes it for every shipped calibration holdout. The experiment
 is recorded in `notebooks/pf_layout_dependency_2026_09_27.ipynb`; production recipes/layouts were not
-changed. The fix needs a strategy/calibration audit and refreshed affected calibration, or an
-explicit separation of display and calibrated inference recipes. Do not reuse the old scores for
-changed groupings.
+changed during that first audit. The subsequent display fix above explicitly separates display
+and calibrated inference recipes. Do not reuse the old scores if the inference groupings change.
 
 Validation (Python 3.12, pandas 3, offscreen Qt, local GPU environment):
 
@@ -280,12 +291,10 @@ share-alike, **V** verify the terms first, **X** local build only.
 
 ## TRAPS
 
-* **The shipped Pf map is built from 20 of its 168 columns** (found by the second data audit,
-  instruction 52). `embedding.BLOCKS`/`SLOT_BLOCKS` are built at import from the Toxoplasma slot
-  catalogue, so `rebuild_layouts.py` embeds Pf on the blocks the two catalogues share. The
-  original observation that `Context.blocks()` covers 144 numeric columns does not mean strategies
-  are unaffected: the shared recipe changes their grouping. See the 2026-09-27 dependency experiment
-  above. A fix needs a new layout, a changelog line and an explicit calibration decision.
+* **The Pf display previously used only 20 features.** The display follow-up now uses its own
+  slots (145 source columns, 118 resolved features). `inference_spec` preserves the calibrated
+  grouping separately: broad raw-column coverage never proved that grouping changes were harmless.
+  The two executed notebooks above record both the dependency and the final invariance checks.
 
 * R3 resolved the mixed human/mouse host cache. Host readers and deposits must continue to select
   one explicit organism; full host gene spaces remain pending.

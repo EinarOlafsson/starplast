@@ -327,6 +327,9 @@ def evaluator(nodes: pd.DataFrame, mode: str = "guilt", layers=(), against=(), s
 
 def block_pool(nodes: pd.DataFrame) -> list:
     """Which feature blocks this table can actually offer, in a stable order."""
-    from .embedding import SLOT_BLOCKS
-    slots = [b for b in SLOT_BLOCKS if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b)]
+    from .embedding import slot_blocks
+    from .slots import table_organism
+    from .organisms import TOXOPLASMA
+    catalogue = slot_blocks(table_organism(nodes) or TOXOPLASMA)
+    slots = [b for b in catalogue if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b)]
     return slots or [b for b in BLOCKS if columns_for(nodes, EmbeddingSpec(blocks=(b,))).get(b)]

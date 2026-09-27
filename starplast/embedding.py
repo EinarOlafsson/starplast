@@ -90,8 +90,19 @@ BLOCKS = {
 # Biological-question slots are the primary blocks for new maps. The regex blocks above remain as
 # recipe compatibility for maps saved before v0.31; they are no longer what the optimiser offers.
 from .slots import all_slots as _all_slots
-SLOT_BLOCKS = {slot.key: slot for slot in _all_slots("Tg")
-               if slot.unit == "gene" and slot.patterns and slot.role == "feature"}
+from . import organisms
+
+
+def slot_blocks(organism: str | None = None) -> dict:
+    """Feature slots for a species, or all species when resolving a saved explicit recipe."""
+    return {slot.key: slot for slot in _all_slots(organism)
+            if slot.unit == "gene" and slot.patterns and slot.role == "feature"}
+
+
+# Legacy catalogue retained for saved searches and calibrated inference choices.
+# Display defaults select their own species below; explicit recipes can resolve every species.
+SLOT_BLOCKS = slot_blocks(organisms.TOXOPLASMA)
+_RECIPE_SLOT_BLOCKS = slot_blocks()
 BLOCKS.update({key: "" for key in SLOT_BLOCKS})
 #: Blocks that have been renamed: the spelling a recipe may carry -> what it is called now. A recipe
 #: is a promise that a run can be rebuilt, and the embeddings saved before the rename name their
@@ -154,10 +165,15 @@ class EmbeddingSpec:
 def columns_for(nodes: pd.DataFrame, spec: EmbeddingSpec) -> dict:
     """block -> the node-table columns it contributes, in this table."""
     out = {}
+    catalogue = _RECIPE_SLOT_BLOCKS
+    from .slots import table_organism
+    code = table_organism(nodes)
     for b in spec.blocks:
-        if b in SLOT_BLOCKS:
+        if b in catalogue:
+            if code and catalogue[b].organism != code:
+                continue
             from .slots import source_columns
-            cols = list(source_columns(nodes, SLOT_BLOCKS[b]))
+            cols = list(source_columns(nodes, catalogue[b]))
             if cols:
                 out[b] = cols
             continue
@@ -221,6 +237,7 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
     rather than by how many columns it happens to have or what units they are in.
     """
     per_block = columns_for(nodes, spec)
+    catalogue = _RECIPE_SLOT_BLOCKS
     if not per_block:
         raise ValueError("no numeric features selected")
 
@@ -228,9 +245,9 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
     ind_mats, ind_names = [], []
     raw_for_drop = []          # pre-imputation copies, for the drop_genes policy
     for block, cols in per_block.items():
-        if block in SLOT_BLOCKS:
+        if block in catalogue:
             from .slots import resolve
-            resolved = resolve(nodes, SLOT_BLOCKS[block])
+            resolved = resolve(nodes, catalogue[block])
             M = resolved.values.to_numpy(dtype=float)
             keep = list(resolved.values.columns)
         else:
@@ -242,7 +259,7 @@ def build_matrix(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print):
             sel = frac <= spec.max_missing
             if not sel.any():
                 continue
-            M, keep = M[:, sel], [c for c, s in zip(cols, sel) if s]
+            M, keep = M[:, sel], [c for c, s in zip(keep, sel) if s]
 
         M = _scale(M, spec.scaling)
 
@@ -378,7 +395,7 @@ def default_spec(nodes: pd.DataFrame) -> EmbeddingSpec:
     Label targets and literature attention are not selected as display features.
     """
     from .slots import table_organism, all_slots, source_columns
-    organism = table_organism(nodes) or "Tg"
+    organism = table_organism(nodes) or organisms.TOXOPLASMA
     available = []
     seen = set()
     for slot in all_slots(organism):
@@ -387,14 +404,27 @@ def default_spec(nodes: pd.DataFrame) -> EmbeddingSpec:
         columns = [c for c in source_columns(nodes, slot) if pd.api.types.is_numeric_dtype(nodes[c])]
         # Overlapping slot views are useful to browse but would double-count the
         # same measurements in a default embedding.
-        if columns and not (set(columns) & seen) and organism == "Tg":
+        if columns and not (set(columns) & seen):
             available.append(slot.key)
             seen.update(columns)
     if available:
         return EmbeddingSpec(name="balanced-display", blocks=tuple(available))
-    # Legacy regex blocks have no organism-specific assumptions and cover the Pf
-    # expression, fitness and sequence columns through the same matrix builder.
+    # Uncatalogued tables retain the generic regex fallback.
     return EmbeddingSpec(name="balanced-display")
+
+
+def inference_spec(nodes: pd.DataFrame) -> EmbeddingSpec:
+    """The grouping recipe used by the shipped calibration, independent of display defaults.
+
+    Non-Toxoplasma tables previously used the legacy regex recipe followed by Context's prefix
+    fallback. Preserve that grouping until a new calibration explicitly adopts per-space slots.
+    This compatibility recipe makes no claim that the display layout is a validated prediction.
+    """
+    from .slots import table_organism
+    code = table_organism(nodes) or organisms.TOXOPLASMA
+    if code == organisms.TOXOPLASMA:
+        return default_spec(nodes)
+    return EmbeddingSpec(name="calibrated-inference-v0.46")
 
 
 def embed(nodes: pd.DataFrame, spec: EmbeddingSpec, log=print, return_matrix: bool = False,

@@ -40,12 +40,17 @@ def rebuild(directory, prefix=""):
 
 
 def main():
-    """Regenerate both organism layouts through the public recipe builder."""
+    """Regenerate the selected organism layouts through the public recipe builder."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", type=Path, default=Path(__file__).resolve().parents[1]/"starplast/data")
+    from starplast import organisms
+    parser.add_argument("--organism", choices=organisms.codes(), help="Only rebuild this space")
     args = parser.parse_args()
-    for prefix in ("", "pf_"):
-        rebuild(args.data, prefix)
+    for code in ([args.organism] if args.organism else organisms.codes()):
+        space = organisms.get(code)
+        if not space.nodes.endswith("nodes.parquet") or space.graph != space.nodes.replace("nodes.parquet", "graph.npz"):
+            raise ValueError(f"{code}: layout rebuilding requires a matching nodes/graph file pair")
+        rebuild(args.data, space.nodes.removesuffix("nodes.parquet"))
 
 
 if __name__ == "__main__":
