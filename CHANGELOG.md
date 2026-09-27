@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Publishing a calibration sweep now merges by organism and strategy, preserving unswept results
+  and their original provenance. Writes are atomic; malformed existing files are refused. Generated
+  calibration pages include every published space and distinguish the latest sweep from older results.
+
 - Split host protein references into separate human and mouse tables, retaining all 36,579
   identifiers, names and measurements. Resolve the 54 identity-only rows from local UniProt and
   bridge records; keep the migration and source checksums in an executed notebook and manifest.

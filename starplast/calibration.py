@@ -222,13 +222,42 @@ def _clean(x):
 
 
 def write(calibration: dict, path: str = CALIBRATION, meta: dict | None = None) -> str:
-    """Ship a calibration: the summary plus the sweep that produced it, with NaN written as null.
+    """Atomically publish measured strategies, preserving every unswept result and its provenance.
 
-    The meta block is not decoration -- a calibration without the date, the run directory and the
-    method that made it is a set of numbers nobody can reproduce or supersede.
+    Updates merge by organism and strategy. ``meta`` describes the latest publication;
+    ``provenance[organism][strategy]`` records the sweep behind each individual result.
+    Existing malformed JSON is an error, never an excuse to discard earlier measurements.
     """
-    with open(path, "w") as fh:
-        json.dump(_clean({"meta": meta or {}, "organisms": calibration}), fh, indent=1)
+    import tempfile
+    from pathlib import Path
+    destination = Path(path)
+    previous = json.loads(destination.read_text()) if destination.exists() else {}
+    organisms = previous.get("organisms", {})
+    provenance = previous.get("provenance", {})
+    if not isinstance(organisms, dict) or not isinstance(provenance, dict):
+        raise ValueError("malformed calibration: organisms and provenance must be mappings")
+    if not calibration or any(not isinstance(v, dict) or not v for v in calibration.values()):
+        raise ValueError("publication must contain measured strategies")
+    for code, entries in organisms.items():
+        for key in entries:
+            provenance.setdefault(code, {}).setdefault(key, previous.get("meta", {}))
+    for code, entries in calibration.items():
+        organisms.setdefault(code, {}).update(entries)
+        provenance.setdefault(code, {}).update({key: meta or {} for key in entries})
+    payload = json.dumps(_clean({**previous, "meta": meta or {}, "organisms": organisms,
+                                "provenance": provenance}), indent=1, allow_nan=False)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", dir=destination.parent, delete=False,
+                                         encoding="utf-8") as fh:
+            temporary = fh.name
+            fh.write(payload)
+            fh.flush()
+            os.fsync(fh.fileno())
+        os.replace(temporary, destination)
+    finally:
+        if temporary and os.path.exists(temporary):
+            os.unlink(temporary)
     _CACHE.clear()
     return path
 

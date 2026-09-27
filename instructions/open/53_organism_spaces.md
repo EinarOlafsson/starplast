@@ -2,6 +2,20 @@
 
 **Status: open (designed 2026-09-26).**
 
+### Continued implementation
+
+The user authorized sustained work on 2026-09-27, prioritizing token efficiency. See
+`WORK_LOG.md` for completed milestones, pending dependencies and actual blockers. Current scope:
+WP8's lossless per-space calibration publishing and WP1's versioned pack/build framework.
+Acceptance: publishing a subset preserves untouched results/provenance; corrupt existing files
+are not overwritten; a pack round-trips hashes, rejects tampering/unsafe paths, installs atomically,
+and refuses to build over lost identifiers, columns or measured values.
+
+WP8 publication implemented: updates merge by organism/strategy, retain each result's original
+sweep provenance and atomically replace the file. Corrupt existing files fail before writing.
+Generated pages include all published spaces. Calibration/registry checks: 37 passed; shipped
+calibration values were not changed. Remaining WP8 strategy applicability work is still open.
+
 ### Implementation pass, 2026-09-27
 
 R3 implemented and validated with the baseline test failures recorded below. All 161 datasets now declare their organism;
@@ -267,7 +281,8 @@ share-alike, **V** verify the terms first, **X** local build only.
 
 * R3 resolved the mixed human/mouse host cache. Host readers and deposits must continue to select
   one explicit organism; full host gene spaces remain pending.
-* `calibration.write` overwrites the whole file. Merge per space before calibrating a third one.
+* `calibration.write` now merges measured organism/strategy entries. Unswept entries keep their
+  original provenance; changed strategy recipes still require a fresh calibration.
 * HPA consensus integrates GTEx; BioGRID ORCS and OGEE reuse DepMap; STRING's combined channel
   contains BioGRID and IntAct. These are one family each: holding one out must hold out the others.
 * The Pf host contexts in `generate_slot_table.py` already name Anopheles midgut and salivary gland.
