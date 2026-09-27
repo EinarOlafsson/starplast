@@ -1,5 +1,7 @@
 # starplast — point a session here
 
+> **Resuming work? Read [`NEXT_SESSION.md`](NEXT_SESSION.md) first**: current state (0.46.0), working rules, and the prioritised plan. This file holds the design decisions behind it.
+
 A 3D knowledge-map browser for *Toxoplasma gondii* (v0/v1), built to be the front end for the information
 map. **Everything a fresh session needs is in this file.** Created 2026-08-10.
 
