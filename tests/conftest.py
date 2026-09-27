@@ -56,3 +56,44 @@ for _fmt in (QtCore.QSettings.Format.NativeFormat, QtCore.QSettings.Format.IniFo
 # `test_the_user_s_saved_runs_are_isolated_from_the_suite` is the check that this holds.
 STATE_DIR = tempfile.mkdtemp(prefix="starplast-test-state-")
 os.environ["STARPLAST_STATE"] = STATE_DIR
+
+
+# ONE application for the whole session. Twenty-two test modules create their own with
+# `QApplication.instance() or QApplication([])`; when a module's last reference went, PyQt destroyed
+# that application and the next module built a second one. Qt keeps style state in globals that
+# outlive an application, so a style installed on the first (the glass style) left the second
+# pointing at freed memory, and `setStyleSheet` segfaulted -- only in full runs, where garbage
+# collection happened to fall between the two. The desktop program never builds two applications;
+# the suite now does not either.
+import pytest  # noqa: E402
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _one_qt_application():
+    from PyQt6 import QtWidgets
+    if QtWidgets.QApplication.instance() is None:
+        # What `starplast.app` does at import, and it must precede the application: a shared GL
+        # context group and a surface format pyqtgraph accepts.
+        from starplast import sprite
+        sprite.ensure_gl_format()
+        QtCore.QCoreApplication.setAttribute(QtCore.Qt.ApplicationAttribute.AA_ShareOpenGLContexts)
+    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    yield app
+
+
+@pytest.fixture(scope="module", autouse=True)
+def _close_windows_after_each_module(_one_qt_application):
+    """Delete every top-level window a test module leaves behind, once the module is done.
+
+    Destroying the application used to do this as a side effect. With one application for the
+    session, leftover windows would otherwise accumulate, and every stylesheet change re-polishes
+    all of them: the suite slowed several-fold before this existed.
+    """
+    yield
+    from PyQt6 import QtCore, QtWidgets
+    app = _one_qt_application
+    for widget in app.topLevelWidgets():
+        widget.close()
+        widget.deleteLater()
+    QtCore.QCoreApplication.sendPostedEvents(None, QtCore.QEvent.Type.DeferredDelete)
+    app.processEvents()

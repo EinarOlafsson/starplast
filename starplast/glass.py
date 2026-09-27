@@ -243,15 +243,24 @@ def install(app: QtWidgets.QApplication | None = None) -> GlassStyle | None:
     app = app or QtWidgets.QApplication.instance()
     if app is None:
         return None
-    existing = getattr(app, "_starplast_glass_style", None)
-    if existing is not None:
-        return existing
+    # Keyed on the C++ application, not on an attribute of its Python wrapper: a wrapper can be
+    # collected and remade for the same application, and installing a second style then deleted
+    # the first while Qt's stylesheet style still wrapped it.
+    from PyQt6 import sip
+    key = sip.unwrapinstance(app)
+    if _INSTALLED.get("app") == key and not sip.isdeleted(_INSTALLED["style"]):
+        return _INSTALLED["style"]
     palette = QtGui.QPalette(app.palette())
     style = GlassStyle()
     app.setStyle(style)
     app.setPalette(palette)
-    app._starplast_glass_style = style
+    _INSTALLED.update(app=key, style=style)
     return style
+
+
+#: The application the glass style was installed on, and the style -- held here so it outlives any
+#: one Python wrapper of the application.
+_INSTALLED: dict = {}
 
 
 # --------------------------------------------------------------------------- dressed windows
