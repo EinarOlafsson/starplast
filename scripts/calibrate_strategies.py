@@ -718,11 +718,11 @@ def calibration_doc(summary: dict, meta: dict) -> str:
             if not e:
                 continue
             d, t = e.get("default") or {}, e.get("tuned") or {}
+            targets = ", ".join(e.get("targets") or []) or "(the strategy chooses its own)"
             out += [f"### {s.number:02d} · {s.name} -- {e['grade']}", "",
                     f"{s.test_description}", "",
                     f"Metric: `{e['metric']}`. {e['runs']:,} runs, {e['settings_tested']} "
-                    f"settings, targets: {', '.join(e.get('targets') or []) or '(the strategy '
-                    f'chooses its own)'}.", "",
+                    f"settings, targets: {targets}.", "",
                     "| | setting | skill [95% CI] | pass [95% CI] | observed | chance | runs |",
                     "|---|---|---|---|---|---|---|"]
             for label, c in (("at defaults", d), ("tuned", t)):
