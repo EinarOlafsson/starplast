@@ -1,8 +1,6 @@
 # 54 · Scorecards, techniques, and five advanced strategies
 
-**Status: open. The code, the tests and the measurements on the shipped tables are done
-(2026-09-26, nightly d69c01b and later). Still to do: the full calibration sweep that fills every
-scorecard with intervals.**
+**Status: complete (0.46.0, 2026-09-26).** The calibration sweep ran 7,640 self-tests with scorecards (`results/calibration_2026-09-26b`). Its publication filled the README scorecard tables and `docs/scorecards.md`. Grades: Tg 30 reliable, 8 weak, 1 untestable; Pf 26 reliable, 2 work when tuned, 9 weak, 2 untestable.
 
 The user, 2026-09-26:
 
