@@ -24,6 +24,7 @@ starplast
 - [Dataset catalogue](datasets.md): source records, assay types, and coverage.
 - [Space packs](space-packs.md): validate and install versioned organism data outside the wheel.
 - [Strategy calibration](calibration.md): how well each strategy recovers held-out knowledge, over a grid of its settings, with intervals.
+- [Strategy cards](strategy_cards.md): every strategy as the Strategies tab shows it -- the same four bars (better than chance, reach, two plain task metrics), what its test does, and one real failure beside one real success.
 - [Strategy scorecards](scorecards.md): every strategy's standard metrics for its task (accuracy, macro F1, kappa, MCC, AUROC, AUPRC, R-precision, Spearman, R-squared, ARI, ...), each metric and technique explained.
 - [The integrated neighbour space](graphspace.md): one graph from every layer, and the three nulls that decide whether its edges mean anything.
 - [0.43 benchmark](benchmark-0.43.md): held-out model comparisons, controls and limitations.

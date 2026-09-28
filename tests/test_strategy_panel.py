@@ -64,6 +64,73 @@ def test_the_first_strategy_is_selected_and_explained(panel):
         assert part in text
 
 
+def test_a_selected_strategy_shows_its_card_first(panel):
+    """The card, not the prose: four bars in the task's positions, the grade, the explainer."""
+    from starplast import scorecard as SC
+    from starplast import strategy_explainers as EX
+    for key in ("feature_knn", "seed_expansion", "trait_regression", "holdout_search",
+                "geneset_hunt", "blind_battery"):
+        panel.show_details(1)
+        panel.select(key)
+        s = S.get(key)
+        assert panel.stack.currentIndex() == 0, "selecting shows the card"
+        bars = panel.card.scorecard.bars
+        assert [b.bar["label"] for b in bars] == [h.label for h in SC.headline(s.task)]
+        assert all(b.toolTip() for b in bars), "every bar reads itself out on hover"
+        assert panel.card.question.text() == s.question
+        assert panel.card.method.text() == s.method
+        about = panel.card.about.rows
+        assert [f for f in about] == [f for f, _t in EX.FIELDS]
+        for field, (button, line, full) in about.items():
+            assert full.text() == EX.explainer(key)[field] and full.isHidden()
+            assert line.full_text() == EX.first_sentence(full.text())
+        panel.card.about.expand("failure")
+        assert not about["failure"][2].isHidden() and about["failure"][1].isHidden()
+
+
+def test_details_is_one_click_away_and_the_card_one_back(panel):
+    panel.select("feature_knn")
+    assert panel.stack.currentIndex() == 0
+    panel.card.details_btn.click()
+    assert panel.stack.currentIndex() == 1
+    assert [panel.tabs.tabText(i) for i in range(panel.tabs.count())] == ["Guide", "Settings",
+                                                                          "Results"]
+    panel.back_btn.click()
+    assert panel.stack.currentIndex() == 0
+    panel.show_details(2)
+    assert panel.stack.currentIndex() == 1 and panel.tabs.currentIndex() == 2
+
+
+def test_the_card_shows_the_worked_examples(panel):
+    from starplast import strategy_explainers as EX
+    panel.select("feature_knn")
+    ex = EX.examples("feature_knn", "Tg")
+    assert panel.card.fails.text.text() == ex["failure"]["explanation"]
+    assert panel.card.works.text.text() == ex["success"]["explanation"]
+    assert panel.card.fails.verdict.text().startswith("FAIL")
+    rows = (ex["success"].get("new") or {}).get("rows") or []
+    assert len(panel.card.new.buttons) == len([r for r in rows if r["gene_id"]])
+    picked = []
+    panel.gene_selected.connect(picked.append)
+    if panel.card.new.buttons:
+        panel.card.new.buttons[0].click()
+        assert picked and picked[0] == rows[0]["gene_id"].split(" + ")[0]
+
+
+def test_the_card_buttons_run_and_test(panel):
+    panel.select("physical_partners")
+    got = []
+    panel.test_ready.connect(got.append)
+    panel.card.test_btn.click()
+    assert got and panel.stack.currentIndex() == 0, "a test from the card stays on the card"
+    assert not panel.card.mine.isHidden() and panel.card.mine_verdict.text() == got[0].verdict
+    assert [b.bar["label"] for b in panel.card.mine_card.bars][0] == "Better than chance"
+    ran = []
+    panel.result_ready.connect(ran.append)
+    panel.card.run_btn.click()
+    assert ran and panel.stack.currentIndex() == 1 and panel.tabs.currentIndex() == 2
+
+
 def test_selecting_a_strategy_rebuilds_its_form(panel):
     panel.select("feature_knn")
     assert panel.form.rowCount() == len(S.get("feature_knn").params)

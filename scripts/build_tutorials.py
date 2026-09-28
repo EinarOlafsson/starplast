@@ -227,11 +227,15 @@ def _strip_tags(text: str) -> str:
 
 # --------------------------------------------------------------------------- strategy GUI walkthroughs
 BUTTONS = [
-    ("Run", "Run the selected strategy with these settings on the whole table, in the background. "
-            "Its tables appear under Results; a strategy that builds a map can then be shown on it."),
-    ("Test (hold-out)", "Hide information that is already known, ask the strategy for it back, and "
-                        "compare the answer with the same procedure on shuffled data. PASS means it "
-                        "beat that null by the stated margin with these settings."),
+    ("Run", "On the card or under Details ▸ Settings: run the selected strategy with these "
+            "settings on the whole table, in the background. Its tables appear under "
+            "Details ▸ Results; a strategy that builds a map can then be shown on it."),
+    ("Test / Test (hold-out)", "On the card or under Details ▸ Settings: hide information that is "
+                               "already known, ask the strategy for it back, and compare the "
+                               "answer with the same procedure on shuffled data. PASS means it "
+                               "beat that null by the stated margin with these settings."),
+    ("Details ▸", "Open what the card leaves out: the Guide, the Settings and the Results tables. "
+                  "◂ Card goes back."),
     ("Stop", "Ask the running strategy to stop at its next checkpoint. Nothing is written by a "
              "stopped run."),
     ("Show on map", "Put the result's map into the central view, colored by its clusters or "
@@ -241,7 +245,8 @@ BUTTONS = [
 
 def strategy_walkthrough(studio, key: str, slug: str, title: str, intro: str, settings: dict,
                          console_tips: dict, color=None) -> dict:
-    """Drive the real Strategies panel through Guide -> Settings -> Test -> Run, grabbing each."""
+    """Drive the real Strategies panel through its card, then Details: Guide -> Settings -> Test
+    -> Run, grabbing each."""
     from starplast import strategies as S
     from starplast.strategy_panel import StrategyPanel
     ctx = S.shipped("Tg")
@@ -253,14 +258,20 @@ def strategy_walkthrough(studio, key: str, slug: str, title: str, intro: str, se
     for name, value in settings.items():
         panel.set_setting(name, value)
     shots = []
-    panel.tabs.setCurrentIndex(0)
+    panel.show_card()
+    shots.append((studio.grab(panel, os.path.join(RES, slug, "0_card.png"), size),
+                  f"The card strategy {S.get(key).number:02d} opens on: the same four bars as "
+                  f"every strategy (better than chance, reach, two plain task metrics, each with "
+                  f"its interval and chance), Run / Test / Details ▸, what its test does, and one "
+                  f"real failure beside one real success."))
+    panel.show_details(0)
     shots.append((studio.grab(panel, os.path.join(RES, slug, "1_guide.png"), size),
-                  f"The Guide tab: what strategy {S.get(key).number:02d} infers, why it works, "
+                  f"Details ▸ Guide: what strategy {S.get(key).number:02d} infers, why it works, "
                   f"how it fails, and how it is tested."))
-    panel.tabs.setCurrentIndex(1)
+    panel.show_details(1)
     shots.append((studio.grab(panel, os.path.join(RES, slug, "2_settings.png"), size),
-                  "The Settings tab, filled in for this walkthrough. Hover any field on the left "
-                  "for the reason it exists."))
+                  "Details ▸ Settings, filled in for this walkthrough. Hover any field on the "
+                  "left for the reason it exists."))
     t0 = time.monotonic()
     test = panel.test_current()
     shots.append((studio.grab(panel, os.path.join(RES, slug, "3_test.png"), size),
@@ -706,9 +717,10 @@ def guide(studio, runs: dict) -> None:
         analysis_rows.append((tabs.tabText(i), path, controls, buttons))
     strat = StrategyPanel(ctx.nodes, organism="Tg")
     strat.select("holdout_search")
-    strat.tabs.setCurrentIndex(0)
+    s_card = studio.grab(strat, img("strategies_card.png"), (640, 1040))
+    strat.show_details(0)
     s_guide = studio.grab(strat, img("strategies_guide.png"), (640, 1040))
-    strat.tabs.setCurrentIndex(1)
+    strat.show_details(1)
     s_settings = studio.grab(strat, img("strategies_settings.png"), (640, 1040))
     wf = WorkflowDialog(ctx.nodes)
     wf_shots = []
@@ -808,7 +820,13 @@ def guide(studio, runs: dict) -> None:
                 f"<p>{len(S.catalog())} named ways of turning the combined data into a claim, "
                 f"grouped by how they work. Each name ends with its method in brackets:</p>"
                 f"<ul>{fams}</ul>"
-                "<p>Select one and read its <b>Guide</b>: what it infers; its <b>method</b> and "
+                "<p>Select one and its <b>card</b> shows first: what it answers, its calibration "
+                "grade, and the same four bars as every other strategy -- <b>Better than "
+                "chance</b>, <b>Reach</b> and two plain metrics of its task, each with its 95% "
+                "interval and chance level -- then <b>Run</b>, <b>Test</b> and <b>Details ▸</b>, "
+                "four one-line answers about its test that open on click, and one real failure "
+                "beside one real success with what that run added. <b>Details ▸</b> holds the "
+                "rest. Its <b>Guide</b>: what it infers; its <b>method</b> and "
                 "every technique the method is built from, each explained; why it works and how "
                 "it fails; its <b>scorecard</b> -- the standard metrics for its kind of task, each "
                 "with its chance level and how to read it, and the values measured on the shipped "
@@ -820,7 +838,8 @@ def guide(studio, runs: dict) -> None:
                 "matches names and methods, so 'HDBSCAN' or 'logistic' lists every strategy "
                 "using that method. Gene-list strategies accept a pasted list, a file, an example "
                 "set, or the genes gated on the map.</p>"
-                f"{shot(s_guide, 'strategy guide')}{shot(s_settings, 'strategy settings')}"
+                f"{shot(s_card, 'strategy card')}{shot(s_guide, 'strategy guide')}"
+                f"{shot(s_settings, 'strategy settings')}"
                 "<p>Every strategy removes the held-out label, anything that restates it, the "
                 "experiment that produced it, the same quantity measured another way, and any "
                 "edge layer built from any of those, before it looks at anything else.</p>"))

@@ -15,7 +15,7 @@ result, **Return** or a click goes to it, and **Esc** closes the list.
 |---|---|
 | command | Carries out the menu command; a submenu opens where it sits in the menu bar |
 | panel | Shows the dock on the named tab, or opens Preferences, a guided workflow or the slot tree |
-| strategy | Raises the Strategies tab with that strategy selected and its Guide showing |
+| strategy | Raises the Strategies tab with that strategy selected and its card showing (Details ▸ holds its Guide) |
 | setting | Opens the analysis tab or Preferences page holding the control, scrolls to it and outlines it; a display choice such as **Theme: paper** is applied |
 | slot | Opens the slot tree on the slot's organism with the slot selected |
 | dataset | Shows what the dataset provides, its coverage, publication and source |
