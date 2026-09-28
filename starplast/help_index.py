@@ -429,8 +429,9 @@ def panel_entries(window) -> list:
     if strat is not None:
         for i in range(strat.tabs.count()):
             label = strat.tabs.tabText(i)
-            out.append(entry("panel", f"Strategy {label.lower()}", "Strategies ▸ tab",
-                             f"strategies panel {label}", dock="strategies", tab=label))
+            out.append(entry("panel", f"Strategy {label.lower()}", "Strategies ▸ Details",
+                             f"strategies panel details {label}", dock="strategies",
+                             tab=label))
     for i, label in enumerate(("Explore a gene", "Predict a trait", "Compare a screen")):
         out.append(entry("panel", label, "Tools ▸ Guided workflows",
                          "guided workflow with source evidence, held-out evaluation and exports",

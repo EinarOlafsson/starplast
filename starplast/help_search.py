@@ -11,7 +11,7 @@ click, go to the thing itself:
               slot tree is opened on the right page
 ``setting``   the panel or Preferences tab holding the control is opened, the control scrolled into
               view, focused and outlined for a moment; a display choice is applied
-``strategy``  the Strategies tab is raised with that strategy selected and its Guide showing
+``strategy``  the Strategies tab is raised with that strategy selected and its card showing
 ``slot``      the slot tree opens on the slot's organism with the slot selected
 ``dataset``   a card with what the dataset provides, its coverage, citation and source link
 ``doc``       the page, from this checkout when there is one, scrolled to the heading
@@ -158,6 +158,8 @@ def open_panel(window, e) -> str:
     tab = data.get("tab")
     if tab:
         owner = window.strategy_panel if data.get("dock") == "strategies" else window.panel
+        if hasattr(owner, "show_details"):
+            owner.show_details()              # the strategy tabs sit behind the card's Details
         _select_tab(owner.tabs, tab)
     return _status(window, f"{e.subtitle} ▸ {e.title}" if tab else f"{e.title} panel")
 
@@ -227,7 +229,8 @@ def open_setting(window, e) -> str:
 
 
 def open_strategy(window, e) -> str:
-    """Raise the Strategies tab with the strategy selected and its Guide showing."""
+    """Raise the Strategies tab with the strategy selected and its card showing; its Guide is
+    the first tab behind Details."""
     panel = getattr(window, "strategy_panel", None)
     if panel is None:
         return _status(window, "The Strategies tab is not available.")

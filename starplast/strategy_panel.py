@@ -1,8 +1,11 @@
 """The Strategies tab: thirty-nine ways to infer something, each explained, runnable and self-testing.
 
 Docked to the right of Evidence and Analysis. The top half lists the strategies by family, with the
-verdict each one earned when its self-test was run on the shipped data; the bottom half has three
-tabs for the selected one:
+verdict each one earned when its self-test was run on the shipped data. The bottom half shows the
+selected one as a CARD first (`strategy_card.StrategyCard`): what it answers, the same four bars
+for every strategy (better than chance, reach, and two plain task metrics, each against chance),
+Run / Test / Details, four collapsed lines about its test, and one real failure beside one real
+success. **Details ▸** opens the three tabs that hold everything else:
 
     Guide     what it infers, why that works, how it fails, a step-by-step walkthrough, and how
               it is tested -- the text a person needs before believing its output
@@ -29,6 +32,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from . import calibration as CAL
 from . import scorecard as SC
 from . import strategies as S
+from . import strategy_card as CARD
 from . import techniques as TQ
 from . import theme as TH
 from .jobs import Stopped
@@ -68,6 +72,11 @@ BUTTON_TIPS = {
              "list stays yours to choose.",
     "filter": "Type to show only strategies whose name, method, question or family contains the "
               "text -- for example 'list', 'network', 'HDBSCAN', 'logistic' or 'Plasmodium'.",
+    "details": "Open everything the card leaves out: the Guide (method, techniques, walkthrough, "
+               "every scorecard metric), the Settings (each parameter, the tuned setting, Stop) "
+               "and the Results tables of the last run or test.",
+    "back": "Back to the strategy's card: the four bars, the test explained, and the worked "
+            "examples.",
 }
 
 
@@ -195,6 +204,33 @@ class StrategyPanel(QtWidgets.QWidget):
         self.tabs.addTab(settings, "Settings")
         self.tabs.addTab(results, "Results")
 
+        # The card is what a selected strategy shows first; the tabs are one click behind it.
+        self.card = CARD.StrategyCard(tips=BUTTON_TIPS)
+        self.card.run_clicked.connect(self.run_current)
+        self.card.test_clicked.connect(self.test_current)
+        self.card.details_clicked.connect(lambda: self.show_details())
+        self.card.gene_clicked.connect(self.gene_selected.emit)
+        card_scroll = QtWidgets.QScrollArea()
+        card_scroll.setWidgetResizable(True)
+        card_scroll.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        card_scroll.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        card_scroll.setWidget(self.card)
+        self.card_scroll = card_scroll
+        self.back_btn = QtWidgets.QPushButton("◂ Card")
+        self.back_btn.setToolTip(TH.tip(BUTTON_TIPS["back"]))
+        self.back_btn.clicked.connect(self.show_card)
+        details = QtWidgets.QWidget()
+        dl = QtWidgets.QVBoxLayout(details)
+        dl.setContentsMargins(0, 0, 0, 0)
+        bar = QtWidgets.QHBoxLayout()
+        bar.addWidget(self.back_btn)
+        bar.addStretch(1)
+        dl.addLayout(bar)
+        dl.addWidget(self.tabs, 1)
+        self.stack = QtWidgets.QStackedWidget()
+        self.stack.addWidget(card_scroll)
+        self.stack.addWidget(details)
+
         top = QtWidgets.QWidget()
         tl = QtWidgets.QVBoxLayout(top)
         tl.setContentsMargins(0, 0, 0, 0)
@@ -202,7 +238,7 @@ class StrategyPanel(QtWidgets.QWidget):
         tl.addWidget(self.tree)
         split = QtWidgets.QSplitter(QtCore.Qt.Orientation.Vertical)
         split.addWidget(top)
-        split.addWidget(self.tabs)
+        split.addWidget(self.stack)
         split.setStretchFactor(0, 2)
         split.setStretchFactor(1, 3)
         lay = QtWidgets.QVBoxLayout(self)
@@ -276,9 +312,46 @@ class StrategyPanel(QtWidgets.QWidget):
         self.guide.setHtml(self.guide_html(self.current))
         self._build_form(self.current)
         self.tuned_btn.setEnabled(bool(CAL.tuned_settings(key, self.ctx.organism)))
+        self._show_card(self.current)
+        self.show_card()
         item = self.items.get(key)
         if item is not None and self.tree.currentItem() is not item:
             self.tree.setCurrentItem(item)
+
+    # ------------------------------------------------------------------ the card
+    def headline(self, key: str) -> tuple:
+        """(card, verdict, grade, basis) for the card's four bars: the calibration's defaults with
+        95% intervals where the sweep measured the strategy, else the single shipped self-test."""
+        org = self.ctx.organism
+        cal = CAL.entry(key, org) or {}
+        d = cal.get("default") or {}
+        if d.get("scorecard") or d.get("skill") is not None:
+            basis = (f"Mean of {d.get('conclusive', 0):,} held-out tests on the shipped {org} "
+                     f"table at default settings.  ├┤ 95% interval   ▾ chance   "
+                     f"Hover a bar for what it means.")
+            return self.shipped_card(key), d, cal.get("grade", ""), basis
+        m = self.measured.get(key) or {}
+        if m.get("scorecard"):
+            verdict = {"skill": m.get("skill"), "observed": m.get("observed"),
+                       "chance": m.get("null_mean")}
+            return (self.shipped_card(key), verdict, "",
+                    f"One self-test on the shipped {org} table ({m.get('verdict')}).  ▾ chance"
+                    f"   Hover a bar for what it means.")
+        return {}, {}, "", "Not measured on this table yet: press Test to measure it here."
+
+    def _show_card(self, s: S.Strategy):
+        card, verdict, grade, basis = self.headline(s.key)
+        self.card.show_strategy(s, self.ctx.organism, card, verdict, grade, basis)
+
+    def show_card(self):
+        """Show the selected strategy's card: the default view."""
+        self.stack.setCurrentIndex(0)
+
+    def show_details(self, tab: int | None = None):
+        """Open the Guide, Settings and Results behind the card, optionally at one tab."""
+        self.stack.setCurrentIndex(1)
+        if tab is not None:
+            self.tabs.setCurrentIndex(tab)
 
     def _measured_line(self, key: str) -> str:
         m = self.measured.get(key)
@@ -574,7 +647,7 @@ class StrategyPanel(QtWidgets.QWidget):
         text = f"{type(exc).__name__}: {exc}"
         self.summary.setText(f"Could not run: {text}")
         self.status.emit(f"strategy failed -- {text}")
-        self.tabs.setCurrentIndex(2)
+        self.show_details(2)
 
     def stop_running(self) -> int:
         """Ask every job this panel started to stop. Returns how many were asked."""
@@ -654,7 +727,7 @@ class StrategyPanel(QtWidgets.QWidget):
         self.summary.setText(result.summary)
         self._show_tables(result.tables)
         self.map_btn.setEnabled(result.coords is not None or result.labels is not None)
-        self.tabs.setCurrentIndex(2)
+        self.show_details(2)
         self.status.emit(f"{result.strategy}: done in {result.seconds:.1f}s")
         self.result_ready.emit(result)
 
@@ -686,6 +759,8 @@ class StrategyPanel(QtWidgets.QWidget):
                     if item is not None:
                         item.setToolTip(TH.tip(SC.explain(key)))
         self.tabs.setCurrentIndex(2)
+        # The same four bars on the card; a test started from the card stays on the card.
+        self.card.show_test(test)
         self.status.emit(f"{test.strategy}: {test.verdict}")
         self.test_ready.emit(test)
 

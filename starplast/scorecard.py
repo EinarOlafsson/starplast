@@ -637,3 +637,203 @@ def replication(replicated: int, findings: int, null_rates) -> dict:
     return _ordered(T_REPL, {"replication_rate": rate, "findings": findings,
                              "replicated": replicated, "null_rate": null,
                              "replication_lift": rate / null if null and null > 0 else NAN})
+
+
+# --------------------------------------------------------------------------- the headline card
+@dataclass(frozen=True)
+class Headline:
+    """One bar of the headline card: which number, in what words, on what scale, against what.
+
+    `scale` is how the bar is drawn: ``unit`` is 0 to 1 (a negative value draws empty and says so),
+    ``lift`` is logarithmic from 0.5 to 32 with 1 at chance, ``count`` is logarithmic from 1 to
+    1,000. `chance` is a fixed chance level; `chance_key` names the card metric that holds a
+    measured one (replication's scrambled-evidence rate). `invert` shows 1 minus the metric (the
+    unclustered share becomes the clustered share). `note` says why an analogue stands in.
+    """
+    key: str
+    label: str
+    technical: str
+    reading: str
+    scale: str = "unit"
+    chance: float | None = None
+    chance_key: str | None = None
+    invert: bool = False
+    note: str = ""
+
+
+#: Bar 1 for every strategy: skill, the verdict metric put on one scale.
+SKILL = Headline("skill", "Better than chance", "skill",
+                 "0 is what the same procedure scores on shuffled data, 1 is perfect: how far the "
+                 "strategy got from luck toward the right answer.", chance=0.0)
+
+#: Bar 2 for every strategy: how much of the question it can speak to at all.
+REACH = {
+    T_LABEL: Headline("coverage", "Reach", "coverage",
+                      "Share of the hidden genes it made any call for. A gene it cannot call is "
+                      "counted wrong under Right calls."),
+    T_VALUES: Headline("value_coverage", "Reach", "coverage",
+                       "Share of the hidden values it made a prediction for."),
+    T_CLUSTER: Headline("noise_share", "Reach", "1 - unclustered share",
+                        "Share of the hidden genes placed in any cluster; a gene left as noise "
+                        "cannot be recovered by any cluster.", invert=True,
+                        note="Clustering has no coverage; its analogue is the share of genes it "
+                             "placed in a cluster at all."),
+    T_RANK: Headline("recall_at_10pct", "Reach", "recall @ top 10%",
+                     "Share of the true ones that land in the top 10% of the list: how much of "
+                     "the answer a short list holds.", chance=0.1,
+                     note="A ranking scores every candidate, so coverage is always complete; its "
+                          "analogue is how many of the true ones a short list reaches."),
+    T_SET: Headline("returned", "Reach", "genes returned",
+                    "How many genes it returned as the set. Context, not merit: a longer list "
+                    "finds more members by being longer.", scale="count",
+                    note="A set strategy speaks about the genes it returns, so its reach is how "
+                         "many it returned."),
+    T_REPL: Headline("findings", "Reach", "findings made",
+                     "How many findings it made on the first half of the genes, each then checked "
+                     "on the second half.", scale="count",
+                     note="A replication test has no coverage; its reach is how many findings it "
+                          "made to check."),
+}
+
+#: Bars 3 and 4: the two metrics of each task a biologist would ask about first, in plain words.
+HEADLINE = {
+    T_LABEL: (Headline("accuracy", "Right calls", "accuracy",
+                       "Share of hidden genes given their true label; a gene left uncalled counts "
+                       "as wrong."),
+              Headline("macro_f1", "Fair across classes", "macro F1",
+                       "Whether rare classes are found and called correctly as well as common "
+                       "ones; low when it lives on the big classes.")),
+    T_RANK: (Headline("auroc", "True ones ranked first", "AUROC",
+                      "Chance that a true one is ranked above a random other: 0.5 is a coin "
+                      "flip, 1 is every true one on top.", chance=0.5),
+             Headline("auprc_lift", "Clean top of the list", "AUPRC lift",
+                      "How many times cleaner the top of the list is than a random order; 1 is "
+                      "no better than random.", scale="lift", chance=1.0)),
+    T_VALUES: (Headline("spearman", "Order predicted", "Spearman rho",
+                        "Whether genes predicted high really are high, whatever the scale; 0 is "
+                        "no relation, 1 a perfect order.", chance=0.0),
+               Headline("r2", "Variance explained", "R-squared, out of sample",
+                        "Share of the spread in the hidden values the prediction explains; 0 is "
+                        "no better than guessing the average.", chance=0.0)),
+    T_CLUSTER: (Headline("weighted_f1_clusters", "Label falls out as a cluster", "weighted F1",
+                         "Whether the genes of a label nobody showed the clustering end up "
+                         "together in one cluster."),
+                Headline("ari", "Partition agreement", "adjusted Rand index",
+                         "Agreement between the whole clustering and the hidden labels; 0 is what "
+                         "random clusters of the same sizes give.", chance=0.0)),
+    T_SET: (Headline("precision", "Returned genes that are real", "precision",
+                     "Share of the genes it returned that are true members of the set."),
+            Headline("recall", "Members found", "recall",
+                     "Share of the hidden members it returned.")),
+    T_REPL: (Headline("replication_rate", "Findings that hold", "replication rate",
+                      "Share of the findings made on half the genes that hold on the other half.",
+                      chance_key="null_rate"),
+             Headline("replication_lift", "Beyond chance", "replication lift",
+                      "How many times more often its findings hold than findings made on "
+                      "scrambled evidence.", scale="lift", chance=1.0)),
+}
+
+
+def headline(task: str) -> tuple:
+    """The four headline bars of a task, in card order: skill, reach, and two task metrics."""
+    return (SKILL, REACH[task]) + tuple(HEADLINE[task])
+
+
+#: Bar scales: (low, high) in the value's own units, and whether the axis is logarithmic.
+SCALES = {"unit": (0.0, 1.0, False), "lift": (0.5, 32.0, True), "count": (1.0, 1000.0, True)}
+
+
+def position(scale: str, value) -> float:
+    """Where `value` sits along a bar of `scale`, 0 (left) to 1 (right); NaN for no value."""
+    v = _finite(value)
+    if not math.isfinite(v):
+        return NAN
+    lo, hi, log = SCALES[scale]
+    if log:
+        v = max(v, lo)
+        t = (math.log(v) - math.log(lo)) / (math.log(hi) - math.log(lo))
+    else:
+        t = (v - lo) / (hi - lo)
+    return min(1.0, max(0.0, t))
+
+
+def _triple(x) -> tuple:
+    if isinstance(x, dict):
+        return (_finite(x.get("mean")), _finite(x.get("low")), _finite(x.get("high")))
+    if isinstance(x, (tuple, list)):
+        x = list(x) + [None, None, None]
+        return (_finite(x[0]), _finite(x[1]), _finite(x[2]))
+    return (_finite(x), NAN, NAN)
+
+
+def fmt_value(scale: str, value) -> str:
+    """A bar's value as text: 0.62, x1.4 for a lift, 63 for a count, -- for none."""
+    v = _finite(value)
+    if not math.isfinite(v):
+        return "--"
+    if scale == "count":
+        return f"{v:,.0f}"
+    if scale == "lift":
+        return f"x{v:.1f}" if v < 10 else f"x{v:.0f}"
+    return f"{v:.2f}"
+
+
+def _chance(h: Headline, raw: dict, value: float, verdict: dict) -> float:
+    """A bar's chance level: fixed, held by another metric, or measured by the verdict's null."""
+    if h.chance_key:
+        return raw.get(h.chance_key, (NAN,))[0]
+    if h.chance is not None:
+        return float(h.chance)
+    observed = _finite(verdict.get("observed"))
+    if math.isfinite(observed) and math.isfinite(value) and abs(observed - value) < 1e-6:
+        return _finite(verdict.get("chance"))            # this bar IS the verdict's metric
+    if h.key in ("precision", "recall"):
+        # Fold enrichment is precision over the members' share of the candidates, so dividing by
+        # it gives precision's chance (that share) and recall's (the returned share).
+        fold = raw.get("fold_enrichment", (NAN,))[0]
+        if math.isfinite(fold) and fold > 0:
+            return raw.get(h.key, (NAN,))[0] / fold
+    return NAN
+
+
+def headline_bars(task: str, card: dict, verdict: dict | None = None) -> list:
+    """The four headline bars filled in: one dict per bar, in card order.
+
+    `card` maps metric -> value, (mean, low, high) or {"mean", "low", "high"} (the calibration's
+    form). `verdict` carries skill, skill_low, skill_high and, where known, the verdict's observed
+    value and measured chance; that chance becomes a bar's tick when the bar shows the very metric
+    the verdict rests on. Each dict has key, label, technical, value, low, high, chance, scale,
+    position, reading (the plain sentence shown on hover) and note.
+    """
+    verdict = verdict or {}
+    raw = {k: _triple(v) for k, v in (card or {}).items()}
+    out = []
+    for h in headline(task):
+        if h.key == "skill":
+            value, low, high = (_finite(verdict.get("skill")), _finite(verdict.get("skill_low")),
+                                _finite(verdict.get("skill_high")))
+        else:
+            value, low, high = raw.get(h.key, (NAN, NAN, NAN))
+            if h.invert:
+                value, low, high = 1 - value, 1 - high, 1 - low
+        chance = _finite(_chance(h, raw, value, verdict))
+        out.append({"key": h.key, "label": h.label, "technical": h.technical, "value": value,
+                    "low": low, "high": high, "chance": chance, "scale": h.scale,
+                    "position": position(h.scale, value),
+                    "reading": bar_reading(h, value, low, high, chance), "note": h.note})
+    return out
+
+
+def bar_reading(h: Headline, value, low=NAN, high=NAN, chance=NAN) -> str:
+    """One bar in plain words: the number, its interval, chance, and what the number means."""
+    v = _finite(value)
+    if not math.isfinite(v):
+        return f"{h.label} ({h.technical}): not measured. {h.reading}"
+    text = f"{h.label} ({h.technical}): {fmt_value(h.scale, v)}"
+    if math.isfinite(_finite(low)) and math.isfinite(_finite(high)):
+        text += f", 95% interval {fmt_value(h.scale, low)} to {fmt_value(h.scale, high)}"
+    if math.isfinite(_finite(chance)):
+        text += f"; chance gives {fmt_value(h.scale, chance)}"
+    if h.scale == "unit" and v < 0:
+        text += " (below zero: worse than the reference)"
+    return f"{text}. {h.reading}" + (f" {h.note}" if h.note else "")

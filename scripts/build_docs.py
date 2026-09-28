@@ -17,6 +17,7 @@ PAGES = {"index": "docs/index.md", "guide": "docs/guide.md", "API": "docs/API.md
          "repository-review": "docs/repository-review.md",
          "scientific-roadmap": "docs/scientific-roadmap.md", "changelog": "CHANGELOG.md",
          "calibration": "docs/calibration.md", "scorecards": "docs/scorecards.md",
+         "strategy_cards": "docs/strategy_cards.md",
          "graphspace": "docs/graphspace.md"}
 
 

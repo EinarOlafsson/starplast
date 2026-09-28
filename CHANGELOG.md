@@ -1,5 +1,33 @@
 # Changelog
 
+## Unreleased
+
+- The Strategies tab opens each strategy on a card instead of prose. The card shows the name,
+  method, task and calibration grade, one line saying what the strategy answers, and four painted
+  bars in the same places for every strategy: **Better than chance** (skill), **Reach** (coverage,
+  or its task's stated analogue) and two task metrics in plain words (for example "Right calls"
+  and "Fair across classes" for label calls). Each bar shows its 95% interval from the shipped
+  calibration, a marker at chance, the technical name in small type, and a plain sentence on hover.
+  **Run**, **Test** and **Details ▸** sit under the bars. The Guide, Settings and Results tabs keep
+  all their controls and move behind Details. A test started from the card shows its result on the
+  card in the same four bars.
+- Add `scorecard.HEADLINE`, `REACH`, `headline()` and `headline_bars()`, which define the four
+  headline bars for each task once, including where their chance levels come from.
+- Add an "About this test" box for all 39 strategies (`starplast/strategy_explainers.py`). It has
+  four short fields: what the strategy does, how it is evaluated, what failure looks like and why,
+  and what success looks like and why. Each field was written from the strategy's own explanation
+  and test description. The box is collapsed to one line per field and opens on click.
+- Add worked examples: one real failure and one real success per strategy and organism
+  (`starplast/data/strategy_examples.json`). They are chosen from the 7,640 calibration runs by
+  `scripts/build_strategy_examples.py` and recorded in
+  `notebooks/strategy_examples_2026_09_28.ipynb`. Each failure explains its failure mode from its
+  own numbers. Each success is re-run once and lists its top five calls for genes without a known
+  label. Where a strategy never failed on real data, the failure shown is its self-test on the
+  noise table, and the card labels it as such.
+- Add `docs/strategy_cards.md`, which renders the same cards, explainers and examples for the
+  docs. Help search now opens a strategy on its card, and the Guide, Settings and Results entries
+  open Details. Tutorial captions now name the moved controls; the tutorials have not been rebuilt.
+
 ## 0.47.0
 
 - Add `NEXT_SESSION.md`, the handoff for resuming work: current state, working rules, the prioritised plan for the per-organism spaces and the traps already met. `HANDOFF.md` points to it.
