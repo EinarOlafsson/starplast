@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.48.0
 
 - The Strategies tab opens each strategy on a card instead of prose. The card shows the name,
   method, task and calibration grade, one line saying what the strategy answers, and four painted

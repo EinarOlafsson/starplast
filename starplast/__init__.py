@@ -11,7 +11,7 @@ The main modules load on first use, so ``import starplast`` stays light and neve
     starplast.strategies.test("stacking", target="compartment").card()
     starplast.scorecard.glossary("ranking")      # what each metric means
 """
-__version__ = "0.47.0"
+__version__ = "0.48.0"
 
 #: Submodules reachable as attributes of the package, imported when first touched.
 _LAZY = ("strategies", "scorecard", "techniques", "calibration", "graphspace", "deposits",
