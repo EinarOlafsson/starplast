@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.47.0
+
+- Add `NEXT_SESSION.md`, the handoff for resuming work: current state, working rules, the prioritised plan for the per-organism spaces and the traps already met. `HANDOFF.md` points to it.
 
 - Rebuild the Pf display from its own feature slots: 118 resolved features now place all 5,720
   genes, instead of the 20-feature legacy fallback. Display recipes are separate from the shipped

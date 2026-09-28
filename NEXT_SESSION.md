@@ -1,6 +1,6 @@
 # Next session: start here
 
-Written 2026-09-27, right after **0.46.0** was released. Read this page first. It covers where things
+Written 2026-09-27 and updated at the **0.47.0** release. Read this page first. It covers where things
 stand, how the work is done here, and what to do next, in order. `HANDOFF.md` holds the long-standing
 design decisions and their reasons, and `instructions/` is the task ledger. This page ties them
 together.
@@ -29,8 +29,8 @@ in `notebooks/pf_display_layout_2026_09_27.ipynb`. Adopting new inference groupi
 
 | | |
 |---|---|
-| Version | **0.46.0**, on PyPI and as GitHub release v0.46.0 (both verified 2026-09-27) |
-| Branches | `nightly` = `main` = `0c96830`; the working tree is clean |
+| Version | **0.47.0**: 0.46.0's work plus the host split, the data-pack framework and the per-space Pf display (a parallel session, 2026-09-27) |
+| Branches | `nightly` folds into `main` at each release; run `git log origin/main..origin/nightly` for newer work |
 | Checkout | `/media/carruthers/mnt3/claude/repo/starplast` (the live one; `repo/starplast_` and `toxoplasma_projects/starplast` are stale copies, so never commit there) |
 | Tables | *T. gondii* `nodes.parquet` 8,140 genes × 438 columns; *P. falciparum* `pf_nodes.parquet` 5,720 × 168; host proteins 36,579 |
 | Slots | 290 in `starplast/data/slots.json`; gene-unit coverage 180 of 221 |
@@ -191,13 +191,13 @@ the acceptance tests.
 | 3 | Space packs: framework implemented; build and publish organism packs next | Hash-checked build/install/download commands are in `docs/space-packs.md`; wheel is 53.4 MB. |
 | 4 | Build the **Hs and Mm spaces** from the downloaded data | WP3. The data is at `<STARPLAST_DATA>/spaces/Hs`, `/Mm`, each with a `MANIFEST.json`. |
 | 5 | UI: a Space menu (parasites / hosts / vectors), with a download for spaces not installed | WP9 |
-| ► | **0.47.0** | Registry complete, Pf map fixed, Hs and Mm spaces |
+| ► | **0.48.0** | Hs and Mm spaces built, organism packs published, Space menu |
 | 6 | Cryptosporidium (Cp) and P. berghei (Pb) spaces | WP6. Pb: the real PlasmoGEM tables are in `spaces/Pb/essentiality/`; the old dataset-tree copies are HTML placeholders. |
 | 7 | *Anopheles* (Ag, As), rat (Rn) and cat (Fc) spaces | WP4 and WP5. Mind the id-space traps listed in 53. |
 | 8 | Leakage families per space; strategies and calibration across N spaces | WP7 and WP8. Calibration publishing now merges measured entries; applicability and new-space calibration remain. |
-| ► | **0.48.0** | Every organism in its own space |
+| ► | **0.49.0** | Every organism in its own space |
 | 9 | Phase 2: cross-space bridges (orthology, host–pathogen PPI, vector–parasite), `Context.bridge`, a linked-windows dock | WP10–12 |
-| ► | **0.49.0** (or 0.5.0) | Pathogen–host–vector inference |
+| ► | **0.50.0** (or 0.5.0) | Pathogen–host–vector inference |
 | 10 | Small follow-ups | See below |
 
 The small follow-ups:
