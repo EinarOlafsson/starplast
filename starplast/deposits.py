@@ -28,6 +28,12 @@ What each one is, and the check it had to pass:
   transcript, not a half-life. Replicates agree at rho 0.96, ribosomal-protein mRNAs are stable.
   Genome-wide (6,406 genes) where the shipped column is the 412-gene unstable tail of another
   study; the two do not correlate (rho -0.03), which the tail's selection explains.
+* **Parasite density** (Giuliano et al., Cell 2026, PMID 42580337; instruction 56): one library
+  split into low (MOI 0.3) and high (MOI 3) density. The arms are fibroblast fitness again (r =
+  0.995 between them, the paper's number); the high-versus-low contrast is the new axis. All 31
+  of the paper's density-inhibited mutants are among the 32 genes its contrast puts at Bonferroni
+  p < 0.05 on the depleted side (the 32nd, TGGT1_264610, sits at 0.048 on half a clone), and its
+  12 high-confidence ones reproduce exactly from the stated rule (four-fold, adj. p < 1e-4).
 The second pass, 2026-09-26 (instruction 52), added six Plasmodium deposits and the checks that
 admitted them:
 
@@ -65,6 +71,8 @@ from typing import Callable
 
 import numpy as np
 import pandas as pd
+
+from . import organisms
 
 
 # --------------------------------------------------------------------------- statistics
@@ -202,6 +210,46 @@ def serum_restriction(root: str) -> pd.DataFrame:
     out["fit_serum_differential_p8"] = num("P8 Mean (Exp1, Exp 2) Phenotype (10%-1%)")
     out["fit_serum_differential_p4p5"] = num("P4/P5 Mean Phenotype (10%-1%)")
     out = out[out["gene_id"].str.match(r"^TGGT1_\d{6}[A-Z]?$")]
+    return out.reset_index(drop=True)
+
+
+DENSITY = ("DNA", "CRISPR_screen", "42580337", "mmc2.xlsx")
+DENSITY_DIFFERENTIAL = "gRNA-UMI L2FC(High/Low) Differential Score"
+
+
+def density_screen(root: str) -> pd.DataFrame:
+    """Fitness at low and high parasite density, and what high density adds (Giuliano et al.,
+    Cell 2026, PMID 42580337, Table S1).
+
+    One genome-wide library, selected for four passages at MOI 1 and then split for four more at MOI
+    0.3 (low density) and MOI 3 (high). The two arms are the authors' gene scores at passage 8, the
+    mean gRNA log2 fold change against the input library: negative = depleted = needed, exactly as
+    in the fibroblast screen they restate (r = 0.995 between the arms). The dependence column is
+    the authors' own contrast, computed on barcoded gRNA-UMI clones directly between the arms,
+    log2(high / low): NEGATIVE means the gene is needed at high density. Its statistic is the
+    Bonferroni-adjusted two-sided t-test against the non-targeting clones, shipped as
+    -log10(adj. p). `fit_density_dim` marks the 31 density-inhibited mutants of the paper's hit
+    sheet (1) among the genes the contrast scored (0); genes it did not score carry no call.
+    """
+    path = _file(root, *DENSITY)
+    if path is None:
+        return pd.DataFrame()
+    arms = pd.read_excel(path, sheet_name="GWS mean L2FC to input")
+    out = pd.DataFrame({"gene_id": arms["Gene"].astype(str).str.strip(),
+                        "fit_density_low": pd.to_numeric(arms["P8_Low_MOI"], errors="coerce"),
+                        "fit_density_high": pd.to_numeric(arms["P8_High_MOI"], errors="coerce")})
+    umi = pd.read_excel(path, sheet_name="GWS UMI-filtered scores ")
+    umi.columns = [" ".join(str(c).split()) for c in umi.columns]
+    hits = set(pd.read_excel(path, sheet_name="GWS DIM Hits")["Gene"].astype(str).str.strip())
+    contrast = pd.DataFrame({
+        "gene_id": umi["Gene"].astype(str).str.strip(),
+        "fit_density_dependence": pd.to_numeric(umi[DENSITY_DIFFERENTIAL], errors="coerce"),
+        "fit_density_dependence_log10padj": pd.to_numeric(umi["negative log10(adj. p-value)"],
+                                                          errors="coerce")})
+    contrast["fit_density_dim"] = contrast["gene_id"].isin(hits).astype(float)
+    out = out.merge(contrast, on="gene_id", how="outer")
+    # TGGT1_000000 is the library's non-targeting control, not a gene.
+    out = out[out["gene_id"].str.match(r"^TGGT1_\d{6}[A-Z]?$") & (out["gene_id"] != "TGGT1_000000")]
     return out.reset_index(drop=True)
 
 
@@ -1329,6 +1377,7 @@ DEPOSITS = (
     Deposit("crispr_invivo_composite", "Tg", giuliano_invivo),
     Deposit("crispr_serum_restriction", "Tg", serum_restriction),
     Deposit("crispr_glucose_limitation", "Tg", glucose_limitation),
+    Deposit("crispr_parasite_density", organisms.TOXOPLASMA, density_screen),
     Deposit("gse302107_riboseq", "Tg", riboseq_302107),
     Deposit("gse302108_utr5", "Tg", utr5_architecture),
     Deposit("mrna_decay_gse329845", "Tg", mrna_decay_329845),

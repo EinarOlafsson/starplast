@@ -2522,6 +2522,50 @@
   },
   {
     "organism": "Tg",
+    "name": "fitness · parasite density",
+    "axis": "fitness",
+    "context": "HFF, MOI 0.3 and MOI 3",
+    "unit": "gene",
+    "patterns": [
+      "fit_density_low",
+      "fit_density_high",
+      "fit_density_dependence",
+      "fit_density_dependence_log10padj",
+      "fit_density_dim"
+    ],
+    "policy": "separate",
+    "candidates": [
+      [
+        "42580337",
+        "",
+        "genome-wide screen at low and high infection density"
+      ]
+    ],
+    "evidence_path": [
+      "perturbational measurements",
+      "genetic screens",
+      "fitness",
+      "tachyzoite (implied)"
+    ],
+    "biology_path": [
+      "parasite phenotype",
+      "fitness and essentiality",
+      "tachyzoite (implied)",
+      "unperturbed"
+    ],
+    "context_path": [
+      "host-cell or host-derived",
+      "human",
+      "tissue-unspecified",
+      "tachyzoite (implied)",
+      "fitness"
+    ],
+    "target_family": "fitness_parasite_density",
+    "target_columns": [],
+    "role": "feature"
+  },
+  {
+    "organism": "Tg",
     "name": "fitness · oxidative stress",
     "axis": "fitness",
     "context": "oxidant",

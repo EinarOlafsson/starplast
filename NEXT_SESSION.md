@@ -32,7 +32,7 @@ in `notebooks/pf_display_layout_2026_09_27.ipynb`. Adopting new inference groupi
 | Version | **0.47.0**: 0.46.0's work plus the host split, the data-pack framework and the per-space Pf display (a parallel session, 2026-09-27) |
 | Branches | `nightly` folds into `main` at each release; run `git log origin/main..origin/nightly` for newer work |
 | Checkout | `/media/carruthers/mnt3/claude/repo/starplast` (the live one; `repo/starplast_` and `toxoplasma_projects/starplast` are stale copies, so never commit there) |
-| Tables | *T. gondii* `nodes.parquet` 8,140 genes × 438 columns; *P. falciparum* `pf_nodes.parquet` 5,720 × 168; host proteins 36,579 |
+| Tables | *T. gondii* `nodes.parquet` 8,140 genes × 443 columns; *P. falciparum* `pf_nodes.parquet` 5,720 × 168; host proteins 36,579 |
 | Slots | 290 in `starplast/data/slots.json`; gene-unit coverage 180 of 221 |
 | Strategies | 39 in 9 families. Every one declares its method, its techniques and a scorecard task. |
 | Calibration | 7,640 self-tests (`results/calibration_2026-09-26b`). Tg: 30 reliable, 8 weak, 1 untestable. Pf: 26 reliable, 2 work when tuned, 9 weak, 2 untestable. |

@@ -136,6 +136,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_fitness_in_vivo_brain
         - Tg_fitness_serum_restriction
         - Tg_fitness_carbon_source_withdrawal
+        - Tg_fitness_parasite_density
         - Tg_fitness_hyperlopit_unassigned_proteins
         - Tg_fitness_targeted_in_vivo_young_2019
         - Tg_fitness_gra12_screen_1_in_vivo
@@ -368,6 +369,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
         - Tg_fitness_in_vivo_brain
         - Tg_fitness_serum_restriction
         - Tg_fitness_carbon_source_withdrawal
+        - Tg_fitness_parasite_density
         - Tg_fitness_hyperlopit_unassigned_proteins
         - Tg_fitness_targeted_in_vivo_young_2019
         - Tg_fitness_gra12_screen_1_in_vivo
@@ -746,6 +748,7 @@ Slots are the leaves of three independent trees. A single tree would create fals
           - Tg_fitness_hff_in_vitro
           - Tg_fitness_serum_restriction
           - Tg_fitness_carbon_source_withdrawal
+          - Tg_fitness_parasite_density
       - tachyzoite
         - host effect
           - Tg_host_protein_recruitment_to_the_vacuole

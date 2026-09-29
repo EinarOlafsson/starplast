@@ -334,7 +334,43 @@ def build(dataset_root: str) -> str:
             " 'field dN/dS genes': int(res.pf6_field_dnds.notna().sum()),",
             " 'rho(field dN/dS, selected compounds)': round(float(stats.spearmanr(res.pf6_field_dnds, res.resistance_selection_compounds, nan_policy='omit').correlation), 3)}")
 
-    nb.md("## 20. Write the tables",
+    nb.md("## 20. Parasite density (Giuliano et al., Cell 2026, PMID 42580337)",
+          "One genome-wide library split at passage 4 into low (MOI 0.3) and high (MOI 3) "
+          "infection density. The paper states that the two arms agree at r = 0.995, that its "
+          "high-versus-low contrast (Bonferroni-adjusted t-test on barcoded gRNA-UMI clones "
+          "against non-targeting clones) nominates 31 density-inhibited mutants (DIMs), 13 of them "
+          "hypothetical proteins, that 12 are top-scoring by at least four-fold at adjusted "
+          "p < 1e-4, and that four of the five NAD(P)+ biosynthesis genes are DIMs, NAPRT trending "
+          "but below the cut-off. Each is recomputed here from Table S1.")
+    nb.code("density = D.density_screen(DATA)",
+            "path = os.path.join(DATA, *D.DENSITY)",
+            "hits = pd.read_excel(path, sheet_name='GWS DIM Hits')",
+            "d = density.set_index('gene_id')",
+            "sig = d[(d.fit_density_dependence_log10padj > -np.log10(0.05)) & (d.fit_density_dependence < 0)]",
+            "rule = d[(d.fit_density_dependence <= -2) & (d.fit_density_dependence_log10padj > 4)]",
+            "confident = set(hits.Gene[hits.iloc[:, 4].eq('high confidence')])",
+            "{'r(high, low) (paper: 0.995)': round(float(stats.pearsonr(d.fit_density_high, d.fit_density_low)[0]), 4),",
+            " 'DIMs in the hit sheet (paper: 31)': int(d.fit_density_dim.sum()),",
+            " 'hypothetical proteins among them (paper: 13)': int(hits.Annotation.eq('hypothetical protein').sum()),",
+            " 'genes at adj. p < 0.05, depleted': len(sig),",
+            " 'DIMs among those': int(sig.fit_density_dim.sum()),",
+            " 'four-fold at adj. p < 1e-4 (paper: 12)': len(rule),",
+            " 'identical to the sheet\\'s high-confidence set': set(rule.index) == confident}")
+    nb.code("nad = {'TGGT1_305840': 'NMNAT', 'TGGT1_269800': 'NAD synthetase', 'TGGT1_244700': 'NAD kinase',",
+            "       'TGGT1_281990': 'nicotinamidase', 'TGGT1_208530': 'NAPRT', 'TGGT1_202900': 'TgPRO',",
+            "       'TGGT1_214320': 'glucose transporter GT1'}",
+            "d.loc[list(nad)].rename(index=nad)[['fit_density_low', 'fit_density_high', 'fit_density_dependence', 'fit_density_dependence_log10padj', 'fit_density_dim']].round(2)")
+    nb.md("The arms are fibroblast fitness measured again and the contrast is not -- which decides "
+          "the leakage grouping (`search.SAME_QUANTITY`).")
+    nb.code("x = density.assign(me49=me49(density.gene_id).values)",
+            "x = x[~x.gene_id.str.contains(r'\\d[A-Z]$')].drop_duplicates('me49').set_index('me49')",
+            "x = x.join(nodes.set_index('gene_id')[['fit_invitro_hff']])",
+            "rib = ribosomal.reindex(x.index).fillna(False).astype(bool)",
+            "pd.DataFrame({c: {'rho with fit_invitro_hff': stats.spearmanr(x[c], x.fit_invitro_hff, nan_policy='omit').correlation,",
+            "                  'ribosomal median': x.loc[rib, c].median(), 'others median': x.loc[~rib, c].median()}",
+            "              for c in ['fit_density_low', 'fit_density_high', 'fit_density_dependence']}).T.round(3)")
+
+    nb.md("## 21. Write the tables",
           "Each derivation is written to `starplast/data/deposit_<key>.tsv`. "
           "`scripts/add_deposits.py` merges them into the node and host tables, refusing any merge "
           "that would lose a value.")

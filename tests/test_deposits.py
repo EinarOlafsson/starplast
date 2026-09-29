@@ -589,3 +589,67 @@ def test_every_fourth_wave_target_holds_itself_out(pf):
                    "dnds_laverania", "resistance_target_compounds",
                    "committed_vs_asexual_log2fc"):
         assert target in search.excluded_for(pf, target), target
+
+
+# --------------------------------------------------------------------------- parasite density
+@pytest.fixture(scope="module")
+def density():
+    """The derived deposit table as shipped: GT1 accessions, before the identity layer."""
+    return D._read(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                   "crispr_parasite_density")
+
+
+def test_the_density_screen_reproduces_the_papers_numbers(density):
+    """Giuliano et al., Cell 2026: the arms agree at r = 0.995, 31 density-inhibited mutants, 12 of
+    them four-fold at adjusted p < 1e-4. All three are recomputed from the shipped table."""
+    d = density.set_index("gene_id")
+    arms = d[["fit_density_low", "fit_density_high"]].dropna()
+    assert round(float(np.corrcoef(arms.iloc[:, 0], arms.iloc[:, 1])[0, 1]), 3) == 0.995
+    assert int(d["fit_density_dim"].sum()) == 31
+    significant = (d["fit_density_dependence_log10padj"] > -np.log10(0.05)) & \
+        (d["fit_density_dependence"] < 0)
+    assert int(significant.sum()) == 32 and int(d.loc[significant, "fit_density_dim"].sum()) == 31
+    confident = (d["fit_density_dependence"] <= -2) & (d["fit_density_dependence_log10padj"] > 4)
+    assert int(confident.sum()) == 12 and d.loc[confident, "fit_density_dim"].eq(1).all()
+
+
+def test_nad_synthesis_is_what_high_density_needs(density):
+    """The paper's coherent signature: NMNAT and NAD synthetase are the two most density-dependent
+    genes; NAPRT trends the same way on a single clone and so has no p and no call."""
+    d = density.set_index("gene_id")
+    top = d["fit_density_dependence"].nsmallest(2).index
+    assert set(top) == {"TGGT1_305840", "TGGT1_269800"}              # NMNAT, NAD synthetase
+    assert d.loc["TGGT1_202900", "fit_density_dim"] == 1            # TgPRO
+    naprt = d.loc["TGGT1_208530"]
+    assert naprt["fit_density_dependence"] < -2
+    assert np.isnan(naprt["fit_density_dependence_log10padj"]) and naprt["fit_density_dim"] == 0
+
+
+def test_the_density_arms_are_fibroblast_fitness_and_the_contrast_is_not(tg):
+    from scipy import stats
+
+    def rho(a, b):
+        d = tg[[a, b]].dropna()
+        return stats.spearmanr(d[a], d[b]).correlation
+    for arm in ("fit_density_low", "fit_density_high"):
+        assert tg[arm].notna().sum() > 7000
+        assert rho(arm, "fit_invitro_hff") > 0.6
+    assert abs(rho("fit_density_dependence", "fit_invitro_hff")) < 0.2
+    product = tg["product"].fillna("")
+    ribosomal = (product.str.contains("ribosomal protein", case=False)
+                 & ~product.str.contains("mitochondrial|apicoplast|kinase|methyltransferase",
+                                         case=False))
+    for arm in ("fit_density_low", "fit_density_high"):
+        assert tg.loc[ribosomal, arm].median() < tg.loc[~ribosomal, arm].median() - 0.5, arm
+
+
+def test_the_density_columns_are_held_out_with_what_they_restate(tg):
+    """Left out of the fibroblast family, the density slot predicted held-out fibroblast fitness at
+    0.72, the best of any slot (instruction 56). The contrast is a different quantity."""
+    from starplast import search
+    banned = search.excluded_for(tg, "fit_invitro_hff")
+    assert {"fit_density_low", "fit_density_high"} <= banned
+    assert "fit_density_dependence" not in banned
+    own = search.excluded_for(tg, "fit_density_dependence")
+    assert {"fit_density_dependence", "fit_density_low", "fit_density_high",
+            "fit_density_dependence_log10padj", "fit_density_dim"} <= own

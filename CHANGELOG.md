@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- Add the Lourido lab's parasite-density CRISPR screen (Giuliano et al., Cell 2026, PMID 42580337)
+  as the Toxoplasma slot "fitness · parasite density". It has five columns: fitness at low (MOI
+  0.3) and high (MOI 3) density, the authors' high-versus-low contrast (negative means needed at
+  high density), its Bonferroni p, and the paper's 31 density-inhibited mutants. The arms cover
+  7,461 genes and the contrast 5,291. Table S1 reproduces the paper's numbers: r = 0.995 between
+  the arms, 31 hits, and the 12 high-confidence hits from the stated rule. The arms are held out
+  with fibroblast fitness. The contrast is its own leakage family, and the leakage audit finds 0
+  gaps and 0 residual leaks (instruction 56).
+
 ## 0.48.0
 
 - The Strategies tab opens each strategy on a card instead of prose. The card shows the name,

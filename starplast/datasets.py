@@ -547,6 +547,36 @@ REGISTRY = [
                  "0.10-0.17 and only 175 genes reach FDR 0.05 -- so the FDR ships beside it and the "
                  "column is a screen, not a measurement of one gene. A preprint: cite the journal "
                  "version once it exists.", organism=organisms.TOXOPLASMA),
+    Dataset("crispr_parasite_density", "CRISPR screen at low and high parasite density", "DNA",
+            "CRISPR_screen",
+            "Fitness at low and high infection density, and which genes high density needs",
+            ("fit_density_low", "fit_density_high", "fit_density_dependence",
+             "fit_density_dependence_log10padj", "fit_density_dim"), "7,461 (91.7%)",
+            pmid="42580337",
+            accession="Cell 2026 Supplementary Table 1 (mmc2)",
+            citation="Giuliano CJ, Kalluraya CA, Kloehn J, Sloan MA, Bunkofske ME, Hunter CA, "
+                     "Soldati-Favre D, Harding CR, Lourido S. Convergent evolution of metabolic "
+                     "regulation governs redox adaptation in Toxoplasma. Cell 2026 Aug, "
+                     "doi:10.1016/j.cell.2026.07.029",
+            url="https://ars.els-cdn.com/content/image/1-s2.0-S0092867426008275-mmc2.xlsx",
+            path="datasets/DNA/CRISPR_screen/42580337/mmc2.xlsx",
+            note="A genome-wide knockout library selected for four passages at MOI 1, then split "
+                 "for four more at MOI 0.3 (low density) and MOI 3 (high). The arms are the "
+                 "authors' passage-8 gene scores (mean gRNA log2 fold change to input; negative = "
+                 "needed) and are fibroblast fitness again: r = 0.995 between them, as the paper "
+                 "states, and rho 0.70 with fit_invitro_hff, so they are held out with it. The "
+                 "dependence column is the authors' contrast on barcoded gRNA-UMI clones, "
+                 "log2(high / low): NEGATIVE = needed at high density. It is orthogonal to bulk "
+                 "fitness (rho -0.08) and is the new axis; -log10 of its Bonferroni-adjusted "
+                 "t-test p ships beside it, and fit_density_dim marks the paper's 31 "
+                 "density-inhibited mutants (NMNAT, NAD synthetase, NAD kinase, nicotinamidase, "
+                 "the glucose transporter, TgPRO) among the ~6,150 genes the contrast scored. "
+                 "Verified: r = 0.9951, 31 hits within the 32 genes at adj. p < 0.05, the 12 "
+                 "high-confidence hits exactly from the stated rule. The 266-gene targeted "
+                 "follow-up screen (with nicotinamide) is not shipped. GT1 accessions, resolved "
+                 "to ME49 through the identity layer. The article is not open access; PMC blocks "
+                 "scripted download, the publisher CDN serves the table.",
+            organism=organisms.TOXOPLASMA),
     Dataset("crispr_macrophage", "Macrophage CRISPR screens", "DNA", "CRISPR_screen",
             "Naive BMDM and IFN-gamma survival", ("fit_naive_bmdm", "fit_ifng"), "7,402 (90.9%)",
             pmid="33067458",

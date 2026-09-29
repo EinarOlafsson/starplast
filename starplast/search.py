@@ -157,7 +157,11 @@ SAME_QUANTITY = {
                          # both and recovering one from the other recovers essentiality. The
                          # DIFFERENCE between the arms stays out of this family: it is orthogonal to
                          # bulk fitness (rho 0.06) and is the question that screen was built to ask.
-                         "fit_no_glucose", "fit_no_glutamine"),
+                         "fit_no_glucose", "fit_no_glutamine",
+                         # The two density arms (Giuliano 2026): one library at MOI 0.3 and MOI 3,
+                         # rho 0.70 with the Sidik screen and r 0.995 with each other. Their
+                         # high-versus-low CONTRAST is orthogonal to it (rho -0.08) and stays out.
+                         "fit_density_low", "fit_density_high"),
     # Iron depletion measured on the protein and on the transcript, and the metabolome of the same
     # experiment: one perturbation, three readouts. Holding out one has to hold out the others, or
     # the transcript predicts "its own" protein change at rho 0.38 and the map looks informative.
@@ -166,6 +170,11 @@ SAME_QUANTITY = {
     # three replicates, so the contrast is a function of the arms.
     "carbon source withdrawal": ("fit_no_glucose", "fit_no_glutamine", "fit_glucose_dependence",
                                  "fit_glucose_dependence_fdr"),
+    # The density screen: two arms of one library and the contrast between them, its statistic and
+    # the hit call made from both. The contrast is computed from the arms' clones, and the call from
+    # the contrast and its p, so each is held out with the others.
+    "parasite density": ("fit_density_low", "fit_density_high", "fit_density_dependence",
+                         "fit_density_dependence_log10padj", "fit_density_dim"),
     # Everything carried from the P. berghei knockout library -- blood stage, liver stage and the two
     # sexes alike. They are ONE screen collection transferred through orthology, which the 2026-09-26
     # leakage audit caught: holding out the blood-stage transfer and predicting it from the

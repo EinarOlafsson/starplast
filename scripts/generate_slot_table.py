@@ -1162,6 +1162,13 @@ SLOTS = [
               "fit_glucose_dependence", "fit_glucose_dependence_fdr"], "separate",
      [("", "bioRxiv 10.1101/2025.07.27.667068", "genome-wide screen without glucose or "
        "glutamine")]),
+    # Parasite density (Giuliano 2026): one library split into MOI 0.3 and MOI 3. The arms are
+    # fibroblast fitness again (r 0.995 with each other); the high-versus-low contrast, its p and the
+    # paper's density-inhibited-mutant call are the new question: what crowding asks of the parasite.
+    ("fitness · parasite density", "fitness", "HFF, MOI 0.3 and MOI 3", "gene",
+     ["fit_density_low", "fit_density_high", "fit_density_dependence",
+      "fit_density_dependence_log10padj", "fit_density_dim"], "separate",
+     [("42580337", "", "genome-wide screen at low and high infection density")]),
     ("fitness · oxidative stress", "fitness", "oxidant", "gene",
      ["oxidative_stress_screen_score"], "one",
      [("34163449", "PRJNA707360", "genome-wide oxidative-stress screen")]),
