@@ -176,6 +176,24 @@ strategies section was executed against the shipped table.
 
 ## 4. What to do next, in priority order
 
+> **FIRST: a user-reported bug in 0.48.0 (2026-09-29).** Open Strategies, go back to Evidence: the
+> gene card can no longer be shown; go back to Strategies: the panel is empty. A headless check with
+> `Window` and `QDockWidget.raise_()` did NOT reproduce it (offscreen reports every tabified dock
+> visible), so reproduce it on the real desktop. Suspects: the 0.48.0 card stack in
+> `strategy_panel.py` / `strategy_card.py` (`old.setParent(None)` around line 486), the glass docks
+> (`glass.py`), or the help-search jump that opens strategies. Fix, add a regression test, release.
+>
+> **Also paused (2026-09-29), each a WIP commit on a local branch, unreviewed:**
+>
+> | Branch | Work | New modules |
+> |---|---|---|
+> | `worktree-agent-a1f12183a8e4e55e2` | UMAP gallery with label-mapping scores | `umap_gallery.py`, `umap_gallery_panel.py` |
+> | `worktree-agent-a2bcfdfbfbfaf684c` | Lourido lab high/low parasite-density screen | (data, slot and leakage changes) |
+> | `worktree-agent-a55c7f316312c8704` | Gene star map of data and strategy links | `star_edges.py`, `star_map.py` |
+>
+> For each: confirm the full suite passes; check screenshots (and, for the screen, the paper
+> identifiers against their APIs and the verification numbers); merge; release 0.49.0.
+
 The user asked to **save tokens** after 0.46.0, so everything below was deferred on purpose.
 **Confirm with the user before starting large items.** ► marks the proposed version bumps, and each
 one needs the user's go-ahead to publish.
