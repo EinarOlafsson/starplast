@@ -108,6 +108,38 @@ that produced it, and any edge layer built from it before it looks at anything e
 The [strategy catalogue](strategies.md) lists all of them with their measured
 verdicts, including the ones that fail on this data.
 
+## Star map
+
+The **star map** tab, beside Strategies, draws one gene's links to other genes and
+says where each link comes from. The chosen gene (the "star") sits in the middle and
+the genes linked to it sit on rings around it.
+
+* **Colour** is the source: each measured edge layer of the graph (crosslinks,
+  co-fitness, co-expression, shared domain, co-mention and so on), each strategy, and
+  one gold colour for your own runs.
+* **Solid** lines are measured; **dashed** lines are inferred by a strategy.
+* **Width** is strength: the link's score as a percentile within its own run, so
+  links from strategies with different score scales share one width scale.
+* **Hover** a gene for its id, product and link counts, or a link for its layer or
+  strategy, run, setting and score.
+
+Type a gene id and press **Centre**, or select a gene anywhere else (on the 3D map,
+by search or in a results table) while **Follow selection** is on. Click a linked
+gene to re-centre on it; **Back** (or Backspace) returns. Double-click a gene, or press
+**Select on 3D map**, to select it on the 3D map. **1 hop / 2 hops** sets the depth.
+**Per source** sets how many of its strongest links each source keeps around each
+gene, so a dense layer such as shared compartment cannot hide a sparse one such as
+crosslinks. The list on the right is the legend: untick a source to hide it, and read
+how many links the centre gene has in each. **Measured** shows the data layers only.
+
+Starplast ships the links from the default-setting runs of the strategies that relate
+genes to genes: predicted pairs (16, 17, 18, 33, 34), modules and clusters (01, 04,
+09, 15), set expansion from example seed lists (20, 25), and neighbour or partner calls
+(07, 13). A module is not drawn as a clique: each member links to its three nearest
+co-members, first by how many measured layers join them. Every strategy you **Run**
+in the Strategies tab adds its links at once under **your runs**; they are kept in
+the user cache (`star_edges/`) and come back in the next session.
+
 ## Appearance and performance
 
 **File → Preferences** contains theme, colour maps, point rendering, lighting,

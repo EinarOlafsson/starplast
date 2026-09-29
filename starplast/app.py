@@ -1390,6 +1390,7 @@ class Window(QtWidgets.QMainWindow):
         self.panel = panel
         self._gallery()
         self._strategies()
+        self._star_map()
 
     def _strategies(self):
         """The strategies dock: named ways of inferring something, each explained and self-testing.
@@ -1422,6 +1423,15 @@ class Window(QtWidgets.QMainWindow):
         self.right_dock.raise_()
         self.strategies_dock = d
         self.strategy_panel = panel
+
+    def _star_map(self):
+        """The star map dock: one gene's links by source (`star_map.install` does the wiring)."""
+        try:
+            from .star_map import install
+            install(self)
+        except Exception as e:                        # the browser must open without it
+            self.star_map = None
+            self.statusBar().showMessage(f"star map unavailable: {e}")
 
     def _open_workflows(self, tab=0):
         """Open task-oriented exploration, prediction and measured-screen comparison."""
@@ -4038,6 +4048,8 @@ class Window(QtWidgets.QMainWindow):
         self.sel = int(i)
         self.show_detail(self.sel)
         self.redraw()
+        if getattr(self, "star_map", None) is not None:
+            self.star_map.follow(str(self.nodes.gene_id.iloc[self.sel]))
 
     def do_search(self):
         """Find a gene by accession or product text and fly to it."""

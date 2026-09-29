@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+
+- Add the **star map** tab (`starplast/star_map.py`): a navigable network centred on one gene,
+  with its linked genes on rings around it. Edges are coloured by source (each measured layer,
+  each strategy, your own runs), solid when measured and dashed when inferred, and as wide as
+  their strength. Hover shows the gene or the link's layer, strategy, run, setting and score.
+  Click to re-centre, Back to return, depth 1-2 hops, per-source toggles and link counts, and
+  selection follows the rest of the application and can be sent to the 3D map.
+- Add `starplast/star_edges.py`, one store of gene-gene links with provenance. Measured links are
+  read from each space's graph. Strategy links are bounded: modules link each member to its 3
+  nearest co-members, set expansions link each hit to its 3 nearest seeds, neighbour and partner
+  calls link to the genes that made them, and no run adds more than 20,000 links. Ships
+  `data/star_edges.parquet`, the links of the default-setting runs of 13 strategies on both
+  shipped tables, built by `scripts/build_star_edges.py` and recorded in
+  `notebooks/star_edges_2026_09_29.ipynb`. Strategy runs made in the application are kept under
+  the user cache (`star_edges/`) and appear in the map at once.
+
 ## 0.48.0
 
 - The Strategies tab opens each strategy on a card instead of prose. The card shows the name,
