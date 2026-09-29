@@ -54,6 +54,7 @@ One file per task. This index is the status table; the files carry the reasoning
 | 52 | The second September 2026 data audit: six Plasmodium deposits, five refusals |
 | 54 | [Scorecards, techniques and five advanced strategies](done/54_scorecards_and_advanced_models.md) |
 | 55 | [Strategy cards: four standard bars, the test explained, a real failure and success](done/55_strategy_cards.md) |
+| 56 | [Pregenerated map gallery and label x map scores](done/56_umap_gallery_label_scores.md) |
 
 ## Open
 

@@ -1461,6 +1461,12 @@ class Window(QtWidgets.QMainWindow):
         # scored. The two walks produce the same kind of thing -- a map with a number attached --
         # and looking at them in two different places would be an accident of implementation.
         self.panel.search_step.connect(self.gallery.add)
+        # The pregenerated maps and their label scores: a dock of its own, beside Analysis.
+        try:
+            from .umap_gallery_panel import install as install_maps
+            install_maps(self)
+        except Exception as e:                        # the browser must open without it
+            self.statusBar().showMessage(f"map gallery unavailable: {e}")
 
     def _walk_started(self):
         """Clear the gallery and show it, so the first thumbnail lands somewhere visible."""
