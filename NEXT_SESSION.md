@@ -191,7 +191,11 @@ strategies section was executed against the shipped table.
 > | `worktree-agent-a2bcfdfbfbfaf684c` | Lourido lab high/low parasite-density screen | (data, slot and leakage changes) |
 > | `worktree-agent-a55c7f316312c8704` | Gene star map of data and strategy links | `star_edges.py`, `star_map.py` |
 >
-> For each: confirm the full suite passes; check screenshots (and, for the screen, the paper
+> Full suites passed on all three branches as they stand (2026-09-30: 4,195 / 4,170 / 4,189 passed).
+>
+> **Requested next (user, 2026-09-30): a guided "Start here" tab**, beside Strategies, which is kept as is. It starts with ONE question (what do you have: a gene, a gene list, your own screen or measurement, a label you care about, or just curiosity?) and leads step by step, one question per screen with plain choices: pick the gene or gene set (search, paste, file, map gate), pick the label or measurement of interest, pick the goal (find more genes like mine, predict a label, explain a label, find partners, compare conditions). It ends at a ranked short list of recommended strategies, using the strategy cards, grades and scorecard task, with the choices already filled into their settings, and a Run button. Put the question tree in a data module (testable without Qt), keep the app.py hook small, and every control needs a tooltip.
+>
+> For each paused branch: confirm the full suite passes; check screenshots (and, for the screen, the paper
 > identifiers against their APIs and the verification numbers); merge; release 0.49.0.
 
 The user asked to **save tokens** after 0.46.0, so everything below was deferred on purpose.
