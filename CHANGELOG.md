@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.49.0
 
 - Add a **start here** tab beside Strategies, which is unchanged: a guided path from what a user
   has to the strategies worth running. One question per screen -- what do you have (a gene, a gene
