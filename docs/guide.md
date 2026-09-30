@@ -47,6 +47,43 @@ selected gene. **Draw all active edges** can show the broader network, but dense
 layers quickly become difficult to read. Co-mention, co-expression, shared
 orthogroup, and measured interactions are different kinds of evidence.
 
+## Pregenerated maps
+
+The **maps** tab (beside Analysis) lists maps built ahead of time for the open
+organism. There are three maps of all measurements (n_neighbors 10, 25 and 60),
+one of all measurements except localization, and one for each evidence family
+that has enough data: transcription, translation, protein abundance, fitness,
+sequence, and so on. Maps are built from measurements only. Label columns are
+removed before embedding. Each map is a 3D UMAP clustered with HDBSCAN
+(min cluster size 25, min samples 5, leaf selection). A family map places only
+the genes measured in at least half of its columns.
+
+Click a map to show it in the central view. Its clusters become the map's
+cluster coloring. **Color by label** colors the map by the label chosen in the
+panel, and **Color by clusters** colors it by the clusters.
+
+The table scores every categorical label on every map. Choose **One label, every
+map** to see which map a label separates on best. Choose **One map, every label**
+to see which labels a map organizes. Click a header to sort.
+
+| Column | Meaning |
+|---|---|
+| Categories → clusters | For each category, the F1 of its best cluster, averaged with weights by category size. Unclustered genes count as missed. |
+| Precision, Recall | The size-weighted means behind that F1 |
+| Best category, n | The single category that maps onto one cluster furthest above chance, and its size on this map |
+| Best category (size-aware) | F1 of the Wilson 95% lower bounds of that category's precision and recall. A 2-gene category alone in a cluster scores 0.34, not 1. |
+| Skill, Best skill | The score rescaled against the same score with the label shuffled over the same genes (five shuffles): 0 is chance, 1 is perfect |
+| Coverage | Share of the label's labelled genes that are on this map |
+| Circular | The map was built from a column in the label's leakage closure, so recovering the label is expected |
+
+**Score map on screen** scores every label on the map in the central view, for
+example one built in Analysis. It uses the map's clusters if it has them, and
+otherwise clusters it the same way. The result appears as "on screen".
+
+The files are `starplast/data/umap_gallery.npz`, `umap_gallery.json` and
+`umap_gallery_scores.tsv`. They are rebuilt by `scripts/build_umap_gallery.py`,
+and the run is recorded in `notebooks/umap_gallery_2026_09_29.ipynb`.
+
 ## Importing results
 
 For *T. gondii*, use **File → Import data** for CSV, TSV, Excel, or Parquet files.

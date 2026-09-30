@@ -85,6 +85,31 @@ circularity checks can run. `holdout_cv.nested_structure_cv()` selects among
 precomputed clusterings using inner validation labels and scores untouched outer
 folds. A search winner still needs independent confirmation.
 
+## Score labels on the pregenerated maps
+
+```python
+from starplast import umap_gallery as G, strategies as S
+
+g = G.shipped()
+g.maps("Tg")                              # recipes, sizes and cluster counts
+m = g.load("Tg", "family_fitness")        # rows, xyz (float32), clusters
+scores = g.scores("Tg")                   # the label x map table
+print(G.describe(scores, "compartment"))
+
+# The same scores for your own clustered map:
+ctx = S.shipped("Tg")
+table = G.score_map(ctx, rows, clusters, columns=feature_names)
+G.per_category(ctx.truth("compartment").iloc[rows], clusters)
+```
+
+`rows` are positions in the organism's gene table, and `clusters` holds one
+label per placed gene, with `-1` for noise. `label_scores` returns the
+size-weighted category F1, precision and recall. It also returns the best
+single category, scored on the F1 of the Wilson 95% lower bounds of its
+precision and recall, and chosen by skill over its own shuffled-label chance.
+Both headline scores come with their chance level and skill. Pass `columns` to
+flag maps built from a column in the label's leakage closure.
+
 ## Import a screen table
 
 ```python
@@ -244,6 +269,7 @@ SC.values(predicted, measured)
 | Import gene-level measurements | [importer](api/starplast/importer.html) |
 | Select features and embed | [embedding](api/starplast/embedding.html) |
 | Cluster and score associations | [clustering](api/starplast/clustering.html) |
+| Pregenerated maps and label x map scores | [umap_gallery](api/starplast/umap_gallery.html), [umap_gallery_panel](api/starplast/umap_gallery_panel.html) |
 | Search and assess held-out recovery | [search](api/starplast/search.html), [validate](api/starplast/validate.html), [holdout_cv](api/starplast/holdout_cv.html) |
 | Rank candidate findings | [discovery](api/starplast/discovery.html), [optimize](api/starplast/optimize.html) |
 | Store analyses and recipes | [runs](api/starplast/runs.html), [searches](api/starplast/searches.html), [recipes](api/starplast/recipes.html) |

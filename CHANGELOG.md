@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- Add a **maps** tab beside Analysis with pregenerated 3D UMAPs for each organism. There are three
+  maps of all measurements (n_neighbors 10, 25 and 60), one of all measurements except
+  localization, and one per evidence family (12 maps for *T. gondii*, 14 for *P. falciparum*).
+  Maps are built from measurements only and clustered with HDBSCAN. Clicking a map shows it in
+  the central view with its clusters. A sortable table scores every categorical label on every
+  map, read by label or by map. It reports categories → clusters (size-weighted best-cluster F1,
+  precision and recall) and the best single category, scored on the F1 of Wilson 95% lower
+  bounds so a 2-gene category cannot score 1. Both scores come with a shuffled-label chance level
+  and skill, plus coverage and a circularity flag from the leakage closure. **Color by label** is
+  one click. **Score map on screen** runs the same scoring on a map built in the app.
+  `starplast.umap_gallery`, `scripts/build_umap_gallery.py`,
+  `notebooks/umap_gallery_2026_09_29.ipynb`; about 2 MB of data.
+
 ## 0.48.0
 
 - The Strategies tab opens each strategy on a card instead of prose. The card shows the name,
