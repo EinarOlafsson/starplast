@@ -65,6 +65,7 @@ One file per task. This index is the status table; the files carry the reasoning
 |---|---|
 | 38 | Build a provenance-first pan-Apicomplexan dataset archive |
 | 41 | Fill as many slots as possible: Toxoplasma, Plasmodium, and host |
+| 60 | [What would make Starplast most useful](open/60_usefulness_review.md): ranked plan; weeks 1-2 = fix the dock bug, result provenance, methods paragraph + citations, figure export |
 | 53 | [One space per organism](open/53_organism_spaces.md), then links between pathogen, vector and host. R0-R3, Pf display, pack framework and lossless calibration publishing implemented. Remaining: organism builders and published packs · Hs/Mm spaces · Space menu (►0.47.0) · Cp/Pb, Ag/As, Rn/Fc spaces · per-space leakage and calibration (►0.48.0) · cross-space bridges (►0.49.0). Small follow-ups: retry active learning with conformal uncertainty; next Tg/host data audit; `spaces/As/abundance/PXD001647/` is junk to delete. See WORK_LOG.md for active progress and blockers. |
 
 ## The one ordering constraint that is not negotiable — now satisfied
