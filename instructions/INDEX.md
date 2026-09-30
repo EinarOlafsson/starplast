@@ -56,6 +56,7 @@ One file per task. This index is the status table; the files carry the reasoning
 | 55 | [Strategy cards: four standard bars, the test explained, a real failure and success](done/55_strategy_cards.md) |
 | 56 | [Pregenerated map gallery and label x map scores](done/56_umap_gallery_label_scores.md) |
 | 56 | [Star map: gene-gene links by source, with provenance, including your own runs](done/56_star_map.md) |
+| 56 | [The parasite-density screen (Giuliano et al., Cell 2026): fitness at low and high density, and what crowding needs](done/56_lourido_density_screen.md) |
 
 ## Open
 
