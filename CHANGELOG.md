@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- Add a **start here** tab beside Strategies, which is unchanged: a guided path from what a user
+  has to the strategies worth running. One question per screen -- what do you have (a gene, a gene
+  list, your own measurement, a label, nothing yet), which organism, the gene / gene set / label /
+  measurement itself, and the goal (more genes like mine, predict it, explain it, partners,
+  compare two conditions, is it learnable) -- with a clickable trail of the answers to go back to
+  any of them. Label and measurement choices show their coverage, so an almost-empty column is not
+  picked blind. It ends at three to six recommended strategies, each shown with the Strategies
+  tab's own card summary (name, method, grade, the four `scorecard.HEADLINE` bars), one line on why
+  it is recommended, the settings the answers decided, and **Run it here** / **Open in Strategies**;
+  the map gallery and the star map are offered where they answer the goal better. Ranking prefers
+  what the goal is for, then a matching scorecard task, then the calibration grade *for that
+  organism*, and says plainly when nothing better than weak exists. The question tree and the
+  ranking are Qt-free in `starplast/guided.py`, the view is `starplast/guided_panel.py`, and both
+  are reachable from the help search.
 - Add a **maps** tab beside Analysis with pregenerated 3D UMAPs for each organism. There are three
   maps of all measurements (n_neighbors 10, 25 and 60), one of all measurements except
   localization, and one per evidence family (12 maps for *T. gondii*, 14 for *P. falciparum*).

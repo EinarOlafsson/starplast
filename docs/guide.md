@@ -119,6 +119,39 @@ result. Right-click a results table to export it. Save named embeddings and resu
 to compare configurations later. A high score after trying many configurations
 needs confirmation on evidence that was not used to choose the configuration.
 
+## Start here
+
+The **start here** tab, beside Strategies, is for when you do not yet know which
+strategy applies. It asks one question at a time, in plain words, and every answer
+is a button in the trail along the top that takes you back to change it.
+
+1. **What do you have?** A single gene, a list of genes (a screen's hits, a complex,
+   a pathway), your own measurement or screen, a label you want explained or extended,
+   or nothing specific.
+2. **Which organism?** The installed spaces. Strategies are calibrated per species, so
+   this changes what is recommended.
+3. **The subject itself.** A gene is searched for by accession, symbol or product; a
+   gene list is pasted, loaded from a file, taken from the genes gated on the map, or
+   filled with an example set; a label or measurement is chosen from a list that shows
+   how many genes carry each one, so an almost-empty column is never picked blind.
+4. **What do you want to know?** Find more genes like mine, predict this for the genes
+   nobody has measured, explain what defines it, find partners or complex members,
+   compare two conditions, or check whether it is learnable at all. Comparing two
+   conditions then asks which measurement is the baseline.
+
+It ends at three to six recommended strategies, each with the same card summary the
+Strategies tab shows -- name, method, calibration grade and the four headline bars --
+one line saying why it is on the list, and the settings your answers decided. **Run it
+here** runs it with those settings; **Open in Strategies** opens it there with the same
+settings, its guide and its self-test. Where the map gallery or the star map answers
+the question better than running anything, it is offered too.
+
+Ranking prefers, in that order, the strategies a goal is for, a scorecard task that
+matches the goal, and the calibration grade measured for that strategy *on that
+organism*; a strategy this table cannot fill is never offered. When nothing better than
+a weak grade exists, the panel says so above the list rather than leaving it to be
+noticed.
+
 ## Strategies
 
 The **strategies** tab, to the right of Evidence and Analysis, lists named ways of

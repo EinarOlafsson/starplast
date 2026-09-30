@@ -89,6 +89,47 @@ def load_measured(organism: str) -> dict:
         return {}
 
 
+def shipped_card(key: str, organism: str, measured: dict | None = None) -> dict:
+    """metric -> (value, low, high) measured on the shipped data: the calibration's defaults with
+    their 95% interval where the sweep recorded scorecards, else the single self-test.
+
+    A module function, not only a method, because the Start-here tab shows the same four bars for
+    the strategies it recommends and must not compute them a second way.
+    """
+    cal = (CAL.entry(key, organism) or {}).get("default") or {}
+    card = cal.get("scorecard") or {}
+    if card:
+        return {k: (v.get("mean"), v.get("low"), v.get("high")) for k, v in card.items()
+                if isinstance(v, dict)}
+    m = ((measured if measured is not None else load_measured(organism)).get(key) or {}
+         ).get("scorecard") or {}
+    return {k: (v, None, None) for k, v in m.items()}
+
+
+def headline(key: str, organism: str, measured: dict | None = None) -> tuple:
+    """(card, verdict, grade, basis) for one strategy's four bars, as `StrategyCard` takes them.
+
+    The calibration sweep's defaults with their 95% intervals where it measured the strategy on this
+    space, else the single shipped self-test, else nothing and a line saying so.
+    """
+    measured = load_measured(organism) if measured is None else measured
+    cal = CAL.entry(key, organism) or {}
+    d = cal.get("default") or {}
+    if d.get("scorecard") or d.get("skill") is not None:
+        basis = (f"Mean of {d.get('conclusive', 0):,} held-out tests on the shipped {organism} "
+                 f"table at default settings.  ├┤ 95% interval   ▾ chance   "
+                 f"Hover a bar for what it means.")
+        return shipped_card(key, organism, measured), d, cal.get("grade", ""), basis
+    m = measured.get(key) or {}
+    if m.get("scorecard"):
+        verdict = {"skill": m.get("skill"), "observed": m.get("observed"),
+                   "chance": m.get("null_mean")}
+        return (shipped_card(key, organism, measured), verdict, "",
+                f"One self-test on the shipped {organism} table ({m.get('verdict')}).  ▾ chance"
+                f"   Hover a bar for what it means.")
+    return {}, {}, "", "Not measured on this table yet: press Test to measure it here."
+
+
 class _Progress:
     """The log a strategy job reports through: notes the job, and unwinds it when a stop is asked."""
 
@@ -320,24 +361,8 @@ class StrategyPanel(QtWidgets.QWidget):
 
     # ------------------------------------------------------------------ the card
     def headline(self, key: str) -> tuple:
-        """(card, verdict, grade, basis) for the card's four bars: the calibration's defaults with
-        95% intervals where the sweep measured the strategy, else the single shipped self-test."""
-        org = self.ctx.organism
-        cal = CAL.entry(key, org) or {}
-        d = cal.get("default") or {}
-        if d.get("scorecard") or d.get("skill") is not None:
-            basis = (f"Mean of {d.get('conclusive', 0):,} held-out tests on the shipped {org} "
-                     f"table at default settings.  ├┤ 95% interval   ▾ chance   "
-                     f"Hover a bar for what it means.")
-            return self.shipped_card(key), d, cal.get("grade", ""), basis
-        m = self.measured.get(key) or {}
-        if m.get("scorecard"):
-            verdict = {"skill": m.get("skill"), "observed": m.get("observed"),
-                       "chance": m.get("null_mean")}
-            return (self.shipped_card(key), verdict, "",
-                    f"One self-test on the shipped {org} table ({m.get('verdict')}).  ▾ chance"
-                    f"   Hover a bar for what it means.")
-        return {}, {}, "", "Not measured on this table yet: press Test to measure it here."
+        """(card, verdict, grade, basis) for the card's four bars, for this panel's organism."""
+        return headline(key, self.ctx.organism, self.measured)
 
     def _show_card(self, s: S.Strategy):
         card, verdict, grade, basis = self.headline(s.key)
@@ -394,15 +419,8 @@ class StrategyPanel(QtWidgets.QWidget):
         return f"<h4>Method: {e(s.method)}</h4><ul>{items}</ul>"
 
     def shipped_card(self, key: str) -> dict:
-        """metric -> (value, low, high) measured on the shipped data: the calibration's defaults with
-        their 95% interval where the sweep recorded scorecards, else the single self-test."""
-        cal = (CAL.entry(key, self.ctx.organism) or {}).get("default") or {}
-        card = cal.get("scorecard") or {}
-        if card:
-            return {k: (v.get("mean"), v.get("low"), v.get("high")) for k, v in card.items()
-                    if isinstance(v, dict)}
-        m = (self.measured.get(key) or {}).get("scorecard") or {}
-        return {k: (v, None, None) for k, v in m.items()}
+        """metric -> (value, low, high) measured on the shipped data, for this panel's organism."""
+        return shipped_card(key, self.ctx.organism, self.measured)
 
     def scorecard_html(self, s: S.Strategy) -> str:
         """The strategy's scorecard: its task's standard metrics, each explained, with the values
