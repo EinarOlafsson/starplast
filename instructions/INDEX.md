@@ -55,6 +55,7 @@ One file per task. This index is the status table; the files carry the reasoning
 | 54 | [Scorecards, techniques and five advanced strategies](done/54_scorecards_and_advanced_models.md) |
 | 55 | [Strategy cards: four standard bars, the test explained, a real failure and success](done/55_strategy_cards.md) |
 | 56 | [Pregenerated map gallery and label x map scores](done/56_umap_gallery_label_scores.md) |
+| 56 | [Star map: gene-gene links by source, with provenance, including your own runs](done/56_star_map.md) |
 
 ## Open
 

@@ -260,6 +260,32 @@ SC.ranking(scores, is_positive)                             # higher score = mor
 SC.values(predicted, measured)
 ```
 
+## Gene-gene links and their provenance
+
+`star_edges` turns measured layers and strategy results into one kind of thing, a link
+between two genes, and keeps with every link which layer, strategy and run stated it.
+It is what the star map draws, and it needs no window:
+
+```python
+from starplast import star_edges as E
+from starplast import strategies as S
+
+ctx = S.shipped("Tg")
+idx = E.EdgeIndex(ctx.n)
+idx.add(E.measured_edges(ctx.graph))                       # the graph's layers, kind "measured"
+idx.add(E.shipped_edges("Tg", ctx.gene_ids))               # the shipped strategy runs
+result = S.run("link_prediction", ctx=ctx, layer="xlms")
+idx.add(E.edges_from_result(result, ctx, run="mine"))      # any run of your own
+links = idx.touching(ctx.index["TGME49_208830"])           # one gene's links, with `other`
+nodes, edges = E.star(idx, ctx.index["TGME49_208830"], depth=2, per_group=6)
+```
+
+Each link has `kind`, `group`, `source`, `how` (layer, pair, module, seed, label or
+partner), `setting`, `score`, `strength` (percentile within its run), `run`, `origin`
+and `note`. The bounds are module constants (`MODULE_K`, `SEED_K`, `LABEL_K`,
+`PARTNER_MAX`, `MAX_EDGES_PER_RUN`). `UserEdgeStore` keeps the application's runs on
+disk. `scripts/build_star_edges.py` rebuilds `data/star_edges.parquet`.
+
 ## Module map
 
 | Task | Modules |
@@ -283,6 +309,7 @@ SC.values(predicted, measured)
 | Standard metrics for every task, and their glossary | [scorecard](api/starplast/scorecard.html) |
 | What each strategy's method is built from | [techniques](api/starplast/techniques.html) |
 | One neighbour space over every layer; learned edge strengths | [graphspace](api/starplast/graphspace.html) |
+| Gene-gene links with provenance (the star map) | [star_edges](api/starplast/star_edges.html), [star_map](api/starplast/star_map.html) |
 | Deposited datasets, derived into columns | [deposits](api/starplast/deposits.html) |
 
 `app.Window(species=...)` requires an existing `PyQt6.QtWidgets.QApplication`.
