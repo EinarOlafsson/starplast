@@ -132,6 +132,7 @@ guide and a walkthrough, and carries a self-test that hides known information, a
 it back and compares the answer with the same procedure on shuffled data. Every test
 reports a **scorecard**: the standard metrics for its kind of task, in a fixed order, so
 strategies doing the same thing can be compared number by number.
+The **start here** tab beside it asks what you have instead -- a gene, a gene list, your own screen, a label, or nothing yet -- one question at a time, and ends at the three to six strategies worth running for that answer, ranked by their grade on that organism and with their settings already filled in.
 
 <!-- calibration:start -->
 

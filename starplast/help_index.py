@@ -227,6 +227,27 @@ def strategy_entries() -> tuple:
                  for s in S.catalog())
 
 
+def guided_entries() -> tuple:
+    """The Start-here tab: its own row, one per question it asks and one per goal it offers.
+
+    Derived from `starplast.guided`, so a question or a goal that is added is findable by name
+    without anybody remembering to write a row for it. Every one opens the same dock, which is
+    where the answering happens.
+    """
+    from . import guided as GU
+    out = [entry("panel", "Start here", "Panel",
+                 "guided questions from what you have -- a gene, a gene list, your own screen, a "
+                 "label -- to the strategies worth running, with their settings filled in",
+                 dock="start here")]
+    for step in GU.STEPS.values():
+        out.append(entry("panel", f"Start here: {step.question}", "Start here ▸ question",
+                         f"{plain(step.tip)} {step.note}", dock="start here"))
+    for goal in GU.GOALS.values():
+        out.append(entry("panel", f"Start here: {goal.label}", "Start here ▸ goal",
+                         f"{plain(goal.hint)} {goal.noun}", dock="start here"))
+    return tuple(out)
+
+
 @lru_cache(maxsize=1)
 def slot_entries() -> tuple:
     """One row per slot of both organisms, found by its axis, context and three addresses."""
@@ -340,7 +361,7 @@ def static_entries() -> list:
     catalogue could not be read is worse than one that quietly offers fewer kinds.
     """
     out = []
-    for provider in (strategy_entries, slot_entries, dataset_entries, doc_entries,
+    for provider in (strategy_entries, guided_entries, slot_entries, dataset_entries, doc_entries,
                      tutorial_entries):
         try:
             out.extend(provider())
@@ -403,6 +424,7 @@ DOCK_HELP = {
     "evidence": "Everything recorded about the selected gene, with links to its source records.",
     "analysis": "Data, maps, clusters, inference, search, validation, discovery and questions.",
     "strategies": "Named ways of inferring something, each with a guide, settings and a self-test.",
+    "start here": "One question at a time, from what you have to the strategies worth running.",
     "gallery": "Thumbnails of every map a walk or search built; click one to show it.",
     "console": "Everything the program has printed, including errors from background jobs.",
     "jobs": "Every job started this session, with stop buttons and memory use.",

@@ -1391,6 +1391,21 @@ class Window(QtWidgets.QMainWindow):
         self._gallery()
         self._strategies()
         self._star_map()
+        self._guided()
+
+    def _guided(self):
+        """The Start-here dock: one question at a time, ending at the recommended strategies.
+
+        Beside Strategies, which it leaves untouched: the catalogue for someone who knows what they
+        are looking for, this for someone who knows only what they have. `guided_panel.install`
+        wires what it asks for to the strategy panel and the other docks.
+        """
+        try:
+            from .guided_panel import install
+            install(self)
+        except Exception as e:                        # the browser must open without it
+            self.guided = None
+            self.statusBar().showMessage(f"start here unavailable: {e}")
 
     def _strategies(self):
         """The strategies dock: named ways of inferring something, each explained and self-testing.
