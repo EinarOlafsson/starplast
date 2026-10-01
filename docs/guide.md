@@ -210,6 +210,55 @@ co-members, first by how many measured layers join them. Every strategy you **Ru
 in the Strategies tab adds its links at once under **your runs**; they are kept in
 the user cache (`star_edges/`) and come back in the next session.
 
+### How much of the network to show
+
+The box beside **Centre** chooses how much is drawn.
+
+* **one gene (star)** is the view above: the chosen gene in the middle, its links on
+  rings around it, with **1 hop / 2 hops** and **per source**.
+* **neighbourhood** grows outwards from that gene for as many **hops** as you ask (up
+  to four), taking the strongest links first, and stops at the gene cap (**up to N
+  genes**, at most 2,000). Use it to see a pathway or a complex and what sits around it.
+* **whole network** lays out every gene the connection rules leave, up to 3,000 genes
+  and 30,000 links, and colours the twelve largest clusters so modules are visible at a
+  glance. Genes in small clusters are drawn in the muted colour.
+
+Both larger views say on screen what the caps left out, in so many words ("showing the
+strongest 30,000 of 112,418 links and the 3,000 best-linked of 7,002 genes — the rest is
+left out"). Nothing is silently dropped.
+
+In the larger views: **drag** to pan, **scroll** to zoom around the pointer, **click** a
+gene to make it the centre (**Back** returns), **double-click** to select it on the 3D
+map, and **Fit** to frame the whole layout again. The small picture in the bottom-right
+corner is the whole layout with your view marked on it; click it to jump there.
+
+The layout is computed once for a given centre, mode and set of connection rules, and
+then held: hovering changes only the text and the highlight ring, never a position. Pans
+and zooms repaint a cached picture rather than re-running the layout.
+
+### Defining the connections
+
+The row under the controls is where you say **what counts as a link**. The resulting
+network is counted live beside it — "4,812 links between 3,104 genes from 3 sources" —
+together with what each rule removed.
+
+* **The source list on the right** picks which sources may contribute at all: each
+  measured layer, each strategy, and your own runs. **All**, **None** and **Measured**
+  are shortcuts.
+* **strength ≥** keeps a link only when its strength (its score's percentile within its
+  own run) is at least that. Raise it to keep each source's best-supported links.
+* **≤ N per gene** caps how many links any one gene may contribute, strongest first.
+  This is what stops a hub — a gene in hundreds of shared-compartment links — from
+  filling the picture by itself.
+* **≥ N sources must agree** draws a pair of genes only when that many *different*
+  sources say they are linked. Two independent sources agreeing is much better evidence
+  than one, and this is the rule that says so.
+
+Type a name in the box beside **Save** to keep the rules now set, and pick that name
+again later to load them: "crosslink + co-expression, 2+ sources" comes back exactly as
+you left it. **Forget** removes a saved definition. They are kept with your other state,
+in `star_edges/star_definitions.json` under the user cache.
+
 ## Appearance and performance
 
 **File → Preferences** contains theme, colour maps, point rendering, lighting,

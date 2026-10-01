@@ -745,3 +745,467 @@ def star(index: EdgeIndex, centre: int, groups=None, depth: int = 1, per_group: 
         ef = ef[ef["a"].isin(nf["gene"]) & ef["b"].isin(nf["gene"])]
         ef = ef.drop_duplicates(["a", "b", "run", "how", "group"]).reset_index(drop=True)
     return nf, ef
+
+
+# --------------------------------------------------------------------------- what counts as an edge
+#: The most genes a neighbourhood view draws.
+NEIGHBOURHOOD_MAX = 2000
+#: The most genes a whole-network overview draws.
+OVERVIEW_MAX = 3000
+#: The most links either large view draws at once.
+LARGE_EDGE_MAX = 30000
+#: The most hops a neighbourhood may reach.
+MAX_HOPS = 4
+#: Label-propagation rounds when the overview looks for clusters.
+CLUSTER_ROUNDS = 12
+#: Cells per side of the grid the spring layout sums its repulsion over.
+LAYOUT_GRID = 12
+#: The file the named connection definitions live in, under the user cache.
+DEFINITIONS_FILE = "star_definitions.json"
+
+
+class Definition:
+    """Which links count as an edge: the user's own definition of the network.
+
+    Every field is one rule, and every rule removes links; nothing here invents them.
+
+    ``groups``        the sources that may contribute at all -- each measured layer, each strategy,
+                      and "your runs" -- or None for every source, including ones added later.
+    ``min_strength``  a link is kept only when its strength (its score's percentile within its own
+                      run) is at least this. 0 keeps everything.
+    ``max_per_gene``  each gene keeps at most this many links, its strongest first; 0 means no cap.
+                      Applied after the other rules, so the cap is spent on links that survived.
+    ``min_sources``   a pair of genes is drawn only when at least this many DIFFERENT sources say so
+                      -- the "two independent sources" rule. 1 asks for no agreement.
+
+    A definition is data: it is hashable, it compares by value, it round-trips through JSON, and
+    :func:`apply` is a pure function of (links, definition). Qt never sees it.
+    """
+
+    __slots__ = ("name", "groups", "min_strength", "max_per_gene", "min_sources")
+
+    def __init__(self, name: str = "", groups=None, min_strength: float = 0.0,
+                 max_per_gene: int = 0, min_sources: int = 1):
+        self.name = str(name or "")
+        self.groups = None if groups is None else tuple(sorted(str(g) for g in groups))
+        self.min_strength = float(min(1.0, max(0.0, min_strength)))
+        self.max_per_gene = max(0, int(max_per_gene))
+        self.min_sources = max(1, int(min_sources))
+
+    def signature(self) -> tuple:
+        """Everything that changes the resulting edges -- a cache key, without the name."""
+        return (self.groups, round(self.min_strength, 6), self.max_per_gene, self.min_sources)
+
+    def __eq__(self, other):
+        return isinstance(other, Definition) and self.signature() == other.signature()
+
+    def __hash__(self):
+        return hash(self.signature())
+
+    def __repr__(self):
+        return (f"Definition(name={self.name!r}, groups={self.groups!r}, "
+                f"min_strength={self.min_strength!r}, max_per_gene={self.max_per_gene!r}, "
+                f"min_sources={self.min_sources!r})")
+
+    def replace(self, **kw) -> "Definition":
+        """A copy with some rules changed."""
+        d = {k: getattr(self, k) for k in self.__slots__}
+        d.update(kw)
+        return Definition(**d)
+
+    def describe(self) -> str:
+        """The definition in one line of plain words."""
+        parts = ["every source" if self.groups is None else
+                 (f"{len(self.groups)} sources" if len(self.groups) != 1 else self.groups[0])]
+        if self.min_strength > 0:
+            parts.append(f"strength ≥ {self.min_strength:.2f}")
+        if self.max_per_gene:
+            parts.append(f"≤ {self.max_per_gene} links per gene")
+        if self.min_sources > 1:
+            parts.append(f"{self.min_sources}+ independent sources")
+        return ", ".join(parts)
+
+    def to_json(self) -> dict:
+        """The definition as plain JSON types."""
+        return {"name": self.name, "groups": None if self.groups is None else list(self.groups),
+                "min_strength": self.min_strength, "max_per_gene": self.max_per_gene,
+                "min_sources": self.min_sources}
+
+    @classmethod
+    def from_json(cls, data: dict) -> "Definition":
+        """A definition read back from :meth:`to_json`; unknown keys are ignored."""
+        data = dict(data or {})
+        return cls(name=data.get("name", ""), groups=data.get("groups"),
+                   min_strength=data.get("min_strength", 0.0),
+                   max_per_gene=data.get("max_per_gene", 0),
+                   min_sources=data.get("min_sources", 1))
+
+
+def _cap_per_gene(frame: pd.DataFrame, n: int, cap: int) -> pd.DataFrame:
+    """Keep at most `cap` links per gene, strongest first (a link needs room at both ends)."""
+    if not cap or frame.empty:
+        return frame
+    order = frame["strength"].to_numpy(dtype=np.float64).argsort(kind="stable")[::-1]
+    a = frame["a"].to_numpy(dtype=np.int64)[order]
+    b = frame["b"].to_numpy(dtype=np.int64)[order]
+    degree = np.zeros(int(n) + 1, dtype=np.int32)
+    keep = np.zeros(len(order), dtype=bool)
+    for i in range(len(order)):
+        u, v = a[i], b[i]
+        if degree[u] < cap and degree[v] < cap:
+            keep[i] = True
+            degree[u] += 1
+            degree[v] += 1
+    return frame.iloc[np.sort(order[keep])]
+
+
+def apply_definition(edges: pd.DataFrame, definition: Definition, n: int) -> tuple:
+    """`edges` narrowed to what `definition` calls an edge: (kept frame, counts).
+
+    The counts say what each rule removed, so the view can be honest about it:
+    ``{"links", "pairs", "sources", "genes", "from_sources", "dropped_source",
+    "dropped_strength", "dropped_agreement", "dropped_cap"}``.
+    """
+    counts = {"links": 0, "pairs": 0, "sources": 0, "genes": 0, "from_sources": 0,
+              "dropped_source": 0, "dropped_strength": 0, "dropped_agreement": 0, "dropped_cap": 0}
+    if edges is None or edges.empty:
+        return (edges if edges is not None else empty()), counts
+    counts["from_sources"] = int(edges["group"].nunique())
+    f = edges
+    if definition.groups is not None:
+        before = len(f)
+        f = f[f["group"].isin(list(definition.groups))]
+        counts["dropped_source"] = before - len(f)
+    if definition.min_strength > 0 and len(f):
+        before = len(f)
+        f = f[f["strength"].to_numpy(dtype=np.float64) >= definition.min_strength]
+        counts["dropped_strength"] = before - len(f)
+    if definition.min_sources > 1 and len(f):
+        before = len(f)
+        pair = f["a"].to_numpy(dtype=np.int64) * (int(n) + 1) + f["b"].to_numpy(dtype=np.int64)
+        support = pd.DataFrame({"pair": pair, "group": f["group"].to_numpy()})
+        good = support.groupby("pair")["group"].nunique()
+        ok = set(good.index[good.to_numpy() >= definition.min_sources].tolist())
+        f = f[pd.Series(pair, index=f.index).isin(ok)]
+        counts["dropped_agreement"] = before - len(f)
+    if definition.max_per_gene and len(f):
+        before = len(f)
+        f = _cap_per_gene(f, n, definition.max_per_gene)
+        counts["dropped_cap"] = before - len(f)
+    f = f.reset_index(drop=True)
+    counts["links"] = len(f)
+    if len(f):
+        a = f["a"].to_numpy(dtype=np.int64)
+        b = f["b"].to_numpy(dtype=np.int64)
+        counts["pairs"] = int(len(np.unique(a * (int(n) + 1) + b)))
+        counts["sources"] = int(f["group"].nunique())
+        counts["genes"] = int(len(np.unique(np.concatenate([a, b]))))
+    return f, counts
+
+
+def counts_text(counts: dict) -> str:
+    """The live headline: "4,812 links between 3,104 genes from 3 sources"."""
+    return (f"{counts.get('links', 0):,} links between {counts.get('genes', 0):,} genes "
+            f"from {counts.get('sources', 0):,} source"
+            f"{'' if counts.get('sources', 0) == 1 else 's'}")
+
+
+class DefinitionStore:
+    """The user's named connection definitions, one JSON file under the user cache.
+
+    A definition is remembered by name, so "crosslink + co-expression, 2+ sources" can be picked
+    again next session. `root` of None keeps them for this session only, which is what the tests and
+    a read-only install want.
+    """
+
+    def __init__(self, root: str | None):
+        """Definitions kept under `root` (None: in memory only)."""
+        self.root = root
+        self._memory: dict = {}
+        if root:
+            os.makedirs(root, exist_ok=True)
+
+    @property
+    def path(self) -> str:
+        """The file the definitions live in ("" without a root)."""
+        return os.path.join(self.root, DEFINITIONS_FILE) if self.root else ""
+
+    def _read(self) -> dict:
+        if not self.root:
+            return dict(self._memory)
+        try:
+            with open(self.path, "r", encoding="utf-8") as fh:
+                data = json.load(fh)
+        except (OSError, ValueError):
+            return {}
+        out = {}
+        for name, raw in (data or {}).items():
+            try:
+                out[str(name)] = Definition.from_json({**raw, "name": name})
+            except (TypeError, ValueError, AttributeError):
+                continue
+        return out
+
+    def _write(self, kept: dict) -> None:
+        if not self.root:
+            self._memory = dict(kept)
+            return
+        tmp = self.path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump({n: d.to_json() for n, d in sorted(kept.items())}, fh, indent=1)
+        os.replace(tmp, self.path)
+
+    def names(self) -> list:
+        """Every saved name, sorted."""
+        return sorted(self._read())
+
+    def get(self, name: str) -> Definition | None:
+        """A saved definition by name, or None."""
+        return self._read().get(str(name))
+
+    def save(self, definition: Definition, name: str | None = None) -> str:
+        """Save (or replace) a definition under its name; returns the name used."""
+        name = str(name or definition.name or "").strip()
+        if not name:
+            raise ValueError("a saved connection definition needs a name")
+        kept = self._read()
+        kept[name] = definition.replace(name=name)
+        self._write(kept)
+        return name
+
+    def remove(self, name: str) -> bool:
+        """Forget a saved definition. False if there was none by that name."""
+        kept = self._read()
+        if str(name) not in kept:
+            return False
+        kept.pop(str(name))
+        self._write(kept)
+        return True
+
+
+# --------------------------------------------------------------------------- the larger network
+def adjacency(edges: pd.DataFrame, n: int) -> tuple:
+    """(neighbours, starts): every gene's neighbours in one array, indexable by gene.
+
+    `neighbours[starts[g]:starts[g + 1]]` are the genes joined to `g`, strongest link first.
+    """
+    n = int(n)
+    if edges is None or edges.empty:
+        return np.zeros(0, dtype=np.int32), np.zeros(n + 1, dtype=np.int64)
+    a = edges["a"].to_numpy(dtype=np.int64)
+    b = edges["b"].to_numpy(dtype=np.int64)
+    s = edges["strength"].to_numpy(dtype=np.float64)
+    ends = np.concatenate([a, b])
+    others = np.concatenate([b, a])
+    weight = np.concatenate([s, s])
+    order = np.lexsort((-weight, ends))
+    ends, others = ends[order], others[order]
+    starts = np.searchsorted(ends, np.arange(n + 1))
+    return others.astype(np.int32), starts
+
+
+def neighbourhood(edges: pd.DataFrame, n: int, seeds, hops: int = 2,
+                  max_nodes: int = NEIGHBOURHOOD_MAX) -> pd.DataFrame:
+    """The genes within `hops` of `seeds`, as a frame of `gene`, `hop` and `parent`.
+
+    A breadth-first walk over the edges the definition kept, strongest link first at every step, so
+    a cut at `max_nodes` keeps the best-supported part of the neighbourhood rather than an arbitrary
+    slice. `hop` is 0 for a seed.
+    """
+    n = int(n)
+    hops = max(1, min(MAX_HOPS, int(hops)))
+    max_nodes = max(1, int(max_nodes))
+    seeds = [int(s) for s in (seeds if hasattr(seeds, "__iter__") else [seeds])
+             if 0 <= int(s) < n]
+    found = {s: (0, -1) for s in seeds[:max_nodes]}
+    if not found:
+        return pd.DataFrame({"gene": pd.Series(dtype="int64"), "hop": pd.Series(dtype="int64"),
+                             "parent": pd.Series(dtype="int64")})
+    others, starts = adjacency(edges, n)
+    frontier = list(found)
+    for hop in range(1, hops + 1):
+        nxt = []
+        for g in frontier:
+            for o in others[starts[g]:starts[g + 1]]:
+                o = int(o)
+                if o in found:
+                    continue
+                if len(found) >= max_nodes:
+                    frontier = []
+                    break
+                found[o] = (hop, g)
+                nxt.append(o)
+            else:
+                continue
+            break
+        frontier = nxt
+        if not frontier:
+            break
+    return pd.DataFrame([(g, h, p) for g, (h, p) in found.items()],
+                        columns=["gene", "hop", "parent"])
+
+
+def overview(edges: pd.DataFrame, n: int, max_nodes: int = OVERVIEW_MAX,
+             max_edges: int = LARGE_EDGE_MAX) -> tuple:
+    """The whole network, cut down to something drawable: (nodes, edges, note).
+
+    The strongest `max_edges` links are kept, then the `max_nodes` genes with the most of them, then
+    the links between those genes. `note` says in words what was left out, so the view can print it;
+    it is "" when nothing was.
+    """
+    n = int(n)
+    blank = pd.DataFrame({"gene": pd.Series(dtype="int64"), "hop": pd.Series(dtype="int64"),
+                          "parent": pd.Series(dtype="int64")})
+    if edges is None or edges.empty:
+        return blank, empty(), ""
+    notes = []
+    f = edges
+    if len(f) > max_edges:
+        order = f["strength"].to_numpy(dtype=np.float64).argsort(kind="stable")[::-1][:max_edges]
+        notes.append(f"the strongest {max_edges:,} of {len(f):,} links")
+        f = f.iloc[np.sort(order)]
+    a = f["a"].to_numpy(dtype=np.int64)
+    b = f["b"].to_numpy(dtype=np.int64)
+    genes, degree = np.unique(np.concatenate([a, b]), return_counts=True)
+    if len(genes) > max_nodes:
+        pick = np.lexsort((genes, -degree))[:max_nodes]
+        notes.append(f"the {max_nodes:,} best-linked of {len(genes):,} genes")
+        genes = np.sort(genes[pick])
+        inside = np.isin(a, genes) & np.isin(b, genes)
+        f = f.iloc[np.flatnonzero(inside)]
+    f = f.reset_index(drop=True)
+    nodes = pd.DataFrame({"gene": genes.astype(np.int64),
+                          "hop": np.zeros(len(genes), dtype=np.int64),
+                          "parent": np.full(len(genes), -1, dtype=np.int64)})
+    note = ("showing " + " and ".join(notes) + " -- the rest is left out") if notes else ""
+    return nodes, f, note
+
+
+def clusters(genes, edges: pd.DataFrame) -> np.ndarray:
+    """A cluster number per gene of `genes`, by label propagation over the kept links.
+
+    Deterministic: genes are visited in id order and ties go to the smallest label, so the same
+    network always gives the same clusters and the layout below never moves on its own.
+    """
+    genes = np.asarray(genes, dtype=np.int64)
+    m = len(genes)
+    label = np.arange(m, dtype=np.int64)
+    if m == 0 or edges is None or edges.empty:
+        return label
+    at = {int(g): i for i, g in enumerate(genes)}
+    ia = np.array([at.get(int(x), -1) for x in edges["a"].to_numpy()], dtype=np.int64)
+    ib = np.array([at.get(int(x), -1) for x in edges["b"].to_numpy()], dtype=np.int64)
+    ok = (ia >= 0) & (ib >= 0)
+    ia, ib = ia[ok], ib[ok]
+    w = edges["strength"].to_numpy(dtype=np.float64)[ok] + 1e-3
+    if not len(ia):
+        return label
+    ends = np.concatenate([ia, ib])
+    others = np.concatenate([ib, ia])
+    weight = np.concatenate([w, w])
+    order = np.argsort(ends, kind="stable")
+    others, weight = others[order], weight[order]
+    starts = np.searchsorted(ends[order], np.arange(m + 1))
+    for _ in range(CLUSTER_ROUNDS):
+        changed = 0
+        for i in range(m):
+            lo, hi = starts[i], starts[i + 1]
+            if hi <= lo:
+                continue
+            vote: dict = {}
+            for o, ww in zip(others[lo:hi], weight[lo:hi]):
+                k = int(label[o])
+                vote[k] = vote.get(k, 0.0) + float(ww)
+            best = min(vote, key=lambda k: (-vote[k], k))
+            if best != label[i]:
+                label[i] = best
+                changed += 1
+        if not changed:
+            break
+    _, packed = np.unique(label, return_inverse=True)
+    return packed.astype(np.int64)
+
+
+def layout(genes, edges: pd.DataFrame, cluster=None, iterations: int | None = None,
+           size: float = 1000.0) -> np.ndarray:
+    """Positions for `genes` as an (m, 2) array: a spring layout, computed once and reusable.
+
+    Deterministic from the genes and the links alone -- the starting ring is by cluster and then by
+    gene id, never random -- so the same network lays out identically every time and a cached
+    layout can be trusted. This is the expensive part of a large view, so callers compute it once
+    per (network, definition) and keep it: it must never run from a paint handler.
+    """
+    genes = np.asarray(genes, dtype=np.int64)
+    m = len(genes)
+    if m == 0:
+        return np.zeros((0, 2), dtype=np.float64)
+    if m == 1:
+        return np.zeros((1, 2), dtype=np.float64)
+    cluster = (np.zeros(m, dtype=np.int64) if cluster is None
+               else np.asarray(cluster, dtype=np.int64))
+    # Start on rings, one arc per cluster: members begin near each other, so the springs only have
+    # to tidy up, and 60-200 rounds are enough even for a few thousand genes.
+    order = np.lexsort((genes, cluster))
+    pos = np.zeros((m, 2), dtype=np.float64)
+    groups, first = np.unique(cluster[order], return_index=True)
+    bounds = list(first) + [m]
+    for gi in range(len(groups)):
+        lo, hi = bounds[gi], bounds[gi + 1]
+        idx = order[lo:hi]
+        centre_angle = 2 * np.pi * gi / max(len(groups), 1)
+        cr = size * 0.32 * (1.0 if len(groups) > 1 else 0.0)
+        cx, cy = cr * np.cos(centre_angle), cr * np.sin(centre_angle)
+        k = len(idx)
+        a = 2 * np.pi * np.arange(k) / max(k, 1)
+        rr = size * 0.10 * (0.35 + 0.65 * np.sqrt(np.arange(k) / max(k - 1, 1)))
+        pos[idx, 0] = cx + rr * np.cos(a)
+        pos[idx, 1] = cy + rr * np.sin(a)
+    at = {int(g): i for i, g in enumerate(genes)}
+    ia = np.array([at.get(int(x), -1) for x in edges["a"].to_numpy()], dtype=np.int64) \
+        if edges is not None and len(edges) else np.zeros(0, dtype=np.int64)
+    ib = np.array([at.get(int(x), -1) for x in edges["b"].to_numpy()], dtype=np.int64) \
+        if edges is not None and len(edges) else np.zeros(0, dtype=np.int64)
+    if len(ia):
+        ok = (ia >= 0) & (ib >= 0) & (ia != ib)
+        ia, ib = ia[ok], ib[ok]
+        ew = edges["strength"].to_numpy(dtype=np.float64)[ok] * 0.8 + 0.2
+    else:
+        ew = np.zeros(0)
+    rounds = int(iterations) if iterations else int(max(120, min(300, 120000 // max(m, 1))))
+    k = size / np.sqrt(m)
+    temp = size * 0.10
+    cool = temp / max(rounds, 1)
+    for _ in range(rounds):
+        disp = np.zeros_like(pos)
+        # Repulsion is summed against the mass centres of a coarse grid over the current positions
+        # (Barnes-Hut in its simplest form) instead of against every other gene, so a round costs
+        # `m * GRID**2` and not `m**2`: a few thousand genes lay out in a fraction of a second.
+        lo = pos.min(0)
+        span = np.maximum(pos.max(0) - lo, 1e-6)
+        cell = np.minimum((pos - lo) / span * LAYOUT_GRID, LAYOUT_GRID - 1).astype(np.int64)
+        bucket = cell[:, 0] * LAYOUT_GRID + cell[:, 1]
+        mass = np.bincount(bucket, minlength=LAYOUT_GRID ** 2).astype(np.float64)
+        sums = np.zeros((LAYOUT_GRID ** 2, 2))
+        np.add.at(sums, bucket, pos)
+        live = mass > 0
+        centres = sums[live] / mass[live][:, None]
+        weights = mass[live]
+        d = pos[:, None, :] - centres[None, :, :]
+        dist = np.sqrt((d ** 2).sum(-1)) + 1e-6
+        push = (k * k * weights[None, :]) / (dist ** 2)
+        disp += (d / dist[:, :, None] * push[:, :, None]).sum(1)
+        if len(ia):
+            dv = pos[ib] - pos[ia]
+            dl = np.sqrt((dv ** 2).sum(-1)) + 1e-6
+            pull = (dl * dl) / k * ew
+            step = dv / dl[:, None] * pull[:, None]
+            np.add.at(disp, ia, step)
+            np.add.at(disp, ib, -step)
+        dl = np.sqrt((disp ** 2).sum(-1)) + 1e-9
+        pos += disp / dl[:, None] * np.minimum(dl, temp)[:, None]
+        temp = max(temp - cool, size * 1e-4)
+    pos -= pos.mean(0)
+    # Scaled by a high percentile rather than by the furthest gene: one gene flung out on a single
+    # link would otherwise squeeze everything else into the middle.
+    span = float(np.percentile(np.abs(pos), 98)) or float(np.abs(pos).max()) or 1.0
+    return pos * (size / 2.0 / span)
