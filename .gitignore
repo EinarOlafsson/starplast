@@ -24,6 +24,10 @@ starplast/data/embeddings/*
 results/*/embeddings/
 results/*/run.log
 
+# The map gallery's per-map build checkpoint: one npz per map so a stopped build resumes. The maps
+# themselves ship in starplast/data/umap_gallery.npz, and these are the scaffolding that built it.
+results/umap_gallery_checkpoint/
+
 # Downloaded datasets. Gigabytes of GEO and PRIDE archives, and not one of them is source: they are
 # fetched by scripts/fetch_candidates.py from accessions recorded in the slot tables, so the
 # accession is the thing worth versioning and the tarball is not. A 200 MB archive committed here

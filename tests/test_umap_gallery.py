@@ -160,6 +160,47 @@ def test_circular_flag_comes_from_the_leakage_closure():
     assert t.circular.iloc[0] is None
 
 
+# --------------------------------------------------------------------------- structure, label-free
+def test_separation_is_high_for_far_apart_clusters_and_a_half_for_one_cloud():
+    rng = np.random.default_rng(0)
+    far = np.vstack([rng.normal(0, 0.1, (200, 3)), rng.normal(20, 0.1, (200, 3))])
+    labels = np.array([0] * 200 + [1] * 200)
+    assert G.separation(far, labels) > 0.95
+    # The same labels over one cloud: the points of a "cluster" are no nearer each other than they
+    # are to the other cluster's, so the silhouette is about 0 and the rescaled value about 0.5.
+    one = rng.normal(0, 1, (400, 3))
+    assert 0.4 < G.separation(one, labels) < 0.6
+    assert not np.isfinite(G.separation(far, np.zeros(400, dtype=int))), "one cluster is not two"
+    assert not np.isfinite(G.separation(far, np.full(400, -1)))
+
+
+def test_structure_needs_both_a_real_partition_and_real_separation():
+    rng = np.random.default_rng(1)
+    # Even, fully clustered AND separated: good at both, so a high geometric mean.
+    good_xyz = np.vstack([rng.normal(k * 20, 0.2, (100, 3)) for k in range(4)])
+    good_lab = np.repeat(np.arange(4), 100)
+    good = G.structure(good_xyz, good_lab)
+    assert good["structure"] > 0.9
+    # Even and fully clustered, but the clusters overlap completely: map_quality is still high and
+    # the structure score is not, which is the whole reason for the second term.
+    flat = G.structure(rng.normal(0, 1, (400, 3)), good_lab)
+    assert flat["score"] > 0.9 and flat["structure"] < 0.75
+    assert flat["structure"] < good["structure"]
+    # Separated, but 95% of the genes unclustered: the silhouette is perfect, the partition is not.
+    thin_lab = np.where(np.arange(400) < 20, good_lab, -1)
+    thin = G.structure(good_xyz, thin_lab)
+    assert thin["separation"] > 0.9 and thin["structure"] < good["structure"]
+    # A bisection is refused outright by `clustering.degenerate`, through `search.map_quality`.
+    bisect = G.structure(good_xyz, np.array([0] * 200 + [1] * 200))
+    assert bisect["structure"] == 0.0
+
+
+def test_the_structure_score_reads_no_label():
+    """`structure` takes coordinates and clusters only: there is no way to pass it a label."""
+    import inspect
+    assert list(inspect.signature(G.structure).parameters) == ["xyz", "labels"]
+
+
 # --------------------------------------------------------------------------- the shipped files
 @pytest.fixture(scope="module")
 def shipped():
@@ -174,9 +215,12 @@ def test_the_gallery_covers_every_shipped_parasite_space(shipped):
 
 
 def test_the_gallery_files_are_small():
+    # Dozens of maps per organism, so the budget is larger than the first gallery's -- but the
+    # coordinates are float32 and the cluster labels int16, and the whole gallery stays well inside
+    # what the wheel can carry (`scripts/check_wheel.py`).
     total = sum(os.path.getsize(os.path.join(G._data_dir(), f))
                 for f in (G.COORDS_FILE, G.MANIFEST_FILE, G.SCORES_FILE))
-    assert total < 15e6
+    assert total < 25e6, f"{total / 1e6:.1f} MB of gallery"
 
 
 @pytest.mark.parametrize("code", G.space_codes())
@@ -192,6 +236,10 @@ def test_every_map_is_whole_and_over_this_table(shipped, code):
     assert "all_but_localization" in kinds
     assert sum(r["family"] not in ("all",) for r in maps) >= 4, "one map per evidence family"
     for r in maps:
+        assert r["group"] in G.GROUPS, r["id"]
+        assert 0.0 <= r["structure"] <= 1.0, r["id"]
+        assert r["tuned"] == (not r["id"].startswith("all_nn")), r["id"]
+        assert (len(r["settings_searched"]) > 0) == r["tuned"], r["id"]
         d = shipped.load(code, r["id"])
         rows, xyz, lab = d["rows"], d["xyz"], d["clusters"]
         assert xyz.dtype == np.float32 and xyz.shape == (len(rows), 3)
@@ -250,6 +298,67 @@ def test_a_map_aligns_onto_a_reordered_table(shipped):
     assert np.array_equal(a["xyz"], m["xyz"])
 
 
+@pytest.mark.parametrize("code", G.space_codes())
+def test_the_gallery_is_large_and_covers_every_group(shipped, code):
+    """Every category on its own and the sensible combinations, not just a handful of maps."""
+    maps = shipped.maps(code)
+    assert len(maps) >= 40, f"{code} ships only {len(maps)} maps"
+    groups = {g: [r for r in maps if r["group"] == g] for g in G.GROUPS}
+    assert len(groups[G.GROUPS[0]]) == len(G.ALL_NEIGHBORS)
+    for g in G.GROUPS[1:]:
+        assert len(groups[g]) >= 2, f"{code}: {g} has {len(groups[g])} map(s)"
+    # Single experiments: one map per individual block, each from exactly one block.
+    assert all(len(r["blocks"]) == 1 for r in groups[G.GROUPS[3]])
+    assert len(groups[G.GROUPS[3]]) >= 10
+    # Pairs and triples are built from the stated number of families.
+    assert all(len(r["family"].split(" + ")) == 2 for r in groups[G.GROUPS[4]])
+    assert all(len(r["family"].split(" + ")) == 3 for r in groups[G.GROUPS[5]])
+    assert len({r["id"] for r in maps}) == len(maps), "duplicate map ids"
+
+
+@pytest.mark.parametrize("code", G.space_codes())
+def test_an_all_but_map_never_saw_the_family_it_leaves_out(shipped, code):
+    from starplast import strategies as S
+    ctx = S.shipped(code)
+    left_out = [r for r in shipped.maps(code) if r["id"].startswith("all_but_")]
+    assert len(left_out) >= 2
+    for r in left_out:
+        fam = r["id"][len("all_but_"):]
+        assert all(G._slug(ctx.family_of(b)) != fam for b in r["blocks"]), r["id"]
+
+
+@pytest.mark.parametrize("code", G.space_codes())
+def test_the_search_tried_the_grid_and_the_winner_is_the_best_of_it(shipped, code):
+    """Each tuned map ships the highest-structure setting the search measured at full size."""
+    for r in shipped.maps(code):
+        if not r["tuned"]:
+            continue
+        tried = r["settings_searched"]
+        sample = [t for t in tried if t["stage"] == "sample"]
+        full = [t for t in tried if t["stage"] == "full"]
+        assert len(sample) == len(G.MAP_GRID["n_neighbors"]) * len(G.MAP_GRID["min_dist"]), r["id"]
+        assert 1 <= len(full) <= G.SEARCH_KEEP, r["id"]
+        best = max(full, key=lambda t: t["structure"])
+        assert r["structure"] == best["structure"], r["id"]
+        assert r["n_neighbors"] == best["n_neighbors"] and r["min_dist"] == best["min_dist"]
+        assert r["clustering"]["min_cluster_size"] == best["min_cluster_size"]
+        assert r["clustering"]["min_samples"] == best["min_samples"]
+        assert r["clustering"]["cluster_selection_method"] == "leaf"
+        for t in tried:
+            assert t["n_neighbors"] in G.MAP_GRID["n_neighbors"]
+            assert t["min_dist"] in G.MAP_GRID["min_dist"]
+            assert t["min_cluster_size"] in G.GALLERY_CLUSTER_GRID["min_cluster_size"]
+            assert t["min_samples"] in G.GALLERY_CLUSTER_GRID["min_samples"]
+
+
+def test_the_search_did_not_simply_pick_one_setting_everywhere(shipped):
+    """If the grid always returned the same setting, searching it would be hours wasted."""
+    chosen = {(r["n_neighbors"], r["min_dist"],
+               r["clustering"]["min_cluster_size"], r["clustering"]["min_samples"])
+              for r in shipped.maps(TG) if r["tuned"]}
+    assert len(chosen) >= 3, chosen
+
+
 def test_every_column_has_a_plain_name_and_a_tooltip():
     from starplast.umap_gallery_panel import TABLE_COLUMNS
     for c in ("map", "label") + TABLE_COLUMNS:
@@ -263,8 +372,7 @@ def test_the_panel_lists_the_maps_and_reads_the_table_both_ways(shipped):
     from PyQt6 import QtWidgets
     p = MapGalleryPanel(TG, gallery=shipped)
     try:
-        assert p.list.count() == len(shipped.maps(TG))
-        assert not p.list.item(0).icon().isNull(), "each map has a thumbnail"
+        assert [i for i, _ in p.items()] == [r["id"] for r in shipped.maps(TG)]
         assert p.label_box.currentText() == "compartment"
         assert p.table.rowCount() == len(shipped.maps(TG))
         headers = [p.table.horizontalHeaderItem(j).text() for j in range(p.table.columnCount())]
@@ -274,17 +382,134 @@ def test_the_panel_lists_the_maps_and_reads_the_table_both_ways(shipped):
         assert p.table.rowCount() == shipped.scores(TG).label.nunique()
         chosen = []
         p.map_chosen.connect(chosen.append)
-        p._on_item(p.list.item(2))
-        assert chosen == [shipped.maps(TG)[2]["id"]]
+        third = shipped.maps(TG)[2]["id"]
+        p._on_item(third)
+        assert chosen == [third]
         colored = []
         p.color_label.connect(colored.append)
         p.color_btn.click()
         assert colored == [p.label_box.currentText()]
         p.view_box.setCurrentText(LABEL_VIEW)
-        for cls in (QtWidgets.QComboBox, QtWidgets.QPushButton, QtWidgets.QListWidget,
-                    QtWidgets.QTableWidget):
+        for cls in (QtWidgets.QComboBox, QtWidgets.QPushButton, QtWidgets.QTreeWidget,
+                    QtWidgets.QTableWidget, QtWidgets.QLineEdit, QtWidgets.QCheckBox):
             for w in p.findChildren(cls):
                 assert w.toolTip().strip(), f"{cls.__name__} without a tooltip"
+    finally:
+        p.deleteLater()
+
+
+def _cells(table) -> list:
+    """Every cell of a table as text: what the user can actually read off it."""
+    return [[table.item(i, j).text() if table.item(i, j) else None
+             for j in range(table.columnCount())] for i in range(table.rowCount())]
+
+
+def test_choosing_a_second_map_changes_the_score_table(shipped):
+    """The 0.49.0 bug: the table changed for the first map chosen and for no map after it.
+
+    The default view lists every map for one label, so its rows are the same whichever map is
+    current -- and nothing in it moved when a second map was picked, because `refresh` read only the
+    view and the label. Both views now follow the current map, so A, then B, then A again gives
+    three different tables and the third equals the first.
+    """
+    from starplast.umap_gallery_panel import MapGalleryPanel, LABEL_VIEW, MAP_VIEW, SHOWN_MARK
+    maps = [r["id"] for r in shipped.maps(TG)]
+    a, b = maps[4], maps[7]
+    for view in (LABEL_VIEW, MAP_VIEW):
+        p = MapGalleryPanel(TG, gallery=shipped)
+        try:
+            p.view_box.setCurrentText(view)
+            p._on_item(a)
+            first = _cells(p.table)
+            p._on_item(b)
+            second = _cells(p.table)
+            p._on_item(a)
+            third = _cells(p.table)
+            assert first != second, f"{view}: choosing a second map left the first map's table"
+            assert second != third, f"{view}: choosing a third map left the second map's table"
+            assert first == third, f"{view}: the same map gave two different tables"
+            assert p.current_map == a
+            if view == LABEL_VIEW:
+                # Every map is still listed, and exactly one row is marked as the one on screen.
+                assert len(first) == len(maps)
+                marked = [r[0] for r in third if r[0].startswith(SHOWN_MARK)]
+                assert marked == [SHOWN_MARK + p.title(a)]
+                assert [r[0] for r in second if r[0].startswith(SHOWN_MARK)] == \
+                    [SHOWN_MARK + p.title(b)]
+            else:
+                # The map view is filtered, so the whole body is that map's scores.
+                assert p.map_box.currentData() == a
+                assert len(first) == shipped.scores(TG).label.nunique()
+        finally:
+            p.deleteLater()
+
+
+def test_the_map_combo_and_a_double_clicked_row_choose_a_map_too(shipped):
+    """The other two ways in: the combo in map view, and double-clicking a row in label view."""
+    from starplast.umap_gallery_panel import MapGalleryPanel, LABEL_VIEW, MAP_VIEW
+    maps = [r["id"] for r in shipped.maps(TG)]
+    p = MapGalleryPanel(TG, gallery=shipped)
+    try:
+        p.view_box.setCurrentText(MAP_VIEW)
+        p.map_box.setCurrentIndex(p.map_box.findData(maps[2]))
+        one = _cells(p.table)
+        assert p.current_map == maps[2]
+        p.map_box.setCurrentIndex(p.map_box.findData(maps[5]))
+        assert _cells(p.table) != one and p.current_map == maps[5]
+        p.view_box.setCurrentText(LABEL_VIEW)
+        chosen = []
+        p.map_chosen.connect(chosen.append)
+        row = next(i for i in range(p.table.rowCount()) if p._row_key(i) == maps[9])
+        p._row_activated(row, 0)
+        assert chosen == [maps[9]] and p.current_map == maps[9]
+    finally:
+        p.deleteLater()
+
+
+def test_the_panel_filters_sorts_and_groups_a_large_gallery(shipped):
+    """With dozens of maps the list has to be searchable, sortable and groupable."""
+    from starplast.umap_gallery_panel import (MapGalleryPanel, SORT_STRUCTURE, SORT_LABEL,
+                                             SORT_GENES, SORT_GROUP)
+    from PyQt6 import QtCore
+    USER = QtCore.Qt.ItemDataRole.UserRole
+    p = MapGalleryPanel(TG, gallery=shipped)
+    try:
+        everything = [i for i, _ in p.items()]
+        assert len(everything) == len(shipped.maps(TG))
+        # Grouped by default: the top level is headings, and every heading is a known group.
+        tops = [p.tree.topLevelItem(i).text(0) for i in range(p.tree.topLevelItemCount())]
+        assert tops and all(t.split(" — ")[0] in G.GROUPS for t in tops)
+        assert all(p.tree.topLevelItem(i).data(0, USER) is None
+                   for i in range(p.tree.topLevelItemCount())), "a heading is not a map"
+        # Filtering: every map kept mentions the word somewhere a user can see.
+        p.search.setText("fitness")
+        narrowed = [i for i, _ in p.items()]
+        assert 0 < len(narrowed) < len(everything)
+        assert all("fitness" in " ".join(str(p.record(i)[k]) for k in
+                                         ("id", "title", "group", "family", "description")).lower()
+                   for i in narrowed)
+        p.search.setText("no such evidence anywhere")
+        assert p.items() == []
+        p.search.setText("")
+        assert len([i for i, _ in p.items()]) == len(everything)
+        # Sorting, flat so the order is the global one.
+        p.group_check.setChecked(False)
+        for key, value in ((SORT_STRUCTURE, lambda i: p.record(i)["structure"]),
+                           (SORT_GENES, lambda i: p.record(i)["n_genes"]),
+                           (SORT_LABEL, lambda i: p.label_skill().get(i, -1e9))):
+            p.sort_box.setCurrentText(key)
+            got = [value(i) for i, _ in p.items()]
+            assert got == sorted(got, reverse=True), key
+        p.sort_box.setCurrentText(SORT_GROUP)
+        assert [i for i, _ in p.items()] == everything
+        # The rows say what the map is and how good it is, and the thumbnails are drawn.
+        p.group_check.setChecked(True)
+        p.tree.topLevelItem(0).setExpanded(True)
+        first_id, first_item = p.items()[0]
+        assert not first_item.icon(0).isNull(), "a shown map has a thumbnail"
+        assert f"{p.record(first_id)['structure']:.2f}" in first_item.text(0)
+        assert "structure" in first_item.toolTip(0) and "n_neighbors" in first_item.toolTip(0)
+        assert all(it.toolTip(0).strip() for _, it in p.items())
     finally:
         p.deleteLater()
 

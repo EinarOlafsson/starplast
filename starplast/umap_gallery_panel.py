@@ -1,13 +1,23 @@
 #!/usr/bin/env python3
 """The "maps" dock: pregenerated maps to pick from, and how well each label maps onto each.
 
-A row per shipped map (`umap_gallery.Gallery`) with a thumbnail colored by its own clusters; clicking
-one puts it in the central 3D view through the window's own `use_embedding`, so it is a map like any
-other -- genes click, every color mode applies -- and its HDBSCAN clusters become the window's
-cluster coloring. Beside it, a sortable score table read in either direction:
+The gallery ships dozens of maps per organism (`umap_gallery.recipes`), so the list is a TREE grouped
+by what the map was built from -- all measurements, all but one kind of evidence, one evidence family,
+one individual experiment, and the pairs and triples of families -- with a thumbnail per map colored
+by its own clusters. It can be searched, sorted (by the label-free structure score, by how well the
+chosen label maps, or by how many genes a map places) and flattened into one best-first list. Each row
+states the map's recipe and its structure score, so the list can be read without opening anything.
+
+Clicking a map puts it in the central 3D view through the window's own `use_embedding`, so it is a map
+like any other -- genes click, every color mode applies -- and its HDBSCAN clusters become the
+window's cluster coloring. Beside it, a sortable score table read in either direction:
 
 * **One label, every map** -- pick a label, see which map it separates on best;
 * **One map, every label** -- pick a map, see which labels it organises.
+
+The map on screen is marked in both: with `SHOWN_MARK` on its row in the label view, and by being the
+only map in the map view. Picking a map therefore always changes the table, which is the bug this
+panel was rewritten around -- see `refresh`.
 
 "Color by label" is one click. "Score the map on screen" runs the same scoring on whatever map the
 window shows (a map built in Analysis, say), and adds it to both tables as "on screen".
@@ -25,9 +35,20 @@ from . import umap_gallery as G
 
 #: Edge of a map thumbnail in the list, in pixels.
 THUMB = 64
+#: Points drawn in a thumbnail. A 64-pixel image cannot show more, and the gallery has dozens of maps
+#: to draw: `gallery.thumbnail` paints point by point, so a whole proteome per row is seconds of work.
+THUMB_POINTS = 2500
 #: The map id the live score of the window's current map is filed under.
 ON_SCREEN = "on screen"
 LABEL_VIEW, MAP_VIEW = "One label, every map", "One map, every label"
+#: Marks the map currently on screen, on its row of the label view's table and in the list.
+SHOWN_MARK = "▶ "
+#: How the map list can be ordered.
+SORT_GROUP = "Group, then gallery order"
+SORT_STRUCTURE = "Structure score, best first"
+SORT_LABEL = "How well the chosen label maps"
+SORT_GENES = "Genes placed, most first"
+SORTS = (SORT_GROUP, SORT_STRUCTURE, SORT_LABEL, SORT_GENES)
 #: Table columns in order, after the first (Map or Label) column.
 TABLE_COLUMNS = ("category_f1", "category_skill", "category_precision", "category_recall",
                  "best_category", "best_n", "best_f1_lower", "best_skill", "coverage", "circular")
@@ -60,6 +81,32 @@ def cluster_colors(clusters, theme: str = "dark") -> np.ndarray:
     return out
 
 
+def recipe_line(record: dict) -> str:
+    """One line naming what a map was built from and how it was settled: the row's second line."""
+    blocks, cols = len(record.get("blocks") or ()), len(record.get("columns") or ())
+    bits = [f"{cols} columns in {blocks} block(s)",
+            f"n_neighbors {record.get('n_neighbors', '?')}",
+            f"min_dist {record.get('min_dist', 0.25)}"]
+    cl = record.get("clustering") or {}
+    if cl:
+        bits.append(f"HDBSCAN {cl.get('min_cluster_size')}/{cl.get('min_samples')} "
+                    f"{cl.get('cluster_selection_method')}")
+    if record.get("min_coverage"):
+        bits.append(f"genes measured in ≥{float(record['min_coverage']):.0%} of them")
+    bits.append("settings searched" if record.get("tuned") else "settings declared, not searched")
+    return " · ".join(str(b) for b in bits)
+
+
+def structure_line(record: dict) -> str:
+    """The label-free structure score of a map and the two things it is made of."""
+    if record.get("structure") is None:
+        return "structure not recorded"
+    return (f"structure {float(record['structure']):.3f} "
+            f"(clustered {float(record.get('clustered') or 0):.0%}, "
+            f"evenness {float(record.get('evenness') or 0):.2f}, "
+            f"separation {float(record.get('separation') or 0):.2f})")
+
+
 class MapGalleryPanel(QtWidgets.QWidget):
     """Pregenerated maps for one organism, and the label x map score table."""
 
@@ -85,29 +132,78 @@ class MapGalleryPanel(QtWidgets.QWidget):
         self.records = self.gallery.maps(organism) if ok else []
         self.live = pd.DataFrame()
         self.current_map = None
+        self._items: dict = {}          # map id -> its tree item
+        self._thumbs: dict = {}         # map id -> QIcon, built once and only when shown
 
         L = QtWidgets.QVBoxLayout(self)
         L.setContentsMargins(8, 8, 8, 8)
         head = QtWidgets.QLabel(
-            "<b>Pregenerated maps</b> — click one to show it; the table says how well each label "
-            "maps onto each.")
+            f"<b>{len(self.records)} pregenerated maps</b> — click one to show it; the table says "
+            f"how well each label maps onto each.")
         head.setWordWrap(True)
+        head.setToolTip("Every map is built from measurements only, so no label is scored against a "
+                        "map that was built from it. The number is how many ship for this organism.")
         L.addWidget(head)
 
         split = QtWidgets.QSplitter(QtCore.Qt.Orientation.Vertical)
         L.addWidget(split, 1)
 
-        self.list = QtWidgets.QListWidget()
-        self.list.setIconSize(QtCore.QSize(THUMB, THUMB))
-        self.list.setSpacing(2)
-        self.list.setWordWrap(True)
-        self.list.setToolTip(
-            "Maps built ahead of time from measurements only -- all of them at three neighbourhood "
-            "sizes, all but localization, and one per kind of evidence. Each thumbnail is colored "
-            "by that map's own clusters (gray is unclustered). Click a map to show it in the main "
-            "view, where it behaves like any other map.")
-        self.list.itemClicked.connect(self._on_item)
-        split.addWidget(self.list)
+        upper = QtWidgets.QWidget()
+        uv = QtWidgets.QVBoxLayout(upper)
+        uv.setContentsMargins(0, 0, 0, 0)
+        find = QtWidgets.QHBoxLayout()
+        self.search = QtWidgets.QLineEdit()
+        self.search.setPlaceholderText("filter maps…")
+        self.search.setClearButtonEnabled(True)
+        self.search.setToolTip(
+            "Show only the maps whose name, group, evidence family or description contains this "
+            "text — try 'fitness', 'transcription', 'all but' or 'pairs'. Space-separated words all "
+            "have to match. Clearing the box shows every map again.")
+        self.search.textChanged.connect(self._fill_list)
+        find.addWidget(self.search, 1)
+        self.sort_box = QtWidgets.QComboBox()
+        self.sort_box.addItems(SORTS)
+        self.sort_box.setToolTip(
+            "Order the maps. Group, then gallery order: as the gallery was built. Structure score: "
+            "the label-free measure the maps were tuned on — how evenly and separably the map "
+            "clusters, with no label involved. How well the chosen label maps: the skill of the "
+            "label picked below, so the best map for your question comes first. Genes placed: the "
+            "widest maps first, since a map built from a sparse experiment places few genes.")
+        self.sort_box.currentTextChanged.connect(self._fill_list)
+        find.addWidget(self.sort_box, 1)
+        self.group_check = QtWidgets.QCheckBox("Group")
+        self.group_check.setChecked(True)
+        self.group_check.setToolTip(
+            "Keep the maps under headings for what they were built from — all measurements, all but "
+            "one kind, one evidence family, one experiment, pairs and triples of families. Unticked, "
+            "they become one flat list in the chosen order, which is how to find the single best map.")
+        self.group_check.toggled.connect(self._fill_list)
+        find.addWidget(self.group_check)
+        for w in (self.sort_box,):
+            w.setSizeAdjustPolicy(
+                QtWidgets.QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
+            w.setMinimumContentsLength(6)
+        uv.addLayout(find)
+
+        self.tree = QtWidgets.QTreeWidget()
+        self.tree.setHeaderHidden(True)
+        self.tree.setIconSize(QtCore.QSize(THUMB, THUMB))
+        self.tree.setRootIsDecorated(True)
+        self.tree.setUniformRowHeights(False)
+        self.tree.setToolTip(
+            "Maps built ahead of time from measurements only, grouped by what each was built from. "
+            "Every thumbnail is colored by that map's own clusters (gray is unclustered), and every "
+            "row states the map's recipe and its structure score. Click a map to show it in the main "
+            "view, where it behaves like any other map; hover a row for the full recipe and the "
+            "settings that were searched.")
+        self.tree.itemClicked.connect(self._on_tree_item)
+        self.tree.itemExpanded.connect(self._draw_thumbs)
+        uv.addWidget(self.tree, 1)
+        self.shown = QtWidgets.QLabel("No map chosen yet.")
+        self.shown.setWordWrap(True)
+        self.shown.setToolTip("The map now in the main view, with its recipe and structure score.")
+        uv.addWidget(self.shown)
+        split.addWidget(upper)
 
         lower = QtWidgets.QWidget()
         lv = QtWidgets.QVBoxLayout(lower)
@@ -117,23 +213,24 @@ class MapGalleryPanel(QtWidgets.QWidget):
         self.view_box.addItems([LABEL_VIEW, MAP_VIEW])
         self.view_box.setToolTip(
             "Read the table one of two ways. One label, every map: which map does this label "
-            "separate on best? One map, every label: which labels does this map organise? Sort by "
-            "any column by clicking its header.")
+            "separate on best? The map on screen is marked. One map, every label: which labels does "
+            "the map on screen organise? Sort by any column by clicking its header.")
         self.view_box.currentTextChanged.connect(self.refresh)
         row.addWidget(self.view_box)
         self.label_box = QtWidgets.QComboBox()
         self.label_box.setToolTip(
-            "The label to score and to color by: a categorical column such as compartment. In "
-            "'one map, every label' view, clicking a row picks its label here.")
+            "The label to score, to color by, and to rank maps on when the list is sorted by it: a "
+            "categorical column such as compartment. In 'one map, every label' view, clicking a row "
+            "picks its label here.")
         self.label_box.addItems(self.labels())
         self.label_box.currentTextChanged.connect(self._label_changed)
         row.addWidget(self.label_box, 1)
         self.map_box = QtWidgets.QComboBox()
         self.map_box.setToolTip(
-            "The map whose scores the table shows in 'one map, every label' view. Follows the "
-            "map you last clicked; 'on screen' appears once the map on screen has been scored.")
+            "The map whose scores the table shows in 'one map, every label' view. Follows the map "
+            "you last clicked; 'on screen' appears once the map on screen has been scored.")
         self._fill_map_box()
-        self.map_box.currentIndexChanged.connect(self.refresh)
+        self.map_box.currentIndexChanged.connect(self._map_box_changed)
         row.addWidget(self.map_box, 1)
         # Combos sized by a short minimum rather than their longest entry, and buttons allowed to
         # shrink: a dock this wide would otherwise set a minimum window width larger than a small
@@ -153,7 +250,8 @@ class MapGalleryPanel(QtWidgets.QWidget):
             "whole fall into clusters. Best category: the one category that falls into one cluster "
             "best, judged on lower bounds so a tiny category cannot score perfectly by luck. Skill "
             "columns subtract what shuffled labels score on the same map: 0 is chance, 1 perfect. "
-            "Double-click a row to show that map, or to color by that label.")
+            f"The row marked {SHOWN_MARK.strip()} is the map on screen. Double-click a row to show "
+            "that map, or to color by that label.")
         self.table.itemSelectionChanged.connect(self._row_selected)
         self.table.cellDoubleClicked.connect(self._row_activated)
         lv.addWidget(self.table, 1)
@@ -172,9 +270,9 @@ class MapGalleryPanel(QtWidgets.QWidget):
         self.score_btn = QtWidgets.QPushButton("Score map on screen")
         self.score_btn.setToolTip(
             "Score every label on the map the main view is showing now -- for example one you built "
-            "in Analysis. Its clusters are used if it has them; otherwise it is clustered with HDBSCAN "
-            "exactly as the gallery maps were (25 / 5, leaf). The result is "
-            "added to the table as 'on screen'.")
+            "in Analysis. Its clusters are used if it has them; otherwise it is clustered with "
+            "HDBSCAN exactly as the gallery maps were. The result is added to the table as "
+            "'on screen'.")
         self.score_btn.clicked.connect(self.score_screen.emit)
         for b in (self.color_btn, self.clusters_btn, self.score_btn):
             b.setMinimumWidth(40)
@@ -192,9 +290,9 @@ class MapGalleryPanel(QtWidgets.QWidget):
 
         if not self.records:
             self.note.setText("No pregenerated maps ship for this organism.")
-        self._fill_list()
         if "compartment" in self.labels():
             self.label_box.setCurrentText("compartment")
+        self._fill_list()
         self.refresh()
 
     # ---------------------------------------------------------------- data
@@ -210,56 +308,192 @@ class MapGalleryPanel(QtWidgets.QWidget):
         frames = [f for f in (self.scores, self.live) if not f.empty]
         return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
 
+    def record(self, map_id: str) -> dict:
+        """One map's manifest record, or an empty dict for the map on screen."""
+        for r in self.records:
+            if r["id"] == map_id:
+                return r
+        return {}
+
     def title(self, map_id: str) -> str:
         """A map's readable name."""
         if map_id == ON_SCREEN:
             return "Map on screen (scored live)"
-        for r in self.records:
-            if r["id"] == map_id:
-                return r["title"]
-        return map_id
+        return self.record(map_id).get("title", map_id)
+
+    def label_skill(self) -> dict:
+        """map id -> the chosen label's `category_skill` on it, for sorting and for the rows."""
+        s = self.all_scores()
+        if s.empty:
+            return {}
+        s = s[s.label == self.label_box.currentText()]
+        return {str(r["map"]): float(r["category_skill"])
+                for _, r in s.iterrows() if np.isfinite(r["category_skill"])}
 
     # ---------------------------------------------------------------- the list
-    def _fill_list(self):
-        self.list.clear()
-        for r in self.records:
-            text = (f"{r['title']}\n{r['n_genes']:,} genes · {r['n_clusters']} clusters · "
-                    f"{r['noise_fraction']:.0%} unclustered")
-            item = QtWidgets.QListWidgetItem(text)
-            item.setData(QtCore.Qt.ItemDataRole.UserRole, r["id"])
-            item.setToolTip(f"{r['description']}\n\n{len(r['columns'])} measurement columns in "
-                            f"{len(r['blocks'])} block(s); n_neighbors {r['n_neighbors']}; "
-                            f"HDBSCAN min cluster size {G.CLUSTERING['min_cluster_size']}, "
-                            f"min samples {G.CLUSTERING['min_samples']}, "
-                            f"{G.CLUSTERING['cluster_selection_method']} selection.")
-            try:
-                m = self.gallery.load(self.organism, r["id"])
-                from .gallery import thumbnail
-                img = thumbnail(m["xyz"], cluster_colors(m["clusters"], self.theme), size=THUMB,
-                                background=self.background, point=1.2)
-                item.setIcon(QtGui.QIcon(QtGui.QPixmap.fromImage(img)))
-            except Exception:                       # a thumbnail is a convenience, not the map
-                pass
-            self.list.addItem(item)
+    def _matches(self, record: dict) -> bool:
+        """Whether a map passes the filter box: every word of it, anywhere in the map's text."""
+        words = self.search.text().lower().split()
+        if not words:
+            return True
+        hay = " ".join(str(record.get(k, "")) for k in
+                       ("id", "title", "group", "family", "description")).lower()
+        return all(w in hay for w in words)
 
-    def _on_item(self, item):
-        map_id = item.data(QtCore.Qt.ItemDataRole.UserRole)
+    def _thumb(self, map_id: str) -> QtGui.QIcon | None:
+        """The map's thumbnail, drawn once. A thumbnail is a convenience, not the map."""
+        if map_id in self._thumbs:
+            return self._thumbs[map_id]
+        icon = None
+        try:
+            m = self.gallery.load(self.organism, map_id)
+            from .gallery import thumbnail
+            xyz, lab = m["xyz"], m["clusters"]
+            if len(xyz) > THUMB_POINTS:              # a 64-pixel image cannot show more
+                take = np.linspace(0, len(xyz) - 1, THUMB_POINTS).astype(int)
+                xyz, lab = xyz[take], lab[take]
+            img = thumbnail(xyz, cluster_colors(lab, self.theme), size=THUMB,
+                            background=self.background, point=1.2)
+            icon = QtGui.QIcon(QtGui.QPixmap.fromImage(img))
+        except Exception:
+            icon = None
+        self._thumbs[map_id] = icon
+        return icon
+
+    def _draw_thumbs(self, parent=None):
+        """Give every map row under `parent` (or every visible row) its thumbnail."""
+        items = ([parent.child(i) for i in range(parent.childCount())] if parent is not None
+                 else list(self._items.values()))
+        for it in items:
+            map_id = it.data(0, QtCore.Qt.ItemDataRole.UserRole)
+            if not map_id or not it.icon(0).isNull():
+                continue
+            icon = self._thumb(map_id)
+            if icon is not None:
+                it.setIcon(0, icon)
+
+    def _row_text(self, r: dict, skill: dict) -> str:
+        """The two lines of a map's row: its name, then its size, structure and label skill."""
+        bits = [f"{int(r.get('n_genes') or 0):,} genes", f"{r.get('n_clusters', '?')} clusters"]
+        if r.get("structure") is not None:
+            bits.append(f"structure {float(r['structure']):.2f}")
+        sk = skill.get(r["id"])
+        if sk is not None:
+            bits.append(f"{self.label_box.currentText()} skill {sk:+.3f}")
+        mark = SHOWN_MARK if r["id"] == self.current_map else ""
+        return f"{mark}{r.get('title', r['id'])}\n" + " · ".join(bits)
+
+    def _fill_list(self, *_):
+        """Rebuild the map tree for the current filter, sort order and grouping."""
+        self.tree.clear()
+        self._items = {}
+        skill = self.label_skill()
+        recs = [r for r in self.records if self._matches(r)]
+        key = self.sort_box.currentText()
+        if key == SORT_STRUCTURE:
+            recs.sort(key=lambda r: -float(r.get("structure") or 0.0))
+        elif key == SORT_LABEL:
+            recs.sort(key=lambda r: -skill.get(r["id"], -np.inf))
+        elif key == SORT_GENES:
+            recs.sort(key=lambda r: -int(r.get("n_genes") or 0))
+        grouped = self.group_check.isChecked()
+        parents: dict = {}
+        for r in recs:
+            item = QtWidgets.QTreeWidgetItem([self._row_text(r, skill)])
+            item.setData(0, QtCore.Qt.ItemDataRole.UserRole, r["id"])
+            searched = r.get("settings_searched") or []
+            item.setToolTip(0, "\n\n".join(x for x in (
+                r.get("description", ""), recipe_line(r), structure_line(r),
+                (f"{len(searched)} settings searched; this one won on structure alone, with no "
+                 f"label involved." if searched else ""),
+                ("Sorted here by " + key.lower() + ".")) if x))
+            if grouped:
+                g = r.get("group") or "Maps"
+                p = parents.get(g)
+                if p is None:
+                    p = QtWidgets.QTreeWidgetItem([g])
+                    p.setFlags(QtCore.Qt.ItemFlag.ItemIsEnabled)
+                    p.setToolTip(0, f"{g}: a heading, not a map. Click the arrow to open it.")
+                    self.tree.addTopLevelItem(p)
+                    parents[g] = p
+                p.addChild(item)
+            else:
+                self.tree.addTopLevelItem(item)
+            self._items[r["id"]] = item
+        for g, p in parents.items():
+            p.setText(0, f"{g} — {p.childCount()} map(s)")
+        # The first heading opens, and the one holding the map on screen: dozens of thumbnails are
+        # drawn point by point, so the rest wait until their heading is expanded.
+        if grouped:
+            tops = [self.tree.topLevelItem(i) for i in range(self.tree.topLevelItemCount())]
+            for p in tops[:1]:
+                p.setExpanded(True)
+            cur = self._items.get(self.current_map)
+            if cur is not None and cur.parent() is not None:
+                cur.parent().setExpanded(True)
+        else:
+            self._draw_thumbs(None)
+        cur = self._items.get(self.current_map)
+        if cur is not None:
+            self.tree.blockSignals(True)
+            self.tree.setCurrentItem(cur)
+            self.tree.blockSignals(False)
+            self.tree.scrollToItem(cur)
+
+    def items(self) -> list:
+        """The map rows in display order: (map id, tree item). Headings are not rows."""
+        out = []
+
+        def walk(item):
+            map_id = item.data(0, QtCore.Qt.ItemDataRole.UserRole)
+            if map_id:
+                out.append((map_id, item))
+            for i in range(item.childCount()):
+                walk(item.child(i))
+        for i in range(self.tree.topLevelItemCount()):
+            walk(self.tree.topLevelItem(i))
+        return out
+
+    def _on_tree_item(self, item, _col=0):
+        map_id = item.data(0, QtCore.Qt.ItemDataRole.UserRole)
+        if not map_id:                              # a heading, not a map
+            item.setExpanded(not item.isExpanded())
+            return
+        self._on_item(map_id)
+
+    def _on_item(self, item_or_id):
+        """A map was chosen in the list: show it and follow it everywhere."""
+        map_id = (item_or_id if isinstance(item_or_id, str)
+                  else item_or_id.data(0, QtCore.Qt.ItemDataRole.UserRole))
         self.select_map(map_id)
         self.map_chosen.emit(map_id)
 
     def select_map(self, map_id: str):
         """Mark a map as the current one (list, map box, table) without asking the window."""
         self.current_map = map_id
-        for i in range(self.list.count()):
-            it = self.list.item(i)
-            if it.data(QtCore.Qt.ItemDataRole.UserRole) == map_id:
-                self.list.blockSignals(True)
-                self.list.setCurrentItem(it)
-                self.list.blockSignals(False)
+        cur = self._items.get(map_id)
+        if cur is not None:
+            self.tree.blockSignals(True)
+            self.tree.setCurrentItem(cur)
+            self.tree.blockSignals(False)
         i = self.map_box.findData(map_id)
         if i >= 0:
+            # Blocked, because `refresh` runs once below either way: letting the combo's own signal
+            # through refreshed the table only when the index actually moved, which is how choosing
+            # a second map used to leave the first map's scores on screen.
+            self.map_box.blockSignals(True)
             self.map_box.setCurrentIndex(i)
+            self.map_box.blockSignals(False)
+        self._relabel_rows()
         self.refresh()
+
+    def _relabel_rows(self):
+        """Move `SHOWN_MARK` to the current map's row without rebuilding the whole tree."""
+        skill = self.label_skill()
+        for map_id, item in self._items.items():
+            r = self.record(map_id)
+            if r:
+                item.setText(0, self._row_text(r, skill))
 
     def _fill_map_box(self):
         current = self.map_box.currentData()
@@ -272,11 +506,33 @@ class MapGalleryPanel(QtWidgets.QWidget):
         self.map_box.setCurrentIndex(max(i, 0))
         self.map_box.blockSignals(False)
 
+    def _map_box_changed(self, *_):
+        """The map combo was used directly: that IS choosing a map, so follow it as a click would."""
+        map_id = self.map_box.currentData()
+        if map_id and map_id != self.current_map:
+            self.current_map = map_id
+            self._relabel_rows()
+        self.refresh()
+
     # ---------------------------------------------------------------- the table
     def refresh(self, *_):
-        """Refill the table for the chosen view, label and map."""
+        """Refill the table for the chosen view, label and map.
+
+        Both views depend on the map that is current, which is what the rewrite fixed. The label view
+        lists every map for one label, so its ROWS do not change when another map is picked -- but
+        the marked row does, the selected row does, and the sentence under the table does, and those
+        are what told the user nothing had happened. The map view is filtered to the current map, so
+        picking a second map replaces its contents outright.
+        """
         by_label = self.view_box.currentText() == LABEL_VIEW
         self.map_box.setVisible(not by_label)
+        rec = self.record(self.current_map) if self.current_map else {}
+        if self.current_map is None:
+            self.shown.setText("No map chosen yet — click one above.")
+        else:
+            self.shown.setText(f"<b>{self.title(self.current_map)}</b><br>{recipe_line(rec)}"
+                               f"<br>{structure_line(rec)}" if rec else
+                               f"<b>{self.title(self.current_map)}</b>")
         s = self.all_scores()
         if s.empty:
             self.table.setRowCount(0)
@@ -292,7 +548,8 @@ class MapGalleryPanel(QtWidgets.QWidget):
         # column cannot attribute a row to the wrong map; the map's readable title is displayed.
         keys = s[first].astype(str).tolist()
         if by_label:
-            s["map"] = [self.title(m) for m in s["map"]]
+            s["map"] = [(SHOWN_MARK if m == self.current_map else "") + self.title(m)
+                        for m in s["map"]]
         if "circular" in s:
             # Stored as True/False (or empty when unknown, for the map on screen); shown as a word.
             s["circular"] = ["yes" if str(v) == "True" else "no" if str(v) == "False" else ""
@@ -313,9 +570,21 @@ class MapGalleryPanel(QtWidgets.QWidget):
                 item = _cell(v)
                 if j == 0:
                     item.setData(QtCore.Qt.ItemDataRole.UserRole, keys[i])
+                    item.setToolTip(f"{self.title(keys[i])} — the map on screen."
+                                    if keys[i] == self.current_map else str(item.text()))
                 self.table.setItem(i, j, item)
         self.table.resizeColumnsToContents()
         self.table.setSortingEnabled(True)
+        if by_label and self.current_map is not None:
+            self._select_key(self.current_map)
+
+    def _select_key(self, key: str):
+        """Select and scroll to the row whose identity is `key`, after any sorting."""
+        for i in range(self.table.rowCount()):
+            if self._row_key(i) == key:
+                self.table.selectRow(i)
+                self.table.scrollToItem(self.table.item(i, 0))
+                return
 
     def _row_key(self, row: int):
         item = self.table.item(row, 0)
@@ -346,13 +615,14 @@ class MapGalleryPanel(QtWidgets.QWidget):
             return
         if self.view_box.currentText() == LABEL_VIEW:
             if key != ON_SCREEN:
-                self.select_map(key)
-                self.map_chosen.emit(key)
+                self._on_item(key)
         else:
             self.label_box.setCurrentText(str(key))
             self.color_label.emit(str(key))
 
     def _label_changed(self, *_):
+        """A new label: the rows' skill figures and, if it is the sort key, the whole order change."""
+        self._fill_list()
         if self.view_box.currentText() == LABEL_VIEW:
             self.refresh()
 
@@ -367,8 +637,12 @@ class MapGalleryPanel(QtWidgets.QWidget):
         self._fill_map_box()
         i = self.map_box.findData(ON_SCREEN)
         if i >= 0:
+            self.map_box.blockSignals(True)
             self.map_box.setCurrentIndex(i)
+            self.map_box.blockSignals(False)
+            self.current_map = ON_SCREEN
         self.view_box.setCurrentText(MAP_VIEW)
+        self._relabel_rows()
         self.refresh()
 
 
