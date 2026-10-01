@@ -176,12 +176,13 @@ strategies section was executed against the shipped table.
 
 ## 4. What to do next, in priority order
 
-> **FIRST: a user-reported bug in 0.48.0 (2026-09-29).** Open Strategies, go back to Evidence: the
-> gene card can no longer be shown; go back to Strategies: the panel is empty. A headless check with
-> `Window` and `QDockWidget.raise_()` did NOT reproduce it (offscreen reports every tabified dock
-> visible), so reproduce it on the real desktop. Suspects: the 0.48.0 card stack in
-> `strategy_panel.py` / `strategy_card.py` (`old.setParent(None)` around line 486), the glass docks
-> (`glass.py`), or the help-search jump that opens strategies. Fix, add a regression test, release.
+> **FIXED (2026-09-30), instruction 58.** The blank panel. It was the drifting background, not the
+> glass and not the card stack: the blob field is an ordinary child of the main window, lowered once,
+> and Qt lowers the dock it switches away from -- under it. With **Background = blobs** the panel
+> switched back to is then painted over by the scenery while reporting itself visible, which is why
+> the suite, whose isolated settings leave the background off, never saw it. `AmbientWidget.keep_behind`
+> keeps the field at the bottom, on every tab switch and every frame. Reproduced on the real desktop
+> and headlessly, and held down by a pixel-level regression test in `tests/test_display.py`.
 >
 > **Also paused (2026-09-29), each a WIP commit on a local branch, unreviewed:**
 >

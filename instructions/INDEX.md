@@ -58,6 +58,7 @@ One file per task. This index is the status table; the files carry the reasoning
 | 56 | [Star map: gene-gene links by source, with provenance, including your own runs](done/56_star_map.md) |
 | 56 | [The parasite-density screen (Giuliano et al., Cell 2026): fitness at low and high density, and what crowding needs](done/56_lourido_density_screen.md) |
 | 57 | ["Start here": a guided path from what a user has to the strategies worth running](done/57_start_here_tab.md) |
+| 58 | [The blank panel: a tab switched away from comes back as bare background](done/58_blank_panel_bug.md) |
 
 ## Open
 
