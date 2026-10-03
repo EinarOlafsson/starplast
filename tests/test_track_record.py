@@ -313,3 +313,22 @@ def test_a_confusion_is_only_named_if_it_happened(built):
     for row in sets.itertuples():
         if row.together == 1.0:
             assert ", " not in row.placed_at, f"{row.set_name}: one place, but two named"
+
+
+def test_one_gene_alone_hides_its_orthogroup_and_is_cached(planted, tmp_path, monkeypatch):
+    from starplast import paths
+    monkeypatch.setattr(paths, "user_cache_dir", lambda: str(tmp_path))
+    truth = planted.truth("compartment")
+    gene = int(np.flatnonzero(truth.notna().to_numpy())[0])
+    rows = T.alone(planted, gene, "compartment", strategies=("feature_knn", "layer_vote"))
+    assert set(rows["mode"]) == {"alone"} and set(rows["gene"]) == {gene}
+    assert len(rows) == 2, "one row per strategy asked"
+    groups = np.asarray(planted.groups())
+    siblings = int((groups == groups[gene]).sum())
+    labelled = int(truth.iloc[np.flatnonzero(groups == groups[gene])].notna().sum())
+    assert set(rows["set_size"]) == {labelled}, f"the orthogroup ({siblings}) was not hidden with it"
+    cached = list((tmp_path / "track_record").glob("alone_*.parquet"))
+    assert len(cached) == 1
+    again = T.alone(planted, planted.gene_ids[gene], "compartment",
+                    strategies=("feature_knn",))
+    assert len(again) == 1 and list(again["strategy"]) == ["feature_knn"], "the cache was not reused"

@@ -136,7 +136,10 @@ fold. So:
   strategy card line links to the category page. These HTML pages in the evidence panel ARE the
   browser for now; a separate widget is only worth building if they prove too small.
 * Stage 5 partly: `track_record.my_list(ctx, genes, target)` hides a user list together (Python
-  only; no UI, no cache yet). Single-gene "alone" mode not started.
+  only; no UI, no cache yet). `track_record.alone(ctx, gene, target)` hides one gene with its
+  orthogroup for ANY label, five fast strategies, ~9 s on Tg, cached per release/organism/label/gene
+  in the user cache. No UI yet: the natural place is a link per other label on the gene card,
+  run through the job runner so the panel never blocks.
 * Stage 6 not started.
 * Found on the way: categorical `value_counts` named zero-count classes as confusions (fixed, with
   a regression test). Whole-class hold-outs score `right == 0` by construction; only `together`

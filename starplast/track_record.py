@@ -21,6 +21,7 @@ and averaging the two together would hide exactly the difference the scorecard e
 """
 from __future__ import annotations
 
+import os
 import time
 from urllib.parse import quote
 
@@ -605,3 +606,58 @@ def my_list(ctx, genes, target: str | None = None, strategies=None, log=None) ->
         if len(rows):
             parts.append(rows)
     return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame(columns=list(COLUMNS))
+
+
+#: Fast enough to answer for one gene while someone waits: a pass of each takes seconds on the full
+#: Toxoplasma table. The slow learners (graph convolution, stacking) are in the shipped record.
+ALONE = ("feature_knn", "layer_vote", "physical_partners", "structural_homology", "random_forest")
+
+
+def alone(ctx, gene, target: str | None = None, strategies=ALONE, cache: bool = True,
+          log=None) -> pd.DataFrame:
+    """Hide ONE gene, with its orthogroup, and ask each fast strategy what it is.
+
+    For any label, not only the shipped one: the shipped record covers each organism's default
+    label, and this answers the same question for the others on demand. The orthogroup goes too,
+    exactly as in the folds, so a paralogue cannot give its sibling away. `gene` is a position or an
+    identifier. Results are cached per release, organism, label and gene.
+
+        T.alone(ctx, "TGME49_294550", "function")
+    """
+    from . import __version__, paths
+    position = int(gene) if isinstance(gene, (int, np.integer)) else ctx.index.get(str(gene).upper())
+    if position is None:
+        return pd.DataFrame(columns=list(COLUMNS))
+    target = target or S.default_category(ctx)
+    gene_id = str(ctx.gene_ids[position])
+    path = os.path.join(paths.user_cache_dir(), "track_record",
+                        f"alone_{__version__}_{ctx.organism}_{_safe(target)}_{_safe(gene_id)}.parquet")
+    if cache and os.path.exists(path):
+        try:
+            done = pd.read_parquet(path)
+            if set(strategies) <= set(done["strategy"].astype(str)):
+                return done[done["strategy"].astype(str).isin(strategies)].reset_index(drop=True)
+        except Exception:                                 # a damaged cache is rebuilt, not trusted
+            pass
+    groups = np.asarray(ctx.groups())
+    siblings = np.flatnonzero(groups == groups[position])
+    parts = []
+    for key in strategies:
+        rows = evaluate_sets(ctx, key, target, {gene_id: siblings}, log=log)
+        rows = rows[rows["gene"] == position]
+        if len(rows):
+            parts.append(rows.assign(mode="alone"))
+    out = (pd.concat(parts, ignore_index=True) if parts
+           else pd.DataFrame(columns=list(COLUMNS)))
+    if cache and len(out):
+        try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            out.to_parquet(path, index=False)
+        except OSError:                                   # a read-only cache costs time, not answers
+            pass
+    return out
+
+
+def _safe(text: str) -> str:
+    """A string as a file-name component."""
+    return "".join(c if c.isalnum() or c in "-." else "_" for c in str(text))[:80]

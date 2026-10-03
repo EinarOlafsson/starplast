@@ -15,6 +15,8 @@
   strategy and rate, and the classes nothing recovers), and a line on each strategy card naming
   where it is weakest, which links to that category page.
   `track_record.my_list` hides a pasted list of your own genes together and asks every strategy.
+  `track_record.alone` hides one gene with its orthogroup for any label, not only the shipped
+  one, asks the five fast strategies (about 10 s on the Toxoplasma table) and caches the answer.
   `notebooks/track_record_2026_10_03.ipynb` (written by `scripts/notebook_track_record.py`) states
   what the record says.
   `instructions/open/62_holdout_track_record.md`.
