@@ -13,6 +13,8 @@
   card's *If this gene were unknown* section, a class page reached from it (per strategy: right,
   rate, what it was called instead), up again to the whole category (every class, its best strategy and rate, and the classes nothing recovers), and a line on each strategy card naming where it is weakest.
   `track_record.my_list` hides a pasted list of your own genes together and asks every strategy.
+  `notebooks/track_record_2026_10_03.ipynb` (written by `scripts/notebook_track_record.py`) states
+  what the record says.
   `instructions/open/62_holdout_track_record.md`.
 
 ## 0.51.0

@@ -271,7 +271,7 @@ def summary(ledger: pd.DataFrame, level: str = "strategy") -> pd.DataFrame:
         if level == "class":
             wrong = part[(part["correct"] == False)]            # noqa: E712
             row["confused_with"] = ", ".join(
-                wrong["prediction"].dropna().value_counts().index[:3])
+                wrong["prediction"].dropna().astype(str).value_counts().index[:3])
         rows.append(row)
     out = pd.DataFrame(rows)
     return out.sort_values([c for c in ("organism", "target", "strategy", "truth", "gene_id")
@@ -397,10 +397,13 @@ def set_summary(ledger: pd.DataFrame) -> pd.DataFrame:
         return pd.DataFrame()
     rows = []
     for keys, group in part.groupby(["organism", "strategy", "target", "setting_key", "set_name"],
-                                    dropna=False):
+                                    dropna=False, observed=True):
         row = dict(zip(("organism", "strategy", "target", "setting_key", "set_name"), keys))
+        row["set_size"] = int(group["set_size"].iloc[0])
         row.update(_rate(group))
-        called = group["prediction"].dropna()
+        # As strings: the shipped file stores labels as categories, and a categorical value_counts
+        # lists every category, zero counts included -- it once named classes nothing was called.
+        called = group["prediction"].dropna().astype(str)
         row["together"] = (float(called.value_counts().iloc[0] / len(called)) if len(called)
                            else float("nan"))
         row["placed_at"] = ", ".join(called.value_counts().index[:2]) if len(called) else ""

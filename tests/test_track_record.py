@@ -287,3 +287,21 @@ def test_your_own_list_is_hidden_together_and_typed_names_work(planted):
     labelled = led.groupby("strategy")["set_size"].first()
     assert (labelled <= 6).all(), "a name that resolved to nothing was counted as hidden"
     assert set(led["gene_id"]) <= set(names)
+
+
+def test_a_confusion_is_only_named_if_it_happened(built):
+    """The shipped labels are categorical; zero-count categories must never be named as confusions."""
+    if not len(built):
+        pytest.skip("not built here")
+    folds = built[built["mode"] == "together"]
+    for row in T.summary(folds, "class").itertuples():
+        named = [c for c in str(row.confused_with or "").split(", ") if c]
+        if not named:
+            continue
+        here = folds[(folds["truth"] == row.truth) & (folds["strategy"] == row.strategy)
+                     & (folds["organism"] == row.organism) & (folds["correct"] == False)]  # noqa: E712
+        assert set(named) <= set(here["prediction"].dropna().astype(str)), (row.truth, named)
+    sets = T.set_summary(built)
+    for row in sets.itertuples():
+        if row.together == 1.0:
+            assert ", " not in row.placed_at, f"{row.set_name}: one place, but two named"
