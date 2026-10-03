@@ -126,6 +126,22 @@ fold. So:
 | 5 | "Alone" mode on demand, cached in the user cache | One gene, every cheap strategy, in seconds; cached result reused |
 | 6 | Wire into Start here ("this label is recovered well/badly for your genes") and the questions page | — |
 
+### Status (2026-10-03)
+
+* Stages 1-3 done: `starplast/track_record.py`, `scripts/build_track_record.py`,
+  `starplast/data/track_record.parquet` (190,624 rows, 1.4 MB), set hold-outs (each class, and
+  random sets of 1-500), `notebooks/track_record_2026_10_03.ipynb`. Stage 2's "agrees with the
+  scorecard when pooled" is NOT yet checked.
+* Stage 4 done except a standalone browser: gene card -> class page -> category page -> back, and the
+  strategy card line links to the category page. These HTML pages in the evidence panel ARE the
+  browser for now; a separate widget is only worth building if they prove too small.
+* Stage 5 partly: `track_record.my_list(ctx, genes, target)` hides a user list together (Python
+  only; no UI, no cache yet). Single-gene "alone" mode not started.
+* Stage 6 not started.
+* Found on the way: categorical `value_counts` named zero-count classes as confusions (fixed, with
+  a regression test). Whole-class hold-outs score `right == 0` by construction; only `together`
+  and `placed_at` mean anything there, and the notebook says so.
+
 ## Traps
 
 * **Never pool across settings** when reporting a gene's record: a gene called right at one setting

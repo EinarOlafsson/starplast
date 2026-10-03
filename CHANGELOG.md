@@ -9,7 +9,7 @@
   apart from being wrong, rates carry a Wilson 95% interval and are not printed from fewer than
   five answered genes. The record for each organism's default label ships as
   `starplast/data/track_record.parquet` (190,624 rows, 1.4 MB, built by
-  `scripts/build_track_record.py`) and is read three ways, each a click from the last: a gene
+  `scripts/build_track_record.py`) and is read four ways, each a click from the next: a gene
   card's *If this gene were unknown* section, a class page reached from it (per strategy: right,
   rate, what it was called instead), up again to the whole category (every class, its best
   strategy and rate, and the classes nothing recovers), and a line on each strategy card naming
