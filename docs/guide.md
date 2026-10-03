@@ -365,3 +365,42 @@ service; it is optional.
 Enable file logging in Preferences when diagnosing a problem. Include the package
 version, operating system, reproduction steps, and relevant log excerpt in a
 [bug report](https://github.com/EinarOlafsson/starplast/issues).
+
+## Tutorial videos
+
+Six silent screen captures ship with the documentation site, under
+`docs/tutorial/video/`, and are linked from the [tutorial index](tutorial/index.html)
+and from each written tutorial. They run one to two minutes each, carry no audio, and
+burn their captions into the frame.
+
+| Clip | What it shows | Written tutorial |
+|---|---|---|
+| Find a gene and read its evidence | The find box, the evidence panel, and the rule that a dash is not a zero | 1 Explore |
+| Start here, end to end | The guided tab from what you have, through the gene, the goal and the label, to the ranked strategies and Run | 3 Gene list |
+| Test before you trust | A strategy card, its four bars, the hold-out test, and the verdict with its chance level | 4 Test and calibrate |
+| Pick a map that shows your label | The pregenerated gallery sorted by how well a label maps, and the score table that says so | 2 Hold-out search |
+| Walk the network from one gene | The star map: one gene's measured links by source, widened to its neighbourhood, re-centred on a neighbour | 5 Networks and agreement |
+| One real biological question, answered | Question 13 of instruction 59, from the question to the named genes | 6 Advanced models |
+
+They are recorded, not acted. `scripts/tutorial_video.py` drives the real `Window`
+offscreen, grabs each frame with `QWidget.grab()`, paints the pointer, the highlight
+and the caption over it, and encodes the frames with `/usr/bin/ffmpeg`. Every number
+and table on screen was computed by the shipped code while the clip was being
+recorded, and the two clips that run a strategy wait for the job and show the wait.
+
+Two things are visible in the clips rather than hidden. The central 3D view is a
+`QOpenGLWidget`, which the offscreen Qt platform cannot draw, so it records as an
+empty strip and says so. And a strategy run takes as long as it takes.
+
+To rebuild them:
+
+```bash
+QT_QPA_PLATFORM=offscreen python scripts/tutorial_video.py            # all six
+QT_QPA_PLATFORM=offscreen python scripts/tutorial_video.py 4_pick_a_map
+python scripts/tutorial_video.py --pages                              # relink only
+python scripts/tutorial_video.py --notebook                           # record what they came to
+```
+
+`scripts/build_tutorials.py` relinks them at the end of its own run, so rebuilding
+the written tutorials does not drop them. The clips are part of the documentation
+site, never of the Python package.

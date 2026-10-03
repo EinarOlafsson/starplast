@@ -35,6 +35,10 @@ def main():
     shutil.copytree(ROOT / "docs" / "assets", output / "assets", dirs_exist_ok=True)
     shutil.copytree(ROOT / "docs" / "screenshots", output / "screenshots", dirs_exist_ok=True)
     shutil.copytree(ROOT / "docs" / "deck", output / "deck", dirs_exist_ok=True)
+    # The tutorials and their screen captures, which are built by scripts/build_tutorials.py and
+    # scripts/tutorial_video.py and committed; without this they exist only in the repository.
+    if (ROOT / "docs" / "tutorial").is_dir():
+        shutil.copytree(ROOT / "docs" / "tutorial", output / "tutorial", dirs_exist_ok=True)
     shutil.copy2(ROOT / "starplast/data/icons/starplast.svg", output / "assets/icon.svg")
     css = '''body{margin:0;background:#f6f8fa;color:#192c3e;font:17px/1.65 system-ui,sans-serif}
     main{max-width:980px;margin:auto;padding:32px}nav{display:flex;gap:20px;flex-wrap:wrap}
@@ -62,7 +66,8 @@ def main():
 <title>{title} · Starplast</title><link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css"></head><body><main>
 <nav aria-label="Main"><a href="index.html">Starplast</a><a href="guide.html">Guide</a>
-<a href="API.html">API</a><a href="datasets.html">Datasets</a><a href="changelog.html">Changes</a>
+<a href="API.html">API</a><a href="tutorial/index.html">Tutorials</a>
+<a href="datasets.html">Datasets</a><a href="changelog.html">Changes</a>
 <a href="https://github.com/EinarOlafsson/starplast">GitHub</a></nav>
 {body}<footer>Starplast · Einar Olafsson</footer></main></body></html>'''
         (output / f"{page}.html").write_text(rendered, encoding="utf-8")
