@@ -176,18 +176,24 @@ def test_separation_is_high_for_far_apart_clusters_and_a_half_for_one_cloud():
 
 def test_structure_needs_both_a_real_partition_and_real_separation():
     rng = np.random.default_rng(1)
-    # Even, fully clustered AND separated: good at both, so a high geometric mean.
+    # Even, almost fully clustered AND separated: good at both, so a high geometric mean. A handful
+    # of genes are left unclustered because `search.map_quality` refuses a partition with NO noise
+    # at all as degenerate -- real HDBSCAN output always leaves some, and a labelling that leaves
+    # none is the sign of a trivial cut rather than of density found.
     good_xyz = np.vstack([rng.normal(k * 20, 0.2, (100, 3)) for k in range(4)])
     good_lab = np.repeat(np.arange(4), 100)
+    good_lab[::40] = -1                                        # 2.5% noise
     good = G.structure(good_xyz, good_lab)
-    assert good["structure"] > 0.9
+    assert good["structure"] > 0.9, good
     # Even and fully clustered, but the clusters overlap completely: map_quality is still high and
     # the structure score is not, which is the whole reason for the second term.
     flat = G.structure(rng.normal(0, 1, (400, 3)), good_lab)
     assert flat["score"] > 0.9 and flat["structure"] < 0.75
     assert flat["structure"] < good["structure"]
     # Separated, but 95% of the genes unclustered: the silhouette is perfect, the partition is not.
-    thin_lab = np.where(np.arange(400) < 20, good_lab, -1)
+    # Five genes of EACH cluster keep their label: taking the first twenty instead would leave one
+    # cluster, and a silhouette of one cluster is undefined rather than perfect.
+    thin_lab = np.where(np.arange(400) % 100 < 5, good_lab, -1)
     thin = G.structure(good_xyz, thin_lab)
     assert thin["separation"] > 0.9 and thin["structure"] < good["structure"]
     # A bisection is refused outright by `clustering.degenerate`, through `search.map_quality`.
@@ -338,11 +344,14 @@ def test_the_search_tried_the_grid_and_the_winner_is_the_best_of_it(shipped, cod
         full = [t for t in tried if t["stage"] == "full"]
         assert len(sample) == len(G.MAP_GRID["n_neighbors"]) * len(G.MAP_GRID["min_dist"]), r["id"]
         assert 1 <= len(full) <= G.SEARCH_KEEP, r["id"]
-        best = max(full, key=lambda t: t["structure"])
-        assert r["structure"] == best["structure"], r["id"]
-        assert r["n_neighbors"] == best["n_neighbors"] and r["min_dist"] == best["min_dist"]
-        assert r["clustering"]["min_cluster_size"] == best["min_cluster_size"]
-        assert r["clustering"]["min_samples"] == best["min_samples"]
+        top = max(t["structure"] for t in full)
+        assert r["structure"] == top, r["id"]
+        # Two settings can reach the same structure score, and then either is the right winner, so
+        # the shipped one has to be ONE OF the best rather than the first of them.
+        tied = [t for t in full if t["structure"] == top]
+        assert any(r["n_neighbors"] == t["n_neighbors"] and r["min_dist"] == t["min_dist"]
+                   and r["clustering"]["min_cluster_size"] == t["min_cluster_size"]
+                   and r["clustering"]["min_samples"] == t["min_samples"] for t in tied), r["id"]
         assert r["clustering"]["cluster_selection_method"] == "leaf"
         for t in tried:
             assert t["n_neighbors"] in G.MAP_GRID["n_neighbors"]

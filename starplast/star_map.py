@@ -857,11 +857,27 @@ class StarMapPanel(QtWidgets.QWidget):
         split.setStretchFactor(0, 3)
         split.setStretchFactor(1, 1)
         lay = QtWidgets.QVBoxLayout(self)
-        lay.addLayout(top)
-        lay.addLayout(rules)
+        # The two control rows hold a dozen fixed-width widgets between them, which asked for a
+        # 995-pixel panel: docked and tabified that became the whole WINDOW's minimum width, so the
+        # window could not be made to fit a small screen. In a scroll area the rows keep their own
+        # width and the panel can be narrow, scrolling the controls instead of the window.
+        for row in (top, rules):
+            holder = QtWidgets.QWidget()
+            holder.setLayout(row)
+            strip = QtWidgets.QScrollArea()
+            strip.setWidget(holder)
+            strip.setWidgetResizable(True)
+            strip.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+            strip.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            strip.setFixedHeight(holder.sizeHint().height() + 2)
+            lay.addWidget(strip)
         lay.addWidget(self.counts_label)
         lay.addWidget(split, 1)
         lay.addLayout(bottom)
+        # The map itself may be any width; without this the splitter's own children would put the
+        # 995 back.
+        for child in (left, right):
+            child.setMinimumWidth(120)
         QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key.Key_Backspace), self,
                         activated=self.back)
         self._refresh_definitions()

@@ -50,7 +50,7 @@ orthogroup, and measured interactions are different kinds of evidence.
 ## Pregenerated maps
 
 The **maps** tab (beside Analysis) lists maps built ahead of time for the open
-organism — dozens of them, in six groups:
+organism — 78 for *T. gondii* and 61 for *P. falciparum* — in six groups:
 
 | Group | What the maps are built from |
 |---|---|
