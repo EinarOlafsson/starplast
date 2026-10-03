@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased
+
+- Tutorial videos: six silent screen captures of the real application, recorded by the new
+  `scripts/tutorial_video.py`, which drives the real `Window` offscreen, grabs each frame with
+  `QWidget.grab()`, paints a synthetic pointer, a highlight on the control about to be used and a
+  burned-in caption over it, and encodes the frames with `/usr/bin/ffmpeg` to H.264 / yuv420p at
+  12 fps. Each clip is 60-65 seconds and uses a different entry point: the find box and the
+  evidence panel, the guided Start-here tab end to end, a strategy card and its hold-out test, the
+  pregenerated map gallery sorted by how well a label maps, the star map walked from one gene to a
+  neighbour, and question 13 of `instructions/open/59_biological_questions.md` run live from the
+  question to the genes it names. Nothing is staged: every number and table on screen was computed
+  by the shipped code while the clip was recorded. The clips and their posters are written to
+  `docs/tutorial/video/` (6.1 MB in all), linked from each written tutorial and from
+  `docs/tutorial/index.html` as posters that play on click, and copied into the site by
+  `scripts/build_docs.py`, which also gains a Tutorials link in its navigation -- the written
+  tutorials were previously built but never published. `scripts/build_tutorials.py` relinks them
+  after its own run. They are documentation, not package data, and the wheel is unchanged.
+  `notebooks/tutorial_videos_2026_10_03.ipynb` records what they came to and checks that the genes
+  named in the sixth clip are the genes the recorded run of question 13 produced.
+  `instructions/done/61_tutorial_videos.md`.
+
 ## 0.50.0
 
 - Add `instructions/open/59_biological_questions.md`: one hundred biological questions about

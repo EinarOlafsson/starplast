@@ -968,6 +968,11 @@ def main(argv=None) -> int:
         guide(studio, runs)
     if not argv or "index" in argv:
         index()
+    # The recorded clips live in pages this script generates, so they are put back after it runs.
+    # `scripts/tutorial_video.py` records them; this only relinks the ones already recorded.
+    import tutorial_video as V
+    for path in V.publish_pages():
+        print(f"linked {os.path.relpath(path, ROOT)}")
     print(f"wrote {OUT}")
     return 0
 
