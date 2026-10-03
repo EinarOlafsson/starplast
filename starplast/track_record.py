@@ -173,6 +173,41 @@ def _predict(ctx, strategy, visible: pd.Series, query, settings: dict, target: s
         pred, support, _w = C._weighted_vote(ctx, C._sources(ctx, target, int(settings.get("k", 15))),
                                              visible, query)
         return pred, support
+    if key in ("map_neighbours", "cluster_guilt"):
+        # Both read a map built BLIND to the target, so the map itself does not depend on which
+        # genes are hidden and is built once for every fold; only the vote or the enrichment is
+        # redone. `blind_map` caches on the context, so the second fold pays nothing.
+        size = int(settings.get("sample") or 0) or None
+        if key == "map_neighbours":
+            coords, pos, _labels = ctx.blind_map(target, min(size or ctx.n, 2500),
+                                                 int(settings.get("n_neighbors", 25)),
+                                                 float(settings.get("min_dist", 0.1)))
+        else:
+            coords, pos, labels = ctx.blind_map(
+                target, min(size or ctx.n, 2500),
+                min_cluster_size=int(settings.get("min_cluster_size", 25)),
+                selection=settings.get("selection", "leaf"))
+        inside = np.intersect1d(np.asarray(query, dtype=int), pos)
+        if not len(inside):
+            return None, None
+        at = {g: i for i, g in enumerate(pos)}
+        sub = pd.Series(visible).reset_index(drop=True).iloc[pos].reset_index(drop=True)
+        if key == "map_neighbours":
+            pr, share = S.knn_vote(coords, sub, int(settings.get("k", 15)),
+                                   query=[at[g] for g in inside])
+            floor = float(settings.get("min_share", 0.0) or 0.0)
+            return (S.expand_prediction(pr.where(share >= floor), pos, ctx.n),
+                    S.expand_prediction(share, pos, ctx.n))
+        pr, _table = C._enriched(labels, sub, float(settings.get("min_lift", 2.0)))
+        return S.expand_prediction(pr, pos, ctx.n), None
+    if key == "structural_homology":
+        layer = C._usable_layer(ctx, settings.get("layer"), target)
+        if layer is None:
+            return None, None
+        A = ctx.adjacency(layer, "w")
+        truth_at_level = C._ec_level(ctx.truth(target), int(settings.get("level", 1)))
+        visible = pd.Series(visible).reset_index(drop=True).where(truth_at_level.notna())
+        return S.graph_vote(A, visible, query)
     if key in ("triangulation", "understudied_first"):
         pred, agree, _p = C._triangulate(C._tri_sources(ctx, target, int(settings.get("k", 15))),
                                          visible, query, int(settings.get("min_agree", 2)))
@@ -371,3 +406,64 @@ def set_summary(ledger: pd.DataFrame) -> pd.DataFrame:
         rows.append(row)
     return pd.DataFrame(rows).sort_values(["strategy", "set_name"],
                                           kind="stable").reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------- the shipped record
+_SHIPPED: dict = {}
+
+
+def shipped_path() -> str:
+    """Where the built record lives in the package."""
+    import os
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "data",
+                        "track_record.parquet")
+
+
+def shipped(organism: str | None = None) -> pd.DataFrame:
+    """The built record, loaded once and kept. Empty when it has not been built here.
+
+    Read rather than recomputed: the folds are a one-off build (`scripts/build_track_record.py`),
+    so asking what happened to a gene costs a lookup and not a model fit.
+    """
+    import os
+    if "all" not in _SHIPPED:
+        path = shipped_path()
+        try:
+            _SHIPPED["all"] = pd.read_parquet(path) if os.path.exists(path) else pd.DataFrame(
+                columns=list(COLUMNS))
+        except Exception:                                   # a half-written or foreign file
+            _SHIPPED["all"] = pd.DataFrame(columns=list(COLUMNS))
+    frame = _SHIPPED["all"]
+    if organism is None or not len(frame):
+        return frame
+    return frame[frame["organism"].astype(str) == str(organism)]
+
+
+def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None) -> str:
+    """The gene card's line and its table, as HTML: the condensed form first, the detail under it.
+
+    One sentence a reader can take in -- what is known, and how many strategies recovered it when it
+    was hidden -- then a row per strategy saying what each one actually said. Empty string when the
+    record says nothing about this gene, so the card simply does not grow a section.
+    """
+    from html import escape
+    frame = shipped(organism) if ledger is None else ledger
+    folds = frame[frame["mode"] == "together"] if len(frame) else frame
+    one = for_gene(folds, gene_id) if len(folds) else pd.DataFrame()
+    if not len(one):
+        return ""
+    line = sentence(folds, gene_id)
+    rows = ""
+    for r in one.itertuples():
+        said = "—" if r.abstained else escape(str(r.prediction))
+        mark = "·" if r.abstained else ("✓" if r.correct else "✗")
+        colour = "#888888" if r.abstained else ("#2e8b57" if r.correct else "#c0392b")
+        support = "" if not np.isfinite(r.support) else f"{r.support:.2f}"
+        rows += (f"<tr><td>{escape(S.get(r.strategy).title)}</td>"
+                 f"<td style='color:{colour}'>{mark} {said}</td>"
+                 f"<td align='right' style='color:#888'>{support}</td></tr>")
+    return (f"<h4>If this gene were unknown</h4><p>{escape(line)}</p>"
+            f"<p style='color:#888'>Each strategy below was asked about this gene with its label "
+            f"hidden, and its orthogroup hidden with it, so nothing could answer by copying a "
+            f"paralog. ✓ right · ✗ wrong · · declined to answer; the last column is how sure it "
+            f"was.</p><table cellspacing='0' cellpadding='3'>{rows}</table>")

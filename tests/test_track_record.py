@@ -159,3 +159,41 @@ def test_set_rows_and_fold_rows_live_in_one_table(planted, ledger):
     assert set(both["mode"]) == {"together", "set"}
     assert len(T.summary(both, "strategy")) == 1, "the levels pool across both kinds of hold-out"
     assert len(T.set_summary(both)) == 2, "and the set level reports only the sets"
+
+
+# --------------------------------------------------------------------------- the shipped record
+@pytest.fixture(scope="module")
+def built():
+    return T.shipped()
+
+
+def test_the_shipped_record_covers_both_organisms_and_every_supported_strategy(built):
+    if not len(built):
+        pytest.skip("the track record has not been built on this machine")
+    folds = built[built["mode"] == "together"]
+    for organism in built["organism"].unique():
+        here = folds[folds["organism"] == organism]
+        assert here["strategy"].nunique() >= 10, organism
+        # Every labelled gene of the target appears exactly once per strategy.
+        per = here.groupby("strategy")["gene"].agg(["count", "nunique"])
+        assert (per["count"] == per["nunique"]).all(), organism
+
+
+def test_the_shipped_record_kept_the_set_holdouts(built):
+    if not len(built):
+        pytest.skip("not built here")
+    sets = built[built["mode"] == "set"]
+    assert len(sets), "no set hold-outs were kept"
+    names = set(sets["set_name"].astype(str))
+    assert any(n.startswith("random ") for n in names), "the degradation curve is missing"
+    assert T.set_summary(built)["together"].notna().any()
+
+
+def test_a_gene_card_section_is_html_or_nothing(built):
+    if not len(built):
+        pytest.skip("not built here")
+    organism = str(built["organism"].iloc[0])
+    gene = str(built[built["mode"] == "together"]["gene_id"].iloc[0])
+    html = T.gene_html(gene, organism)
+    assert "If this gene were unknown" in html and "<table" in html
+    assert T.gene_html("no such gene", organism) == "", "an unknown gene adds no section"

@@ -4551,9 +4551,24 @@ class Window(QtWidgets.QMainWindow):
         {xl}
         <h4>neighbours by edge type</h4>
         {''.join(nb) or '<p style="color:#888">no edges</p>'}
+        {self._track_record_html(gid)}
         <p><a href="{record_url}">{record_database} record</a> ·
            <a href="https://pubmed.ncbi.nlm.nih.gov/?term={gid}">PubMed</a></p>
         """)
+
+    def _track_record_html(self, gene_id: str) -> str:
+        """What every strategy said about this gene when its label was hidden, or nothing.
+
+        Read from the built record rather than computed: the hold-out is a one-off build, so the
+        card costs a lookup. Any failure here is the card losing one section, never the card
+        failing to open, which is why it is caught.
+        """
+        try:
+            from . import track_record
+            code = organisms.by_species(self.species).code
+            return track_record.gene_html(str(gene_id), code)
+        except Exception:                                  # a record that is absent or foreign
+            return ""
 
 
 def main():
