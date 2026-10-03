@@ -27,8 +27,8 @@ warnings.filterwarnings("ignore")
 from starplast import organisms  # noqa: E402
 from starplast import strategies as S  # noqa: E402
 
-TG = organisms.get("Tg").code
-PF = organisms.get("Pf").code
+# The two parasite spaces, in registry order, so this script names no organism itself.
+TG, PF = [s.code for s in organisms.SPACES.values() if s.kind == organisms.PARASITE][:2]
 
 
 @dataclass
