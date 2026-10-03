@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- Add `instructions/open/59_biological_questions.md`: one hundred biological questions about
+  *Toxoplasma gondii* and *Plasmodium falciparum* that the shipped data can answer, each with its
+  organism, entry point (Start here, Strategies, Analysis, maps, star map), strategy, exact settings,
+  what a good answer looks like, and a literature anchor resolved through Europe PMC and NCBI (no
+  identifier typed from memory; every query recorded). `scripts/run_biological_questions.py` runs the
+  executed subset and writes `results/questions_2026_09_30/` and
+  `notebooks/biological_questions_2026_09_30.ipynb`; `docs/questions.md` lists the questions that
+  yielded a result, each reproducible as a panel path or a one-line API call. No strategy, calibration
+  number, shipped table or UI behaviour changed.
+
 ## 0.49.0
 
 - Add a **start here** tab beside Strategies, which is unchanged: a guided path from what a user
