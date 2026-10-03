@@ -1435,6 +1435,7 @@ class Window(QtWidgets.QMainWindow):
         panel.embedding_ready.connect(self.use_embedding)
         panel.clusters_ready.connect(self.use_clusters)
         panel.gene_selected.connect(self._workflow_gene)
+        panel.record_link.connect(self._record_link)
         d = QtWidgets.QDockWidget("strategies")
         d.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
         d.setWidget(panel)
@@ -1463,6 +1464,11 @@ class Window(QtWidgets.QMainWindow):
         self.workflows_dialog.tabs.setCurrentIndex(tab)
         self.workflows_dialog.show()
         self.workflows_dialog.raise_()
+
+    def _record_link(self, url: str):
+        """A track-record link from a strategy card: open it in the evidence panel and show it."""
+        self._detail_link(QtCore.QUrl(url))
+        self.right_dock.raise_()
 
     def _workflow_gene(self, gene):
         """Keep a guided-workflow selection aligned with the map and evidence panel."""

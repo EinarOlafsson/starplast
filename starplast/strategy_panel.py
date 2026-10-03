@@ -158,6 +158,8 @@ class StrategyPanel(QtWidgets.QWidget):
     clusters_ready = QtCore.pyqtSignal(object)
     #: A gene someone clicked in a results table.
     gene_selected = QtCore.pyqtSignal(str)
+    #: A track-record link from the card (`starplast://target/...`), for the evidence panel.
+    record_link = QtCore.pyqtSignal(str)
     status = QtCore.pyqtSignal(str)
     #: A finished run (`strategies.StrategyResult`) and a finished self-test (`TestResult`).
     result_ready = QtCore.pyqtSignal(object)
@@ -251,6 +253,7 @@ class StrategyPanel(QtWidgets.QWidget):
         self.card.test_clicked.connect(self.test_current)
         self.card.details_clicked.connect(lambda: self.show_details())
         self.card.gene_clicked.connect(self.gene_selected.emit)
+        self.card.record_link.connect(self.record_link.emit)
         card_scroll = QtWidgets.QScrollArea()
         card_scroll.setWidgetResizable(True)
         card_scroll.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)

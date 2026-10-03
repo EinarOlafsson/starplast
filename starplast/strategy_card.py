@@ -530,6 +530,8 @@ class StrategyCard(QtWidgets.QWidget):
     test_clicked = QtCore.pyqtSignal()
     details_clicked = QtCore.pyqtSignal()
     gene_clicked = QtCore.pyqtSignal(str)
+    #: A `starplast://` link from the track-record line, for the evidence panel to open.
+    record_link = QtCore.pyqtSignal(str)
 
     def __init__(self, tips: dict | None = None, parent=None):
         super().__init__(parent)
@@ -570,6 +572,8 @@ class StrategyCard(QtWidgets.QWidget):
             "what it is. The count is over the genes it answered; the classes named are those it "
             "recovers least often, among classes with enough answers to judge. The evidence "
             "panel shows, for any gene, what every strategy said about it."))
+        self.record.setTextFormat(QtCore.Qt.TextFormat.RichText)
+        self.record.linkActivated.connect(self.record_link.emit)
         self.record.hide()
         outer.addWidget(self.record)
         # The last self-test run here, in the same four bars (hidden until one runs).
@@ -662,8 +666,15 @@ class StrategyCard(QtWidgets.QWidget):
         try:
             from . import track_record
             line = track_record.weakest(s.key, organism)
+            targets = track_record.shipped(organism)["target"].astype(str).unique() if line else []
         except Exception:                                  # no record built, or a foreign one
-            line = ""
+            line, targets = "", []
+        if line:
+            from html import escape
+            from urllib.parse import quote
+            line = escape(line) + "".join(
+                f" <a href='starplast://target/{quote(t, safe='')}'>every {escape(t)} class ▸</a>"
+                for t in targets[:1])
         self.record.setText(line)
         self.record.setVisible(bool(line))
         self.mine.hide()

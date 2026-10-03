@@ -261,6 +261,9 @@ def test_the_evidence_panel_drills_from_a_gene_to_its_class_and_back(built):
     assert "best recovered" in w.detail.toHtml(), "the category level did not open"
     w._detail_link(QtCore.QUrl(f"starplast://gene/{row}"))
     assert "If this gene were unknown" in w.detail.toHtml(), "back did not return to the gene"
+    target = str(folds["target"].iloc[0])
+    w._record_link(f"starplast://target/{target}")
+    assert "best recovered" in w.detail.toHtml(), "a strategy card's link did not open the category"
 
 
 def test_the_strategy_card_shows_where_it_is_weakest(built):
@@ -273,6 +276,11 @@ def test_the_strategy_card_shows_where_it_is_weakest(built):
     s = S.get("feature_knn")
     card.show_strategy(s, "Tg", {}, {}, "reliable", "")
     assert card.record.isVisibleTo(card) and "weakest on" in card.record.text()
+    assert "starplast://target/" in card.record.text(), "the line does not lead to the classes"
+    heard = []
+    card.record_link.connect(heard.append)
+    card.record.linkActivated.emit("starplast://target/compartment")
+    assert heard == ["starplast://target/compartment"]
     card.show_strategy(S.get("holdout_search"), "Tg", {}, {}, "weak", "")
     assert not card.record.isVisibleTo(card), "a map walk calls no gene, so it has no record"
 
