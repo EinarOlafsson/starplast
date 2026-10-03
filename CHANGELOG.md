@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.50.0
 
 - Add `instructions/open/59_biological_questions.md`: one hundred biological questions about
   *Toxoplasma gondii* and *Plasmodium falciparum* that the shipped data can answer, each with its
