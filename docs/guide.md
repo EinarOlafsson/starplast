@@ -50,21 +50,71 @@ orthogroup, and measured interactions are different kinds of evidence.
 ## Pregenerated maps
 
 The **maps** tab (beside Analysis) lists maps built ahead of time for the open
-organism. There are three maps of all measurements (n_neighbors 10, 25 and 60),
-one of all measurements except localization, and one for each evidence family
-that has enough data: transcription, translation, protein abundance, fitness,
-sequence, and so on. Maps are built from measurements only. Label columns are
-removed before embedding. Each map is a 3D UMAP clustered with HDBSCAN
-(min cluster size 25, min samples 5, leaf selection). A family map places only
-the genes measured in at least half of its columns.
+organism — dozens of them, in six groups:
 
-Click a map to show it in the central view. Its clusters become the map's
-cluster coloring. **Color by label** colors the map by the label chosen in the
+| Group | What the maps are built from |
+|---|---|
+| All measurements | Every measurement block, at n_neighbors 10, 25 and 60. The three fixed reference maps: their settings are declared, not searched. |
+| All but one kind | Everything except one evidence family — except localization, except transcription, except fitness, and so on — so any label can be scored on a map that never saw the kind of measurement that restates it. |
+| Evidence families | One family on its own: transcription, translation, protein abundance, fitness, sequence, regulation, relation, and so on. |
+| Single experiments | One individual experiment block on its own: each screen, each expression atlas, each proteomics set, the structure and sequence blocks. A block needs at least 3 columns; one or two columns do not make a 3D map, and such a block is covered by its family. |
+| Pairs of families | Two families that make a biological question: expression + fitness, fitness + proteomics, sequence + localization, regulation + transcription, and others. Each row says which question. |
+| Triples of families | Three families: the whole expression cascade (transcription + translation + protein abundance), cost + amount + place, and a structure-first map with no expression in it at all. |
+
+Maps are built from measurements only. Label columns are removed before
+embedding, and the build refuses a map whose matrix contains one. Each map is a
+3D UMAP clustered with HDBSCAN with leaf selection. A map built from a subset of
+the evidence places only the genes measured in enough of its columns — the
+threshold is in each row's tooltip.
+
+### How the settings were chosen
+
+Every map except the three fixed reference maps was **searched** for structure.
+Six UMAP settings (n_neighbors 10, 25, 60 × min_dist 0.0, 0.25) and six
+clusterings (min cluster size 15, 25, 40 × min samples 5, 10) were tried, and the
+combination with the best **structure score** is the one that ships. The search
+is successive halving: every UMAP setting is ranked on a 1,500-gene sample, and
+only the best two are rebuilt over all the map's genes, because an embedding
+costs about a hundred times a reclustering.
+
+The structure score is **label-free** — no label is read while tuning, which is
+what lets the labels be scored honestly afterwards. It is the geometric mean of
+two things, because either alone can be gamed:
+
+* the project's own `search.map_quality` score — the share of genes clustered
+  times the evenness of the cluster sizes, and zero if the clustering merely
+  bisected the cloud. This is about the *partition*: it says nothing about
+  whether the clusters actually sit apart.
+* the mean silhouette of the clustered points on the map's own coordinates,
+  rescaled to 0–1 (0.5 is no separation at all). This is about the *geometry*:
+  it says nothing about coverage, so two crisp clusters holding 5% of the
+  proteome score beautifully on it alone.
+
+Taking the geometric mean means a map has to be good at both, and a zero in
+either is a zero overall. Each row of the list shows the score and its parts, and
+each row's tooltip gives the full recipe and how many settings were searched.
+
+### Finding a map
+
+With this many maps the list is a tree. The controls above it:
+
+* the **filter** box keeps only maps whose name, group, family or description
+  contains every word you type — try `fitness`, `transcription` or `all but`;
+* the **sort** box orders them by gallery order, by structure score, by how well
+  the label chosen below maps onto them, or by how many genes they place;
+* **Group** unticked flattens the tree into one best-first list, which is how to
+  find the single best map for a question.
+
+Click a map to show it in the central view. Its clusters become the map's cluster
+coloring, and the line under the tree names the map on screen with its recipe and
+structure score. **Color by label** colors the map by the label chosen in the
 panel, and **Color by clusters** colors it by the clusters.
 
 The table scores every categorical label on every map. Choose **One label, every
-map** to see which map a label separates on best. Choose **One map, every label**
-to see which labels a map organizes. Click a header to sort.
+map** to see which map a label separates on best — the map on screen is marked
+with ▶ and selected. Choose **One map, every label** to see which labels the map
+on screen organizes; picking another map replaces the table. Click a header to
+sort.
 
 | Column | Meaning |
 |---|---|
@@ -80,9 +130,31 @@ to see which labels a map organizes. Click a header to sort.
 example one built in Analysis. It uses the map's clusters if it has them, and
 otherwise clusters it the same way. The result appears as "on screen".
 
-The files are `starplast/data/umap_gallery.npz`, `umap_gallery.json` and
-`umap_gallery_scores.tsv`. They are rebuilt by `scripts/build_umap_gallery.py`,
-and the run is recorded in `notebooks/umap_gallery_2026_09_29.ipynb`.
+The files are `starplast/data/umap_gallery.npz` (coordinates as float32, cluster
+labels as int16), `umap_gallery.json` (every recipe, the structure score and every
+setting searched) and `umap_gallery_scores.tsv` (the label × map table). They are
+rebuilt by `scripts/build_umap_gallery.py`, and the run is recorded in
+`notebooks/umap_gallery_2026_09_30.ipynb`:
+
+```bash
+systemd-run --user --scope -p MemoryMax=25G env STARPLAST_GPU=0 \
+    python scripts/build_umap_gallery.py --workers 6
+```
+
+The build is checkpointed one map at a time into
+`results/umap_gallery_checkpoint`, so a run that is stopped resumes where it left
+off rather than starting over. To build **more** maps than ship — every block
+rather than only those with enough columns, a wider settings grid, or your own
+combinations of families — edit the thresholds and `COMBINATIONS` at the top of
+`starplast/umap_gallery.py` and write the result somewhere else:
+
+```bash
+python scripts/build_umap_gallery.py --no-notebook --out ~/my_gallery
+```
+
+`umap_gallery.Gallery("~/my_gallery")` loads any such gallery, and
+`MapGalleryPanel(code, gallery=…)` takes one, so a locally built gallery can be
+used in place of the shipped one without rebuilding the package.
 
 ## Importing results
 

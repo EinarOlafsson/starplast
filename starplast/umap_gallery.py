@@ -4,21 +4,40 @@
 The central map is one answer to "which measurements should place a gene": all of them, balanced by
 block. It is not the only reasonable answer, and a label that fails to separate on it may separate
 cleanly on a map built from one kind of evidence -- stage transcription, knockout fitness, protein
-abundance. So a small gallery of maps is built ahead of time for each organism and shipped:
+abundance. So a gallery of maps is built ahead of time for each organism and shipped, in six groups
+(`GROUPS`, and `recipes` builds them in this order):
 
 * **all measurements** at three `n_neighbors` settings (10, 25, 60), because the neighbourhood size
   decides whether a map shows many small islands or a few continents, and which one a label prefers
-  is itself informative;
-* **all measurements except localization**, so a localization label can be scored on a map that
-  never saw a localization measurement;
+  is itself informative. These three are the gallery's fixed reference maps: their settings are
+  declared, not searched, so the same three maps ship whatever a structure search would have picked;
+* **all but one family** -- every measurement except localization, except transcription, except
+  fitness, and so on -- so a label can always be scored on a map that never saw the kind of
+  measurement that restates it;
 * **one map per evidence family** -- the slot catalogue's axis (`strategies.Context.family_of`):
-  transcription, translation, protein abundance, fitness, sequence, and so on -- where the family has
-  enough columns and enough measured genes to make a map worth drawing.
+  transcription, translation, protein abundance, fitness, sequence, and so on;
+* **one map per individual experiment block** -- each screen, each expression atlas, each proteomics
+  set, the structure and sequence blocks -- wherever the block has at least `MIN_BLOCK_COLUMNS`
+  columns and `MIN_SET_GENES` genes measured in enough of them. A block with one or two columns has
+  no 3D map worth drawing and is covered by its family instead;
+* **pairs** and **triples** of families that make a biological question (`COMBINATIONS`):
+  transcription + translation is expression end to end, fitness + protein abundance asks whether
+  what a knockout costs tracks how much protein there is, and so on. Each carries the reason it is
+  in the gallery.
 
 Every map is built from measurements only. No categorical label column is an input (labels are what
 is scored), and the recipe of each map is stored beside it. Each map is clustered with HDBSCAN through
-`clustering.cluster`, as the Clusters tab does, at min_cluster_size 25, min_samples 5 and "leaf"
-selection (see `CLUSTERING` for why not the tab's opening 25/25 "eom").
+`clustering.cluster`, as the Clusters tab does (see `CLUSTERING` for why "leaf" and not the Clusters
+tab's opening 25/25 "eom").
+
+**Maximising structure.** Except for the three fixed reference maps, every candidate feature set is
+SEARCHED: `MAP_GRID` UMAP settings x `GALLERY_CLUSTER_GRID` clusterings, and the combination with the
+best label-free structure score (`structure`) is the one that ships. No label is consulted, so the
+search cannot tune a map into recovering the thing it will be scored on. The search is successive
+halving, as `search.tune_umap` does it -- every UMAP setting ranked on a `SEARCH_SAMPLE` sample,
+only the best `SEARCH_KEEP` rebuilt over all the recipe's genes -- because an embedding costs about
+a hundred times a reclustering. Every setting tried, and its score, is stored in the manifest beside
+the map that won.
 
 **The scores.** For a label (a categorical column, e.g. `compartment`) and a map:
 
@@ -64,13 +83,116 @@ SCORES_FILE = "umap_gallery_scores.tsv"
 
 #: The "all measurements" maps are built at these neighbourhood sizes. 25 is the application's own.
 ALL_NEIGHBORS = (10, 25, 60)
-#: The family left out of the "all but" map, so localization labels have a map that never saw them.
+#: The family left out of the first "all but" map, so localization labels have one that never saw
+#: them. Every other qualifying family gets an "all but" map too; this one is named because a
+#: localization label is both organisms' headline label.
 LEFT_OUT_FAMILY = "localization"
 #: A family map needs this many source columns ...
 MIN_FAMILY_COLUMNS = 4
 #: ... and this many genes measured in at least `MIN_GENE_COVERAGE` of those columns.
 MIN_FAMILY_GENES = 400
 MIN_GENE_COVERAGE = 0.5
+#: A single-experiment (block) map needs at least this many columns: one or two columns do not make
+#: a 3D map, and such a block is covered by its family's map instead.
+MIN_BLOCK_COLUMNS = 3
+#: Every map built from a subset of the evidence needs this many genes to be worth shipping.
+MIN_SET_GENES = 400
+#: Coverage thresholds tried in order for a subset map: a gene is placed when it is measured in at
+#: least this share of the recipe's columns. The first threshold that places `MIN_SET_GENES` genes
+#: wins, so a dense family is built over well-measured genes and a sparse one is still buildable.
+COVERAGE_STEPS = (0.5, 0.3, 0.15)
+#: The display groups of the gallery, in the order `recipes` emits them and the panel lists them.
+GROUPS = ("All measurements", "All but one kind", "Evidence families", "Single experiments",
+          "Pairs of families", "Triples of families")
+
+#: Combinations of evidence families worth a map of their own: the families, the group, and the
+#: biological question the combination asks. A combination is skipped for an organism whose table
+#: does not carry all of its families with enough columns and genes.
+COMBINATIONS = (
+    (("transcription", "translation"),
+     "Expression end to end: what is transcribed together with what reaches the ribosome, so a "
+     "gene regulated at translation separates from one regulated at transcription."),
+    (("transcription", "protein abundance"),
+     "Message against protein: genes whose transcript and protein levels agree sit apart from those "
+     "where one is buffered against the other."),
+    (("translation", "protein abundance"),
+     "Ribosome occupancy against how much protein is actually there, which is where turnover and "
+     "stability show up."),
+    (("transcription", "fitness"),
+     "When a gene is expressed against what losing it costs -- the classic pairing for finding "
+     "stage-specific essential genes."),
+    (("fitness", "protein abundance"),
+     "Whether what a knockout costs tracks how much of the protein there is: abundant-and-dispensable "
+     "and scarce-and-essential are both interesting neighbourhoods."),
+    (("fitness", "localization"),
+     "Where a protein is together with what losing it costs, the pairing that separates the "
+     "essential machinery of one compartment from its dispensable passengers."),
+    (("protein abundance", "localization"),
+     "Abundance and compartment together: the axes a spatial proteomics experiment actually "
+     "measures, without the transcriptional variation on top."),
+    (("sequence", "localization"),
+     "What a protein's sequence and fold say, beside where it goes -- the signal a targeting "
+     "prediction lives on."),
+    (("sequence", "fitness"),
+     "Conservation, domains and disorder against what losing the gene costs: essentiality against "
+     "how constrained the sequence is."),
+    (("sequence", "transcription"),
+     "Sequence and fold beside expression, so a conserved housekeeping gene separates from a "
+     "variable, stage-restricted one."),
+    (("regulation", "transcription"),
+     "The regulatory layer -- chromatin, RNA stability, splicing -- with the transcription it "
+     "produces, so a gene held down by its chromatin separates from one that is simply off."),
+    (("regulation", "PTM"),
+     "Two layers of control that are not the message itself: chromatin and RNA on one side, "
+     "post-translational modification on the other."),
+    (("relation", "protein abundance"),
+     "Who a protein is found with, beside how much of it there is: the pairing a complex should "
+     "show up on, since a complex's members are usually present in proportion."),
+    (("relation", "localization"),
+     "Interaction evidence with compartment, so a complex confined to one organelle separates from "
+     "a promiscuous hub."),
+    (("PTM", "protein abundance"),
+     "Modification against abundance: whether a heavily modified protein is a scarce regulator or "
+     "an abundant substrate."),
+    (("fitness", "relation"),
+     "What losing a gene costs, beside who it works with -- the evidence a genetic-interaction "
+     "argument is made from."),
+    (("chemistry", "fitness"),
+     "Drug response and target engagement beside genetic essentiality: whether a chemically "
+     "vulnerable gene is also a genetically required one."),
+    (("immunity", "localization"),
+     "Antigenicity beside compartment, because what the host's immune system sees is largely a "
+     "question of where the protein ends up."),
+    (("host effect", "localization"),
+     "What a gene does to the host cell, beside where its product goes: the effector question."),
+    (("transcription", "translation", "protein abundance"),
+     "The whole expression cascade in one map -- transcript, ribosome, protein -- so a gene "
+     "regulated at any one step separates from one regulated at all three."),
+    (("transcription", "translation", "fitness"),
+     "Expression at both levels against cost, the fullest picture of when a gene is needed."),
+    (("fitness", "protein abundance", "localization"),
+     "Cost, amount and place: the three questions a functional genomics screen is usually read for."),
+    (("sequence", "relation", "localization"),
+     "What a protein is, who it is with and where it is -- structure-first evidence with no "
+     "expression in it at all, so an expression label scored here cannot be reading itself back."),
+    (("regulation", "transcription", "translation"),
+     "The whole message layer: how it is regulated, what is made and what is read."),
+    (("sequence", "transcription", "fitness"),
+     "Conservation, expression and cost, the three axes a candidate gene is usually triaged on."),
+)
+
+#: The UMAP settings searched per candidate feature set. Small on purpose: this is paid per map, and
+#: the point of searching separately from the clustering is that reclustering is nearly free.
+MAP_GRID = {"n_neighbors": (10, 25, 60), "min_dist": (0.0, 0.25)}
+#: Clusterings searched on each finished embedding. "leaf" is a constant, not a candidate, for the
+#: reason `CLUSTERING` gives: excess-of-mass merges these maps into a handful of giant clusters.
+GALLERY_CLUSTER_GRID = {"min_cluster_size": (15, 25, 40), "min_samples": (5, 10)}
+#: UMAP settings are first ranked on a sample this size, and only `SEARCH_KEEP` rebuilt in full.
+SEARCH_SAMPLE = 1500
+SEARCH_KEEP = 2
+#: Points sampled for the silhouette term of `structure`; the full pairwise distance matrix of a
+#: whole proteome is neither needed nor affordable per setting searched.
+SILHOUETTE_SAMPLE = 3000
 #: HDBSCAN as the Clusters tab runs it (`clustering.cluster`), with its "leaf" selection. The tab's
 #: opening setting (min_cluster_size = min_samples = 25, "eom") was measured first and rejected for
 #: the gallery: on these maps it returns a median of 4 clusters holding ~100% of genes (the Tg
@@ -293,17 +415,91 @@ def label_scores(truth, clusters, min_category: int = MIN_CATEGORY,
             "best_f1_lower_chance": float(chance_lower[k]), "best_skill": float(sk[k])}
 
 
+# --------------------------------------------------------------------------- structure, label-free
+def separation(xyz, labels, sample: int = SILHOUETTE_SAMPLE, seed: int = 0) -> float:
+    """Mean silhouette of the clustered points, rescaled to 0..1 (0.5 is no separation at all).
+
+    On the map's own coordinates, over clustered points only -- HDBSCAN noise is not a cluster and
+    scoring it as one would punish exactly the maps that correctly refuse to place a gene. NaN when
+    there is nothing to measure (fewer than two clusters).
+    """
+    from sklearn.metrics import silhouette_score
+    xyz = np.asarray(xyz, dtype=float)
+    labels = np.asarray(labels)
+    keep = labels >= 0
+    if int(keep.sum()) < 3 or len(set(labels[keep].tolist())) < 2:
+        return float("nan")
+    X, y = xyz[keep], labels[keep]
+    kw = {"sample_size": int(sample), "random_state": int(seed)} if len(X) > sample else {}
+    try:
+        return (float(silhouette_score(X, y, **kw)) + 1.0) / 2.0
+    except ValueError:                          # a sample that caught a single cluster
+        return float("nan")
+
+
+def structure(xyz, labels) -> dict:
+    """How much structure a map has, WITHOUT looking at any label. The gallery's search ranks on this.
+
+    Two things are measured, because either alone is gameable:
+
+    * `search.map_quality` -- the project's own measure, and the one strategy 05 tunes on: the share
+      of genes clustered times the evenness of the cluster sizes, gated by `clustering.degenerate` so
+      a configuration that merely bisected the cloud scores zero however confident it looked. It is
+      about the PARTITION and says nothing about the geometry: clusters can be even and cover
+      everything while overlapping completely.
+    * `separation` -- the mean silhouette of the clustered points, which is about the geometry and
+      says nothing about coverage: two crisp clusters holding 5% of the proteome score beautifully.
+
+    `structure` is their GEOMETRIC mean, so a map has to be good at both to win, and a zero in either
+    is a zero overall. It is not a label score: no label is read here, which is what lets the search
+    tune a map that will afterwards be scored against labels honestly.
+    """
+    from . import search
+    q = search.map_quality(labels)
+    sep = separation(xyz, labels)
+    good = q["usable"] and np.isfinite(sep)
+    return {**q, "separation": float(sep), "structure":
+            float(np.sqrt(max(float(q["score"]), 0.0) * float(sep))) if good else 0.0}
+
+
 # --------------------------------------------------------------------------- recipes
+def _num(v, digits: int = 4):
+    """A number for the manifest, or None where it is missing: `NaN` is not valid JSON."""
+    v = float(v)
+    return round(v, digits) if np.isfinite(v) else None
+
+
 def _slug(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", str(text).lower()).strip("_")
 
 
+def block_title(block: str) -> str:
+    """A block key as a readable phrase, with the space's own prefix removed.
+
+    The prefix comes from the registry (`organisms`), never from a typed species code: slot keys are
+    `f"{code}_{name}"` by construction, so every registered code is tried.
+    """
+    from . import organisms
+    text = str(block)
+    for code in sorted(organisms.codes(), key=len, reverse=True):
+        if text.startswith(f"{code}_"):
+            text = text[len(code) + 1:]
+            break
+    text = text.replace("_", " ").strip()
+    return text[:1].upper() + text[1:]
+
+
 def recipes(ctx) -> list:
-    """The gallery for one organism's context: a list of dicts (id, title, blocks, n_neighbors, ...).
+    """The gallery for one organism's context: a list of dicts (id, title, blocks, group, ...).
 
     Blocks are the display recipe's slot blocks (`embedding.default_spec`), grouped into families by
     the slot catalogue's axis. Only measurements are inputs: the slot catalogue's feature role
     already excludes label columns, and any categorical column that slipped through is refused.
+
+    Six groups, in `GROUPS` order: the three fixed "all measurements" reference maps, an "all but"
+    map per family, a map per family, a map per individual experiment block, and the pairs and
+    triples of `COMBINATIONS`. Every recipe but the three reference maps carries `tune: True`, which
+    asks `build_map` to search `MAP_GRID` x `GALLERY_CLUSTER_GRID` for the best-structured version.
     """
     from .embedding import default_spec, columns_for, EmbeddingSpec
     nodes = ctx.nodes
@@ -315,37 +511,84 @@ def recipes(ctx) -> list:
     family = {b: ctx.family_of(b) for b in cols}
     measured = {c: nodes[c].notna().to_numpy() for cc in cols.values() for c in cc}
 
-    def entry(map_id, title, blocks, description, n_neighbors=25, fam=""):
+    def entry(map_id, title, blocks, description, group, n_neighbors=25, fam="", tune=True):
         source = sorted({c for b in blocks for c in cols[b]})
         return {"id": map_id, "title": title, "family": fam, "description": description,
-                "blocks": list(blocks), "columns": source, "n_neighbors": int(n_neighbors)}
+                "group": group, "blocks": list(blocks), "columns": source,
+                "n_neighbors": int(n_neighbors), "min_dist": 0.25, "tune": bool(tune)}
+
+    def coverage(e, minimum=MIN_SET_GENES):
+        """Set `min_coverage` to the strictest threshold that still places `minimum` genes."""
+        cov = np.mean([measured[c] for c in e["columns"]], axis=0)
+        for step in COVERAGE_STEPS:
+            if int((cov >= step).sum()) >= minimum:
+                e["min_coverage"] = float(step)
+                return e
+        return None
 
     everything = list(cols)
-    out = [entry(f"all_nn{k}", f"All measurements · n_neighbors {k}", everything,
-                 f"Every measurement block ({len(everything)}), each scaled to equal total "
-                 f"variance; neighbourhood size {k}"
-                 + (" (the application's default)." if k == 25 else "."), k, "all")
-           for k in ALL_NEIGHBORS]
-    blind = [b for b in everything if family[b] != LEFT_OUT_FAMILY]
-    if len(blind) < len(everything):
-        out.append(entry("all_but_localization", "All but localization", blind,
-                         "Every measurement block except the localization family, so a "
-                         "localization label can be scored on a map that never saw one.", 25,
-                         "all"))
     fams = {}
     for b in everything:
         fams.setdefault(family[b], []).append(b)
-    for fam, blocks in sorted(fams.items(), key=lambda kv: kv[0].lower()):
-        e = entry(f"family_{_slug(fam)}", f"{fam[:1].upper()}{fam[1:]} only", blocks,
-                  f"The {fam} family alone: {len(blocks)} block(s).", 25, fam)
-        n_cols = len(e["columns"])
-        if n_cols < MIN_FAMILY_COLUMNS:
+    # A family is "substantial" on the same rule the family maps use, and only substantial families
+    # get an "all but" map or take part in a combination: leaving out two sparse columns makes a map
+    # indistinguishable from "all measurements", and shipping it would pad the gallery with copies.
+    substantial = {f: bs for f, bs in fams.items()
+                   if len({c for b in bs for c in cols[b]}) >= MIN_FAMILY_COLUMNS
+                   and coverage({"columns": sorted({c for b in bs for c in cols[b]})},
+                                MIN_FAMILY_GENES) is not None}
+
+    # ---- 1. all measurements, at the three declared neighbourhood sizes (not searched)
+    out = [entry(f"all_nn{k}", f"All measurements · n_neighbors {k}", everything,
+                 f"Every measurement block ({len(everything)}), each scaled to equal total "
+                 f"variance; neighbourhood size {k}"
+                 + (" (the application's default)." if k == 25 else "."),
+                 GROUPS[0], k, "all", tune=False)
+           for k in ALL_NEIGHBORS]
+
+    # ---- 2. all but one family, so no label need be scored only on maps that restate it
+    order = [LEFT_OUT_FAMILY] + sorted(f for f in substantial if f != LEFT_OUT_FAMILY)
+    for fam in order:
+        if fam not in substantial:
             continue
-        cov = np.mean([measured[c] for c in e["columns"]], axis=0)
-        if int((cov >= MIN_GENE_COVERAGE).sum()) < MIN_FAMILY_GENES:
+        blind = [b for b in everything if family[b] != fam]
+        if not blind or len(blind) == len(everything):
             continue
-        e["min_coverage"] = MIN_GENE_COVERAGE
-        out.append(e)
+        out.append(entry(f"all_but_{_slug(fam)}", f"All but {fam}", blind,
+                         f"Every measurement block except the {fam} family, so a {fam} label can be "
+                         f"scored on a map that never saw one.", GROUPS[1], 25, "all"))
+
+    # ---- 3. one family at a time
+    for fam in sorted(substantial, key=str.lower):
+        e = coverage(entry(f"family_{_slug(fam)}", f"{fam[:1].upper()}{fam[1:]} only",
+                           substantial[fam], f"The {fam} family alone: "
+                           f"{len(substantial[fam])} block(s).", GROUPS[2], 25, fam),
+                     MIN_FAMILY_GENES)
+        if e is not None:
+            out.append(e)
+
+    # ---- 4. one individual experiment block at a time
+    for b in sorted(everything, key=str.lower):
+        if len(cols[b]) < MIN_BLOCK_COLUMNS:
+            continue
+        e = coverage(entry(f"block_{_slug(b)}", block_title(b), [b],
+                           f"One experiment block on its own: {b} ({len(cols[b])} columns), of the "
+                           f"{family[b]} family.", GROUPS[3], 25, family[b]))
+        if e is not None:
+            out.append(e)
+
+    # ---- 5 and 6. the curated pairs and triples
+    for members, why in COMBINATIONS:
+        if not all(f in substantial for f in members):
+            continue
+        blocks = [b for f in members for b in substantial[f]]
+        group = GROUPS[4] if len(members) == 2 else GROUPS[5]
+        title = " + ".join(members)
+        e = coverage(entry(f"combo_{_slug('_'.join(members))}",
+                           title[:1].upper() + title[1:], blocks, why, group, 25,
+                           " + ".join(members)))
+        if e is not None:
+            out.append(e)
     return out
 
 
@@ -358,32 +601,152 @@ def genes_for(ctx, recipe: dict) -> np.ndarray:
     return np.flatnonzero(m >= float(cov))
 
 
-def build_map(ctx, recipe: dict, log=print) -> dict:
-    """Embed and cluster one recipe. Returns rows, xyz (float32), clusters (int16) and provenance."""
-    from .embedding import EmbeddingSpec, embed
-    from .clustering import cluster
+def _matrix_frame(ctx, recipe: dict):
+    """The rows a recipe places and the table it is embedded from, with every label removed.
+
+    Label columns are removed from the table the map is built from, not only from the recipe: a slot
+    block resolves its own columns, and a 0/1 label such as `is_exported` is numeric enough to be
+    one of them. A map built from a label cannot then be scored against it.
+    """
     rows = genes_for(ctx, recipe)
-    # Label columns are removed from the table the map is built from, not only from the recipe: a
-    # slot block resolves its own columns, and a 0/1 label such as `is_exported` is numeric enough
-    # to be one of them. A map built from a label cannot then be scored against it.
     labels = [c for c in ctx.categorical_columns() if c != "gene_id"]
     sub = ctx.nodes.iloc[rows].drop(columns=labels).reset_index(drop=True)
+    return rows, sub, labels
+
+
+def _embed_one(sub, recipe: dict, settings: dict, log):
+    """One embedding of a recipe's table at one UMAP setting."""
+    from .embedding import EmbeddingSpec, embed
     spec = EmbeddingSpec(name=f"gallery-{recipe['id']}", blocks=tuple(recipe["blocks"]),
-                         n_neighbors=int(recipe["n_neighbors"]), n_components=3)
+                         n_components=3, n_neighbors=int(settings["n_neighbors"]),
+                         min_dist=float(settings["min_dist"]))
     coords, names, kept, meta = embed(sub, spec, log=log, strict=True, return_metadata=True)
-    rows = rows[np.asarray(kept, dtype=bool)]
+    return spec, np.asarray(coords, dtype=np.float32), names, np.asarray(kept, dtype=bool), meta
+
+
+def _best_clustering(xyz, grid: dict = None) -> tuple:
+    """The clustering of one finished map with the best `structure`, and every one tried.
+
+    Reclustering an embedding costs a fraction of building one, so this grid is searched in full on
+    every candidate embedding rather than sampled.
+    """
+    from .clustering import cluster
+    import itertools
+    grid = grid or GALLERY_CLUSTER_GRID
+    tried, best = [], None
+    for values in itertools.product(*grid.values()):
+        kw = {**CLUSTERING, **dict(zip(grid, values))}
+        lab = np.asarray(cluster(xyz, "hdbscan", **kw), dtype=np.int16)
+        st = structure(xyz, lab)
+        row = {**{k: v for k, v in zip(grid, values)}, "clusters": st["clusters"],
+               "clustered": _num(st["clustered"]), "evenness": _num(st["evenness"]),
+               "separation": _num(st["separation"]), "usable": bool(st["usable"]),
+               "why_not": st["why_not"], "structure": _num(st["structure"])}
+        tried.append(row)
+        if best is None or st["structure"] > best[1]["structure"]:
+            best = (lab, st, kw, row)
+    # How much the clustering grid mattered on this embedding, kept on the winning row so the
+    # manifest records it without storing every clustering of every setting of every map.
+    spread = round(max(r["structure"] for r in tried) - min(r["structure"] for r in tried), 4)
+    best[3]["cluster_spread"] = spread
+    return best, tried
+
+
+def search_settings(ctx, recipe: dict, log=print, sample: int = SEARCH_SAMPLE,
+                    keep: int = SEARCH_KEEP, seed: int = 0) -> dict:
+    """Search `MAP_GRID` x `GALLERY_CLUSTER_GRID` for the best-structured map of one recipe.
+
+    Successive halving, as `search.tune_umap` does it and for the same reason: an embedding of a
+    whole proteome costs several times one of 1,500 genes, and most settings are not worth paying
+    the full price for twice. Every UMAP setting is ranked on the sample, the best `keep` are rebuilt
+    over all the recipe's genes, and the clustering grid is searched on each finished embedding.
+
+    Ranked on `structure` alone -- no label is read -- and returns the winner together with every
+    setting tried and its score, so the manifest can record what the choice was made against.
+    """
+    import itertools
+    rows, sub, labels = _matrix_frame(ctx, recipe)
+    combos = [dict(zip(MAP_GRID, v)) for v in itertools.product(*MAP_GRID.values())]
+    rng = np.random.default_rng(seed)
+    small = (sub if len(sub) <= sample
+             else sub.iloc[np.sort(rng.choice(len(sub), size=sample, replace=False))])
+    quiet = lambda *a, **k: None
+    tried = []
+    for settings in combos:
+        # A sample of a sparse recipe can leave a column missing in more than `max_missing` of its
+        # rows, and `embed` then drops it -- occasionally all of them. That is a fact about the
+        # sample, not about the setting, so it is recorded and the search goes on.
+        try:
+            _spec, xyz, _n, _k, _m = _embed_one(small, recipe, settings, quiet)
+        except Exception as exc:
+            tried.append({**settings, "stage": "sample", "genes": len(small), "clusters": 0,
+                          "min_cluster_size": CLUSTERING["min_cluster_size"],
+                          "min_samples": CLUSTERING["min_samples"],
+                          "clustered": 0.0, "evenness": 0.0, "separation": None, "usable": False,
+                          "why_not": f"the sample did not embed: {exc}", "structure": 0.0,
+                          "cluster_spread": 0.0})
+            log(f"    sample {settings}: did not embed ({exc})")
+            continue
+        (_lab, st, _kw, crow), _all = _best_clustering(xyz)
+        tried.append({**settings, "stage": "sample", "genes": len(small), **crow})
+        log(f"    sample {settings}: structure {st['structure']:.3f} "
+            f"({st['clusters']} clusters, {st['clustered']:.0%} clustered)")
+    ranked = sorted(tried, key=lambda r: -r["structure"])[:max(1, int(keep))]
+    best = None
+    for row in ranked:
+        settings = {k: row[k] for k in MAP_GRID}
+        spec, xyz, names, kept, meta = _embed_one(sub, recipe, settings, quiet)
+        (lab, st, kw, crow), _all = _best_clustering(xyz)
+        tried.append({**settings, "stage": "full", "genes": int(kept.sum()), **crow})
+        log(f"    full   {settings}: structure {st['structure']:.3f}")
+        if best is None or st["structure"] > best["structure"]["structure"]:
+            best = {"settings": settings, "clustering": kw, "structure": st, "spec": spec,
+                    "xyz": xyz, "names": names, "kept": kept, "meta": meta, "clusters": lab,
+                    "rows": rows}
+    return {**best, "searched": tried, "labels": labels}
+
+
+def build_map(ctx, recipe: dict, log=print) -> dict:
+    """Embed and cluster one recipe. Returns rows, xyz (float32), clusters (int16) and provenance.
+
+    A recipe with `tune` searches `MAP_GRID` x `GALLERY_CLUSTER_GRID` and ships the best-structured
+    combination (`search_settings`); one without is built exactly at its declared settings. Either
+    way the map's `structure` and every setting tried are recorded in `info`.
+    """
+    from .clustering import cluster
+    if recipe.get("tune"):
+        got = search_settings(ctx, recipe, log=log)
+        rows, labels = got["rows"], got["labels"]
+        spec, xyz, names, kept, meta = (got["spec"], got["xyz"], got["names"], got["kept"],
+                                        got["meta"])
+        lab, clustering, st, searched = (got["clusters"], got["clustering"], got["structure"],
+                                        got["searched"])
+    else:
+        rows, sub, labels = _matrix_frame(ctx, recipe)
+        settings = {"n_neighbors": int(recipe["n_neighbors"]),
+                    "min_dist": float(recipe.get("min_dist", 0.25))}
+        spec, xyz, names, kept, meta = _embed_one(sub, recipe, settings, log)
+        clustering = {**CLUSTERING}
+        lab = np.asarray(cluster(xyz, "hdbscan", **clustering), dtype=np.int16)
+        st = structure(xyz, lab)
+        searched = []
+    rows = np.asarray(rows)[kept]
     leaked = sorted(set(names) & set(labels))
     if leaked:
         raise ValueError(f"{recipe['id']}: label column(s) reached the matrix: {leaked}")
-    xyz = np.asarray(coords, dtype=np.float32)
-    lab = np.asarray(cluster(xyz, "hdbscan", **CLUSTERING), dtype=np.int16)
     n_cl = int(len(set(lab[lab >= 0].tolist())))
+    info = {k: v for k, v in recipe.items() if k != "tune"}
     return {"rows": rows.astype(np.int32), "xyz": xyz, "clusters": lab,
-            "info": {**recipe, "recipe": spec.to_dict(), "executed_method": meta["executed_method"],
+            "info": {**info, "tuned": bool(recipe.get("tune")),
+                     "n_neighbors": int(spec.n_neighbors), "min_dist": float(spec.min_dist),
+                     "recipe": spec.to_dict(), "executed_method": meta["executed_method"],
                      "backend": meta["backend"], "n_features": len(names),
                      "n_genes": int(len(rows)), "n_clusters": n_cl,
                      "noise_fraction": float((lab < 0).mean()),
-                     "clustering": {"algorithm": "hdbscan", **CLUSTERING},
+                     "structure": _num(st["structure"]), "clustered": _num(st["clustered"]),
+                     "evenness": _num(st["evenness"]), "separation": _num(st["separation"]),
+                     "clustering": {"algorithm": "hdbscan", **clustering},
+                     "settings_searched": searched,
                      "coordinates_sha256": hashlib.sha256(xyz.tobytes()).hexdigest(),
                      "versions": meta.get("versions", {})}}
 

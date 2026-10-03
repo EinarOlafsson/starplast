@@ -20,6 +20,42 @@
   the bottom of the stack, called on every tab switch and on each frame, so no reordering can bury a
   panel. Held down by a regression test that compares the pixels over the panel before and after a
   round trip rather than asking whether it is visible, which it always was.
+- **Fix: the maps panel's score table only changed for the first map chosen.** `refresh` filtered the
+  table by the view and the label alone, so in the panel's default view ("One label, every map" —
+  whose rows *are* the maps) picking a second map moved nothing: no marked row, no selected row, no
+  change to the sentence underneath. Both views now follow the current map. The label view marks the
+  map on screen with ▶, selects and scrolls to its row, and the line under the list names it with its
+  recipe and structure score; the map view is filtered as before. Choosing a map from the list, from
+  the map combo (which previously refreshed only when its index actually moved) or by double-clicking
+  a row all take the same path. The regression test picks map A, then B, then A again in both views and
+  compares every cell's text.
+- **Many more pregenerated maps per organism**, in six groups instead of three kinds: all measurements
+  at n_neighbors 10 / 25 / 60; *all but one family* for every substantial family, not only
+  localization; one map per evidence family; one map per individual experiment block with at least 3
+  columns (each screen, each expression atlas, each proteomics set, structure, sequence); and curated
+  pairs and triples of families, each carrying the biological question it asks — expression end to
+  end, fitness + proteomics, sequence + localization, the whole transcript-to-protein cascade, a
+  structure-first map with no expression in it at all. A gene is placed at the strictest coverage
+  threshold that still places enough genes, so dense and sparse evidence are both buildable.
+- **The maps are tuned for structure, without labels.** Every map except the three fixed reference
+  maps is searched over six UMAP settings × six HDBSCAN settings and the combination with the best
+  `umap_gallery.structure` ships. That score is the geometric mean of `search.map_quality`'s score (the
+  partition: share of genes clustered × evenness, zero on a degenerate clustering) and the mean
+  silhouette of the clustered points rescaled to 0–1 (the geometry) — either alone is gameable, so a
+  map has to be good at both. The search is successive halving as `search.tune_umap` does it: every
+  UMAP setting ranked on a 1,500-gene sample, only the best two rebuilt in full. No label is read, so
+  the labels are still scored honestly afterwards. Every setting tried, with its score, is recorded in
+  the manifest beside the map that won. `search.map_quality` itself is unchanged.
+- **The maps panel is navigable at that size**: a tree grouped by what each map was built from, a
+  filter box, a sort box (gallery order, structure score, how well the chosen label maps, genes
+  placed) and a Group checkbox that flattens it into one best-first list. Every row states the map's
+  size, cluster count, structure score and the chosen label's skill, and its tooltip has the full
+  recipe and how many settings were searched. Thumbnails are drawn lazily per expanded heading and
+  subsampled, since they are painted point by point. Every control has a tooltip.
+- The gallery build is checkpointed one map at a time into `results/umap_gallery_checkpoint`, so a
+  stopped or frozen run resumes instead of starting over, and `--out` writes a gallery outside the
+  package. `docs/guide.md` documents the groups, the structure score, the navigation and the command
+  for building a larger gallery locally.
 
 ## 0.49.0
 
