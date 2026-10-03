@@ -56,6 +56,38 @@
   stopped or frozen run resumes instead of starting over, and `--out` writes a gallery outside the
   package. `docs/guide.md` documents the groups, the structure score, the navigation and the command
   for building a larger gallery locally.
+- **The star map no longer twitches when a gene is hovered.** The hover text went into a
+  word-wrapping label in the same layout as the view, so a longer line made the label taller, the
+  view shorter and the resize handler re-framed the whole graph: moving the pointer moved the map.
+  The hover box and the headline now have fixed heights and a size policy that ignores their text;
+  the view re-frames only when it really changed size; `fit` uses the rectangle the *layout* fixed
+  instead of `scene.itemsBoundingRect()`, which answers differently while an item is hovered; a
+  hovered link changes its colour and no longer its pen width, and its bounding rectangle has a
+  fixed margin; and hover text is rebuilt on a 40 ms timer rather than on every mouse-move event.
+  Positions are cached per centre, mode and connection rules, so the same picture is laid out once.
+  A test hovers every visible gene and link in turn and requires the transform, the visible scene
+  rectangle, the scene bounds and every item position to be identical, to the bit, throughout.
+- **Two larger views of the network**, chosen beside the gene box. *neighbourhood* grows outwards
+  from the centre gene for up to four hops, strongest links first, up to 2,000 genes. *whole
+  network* lays out everything the connection rules leave, up to 3,000 genes and 30,000 links, with
+  the twelve largest clusters coloured (label propagation, deterministic). Both degrade by keeping
+  the strongest links and the best-linked genes, and say on screen what they left out. Drag to pan,
+  scroll to zoom around the pointer, click a gene to re-centre, double-click to select it on the 3D
+  map, **Fit** to re-frame, and a minimap in the corner shows where the view is and jumps on click.
+  They are drawn by a new canvas that builds one `QPainterPath` per source and strength bucket once
+  and paints it into a cached pixmap: panning, zooming and hovering rebuild nothing, and the spring
+  layout never runs from a paint handler.
+- **The user defines what counts as a link.** Per-source toggles (each measured layer, each
+  strategy, your own runs) as before, plus a minimum-strength slider, a maximum-links-per-gene cap
+  and an "at least N different sources must agree" rule. The resulting network is counted live --
+  "4,812 links between 3,104 genes from 3 sources" -- with what each rule removed. A definition can
+  be saved and reloaded by name and is kept with the user's other state
+  (`star_edges/star_definitions.json` under `paths.user_cache_dir()`), so "crosslink +
+  co-expression, 2+ sources" comes back next session. Every control has a tooltip saying what it
+  does and why.
+- `starplast.star_edges` gains the Qt-free half of all of this: `Definition`, `apply_definition`,
+  `counts_text`, `DefinitionStore`, `adjacency`, `neighbourhood`, `overview`, `clusters` and
+  `layout`, each with a named bound, and all of it testable without a display.
 
 ## 0.49.0
 

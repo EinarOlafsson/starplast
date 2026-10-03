@@ -64,6 +64,7 @@ One file per task. This index is the status table; the files carry the reasoning
 
 | # | Task |
 |---|---|
+| 58 | [Star map: stop the hover twitch, show the larger network, define the connections](open/58_star_map_steady_larger_defined.md) — implemented on a worktree branch, not merged |
 | 38 | Build a provenance-first pan-Apicomplexan dataset archive |
 | 41 | Fill as many slots as possible: Toxoplasma, Plasmodium, and host |
 | 60 | [What would make Starplast most useful](open/60_usefulness_review.md): ranked plan; weeks 1-2 = fix the dock bug, result provenance, methods paragraph + citations, figure export |
