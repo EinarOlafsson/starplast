@@ -213,8 +213,10 @@ def test_every_control_explains_itself(panel):
              QtWidgets.QLineEdit, QtWidgets.QListWidget, QtWidgets.QGraphicsView)
     missing = [type(w).__name__ + ":" + getattr(w, "text", lambda: "")()
                for k in kinds for w in panel.findChildren(k) if not w.toolTip()
-               # a spin box's own text field is part of the spin box, which carries the tip
-               and not isinstance(w.parentWidget(), QtWidgets.QAbstractSpinBox)]
+               # A spin box's or an editable combo's own text field is part of that control, and the
+               # control carries the tip -- both are checked here in their own right.
+               and not isinstance(w.parentWidget(), (QtWidgets.QAbstractSpinBox,
+                                                     QtWidgets.QComboBox))]
     assert not missing
 
 

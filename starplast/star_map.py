@@ -656,6 +656,10 @@ class StarMapPanel(QtWidgets.QWidget):
 
         self.gene_edit = QtWidgets.QLineEdit()
         self.gene_edit.setPlaceholderText("gene id…")
+        self.gene_edit.setToolTip(TH.tip(
+            "The gene at the centre of the map. Type an identifier -- it completes on any part of "
+            "one -- and press Enter to put that gene in the middle with everything linked to it "
+            "around it. Clicking a neighbour moves the centre there, so you can walk the network."))
         comp = QtWidgets.QCompleter(list(self.gene_ids), self)
         comp.setCaseSensitivity(QtCore.Qt.CaseSensitivity.CaseInsensitive)
         comp.setFilterMode(QtCore.Qt.MatchFlag.MatchContains)
