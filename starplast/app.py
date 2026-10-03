@@ -4424,6 +4424,7 @@ class Window(QtWidgets.QMainWindow):
         """Follow a link in the evidence panel: out to the web, or down a level within the panel.
 
         `starplast://class/<target>/<label>` shows how every strategy fares on one class;
+        `starplast://target/<target>` lists every class of one category with its best strategy;
         `starplast://gene/<row>` goes back to a gene's card. Anything else is a web link.
         """
         if url.scheme() != "starplast":
@@ -4444,6 +4445,15 @@ class Window(QtWidgets.QMainWindow):
             body = track_record.class_html(parts[0], parts[1], code)
             self.detail.setHtml(back + (body or "<p style='color:#888'>Nothing recorded for "
                                                  "this class.</p>"))
+            return
+        if url.host() == "target" and parts:
+            from . import track_record
+            code = organisms.by_species(self.species).code
+            back = (f"<p><a href='starplast://gene/{self._detail_row}'>◂ back to the gene</a></p>"
+                    if getattr(self, "_detail_row", None) is not None else "")
+            body = track_record.target_html(parts[0], code)
+            self.detail.setHtml(back + (body or "<p style='color:#888'>Nothing recorded for "
+                                                 "this category.</p>"))
 
     def show_detail(self, i):
         """Fill the evidence panel for one gene, distinguishing absence from zero throughout."""

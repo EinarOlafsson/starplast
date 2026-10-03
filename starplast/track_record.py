@@ -22,6 +22,7 @@ and averaging the two together would hide exactly the difference the scorecard e
 from __future__ import annotations
 
 import time
+from urllib.parse import quote
 
 import numpy as np
 import pandas as pd
@@ -454,7 +455,6 @@ def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None) -
         return ""
     line = sentence(folds, gene_id)
     # The class is a link: one click from this gene to how every strategy fares on its whole class.
-    from urllib.parse import quote
     target = str(folds[folds["gene_id"].astype(str) == str(gene_id)]["target"].iloc[0])
     truth = str(one["truth"].iloc[0])
     link = (f"starplast://class/{quote(target, safe='')}/{quote(truth, safe='')}")
@@ -507,10 +507,55 @@ def class_html(target: str, label: str, organism: str,
                f"({best.iloc[0]['right']} of {best.iloc[0]['answered']})."
                if len(best) and best.iloc[0]["enough"] else
                "No strategy answers enough of them to judge."))
-    return (f"<h4>{escape(str(label))}</h4><p>{lead}</p>"
+    up = (f"<p><a href='starplast://target/{quote(str(target), safe='')}'>"
+          f"all {escape(str(target))} classes ▸</a></p>")
+    return (f"<h4>{escape(str(label))}</h4><p>{lead}</p>{up}"
             f"<table cellspacing='0' cellpadding='3'><tr><th align='left'>strategy</th>"
             f"<th>right</th><th align='left'>rate [95%]</th>"
             f"<th align='left'>called instead</th></tr>{rows}</table>")
+
+
+def target_html(target: str, organism: str, ledger: pd.DataFrame | None = None) -> str:
+    """Every class of one information category on a line: how recoverable each one is.
+
+    The level above the class. Each class names its best strategy and that strategy's rate, and
+    links down to the class page; classes no strategy answers often enough to judge are said to be
+    so rather than ranked, and classes no strategy recovers are listed as such -- they are the
+    distinctions the measurements do not carry.
+    """
+    from html import escape
+    frame = shipped(organism) if ledger is None else ledger
+    folds = frame[(frame["mode"] == "together") & (frame["target"].astype(str) == str(target))]
+    if not len(folds):
+        return ""
+    by_class = summary(folds, "class")
+    by_class = by_class[by_class["answered"] > 0]
+    genes = folds.groupby(folds["truth"].astype(str), observed=True)["gene"].nunique()
+    lines = []
+    for label, part in by_class.groupby(by_class["truth"].astype(str)):
+        judged = part[part["enough"].astype(bool)].sort_values("rate", ascending=False)
+        best = judged.iloc[0] if len(judged) else None
+        lines.append((-1.0 if best is None else float(best["rate"]), label, best))
+    rows = ""
+    for rate, label, best in sorted(lines, key=lambda t: (-t[0], t[1])):
+        link = (f"<a href='starplast://class/{quote(str(target), safe='')}/"
+                f"{quote(label, safe='')}'>{escape(label)}</a>")
+        if best is None:
+            verdict = "<span style='color:#888'>too few answered to judge</span>"
+        elif best["right"] == 0:
+            verdict = "<span style='color:#888'>never recovered</span>"
+        else:
+            # The short name: a table of 24 classes cannot carry 24 full titles. The class page,
+            # one click down, names each strategy in full.
+            verdict = (f"{best['rate']:.0%} by {escape(str(best['strategy']).replace('_', ' '))} "
+                       f"<span style='color:#888'>({best['right']}/{best['answered']})</span>")
+        rows += (f"<tr><td>{link}</td><td align='right'>{int(genes.get(label, 0)):,}</td>"
+                 f"<td>{verdict}</td></tr>")
+    lead = (f"{len(lines)} classes, {int(folds['gene'].nunique()):,} genes held out. "
+            f"Best strategy per class; click a class for all of them.")
+    return (f"<h4>{escape(str(target))}</h4><p>{lead}</p>"
+            f"<table cellspacing='0' cellpadding='3'><tr><th align='left'>class</th>"
+            f"<th>genes</th><th align='left'>best recovered</th></tr>{rows}</table>")
 
 
 def weakest(strategy: str, organism: str, target: str | None = None, limit: int = 3,
@@ -535,3 +580,25 @@ def weakest(strategy: str, organism: str, target: str | None = None, limit: int 
     worst = ", ".join(f"{r.truth} ({r.right} of {r.answered})" for r in rows.head(limit).itertuples())
     return (f"Right on {pooled['right']:,} of {pooled['answered']:,} held-out genes "
             f"({pooled['rate']:.0%}); weakest on {worst}.")
+
+
+def my_list(ctx, genes, target: str | None = None, strategies=None, log=None) -> pd.DataFrame:
+    """Hide YOUR genes together and ask every strategy what they are: would it have found them?
+
+    `genes` is any list of identifiers -- a screen's hits, a complex, a pull-down -- resolved the way
+    the gene-list strategies resolve them. Each strategy is asked about all of them at once, with
+    their labels hidden, so the answer says whether the evidence reaches your genes or only reaches
+    genes whose neighbours are already known. Returns the per-gene rows; `set_summary` pools them.
+
+        rows = track_record.my_list(ctx, ["TGME49_294550", "TGME49_244470"], "compartment")
+        track_record.set_summary(rows)[["strategy", "right", "answered", "together"]]
+    """
+    found, _missing = ctx.resolve_genes(genes) if not isinstance(genes, np.ndarray) else (genes, [])
+    positions = np.asarray(found, dtype=int)
+    target = target or S.default_category(ctx)
+    parts = []
+    for key in (strategies or supported()):
+        rows = evaluate_sets(ctx, key, target, {"your list": positions}, log=log)
+        if len(rows):
+            parts.append(rows)
+    return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame(columns=list(COLUMNS))

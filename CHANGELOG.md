@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+- The track record: every labelled gene held out once, for every one of the 14 strategies that
+  call labels, in five folds that never split an orthogroup (`starplast/track_record.py`). Genes
+  are also hidden together -- each class at once, and random sets of 1, 5, 20, 100 and 500 -- so a
+  strategy that only works when a gene's neighbours are known shows it. Abstaining is counted
+  apart from being wrong, rates carry a Wilson 95% interval and are not printed from fewer than
+  five answered genes. The record for each organism's default label ships as
+  `starplast/data/track_record.parquet` (190,624 rows, 1.4 MB, built by
+  `scripts/build_track_record.py`) and is read three ways, each a click from the last: a gene
+  card's *If this gene were unknown* section, a class page reached from it (per strategy: right,
+  rate, what it was called instead), up again to the whole category (every class, its best strategy and rate, and the classes nothing recovers), and a line on each strategy card naming where it is weakest.
+  `track_record.my_list` hides a pasted list of your own genes together and asks every strategy.
+  `instructions/open/62_holdout_track_record.md`.
+
 ## 0.51.0
 
 - Tutorial videos: six silent screen captures of the real application, recorded by the new

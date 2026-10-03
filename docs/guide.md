@@ -250,6 +250,34 @@ that produced it, and any edge layer built from it before it looks at anything e
 The [strategy catalogue](strategies.md) lists all of them with their measured
 verdicts, including the ones that fail on this data.
 
+### The track record: would it have known?
+
+Every labelled gene has been hidden once, in five folds that never split an
+orthogroup, and each strategy that calls labels was asked what it is. The result
+ships with Starplast and reads in three places, each one click deeper:
+
+- **A gene card** ends with *If this gene were unknown*: which strategies would have
+  named its class (✓), named another (✗), or said nothing (·). Click the class.
+- **The class page** lists, per strategy, how many of that class's genes it got
+  right, the rate with its 95% interval, and what it called them instead.
+- **A strategy card** names the classes where it is weakest. Rates are only printed
+  from five or more answered genes; below that it says *too few*.
+
+Saying nothing is counted apart from being wrong. Genes are also hidden together, a
+whole class at once and in random sets of 1 to 500, so the record shows whether a
+strategy still works when a screen's worth of genes is unknown. To hide your own
+list (a screen's hits, a complex):
+
+```python
+from starplast import strategies as S, track_record as T
+ctx = S.Context.shipped("Tg")
+rows = T.my_list(ctx, ["TGME49_294550", "TGME49_244470"], "compartment")
+T.set_summary(rows)
+```
+
+Only the default label of each organism is shipped; `T.evaluate(ctx, key, target)`
+builds any other.
+
 ## Star map
 
 The **star map** tab, beside Strategies, draws one gene's links to other genes and

@@ -211,6 +211,17 @@ def test_the_class_level_names_the_best_strategy_and_the_confusions(built):
     assert T.class_html(target, "no such class", organism) == ""
 
 
+def test_the_category_level_lists_every_class_once_and_links_down(built):
+    if not len(built):
+        pytest.skip("not built here")
+    folds = built[(built["mode"] == "together") & (built["organism"] == "Tg")]
+    target = str(folds["target"].iloc[0])
+    html = T.target_html(target, "Tg")
+    classes = set(folds["truth"].astype(str))
+    assert html.count("starplast://class/") == len(classes), "a class is missing or repeated"
+    assert "best recovered" in html
+    assert T.target_html("no such category", "Tg") == ""
+
 def test_a_strategy_line_names_where_it_is_weakest_but_only_where_judgeable(built):
     if not len(built):
         pytest.skip("not built here")
@@ -243,6 +254,11 @@ def test_the_evidence_panel_drills_from_a_gene_to_its_class_and_back(built):
     w._detail_link(QtCore.QUrl("starplast://class/" + link))
     assert "rate [95%]" in w.detail.toHtml(), "the class level did not open"
     assert "back to the gene" in w.detail.toHtml()
+    html = w.detail.toHtml()
+    assert "starplast://target/" in html, "the class page has no way up to its category"
+    up = html.split("starplast://target/", 1)[1].split('"', 1)[0]
+    w._detail_link(QtCore.QUrl("starplast://target/" + up))
+    assert "best recovered" in w.detail.toHtml(), "the category level did not open"
     w._detail_link(QtCore.QUrl(f"starplast://gene/{row}"))
     assert "If this gene were unknown" in w.detail.toHtml(), "back did not return to the gene"
 
@@ -259,3 +275,15 @@ def test_the_strategy_card_shows_where_it_is_weakest(built):
     assert card.record.isVisibleTo(card) and "weakest on" in card.record.text()
     card.show_strategy(S.get("holdout_search"), "Tg", {}, {}, "weak", "")
     assert not card.record.isVisibleTo(card), "a map walk calls no gene, so it has no record"
+
+
+def test_your_own_list_is_hidden_together_and_typed_names_work(planted):
+    """A pasted list resolves by name, every strategy asked hides all of it, and unknowns are dropped."""
+    names = planted.nodes["gene_id"].iloc[:6].tolist()
+    led = T.my_list(planted, names + ["NOT_A_GENE"], "compartment",
+                    strategies=["feature_knn", "layer_vote"])
+    assert set(led["strategy"]) <= {"feature_knn", "layer_vote"} and len(led)
+    assert set(led["set_name"]) == {"your list"}
+    labelled = led.groupby("strategy")["set_size"].first()
+    assert (labelled <= 6).all(), "a name that resolved to nothing was counted as hidden"
+    assert set(led["gene_id"]) <= set(names)
