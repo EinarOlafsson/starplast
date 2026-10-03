@@ -197,3 +197,29 @@ def test_a_gene_card_section_is_html_or_nothing(built):
     html = T.gene_html(gene, organism)
     assert "If this gene were unknown" in html and "<table" in html
     assert T.gene_html("no such gene", organism) == "", "an unknown gene adds no section"
+
+
+def test_the_class_level_names_the_best_strategy_and_the_confusions(built):
+    if not len(built):
+        pytest.skip("not built here")
+    folds = built[built["mode"] == "together"]
+    organism = str(folds["organism"].iloc[0])
+    target = str(folds["target"].iloc[0])
+    label = str(folds["truth"].value_counts().index[0])
+    html = T.class_html(target, label, organism)
+    assert label in html and "<table" in html and "rate [95%]" in html
+    assert T.class_html(target, "no such class", organism) == ""
+
+
+def test_a_strategy_line_names_where_it_is_weakest_but_only_where_judgeable(built):
+    if not len(built):
+        pytest.skip("not built here")
+    organism = str(built["organism"].iloc[0])
+    strategy = str(built[built["mode"] == "together"]["strategy"].iloc[0])
+    line = T.weakest(strategy, organism)
+    assert "held-out genes" in line
+    # Nothing is called weakest on a count too small to judge.
+    rows = T.summary(built[(built["mode"] == "together")
+                           & (built["strategy"] == strategy)], "class")
+    for row in rows[~rows["enough"].astype(bool)].itertuples():
+        assert f"{row.truth} (" not in line, row.truth
