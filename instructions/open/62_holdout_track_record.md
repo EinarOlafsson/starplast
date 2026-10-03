@@ -138,8 +138,9 @@ fold. So:
 * Stage 5 partly: `track_record.my_list(ctx, genes, target)` hides a user list together (Python
   only; no UI, no cache yet). `track_record.alone(ctx, gene, target)` hides one gene with its
   orthogroup for ANY label, five fast strategies, ~9 s on Tg, cached per release/organism/label/gene
-  in the user cache. No UI yet: the natural place is a link per other label on the gene card,
-  run through the job runner so the panel never blocks.
+  in the user cache. The gene card links each of the gene's other labels to it (`starplast://alone/
+  <row>/<target>`), run on the job runner; the answer replaces the panel only if the user is
+  still on that gene. Stage 5 left: the user-list hold-out has no UI.
 * Stage 6 not started.
 * Found on the way: categorical `value_counts` named zero-count classes as confusions (fixed, with
   a regression test). Whole-class hold-outs score `right == 0` by construction; only `together`

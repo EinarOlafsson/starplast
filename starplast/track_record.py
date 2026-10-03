@@ -444,16 +444,18 @@ def shipped(organism: str | None = None) -> pd.DataFrame:
     return frame[frame["organism"].astype(str) == str(organism)]
 
 
-def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None) -> str:
+def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None,
+              mode: str = "together") -> str:
     """The gene card's line and its table, as HTML: the condensed form first, the detail under it.
 
     One sentence a reader can take in -- what is known, and how many strategies recovered it when it
     was hidden -- then a row per strategy saying what each one actually said. Empty string when the
-    record says nothing about this gene, so the card simply does not grow a section.
+    record says nothing about this gene, so the card simply does not grow a section. `mode` "alone"
+    reads the rows `alone` computed on demand, for a label the shipped record does not cover.
     """
     from html import escape
     frame = shipped(organism) if ledger is None else ledger
-    folds = frame[frame["mode"] == "together"] if len(frame) else frame
+    folds = frame[frame["mode"] == mode] if len(frame) else frame
     one = for_gene(folds, gene_id) if len(folds) else pd.DataFrame()
     if not len(one):
         return ""
@@ -462,7 +464,11 @@ def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None) -
     target = str(folds[folds["gene_id"].astype(str) == str(gene_id)]["target"].iloc[0])
     truth = str(one["truth"].iloc[0])
     link = (f"starplast://class/{quote(target, safe='')}/{quote(truth, safe='')}")
-    line_html = escape(line).replace(escape(truth), f"<a href='{link}'>{escape(truth)}</a>", 1)
+    # Only the shipped label has a class page to go to; an on-demand answer is about one gene.
+    line_html = (escape(line).replace(escape(truth), f"<a href='{link}'>{escape(truth)}</a>", 1)
+                 if mode == "together" else escape(line))
+    heading = ("If this gene were unknown" if mode == "together"
+               else f"If its {escape(target.replace('_', ' '))} were unknown")
     rows = ""
     for r in one.itertuples():
         said = "—" if r.abstained else escape(str(r.prediction))
@@ -472,7 +478,7 @@ def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None) -
         rows += (f"<tr><td>{escape(S.get(r.strategy).title)}</td>"
                  f"<td style='color:{colour}'>{mark} {said}</td>"
                  f"<td align='right' style='color:#888'>{support}</td></tr>")
-    return (f"<h4>If this gene were unknown</h4><p>{line_html}</p>"
+    return (f"<h4>{heading}</h4><p>{line_html}</p>"
             f"<p style='color:#888'>Each strategy below was asked about this gene with its label "
             f"hidden, and its orthogroup hidden with it, so nothing could answer by copying a "
             f"paralog. ✓ right · ✗ wrong · · declined to answer; the last column is how sure it "

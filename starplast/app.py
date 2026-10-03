@@ -4452,6 +4452,12 @@ class Window(QtWidgets.QMainWindow):
             self.detail.setHtml(back + (body or "<p style='color:#888'>Nothing recorded for "
                                                  "this class.</p>"))
             return
+        if url.host() == "alone" and len(parts) >= 2:
+            try:
+                self._run_alone(int(parts[0]), parts[1])
+            except ValueError:
+                pass
+            return
         if url.host() == "target" and parts:
             from . import track_record
             code = organisms.by_species(self.species).code
@@ -4620,9 +4626,72 @@ class Window(QtWidgets.QMainWindow):
         try:
             from . import track_record
             code = organisms.by_species(self.species).code
-            return track_record.gene_html(str(gene_id), code)
+            html = track_record.gene_html(str(gene_id), code)
         except Exception:                                  # a record that is absent or foreign
             return ""
+        return html + self._other_labels_html(gene_id, html)
+
+    def _other_labels_html(self, gene_id: str, shipped_html: str) -> str:
+        """Links to test this gene on its OTHER labels, one click each, computed when asked.
+
+        The shipped record holds one label per organism. A gene that also has a function, a stage or
+        a phenotype can be asked about any of them: the link hides it, with its orthogroup, and
+        the fast strategies answer in about ten seconds on a background job.
+        """
+        from urllib.parse import quote
+        ctx = getattr(getattr(self, "strategy_panel", None), "ctx", None)
+        row = getattr(self, "_detail_row", None)
+        if ctx is None or row is None:
+            return ""
+        shipped_target = (shipped_html.split("starplast://class/", 1)[1].split("/", 1)[0]
+                          if "starplast://class/" in shipped_html else "")
+        links = []
+        for column in ctx.categorical_columns():
+            if quote(column, safe="") == shipped_target:
+                continue
+            try:
+                if pd.isna(ctx.truth(column).iloc[int(row)]):
+                    continue
+            except (ValueError, IndexError):
+                continue
+            links.append(f"<a href='starplast://alone/{int(row)}/{quote(column, safe='')}'>"
+                         f"{column.replace('_', ' ')}</a>")
+        if not links:
+            return ""
+        return ("<p style='color:#888'>Test its other labels too: "
+                + " · ".join(links[:8]) + "</p>")
+
+    def _run_alone(self, row: int, target: str):
+        """Hide one gene on one label in the background, then show the answer if still wanted."""
+        from . import track_record
+        ctx = getattr(getattr(self, "strategy_panel", None), "ctx", None)
+        if ctx is None:
+            return None
+        gene_id = str(self.nodes["gene_id"].iloc[row])
+        job = self.run_job(lambda: track_record.alone(ctx, row, target),
+                           f"would they have known {gene_id}'s {target}?")
+
+        def show(jid: int, ok: bool):
+            """Fill the panel with the answer -- only if the user is still on this gene."""
+            if jid != job.id:
+                return
+            self.jobs.finished.disconnect(show)
+            if getattr(self, "_detail_row", None) != row:
+                return
+            back = f"<p><a href='starplast://gene/{row}'>◂ back to the gene</a></p>"
+            if not ok or job.result is None:
+                body = f"<p style='color:#888'>Could not run: {job.error or 'no result'}</p>"
+            else:
+                code = organisms.by_species(self.species).code
+                body = (track_record.gene_html(gene_id, code, job.result, mode="alone")
+                        or "<p style='color:#888'>No strategy can speak about this label.</p>")
+            self.detail.setHtml(back + body)
+
+        self.jobs.finished.connect(show)
+        self.detail.setHtml(f"<p><a href='starplast://gene/{row}'>◂ back to the gene</a></p>"
+                            f"<p>Hiding {gene_id} and its orthogroup, and asking five strategies "
+                            f"for its {target.replace('_', ' ')}…</p>")
+        return job
 
 
 def main():

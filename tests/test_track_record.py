@@ -332,3 +332,34 @@ def test_one_gene_alone_hides_its_orthogroup_and_is_cached(planted, tmp_path, mo
     again = T.alone(planted, planted.gene_ids[gene], "compartment",
                     strategies=("feature_knn",))
     assert len(again) == 1 and list(again["strategy"]) == ["feature_knn"], "the cache was not reused"
+
+
+def test_the_gene_card_tests_another_label_on_demand(built, tmp_path, monkeypatch):
+    """A link per other label; clicking one runs in the background and shows the answer in place."""
+    if not len(built):
+        pytest.skip("not built here")
+    from PyQt6 import QtCore, QtWidgets
+    from starplast import paths
+    monkeypatch.setattr(paths, "user_cache_dir", lambda: str(tmp_path))
+    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    from starplast import app as A
+    w = A.Window()
+    if getattr(w, "strategy_panel", None) is None:
+        pytest.skip("no strategy panel here")
+    ids = w.nodes.gene_id.astype(str)
+    folds = built[(built["mode"] == "together") & (built["organism"] == "Tg")]
+    row = int(ids[ids == str(folds["gene_id"].iloc[0])].index[0])
+    w.show_detail(row)
+    html = w.detail.toHtml()
+    if "starplast://alone/" not in html:
+        pytest.skip("this gene has no second label")
+    link = "starplast://alone/" + html.split("starplast://alone/", 1)[1].split('"', 1)[0]
+    w._detail_link(QtCore.QUrl(link))
+    assert "Hiding" in w.detail.toHtml(), "nothing said while it runs"
+    deadline = QtCore.QDeadlineTimer(120_000)
+    while w.jobs.busy and not deadline.hasExpired():
+        app.processEvents(QtCore.QEventLoop.ProcessEventsFlag.AllEvents, 100)
+    app.processEvents()
+    done = w.detail.toHtml()
+    assert "were unknown" in done or "No strategy can speak" in done, done[-400:]
+    assert "back to the gene" in done
