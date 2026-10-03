@@ -1322,6 +1322,11 @@ class Window(QtWidgets.QMainWindow):
             # rather than through the stylesheet and so need to know which palette is in force.
             app.setProperty("starplastTheme", name)
             app.setStyleSheet(self.stylesheet())
+        # Links in the evidence panel in the theme's accent: Qt's default blue is unreadable on the
+        # dark themes, and the panel's links are now the way down to a gene's class.
+        if getattr(self, "detail", None) is not None:
+            self.detail.document().setDefaultStyleSheet(
+                f"a {{ color: {TH.palette_for(name)['accent']}; text-decoration: none; }}")
         self.view.setBackgroundColor(pg.mkColor(TH.palette_for(name)["bg"]))
         # Recolor the classes for this ground, then restore the deliberate grey for "unknown".
         self.color_of = dict(zip(self.comps,
@@ -3733,7 +3738,14 @@ class Window(QtWidgets.QMainWindow):
         d = QtWidgets.QDockWidget("evidence")
         d.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
         self.detail = QtWidgets.QTextBrowser()
-        self.detail.setOpenExternalLinks(True)
+        # Links are routed by hand: web links open in the browser as before, and `starplast:` links
+        # drill down inside this panel -- from a gene to its class, and back -- which a browser that
+        # followed every link itself would turn into a blank page.
+        self.detail.setOpenLinks(False)
+        self.detail.anchorClicked.connect(self._detail_link)
+        self.detail.document().setDefaultStyleSheet(
+            f"a {{ color: {TH.palette_for(getattr(self, 'theme', 'dark'))['accent']}; "
+            f"text-decoration: none; }}")
         self.detail.setHtml("<p style='color:#888'>Click a gene.</p>")
         self.detail.setMinimumWidth(400)
         d.setWidget(self.detail)
@@ -4408,8 +4420,34 @@ class Window(QtWidgets.QMainWindow):
         return "\n".join(bits)
 
     # ------------------------------------------------------------------ detail
+    def _detail_link(self, url: QtCore.QUrl) -> None:
+        """Follow a link in the evidence panel: out to the web, or down a level within the panel.
+
+        `starplast://class/<target>/<label>` shows how every strategy fares on one class;
+        `starplast://gene/<row>` goes back to a gene's card. Anything else is a web link.
+        """
+        if url.scheme() != "starplast":
+            QtGui.QDesktopServices.openUrl(url)
+            return
+        parts = [QtCore.QUrl.fromPercentEncoding(p.encode()) for p in url.path().split("/") if p]
+        if url.host() == "gene" and parts:
+            try:
+                self.show_detail(int(parts[0]))
+            except (ValueError, IndexError):
+                pass
+            return
+        if url.host() == "class" and len(parts) >= 2:
+            from . import track_record
+            code = organisms.by_species(self.species).code
+            back = (f"<p><a href='starplast://gene/{self._detail_row}'>◂ back to the gene</a></p>"
+                    if getattr(self, "_detail_row", None) is not None else "")
+            body = track_record.class_html(parts[0], parts[1], code)
+            self.detail.setHtml(back + (body or "<p style='color:#888'>Nothing recorded for "
+                                                 "this class.</p>"))
+
     def show_detail(self, i):
         """Fill the evidence panel for one gene, distinguishing absence from zero throughout."""
+        self._detail_row = int(i)
         r = self.nodes.iloc[i]
         gid = str(r.gene_id)
 

@@ -223,3 +223,39 @@ def test_a_strategy_line_names_where_it_is_weakest_but_only_where_judgeable(buil
                            & (built["strategy"] == strategy)], "class")
     for row in rows[~rows["enough"].astype(bool)].itertuples():
         assert f"{row.truth} (" not in line, row.truth
+
+
+def test_the_evidence_panel_drills_from_a_gene_to_its_class_and_back(built):
+    """The click path the user asked for: gene, then the class, then back to the gene."""
+    if not len(built):
+        pytest.skip("not built here")
+    from PyQt6 import QtCore, QtWidgets
+    _app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    from starplast import app as A
+    w = A.Window()
+    ids = w.nodes.gene_id.astype(str)
+    folds = built[(built["mode"] == "together") & (built["organism"] == "Tg")]
+    row = int(ids[ids == str(folds["gene_id"].iloc[0])].index[0])
+    w.show_detail(row)
+    html = w.detail.toHtml()
+    assert "If this gene were unknown" in html and "starplast://class/" in html
+    link = html.split("starplast://class/", 1)[1].split('"', 1)[0]
+    w._detail_link(QtCore.QUrl("starplast://class/" + link))
+    assert "rate [95%]" in w.detail.toHtml(), "the class level did not open"
+    assert "back to the gene" in w.detail.toHtml()
+    w._detail_link(QtCore.QUrl(f"starplast://gene/{row}"))
+    assert "If this gene were unknown" in w.detail.toHtml(), "back did not return to the gene"
+
+
+def test_the_strategy_card_shows_where_it_is_weakest(built):
+    if not len(built):
+        pytest.skip("not built here")
+    from PyQt6 import QtWidgets
+    _app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    from starplast.strategy_card import StrategyCard
+    card = StrategyCard()
+    s = S.get("feature_knn")
+    card.show_strategy(s, "Tg", {}, {}, "reliable", "")
+    assert card.record.isVisibleTo(card) and "weakest on" in card.record.text()
+    card.show_strategy(S.get("holdout_search"), "Tg", {}, {}, "weak", "")
+    assert not card.record.isVisibleTo(card), "a map walk calls no gene, so it has no record"

@@ -561,6 +561,17 @@ class StrategyCard(QtWidgets.QWidget):
         self.basis = _role(QtWidgets.QLabel(""), "dim")
         self.basis.setWordWrap(True)
         outer.addWidget(self.basis)
+        # The track record in one line: every labelled gene held out in turn, and where this
+        # strategy is weakest. Hidden for strategies that do not call a label for named genes.
+        self.record = QtWidgets.QLabel("")
+        self.record.setWordWrap(True)
+        self.record.setToolTip(TH.tip(
+            "Every labelled gene was hidden in turn, with its orthogroup, and this strategy asked "
+            "what it is. The count is over the genes it answered; the classes named are those it "
+            "recovers least often, among classes with enough answers to judge. The evidence "
+            "panel shows, for any gene, what every strategy said about it."))
+        self.record.hide()
+        outer.addWidget(self.record)
         # The last self-test run here, in the same four bars (hidden until one runs).
         self.mine = QtWidgets.QWidget()
         ml = QtWidgets.QVBoxLayout(self.mine)
@@ -648,6 +659,13 @@ class StrategyCard(QtWidgets.QWidget):
         self.question.setText(s.question)
         self.scorecard.set_bars(SC.headline_bars(s.task, card, verdict))
         self.basis.setText(basis)
+        try:
+            from . import track_record
+            line = track_record.weakest(s.key, organism)
+        except Exception:                                  # no record built, or a foreign one
+            line = ""
+        self.record.setText(line)
+        self.record.setVisible(bool(line))
         self.mine.hide()
         self.about.set_key(s.key)
         ex = EX.examples(s.key, organism)

@@ -453,6 +453,12 @@ def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None) -
     if not len(one):
         return ""
     line = sentence(folds, gene_id)
+    # The class is a link: one click from this gene to how every strategy fares on its whole class.
+    from urllib.parse import quote
+    target = str(folds[folds["gene_id"].astype(str) == str(gene_id)]["target"].iloc[0])
+    truth = str(one["truth"].iloc[0])
+    link = (f"starplast://class/{quote(target, safe='')}/{quote(truth, safe='')}")
+    line_html = escape(line).replace(escape(truth), f"<a href='{link}'>{escape(truth)}</a>", 1)
     rows = ""
     for r in one.itertuples():
         said = "—" if r.abstained else escape(str(r.prediction))
@@ -462,7 +468,7 @@ def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None) -
         rows += (f"<tr><td>{escape(S.get(r.strategy).title)}</td>"
                  f"<td style='color:{colour}'>{mark} {said}</td>"
                  f"<td align='right' style='color:#888'>{support}</td></tr>")
-    return (f"<h4>If this gene were unknown</h4><p>{escape(line)}</p>"
+    return (f"<h4>If this gene were unknown</h4><p>{line_html}</p>"
             f"<p style='color:#888'>Each strategy below was asked about this gene with its label "
             f"hidden, and its orthogroup hidden with it, so nothing could answer by copying a "
             f"paralog. ✓ right · ✗ wrong · · declined to answer; the last column is how sure it "
@@ -491,9 +497,12 @@ def class_html(target: str, label: str, organism: str,
         rows += (f"<tr><td>{escape(S.get(r.strategy).title)}</td>"
                  f"<td align='right'>{r.right}/{r.answered}</td><td>{rate}</td>"
                  f"<td style='color:#888'>{escape(str(r.confused_with or ''))}</td></tr>")
-    pooled = _rate(here)
+    # Distinct genes, not rows: every strategy contributes a row per gene, so the row count is the
+    # gene count times the number of strategies -- 10,766 for a class of 769, which it once said.
+    genes = int(here["gene"].nunique())
     best = summary(here, "class").sort_values("rate", ascending=False, na_position="last")
-    lead = (f"{escape(str(label))}: {pooled['genes']:,} genes. "
+    lead = (f"{escape(str(label))}: {genes:,} genes, asked of {here['strategy'].nunique()} "
+            f"strategies. "
             + (f"Best recovered by {escape(S.get(best.iloc[0]['strategy']).title)} "
                f"({best.iloc[0]['right']} of {best.iloc[0]['answered']})."
                if len(best) and best.iloc[0]["enough"] else
