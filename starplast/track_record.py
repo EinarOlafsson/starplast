@@ -467,3 +467,62 @@ def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None) -
             f"hidden, and its orthogroup hidden with it, so nothing could answer by copying a "
             f"paralog. ✓ right · ✗ wrong · · declined to answer; the last column is how sure it "
             f"was.</p><table cellspacing='0' cellpadding='3'>{rows}</table>")
+
+
+def class_html(target: str, label: str, organism: str,
+               ledger: pd.DataFrame | None = None) -> str:
+    """One class: how well each strategy recovers it, and what it is mistaken for.
+
+    The level above the gene. A class every strategy misses is not a failure of any one of them --
+    it is a statement that this distinction is not in the measurements, which is worth knowing
+    before a screen is designed around it.
+    """
+    from html import escape
+    frame = shipped(organism) if ledger is None else ledger
+    folds = frame[(frame["mode"] == "together") & (frame["target"].astype(str) == str(target))]
+    here = folds[folds["truth"].astype(str) == str(label)]
+    if not len(here):
+        return ""
+    rows = ""
+    for r in summary(here, "class").sort_values("rate", ascending=False,
+                                                na_position="last").itertuples():
+        rate = ("too few" if not r.enough else
+                f"{r.rate:.0%} <span style='color:#888'>[{r.rate_low:.0%}, {r.rate_high:.0%}]</span>")
+        rows += (f"<tr><td>{escape(S.get(r.strategy).title)}</td>"
+                 f"<td align='right'>{r.right}/{r.answered}</td><td>{rate}</td>"
+                 f"<td style='color:#888'>{escape(str(r.confused_with or ''))}</td></tr>")
+    pooled = _rate(here)
+    best = summary(here, "class").sort_values("rate", ascending=False, na_position="last")
+    lead = (f"{escape(str(label))}: {pooled['genes']:,} genes. "
+            + (f"Best recovered by {escape(S.get(best.iloc[0]['strategy']).title)} "
+               f"({best.iloc[0]['right']} of {best.iloc[0]['answered']})."
+               if len(best) and best.iloc[0]["enough"] else
+               "No strategy answers enough of them to judge."))
+    return (f"<h4>{escape(str(label))}</h4><p>{lead}</p>"
+            f"<table cellspacing='0' cellpadding='3'><tr><th align='left'>strategy</th>"
+            f"<th>right</th><th align='left'>rate [95%]</th>"
+            f"<th align='left'>called instead</th></tr>{rows}</table>")
+
+
+def weakest(strategy: str, organism: str, target: str | None = None, limit: int = 3,
+            ledger: pd.DataFrame | None = None) -> str:
+    """One line for a strategy card: where this strategy is weakest, by class.
+
+    Only classes with enough answered genes to judge; a class it answered twice says nothing about
+    it, and saying so would be worse than saying nothing.
+    """
+    frame = shipped(organism) if ledger is None else ledger
+    folds = frame[(frame["mode"] == "together") & (frame["strategy"].astype(str) == str(strategy))]
+    if target:
+        folds = folds[folds["target"].astype(str) == str(target)]
+    if not len(folds):
+        return ""
+    rows = summary(folds, "class")
+    rows = rows[rows["enough"].astype(bool)].sort_values("rate", kind="stable")
+    pooled = _rate(folds)
+    if not len(rows):
+        return (f"Right on {pooled['right']:,} of {pooled['answered']:,} held-out genes "
+                f"({pooled['rate']:.0%}).")
+    worst = ", ".join(f"{r.truth} ({r.right} of {r.answered})" for r in rows.head(limit).itertuples())
+    return (f"Right on {pooled['right']:,} of {pooled['answered']:,} held-out genes "
+            f"({pooled['rate']:.0%}); weakest on {worst}.")
