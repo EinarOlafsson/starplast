@@ -1,0 +1,262 @@
+"""The track record: hold every labelled gene out in turn, and keep what each strategy said.
+
+A self-test hides a quarter of a label once and reports one number. That answers "does this strategy
+beat chance on this label", which is what a verdict needs, and it leaves the question a biologist
+actually asks unanswered: *could this software have told me what I already know about THIS gene?*
+
+So this module runs the hold-out to completion. The labelled genes are split into folds by
+ORTHOGROUP, every fold is hidden in turn, and the strategy is asked for the genes it cannot see --
+so each labelled gene is held out exactly once, is never predicted by a model that saw it or its
+paralog, and ends with a row of its own saying what was predicted, whether that was right, and how
+sure the strategy was. Those rows are the ledger; `summary` pools them at the level being asked
+about, from one gene up to one strategy, and every rate carries the count it rests on and a Wilson
+interval, because a rate without those is a number nobody can act on.
+
+    ledger = evaluate(ctx, "feature_knn", "compartment")      # one row per labelled gene
+    summary(ledger, "gene")                                   # how each gene fared
+    summary(ledger, "class")                                  # and each class, with what it is confused with
+
+Abstentions are kept apart from errors throughout: a strategy that declines to answer is not wrong,
+and averaging the two together would hide exactly the difference the scorecard exists to show.
+"""
+from __future__ import annotations
+
+import time
+
+import numpy as np
+import pandas as pd
+
+from . import strategies as S
+
+#: Folds the labelled genes are split into. Five is the project's cross-validation default: with
+#: fewer, each model sees too little; with more, the run costs more than the extra precision is
+#: worth.
+FOLDS = 5
+
+#: Below this many scored genes a rate is noise. Reported as a count instead, never as a percentage.
+MIN_FOR_RATE = 5
+
+#: What a ledger row holds. `prediction` and `correct` are null where the strategy abstained, which
+#: is a third outcome and not a wrong answer.
+COLUMNS = ("organism", "strategy", "target", "setting_key", "seed", "fold", "mode",
+           "gene", "gene_id", "truth", "prediction", "correct", "abstained", "support")
+
+
+def folds_by_group(ctx, positions, folds: int = FOLDS, seed: int = 0) -> np.ndarray:
+    """A fold number per position, whole orthogroups kept together.
+
+    Groups are dealt round-robin from a shuffled list rather than cut into blocks, so one enormous
+    family cannot put a quarter of the genes into one fold.
+    """
+    positions = np.asarray(positions, dtype=int)
+    groups = np.asarray(ctx.groups())[positions]
+    rng = np.random.default_rng(seed)
+    order = rng.permutation(np.unique(groups))
+    sizes = pd.Series(groups).value_counts()
+    load = np.zeros(int(folds))
+    where = {}
+    for group in order:                       # biggest first, into whichever fold is emptiest
+        pick = int(np.argmin(load))
+        where[group] = pick
+        load[pick] += float(sizes[group])
+    return np.array([where[g] for g in groups], dtype=int)
+
+
+def _codes(values) -> pd.Series:
+    return pd.Series(values).astype("object").where(pd.notna(pd.Series(values)), None)
+
+
+def evaluate(ctx, key: str, target: str, settings: dict | None = None, folds: int = FOLDS,
+             seed: int = 0, log=None) -> pd.DataFrame:
+    """Hold out every labelled gene in turn and record what `key` said about each.
+
+    One row per labelled gene: the fold it was hidden in, the label it carries, what the strategy
+    predicted without seeing it or its orthogroup, whether that was right, and the strategy's own
+    support for the call. Returns an empty frame, rather than raising, when the strategy cannot
+    speak about this target at all -- a refusal is a fact about the pairing, not an error.
+    """
+    say = log or (lambda _m: None)
+    strategy = S.get(key)
+    truth = ctx.truth(target)
+    kept = truth.where(truth.map(truth.value_counts()) >= S.MIN_CLASS)
+    labelled = np.flatnonzero(kept.notna().to_numpy())
+    if len(labelled) < folds * 2:
+        return pd.DataFrame(columns=list(COLUMNS))
+    fold_of = folds_by_group(ctx, labelled, folds, seed)
+    chosen = dict(strategy.settings(ctx, target=target, **(settings or {})))
+    setting_key = ", ".join(f"{k}={v}" for k, v in sorted(chosen.items()) if k != "target")
+    rows = []
+    for fold in range(int(folds)):
+        ctx.check()
+        hidden = labelled[fold_of == fold]
+        if not len(hidden):
+            continue
+        say(f"{key} on {target}: fold {fold + 1} of {folds}, {len(hidden):,} genes held out")
+        visible = kept.copy()
+        visible.iloc[hidden] = np.nan
+        t0 = time.monotonic()
+        pred, support = _predict(ctx, strategy, visible, hidden, chosen, target)
+        say(f"  {time.monotonic() - t0:.1f}s")
+        if pred is None:
+            return pd.DataFrame(columns=list(COLUMNS))
+        p = pd.Series(pred).reset_index(drop=True)
+        sup = pd.Series(support).reset_index(drop=True) if support is not None else None
+        for gene in hidden:
+            call = p.iloc[gene]
+            said = isinstance(call, str)
+            rows.append({
+                "organism": ctx.organism, "strategy": key, "target": target,
+                "setting_key": setting_key, "seed": int(seed), "fold": int(fold), "mode": "together",
+                "gene": int(gene), "gene_id": str(ctx.gene_ids[gene]),
+                "truth": str(kept.iloc[gene]), "prediction": call if said else None,
+                "correct": bool(call == kept.iloc[gene]) if said else None,
+                "abstained": not said,
+                "support": float(sup.iloc[gene]) if sup is not None and said
+                and np.isfinite(sup.iloc[gene]) else float("nan")})
+    return pd.DataFrame(rows, columns=list(COLUMNS))
+
+
+def _predict(ctx, strategy, visible: pd.Series, query, settings: dict, target: str):
+    """(prediction, support) from one strategy, given the visible labels only.
+
+    The strategies do not share one prediction entry point -- each `runner` returns tables meant for
+    a person to read -- so this asks the same primitives their own self-tests ask, chosen by what the
+    strategy is built from (`Strategy.techniques`). A strategy whose method cannot be asked about
+    specific genes returns `(None, None)` and is skipped rather than guessed at.
+    """
+    from . import strategy_catalog as C
+    techniques = set(strategy.techniques)
+    key = strategy.key
+    X = None
+    if {"knn", "logistic_regression", "sgc", "random_forest", "pu_bagging"} & techniques:
+        X, _cols = ctx.features(target)
+    if key in ("feature_knn", "stratum_focus"):
+        pred, share = S.knn_vote(X, visible, int(settings.get("k", 15)), query=query)
+        floor = float(settings.get("min_share", 0.0) or 0.0)
+        return pred.where(share >= floor), share
+    if key == "supervised_classifier":
+        pred, prob, _m = C._logistic(X, visible, query, float(settings.get("C", 0.5)),
+                                     float(settings.get("min_probability", 0.0)))
+        return pred, prob
+    if key == "random_forest":
+        from . import strategy_learning as L
+        pred, prob, _m = L._forest(X, visible, query, settings.get("trees", 300),
+                                   settings.get("min_leaf", 2), ctx.seed)
+        return pred, prob
+    if key == "graph_convolution":
+        from . import strategy_learning as L
+        H, _c, _l = L._smoothed(ctx, target, int(settings.get("hops", 2)))
+        pred, prob, _m = C._logistic(H, visible, query, float(settings.get("C", 0.5)),
+                                     float(settings.get("min_probability", 0.0)))
+        return pred, prob
+    if key == "stacking":
+        from . import strategy_learning as L
+        pred, support, _trust = L._stack(ctx, L._stack_bases(ctx, target, int(settings.get("k", 15))),
+                                         visible, query, int(settings.get("folds", 5)))
+        return pred, support
+    if key == "layer_propagation":
+        layer = settings.get("layer") or (ctx.measurement_layers(target) or [None])[0]
+        if layer is None:
+            return None, None
+        pred, strength = S.propagate(ctx.operator(layer), visible, query,
+                                     float(settings.get("restart", 0.5)))
+        return pred, strength
+    if key == "physical_partners":
+        layers, A = C._physical(ctx, target)
+        if A is None:
+            return None, None
+        pred, support = S.graph_vote(A, visible, query)
+        return pred, support
+    if key == "layer_vote":
+        pred, support, _w = C._weighted_vote(ctx, C._sources(ctx, target, int(settings.get("k", 15))),
+                                             visible, query)
+        return pred, support
+    if key in ("triangulation", "understudied_first"):
+        pred, agree, _p = C._triangulate(C._tri_sources(ctx, target, int(settings.get("k", 15))),
+                                         visible, query, int(settings.get("min_agree", 2)))
+        return pred, agree
+    return None, None
+
+
+def supported(organism: str | None = None) -> list:
+    """The strategies this can hold genes out for, in catalogue order.
+
+    Those that call a label for named genes, and whose prediction can therefore be attributed to the
+    gene it is about. A map walk or a module search answers about structure, not about one gene, and
+    keeps its existing self-test instead.
+    """
+    keys = ("feature_knn", "map_neighbours", "cluster_guilt", "layer_propagation", "layer_vote",
+            "physical_partners", "structural_homology", "supervised_classifier", "stratum_focus",
+            "triangulation", "understudied_first", "graph_convolution", "random_forest", "stacking")
+    known = {s.key for s in S.catalog()}
+    return [k for k in keys if k in known]
+
+
+# --------------------------------------------------------------------------- reading the ledger
+def _rate(frame: pd.DataFrame) -> dict:
+    """right/wrong/abstained counts, the rate over ANSWERED genes, and its Wilson interval."""
+    from .calibration import wilson
+    n = int(len(frame))
+    abstained = int(frame["abstained"].sum()) if n else 0
+    answered = n - abstained
+    right = int(frame["correct"].fillna(False).sum()) if n else 0
+    low, high = wilson(right, answered) if answered else (float("nan"), float("nan"))
+    return {"genes": n, "answered": answered, "right": right, "wrong": answered - right,
+            "abstained": abstained,
+            "rate": right / answered if answered else float("nan"),
+            "rate_low": low, "rate_high": high,
+            "enough": answered >= MIN_FOR_RATE}
+
+
+def summary(ledger: pd.DataFrame, level: str = "strategy") -> pd.DataFrame:
+    """Pool the ledger at one level: "gene", "class", "target" or "strategy".
+
+    Every row carries the counts it rests on, the rate over ANSWERED genes, a Wilson 95% interval and
+    `enough`, which is False where too few genes were answered for a percentage to mean anything.
+    Rows are never pooled across settings: a gene called right at one setting and wrong at another is
+    not half right, it is a gene whose answer depends on the setting, and that is worth seeing.
+    """
+    if not len(ledger):
+        return pd.DataFrame()
+    by = {"gene": ["organism", "gene", "gene_id", "truth"],
+          "class": ["organism", "target", "truth", "strategy", "setting_key"],
+          "target": ["organism", "target", "strategy", "setting_key"],
+          "strategy": ["organism", "strategy", "setting_key"]}[level]
+    rows = []
+    for keys, part in ledger.groupby(by, dropna=False):
+        row = dict(zip(by, keys if isinstance(keys, tuple) else (keys,)))
+        row.update(_rate(part))
+        if level == "gene":
+            row["strategies"] = int(part["strategy"].nunique())
+            wrong = part[(part["correct"] == False)]            # noqa: E712 -- a nullable column
+            row["called_instead"] = ", ".join(sorted(set(wrong["prediction"].dropna()))[:3])
+        if level == "class":
+            wrong = part[(part["correct"] == False)]            # noqa: E712
+            row["confused_with"] = ", ".join(
+                wrong["prediction"].dropna().value_counts().index[:3])
+        rows.append(row)
+    out = pd.DataFrame(rows)
+    return out.sort_values([c for c in ("organism", "target", "strategy", "truth", "gene_id")
+                            if c in out.columns], kind="stable").reset_index(drop=True)
+
+
+def for_gene(ledger: pd.DataFrame, gene_id: str) -> pd.DataFrame:
+    """Every strategy's verdict on one gene: what it said, whether it was right, how sure it was."""
+    part = ledger[ledger["gene_id"].astype(str) == str(gene_id)]
+    keep = ["strategy", "setting_key", "truth", "prediction", "correct", "abstained", "support"]
+    return part[keep].sort_values(["correct", "support"], ascending=[False, False],
+                                  kind="stable").reset_index(drop=True)
+
+
+def sentence(ledger: pd.DataFrame, gene_id: str) -> str:
+    """One line for the gene card: the condensed form, with the detail a click away."""
+    part = for_gene(ledger, gene_id)
+    if not len(part):
+        return ""
+    answered = part[~part["abstained"].astype(bool)]
+    right = int(answered["correct"].fillna(False).sum())
+    truth = str(part["truth"].iloc[0])
+    if not len(answered):
+        return f"Known {truth}: no strategy would call it (all {len(part)} abstained)."
+    return (f"Known {truth}: recovered by {right} of {len(answered)} strategies that answered"
+            + (f", {len(part) - len(answered)} abstained." if len(part) > len(answered) else "."))
