@@ -11,6 +11,15 @@
   `notebooks/biological_questions_2026_09_30.ipynb`; `docs/questions.md` lists the questions that
   yielded a result, each reproducible as a panel path or a one-line API call. No strategy, calibration
   number, shipped table or UI behaviour changed.
+- Fix the blank panel: with **Background = blobs**, switching between the tabbed right-hand docks --
+  Evidence, Analysis, Maps, Strategies, star map, start here -- left the panel switched back to
+  painted as nothing but the drifting background, and it stayed that way until the program was
+  restarted. Qt lowers the dock it switches away from, which put it under the background; the
+  background is an ordinary child of the window, so it then covered a panel that was laid out,
+  correctly sized and repainting the whole time. `AmbientWidget.keep_behind` puts the field back at
+  the bottom of the stack, called on every tab switch and on each frame, so no reordering can bury a
+  panel. Held down by a regression test that compares the pixels over the panel before and after a
+  round trip rather than asking whether it is visible, which it always was.
 
 ## 0.49.0
 

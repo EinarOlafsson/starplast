@@ -425,6 +425,92 @@ def test_the_background_follows_the_window_when_it_is_resized(win):
     win.set_ambient("none")
 
 
+def _dock_tab_bar(win):
+    """The tab bar the tabified right-hand docks share, or None if they are not tabbed."""
+    from PyQt6 import QtWidgets
+    for bar in win.findChildren(QtWidgets.QTabBar):
+        if "evidence" in {bar.tabText(i) for i in range(bar.count())}:
+            return bar
+    return None
+
+
+def _show_tab(bar, label):
+    """Switch to a dock tab the way clicking it does, and let the switch settle."""
+    from PyQt6 import QtWidgets
+    labels = [bar.tabText(i) for i in range(bar.count())]
+    bar.setCurrentIndex(labels.index(label))
+    app = QtWidgets.QApplication.instance()
+    for _ in range(25):
+        app.processEvents()
+
+
+def test_the_background_never_climbs_on_top_of_a_panel(win):
+    """Switch panels and back: the panel must still be the thing that is painted there.
+
+    The bug this holds down, reported twice from the desktop: go to Strategies, come back to
+    Evidence, and the gene card cannot be shown again -- the panel is laid out, the right size,
+    `isVisible()`, repainting, and all the user sees is the drifting background. `isVisible()`
+    therefore proves nothing here, so this renders the window and compares the PIXELS over the
+    panel before and after the round trip.
+
+    The cause is stacking, not painting: the background is an ordinary child of the main window,
+    and `QMainWindowLayout::tabChanged` lowers the dock it has just switched away from -- under the
+    background. It needs no compositor, only the background switched on, which is why the first
+    headless check missed it: the suite's settings leave it off.
+    """
+    from PyQt6 import QtCore, QtWidgets
+    bar = _dock_tab_bar(win)
+    if bar is None or bar.count() < 2:
+        pytest.skip("the right-hand docks are not tabbed in this build")
+    labels = [bar.tabText(i) for i in range(bar.count())]
+    other = next(t for t in labels if t != "evidence")
+    win.resize(1200, 800)
+    # SHOWN, which is the whole condition: Qt only re-stacks the docks of a window that has been
+    # shown, so on a window that never was, the background stays where it was lowered and the round
+    # trip is clean however broken the program is.
+    win.show()
+    win.set_ambient("blobs")
+    # The field is a function of the clock, so stopping it makes two renders comparable. It also
+    # means only the switch itself can put the background back where it belongs.
+    win._ambient_widget.stop()
+    win._ambient_widget.set_time(0.0)
+    try:
+        _show_tab(bar, "evidence")
+        dock = win.right_dock
+        rect = QtCore.QRect(dock.mapTo(win, QtCore.QPoint(0, 0)), dock.size())
+        before = win.grab().toImage().copy(rect)
+        _show_tab(bar, other)
+        _show_tab(bar, "evidence")
+        after = win.grab().toImage().copy(rect)
+        assert not before.isNull() and before.size() == after.size()
+        assert after == before, (
+            "the panel is not painted after switching away and back -- what is drawn over it is "
+            "the background")
+        kids = [c for c in win.children() if isinstance(c, QtWidgets.QWidget)]
+        assert kids.index(win._ambient_widget) < kids.index(dock), (
+            "the background is stacked above the panel it is supposed to sit behind")
+    finally:
+        win.set_ambient("none")
+        win.hide()
+
+
+def test_the_background_puts_itself_back_at_the_bottom(win):
+    """`keep_behind` is the safety net for every other way the stack can be reordered."""
+    from PyQt6 import QtWidgets
+    win.set_ambient("blobs")
+    try:
+        field = win._ambient_widget
+        field.raise_()
+        kids = [c for c in win.children() if isinstance(c, QtWidgets.QWidget)]
+        assert kids.index(field) == len(kids) - 1
+        assert field.keep_behind() is True
+        kids = [c for c in win.children() if isinstance(c, QtWidgets.QWidget)]
+        assert kids.index(field) == 0
+        assert field.keep_behind() is False, "nothing to do when it is already at the bottom"
+    finally:
+        win.set_ambient("none")
+
+
 def test_light_options_are_remembered(win):
     from PyQt6 import QtCore
     win.set_lighting_option("source", "selected gene")
