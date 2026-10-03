@@ -254,12 +254,14 @@ verdicts, including the ones that fail on this data.
 
 Every labelled gene has been hidden once, in five folds that never split an
 orthogroup, and each strategy that calls labels was asked what it is. The result
-ships with Starplast and reads in three places, each one click deeper:
+ships with Starplast and reads in four places, each one click from the next:
 
 - **A gene card** ends with *If this gene were unknown*: which strategies would have
   named its class (✓), named another (✗), or said nothing (·). Click the class.
 - **The class page** lists, per strategy, how many of that class's genes it got
   right, the rate with its 95% interval, and what it called them instead.
+- **The category page**, one click up, lists every class with its best strategy:
+  which distinctions the data carries, and which none of the strategies recover.
 - **A strategy card** names the classes where it is weakest. Rates are only printed
   from five or more answered genes; below that it says *too few*.
 
