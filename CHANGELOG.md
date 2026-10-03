@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.51.0
 
 - Tutorial videos: six silent screen captures of the real application, recorded by the new
   `scripts/tutorial_video.py`, which drives the real `Window` offscreen, grabs each frame with
