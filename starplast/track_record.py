@@ -39,7 +39,8 @@ MIN_FOR_RATE = 5
 #: What a ledger row holds. `prediction` and `correct` are null where the strategy abstained, which
 #: is a third outcome and not a wrong answer.
 COLUMNS = ("organism", "strategy", "target", "setting_key", "seed", "fold", "mode",
-           "gene", "gene_id", "truth", "prediction", "correct", "abstained", "support")
+           "set_name", "set_size", "gene", "gene_id", "truth", "prediction", "correct",
+           "abstained", "support")
 
 
 def folds_by_group(ctx, positions, folds: int = FOLDS, seed: int = 0) -> np.ndarray:
@@ -107,6 +108,7 @@ def evaluate(ctx, key: str, target: str, settings: dict | None = None, folds: in
             rows.append({
                 "organism": ctx.organism, "strategy": key, "target": target,
                 "setting_key": setting_key, "seed": int(seed), "fold": int(fold), "mode": "together",
+                "set_name": None, "set_size": len(hidden),
                 "gene": int(gene), "gene_id": str(ctx.gene_ids[gene]),
                 "truth": str(kept.iloc[gene]), "prediction": call if said else None,
                 "correct": bool(call == kept.iloc[gene]) if said else None,
@@ -260,3 +262,112 @@ def sentence(ledger: pd.DataFrame, gene_id: str) -> str:
         return f"Known {truth}: no strategy would call it (all {len(part)} abstained)."
     return (f"Known {truth}: recovered by {right} of {len(answered)} strategies that answered"
             + (f", {len(part) - len(answered)} abstained." if len(part) > len(answered) else "."))
+
+
+# --------------------------------------------------------------------------- sets held out together
+def evaluate_sets(ctx, key: str, target: str, sets: dict, settings: dict | None = None,
+                  seed: int = 0, log=None) -> pd.DataFrame:
+    """Hide each named set of genes TOGETHER, and record what the strategy said about its members.
+
+    A different question from the fold-by-fold run. There, a gene is hidden while its neighbours
+    keep their labels, so the answer may rest on one close relative; here the whole set goes at once,
+    which asks whether the evidence still reaches those genes when the obvious witnesses are gone
+    too. Hiding a whole compartment is the strongest form: nothing of that class is left to copy
+    from, so a label-caller cannot name it at all, and the honest result is that it abstains or
+    places the genes somewhere else -- which is worth seeing stated rather than assumed.
+
+    `sets` maps a name to gene positions. Returns the same rows as `evaluate`, with `mode` "set",
+    the set's name and its size, so the two can be concatenated and read side by side.
+    """
+    say = log or (lambda _m: None)
+    strategy = S.get(key)
+    truth = ctx.truth(target)
+    kept = truth.where(truth.map(truth.value_counts()) >= S.MIN_CLASS)
+    chosen = dict(strategy.settings(ctx, target=target, **(settings or {})))
+    setting_key = ", ".join(f"{k}={v}" for k, v in sorted(chosen.items()) if k != "target")
+    rows = []
+    for name, members in sets.items():
+        ctx.check()
+        hidden = np.asarray([g for g in np.asarray(members, dtype=int)
+                             if isinstance(kept.iloc[g], str)], dtype=int)
+        if not len(hidden):
+            continue
+        say(f"{key} on {target}: holding out {name} ({len(hidden):,} genes) together")
+        visible = kept.copy()
+        visible.iloc[hidden] = np.nan
+        pred, support = _predict(ctx, strategy, visible, hidden, chosen, target)
+        if pred is None:
+            return pd.DataFrame(columns=list(COLUMNS))
+        p = pd.Series(pred).reset_index(drop=True)
+        sup = pd.Series(support).reset_index(drop=True) if support is not None else None
+        for gene in hidden:
+            call = p.iloc[gene]
+            said = isinstance(call, str)
+            rows.append({
+                "organism": ctx.organism, "strategy": key, "target": target,
+                "setting_key": setting_key, "seed": int(seed), "fold": -1, "mode": "set",
+                "set_name": str(name), "set_size": int(len(hidden)),
+                "gene": int(gene), "gene_id": str(ctx.gene_ids[gene]),
+                "truth": str(kept.iloc[gene]), "prediction": call if said else None,
+                "correct": bool(call == kept.iloc[gene]) if said else None,
+                "abstained": not said,
+                "support": float(sup.iloc[gene]) if sup is not None and said
+                and np.isfinite(sup.iloc[gene]) else float("nan")})
+    return pd.DataFrame(rows, columns=list(COLUMNS))
+
+
+def class_sets(ctx, target: str) -> dict:
+    """One set per label value: every gene of that class, hidden at once.
+
+    The hardest hold-out there is. Nothing of the class remains to copy, so this measures whether a
+    class is recoverable from the evidence itself or only by resemblance to its own members.
+    """
+    truth = ctx.truth(target)
+    kept = truth.where(truth.map(truth.value_counts()) >= S.MIN_CLASS)
+    return {str(value): np.flatnonzero((kept == value).to_numpy())
+            for value in sorted(kept.dropna().unique(), key=str)}
+
+
+def random_sets(ctx, target: str, sizes=(1, 2, 5, 20, 100), repeats: int = 5,
+                seed: int = 0) -> dict:
+    """Random sets of several sizes: how fast does a strategy lose a gene as its company is hidden?
+
+    The degradation curve. One gene hidden alone is the easiest case there is; a hundred hidden with
+    it is the case a real screen presents, where a whole list of genes is unknown at once.
+    """
+    truth = ctx.truth(target)
+    kept = truth.where(truth.map(truth.value_counts()) >= S.MIN_CLASS)
+    labelled = np.flatnonzero(kept.notna().to_numpy())
+    rng = np.random.default_rng(seed)
+    out = {}
+    for size in sizes:
+        if size > len(labelled):
+            continue
+        for repeat in range(int(repeats)):
+            out[f"random {size} #{repeat + 1}"] = rng.choice(labelled, size=int(size),
+                                                             replace=False)
+    return out
+
+
+def set_summary(ledger: pd.DataFrame) -> pd.DataFrame:
+    """Per held-out set: how many members came back, and whether they stayed together.
+
+    `together` is the share of the set given the SAME label as each other, whatever that label was:
+    a set that is placed consistently but wrongly has still been recognised as one thing, and that
+    is a different finding from a set scattered across the map.
+    """
+    part = ledger[ledger["mode"] == "set"]
+    if not len(part):
+        return pd.DataFrame()
+    rows = []
+    for keys, group in part.groupby(["organism", "strategy", "target", "setting_key", "set_name"],
+                                    dropna=False):
+        row = dict(zip(("organism", "strategy", "target", "setting_key", "set_name"), keys))
+        row.update(_rate(group))
+        called = group["prediction"].dropna()
+        row["together"] = (float(called.value_counts().iloc[0] / len(called)) if len(called)
+                           else float("nan"))
+        row["placed_at"] = ", ".join(called.value_counts().index[:2]) if len(called) else ""
+        rows.append(row)
+    return pd.DataFrame(rows).sort_values(["strategy", "set_name"],
+                                          kind="stable").reset_index(drop=True)

@@ -120,3 +120,42 @@ def test_the_supported_strategies_are_real_and_call_labels():
     for key in keys:
         assert key in known, key
         assert known[key].task == "label calls", key
+
+
+# --------------------------------------------------------------------------- sets held out together
+def test_a_set_is_hidden_all_at_once(planted):
+    """Every member of the set must be invisible while any of them is predicted."""
+    sets = T.class_sets(planted, "compartment")
+    name, members = next(iter(sets.items()))
+    led = T.evaluate_sets(planted, "feature_knn", "compartment", {name: members})
+    assert len(led) == len(members)
+    assert set(led["mode"]) == {"set"} and set(led["set_name"]) == {name}
+    assert set(led["set_size"]) == {len(members)}, "the rows disagree about how many were hidden"
+
+
+def test_hiding_a_whole_class_leaves_nothing_to_copy(planted):
+    """A vote among visible labels cannot name a class when every example of it is gone -- so the
+    rate is zero, and what the genes are called INSTEAD is the finding."""
+    sets = T.class_sets(planted, "compartment")
+    led = T.evaluate_sets(planted, "feature_knn", "compartment", sets)
+    summary = T.set_summary(led)
+    assert (summary["right"] == 0).all()
+    assert summary["placed_at"].str.len().gt(0).any()
+    assert ((summary["together"] >= 0) & (summary["together"] <= 1)).all()
+
+
+def test_the_degradation_curve_covers_the_sizes_asked_for(planted):
+    sets = T.random_sets(planted, "compartment", sizes=(1, 5, 20), repeats=3, seed=2)
+    assert len(sets) == 9
+    assert sorted({len(v) for v in sets.values()}) == [1, 5, 20]
+    led = T.evaluate_sets(planted, "feature_knn", "compartment", sets)
+    assert len(led) == 3 * (1 + 5 + 20)
+
+
+def test_set_rows_and_fold_rows_live_in_one_table(planted, ledger):
+    sets = T.random_sets(planted, "compartment", sizes=(5,), repeats=2, seed=3)
+    both = pd.concat([ledger, T.evaluate_sets(planted, "feature_knn", "compartment", sets)],
+                     ignore_index=True)
+    assert set(both["mode"]) == {"together", "set"}
+    assert len(T.summary(both, "strategy")) == 1, "the levels pool across both kinds of hold-out"
+    assert len(T.set_summary(both)) == 2, "and the set level reports only the sets"
