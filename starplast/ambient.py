@@ -137,6 +137,24 @@ class AmbientWidget(QtWidgets.QWidget):
         self._timer.setInterval(40)                    # 25 fps: scenery, not an animation to watch
         self._timer.timeout.connect(self._tick)
 
+    def keep_behind(self) -> bool:
+        """Put this widget back at the bottom of its parent's children. True if it had to move.
+
+        It is an ordinary child of the window, lowered when it is built -- but Qt lowers a dock when
+        its tab is switched away from (`QMainWindowLayout::tabChanged`), so after one switch that
+        dock sits BELOW the background and comes back painted over: laid out, the right size,
+        `isVisible()` true, its widget repainting, and invisible. That was the blank panel reported
+        twice against 0.48 and 0.49 (instruction 58). Whoever restacks the window calls this after.
+        """
+        parent = self.parentWidget()
+        if parent is None:
+            return False
+        siblings = [child for child in parent.children() if isinstance(child, QtWidgets.QWidget)]
+        if siblings and siblings[0] is self:
+            return False
+        self.lower()
+        return True
+
     def configure(self, **kw) -> None:
         """Set any of speed, size, density, blur, colors -- and rebuild if the count changed.
 

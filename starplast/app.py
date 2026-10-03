@@ -2556,13 +2556,55 @@ class Window(QtWidgets.QMainWindow):
         self._ambient_widget.setGeometry(self.rect())
         self._ambient_widget.show()
         self._ambient_widget.lower()
+        # Lowering once is not enough: every dock tab switch restacks the children (see
+        # `_lower_ambient`), so the background has to be put back each time.
+        self._watch_stacking()
 
     def eventFilter(self, obj, ev):
-        """Keep the background the size of the panel it sits behind."""
-        if (obj is self and self._ambient_widget is not None
-                and ev.type() == QtCore.QEvent.Type.Resize):
-            self._ambient_widget.setGeometry(self.rect())
+        """Keep the background the size of the panel it sits behind, and behind it."""
+        if obj is self and self._ambient_widget is not None:
+            kind = ev.type()
+            if kind == QtCore.QEvent.Type.Resize:
+                self._ambient_widget.setGeometry(self.rect())
+            elif kind in (QtCore.QEvent.Type.ChildAdded, QtCore.QEvent.Type.ChildPolished):
+                # A tab bar appears when docks are first tabified, and again whenever one is
+                # dragged out or back in; each new one has to be watched, and the stack re-sorted.
+                self._watch_stacking()
+                self._lower_ambient()
         return super().eventFilter(obj, ev)
+
+    def _lower_ambient(self) -> None:
+        """Put the background back at the bottom of the window's children.
+
+        Qt lowers a dock when its tab is switched away from
+        (`QMainWindowLayout::tabChanged`). The background is an ordinary child of the window,
+        lowered once when it is built, so after one switch that dock sits BELOW it and comes back
+        painted over: the panel is laid out, the right size, `isVisible()` true, its widget
+        repainting -- and invisible, which is the bug reported twice against 0.48/0.49. Re-lowering
+        is deferred by a zero timer so it runs after Qt's own restacking, not before it.
+        """
+        widget = self._ambient_widget
+        if widget is not None and widget.isVisible():
+            widget.keep_behind()
+            # Again once the event loop has run: Qt restacks the docks AFTER the signal that
+            # brought us here, so the immediate call alone would be undone.
+            QtCore.QTimer.singleShot(0, widget.keep_behind)
+
+    def _watch_stacking(self) -> None:
+        """Re-lower the background whenever a dock is shown, hidden or switched to.
+
+        Connected rather than polled, and marked on each object so a second call cannot connect the
+        same signal twice.
+        """
+        mark = "starplastStackWatched"
+        for dock in self.findChildren(QtWidgets.QDockWidget):
+            if not dock.property(mark):
+                dock.setProperty(mark, True)
+                dock.visibilityChanged.connect(lambda _shown: self._lower_ambient())
+        for bar in self.findChildren(QtWidgets.QTabBar):
+            if not bar.property(mark):
+                bar.setProperty(mark, True)
+                bar.currentChanged.connect(lambda _index: self._lower_ambient())
 
     def set_lighting(self, mode: str) -> str:
         """Choose off, soft illumination, or one of the density-ray shadow depths."""
