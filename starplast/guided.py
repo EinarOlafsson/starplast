@@ -701,7 +701,17 @@ def recommend(answers, ctx, limit: int = MAX_RECOMMENDED) -> list:
     chosen = [r for r in rows if r[0] is not None]
     if len(chosen) < MIN_RECOMMENDED:
         chosen += [r for r in rows if r[0] is None]
-    chosen.sort(key=lambda r: (-r[3], r[1].number))
+    # A strategy whose own track record on this label is no better than always naming the commonest
+    # class goes to the back, whatever its grade: the grade came from a different test, and the
+    # record is the direct answer to "would it have known?".
+    try:
+        from . import track_record
+        label = (answers or {}).get("label") if subject(answers) == "label" else None
+        below = {r[1].key: track_record.beats_baseline(r[1].key, organism, label) is False
+                 for r in chosen}
+    except Exception:
+        below = {}
+    chosen.sort(key=lambda r: (below.get(r[1].key, False), -r[3], r[1].number))
     top = chosen[:max(1, int(limit))]
     best = max((GRADE_WEIGHT.get(g, 0.0) for _rank, _s, g, _sc in top), default=0.0)
     weak = best < GRADE_WEIGHT["works when tuned"]

@@ -374,3 +374,15 @@ def test_a_recommendation_quotes_the_record_only_for_its_own_label(built):
     assert phrase.startswith(f"with {target.replace('_', ' ')} hidden, right on")
     assert T.record_phrase("feature_knn", "Tg", "some_other_label") == ""
     assert T.record_phrase("holdout_search", "Tg") == ""
+
+
+def test_start_here_puts_a_strategy_below_its_baseline_last(built):
+    if not len(built):
+        pytest.skip("not built here")
+    from starplast import guided as G
+    ctx = S.Context.shipped("Tg")
+    target = str(built[built["organism"] == "Tg"]["target"].iloc[0])
+    for goal in G.GOALS:
+        recs = G.recommend({"subject": "label", "label": target, "goal": goal}, ctx)
+        flags = [T.beats_baseline(r.key, "Tg", target) is False for r in recs]
+        assert flags == sorted(flags), f"{goal}: a below-baseline strategy outranks a better one"

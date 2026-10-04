@@ -614,6 +614,24 @@ def my_list(ctx, genes, target: str | None = None, strategies=None, log=None) ->
     return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame(columns=list(COLUMNS))
 
 
+def beats_baseline(strategy: str, organism: str, target: str | None = None) -> bool | None:
+    """Whether the strategy beat always naming the commonest class; None where there is no record."""
+    try:
+        frame = shipped(organism)
+    except Exception:
+        return None
+    if not len(frame):
+        return None
+    folds = frame[(frame["mode"] == "together") & (frame["strategy"].astype(str) == str(strategy))]
+    if target is not None:
+        folds = folds[folds["target"].astype(str) == str(target)]
+    answered = folds[~folds["abstained"].astype(bool)]
+    if len(answered) < MIN_FOR_RATE:
+        return None
+    commonest = float(answered["truth"].astype(str).value_counts(normalize=True).iloc[0])
+    return bool(answered["correct"].fillna(False).astype(bool).mean() > commonest)
+
+
 def record_phrase(strategy: str, organism: str, target: str | None = None) -> str:
     """A clause for a recommendation: how often this strategy was right with labels hidden.
 
