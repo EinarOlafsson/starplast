@@ -220,6 +220,7 @@ def test_the_category_level_lists_every_class_once_and_links_down(built):
     classes = set(folds["truth"].astype(str))
     assert html.count("starplast://class/") == len(classes), "a class is missing or repeated"
     assert "best recovered" in html
+    assert "per class" in html and "commonest class" in html, "no strategy-side view"
     assert T.target_html("no such category", "Tg") == ""
 
 def test_a_strategy_line_names_where_it_is_weakest_but_only_where_judgeable(built):

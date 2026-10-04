@@ -563,9 +563,32 @@ def target_html(target: str, organism: str, ledger: pd.DataFrame | None = None) 
                  f"<td>{verdict}</td></tr>")
     lead = (f"{len(lines)} classes, {int(folds['gene'].nunique()):,} genes held out. "
             f"Best strategy per class; click a class for all of them.")
+    # The same category from the strategies' side: two measures, because a strategy built for small
+    # classes loses plain accuracy while winning per class, and either alone would misjudge it.
+    strat_rows = ""
+    scored = []
+    for key, part in folds.groupby(folds["strategy"].astype(str)):
+        b = _baselines(part)
+        if b is not None:
+            scored.append((b["balanced"], key, b))
+    # The guess is judged on every held-out gene once, not on any one strategy's answered subset.
+    every = folds.drop_duplicates("gene")["truth"].astype(str)
+    ref = {"commonest": float(every.value_counts(normalize=True).iloc[0]),
+           "chance": 1.0 / max(every.nunique(), 1)}
+    for _bal, key, b in sorted(scored, reverse=True):
+        strat_rows += (f"<tr><td>{escape(key.replace('_', ' '))}</td>"
+                       f"<td align='right'>{b['accuracy']:.0%}</td>"
+                       f"<td align='right'>{b['balanced']:.0%}</td></tr>")
+    strategies = ""
+    if strat_rows:
+        strategies = (f"<p style='color:#888'>By strategy, over the genes each answered: right overall, "
+                      f"and right per class averaged so small classes count equally. Guessing the "
+                      f"commonest class scores about {ref['commonest']:.0%} and {ref['chance']:.0%}."
+                      f"</p><table cellspacing='0' cellpadding='3'><tr><th align='left'>strategy</th>"
+                      f"<th>overall</th><th>per class</th></tr>{strat_rows}</table>")
     return (f"<h4>{escape(str(target))}</h4><p>{lead}</p>"
             f"<table cellspacing='0' cellpadding='3'><tr><th align='left'>class</th>"
-            f"<th>genes</th><th align='left'>best recovered</th></tr>{rows}</table>")
+            f"<th>genes</th><th align='left'>best recovered</th></tr>{rows}</table>{strategies}")
 
 
 def weakest(strategy: str, organism: str, target: str | None = None, limit: int = 3,

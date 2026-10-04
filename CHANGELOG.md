@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- The category page of the track record also lists every strategy with two measures, right overall
+  and right per class averaged so small classes count equally, beside what guessing the commonest
+  class scores on the same genes (Tg compartment: 20% and 4%).
+
 ## 0.52.0
 
 - The track record: every labelled gene held out once, for every one of the 14 strategies that
