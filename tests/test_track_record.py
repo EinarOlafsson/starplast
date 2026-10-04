@@ -364,9 +364,12 @@ def test_the_gene_card_tests_another_label_on_demand(built, tmp_path, monkeypatc
         assert "were unknown" in shown and "back to the gene" in shown, "a recorded label did not open"
         w.show_detail(row)
         html = w.detail.toHtml()
-    if "starplast://alone/" not in html:
-        pytest.skip("this gene has no label the record lacks")
-    link = "starplast://alone/" + html.split("starplast://alone/", 1)[1].split('"', 1)[0]
+    if "starplast://alone/" in html:
+        link = "starplast://alone/" + html.split("starplast://alone/", 1)[1].split('"', 1)[0]
+    else:
+        # Every label this gene has is recorded; the on-demand path still serves any other.
+        other = next(t for t in T.recorded_targets("Tg") if t != T.default_target("Tg"))
+        link = f"starplast://alone/{row}/{other}"
     w._detail_link(QtCore.QUrl(link))
     assert "Hiding" in w.detail.toHtml(), "nothing said while it runs"
     deadline = QtCore.QDeadlineTimer(120_000)
@@ -497,3 +500,18 @@ def test_the_recorded_labels_are_biology_not_bookkeeping():
     assert chosen[0] == S.default_category(ctx)
     for bookkeeping in ("compartment_source", "ortholopit_donors", "screen_scorers_agree"):
         assert bookkeeping not in chosen
+
+
+
+def test_the_record_never_walks_a_layer_the_strategy_would_refuse(planted):
+    """A banned default layer is replaced, and the ledger says which layer was walked instead."""
+    target = "compartment"
+    banned = planted.banned_layers(target)
+    if not banned:
+        pytest.skip("the planted table bans no layer for this target")
+    layer = sorted(banned)[0]
+    chosen = T._permitted(planted, {"layer": layer, "restart": 0.5}, target)
+    assert chosen["layer"] not in banned
+    led = T.evaluate(planted, "layer_propagation", target, settings={"layer": layer})
+    if len(led):
+        assert f"layer={layer}," not in str(led["setting_key"].iloc[0])

@@ -40,10 +40,6 @@ OUT = os.path.join(ROOT, "starplast", "data", "track_record.parquet")
 CURVE_SIZES = (1, 5, 20, 100, 500)
 CURVE_REPEATS = 4
 
-#: A strategy whose five folds take longer than this gets complete fold coverage but no set
-#: hold-outs: the sets are another ~45 passes, and for the slowest two that is most of an
-#: hour for a curve that is flat wherever it has been measured.
-SET_BUDGET_SECONDS = 30.0
 
 
 def labels(code: str) -> list:
@@ -70,18 +66,13 @@ def build(organism: str, target: str | None = None, log=print) -> pd.DataFrame:
         if not len(folds):
             log(f"  {key:24s} cannot speak about {target}; skipped")
             continue
-        fold_seconds = time.monotonic() - t0
         parts.append(folds)
-        # Every strategy gets complete fold coverage; the set hold-outs are another ~45 runs each,
-        # which for the slowest two would be most of an hour for a curve already known to be flat.
-        # They are run for the strategies that can afford them, and the ledger says plainly which.
-        if fold_seconds <= SET_BUDGET_SECONDS:
-            parts.append(T.evaluate_sets(ctx, key, target, T.class_sets(ctx, target)))
-            parts.append(T.evaluate_sets(ctx, key, target,
-                                         T.random_sets(ctx, target, CURVE_SIZES, CURVE_REPEATS,
-                                                       seed=1)))
-        else:
-            log(f"  {key:24s} folds only: {fold_seconds:.0f}s a pass is too slow for the sets")
+        # Every strategy gets the set hold-outs too. They were once skipped for strategies slower
+        # than a time budget, which made the file depend on how busy the machine was; with
+        # --workers the whole build is about an hour, and the same inputs now give the same file.
+        parts.append(T.evaluate_sets(ctx, key, target, T.class_sets(ctx, target)))
+        parts.append(T.evaluate_sets(ctx, key, target,
+                                     T.random_sets(ctx, target, CURVE_SIZES, CURVE_REPEATS, seed=1)))
         answered = int((~folds["abstained"].astype(bool)).sum())
         right = int(folds["correct"].fillna(False).sum())
         log(f"  {key:24s} {time.monotonic() - t0:6.1f}s  {right:>5,}/{answered:<6,} right "

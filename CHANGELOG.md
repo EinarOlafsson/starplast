@@ -1,7 +1,18 @@
 # Changelog
 
-## Unreleased
+## 0.53.0
 
+- The track record now holds every biological label, not only each organism's default: for
+  Toxoplasma compartment, LOPIT, membrane topology, any-screen phenotype, cell-cycle phase and the
+  actin, apicoplast, egress and replication screen phenotypes; for *P. falciparum* localization,
+  the transferred *P. berghei* phenotype and export (12 labels, 1,038,372 rows, 7.0 MB). Columns
+  that say where a label came from are left out, and so are `_derived` labels: the stage label is
+  the argmax of the expression columns. The first build "recovered" it at 91-100% because the
+  record's own runner walked label diffusion's default layer, coexpression, which the strategy
+  itself refuses for that label; the runner now applies the same ban (no recorded label changed). Every view names one label and defaults to the organism's
+  first; a gene card opens its other labels at once from the record and computes only what the
+  record lacks. The build takes `--workers` (about an hour on four) and no longer skips set
+  hold-outs for slow strategies, which had made the file depend on how busy the machine was.
 - The category page of the track record also lists every strategy with two measures, right overall
   and right per class averaged so small classes count equally, beside what guessing the commonest
   class scores on the same genes (Tg compartment: 20% and 4%).

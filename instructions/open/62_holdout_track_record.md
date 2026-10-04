@@ -150,6 +150,18 @@ fold. So:
   Pf: 0.179 / 0.236 vs 0.280 / 0.185. Kept as is; the record now judges on both measures
   (`track_record._baselines`), and the calibration grade is consistent with the per-class one.
 
+### Status (2026-10-04)
+
+* All biological labels recorded (`track_record.labels`): Tg 9, Pf 3; 7.0 MB. Built with
+  `scripts/build_track_record.py --workers 4` in ~55 min at ~1 GB per worker.
+* `_derived` labels excluded: `stage_enriched_derived` was "recovered" at 0.91 (Tg) / 1.00 (Pf) by
+  label diffusion over coexpression -- the label is the argmax of expression columns. The leak was in
+  `track_record._predict`, which took the strategy's default `layer=coexpression` without the ban the
+  real strategy enforces (`strategy_catalog._usable_layer` refuses it). Fixed by `_permitted`; no
+  recorded label was affected. The strategies themselves ban coexpression and the expression columns
+  for that target correctly.
+* Binary screen phenotypes are weak (best per-class 0.54-0.68 against 0.50 chance) -- honest, shown.
+
 ## Traps
 
 * **Never pool across settings** when reporting a gene's record: a gene called right at one setting

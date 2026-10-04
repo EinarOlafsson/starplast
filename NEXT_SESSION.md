@@ -193,7 +193,8 @@ Next, in order:
    have *Test these* too.
 2. (Resolved 2026-10-03: label diffusion's low accuracy is a small-class trade-off; see 62.)
    Consider a per-class view in the class/category pages: balanced recall beside accuracy.
-3. Ship more labels than the default one per organism (the full grid is ~6 h single-process; ~1 h on 6
+3. (Done 2026-10-04: every biological label is recorded; see instruction 62 status.)
+   Was: ship more labels than the default one per organism (the full grid is ~6 h single-process; ~1 h on 6
    workers under a MemoryMax scope; measured per-strategy costs are in instruction 62).
 4. Check stage 2's acceptance: pooled record vs. the scorecard numbers.
 5. The questions page (the 100 questions WIP is on branch `worktree-agent-a5f1423763f196a27`,

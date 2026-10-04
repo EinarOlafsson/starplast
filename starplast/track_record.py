@@ -86,7 +86,7 @@ def evaluate(ctx, key: str, target: str, settings: dict | None = None, folds: in
     if len(labelled) < folds * 2:
         return pd.DataFrame(columns=list(COLUMNS))
     fold_of = folds_by_group(ctx, labelled, folds, seed)
-    chosen = dict(strategy.settings(ctx, target=target, **(settings or {})))
+    chosen = _permitted(ctx, dict(strategy.settings(ctx, target=target, **(settings or {}))), target)
     setting_key = ", ".join(f"{k}={v}" for k, v in sorted(chosen.items()) if k != "target")
     rows = []
     for fold in range(int(folds)):
@@ -119,6 +119,20 @@ def evaluate(ctx, key: str, target: str, settings: dict | None = None, folds: in
                 and np.isfinite(sup.iloc[gene]) else float("nan")})
     return pd.DataFrame(rows, columns=list(COLUMNS))
 
+
+def _permitted(ctx, chosen: dict, target: str) -> dict:
+    """The settings with any banned edge layer replaced by the first permitted one.
+
+    A strategy's default layer can be one the target bans -- label diffusion defaults to
+    coexpression, which IS the stage label's source. Run in the Strategies tab, the strategy refuses
+    it; here, silently walking it once "recovered" the stage label at 100%. The replacement goes into
+    the settings, so the ledger's `setting_key` says which layer was actually walked.
+    """
+    layer = chosen.get("layer")
+    if layer and layer in ctx.banned_layers(target):
+        allowed = [l for l in ctx.measurement_layers(target) if l != "orthogroup"]
+        chosen = {**chosen, "layer": allowed[0] if allowed else None}
+    return chosen
 
 def _predict(ctx, strategy, visible: pd.Series, query, settings: dict, target: str):
     """(prediction, support) from one strategy, given the visible labels only.
@@ -160,7 +174,7 @@ def _predict(ctx, strategy, visible: pd.Series, query, settings: dict, target: s
         return pred, support
     if key == "layer_propagation":
         layer = settings.get("layer") or (ctx.measurement_layers(target) or [None])[0]
-        if layer is None:
+        if layer is None or layer in ctx.banned_layers(target):
             return None, None
         pred, strength = S.propagate(ctx.operator(layer), visible, query,
                                      float(settings.get("restart", 0.5)))
@@ -262,7 +276,7 @@ def summary(ledger: pd.DataFrame, level: str = "strategy") -> pd.DataFrame:
           "target": ["organism", "target", "strategy", "setting_key"],
           "strategy": ["organism", "strategy", "setting_key"]}[level]
     rows = []
-    for keys, part in ledger.groupby(by, dropna=False):
+    for keys, part in ledger.groupby(by, dropna=False, observed=True):
         row = dict(zip(by, keys if isinstance(keys, tuple) else (keys,)))
         row.update(_rate(part))
         if level == "gene":
@@ -320,7 +334,7 @@ def evaluate_sets(ctx, key: str, target: str, sets: dict, settings: dict | None 
     strategy = S.get(key)
     truth = ctx.truth(target)
     kept = truth.where(truth.map(truth.value_counts()) >= S.MIN_CLASS)
-    chosen = dict(strategy.settings(ctx, target=target, **(settings or {})))
+    chosen = _permitted(ctx, dict(strategy.settings(ctx, target=target, **(settings or {}))), target)
     setting_key = ", ".join(f"{k}={v}" for k, v in sorted(chosen.items()) if k != "target")
     rows = []
     for name, members in sets.items():
@@ -441,7 +455,12 @@ def shipped(organism: str | None = None) -> pd.DataFrame:
     frame = _SHIPPED["all"]
     if organism is None or not len(frame):
         return frame
-    return frame[frame["organism"].astype(str) == str(organism)]
+    # Kept per organism: a gene card asks several times per click, and filtering a million rows each
+    # time was a tenth of a second apiece.
+    key = ("organism", str(organism))
+    if key not in _SHIPPED:
+        _SHIPPED[key] = frame[frame["organism"] == str(organism)]
+    return _SHIPPED[key]
 
 
 #: Biological labels recorded beyond each space's declared targets. Columns that say where a label
@@ -460,20 +479,28 @@ def labels(ctx) -> list:
     except Exception:
         declared = []
     wanted = [S.default_category(ctx)] + declared + list(EXTRA_LABELS.get(ctx.organism, ()))
-    return [t for t in dict.fromkeys(wanted) if t in have]
+    # A `_derived` label is computed from measurements the strategies themselves read (the stage
+    # label is the argmax of the expression columns): recovering it is circular, and the first build
+    # duly "recovered" it at 91-100%. It is not recorded.
+    return [t for t in dict.fromkeys(wanted) if t in have and not t.endswith("_derived")]
 
 def recorded_targets(organism: str, ledger: pd.DataFrame | None = None) -> list:
     """The labels the record holds for one organism, the default first."""
+    if ledger is None and ("targets", str(organism)) in _SHIPPED:
+        return _SHIPPED[("targets", str(organism))]
     frame = shipped(organism) if ledger is None else ledger
     if not len(frame):
         return []
-    have = list(dict.fromkeys(frame["target"].astype(str)))
+    have = [str(t) for t in pd.unique(frame["target"])]
     try:
         from . import organisms
         declared = [t for t in organisms.get(organism).targets if t in have]
     except Exception:                                       # an organism the registry lacks
         declared = []
-    return list(dict.fromkeys(declared[:1] + have))
+    out = list(dict.fromkeys(declared[:1] + have))
+    if ledger is None:
+        _SHIPPED[("targets", str(organism))] = out
+    return out
 
 
 def default_target(organism: str, ledger: pd.DataFrame | None = None) -> str | None:
