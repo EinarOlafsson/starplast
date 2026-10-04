@@ -174,8 +174,9 @@ def test_the_shipped_record_covers_both_organisms_and_every_supported_strategy(b
     for organism in built["organism"].unique():
         here = folds[folds["organism"] == organism]
         assert here["strategy"].nunique() >= 10, organism
-        # Every labelled gene of the target appears exactly once per strategy.
-        per = here.groupby("strategy")["gene"].agg(["count", "nunique"])
+        # Every labelled gene of each label appears exactly once per strategy.
+        per = here.groupby(["target", "strategy"], observed=True)["gene"].agg(["count", "nunique"])
+        per = per[per["count"] > 0]
         assert (per["count"] == per["nunique"]).all(), organism
 
 
@@ -204,8 +205,9 @@ def test_the_class_level_names_the_best_strategy_and_the_confusions(built):
         pytest.skip("not built here")
     folds = built[built["mode"] == "together"]
     organism = str(folds["organism"].iloc[0])
-    target = str(folds["target"].iloc[0])
-    label = str(folds["truth"].value_counts().index[0])
+    target = T.default_target(organism)
+    folds = folds[(folds["organism"] == organism) & (folds["target"].astype(str) == target)]
+    label = str(folds["truth"].astype(str).value_counts().index[0])
     html = T.class_html(target, label, organism)
     assert label in html and "<table" in html and "rate [95%]" in html
     assert T.class_html(target, "no such class", organism) == ""
@@ -214,8 +216,9 @@ def test_the_class_level_names_the_best_strategy_and_the_confusions(built):
 def test_the_category_level_lists_every_class_once_and_links_down(built):
     if not len(built):
         pytest.skip("not built here")
-    folds = built[(built["mode"] == "together") & (built["organism"] == "Tg")]
-    target = str(folds["target"].iloc[0])
+    target = T.default_target("Tg")
+    folds = built[(built["mode"] == "together") & (built["organism"] == "Tg")
+                  & (built["target"].astype(str) == target)]
     html = T.target_html(target, "Tg")
     classes = set(folds["truth"].astype(str))
     assert html.count("starplast://class/") == len(classes), "a class is missing or repeated"
@@ -231,8 +234,9 @@ def test_a_strategy_line_names_where_it_is_weakest_but_only_where_judgeable(buil
     line = T.weakest(strategy, organism)
     assert "held-out genes" in line
     # Nothing is called weakest on a count too small to judge.
-    rows = T.summary(built[(built["mode"] == "together")
-                           & (built["strategy"] == strategy)], "class")
+    rows = T.summary(built[(built["mode"] == "together") & (built["strategy"] == strategy)
+                           & (built["organism"] == organism)
+                           & (built["target"].astype(str) == T.default_target(organism))], "class")
     for row in rows[~rows["enough"].astype(bool)].itertuples():
         assert f"{row.truth} (" not in line, row.truth
 
@@ -246,7 +250,8 @@ def test_the_evidence_panel_drills_from_a_gene_to_its_class_and_back(built):
     from starplast import app as A
     w = A.Window()
     ids = w.nodes.gene_id.astype(str)
-    folds = built[(built["mode"] == "together") & (built["organism"] == "Tg")]
+    folds = built[(built["mode"] == "together") & (built["organism"] == "Tg")
+                  & (built["target"].astype(str) == T.default_target("Tg"))]
     row = int(ids[ids == str(folds["gene_id"].iloc[0])].index[0])
     w.show_detail(row)
     html = w.detail.toHtml()
@@ -262,7 +267,7 @@ def test_the_evidence_panel_drills_from_a_gene_to_its_class_and_back(built):
     assert "best recovered" in w.detail.toHtml(), "the category level did not open"
     w._detail_link(QtCore.QUrl(f"starplast://gene/{row}"))
     assert "If this gene were unknown" in w.detail.toHtml(), "back did not return to the gene"
-    target = str(folds["target"].iloc[0])
+    target = T.default_target("Tg")
     w._record_link(f"starplast://target/{target}")
     assert "best recovered" in w.detail.toHtml(), "a strategy card's link did not open the category"
 
@@ -377,7 +382,7 @@ def test_a_recommendation_quotes_the_record_only_for_its_own_label(built):
     if not len(built):
         pytest.skip("not built here")
     folds = built[(built["mode"] == "together") & (built["organism"] == "Tg")]
-    target = str(folds["target"].iloc[0])
+    target = T.default_target("Tg")
     phrase = T.record_phrase("feature_knn", "Tg", target)
     assert phrase.startswith(f"with {target.replace('_', ' ')} hidden, right on")
     assert T.record_phrase("feature_knn", "Tg", "some_other_label") == ""
@@ -389,7 +394,7 @@ def test_start_here_puts_a_strategy_below_its_baseline_last(built):
         pytest.skip("not built here")
     from starplast import guided as G
     ctx = S.Context.shipped("Tg")
-    target = str(built[built["organism"] == "Tg"]["target"].iloc[0])
+    target = T.default_target("Tg")
     for goal in G.GOALS:
         recs = G.recommend({"subject": "label", "label": target, "goal": goal}, ctx)
         flags = [T.beats_baseline(r.key, "Tg", target) is False for r in recs]
