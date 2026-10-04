@@ -141,7 +141,12 @@ fold. So:
   in the user cache. The gene card links each of the gene's other labels to it (`starplast://alone/
   <row>/<target>`), run on the job runner; the answer replaces the panel only if the user is
   still on that gene. Stage 5 left: the user-list hold-out has no UI.
-* Stage 6 not started.
+* Stage 6 partly: Start here recommendations append `track_record.record_phrase` (rate + the
+  commonest-class baseline) when the record covers the label in hand. Not yet: the questions page.
+* FOLLOW-UP: layer_propagation is graded "reliable" by calibration (its per-layer test) but is
+  BELOW the commonest-class baseline on held-out compartment (15% vs 18%). The ranking in
+  `guided.recommend` should weigh the record, not the grade alone; and the calibration verdict for
+  label diffusion should be re-examined.
 * Found on the way: categorical `value_counts` named zero-count classes as confusions (fixed, with
   a regression test). Whole-class hold-outs score `right == 0` by construction; only `together`
   and `placed_at` mean anything there, and the notebook says so.

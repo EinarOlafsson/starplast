@@ -659,7 +659,17 @@ def _why(strategy, goal: Goal, answers, grade_phrase: str, ctx, rank) -> str:
     elif sub == "measure" and answers.get("measure"):
         fit += f", on {answers['measure'].replace('_', ' ')}"
     stop = "" if clause.endswith(("?", ".", "!")) else "."
-    return f"{clause}{stop} {fit}; {grade_phrase}."
+    # The track record, where it covers this strategy and the label in hand: a measured rate the
+    # reader can weigh, rather than only a grade.
+    try:
+        from . import track_record
+        organism = (answers or {}).get("space") or ctx.organism
+        label = answers.get("label") if sub == "label" else None
+        record = track_record.record_phrase(strategy.key, organism, label)
+    except Exception:
+        record = ""
+    record = f"; {record}" if record else ""
+    return f"{clause}{stop} {fit}; {grade_phrase}{record}."
 
 
 def recommend(answers, ctx, limit: int = MAX_RECOMMENDED) -> list:

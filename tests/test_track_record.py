@@ -363,3 +363,14 @@ def test_the_gene_card_tests_another_label_on_demand(built, tmp_path, monkeypatc
     done = w.detail.toHtml()
     assert "were unknown" in done or "No strategy can speak" in done, done[-400:]
     assert "back to the gene" in done
+
+
+def test_a_recommendation_quotes_the_record_only_for_its_own_label(built):
+    if not len(built):
+        pytest.skip("not built here")
+    folds = built[(built["mode"] == "together") & (built["organism"] == "Tg")]
+    target = str(folds["target"].iloc[0])
+    phrase = T.record_phrase("feature_knn", "Tg", target)
+    assert phrase.startswith(f"with {target.replace('_', ' ')} hidden, right on")
+    assert T.record_phrase("feature_knn", "Tg", "some_other_label") == ""
+    assert T.record_phrase("holdout_search", "Tg") == ""

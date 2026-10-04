@@ -18,6 +18,9 @@
   `track_record.alone` hides one gene with its orthogroup for any label, not only the shipped
   one, asks the five fast strategies (about 10 s on the Toxoplasma table) and caches the answer;
   the gene card links each of the gene's other labels to it, run as a background job.
+  Start here's recommendations quote the record for the label in hand, beside the rate of always
+  naming the commonest class: label diffusion, graded reliable by the calibration, is right on 15%
+  of held-out compartments against 18% for that baseline, and now says so.
   `notebooks/track_record_2026_10_03.ipynb` (written by `scripts/notebook_track_record.py`) states
   what the record says.
   `instructions/open/62_holdout_track_record.md`.

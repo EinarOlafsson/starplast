@@ -614,6 +614,37 @@ def my_list(ctx, genes, target: str | None = None, strategies=None, log=None) ->
     return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame(columns=list(COLUMNS))
 
 
+def record_phrase(strategy: str, organism: str, target: str | None = None) -> str:
+    """A clause for a recommendation: how often this strategy was right with labels hidden.
+
+    Only from the shipped record and only for its label: if `target` is given and is not the label
+    the record holds, nothing is said rather than quoting a different label's rate as this one's.
+    """
+    try:
+        frame = shipped(organism)
+    except Exception:                                     # no record built, or a foreign one
+        return ""
+    if not len(frame):
+        return ""
+    folds = frame[(frame["mode"] == "together") & (frame["strategy"].astype(str) == str(strategy))]
+    if target is not None:
+        folds = folds[folds["target"].astype(str) == str(target)]
+    if not len(folds):
+        return ""
+    r = _rate(folds)
+    if not r["enough"]:
+        return ""
+    label = str(folds["target"].iloc[0]).replace("_", " ")
+    # The baseline that makes the rate readable: always naming the commonest class among the same
+    # answered genes. A strategy below it is doing worse than not looking at the data at all.
+    answered = folds[~folds["abstained"].astype(bool)]
+    commonest = float(answered["truth"].astype(str).value_counts(normalize=True).iloc[0])
+    verdict = "" if r["rate"] > commonest else ", no better than"
+    return (f"with {label} hidden, right on {r['right']:,} of the {r['answered']:,} genes it "
+            f"answered ({r['rate']:.0%}{verdict}{'' if verdict else ';'} {commonest:.0%} by always "
+            f"naming the commonest class)")
+
+
 #: Fast enough to answer for one gene while someone waits: a pass of each takes seconds on the full
 #: Toxoplasma table. The slow learners (graph convolution, stacking) are in the shipped record.
 ALONE = ("feature_knn", "layer_vote", "physical_partners", "structural_homology", "random_forest")
