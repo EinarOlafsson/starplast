@@ -188,10 +188,10 @@ the category; `alone` (one gene, any label, from a gene-card link, background jo
 below-baseline strategies last; `notebooks/track_record_2026_10_03.ipynb`.
 
 Next, in order:
-1. A UI for `my_list`: paste or gate a list, "would they have found these?", reusing the gene-list
-   inputs the strategy settings already have.
-2. Re-examine label diffusion (`layer_propagation`): calibrated "reliable", but 15% on held-out
-   compartment against an 18% commonest-class baseline.
+1. (Done in 0.52.0: Start here ▸ *Test on my genes*.) Next: the same button in the Strategies tab's
+   gene-list settings.
+2. (Resolved 2026-10-03: label diffusion's low accuracy is a small-class trade-off; see 62.)
+   Consider a per-class view in the class/category pages: balanced recall beside accuracy.
 3. Ship more labels than the default one per organism (the full grid is ~6 h single-process; ~1 h on 6
    workers under a MemoryMax scope; measured per-strategy costs are in instruction 62).
 4. Check stage 2's acceptance: pooled record vs. the scorecard numbers.

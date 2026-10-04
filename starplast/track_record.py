@@ -614,22 +614,45 @@ def my_list(ctx, genes, target: str | None = None, strategies=None, log=None) ->
     return pd.concat(parts, ignore_index=True) if parts else pd.DataFrame(columns=list(COLUMNS))
 
 
-def beats_baseline(strategy: str, organism: str, target: str | None = None) -> bool | None:
-    """Whether the strategy beat always naming the commonest class; None where there is no record."""
-    try:
-        frame = shipped(organism)
-    except Exception:
-        return None
-    if not len(frame):
-        return None
-    folds = frame[(frame["mode"] == "together") & (frame["strategy"].astype(str) == str(strategy))]
-    if target is not None:
-        folds = folds[folds["target"].astype(str) == str(target)]
+def _baselines(folds: pd.DataFrame) -> dict | None:
+    """Accuracy and mean per-class recall, beside what always naming the commonest class scores.
+
+    Two measures because strategies trade one for the other: a strategy built to find small classes
+    (label diffusion gives every class the same seed mass) loses plain accuracy to the commonest-class
+    guess while recovering small classes far above chance. Judged on accuracy alone it would look
+    worse than not looking at the data, which it is not.
+    """
     answered = folds[~folds["abstained"].astype(bool)]
     if len(answered) < MIN_FOR_RATE:
         return None
-    commonest = float(answered["truth"].astype(str).value_counts(normalize=True).iloc[0])
-    return bool(answered["correct"].fillna(False).astype(bool).mean() > commonest)
+    truth = answered["truth"].astype(str)
+    correct = answered["correct"].fillna(False).astype(bool)
+    return {"accuracy": float(correct.mean()),
+            "commonest": float(truth.value_counts(normalize=True).iloc[0]),
+            "balanced": float(correct.groupby(truth).mean().mean()),
+            "chance": 1.0 / truth.nunique()}
+
+
+def _record_folds(strategy: str, organism: str, target: str | None) -> pd.DataFrame:
+    try:
+        frame = shipped(organism)
+    except Exception:                                     # no record built, or a foreign one
+        return pd.DataFrame()
+    if not len(frame):
+        return frame
+    folds = frame[(frame["mode"] == "together") & (frame["strategy"].astype(str) == str(strategy))]
+    if target is not None:
+        folds = folds[folds["target"].astype(str) == str(target)]
+    return folds
+
+
+def beats_baseline(strategy: str, organism: str, target: str | None = None) -> bool | None:
+    """False only when the strategy loses to always naming the commonest class on BOTH accuracy and
+    mean per-class recall; None where there is no record to judge from."""
+    b = _baselines(_record_folds(strategy, organism, target))
+    if b is None:
+        return None
+    return bool(b["accuracy"] > b["commonest"] or b["balanced"] > b["chance"])
 
 
 def record_phrase(strategy: str, organism: str, target: str | None = None) -> str:
@@ -638,30 +661,21 @@ def record_phrase(strategy: str, organism: str, target: str | None = None) -> st
     Only from the shipped record and only for its label: if `target` is given and is not the label
     the record holds, nothing is said rather than quoting a different label's rate as this one's.
     """
-    try:
-        frame = shipped(organism)
-    except Exception:                                     # no record built, or a foreign one
-        return ""
-    if not len(frame):
-        return ""
-    folds = frame[(frame["mode"] == "together") & (frame["strategy"].astype(str) == str(strategy))]
-    if target is not None:
-        folds = folds[folds["target"].astype(str) == str(target)]
-    if not len(folds):
+    folds = _record_folds(strategy, organism, target)
+    b = _baselines(folds) if len(folds) else None
+    if b is None:
         return ""
     r = _rate(folds)
-    if not r["enough"]:
-        return ""
     label = str(folds["target"].iloc[0]).replace("_", " ")
-    # The baseline that makes the rate readable: always naming the commonest class among the same
-    # answered genes. A strategy below it is doing worse than not looking at the data at all.
-    answered = folds[~folds["abstained"].astype(bool)]
-    commonest = float(answered["truth"].astype(str).value_counts(normalize=True).iloc[0])
-    verdict = "" if r["rate"] > commonest else ", no better than"
-    return (f"with {label} hidden, right on {r['right']:,} of the {r['answered']:,} genes it "
-            f"answered ({r['rate']:.0%}{verdict}{'' if verdict else ';'} {commonest:.0%} by always "
-            f"naming the commonest class)")
-
+    head = (f"with {label} hidden, right on {r['right']:,} of the {r['answered']:,} genes it "
+            f"answered ({b['accuracy']:.0%}")
+    if b["accuracy"] > b["commonest"]:
+        return f"{head}; {b['commonest']:.0%} by always naming the commonest class)"
+    if b["balanced"] > b["chance"]:
+        return (f"{head}, below the {b['commonest']:.0%} of always naming the commonest class, "
+                f"because it favours small classes: {b['balanced']:.0%} averaged over classes, "
+                f"against {b['chance']:.0%} by chance)")
+    return f"{head}, no better than always naming the commonest class)"
 
 def list_html(rows: pd.DataFrame, rows_of: dict | None = None) -> str:
     """What `my_list` found, condensed first: a line per strategy, then a gene-by-strategy grid.

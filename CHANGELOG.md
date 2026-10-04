@@ -1,12 +1,5 @@
 # Changelog
 
-## Unreleased
-
-- Start here: with a gene list given, the results page offers *Test on my genes*. The list's labels
-  are hidden together, the five fast strategies are asked for them back on a background job, and the
-  evidence panel shows a line per strategy (right of answered, where it placed them) above a gene by
-  strategy grid of ✓ ✗ ·, each gene linking to its card (`track_record.list_html`).
-
 ## 0.52.0
 
 - The track record: every labelled gene held out once, for every one of the 14 strategies that
@@ -25,13 +18,19 @@
   `track_record.alone` hides one gene with its orthogroup for any label, not only the shipped
   one, asks the five fast strategies (about 10 s on the Toxoplasma table) and caches the answer;
   the gene card links each of the gene's other labels to it, run as a background job.
-  Start here's recommendations quote the record for the label in hand, beside the rate of always
-  naming the commonest class: label diffusion, graded reliable by the calibration, is right on 15%
-  of held-out compartments against 18% for that baseline, and now says so -- and a strategy
-  below its baseline is listed after every strategy above it, whatever its grade.
+  Start here's recommendations quote the record for the label in hand, beside what always naming
+  the commonest class would score. Judged on two measures, accuracy and the mean of per-class
+  recall, because strategies trade one for the other: label diffusion seeds every class with the
+  same mass, and so is right on 15% of held-out Toxoplasma compartments (the commonest-class guess:
+  18%) while averaging 23% per class (chance: 4%) -- seeding each gene equally gives 25% and 18%
+  instead. It says so. Only a strategy below the guess on both is listed last.
   `notebooks/track_record_2026_10_03.ipynb` (written by `scripts/notebook_track_record.py`) states
   what the record says.
   `instructions/open/62_holdout_track_record.md`.
+- Start here: with a gene list given, the results page offers *Test on my genes*. The list's labels
+  are hidden together, the five fast strategies are asked for them back on a background job, and the
+  evidence panel shows a line per strategy (right of answered, where it placed them) above a gene by
+  strategy grid of ✓ ✗ ·, each gene linking to its card (`track_record.list_html`).
 
 ## 0.51.0
 

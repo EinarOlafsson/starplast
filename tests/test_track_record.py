@@ -431,3 +431,20 @@ def test_the_list_grid_marks_every_gene_for_every_strategy(planted):
     assert html.count("✓") + html.count("✗") + html.count("<td align='center' style='color:#888888'>·") \
         >= genes * rows["strategy"].nunique()
     assert "None of your genes" in T.list_html(rows.iloc[0:0])
+
+
+def test_a_strategy_that_favours_small_classes_is_not_called_worse_than_guessing():
+    """Losing on accuracy but winning per class is a trade-off, not a failure -- and both are said."""
+    big, small = ["big"] * 90, ["small"] * 10
+    truth = big + small
+    # Right on every small-class gene, wrong on most big ones: accuracy 0.30 < 0.90, per class 0.61.
+    prediction = ["big"] * 20 + ["small"] * 70 + ["small"] * 10
+    led = pd.DataFrame({"truth": truth, "prediction": prediction,
+                        "correct": [t == p for t, p in zip(truth, prediction)],
+                        "abstained": False})
+    b = T._baselines(led)
+    assert b["accuracy"] < b["commonest"] and b["balanced"] > b["chance"]
+    # And one that is worse on both: always the wrong class.
+    wrong = led.assign(prediction="other", correct=False)
+    w = T._baselines(wrong)
+    assert w["accuracy"] <= w["commonest"] and w["balanced"] <= w["chance"]
