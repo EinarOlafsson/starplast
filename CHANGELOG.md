@@ -5,6 +5,8 @@
 - The category page of the track record also lists every strategy with two measures, right overall
   and right per class averaged so small classes count equally, beside what guessing the commonest
   class scores on the same genes (Tg compartment: 20% and 4%).
+- Every gene-list setting in the Strategies tab has *Test these*: the same hold-out as Start here's
+  *Test on my genes*, for whatever list is in the box.
 
 ## 0.52.0
 

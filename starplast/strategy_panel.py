@@ -67,6 +67,9 @@ BUTTON_TIPS = {
                      "so a gene-list strategy can be tried before you have a list of your own.",
     "genes_gate": "Use the genes currently gated on the map, so a structure you drew around can be "
                   "handed straight to a gene-list strategy.",
+    "genes_test": "Would the data have found these genes? Their labels are hidden all at once and "
+                  "five fast strategies are asked for them back; the answer opens in the evidence "
+                  "panel, gene by gene. Genes with no label are left out.",
     "tuned": "Fill the settings with the combination calibration found best for this strategy "
              "(chosen on some held-out seeds and confirmed on others). The held-out label or gene "
              "list stays yours to choose.",
@@ -160,6 +163,8 @@ class StrategyPanel(QtWidgets.QWidget):
     gene_selected = QtCore.pyqtSignal(str)
     #: A track-record link from the card (`starplast://target/...`), for the evidence panel.
     record_link = QtCore.pyqtSignal(str)
+    #: Gene ids from a gene-list setting, to hide together and test (the track record).
+    test_genes = QtCore.pyqtSignal(list)
     status = QtCore.pyqtSignal(str)
     #: A finished run (`strategies.StrategyResult`) and a finished self-test (`TestResult`).
     result_ready = QtCore.pyqtSignal(object)
@@ -525,17 +530,31 @@ class StrategyPanel(QtWidgets.QWidget):
         load = QtWidgets.QPushButton("Load file…")
         example = QtWidgets.QPushButton("Example set")
         gate = QtWidgets.QPushButton("From gate")
-        for b, key in ((load, "genes_file"), (example, "genes_example"), (gate, "genes_gate")):
+        test = QtWidgets.QPushButton("Test these")
+        for b, key in ((load, "genes_file"), (example, "genes_example"), (gate, "genes_gate"),
+                       (test, "genes_test")):
             b.setToolTip(TH.tip(BUTTON_TIPS[key]))
             row.addWidget(b)
         load.clicked.connect(lambda: self.load_genes_file(box))
         example.clicked.connect(lambda: self.fill_example(box))
         gate.clicked.connect(lambda: self.fill_from_gate(box))
         gate.setEnabled(self.gated is not None)
+        test.clicked.connect(lambda: self.test_list(box))
         lay.addWidget(box)
         lay.addLayout(row)
-        host.box = box
+        host.box, host.test = box, test
         return host
+
+    def test_list(self, box) -> int:
+        """Ask for the box's genes to be hidden together and tested. Returns how many resolved."""
+        found, missing = self.ctx.resolve_genes(box.toPlainText())
+        if not len(found):
+            self.status.emit("no genes in the box are in this table")
+            return 0
+        self.test_genes.emit([str(g) for g in self.ctx.gene_ids[found]])
+        if missing:
+            self.status.emit(f"testing {len(found)} genes; {len(missing)} not in this table")
+        return len(found)
 
     def load_genes_file(self, box, path: str = "") -> int:
         """Fill a gene box from a file. Returns how many identifiers were read."""

@@ -449,3 +449,30 @@ def test_a_strategy_that_favours_small_classes_is_not_called_worse_than_guessing
     wrong = led.assign(prediction="other", correct=False)
     w = T._baselines(wrong)
     assert w["accuracy"] <= w["commonest"] and w["balanced"] <= w["chance"]
+
+
+def test_a_gene_list_setting_can_be_tested_from_the_strategies_tab(built):
+    """Every gene-list box carries Test these, and it hands the resolved genes to the window."""
+    if not len(built):
+        pytest.skip("not built here")
+    from PyQt6 import QtWidgets
+    _app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    from starplast import app as A
+    window = A.Window()
+    try:
+        panel = window.strategy_panel
+        key = next(s.key for s in S.catalog() if any(p.kind == "genes" for p in s.params))
+        panel.select(key)
+        host = next(w for _p, w in panel.inputs.values() if hasattr(w, "test"))
+        genes = built[built["organism"] == "Tg"]["gene_id"].astype(str).drop_duplicates().head(3)
+        host.box.setPlainText("\n".join(genes) + "\nNOT_A_GENE")
+        asked = []
+        panel.test_genes.disconnect()
+        panel.test_genes.connect(asked.append)
+        host.test.click()
+        assert asked and sorted(asked[0]) == sorted(genes), asked
+        host.box.setPlainText("NOT_A_GENE")
+        assert panel.test_list(host.box) == 0
+    finally:
+        window.console.remove()
+        window.close()

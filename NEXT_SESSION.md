@@ -189,8 +189,8 @@ the category; `alone` (one gene, any label, from a gene-card link, background jo
 below-baseline strategies last; `notebooks/track_record_2026_10_03.ipynb`.
 
 Next, in order:
-1. (Done in 0.52.0: Start here ▸ *Test on my genes*.) Next: the same button in the Strategies tab's
-   gene-list settings.
+1. (Done in 0.52.0: Start here ▸ *Test on my genes*.) The Strategies tab's gene-list settings
+   have *Test these* too.
 2. (Resolved 2026-10-03: label diffusion's low accuracy is a small-class trade-off; see 62.)
    Consider a per-class view in the class/category pages: balanced recall beside accuracy.
 3. Ship more labels than the default one per organism (the full grid is ~6 h single-process; ~1 h on 6

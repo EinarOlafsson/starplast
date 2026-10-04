@@ -1436,6 +1436,7 @@ class Window(QtWidgets.QMainWindow):
         panel.clusters_ready.connect(self.use_clusters)
         panel.gene_selected.connect(self._workflow_gene)
         panel.record_link.connect(self._record_link)
+        panel.test_genes.connect(self.run_my_list)
         d = QtWidgets.QDockWidget("strategies")
         d.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
         d.setWidget(panel)
