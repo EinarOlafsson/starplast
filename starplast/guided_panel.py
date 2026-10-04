@@ -55,6 +55,9 @@ TIPS = {
            "background like any job, and its tables appear under Strategies, Results.",
     "open": "Open this strategy in the Strategies tab with the settings your answers decided, "
             "where its guide, every setting and its self-test are.",
+    "test_genes": "Your genes' labels are hidden all at once and the five fast strategies are asked "
+                  "for them back; the answer opens in the evidence panel, gene by gene. Genes "
+                  "with no label cannot be tested and are left out.",
     "view": "Open this panel: it answers the question you asked better than running anything does.",
     "option": "Choose this and go on to the next question.",
 }
@@ -240,6 +243,8 @@ class GuidedPanel(QtWidgets.QWidget):
     open_strategy = QtCore.pyqtSignal(str, object)
     #: Another panel that answers the question better: `guided.VIEW_MAPS` or `guided.VIEW_STAR`.
     open_view = QtCore.pyqtSignal(str)
+    #: Your gene ids, to hide together and ask the fast strategies about (the track record).
+    test_genes = QtCore.pyqtSignal(list)
 
     def __init__(self, ctx, gated=None, parent=None):
         """Build the panel over one organism's context; other spaces are loaded if they are asked
@@ -600,6 +605,9 @@ class GuidedPanel(QtWidgets.QWidget):
             self.cards.append(card)
         for view in G.views(self.answers, ctx):
             self.body_layout.addWidget(self._view_row(view))
+        genes = G.gene_ids(self.answers, ctx)
+        if genes:
+            self.body_layout.addWidget(self._test_row(genes))
         self.body_layout.addStretch(1)
         self._fit_body()
 
@@ -618,6 +626,26 @@ class GuidedPanel(QtWidgets.QWidget):
         lay.addWidget(button)
         return host
 
+
+    def _test_row(self, genes: list) -> QtWidgets.QWidget:
+        """Offer the hold-out test on the person's own genes: would the data have found them?"""
+        host = Card()
+        lay = QtWidgets.QHBoxLayout(host)
+        lay.setContentsMargins(0, 4, 0, 4)
+        lay.setSpacing(8)
+        why = (f"Hide your {len(genes):,} gene{'s' if len(genes) != 1 else ''} together and ask five "
+               f"strategies what each one is. Where they get your genes right, their answers on "
+               f"the unknown genes deserve more weight.")
+        text = _role(QtWidgets.QLabel(f"<b>Would they have found your genes?</b> — {why}"), "body")
+        text.setWordWrap(True)
+        text.setToolTip(TH.tip(TIPS["test_genes"]))
+        lay.addWidget(text, 1)
+        button = QtWidgets.QPushButton("Test on my genes")
+        button.setToolTip(TH.tip(TIPS["test_genes"]))
+        button.clicked.connect(lambda _c=False, g=list(genes): self.test_genes.emit(g))
+        lay.addWidget(button)
+        self.test_button = button
+        return host
 
 def _filter(buttons, text: str):
     """Show only the column rows whose name or column name contains `text`."""
@@ -687,6 +715,8 @@ def install(window) -> GuidedPanel | None:
         dock.raise_()
 
     panel.open_view.connect(show_view)
+    if hasattr(window, "run_my_list"):
+        panel.test_genes.connect(window.run_my_list)
     dock = QtWidgets.QDockWidget("start here", window)
     dock.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
     dock.setWidget(panel)

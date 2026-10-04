@@ -140,7 +140,8 @@ fold. So:
   orthogroup for ANY label, five fast strategies, ~9 s on Tg, cached per release/organism/label/gene
   in the user cache. The gene card links each of the gene's other labels to it (`starplast://alone/
   <row>/<target>`), run on the job runner; the answer replaces the panel only if the user is
-  still on that gene. Stage 5 left: the user-list hold-out has no UI.
+  still on that gene. The user list runs from Start here (*Test on my genes*) -> grid in the
+  evidence panel. Stage 5 done.
 * Stage 6 partly: Start here recommendations append `track_record.record_phrase` (rate + the
   commonest-class baseline) when the record covers the label in hand. Not yet: the questions page.
 * FOLLOW-UP: layer_propagation is graded "reliable" by calibration (its per-layer test) but is

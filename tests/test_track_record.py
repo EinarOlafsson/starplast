@@ -386,3 +386,48 @@ def test_start_here_puts_a_strategy_below_its_baseline_last(built):
         recs = G.recommend({"subject": "label", "label": target, "goal": goal}, ctx)
         flags = [T.beats_baseline(r.key, "Tg", target) is False for r in recs]
         assert flags == sorted(flags), f"{goal}: a below-baseline strategy outranks a better one"
+
+
+def test_start_here_tests_your_own_genes_and_shows_the_grid(built, tmp_path, monkeypatch):
+    """From Start here, with a gene list: the button runs the hold-out and the grid opens."""
+    if not len(built):
+        pytest.skip("not built here")
+    from PyQt6 import QtCore, QtWidgets
+    from starplast import guided as G
+    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    from starplast import app as A
+    window = A.Window()
+    try:
+        panel = window.guided
+        if panel is None:
+            pytest.skip("no Start-here tab here")
+        folds = built[(built["mode"] == "together") & (built["organism"] == "Tg")]
+        genes = folds["gene_id"].astype(str).drop_duplicates().head(6).tolist()
+        panel.answer("have", G.HAVE_SET)
+        panel.answer("space", window.strategy_panel.ctx.organism)
+        panel.set_genes(genes)
+        panel._accept()
+        panel.answer("goal", G.PREDICT)
+        assert getattr(panel, "test_button", None) is not None, "no way to test the list"
+        panel.test_button.click()
+        assert "Hiding your 6 genes" in window.detail.toHtml()
+        deadline = QtCore.QDeadlineTimer(180_000)
+        while window.jobs.busy and not deadline.hasExpired():
+            app.processEvents(QtCore.QEventLoop.ProcessEventsFlag.AllEvents, 100)
+        app.processEvents()
+        html = window.detail.toHtml()
+        assert "Would they have found your genes?" in html
+        assert html.count("starplast://gene/") == 6, "every gene should link to its card"
+    finally:
+        window.console.remove()
+        window.close()
+
+
+def test_the_list_grid_marks_every_gene_for_every_strategy(planted):
+    names = planted.nodes["gene_id"].iloc[:8].tolist()
+    rows = T.my_list(planted, names, "compartment", strategies=["feature_knn", "layer_vote"])
+    html = T.list_html(rows)
+    genes = rows["gene_id"].nunique()
+    assert html.count("✓") + html.count("✗") + html.count("<td align='center' style='color:#888888'>·") \
+        >= genes * rows["strategy"].nunique()
+    assert "None of your genes" in T.list_html(rows.iloc[0:0])

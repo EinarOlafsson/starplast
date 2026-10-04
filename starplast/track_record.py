@@ -663,6 +663,55 @@ def record_phrase(strategy: str, organism: str, target: str | None = None) -> st
             f"naming the commonest class)")
 
 
+def list_html(rows: pd.DataFrame, rows_of: dict | None = None) -> str:
+    """What `my_list` found, condensed first: a line per strategy, then a gene-by-strategy grid.
+
+    `rows_of` maps a gene id to its row in the window's table, so each gene links to its card.
+    """
+    from html import escape
+    if not len(rows):
+        return ("<h4>Would they have found your genes?</h4><p style='color:#888'>None of your genes "
+                "carries a label these strategies can be tested on.</p>")
+    rows = rows.assign(strategy=rows["strategy"].astype(str), gene_id=rows["gene_id"].astype(str))
+    target = str(rows["target"].iloc[0]).replace("_", " ")
+    genes = list(dict.fromkeys(rows["gene_id"]))
+    keys = list(dict.fromkeys(rows["strategy"]))
+    summary_rows = ""
+    for key in keys:
+        part = rows[rows["strategy"] == key]
+        r = _rate(part)
+        called = part["prediction"].dropna().astype(str)
+        placed = ", ".join(called.value_counts().index[:2]) if len(called) else "—"
+        summary_rows += (f"<tr><td>{escape(key.replace('_', ' '))}</td>"
+                         f"<td align='right'>{r['right']}/{r['answered']}</td>"
+                         f"<td style='color:#888'>{escape(placed)}</td></tr>")
+    best = max(keys, key=lambda k: _rate(rows[rows["strategy"] == k])["right"])
+    b = _rate(rows[rows["strategy"] == best])
+    lead = (f"Your {len(genes)} labelled gene{'s' if len(genes) != 1 else ''}, hidden together "
+            f"and asked their {escape(target)}. "
+            f"Best: {escape(best.replace('_', ' '))}, right on {b['right']} of {b['answered']}.")
+    head = "".join(f"<th title='{escape(k)}'>{i + 1}</th>" for i, k in enumerate(keys))
+    grid = ""
+    marks = {(g, k): ("·", "#888888") for g in genes for k in keys}
+    for r in rows.itertuples():
+        marks[(r.gene_id, r.strategy)] = (("·", "#888888") if r.abstained else
+                                          ("✓", "#2e8b57") if r.correct else ("✗", "#c0392b"))
+    for g in genes:
+        truth = str(rows[rows["gene_id"] == g]["truth"].iloc[0])
+        name = (f"<a href='starplast://gene/{int(rows_of[g])}'>{escape(g)}</a>"
+                if rows_of and g in rows_of else escape(g))
+        cells = "".join(f"<td align='center' style='color:{marks[(g, k)][1]}'>{marks[(g, k)][0]}</td>"
+                        for k in keys)
+        grid += f"<tr><td>{name}</td><td style='color:#888'>{escape(truth)}</td>{cells}</tr>"
+    legend = " · ".join(f"{i + 1} {escape(k.replace('_', ' '))}" for i, k in enumerate(keys))
+    return (f"<h4>Would they have found your genes?</h4><p>{lead}</p>"
+            f"<table cellspacing='0' cellpadding='3'><tr><th align='left'>strategy</th>"
+            f"<th>right</th><th align='left'>placed them at</th></tr>{summary_rows}</table>"
+            f"<p style='color:#888'>Gene by gene (✓ right · ✗ wrong · · declined): {legend}</p>"
+            f"<table cellspacing='0' cellpadding='2'><tr><th align='left'>gene</th>"
+            f"<th align='left'>known</th>{head}</tr>{grid}</table>")
+
+
 #: Fast enough to answer for one gene while someone waits: a pass of each takes seconds on the full
 #: Toxoplasma table. The slow learners (graph convolution, stacking) are in the shipped record.
 ALONE = ("feature_knn", "layer_vote", "physical_partners", "structural_homology", "random_forest")

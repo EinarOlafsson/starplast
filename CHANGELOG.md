@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Start here: with a gene list given, the results page offers *Test on my genes*. The list's labels
+  are hidden together, the five fast strategies are asked for them back on a background job, and the
+  evidence panel shows a line per strategy (right of answered, where it placed them) above a gene by
+  strategy grid of ✓ ✗ ·, each gene linking to its card (`track_record.list_html`).
+
 ## 0.52.0
 
 - The track record: every labelled gene held out once, for every one of the 14 strategies that

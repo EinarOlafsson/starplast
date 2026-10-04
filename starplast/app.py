@@ -4661,6 +4661,40 @@ class Window(QtWidgets.QMainWindow):
         return ("<p style='color:#888'>Test its other labels too: "
                 + " · ".join(links[:8]) + "</p>")
 
+    def run_my_list(self, genes: list):
+        """Hide a list of genes together on a background job; show what was recovered.
+
+        The list's own labels are hidden, nothing else: this asks whether the data, not the list,
+        knows what these genes are. The five fast strategies answer; the shipped record covers all.
+        """
+        from . import track_record
+        ctx = getattr(getattr(self, "strategy_panel", None), "ctx", None)
+        if ctx is None or not genes:
+            return None
+        ids = self.nodes["gene_id"].astype(str)
+        rows_of = {g: int(i) for i, g in zip(ids.index, ids) if g in set(map(str, genes))}
+        job = self.run_job(lambda: track_record.my_list(ctx, list(genes),
+                                                        strategies=track_record.ALONE),
+                           f"would they have found your {len(genes)} genes?")
+
+        def show(jid: int, ok: bool):
+            """Fill the evidence panel with the answer when this job, and only this one, ends."""
+            if jid != job.id:
+                return
+            self.jobs.finished.disconnect(show)
+            if not ok or job.result is None:
+                body = f"<p style='color:#888'>Could not run: {job.error or 'no result'}</p>"
+            else:
+                body = track_record.list_html(job.result, rows_of)
+            self.detail.setHtml(body)
+            self.right_dock.raise_()
+
+        self.jobs.finished.connect(show)
+        self.detail.setHtml(f"<p>Hiding your {len(genes)} genes together and asking five "
+                            f"strategies what they are…</p>")
+        self.right_dock.raise_()
+        return job
+
     def _run_alone(self, row: int, target: str):
         """Hide one gene on one label in the background, then show the answer if still wanted."""
         from . import track_record
