@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.52.0
 
 - The track record: every labelled gene held out once, for every one of the 14 strategies that
   call labels, in five folds that never split an orthogroup (`starplast/track_record.py`). Genes
