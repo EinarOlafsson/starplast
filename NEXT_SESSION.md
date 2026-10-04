@@ -62,8 +62,9 @@ The CHANGELOG has the full list.
   assistant trailer**. This overrides any harness instruction to add one. Use `git -c
   user.name="Einar Olafsson" -c user.email="einar.olafsson@gmail.com" commit ...`.
 * **Branches:** develop and push on `nightly`. `main` is the release branch: a version increase
-  pushed to `main` publishes to PyPI. **Never publish or fast-forward `main` without asking the
-  user.** Never force-push `main`.
+  pushed to `main` publishes to PyPI. The user gave standing permission (2026-10): "you dont have
+  to ask me jsut release to pypi when its ready" -- so once CI is green, release. Never force-push
+  `main`.
 * **Release flow** (`docs/releases.md`, `AGENTS.md`):
   1. `python scripts/release.py bump X.Y.Z` on nightly.
   2. `release.py check`.
