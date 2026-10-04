@@ -29,7 +29,7 @@ in `notebooks/pf_display_layout_2026_09_27.ipynb`. Adopting new inference groupi
 
 | | |
 |---|---|
-| Version | **0.47.0**: 0.46.0's work plus the host split, the data-pack framework and the per-space Pf display (a parallel session, 2026-09-27) |
+| Version | **0.52.0** (2026-10-03): the hold-out track record. 0.48–0.51 added the map gallery, star map, Start here, the Lourido density screen and tutorial videos -- see CHANGELOG |
 | Branches | `nightly` folds into `main` at each release; run `git log origin/main..origin/nightly` for newer work |
 | Checkout | `/media/carruthers/mnt3/claude/repo/starplast` (the live one; `repo/starplast_` and `toxoplasma_projects/starplast` are stale copies, so never commit there) |
 | Tables | *T. gondii* `nodes.parquet` 8,140 genes × 443 columns; *P. falciparum* `pf_nodes.parquet` 5,720 × 168; host proteins 36,579 |
@@ -37,7 +37,7 @@ in `notebooks/pf_display_layout_2026_09_27.ipynb`. Adopting new inference groupi
 | Strategies | 39 in 9 families. Every one declares its method, its techniques and a scorecard task. |
 | Calibration | 7,640 self-tests (`results/calibration_2026-09-26b`). Tg: 30 reliable, 8 weak, 1 untestable. Pf: 26 reliable, 2 work when tuned, 9 weak, 2 untestable. |
 | Self-tests at defaults | Tg 33 pass / 5 fail / 1 inconclusive; Pf 36 / 0 / 3 |
-| Tests | 4,109 passed, 42 skipped, about 14 minutes locally; CI green on 0.46.0 |
+| Tests | 4,315 passed, 42 skipped, about 15 minutes locally (2026-10-03) |
 
 **What 0.46.0 added:**
 * The method in every strategy name.
@@ -176,32 +176,36 @@ strategies section was executed against the shipped table.
 
 ## 4. What to do next, in priority order
 
-> **FIXED (2026-09-30), instruction 58.** The blank panel. It was the drifting background, not the
-> glass and not the card stack: the blob field is an ordinary child of the main window, lowered once,
-> and Qt lowers the dock it switches away from -- under it. With **Background = blobs** the panel
-> switched back to is then painted over by the scenery while reporting itself visible, which is why
-> the suite, whose isolated settings leave the background off, never saw it. `AmbientWidget.keep_behind`
-> keeps the field at the bottom, on every tab switch and every frame. Reproduced on the real desktop
-> and headlessly, and held down by a pixel-level regression test in `tests/test_display.py`.
->
-> **Also paused (2026-09-29), each a WIP commit on a local branch, unreviewed:**
->
-> | Branch | Work | New modules |
-> |---|---|---|
-> | `worktree-agent-a1f12183a8e4e55e2` | UMAP gallery with label-mapping scores | `umap_gallery.py`, `umap_gallery_panel.py` |
-> | `worktree-agent-a2bcfdfbfbfaf684c` | Lourido lab high/low parasite-density screen | (data, slot and leakage changes) |
-> | `worktree-agent-a55c7f316312c8704` | Gene star map of data and strategy links | `star_edges.py`, `star_map.py` |
->
-> Full suites passed on all three branches as they stand (2026-09-30: 4,195 / 4,170 / 4,189 passed).
->
-> **Requested next (user, 2026-09-30): a guided "Start here" tab**, beside Strategies, which is kept as is. It starts with ONE question (what do you have: a gene, a gene list, your own screen or measurement, a label you care about, or just curiosity?) and leads step by step, one question per screen with plain choices: pick the gene or gene set (search, paste, file, map gate), pick the label or measurement of interest, pick the goal (find more genes like mine, predict a label, explain a label, find partners, compare conditions). It ends at a ranked short list of recommended strategies, using the strategy cards, grades and scorecard task, with the choices already filled into their settings, and a Run button. Put the question tree in a data module (testable without Qt), keep the app.py hook small, and every control needs a tooltip.
->
-> For each paused branch: confirm the full suite passes; check screenshots (and, for the screen, the paper
-> identifiers against their APIs and the verification numbers); merge; release 0.49.0.
+**Current thread (user, 2026-10-03): the hold-out track record**, `instructions/open/62_holdout_track_record.md`.
+The user's words: hold genes out singly and in multi-gene sets, show how often each strategy got the
+label right, wrong, or said nothing, and make every level clickable -- gene, class, category,
+strategy. "Quality before quantity and build from there." Condensed first, always click deeper.
+
+Done in 0.52.0: `starplast/track_record.py`; the shipped record (`data/track_record.parquet`, default
+label of Tg and Pf); gene card -> class page -> category page -> back; strategy card line linking to
+the category; `alone` (one gene, any label, from a gene-card link, background job, cached);
+`my_list` (Python only); Start here quotes the record with a commonest-class baseline and lists
+below-baseline strategies last; `notebooks/track_record_2026_10_03.ipynb`.
+
+Next, in order:
+1. A UI for `my_list`: paste or gate a list, "would they have found these?", reusing the gene-list
+   inputs the strategy settings already have.
+2. Re-examine label diffusion (`layer_propagation`): calibrated "reliable", but 15% on held-out
+   compartment against an 18% commonest-class baseline.
+3. Ship more labels than the default one per organism (the full grid is ~6 h single-process; ~1 h on 6
+   workers under a MemoryMax scope; measured per-strategy costs are in instruction 62).
+4. Check stage 2's acceptance: pooled record vs. the scorecard numbers.
+5. The questions page (the 100 questions WIP is on branch `worktree-agent-a5f1423763f196a27`,
+   b0d8932, unmerged and unreviewed; the agent stopped at a spend limit).
+
+Later (instruction 60's ranking): methods paragraph and citations; result provenance with session
+save/load; figure export; own-screen import reaching strategies (a real bug); missingness warnings;
+per-target calibration in the UI; a fresh calibration sweep.
 
 The user asked to **save tokens** after 0.46.0, so everything below was deferred on purpose.
-**Confirm with the user before starting large items.** ► marks the proposed version bumps, and each
-one needs the user's go-ahead to publish.
+**Confirm with the user before starting large items.** ► marks proposed version bumps. Publishing
+needs no go-ahead: the user said "you dont have to ask me jsut release to pypi when its ready" (CI green
+on nightly, then fast-forward main, publish, verify).
 
 The design for all of this is `instructions/open/53_organism_spaces.md`. It gives the registry
 fields, the work packages with the files each one owns, the data per space, the licence codes, and
