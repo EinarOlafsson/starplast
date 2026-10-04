@@ -352,8 +352,15 @@ def test_the_gene_card_tests_another_label_on_demand(built, tmp_path, monkeypatc
     row = int(ids[ids == str(folds["gene_id"].iloc[0])].index[0])
     w.show_detail(row)
     html = w.detail.toHtml()
+    if "starplast://record/" in html:
+        link = "starplast://record/" + html.split("starplast://record/", 1)[1].split('"', 1)[0]
+        w._detail_link(QtCore.QUrl(link))
+        shown = w.detail.toHtml()
+        assert "were unknown" in shown and "back to the gene" in shown, "a recorded label did not open"
+        w.show_detail(row)
+        html = w.detail.toHtml()
     if "starplast://alone/" not in html:
-        pytest.skip("this gene has no second label")
+        pytest.skip("this gene has no label the record lacks")
     link = "starplast://alone/" + html.split("starplast://alone/", 1)[1].split('"', 1)[0]
     w._detail_link(QtCore.QUrl(link))
     assert "Hiding" in w.detail.toHtml(), "nothing said while it runs"
@@ -476,3 +483,12 @@ def test_a_gene_list_setting_can_be_tested_from_the_strategies_tab(built):
     finally:
         window.console.remove()
         window.close()
+
+
+
+def test_the_recorded_labels_are_biology_not_bookkeeping():
+    ctx = S.Context.shipped("Tg")
+    chosen = T.labels(ctx)
+    assert chosen[0] == S.default_category(ctx)
+    for bookkeeping in ("compartment_source", "ortholopit_donors", "screen_scorers_agree"):
+        assert bookkeeping not in chosen

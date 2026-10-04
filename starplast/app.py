@@ -4453,6 +4453,18 @@ class Window(QtWidgets.QMainWindow):
             self.detail.setHtml(back + (body or "<p style='color:#888'>Nothing recorded for "
                                                  "this class.</p>"))
             return
+        if url.host() == "record" and len(parts) >= 2:
+            from . import track_record
+            try:
+                row = int(parts[0])
+            except ValueError:
+                return
+            code = organisms.by_species(self.species).code
+            gene_id = str(self.nodes["gene_id"].iloc[row])
+            body = track_record.gene_html(gene_id, code, target=parts[1])
+            self.detail.setHtml(f"<p><a href='starplast://gene/{row}'>◂ back to the gene</a></p>"
+                                + (body or "<p style='color:#888'>Nothing recorded.</p>"))
+            return
         if url.host() == "alone" and len(parts) >= 2:
             try:
                 self._run_alone(int(parts[0]), parts[1])
@@ -4633,34 +4645,45 @@ class Window(QtWidgets.QMainWindow):
         return html + self._other_labels_html(gene_id, html)
 
     def _other_labels_html(self, gene_id: str, shipped_html: str) -> str:
-        """Links to test this gene on its OTHER labels, one click each, computed when asked.
+        """The gene's other labels, one click each: from the record where it has them, else computed.
 
-        The shipped record holds one label per organism. A gene that also has a function, a stage or
-        a phenotype can be asked about any of them: the link hides it, with its orthogroup, and
-        the fast strategies answer in about ten seconds on a background job.
+        The record holds every biological label (`track_record.labels`), so most links open at once.
+        A label the record does not cover for this gene is hidden on demand instead -- the gene with
+        its orthogroup, five fast strategies, about ten seconds on a background job.
         """
         from urllib.parse import quote
+        from . import track_record
         ctx = getattr(getattr(self, "strategy_panel", None), "ctx", None)
         row = getattr(self, "_detail_row", None)
         if ctx is None or row is None:
             return ""
-        shipped_target = (shipped_html.split("starplast://class/", 1)[1].split("/", 1)[0]
-                          if "starplast://class/" in shipped_html else "")
-        links = []
-        for column in ctx.categorical_columns():
-            if quote(column, safe="") == shipped_target:
+        code = organisms.by_species(self.species).code
+        default = track_record.default_target(code)
+        record = track_record.shipped(code)
+        mine = (set(record[record["gene_id"].astype(str) == str(gene_id)]["target"].astype(str))
+                if len(record) else set())
+        recorded, computed = [], []
+        for column in track_record.labels(ctx):
+            if column == default:
                 continue
             try:
                 if pd.isna(ctx.truth(column).iloc[int(row)]):
                     continue
             except (ValueError, IndexError):
                 continue
-            links.append(f"<a href='starplast://alone/{int(row)}/{quote(column, safe='')}'>"
-                         f"{column.replace('_', ' ')}</a>")
-        if not links:
-            return ""
-        return ("<p style='color:#888'>Test its other labels too: "
-                + " · ".join(links[:8]) + "</p>")
+            name = column.replace("_", " ")
+            if column in mine:
+                recorded.append(f"<a href='starplast://record/{int(row)}/{quote(column, safe='')}'>"
+                                f"{name}</a>")
+            else:
+                computed.append(f"<a href='starplast://alone/{int(row)}/{quote(column, safe='')}'>"
+                                f"{name}</a>")
+        parts = []
+        if recorded:
+            parts.append("Its other labels: " + " · ".join(recorded))
+        if computed:
+            parts.append("Test on demand: " + " · ".join(computed))
+        return "".join(f"<p style='color:#888'>{p}</p>" for p in parts)
 
     def run_my_list(self, genes: list):
         """Hide a list of genes together on a background job; show what was recovered.

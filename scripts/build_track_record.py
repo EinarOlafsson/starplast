@@ -6,10 +6,15 @@ label of each organism, plus the set hold-outs (one per class, and a random-size
 Those are what the application reads to answer, for one gene, "could this software have told me what
 I already know?".
 
-Other labels are not shipped: 17 of them per organism multiply the build by seventeen and the file
-with it. `starplast.track_record.evaluate` computes any of them on demand.
+Every label in `track_record.labels` is recorded: the organism's declared targets
+(`organisms.Space.targets`) and, for Toxoplasma, the cell-cycle phase and the four specific screen
+phenotypes. Columns that
+describe where a label came from rather than biology (`compartment_source`, `ortholopit_donors`,
+`screen_scorers_agree`, `chromosome`, ...) are deliberately not: a strategy "recovering" which
+dataset assigned a compartment would be a number with no meaning. `track_record.alone` answers for
+any other label on demand.
 
-    python scripts/build_track_record.py                 # both organisms, the default label
+    python scripts/build_track_record.py --workers 4     # both organisms, every recorded label
     python scripts/build_track_record.py --organism Tg --target compartment --out /tmp/t.parquet
 """
 from __future__ import annotations
@@ -39,6 +44,19 @@ CURVE_REPEATS = 4
 #: hold-outs: the sets are another ~45 passes, and for the slowest two that is most of an
 #: hour for a curve that is flat wherever it has been measured.
 SET_BUDGET_SECONDS = 30.0
+
+
+def labels(code: str) -> list:
+    """The labels recorded for one organism, the default first (`track_record.labels`)."""
+    return T.labels(S.Context.shipped(code))
+
+
+def _task(args):
+    code, target = args
+    t0 = time.monotonic()
+    lines = []
+    frame = build(code, target, log=lines.append)
+    return code, target, frame, lines, time.monotonic() - t0
 
 
 def build(organism: str, target: str | None = None, log=print) -> pd.DataFrame:
@@ -76,12 +94,28 @@ def main(argv=None, log=print) -> int:
     ap.add_argument("--organism", action="append", choices=O.codes())
     ap.add_argument("--target", default=None)
     ap.add_argument("--out", default=OUT)
+    ap.add_argument("--workers", type=int, default=1,
+                    help="labels built in parallel; each worker holds one organism's table")
     args = ap.parse_args(argv)
+    codes = args.organism or O.codes(available=True)
+    tasks = [(code, t) for code in codes
+             for t in ([args.target] if args.target else labels(code))]
+    log(f"{len(tasks)} labels: " + ", ".join(f"{c}/{t}" for c, t in tasks))
     frames = []
-    for code in args.organism or O.codes(available=True):
-        log(f"{code}:")
-        frames.append(build(code, args.target, log=log))
-    out = pd.concat(frames, ignore_index=True)
+    if args.workers > 1:
+        from concurrent.futures import ProcessPoolExecutor
+        import multiprocessing
+        with ProcessPoolExecutor(args.workers, mp_context=multiprocessing.get_context("spawn")) as pool:
+            for code, target, frame, lines, seconds in pool.map(_task, tasks):
+                log(f"{code}/{target}: {seconds:.0f}s")
+                for line in lines:
+                    log(line)
+                frames.append(frame)
+    else:
+        for code, target in tasks:
+            log(f"{code}/{target}:")
+            frames.append(build(code, target, log=log))
+    out = pd.concat([f for f in frames if len(f)], ignore_index=True)
     # Labels repeat enormously; as categories the file is a fraction of the size.
     for column in ("organism", "strategy", "target", "setting_key", "mode", "set_name",
                    "truth", "prediction"):

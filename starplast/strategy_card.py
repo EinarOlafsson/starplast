@@ -666,7 +666,8 @@ class StrategyCard(QtWidgets.QWidget):
         try:
             from . import track_record
             line = track_record.weakest(s.key, organism)
-            targets = track_record.shipped(organism)["target"].astype(str).unique() if line else []
+            default = track_record.default_target(organism) if line else None
+            targets = [default] if default else []
         except Exception:                                  # no record built, or a foreign one
             line, targets = "", []
         if line:
@@ -674,7 +675,7 @@ class StrategyCard(QtWidgets.QWidget):
             from urllib.parse import quote
             line = escape(line) + "".join(
                 f" <a href='starplast://target/{quote(t, safe='')}'>every {escape(t)} class ▸</a>"
-                for t in targets[:1])
+                for t in targets)
         self.record.setText(line)
         self.record.setVisible(bool(line))
         self.mine.hide()

@@ -444,8 +444,46 @@ def shipped(organism: str | None = None) -> pd.DataFrame:
     return frame[frame["organism"].astype(str) == str(organism)]
 
 
+#: Biological labels recorded beyond each space's declared targets. Columns that say where a label
+#: came from (`compartment_source`, `ortholopit_donors`, `screen_scorers_agree`, `chromosome`, ...)
+#: are left out on purpose: "recovering" which dataset assigned a compartment means nothing.
+EXTRA_LABELS = {"Tg": ("cellcycle_phase", "screen_actin_phenotype", "screen_apicoplast_phenotype",
+                       "screen_egress_phenotype", "screen_replication_phenotype")}
+
+
+def labels(ctx) -> list:
+    """The labels worth recording for this table, the default first."""
+    from . import organisms
+    have = set(ctx.categorical_columns())
+    try:
+        declared = list(organisms.get(ctx.organism).targets)
+    except Exception:
+        declared = []
+    wanted = [S.default_category(ctx)] + declared + list(EXTRA_LABELS.get(ctx.organism, ()))
+    return [t for t in dict.fromkeys(wanted) if t in have]
+
+def recorded_targets(organism: str, ledger: pd.DataFrame | None = None) -> list:
+    """The labels the record holds for one organism, the default first."""
+    frame = shipped(organism) if ledger is None else ledger
+    if not len(frame):
+        return []
+    have = list(dict.fromkeys(frame["target"].astype(str)))
+    try:
+        from . import organisms
+        declared = [t for t in organisms.get(organism).targets if t in have]
+    except Exception:                                       # an organism the registry lacks
+        declared = []
+    return list(dict.fromkeys(declared[:1] + have))
+
+
+def default_target(organism: str, ledger: pd.DataFrame | None = None) -> str | None:
+    """The label a view means when it names none: the organism's first declared target."""
+    targets = recorded_targets(organism, ledger)
+    return targets[0] if targets else None
+
+
 def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None,
-              mode: str = "together") -> str:
+              mode: str = "together", target: str | None = None) -> str:
     """The gene card's line and its table, as HTML: the condensed form first, the detail under it.
 
     One sentence a reader can take in -- what is known, and how many strategies recovered it when it
@@ -456,6 +494,10 @@ def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None,
     from html import escape
     frame = shipped(organism) if ledger is None else ledger
     folds = frame[frame["mode"] == mode] if len(frame) else frame
+    if len(folds) and mode == "together":
+        # One label at a time: the default unless asked, so the card never mixes two labels' rows.
+        target = target or default_target(organism, frame)
+        folds = folds[folds["target"].astype(str) == str(target)]
     one = for_gene(folds, gene_id) if len(folds) else pd.DataFrame()
     if not len(one):
         return ""
@@ -467,7 +509,8 @@ def gene_html(gene_id: str, organism: str, ledger: pd.DataFrame | None = None,
     # Only the shipped label has a class page to go to; an on-demand answer is about one gene.
     line_html = (escape(line).replace(escape(truth), f"<a href='{link}'>{escape(truth)}</a>", 1)
                  if mode == "together" else escape(line))
-    heading = ("If this gene were unknown" if mode == "together"
+    heading = ("If this gene were unknown"
+               if mode == "together" and target == (default_target(organism) or target)
                else f"If its {escape(target.replace('_', ' '))} were unknown")
     rows = ""
     for r in one.itertuples():
@@ -600,8 +643,8 @@ def weakest(strategy: str, organism: str, target: str | None = None, limit: int 
     """
     frame = shipped(organism) if ledger is None else ledger
     folds = frame[(frame["mode"] == "together") & (frame["strategy"].astype(str) == str(strategy))]
-    if target:
-        folds = folds[folds["target"].astype(str) == str(target)]
+    target = target or default_target(organism, frame)
+    folds = folds[folds["target"].astype(str) == str(target)]
     if not len(folds):
         return ""
     rows = summary(folds, "class")
@@ -664,9 +707,8 @@ def _record_folds(strategy: str, organism: str, target: str | None) -> pd.DataFr
     if not len(frame):
         return frame
     folds = frame[(frame["mode"] == "together") & (frame["strategy"].astype(str) == str(strategy))]
-    if target is not None:
-        folds = folds[folds["target"].astype(str) == str(target)]
-    return folds
+    target = target or default_target(organism, frame)
+    return folds[folds["target"].astype(str) == str(target)]
 
 
 def beats_baseline(strategy: str, organism: str, target: str | None = None) -> bool | None:
