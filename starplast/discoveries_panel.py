@@ -71,7 +71,7 @@ class DiscoveriesPanel(QtWidgets.QWidget):
             box.setToolTip(TH.tip(TIPS["status"]))
             self.status[s] = box
             row.addWidget(box)
-        lay.addLayout(row)
+        _strip(lay, row)
 
         row = QtWidgets.QHBoxLayout()
         row.addWidget(QtWidgets.QLabel("confidence ≥"))
@@ -95,7 +95,7 @@ class DiscoveriesPanel(QtWidgets.QWidget):
         self.export = QtWidgets.QPushButton("Save…")
         self.export.setToolTip(TH.tip(TIPS["export"]))
         row.addWidget(self.export)
-        lay.addLayout(row)
+        _strip(lay, row)
 
         self.table = QtWidgets.QTableWidget(0, len(COLUMNS))
         self.table.setHorizontalHeaderLabels(list(COLUMNS))
@@ -104,6 +104,7 @@ class DiscoveriesPanel(QtWidgets.QWidget):
         self.table.verticalHeader().setVisible(False)
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.setToolTip(TH.tip(TIPS["table"]))
+        self.table.setMinimumWidth(120)
         lay.addWidget(self.table, 1)
 
         self.recipes = QtWidgets.QLabel("")
@@ -140,6 +141,7 @@ class DiscoveriesPanel(QtWidgets.QWidget):
         return f[keep].sort_values("confidence", ascending=False, na_position="last")
 
     def refresh(self):
+        """Re-apply the filters: the summary line, the table and the recipe note."""
         self.shown = self.selection()
         total = len(self.frame)
         tested = int((self.frame["status"].astype(str) == "tested").sum()) if total else 0
@@ -214,6 +216,22 @@ class DiscoveriesPanel(QtWidgets.QWidget):
         out.to_csv(path, index=False, sep="\t" if path.endswith(".tsv") else ",")
         return len(out)
 
+
+def _strip(lay: QtWidgets.QVBoxLayout, row: QtWidgets.QHBoxLayout) -> None:
+    """Add a control row in a horizontal scroll strip, so the panel can be narrower than the row.
+
+    A row of filters laid out directly sets the panel's minimum width, and through the dock the
+    window's: on an 800-pixel screen that was 804, and the window could not fit.
+    """
+    holder = QtWidgets.QWidget()
+    holder.setLayout(row)
+    strip = QtWidgets.QScrollArea()
+    strip.setWidget(holder)
+    strip.setWidgetResizable(True)
+    strip.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+    strip.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+    strip.setFixedHeight(holder.sizeHint().height() + 2)
+    lay.addWidget(strip)
 
 def install(window) -> DiscoveriesPanel | None:
     """Add the Discoveries tab beside Strategies and wire it to the evidence panel and the map."""

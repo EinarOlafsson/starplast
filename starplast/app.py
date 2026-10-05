@@ -126,6 +126,9 @@ COLOR_MODE_HELP = {
     "compartment (incl. transferred)": "Compartments including labels transferred from orthologs "
                                        "in another species. Inferences, offered for coverage and "
                                        "kept apart from measured labels.",
+    "claims": "Measured labels in full colour; what Starplast claims for unlabelled genes in the "
+              "claimed class's colour, faded toward grey by how uncertain the claim is. Pick the "
+              "label in the Discoveries tab.",
     "clusters": "Colour by the clustering from the analysis panel. Genes left unclustered, and "
                 "every gene before a clustering exists, stay grey.",
     "in vitro fitness": "Fitness in fibroblasts from the genome-wide CRISPR screen, on a sequential "

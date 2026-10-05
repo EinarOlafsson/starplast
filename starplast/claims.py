@@ -570,6 +570,7 @@ def verdict_mark(row) -> str:
 
 
 def for_gene(gene_id: str, organism: str) -> pd.DataFrame:
+    """Every shipped claim about one gene, one row per label it is claimed for."""
     frame = shipped(organism)
     if not len(frame):
         return frame
