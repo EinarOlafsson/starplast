@@ -28,6 +28,7 @@ from urllib.parse import quote
 import numpy as np
 import pandas as pd
 
+from . import organisms
 from . import strategies as S
 
 #: Folds the labelled genes are split into. Five is the project's cross-validation default: with
@@ -466,7 +467,8 @@ def shipped(organism: str | None = None) -> pd.DataFrame:
 #: Biological labels recorded beyond each space's declared targets. Columns that say where a label
 #: came from (`compartment_source`, `ortholopit_donors`, `screen_scorers_agree`, `chromosome`, ...)
 #: are left out on purpose: "recovering" which dataset assigned a compartment means nothing.
-EXTRA_LABELS = {"Tg": ("cellcycle_phase", "screen_actin_phenotype", "screen_apicoplast_phenotype",
+EXTRA_LABELS = {organisms.TOXOPLASMA: ("cellcycle_phase", "screen_actin_phenotype",
+                                      "screen_apicoplast_phenotype",
                        "screen_egress_phenotype", "screen_replication_phenotype")}
 
 
