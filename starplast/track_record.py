@@ -469,7 +469,7 @@ def shipped(organism: str | None = None) -> pd.DataFrame:
 #: are left out on purpose: "recovering" which dataset assigned a compartment means nothing.
 EXTRA_LABELS = {organisms.TOXOPLASMA: ("cellcycle_phase", "screen_actin_phenotype",
                                       "screen_apicoplast_phenotype",
-                       "screen_egress_phenotype", "screen_replication_phenotype")}
+                                      "screen_egress_phenotype", "screen_replication_phenotype")}
 
 
 def labels(ctx) -> list:
