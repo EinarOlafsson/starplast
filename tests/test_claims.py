@@ -134,3 +134,63 @@ def test_a_gene_card_shows_its_claims_and_opens_one(shipped):
         assert "Independent checks" in shown and "back to the gene" in shown
     finally:
         w.close()
+
+
+def test_the_discoveries_tab_filters_opens_a_claim_and_colours_the_map(shipped, tmp_path):
+    from PyQt6 import QtCore, QtWidgets
+    _app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    from starplast import app as A
+    w = A.Window()
+    try:
+        panel = w.discoveries
+        assert panel is not None and w.discoveries_dock.windowTitle() == "discoveries"
+        default = len(panel.shown)
+        assert set(panel.shown["status"].astype(str)) <= {"tested"}
+        panel.status["untested"].setChecked(True)
+        assert len(panel.shown) >= default, "loosening a filter hid claims"
+        panel.confidence.setValue(0.0)
+        panel.lift.setValue(0.0)
+        panel.status["outside tested range"].setChecked(True)
+        assert len(panel.shown) == len(panel.frame), "with no filters every claim is shown"
+        panel.confidence.setValue(0.8)
+        panel.lift.setValue(2.0)
+        panel.status["untested"].setChecked(False)
+        panel.status["outside tested range"].setChecked(False)
+        if not len(panel.shown):
+            pytest.skip("no tested discoveries here")
+        panel._clicked(0, 0)
+        assert "Independent checks" in w.detail.toHtml(), "a claim did not open"
+        assert panel.save(str(tmp_path / "c.csv")) == len(panel.shown)
+        target = str(panel.shown["target"].iloc[0])
+        before = w.colors(np.ones(w.n, bool)).copy()
+        w.colour_by_claims(target)
+        after = w.colors(np.ones(w.n, bool))
+        assert w.color_mode == "claims" and not np.array_equal(before, after)
+        # A claimed gene is never painted as brightly as a measured gene of its class.
+        g = str(panel.shown["gene_id"].iloc[0])
+        row = int(np.flatnonzero(w.nodes["gene_id"].astype(str).to_numpy() == g)[0])
+        grey = np.asarray(A.TH.unknown_color(w.theme)[:3])
+        assert np.abs(after[row, :3] - grey).sum() > 0, "the claim was not drawn"
+    finally:
+        w.close()
+
+
+def test_start_here_leads_to_the_discoveries(shipped):
+    from PyQt6 import QtWidgets
+    _app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
+    from starplast import app as A
+    from starplast import guided as G
+    w = A.Window()
+    try:
+        panel = w.guided
+        panel.answer("have", G.HAVE_NOTHING)
+        panel.answer("space", w.strategy_panel.ctx.organism)
+        assert any(v["view"] == G.VIEW_DISCOVERIES for v in G.views(panel.answers))
+        opened = []
+        panel.open_view.connect(opened.append)
+        for b in panel.body.findChildren(QtWidgets.QPushButton):
+            if b.text() == "Open the discoveries":
+                b.click()
+        assert G.VIEW_DISCOVERIES in opened
+    finally:
+        w.close()

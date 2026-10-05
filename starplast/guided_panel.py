@@ -707,7 +707,8 @@ def install(window) -> GuidedPanel | None:
     panel.open_strategy.connect(lambda key, settings: apply(key, settings, run=False))
 
     def show_view(name):
-        dock = getattr(window, "star_map_dock" if name == G.VIEW_STAR else "maps_dock", None)
+        dock = getattr(window, {G.VIEW_STAR: "star_map_dock",
+                                G.VIEW_DISCOVERIES: "discoveries_dock"}.get(name, "maps_dock"), None)
         if dock is None:
             window.statusBar().showMessage(f"the {name} is not available in this window")
             return

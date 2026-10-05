@@ -84,9 +84,9 @@ FIT = ["fit_invitro_hff", "fit_invivo_PE", "fit_invivo_lung", "fit_invivo_liver"
 
 EDGE_CAP = 20000        # per type, on drawing only. Stated in the tooltip rather than applied silently.
 
-COLOR_MODES = ["compartment", "compartment (incl. transferred)", "clusters", "in vitro fitness",
-                "publications", "depth of attention", "structure confidence (pLDDT)",
-                "cyst / tachyzoite expression", "annotations"]
+COLOR_MODES = ["compartment", "compartment (incl. transferred)", "claims", "clusters",
+               "in vitro fitness", "publications", "depth of attention", "structure confidence (pLDDT)",
+               "cyst / tachyzoite expression", "annotations"]
 
 # None means "follow the point style". The rest are absolute pixel sizes.
 POINT_SIZES = [("Automatic", None), ("Tiny (2 px)", 2.0), ("Small (4 px)", 4.0),
@@ -1397,6 +1397,22 @@ class Window(QtWidgets.QMainWindow):
         self._strategies()
         self._star_map()
         self._guided()
+        self._discoveries()
+
+    def _discoveries(self):
+        """The Discoveries dock: claims about unlabelled genes, each with how it was tested."""
+        self.claims_target = None
+        try:
+            from .discoveries_panel import install
+            install(self)
+        except Exception as e:                        # the browser must open without it
+            self.discoveries = None
+            self.statusBar().showMessage(f"discoveries unavailable: {e}")
+
+    def colour_by_claims(self, target: str):
+        """Colour the map by one label: measured in full, claimed faded by uncertainty, rest grey."""
+        self.claims_target = target
+        self.set_color_mode("claims")
 
     def _guided(self):
         """The Start-here dock: one question at a time, ending at the recommended strategies.
@@ -3864,6 +3880,34 @@ class Window(QtWidgets.QMainWindow):
                 c[(vals == comp).to_numpy(), :3] = col
             for absent in ("unassigned", ""):
                 c[(vals == absent).to_numpy(), :3] = TH.unknown_color(self.theme)[:3]
+        elif mode == "claims":
+            # Measured labels in full colour; claimed ones in the claimed class's colour, mixed toward
+            # grey by how uncertain the claim is; a claim with no measured certainty (outside the
+            # tested range) nearly grey. Inference must never look like measurement on the map.
+            grey = np.asarray(TH.unknown_color(self.theme)[:3], dtype=np.float32)
+            c[:, :3] = grey
+            target = getattr(self, "claims_target", None)
+            if not target:
+                from . import track_record as TR
+                target = TR.default_target(organisms.by_species(self.species).code)
+            if target and target in self.nodes.columns:
+                from . import claims as CL
+                measured = as_text(self.nodes[target]).str.strip()
+                mine = CL.shipped(organisms.by_species(self.species).code)
+                mine = mine[mine["target"].astype(str) == target] if len(mine) else mine
+                claimed = set(mine["claim"].astype(str)) if len(mine) else set()
+                classes = sorted(set(measured[measured != ""]) | claimed)
+                palette = TH.categorical_colors(max(len(classes), 1), self.theme, self.cmap_name)
+                colour = dict(zip(classes, palette))
+                for k, col in colour.items():
+                    c[(measured == k).to_numpy(), :3] = col
+                if len(mine):
+                    index = pd.Series(np.arange(self.n), index=self.nodes["gene_id"].astype(str))
+                    rows = index.reindex(mine["gene_id"].astype(str)).to_numpy()
+                    ok = ~np.isnan(rows)
+                    conf = np.nan_to_num(mine["confidence"].to_numpy(dtype=float), nan=0.15)
+                    for r, k, w in zip(rows[ok].astype(int), mine["claim"].astype(str)[ok], conf[ok]):
+                        c[r, :3] = w * np.asarray(colour.get(k, grey)) + (1 - w) * grey
         elif mode == "clusters":
             # Noise stays grey, with everything else that is unknown. HDBSCAN calling a gene
             # unclustered is a finding about that gene, not a gap in the drawing.

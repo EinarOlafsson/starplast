@@ -748,6 +748,7 @@ def caveat(recommendations) -> str:
 #: and their per-label scores, and one gene's links with their provenance.
 VIEW_MAPS = "maps"
 VIEW_STAR = "star map"
+VIEW_DISCOVERIES = "discoveries"
 
 
 def views(answers, ctx=None) -> list:
@@ -758,6 +759,11 @@ def views(answers, ctx=None) -> list:
         out.append({"view": VIEW_MAPS, "title": "Map gallery",
                     "why": "Every shipped map scored against every label: which map separates the "
                            "one you chose, and how well, without running anything."})
+    if goal in (PREDICT, TOUR) or sub in ("gene", "genes"):
+        out.append({"view": VIEW_DISCOVERIES, "title": "Discoveries",
+                    "why": "What Starplast already infers about genes nobody has labelled, each "
+                           "claim with a measured certainty and whether evidence independent of "
+                           "the inference confirmed it."})
     if sub in ("gene", "genes") or goal in (PARTNERS, TOUR):
         out.append({"view": VIEW_STAR, "title": "Star map",
                     "why": "Your gene in the middle and everything linked to it around it, each "
