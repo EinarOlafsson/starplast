@@ -4432,6 +4432,7 @@ class Window(QtWidgets.QMainWindow):
 
         `starplast://class/<target>/<label>` shows how every strategy fares on one class;
         `starplast://target/<target>` lists every class of one category with its best strategy;
+        `starplast://claim/<gene id>/<target>` shows one claim, how it was made and how it was tested;
         `starplast://gene/<row>` goes back to a gene's card. Anything else is a web link.
         """
         if url.scheme() != "starplast":
@@ -4452,6 +4453,14 @@ class Window(QtWidgets.QMainWindow):
             body = track_record.class_html(parts[0], parts[1], code)
             self.detail.setHtml(back + (body or "<p style='color:#888'>Nothing recorded for "
                                                  "this class.</p>"))
+            return
+        if url.host() == "claim" and len(parts) >= 2:
+            from . import claims
+            code = organisms.by_species(self.species).code
+            back = (f"<p><a href='starplast://gene/{self._detail_row}'>◂ back to the gene</a></p>"
+                    if getattr(self, "_detail_row", None) is not None else "")
+            body = claims.claim_html(parts[0], parts[1], code)
+            self.detail.setHtml(back + (body or "<p style='color:#888'>No such claim.</p>"))
             return
         if url.host() == "record" and len(parts) >= 2:
             from . import track_record
@@ -4642,7 +4651,15 @@ class Window(QtWidgets.QMainWindow):
             html = track_record.gene_html(str(gene_id), code)
         except Exception:                                  # a record that is absent or foreign
             return ""
-        return html + self._other_labels_html(gene_id, html)
+        return self._claims_html(gene_id) + html + self._other_labels_html(gene_id, html)
+
+    def _claims_html(self, gene_id: str) -> str:
+        """What Starplast infers for this gene's missing labels, with how each claim was tested."""
+        try:
+            from . import claims
+            return claims.gene_html(str(gene_id), organisms.by_species(self.species).code)
+        except Exception:                                  # no claims built, or a foreign table
+            return ""
 
     def _other_labels_html(self, gene_id: str, shipped_html: str) -> str:
         """The gene's other labels, one click each: from the record where it has them, else computed.
