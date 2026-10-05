@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.54.0
 
 - Claims: Starplast now generates knowledge about genes nobody has labelled and tests it by evidence
   measured to be independent of the inference that produced it (`starplast/claims.py`,
