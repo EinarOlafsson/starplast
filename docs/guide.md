@@ -250,6 +250,23 @@ that produced it, and any edge layer built from it before it looks at anything e
 The [strategy catalogue](strategies.md) lists all of them with their measured
 verdicts, including the ones that fail on this data.
 
+### Discoveries: knowledge generated, then tested
+
+The **discoveries** tab lists what Starplast infers about genes with no label -- a localization, a
+phenotype, a stage -- and how each claim was tested. Every claim has:
+
+- a **confidence**: of held-out genes given claims this confident, at least this share were right;
+- a **status**: *tested* (evidence measured to be independent of the inference agreed or disagreed),
+  *untested* (nothing independent reaches the gene), or *outside tested range* (unlike every gene the
+  certainty was measured on, so no number is attached);
+- a **lift**: confidence over how common the claimed class is anyway.
+
+Independence is measured, not assumed: a check counts only if it does not repeat the generator's
+mistakes much more often than independent evidence would. By default the tab shows tested claims at
+80% or more with a lift of at least 2; every filter can be loosened. Click a claim for its reasoning,
+**Colour map** to see a label measured and claimed, **Save…** to export. The gene card opens with the
+same claims for one gene.
+
 ### The track record: would it have known?
 
 Every labelled gene has been hidden once, in five folds that never split an

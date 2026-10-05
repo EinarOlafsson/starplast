@@ -1,5 +1,30 @@
 # Changelog
 
+## Unreleased
+
+- Claims: Starplast now generates knowledge about genes nobody has labelled and tests it by evidence
+  measured to be independent of the inference that produced it (`starplast/claims.py`,
+  `instructions/open/63_claims_generate_and_verify.md`, `notebooks/claims_2026_10_04.ipynb`).
+  Every number is measured on held-out genes: a strategy's support becomes a certainty (isotonic,
+  calibration error 0.014-0.032 on Toxoplasma compartment); leakage is quantified, not assumed --
+  the shared-mistake ratio says how often a verifier repeats the generator's wrong calls beyond
+  independence (physical partners 1.1-1.3x, coexpression ~2x, a random forest 3.5x), and each
+  evidence family's recovery alone is compared with all evidence together; certainty and
+  independent verdicts combine into a verified certainty fit on held-out genes (claims at 0.9 or
+  more were right 90-96% of the time). Each label gets the generator that independent evidence can
+  test -- stacking, the strongest single predictor, absorbs every kind of evidence and so cannot
+  be tested by anything separate. Claims say whether they were tested, untested, or outside the
+  range certainty was measured on (42% of unlabelled Toxoplasma genes on compartment, mostly genes
+  LOPIT could not detect), and carry their class's prior and the lift over it. Uncalibrated
+  recipes make no claims: the binary screen phenotypes would otherwise have offered thousands of
+  "confident" claims that were the base rate of "no phenotype". 19,641 claims ship
+  (`scripts/build_claims.py`); 43 Toxoplasma and 680 Plasmodium discoveries are tested, at least
+  80% confident and at least twice their prior.
+- The gene card opens with *What Starplast claims*; each claim clicks to how it was made, how it was
+  tested and what the recipe was worth on held-out genes. A new Discoveries tab lists claims with
+  visible, loosenable filters and saves them as a table; a "claims" colour mode draws measured labels
+  in full and claimed ones faded toward grey by uncertainty; Start here leads to Discoveries.
+
 ## 0.53.0
 
 - The track record now holds every biological label, not only each organism's default: for

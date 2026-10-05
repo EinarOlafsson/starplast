@@ -177,7 +177,14 @@ strategies section was executed against the shipped table.
 
 ## 4. What to do next, in priority order
 
-**Current thread (user, 2026-10-03): the hold-out track record**, `instructions/open/62_holdout_track_record.md`.
+**Current thread (user, 2026-10-04): claims -- generate knowledge with a measured certainty, then test
+it independently**, `instructions/open/63_claims_generate_and_verify.md`. The user: leakage must be
+QUANTIFIED, not guessed (a signal peptide is location information). Steps 1+2 done (certainty,
+measured-independent verification, Discoveries tab, gene card, map colour, Start here). Next: step 3
+(freeze claims; score them when new data arrives), more verifier coverage (only 6-22% of unlabelled
+Tg genes are reached by an independent check), calibration for genes outside the tested range.
+
+**Previous thread (user, 2026-10-03): the hold-out track record**, `instructions/open/62_holdout_track_record.md`.
 The user's words: hold genes out singly and in multi-gene sets, show how often each strategy got the
 label right, wrong, or said nothing, and make every level clickable -- gene, class, category,
 strategy. "Quality before quantity and build from there." Condensed first, always click deeper.
