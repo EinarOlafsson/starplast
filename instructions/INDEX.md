@@ -60,18 +60,20 @@ One file per task. This index is the status table; the files carry the reasoning
 | 57 | ["Start here": a guided path from what a user has to the strategies worth running](done/57_start_here_tab.md) |
 | 58 | [The blank panel: a tab switched away from comes back as bare background](done/58_blank_panel_bug.md) |
 | 61 | [Tutorial videos: six screen captures of the real application](done/61_tutorial_videos.md) |
+| 54 | [Many more pregenerated maps, searched for structure, and a navigable maps panel](done/54_many_umap_maps_and_the_score_table.md) — shipped in 0.50.0 |
+| 58 | [Star map: stop the hover twitch, show the larger network, define the connections](done/58_star_map_steady_larger_defined.md) — merged and shipped in 0.50.0 |
 
 ## Open
 
 | # | Task |
 |---|---|
-| 58 | [Star map: stop the hover twitch, show the larger network, define the connections](open/58_star_map_steady_larger_defined.md) — implemented on a worktree branch, not merged |
+| 63 | [Claims: generate knowledge with a measured certainty, then test it independently](open/63_claims_generate_and_verify.md) — steps 1+2 shipped in 0.54.0; next: frozen claims scored by new data, wider verifier coverage, genes outside the tested range |
+| 62 | [The hold-out track record](open/62_holdout_track_record.md) — shipped 0.52.0-0.53.0 for 12 labels; left: pooled record vs scorecard check, the questions page |
 | 38 | Build a provenance-first pan-Apicomplexan dataset archive |
 | 41 | Fill as many slots as possible: Toxoplasma, Plasmodium, and host |
 | 60 | [What would make Starplast most useful](open/60_usefulness_review.md): ranked plan; weeks 1-2 = fix the dock bug, result provenance, methods paragraph + citations, figure export |
 | 59 | [One hundred biological questions this software can answer](open/59_biological_questions.md): 100 questions with entry point, strategy, settings and a resolved literature anchor; Q01-Q50 executed and graded yields/thin/no |
-| 54 | [Many more pregenerated maps, searched for structure, and a navigable maps panel](open/54_many_umap_maps_and_the_score_table.md) — the score table only updated for the first map chosen (fixed, with a regression test over cell values in both views); six groups of maps per organism including every substantial single experiment and curated pairs and triples of families; every map but the three reference maps tuned on a label-free structure score; the panel grouped, filtered and sortable. |
-| 53 | [One space per organism](open/53_organism_spaces.md), then links between pathogen, vector and host. R0-R3, Pf display, pack framework and lossless calibration publishing implemented. Remaining: organism builders and published packs · Hs/Mm spaces · Space menu (►0.47.0) · Cp/Pb, Ag/As, Rn/Fc spaces · per-space leakage and calibration (►0.48.0) · cross-space bridges (►0.49.0). Small follow-ups: retry active learning with conformal uncertainty; next Tg/host data audit; `spaces/As/abundance/PXD001647/` is junk to delete. See WORK_LOG.md for active progress and blockers. |
+| 53 | [One space per organism](open/53_organism_spaces.md), then links between pathogen, vector and host. R0-R3, Pf display, pack framework and lossless calibration publishing implemented. Remaining: organism builders and published packs · Hs/Mm spaces · Space menu · Cp/Pb, Ag/As, Rn/Fc spaces · per-space leakage and calibration · cross-space bridges (version numbers to be assigned; 0.47-0.54 went to other work). Small follow-ups: retry active learning with conformal uncertainty; next Tg/host data audit; `spaces/As/abundance/PXD001647/` is junk to delete. See WORK_LOG.md for active progress and blockers. |
 
 ## The one ordering constraint that is not negotiable — now satisfied
 

@@ -1,27 +1,12 @@
 # Next session: start here
 
-Written 2026-09-27 and updated at the **0.47.0** release. Read this page first. It covers where things
-stand, how the work is done here, and what to do next, in order. `HANDOFF.md` holds the long-standing
-design decisions and their reasons, and `instructions/` is the task ledger. This page ties them
-together.
+Updated **2026-10-07** at the **0.54.0** release. Read this page first: where things stand, the rules,
+the code map, and **what is left to do, in priority order (section 4)**. `HANDOFF.md` holds the
+long-standing design decisions, `instructions/` is the task ledger (`instructions/INDEX.md`), and
+`CHANGELOG.md` lists every change by release.
 
-**Follow-up, 2026-09-27:** R3 is implemented on nightly, with validation tracked in instruction 53.
-The host cache is now separate human (20,989 proteins) and mouse (15,590 proteins) tables, with no
-lost identifiers or measurements. Dataset organisms are explicit. The next Pf layout fix also
-changes inference strategy grouping through `Context.blocks()`; the claim below that strategies
-are unaffected was disproved in `notebooks/pf_layout_dependency_2026_09_27.ipynb`. Audit and refresh
-the affected calibration before adopting those groupings. Full host gene spaces and the Space menu
-are still pending.
-
-**Continued work:** partial calibration publishing now preserves unswept species/strategies and
-their provenance. The versioned pack framework and guarded build/install commands are implemented;
-see `docs/space-packs.md` and `WORK_LOG.md`. Published packs and organism-specific builders remain
-pending. The user has authorized continued implementation and asked for token efficiency.
-
-The Pf display fix is also implemented: all 145 eligible source columns resolve to 118 features
-for 5,720 genes. Feature controls and the optimizer use Pf slots. Calibrated inference deliberately
-retains its previous recipe; 17 groupings and both compatibility matrices were verified unchanged
-in `notebooks/pf_display_layout_2026_09_27.ipynb`. Adopting new inference groupings still needs a sweep.
+**Source:** `/media/carruthers/mnt3/claude/repo/starplast` (the package is `starplast/` inside it),
+branch `nightly`. `main` is the release branch; it is at 0.54.0 and identical to nightly.
 
 ---
 
@@ -29,30 +14,31 @@ in `notebooks/pf_display_layout_2026_09_27.ipynb`. Adopting new inference groupi
 
 | | |
 |---|---|
-| Version | **0.52.0** (2026-10-03): the hold-out track record. 0.48–0.51 added the map gallery, star map, Start here, the Lourido density screen and tutorial videos -- see CHANGELOG |
-| Branches | `nightly` folds into `main` at each release; run `git log origin/main..origin/nightly` for newer work |
-| Checkout | `/media/carruthers/mnt3/claude/repo/starplast` (the live one; `repo/starplast_` and `toxoplasma_projects/starplast` are stale copies, so never commit there) |
-| Tables | *T. gondii* `nodes.parquet` 8,140 genes × 443 columns; *P. falciparum* `pf_nodes.parquet` 5,720 × 168; host proteins 36,579 |
-| Slots | 290 in `starplast/data/slots.json`; gene-unit coverage 180 of 221 |
-| Strategies | 39 in 9 families. Every one declares its method, its techniques and a scorecard task. |
-| Calibration | 7,640 self-tests (`results/calibration_2026-09-26b`). Tg: 30 reliable, 8 weak, 1 untestable. Pf: 26 reliable, 2 work when tuned, 9 weak, 2 untestable. |
-| Self-tests at defaults | Tg 33 pass / 5 fail / 1 inconclusive; Pf 36 / 0 / 3 |
-| Tests | 4,315 passed, 42 skipped, about 15 minutes locally (2026-10-03) |
+| Version | **0.54.0** on PyPI (2026-10-05), verified: wheel + sdist on PyPI, GitHub release with both |
+| Branches | `nightly` == `main` == `1249c55`; nothing unreleased |
+| Tables | *T. gondii* `nodes.parquet` 8,140 genes; *P. falciparum* `pf_nodes.parquet` 5,720; host proteins 36,579 (Hs 20,989 + Mm 15,590) |
+| Strategies | 39 in 9 families, each with method, techniques, scorecard task, calibration grade, card, explainer and worked examples |
+| Calibration | 7,640 self-tests (`results/calibration_2026-09-26b`); Tg 30 reliable / 8 weak / 1 untestable; Pf 26 / 2 tuned / 9 weak / 2 untestable |
+| Track record | `data/track_record.parquet`: 12 biological labels (Tg 9, Pf 3), 14 label-calling strategies, every labelled gene held out once by orthogroup fold, plus class and random-set hold-outs (1,038,372 rows, 7.0 MB) |
+| Claims | `data/claims.parquet`: 19,641 claims about unlabelled genes over 7 labels; discoveries (tested, >= 0.8, lift >= 2): Tg compartment 13, Tg LOPIT 30, Pf localization 13, Pf *P. berghei* phenotype 667 |
+| Tests | ~4,330 pass on CI (Python 3.11), about 35 min there, 15 min locally |
 
-**What 0.46.0 added:**
-* The method in every strategy name.
-* Scorecards: 6 tasks and 51 metrics, each explained.
-* A techniques glossary of 40 entries.
-* Strategies 35–39: conformal calls, graph convolution, random forest, stacking and conformal
-  intervals.
-* spaCR-style menus, a search box beside Help, and translucent black rounded windows.
-* Six new *P. falciparum* datasets, including a measured localization that is now Pf's default
-  label.
-* The organism registry, steps R0–R2.
-* A fix for a segfault in full test runs.
-* Rebuilt tutorials, 1–6.
-
-The CHANGELOG has the full list.
+**What the application does now** (details in CHANGELOG 0.45-0.54):
+* **Start here** -- one question at a time to the strategies worth running, *Test on my genes*, and
+  the maps, star map and Discoveries.
+* **Strategies** -- 39 cards with four headline bars, "About this test", a real failure and success,
+  tuned settings, *Test these* on any gene list.
+* **Track record** -- gene card "If this gene were unknown" -> class page -> category page (overall
+  and per-class rates against the commonest-class baseline) -> strategy card; any other label of a
+  gene opens instantly from the record.
+* **Claims / Discoveries** -- certainty measured on held-out genes, leakage measured (shared-mistake
+  ratio, per-family recovery), independent verification, verified certainty; claims say tested /
+  untested / outside tested range, with prior and lift; Discoveries tab, gene card section, "claims"
+  map colouring.
+* **Maps** -- many pregenerated 3D UMAPs per organism, scored against every label. **Star map** --
+  one gene's network, user-defined links, the user's own runs.
+* Help search (Ctrl+Shift+H), spaCR-style menus, glass windows, six tutorial videos, guide and
+  tutorials, `docs/API.md`.
 
 ---
 
@@ -102,6 +88,10 @@ The CHANGELOG has the full list.
   Don't build another guard.
 * Run heavy jobs under a cap, e.g. `systemd-run --user --scope -p MemoryMax=40G ...`.
 * Keep long jobs at about 80 GB total or less; systemd-oomd kills VS Code scopes under pressure.
+* **Shared RAM ledger:** `/media/carruthers/mnt3/claude/ram_leases.md`. Before a heavy job, add a
+  line (`session | job | peak GB | start | expected end`) and check current use plus leases stays
+  under ~80 GB; remove it when done. The autotrade session (repo-02) uses it too and will pause its
+  queue on request. The RAM hook blocks any command containing "python" at >= 100 GB.
 
 ### Tests
 
@@ -151,104 +141,119 @@ cd <repo> && python scripts/calibrate_strategies.py --publish --out results/cali
 
 ---
 
-## 3. Map of the code that changed most recently
+## 3. Map of the code
 
 | Module | What it is |
 |---|---|
-| `starplast/strategies.py` | Strategy/TestResult/Context framework, the five test patterns and `judge`. A `TestResult` has `task`, `scorecard`, `skill` and `card()`. Predictions carry per-class scores via `with_class_scores`. |
-| `starplast/strategy_catalog.py` | Strategies 01–32 |
-| `starplast/strategy_graph.py` | Strategies 33–34 (built on `graphspace.py`) |
-| `starplast/strategy_learning.py` | Strategies 35–39, the "Advanced models" family |
-| `starplast/scorecard.py` | The 6 tasks and 51 metrics: definitions, chance levels, how to read each, and the arithmetic (checked against scikit-learn) |
-| `starplast/techniques.py` | The 40 techniques, with what each does and why |
-| `starplast/calibration.py` | Skill, two-stage bootstrap, grades and scorecard intervals (`scorecard_cell`) |
-| `starplast/strategy_panel.py` | The Strategies tab. The Guide shows method, techniques and scorecard; Results lead with the card. |
-| `starplast/organisms.py` | **The organism registry** (one `Space` per species). Slots, app, contexts, calibration and the slot generator read it. |
-| `starplast/help_index.py`, `help_search.py` | The search beside Help (Ctrl+Shift+H) |
-| `starplast/glass.py`, `theme.py` | Glass popups and windows, spaCR-style menus |
-| `starplast/deposits.py` | Every verified deposit, derived into columns |
-| `starplast/stopping.py` | `Stopped`, kept free of Qt so `import starplast.strategies` needs no Qt |
-
-`import starplast` exposes `strategies`, `scorecard`, `techniques`, `calibration`, `graphspace`,
-`deposits` and others as lazily loaded attributes. The Python usage guide is `docs/API.md`, whose
-strategies section was executed against the shipped table.
+| `starplast/claims.py` | **Claims** (0.54): `shared_mistakes`, `family_recovery`, `certainty_model`, `verification`, `verified_model`, `candidates`, `recipe`, `generate`, `applicability`; shipped readers `shipped`, `recipes`, `gene_html`, `claim_html`, `discoveries` |
+| `starplast/discoveries_panel.py` | The Discoveries tab |
+| `starplast/track_record.py` | **Track record** (0.52-0.53): `evaluate`, `evaluate_sets`, `my_list`, `alone`, `summary`, `labels`, `default_target`, `gene_html`/`class_html`/`target_html`/`list_html`, `record_phrase`, `beats_baseline`, `_baselines` |
+| `scripts/build_track_record.py`, `scripts/build_claims.py` | Rebuild the shipped record (`--workers 4`, ~1 h, ~1 GB/worker) and then the claims (minutes). Claims read the record: rebuild in that order. |
+| `scripts/notebook_track_record.py`, `scripts/notebook_claims.py` | Write the executed notebooks `notebooks/track_record_2026_10_03.ipynb`, `notebooks/claims_2026_10_04.ipynb` |
+| `starplast/strategies.py` | Strategy/TestResult/Context framework, bans (`banned`, `banned_layers`), `knn_vote`, `propagate` |
+| `starplast/strategy_catalog.py`, `strategy_graph.py`, `strategy_learning.py` | Strategies 01-32, 33-34, 35-39 |
+| `starplast/scorecard.py`, `techniques.py`, `calibration.py` | 6 tasks / 51 metrics, 40 techniques, grades and intervals |
+| `starplast/strategy_panel.py`, `strategy_card.py`, `strategy_explainers.py` | The Strategies tab and its cards |
+| `starplast/guided.py`, `guided_panel.py` | Start here (question tree without Qt; the panel) |
+| `starplast/umap_gallery*.py`, `star_map.py`, `star_edges.py` | Maps tab, star map and its link store |
+| `starplast/organisms.py` | The organism registry (one `Space` per species) |
+| `starplast/search.py` | Leakage closure: `excluded_for`, `excluded_layers`, `LAYER_SOURCES` |
+| `starplast/app.py` | The window; evidence-panel links route through `_detail_link` (`starplast://gene|class|target|record|alone|claim/...`) |
+| `starplast/help_index.py`, `help_search.py`, `glass.py`, `theme.py`, `ambient.py` | Help search, glass, menus, background (`keep_behind` fixes the blank panel) |
 
 ---
 
-## 4. What to do next, in priority order
+## 4. What is left to do, in priority order
 
-**Current thread (user, 2026-10-04): claims -- generate knowledge with a measured certainty, then test
-it independently**, `instructions/open/63_claims_generate_and_verify.md`. The user: leakage must be
-QUANTIFIED, not guessed (a signal peptide is location information). Steps 1+2 done (certainty,
-measured-independent verification, Discoveries tab, gene card, map colour, Start here). Next: step 3
-(freeze claims; score them when new data arrives), more verifier coverage (only 6-22% of unlabelled
-Tg genes are reached by an independent check), calibration for genes outside the tested range.
+Each item names its instruction file, which holds the detail. The user's standing preference:
+**quality before quantity, then build from there**; information condensed first, always a click deeper;
+leakage quantified, never guessed. The goal stated 2026-10-04: generate new knowledge, test it by means
+independent of the inference, and -- once that is reliable and quantified -- apply what is proven
+genome-wide.
 
-**Previous thread (user, 2026-10-03): the hold-out track record**, `instructions/open/62_holdout_track_record.md`.
-The user's words: hold genes out singly and in multi-gene sets, show how often each strategy got the
-label right, wrong, or said nothing, and make every level clickable -- gene, class, category,
-strategy. "Quality before quantity and build from there." Condensed first, always click deeper.
+### A. Claims (instruction 63) -- the current thread
+1. **Wider independent coverage.** Only 6-22% of unlabelled Tg genes are reached by any independent
+   check (physical partners, shared fold). Find or build more verifiers and measure each one's
+   shared-mistake ratio; candidates: orthology transfer from Pf (cross-species), literature layers
+   (excluded from inference, so possibly independent), the Lourido density screen, newer LOPIT.
+2. **Step 3: frozen claims tested prospectively.** Freeze claims with version and hash; when a dataset
+   is added, score the frozen claims against it automatically and show the result. The strongest test.
+3. **Genes outside the tested range** (42% of unlabelled Tg genes on compartment, mostly genes LOPIT
+   could not detect). Measure whether certainty holds for them in any way (e.g. other-stage proteomes),
+   or keep saying "not measured".
+4. **Combine claims across labels** where consistent (compartment vs LOPIT unified agree for the same
+   gene) and measure whether agreement across labels raises precision.
+5. Labels with no claims: Tg cell-cycle phase has no independent verifier (229 calibrated, untested
+   claims); the binary screens are uncalibrated. Measure whether per-class calibration rescues them.
 
-Done in 0.52.0: `starplast/track_record.py`; the shipped record (`data/track_record.parquet`, default
-label of Tg and Pf); gene card -> class page -> category page -> back; strategy card line linking to
-the category; `alone` (one gene, any label, from a gene-card link, background job, cached);
-`my_list` (Python only); Start here quotes the record with a commonest-class baseline and lists
-below-baseline strategies last; `notebooks/track_record_2026_10_03.ipynb`.
+### B. Track record (instruction 62)
+6. Check stage 2's acceptance: the pooled record against the scorecard numbers per strategy.
+7. Show per-class recall on the class page (the category page has it).
 
-Next, in order:
-1. (Done in 0.52.0: Start here ▸ *Test on my genes*.) The Strategies tab's gene-list settings
-   have *Test these* too.
-2. (Resolved 2026-10-03: label diffusion's low accuracy is a small-class trade-off; see 62.)
-   Consider a per-class view in the class/category pages: balanced recall beside accuracy.
-3. (Done 2026-10-04: every biological label is recorded; see instruction 62 status.)
-   Was: ship more labels than the default one per organism (the full grid is ~6 h single-process; ~1 h on 6
-   workers under a MemoryMax scope; measured per-strategy costs are in instruction 62).
-4. Check stage 2's acceptance: pooled record vs. the scorecard numbers.
-5. The questions page (the 100 questions WIP is on branch `worktree-agent-a5f1423763f196a27`,
-   b0d8932, unmerged and unreviewed; the agent stopped at a spend limit).
+### C. Usefulness (instruction 60, items still open)
+8. Methods paragraph + resolved citation list + BibTeX for any run (item 2).
+9. Result provenance (organism, version, table fingerprint, seed, columns) and session save/load (item 3).
+10. Figure export (PDF/SVG) from every panel (item 4).
+11. A gene digest: coverage, extreme measurements as percentiles, which strategies named it (item 5).
+12. Per-target calibration in the UI, and weight Start here's ranking by it (item 6).
+13. Missingness / dominance / noise warning on every result (item 7).
+14. **"Drop in my own screen" end to end** -- a real bug: imported columns do not reach the
+    strategies' contexts (item 8).
 
-Later (instruction 60's ranking): methods paragraph and citations; result provenance with session
-save/load; figure export; own-screen import reaching strategies (a real bug); missingness warnings;
-per-target calibration in the UI; a fresh calibration sweep.
+### D. The 100 biological questions (instruction 59)
+15. Q01-Q50 were executed on branch `worktree-agent-a5f1423763f196a27` (b0d8932, WIP, unreviewed; the
+    agent stopped at a spend limit). Review, merge, write `docs/questions.md`, and link questions from
+    Start here.
 
-The user asked to **save tokens** after 0.46.0, so everything below was deferred on purpose.
-**Confirm with the user before starting large items.** ► marks proposed version bumps. Publishing
-needs no go-ahead: the user said "you dont have to ask me jsut release to pypi when its ready" (CI green
-on nightly, then fast-forward main, publish, verify).
+### E. Organism spaces (instruction 53; the larger plan)
+16. Build the Hs and Mm spaces from `<STARPLAST_DATA>/spaces/Hs`, `/Mm`; publish organism packs
+    (`docs/space-packs.md`); a Space menu (parasites / hosts / vectors).
+17. Cryptosporidium (Cp) and *P. berghei* (Pb) spaces; *Anopheles* (Ag, As), rat (Rn), cat (Fc) --
+    mind the id-space traps in 53.
+18. Leakage families and calibration per space; then cross-space bridges (orthology, host-pathogen PPI,
+    vector-parasite) and pathogen-host-vector inference.
 
-The design for all of this is `instructions/open/53_organism_spaces.md`. It gives the registry
-fields, the work packages with the files each one owns, the data per space, the licence codes, and
-the acceptance tests.
+### F. Data (instructions 38, 41)
+19. Fill remaining slots (41): fetch, verify, key and load the discovered candidates. 38's archive
+    machinery is built.
+20. The next Tg and host data audit.
 
-| # | Item | Notes |
-|---|---|---|
-| 1 | **R3 implemented**: separate Hs/Mm protein tables and explicit dataset/deposit organisms | All 36,579 identifiers and measurements retained; see instruction 53 for validation. |
-| 2 | **Pf display implemented** | 145 source columns / 118 resolved features; explicit compatibility recipe preserves calibrated inference. |
-| 3 | Space packs: framework implemented; build and publish organism packs next | Hash-checked build/install/download commands are in `docs/space-packs.md`; wheel is 53.4 MB. |
-| 4 | Build the **Hs and Mm spaces** from the downloaded data | WP3. The data is at `<STARPLAST_DATA>/spaces/Hs`, `/Mm`, each with a `MANIFEST.json`. |
-| 5 | UI: a Space menu (parasites / hosts / vectors), with a download for spaces not installed | WP9 |
-| ► | **0.48.0** | Hs and Mm spaces built, organism packs published, Space menu |
-| 6 | Cryptosporidium (Cp) and P. berghei (Pb) spaces | WP6. Pb: the real PlasmoGEM tables are in `spaces/Pb/essentiality/`; the old dataset-tree copies are HTML placeholders. |
-| 7 | *Anopheles* (Ag, As), rat (Rn) and cat (Fc) spaces | WP4 and WP5. Mind the id-space traps listed in 53. |
-| 8 | Leakage families per space; strategies and calibration across N spaces | WP7 and WP8. Calibration publishing now merges measured entries; applicability and new-space calibration remain. |
-| ► | **0.49.0** | Every organism in its own space |
-| 9 | Phase 2: cross-space bridges (orthology, host–pathogen PPI, vector–parasite), `Context.bridge`, a linked-windows dock | WP10–12 |
-| ► | **0.50.0** (or 0.5.0) | Pathogen–host–vector inference |
-| 10 | Small follow-ups | See below |
+### G. Housekeeping
+21. A fresh calibration sweep after the 0.50-0.54 data and strategy changes (section 2 has the recipe).
+22. Lower the organism-literal ratchet as files move to the registry.
+23. Retry active learning with calibrated (conformal) uncertainty; plain uncertainty sampling was no
+    better than random (`done/54`).
+24. Twelve `worktree-agent-*` branches remain locally; all their work is merged except
+    `worktree-agent-a5f1423763f196a27` (item 15). Delete the rest after a final check.
 
-The small follow-ups:
-* Lower the organism-literal ratchet (`tests/test_organisms.py::ORGANISM_LITERALS`, 156 in 32 files)
-  as files move to the registry.
-* Retry active learning with calibrated uncertainty (conformal set size). A plain uncertainty-sampling
-  version measured no better than random, so it was not shipped; the numbers are in `done/54`.
-* The next Tg and host data audit: the 0.46.0 round verified none.
-* Two items for the user: look at the glass windows on the real desktop (drag, resize and the
-  compositor check were only verified offscreen), and whether to delete
-  `<STARPLAST_DATA>/spaces/As/abundance/PXD001647/` (junk Hydra/Daphnia files).
+### For the user (not for an agent)
+* Look at the glass windows on the real desktop (drag, resize, compositor were verified offscreen only).
+* Delete `/media/carruthers/mnt3/claude/starplast_video_scratch/` (permission was denied to the agent)
+  and the junk `<STARPLAST_DATA>/spaces/As/abundance/PXD001647/` (Hydra/Daphnia files).
 
 ---
+
 
 ## 5. Traps already met (read before touching these areas)
+
+* **Leakage is measured, never assumed** (user rule, 2026-10-04). A signal peptide is location
+  information with no shared dataset. `claims.shared_mistakes` and `claims.family_recovery` are the
+  measurements; a dataset-overlap argument is a first screen only.
+* **The track record's runner must apply the same bans as the strategies.** It once walked label
+  diffusion's default `layer=coexpression` for the derived stage label and "recovered" it at 91-100%;
+  `track_record._permitted` now swaps a banned layer. `_derived` labels are not recorded at all.
+* **Categorical columns:** groupby without `observed=True` builds the full cross product (a gene card
+  took 1.5 s); `value_counts` lists zero-count categories (class pages once named confusions that
+  never happened). Convert to str or pass `observed=True`.
+* **Base rates pose as knowledge.** Uncalibrated recipes make no claims, and every claim carries its
+  class prior and lift: the binary screens would otherwise offer thousands of "confident" claims that
+  were the 86-89% base rate of "no phenotype".
+* **A strategy that absorbs every evidence type (stacking) cannot be independently tested**; recipes
+  pick the generator that independent evidence CAN test (`claims.candidates`).
+* **Window width:** a new dock's control rows set the window minimum. Put rows in a horizontal scroll
+  strip (`discoveries_panel._strip`, `star_map.py`) or `test_display` fails at 800 px.
+* **Every public function needs a docstring and every colour mode a menu explanation** -- CI tests
+  enforce both, and new files must not add "Tg"/"Pf" literals (use `organisms.TOXOPLASMA`).
 
 * **pandas deep-copies `Series.attrs`** on every operation, so per-class scores ride in a holder whose
   `__deepcopy__` returns itself (`strategies._ClassScores`).
@@ -282,6 +287,9 @@ The small follow-ups:
 | `instructions/done/51_strategy_calibration.md` | How calibration works |
 | `instructions/done/52_data_audit_2026_09_b.md` | The second audit: six Pf datasets, five refusals, the accession error |
 | `instructions/done/54_scorecards_and_advanced_models.md` | Scorecards, strategies 35–39, active learning not shipped |
-| `instructions/open/53_organism_spaces.md` | The plan for everything next |
+| `instructions/open/53_organism_spaces.md` | The organism-spaces plan |
+| `instructions/open/62_holdout_track_record.md` | Track record design, stages, status, traps |
+| `instructions/open/63_claims_generate_and_verify.md` | Claims design and every measurement behind it |
+| `notebooks/track_record_2026_10_03.ipynb`, `notebooks/claims_2026_10_04.ipynb` | The executed record of both |
 | `docs/scorecards.md`, `docs/calibration.md`, `docs/strategies.md` | Every number, generated |
 | `docs/tutorial/index.html` | Six tutorials and the complete guide |
