@@ -10,14 +10,16 @@ their hosts; start from a gene, class, localization or label and inspect every a
 precomputed results, agreements/conflicts and a ground-truth-tested meta-inference. Scorecards
 must make accuracy, capacity and the underlying test evidence accessible at every level.
 The controlling plan is **[instruction 64](instructions/open/64_information_space_and_inference_atlas.md)**:
-40 bounded action cards with dependencies and acceptance tests. **2/40 complete (5%)**:
+40 bounded action cards with dependencies and acceptance tests. **3/40 complete (7.5%)**:
 64.01 provides the entity/query schema and provenance-preserving exact alias resolver
 (`starplast/query.py`, 472 focused checks passed). 64.02 provides the offline inventory
 (`starplast/inventory.py`, 525 focused checks passed): all 162 sources reconcile to 180 rows
 including 16 scoped refusals. Evidence and gaps are in
-`results/information_inventory_2026_10_07/README.md`. Continue at **64.03**, measurement provenance.
+`results/information_inventory_2026_10_07/README.md`. 64.03 adds typed provenance for 628 addresses, a measured mapping-loss audit and exact
+reproduction of all 15,437 installed mouse macrophage TPM values. Continue at **64.04**,
+the ground-truth registry. See `results/measurement_provenance_recovered_2026_10_07/README.md`.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
-the entire progress table (40 instruction-64 rows plus four instruction-65 rows).
+the entire progress table (40 instruction-64 rows, four instruction-65 rows and three instruction-66 rows).
 Keep the stored tracker and completion evidence current.
 
 **New user priority (2026-10-07):** [instruction 65](instructions/open/65_dataset_selection_audit.md)
@@ -47,6 +49,17 @@ literature-verifier audit, the instruction-64 action plan, the entity/query cont
 strategies, calibration, data and shipped claims remain at the released baseline.
 
 ---
+
+**Active source recovery:** [instruction 66](instructions/open/66_source_recovery_and_host_candidates.md).
+Use the archive root `/media/carruthers/mnt3/claude/toxoplasma_projects/datasets` itself.
+GTEx v10 has a verified relocated-file receipt. `scripts/recover_pmc_sources.py` uses the
+current public PMC cloud API: 12 named missing inputs recovered, 57 processed source
+bindings available in `results/source_recovery_pmc_2026_10_07_v2/`. Ten attempted sources
+remain unresolved, including one declared PMID/PMCID mismatch. Preserve these refusals.
+The 2017 RBC processed MaxQuant archive and two DOI-matched publisher supplements are
+now external with verified checksums; candidate mapping/admission remains open. Original
+source data stays external; no runtime dataset replacement is implied by acquisition.
+The proposed worker-stagger/retry feature was cancelled as a wrong-session request.
 
 ## 1. Where things stand
 
@@ -207,7 +220,7 @@ cd <repo> && python scripts/calibrate_strategies.py --publish --out results/cali
 Follow [instruction 64](instructions/open/64_information_space_and_inference_atlas.md) and its
 linked action cards. It covers both clarified goals: evidence-space exploration and a gene/class/label
 inference atlas, backed by appropriate ground-truth tests, reusable precomputation, dependence-aware
-meta-analysis and scorecards at every level. 64.01 and 64.02 are complete; start at **64.03** and
+meta-analysis and scorecards at every level. 64.01–64.03 are complete; start at **64.04** and
 respect each card's dependencies. Completed cards record fixtures, validation and limitations.
 The census leaves missingness causes unknown, identifies 16 rows lacking slot context and
 retains unattributed host bridge records; do not turn these gaps into negative measurements.

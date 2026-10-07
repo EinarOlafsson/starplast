@@ -64,6 +64,7 @@ One file per task. This index is the status table; the files carry the reasoning
 | 58 | [Star map: stop the hover twitch, show the larger network, define the connections](done/58_star_map_steady_larger_defined.md) — merged and shipped in 0.50.0 |
 | 64.01 | [Define organism-qualified entities, questions and provenance-preserving alias resolution](done/64_01_entity_query_contract.md) — 472 focused checks passed |
 | 64.02 | [Inventory registered evidence and reconcile installed storage coverage](done/64_02_dataset_inventory.md) — 162 sources, 180 rows, 16 scoped refusals; 525 focused checks passed |
+| 64.03 | [Trace each output to source identities, transforms, mapping losses and visible gaps](done/64_03_measurement_provenance.md) — 162 sources, 628 addresses; exact 15,437-value host pilot |
 | 65.01 | [Versioned citation-rate, recency and comprehensiveness preferences](done/65_01_dataset_selection_policy.md) — 389 focused checks passed; publication audit follows |
 | 65.02 | [Audit all registered publication identities and annual citation rates](done/65_02_publication_identity_audit.md) — 162 sources accounted for, 95 PMID/DOI identities resolved; remaining roles/gaps explicit |
 | 65.03 | [Search every slot and retain biological comparison gaps](done/65_03_slot_literature_discovery.md) — 297 slots searched, 2,032 distinct publications retained, six diagnostic traps triaged; no promotions |
@@ -78,8 +79,9 @@ whenever an action is completed, replacing its percentage with a green tick.
 
 | # | Task |
 |---|---|
+| 66 | [Recover missing source files and audit host candidate versions](open/66_source_recovery_and_host_candidates.md) — 12 missing supplements recovered; host candidate review remains open |
 | 65 | [Audit every dataset choice and retain the citation-rate/recency/comprehensiveness rule](open/65_dataset_selection_audit.md) — 3/4 bounded items complete; biological admission, deeper search and validated replacements remain 65.04 |
-| 64 | [Explore published organism/host evidence and inspect precomputed inferences with ground-truth scorecards](open/64_information_space_and_inference_atlas.md) — 2/40 complete (5%); continue with 64.03 |
+| 64 | [Explore published organism/host evidence and inspect precomputed inferences with ground-truth scorecards](open/64_information_space_and_inference_atlas.md) — 3/40 complete (7.5%); continue with 64.04 |
 | 63 | [Claims: generate knowledge with a measured certainty, then test it independently](open/63_claims_generate_and_verify.md) — steps 1+2 shipped in 0.54.0; October 7 literature audit complete (no Tg candidate passes, Pf candidate adds only two claims; no promotion). Next: orthology/experimental verifier coverage, frozen prospective tests, genes outside the tested range |
 | 62 | [The hold-out track record](open/62_holdout_track_record.md) — shipped 0.52.0-0.53.0 for 12 labels; left: pooled record vs scorecard check, the questions page |
 | 38 | Build a provenance-first pan-Apicomplexan dataset archive |

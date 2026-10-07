@@ -1,0 +1,1458 @@
+{
+  "esm2_protein": {
+    "source_id": "esm2_protein",
+    "sources": [
+      "esm2_protein"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "local_af3": {
+    "source_id": "local_af3",
+    "sources": [
+      "local_af3"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "xue_singlecell": {
+    "source_id": "xue_singlecell",
+    "sources": [
+      "xue_singlecell"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "stage_enriched": {
+    "source_id": "stage_enriched",
+    "sources": [
+      "gse108740",
+      "gse206344",
+      "stage_enriched"
+    ],
+    "edges": [
+      {
+        "source_id": "stage_enriched",
+        "input_column": "expr_tachy",
+        "upstream_source": "gse108740"
+      },
+      {
+        "source_id": "stage_enriched",
+        "input_column": "expr_cyst",
+        "upstream_source": "gse108740"
+      },
+      {
+        "source_id": "stage_enriched",
+        "input_column": "expr_sporulated",
+        "upstream_source": "gse206344"
+      }
+    ],
+    "gaps": []
+  },
+  "toxodb_identity": {
+    "source_id": "toxodb_identity",
+    "sources": [
+      "toxodb_identity"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "toxodb_strain_snps": {
+    "source_id": "toxodb_strain_snps",
+    "sources": [
+      "toxodb_strain_snps"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "toxodb_codon_usage": {
+    "source_id": "toxodb_codon_usage",
+    "sources": [
+      "toxodb_codon_usage"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "orthomcl": {
+    "source_id": "orthomcl",
+    "sources": [
+      "orthomcl"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "interpro": {
+    "source_id": "interpro",
+    "sources": [
+      "interpro"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "alphafold": {
+    "source_id": "alphafold",
+    "sources": [
+      "alphafold"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "lopit_tgon": {
+    "source_id": "lopit_tgon",
+    "sources": [
+      "lopit_tgon"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "lopit_pfal": {
+    "source_id": "lopit_pfal",
+    "sources": [
+      "lopit_pfal"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "lopit_cpar": {
+    "source_id": "lopit_cpar",
+    "sources": [
+      "lopit_cpar"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse108740": {
+    "source_id": "gse108740",
+    "sources": [
+      "gse108740"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse206344": {
+    "source_id": "gse206344",
+    "sources": [
+      "gse206344"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse22258": {
+    "source_id": "gse22258",
+    "sources": [
+      "gse22258"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse168465": {
+    "source_id": "gse168465",
+    "sources": [
+      "gse168465"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse99395": {
+    "source_id": "gse99395",
+    "sources": [
+      "gse99395"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse129869": {
+    "source_id": "gse129869",
+    "sources": [
+      "gse129869"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse19092": {
+    "source_id": "gse19092",
+    "sources": [
+      "gse19092"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse51780": {
+    "source_id": "gse51780",
+    "sources": [
+      "gse51780"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse168155": {
+    "source_id": "gse168155",
+    "sources": [
+      "gse168155"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse200962": {
+    "source_id": "gse200962",
+    "sources": [
+      "gse200962"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse253884_5": {
+    "source_id": "gse253884_5",
+    "sources": [
+      "gse253884_5"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "invivo_brain_transcriptome": {
+    "source_id": "invivo_brain_transcriptome",
+    "sources": [
+      "invivo_brain_transcriptome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse132248_stress": {
+    "source_id": "gse132248_stress",
+    "sources": [
+      "gse132248_stress"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "morc_depletion": {
+    "source_id": "morc_depletion",
+    "sources": [
+      "morc_depletion"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "crispr_invitro": {
+    "source_id": "crispr_invitro",
+    "sources": [
+      "crispr_invitro"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "crispr_invivo_composite": {
+    "source_id": "crispr_invivo_composite",
+    "sources": [
+      "crispr_invivo_composite"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "crispr_serum_restriction": {
+    "source_id": "crispr_serum_restriction",
+    "sources": [
+      "crispr_serum_restriction"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "crispr_glucose_limitation": {
+    "source_id": "crispr_glucose_limitation",
+    "sources": [
+      "crispr_glucose_limitation"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "crispr_parasite_density": {
+    "source_id": "crispr_parasite_density",
+    "sources": [
+      "crispr_parasite_density"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "crispr_macrophage": {
+    "source_id": "crispr_macrophage",
+    "sources": [
+      "crispr_macrophage"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "crispr_young2019": {
+    "source_id": "crispr_young2019",
+    "sources": [
+      "crispr_young2019"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gra17_synthlethal": {
+    "source_id": "gra17_synthlethal",
+    "sources": [
+      "gra17_synthlethal"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "invivo_platform": {
+    "source_id": "invivo_platform",
+    "sources": [
+      "invivo_platform"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gra12": {
+    "source_id": "gra12",
+    "sources": [
+      "gra12"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "hosttx_effectors": {
+    "source_id": "hosttx_effectors",
+    "sources": [
+      "hosttx_effectors"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "bioid_corpus_membership": {
+    "source_id": "bioid_corpus_membership",
+    "sources": [
+      "bioid_corpus_membership"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "ipms_corpus_membership": {
+    "source_id": "ipms_corpus_membership",
+    "sources": [
+      "ipms_corpus_membership"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "proteome_pru": {
+    "source_id": "proteome_pru",
+    "sources": [
+      "proteome_pru"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "proteome_total": {
+    "source_id": "proteome_total",
+    "sources": [
+      "proteome_total"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "phosphosites": {
+    "source_id": "phosphosites",
+    "sources": [
+      "phosphosites"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "phospho_quantitative": {
+    "source_id": "phospho_quantitative",
+    "sources": [
+      "phospho_quantitative"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "oocyst_itraq": {
+    "source_id": "oocyst_itraq",
+    "sources": [
+      "oocyst_itraq"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "starpath_xlms": {
+    "source_id": "starpath_xlms",
+    "sources": [
+      "starpath_xlms"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "ipms_baits": {
+    "source_id": "ipms_baits",
+    "sources": [
+      "ipms_baits"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "foldseek_struct": {
+    "source_id": "foldseek_struct",
+    "sources": [
+      "alphafold",
+      "foldseek_struct"
+    ],
+    "edges": [
+      {
+        "source_id": "foldseek_struct",
+        "input_column": "mean_plddt",
+        "upstream_source": "alphafold"
+      }
+    ],
+    "gaps": []
+  },
+  "bioid_corpus": {
+    "source_id": "bioid_corpus",
+    "sources": [
+      "bioid_corpus"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pulldown_corpus": {
+    "source_id": "pulldown_corpus",
+    "sources": [
+      "pulldown_corpus"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pubmed": {
+    "source_id": "pubmed",
+    "sources": [
+      "pubmed"
+    ],
+    "edges": [],
+    "gaps": [
+      {
+        "source_id": "pubmed",
+        "column": "n_papers_focal",
+        "status": "unresolved",
+        "candidates": []
+      },
+      {
+        "source_id": "pubmed",
+        "column": "n_papers_substantive",
+        "status": "unresolved",
+        "candidates": []
+      },
+      {
+        "source_id": "pubmed",
+        "column": "n_papers_incidental",
+        "status": "unresolved",
+        "candidates": []
+      }
+    ]
+  },
+  "pmc_oa": {
+    "source_id": "pmc_oa",
+    "sources": [
+      "pmc_oa"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse223620_bfd2_rip": {
+    "source_id": "gse223620_bfd2_rip",
+    "sources": [
+      "gse223620_bfd2_rip"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse245775": {
+    "source_id": "gse245775",
+    "sources": [
+      "gse245775"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse313048_atac": {
+    "source_id": "gse313048_atac",
+    "sources": [
+      "gse313048_atac"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse277553_cuttag": {
+    "source_id": "gse277553_cuttag",
+    "sources": [
+      "gse277553_cuttag"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "toxodb_palmitome": {
+    "source_id": "toxodb_palmitome",
+    "sources": [
+      "toxodb_palmitome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "iedb_bcell": {
+    "source_id": "iedb_bcell",
+    "sources": [
+      "iedb_bcell"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "toxodb_epitopes": {
+    "source_id": "toxodb_epitopes",
+    "sources": [
+      "toxodb_epitopes"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "toxodb_h4_acetylation": {
+    "source_id": "toxodb_h4_acetylation",
+    "sources": [
+      "toxodb_h4_acetylation"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "toxodb_macrophage": {
+    "source_id": "toxodb_macrophage",
+    "sources": [
+      "toxodb_macrophage"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "toxodb_ec_numbers": {
+    "source_id": "toxodb_ec_numbers",
+    "sources": [
+      "toxodb_ec_numbers"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "crosslink_interactome": {
+    "source_id": "crosslink_interactome",
+    "sources": [
+      "crosslink_interactome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pvm_proximity": {
+    "source_id": "pvm_proximity",
+    "sources": [
+      "pvm_proximity"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "cdpk1_substrates": {
+    "source_id": "cdpk1_substrates",
+    "sources": [
+      "cdpk1_substrates"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "mrna_stability": {
+    "source_id": "mrna_stability",
+    "sources": [
+      "mrna_stability"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "mrna_decay_gse329845": {
+    "source_id": "mrna_decay_gse329845",
+    "sources": [
+      "mrna_decay_gse329845"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse302107_riboseq": {
+    "source_id": "gse302107_riboseq",
+    "sources": [
+      "gse302107_riboseq"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "gse302108_utr5": {
+    "source_id": "gse302108_utr5",
+    "sources": [
+      "gse302108_utr5"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "brady_subtypes": {
+    "source_id": "brady_subtypes",
+    "sources": [
+      "brady_subtypes"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "iron_depletion_proteome": {
+    "source_id": "iron_depletion_proteome",
+    "sources": [
+      "iron_depletion_proteome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "organelle_surface_turboid": {
+    "source_id": "organelle_surface_turboid",
+    "sources": [
+      "organelle_surface_turboid"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "myristoylome": {
+    "source_id": "myristoylome",
+    "sources": [
+      "myristoylome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "toxodb_arginine_methylation": {
+    "source_id": "toxodb_arginine_methylation",
+    "sources": [
+      "toxodb_arginine_methylation"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "toxodb_nanopore_isoforms": {
+    "source_id": "toxodb_nanopore_isoforms",
+    "sources": [
+      "toxodb_nanopore_isoforms"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "toxodb_enteroepithelial": {
+    "source_id": "toxodb_enteroepithelial",
+    "sources": [
+      "toxodb_enteroepithelial"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pride_acetylation": {
+    "source_id": "pride_acetylation",
+    "sources": [
+      "pride_acetylation"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pride_proximity": {
+    "source_id": "pride_proximity",
+    "sources": [
+      "pride_proximity"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pride_glycosylation": {
+    "source_id": "pride_glycosylation",
+    "sources": [
+      "pride_glycosylation"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pride_nitrosylation": {
+    "source_id": "pride_nitrosylation",
+    "sources": [
+      "pride_nitrosylation"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pride_lactylation": {
+    "source_id": "pride_lactylation",
+    "sources": [
+      "pride_lactylation"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pride_ubiquitination": {
+    "source_id": "pride_ubiquitination",
+    "sources": [
+      "pride_ubiquitination"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "oxidative_stress_screen": {
+    "source_id": "oxidative_stress_screen",
+    "sources": [
+      "oxidative_stress_screen"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "spacr_escrt_screen": {
+    "source_id": "spacr_escrt_screen",
+    "sources": [
+      "spacr_escrt_screen"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "myr1_host_ip": {
+    "source_id": "myr1_host_ip",
+    "sources": [
+      "myr1_host_ip"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pv_host_uptake": {
+    "source_id": "pv_host_uptake",
+    "sources": [
+      "pv_host_uptake"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "metabolome_iron": {
+    "source_id": "metabolome_iron",
+    "sources": [
+      "metabolome_iron"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "lipidome_vesicles": {
+    "source_id": "lipidome_vesicles",
+    "sources": [
+      "lipidome_vesicles"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "curated_enteric_fitness": {
+    "source_id": "curated_enteric_fitness",
+    "sources": [
+      "curated_enteric_fitness"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "curated_drug_sensitivity": {
+    "source_id": "curated_drug_sensitivity",
+    "sources": [
+      "curated_drug_sensitivity"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "curated_resistance_alleles": {
+    "source_id": "curated_resistance_alleles",
+    "sources": [
+      "curated_resistance_alleles"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "splitcas9_imaging_screen": {
+    "source_id": "splitcas9_imaging_screen",
+    "sources": [
+      "splitcas9_imaging_screen"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "plasmodb_pf3d7_attributes": {
+    "source_id": "plasmodb_pf3d7_attributes",
+    "sources": [
+      "plasmodb_pf3d7_attributes"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "plasmodb_pf3d7_orthology": {
+    "source_id": "plasmodb_pf3d7_orthology",
+    "sources": [
+      "plasmodb_pf3d7_orthology"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "plasmodb_pf3d7_domains": {
+    "source_id": "plasmodb_pf3d7_domains",
+    "sources": [
+      "plasmodb_pf3d7_domains"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "plasmodb_pf3d7_snps": {
+    "source_id": "plasmodb_pf3d7_snps",
+    "sources": [
+      "plasmodb_pf3d7_snps"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_latency_transcriptome": {
+    "source_id": "pf_latency_transcriptome",
+    "sources": [
+      "pf_latency_transcriptome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_m6a_nanopore": {
+    "source_id": "pf_m6a_nanopore",
+    "sources": [
+      "pf_m6a_nanopore"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_gametocyte_proteome": {
+    "source_id": "pf_gametocyte_proteome",
+    "sources": [
+      "pf_gametocyte_proteome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_target_engagement": {
+    "source_id": "pf_target_engagement",
+    "sources": [
+      "pf_target_engagement"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_febrile_phospho": {
+    "source_id": "pf_febrile_phospho",
+    "sources": [
+      "pf_febrile_phospho"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_chromatin_proxiome": {
+    "source_id": "pf_chromatin_proxiome",
+    "sources": [
+      "pf_chromatin_proxiome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_meltome": {
+    "source_id": "pf_meltome",
+    "sources": [
+      "pf_meltome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_pb_fertility_transfer": {
+    "source_id": "pf_pb_fertility_transfer",
+    "sources": [
+      "pf_pb_fertility_transfer"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "plasmodb_pf3d7_piggybac": {
+    "source_id": "plasmodb_pf3d7_piggybac",
+    "sources": [
+      "plasmodb_pf3d7_piggybac"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "plasmodb_pf3d7_expression": {
+    "source_id": "plasmodb_pf3d7_expression",
+    "sources": [
+      "plasmodb_pf3d7_expression"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_alphafold_confidence": {
+    "source_id": "pf_alphafold_confidence",
+    "sources": [
+      "pf_alphafold_confidence"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_febrile_stress": {
+    "source_id": "pf_febrile_stress",
+    "sources": [
+      "pf_febrile_stress"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_sir2_perturbation": {
+    "source_id": "pf_sir2_perturbation",
+    "sources": [
+      "pf_sir2_perturbation"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_iedb_bcell": {
+    "source_id": "pf_iedb_bcell",
+    "sources": [
+      "pf_iedb_bcell"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_iedb_tcell": {
+    "source_id": "pf_iedb_tcell",
+    "sources": [
+      "pf_iedb_tcell"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_derived_stage_labels": {
+    "source_id": "pf_derived_stage_labels",
+    "sources": [
+      "pf_derived_stage_labels",
+      "plasmodb_pf3d7_expression"
+    ],
+    "edges": [
+      {
+        "source_id": "pf_derived_stage_labels",
+        "input_column": "expr_ring",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      },
+      {
+        "source_id": "pf_derived_stage_labels",
+        "input_column": "expr_early_trophozoite",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      },
+      {
+        "source_id": "pf_derived_stage_labels",
+        "input_column": "expr_late_trophozoite",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      },
+      {
+        "source_id": "pf_derived_stage_labels",
+        "input_column": "expr_schizont",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      },
+      {
+        "source_id": "pf_derived_stage_labels",
+        "input_column": "expr_gametocyte_ii",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      },
+      {
+        "source_id": "pf_derived_stage_labels",
+        "input_column": "expr_gametocyte_v",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      },
+      {
+        "source_id": "pf_derived_stage_labels",
+        "input_column": "expr_ookinete",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      },
+      {
+        "source_id": "pf_derived_stage_labels",
+        "input_column": "expr_oocyst",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      },
+      {
+        "source_id": "pf_derived_stage_labels",
+        "input_column": "expr_sporozoite",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      }
+    ],
+    "gaps": []
+  },
+  "plasmodb_identity": {
+    "source_id": "plasmodb_identity",
+    "sources": [
+      "plasmodb_identity"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_riboseq": {
+    "source_id": "pf_riboseq",
+    "sources": [
+      "pf_riboseq"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_berghei_liver_transfer": {
+    "source_id": "pf_berghei_liver_transfer",
+    "sources": [
+      "pf_berghei_liver_transfer"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "host_erythrocyte_proteome": {
+    "source_id": "host_erythrocyte_proteome",
+    "sources": [
+      "host_erythrocyte_proteome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_foldseek_struct": {
+    "source_id": "pf_foldseek_struct",
+    "sources": [
+      "pf_alphafold_confidence",
+      "pf_foldseek_struct"
+    ],
+    "edges": [
+      {
+        "source_id": "pf_foldseek_struct",
+        "input_column": "mean_plddt",
+        "upstream_source": "pf_alphafold_confidence"
+      }
+    ],
+    "gaps": []
+  },
+  "host_erythrocyte_surface": {
+    "source_id": "host_erythrocyte_surface",
+    "sources": [
+      "host_erythrocyte_surface"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "host_mouse_tissue_transcriptome": {
+    "source_id": "host_mouse_tissue_transcriptome",
+    "sources": [
+      "host_mouse_tissue_transcriptome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "host_gtex_transcriptome": {
+    "source_id": "host_gtex_transcriptome",
+    "sources": [
+      "host_gtex_transcriptome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "host_k562_rhoptry_screen": {
+    "source_id": "host_k562_rhoptry_screen",
+    "sources": [
+      "host_k562_rhoptry_screen"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "host_hff_tg_infection": {
+    "source_id": "host_hff_tg_infection",
+    "sources": [
+      "host_hff_tg_infection"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "host_bmdm_baseline": {
+    "source_id": "host_bmdm_baseline",
+    "sources": [
+      "host_bmdm_baseline"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "host_hepatocyte_pf_infection": {
+    "source_id": "host_hepatocyte_pf_infection",
+    "sources": [
+      "host_hepatocyte_pf_infection"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "host_macrophage_surfaceome": {
+    "source_id": "host_macrophage_surfaceome",
+    "sources": [
+      "host_macrophage_surfaceome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_literature": {
+    "source_id": "pf_literature",
+    "sources": [
+      "pf_literature"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_berghei_transfer": {
+    "source_id": "pf_berghei_transfer",
+    "sources": [
+      "pf_berghei_transfer"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_idc_timing": {
+    "source_id": "pf_idc_timing",
+    "sources": [
+      "pf_idc_timing"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_ip_ms": {
+    "source_id": "pf_ip_ms",
+    "sources": [
+      "pf_ip_ms"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_cdpk1_dependent_sites": {
+    "source_id": "pf_cdpk1_dependent_sites",
+    "sources": [
+      "pf_cdpk1_dependent_sites"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_secretome": {
+    "source_id": "pf_secretome",
+    "sources": [
+      "pf_secretome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_isoforms": {
+    "source_id": "pf_isoforms",
+    "sources": [
+      "pf_isoforms"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_lactylome": {
+    "source_id": "pf_lactylome",
+    "sources": [
+      "pf_lactylome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_acetylome": {
+    "source_id": "pf_acetylome",
+    "sources": [
+      "pf_acetylome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_myristoylome": {
+    "source_id": "pf_myristoylome",
+    "sources": [
+      "pf_myristoylome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_palmitome": {
+    "source_id": "pf_palmitome",
+    "sources": [
+      "pf_palmitome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_phosphoproteome_meta": {
+    "source_id": "pf_phosphoproteome_meta",
+    "sources": [
+      "pf_phosphoproteome_meta"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "plasmodb_pf3d7_exportpred": {
+    "source_id": "plasmodb_pf3d7_exportpred",
+    "sources": [
+      "plasmodb_pf3d7_exportpred"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_host_degree": {
+    "source_id": "pf_host_degree",
+    "sources": [
+      "pf_host_bridge_xlms",
+      "pf_host_degree"
+    ],
+    "edges": [
+      {
+        "source_id": "pf_host_degree",
+        "input_column": "bridge:host",
+        "upstream_source": "pf_host_bridge_xlms"
+      }
+    ],
+    "gaps": []
+  },
+  "pf_enzyme_classification": {
+    "source_id": "pf_enzyme_classification",
+    "sources": [
+      "pf_enzyme_classification"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_codon_usage": {
+    "source_id": "pf_codon_usage",
+    "sources": [
+      "pf_codon_usage",
+      "plasmodb_pf3d7_attributes"
+    ],
+    "edges": [
+      {
+        "source_id": "pf_codon_usage",
+        "input_column": "length",
+        "upstream_source": "plasmodb_pf3d7_attributes"
+      }
+    ],
+    "gaps": []
+  },
+  "pf_host_bridge_xlms": {
+    "source_id": "pf_host_bridge_xlms",
+    "sources": [
+      "pf_host_bridge_xlms"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_complexes": {
+    "source_id": "pf_complexes",
+    "sources": [
+      "pf_complexes"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_crosslink_ms": {
+    "source_id": "pf_crosslink_ms",
+    "sources": [
+      "pf_crosslink_ms"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_relation_layers": {
+    "source_id": "pf_relation_layers",
+    "sources": [
+      "pf_relation_layers",
+      "plasmodb_pf3d7_domains",
+      "plasmodb_pf3d7_expression",
+      "plasmodb_pf3d7_orthology"
+    ],
+    "edges": [
+      {
+        "source_id": "pf_relation_layers",
+        "input_column": "orthogroup",
+        "upstream_source": "plasmodb_pf3d7_orthology"
+      },
+      {
+        "source_id": "pf_relation_layers",
+        "input_column": "interpro_ids",
+        "upstream_source": "plasmodb_pf3d7_domains"
+      },
+      {
+        "source_id": "pf_relation_layers",
+        "input_column": "expr_ring",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      },
+      {
+        "source_id": "pf_relation_layers",
+        "input_column": "expr_schizont",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      },
+      {
+        "source_id": "pf_relation_layers",
+        "input_column": "expr_sporozoite",
+        "upstream_source": "plasmodb_pf3d7_expression"
+      }
+    ],
+    "gaps": []
+  },
+  "cotranslation_edges": {
+    "source_id": "cotranslation_edges",
+    "sources": [
+      "cotranslation_edges",
+      "gse129869",
+      "gse245775",
+      "gse99395"
+    ],
+    "edges": [
+      {
+        "source_id": "cotranslation_edges",
+        "input_column": "rpf99395_intracellular_r1",
+        "upstream_source": "gse99395"
+      },
+      {
+        "source_id": "cotranslation_edges",
+        "input_column": "rpf129869_confluent_r1",
+        "upstream_source": "gse129869"
+      },
+      {
+        "source_id": "cotranslation_edges",
+        "input_column": "rpf245775_parent_tachy_r1",
+        "upstream_source": "gse245775"
+      }
+    ],
+    "gaps": []
+  },
+  "m6a_peaks": {
+    "source_id": "m6a_peaks",
+    "sources": [
+      "m6a_peaks"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "sexual_stages": {
+    "source_id": "sexual_stages",
+    "sources": [
+      "sexual_stages"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "secretome_partition": {
+    "source_id": "secretome_partition",
+    "sources": [
+      "secretome_partition"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "antisense_level": {
+    "source_id": "antisense_level",
+    "sources": [
+      "antisense_level"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "melting_temperature": {
+    "source_id": "melting_temperature",
+    "sources": [
+      "melting_temperature"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "thermal_shift_cetsa": {
+    "source_id": "thermal_shift_cetsa",
+    "sources": [
+      "thermal_shift_cetsa"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "cyst_wall_interactome": {
+    "source_id": "cyst_wall_interactome",
+    "sources": [
+      "cyst_wall_interactome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "second_background_fitness": {
+    "source_id": "second_background_fitness",
+    "sources": [
+      "second_background_fitness"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "differentiation_screen": {
+    "source_id": "differentiation_screen",
+    "sources": [
+      "differentiation_screen"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_spatial_proteome": {
+    "source_id": "pf_spatial_proteome",
+    "sources": [
+      "pf_spatial_proteome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_field_variation": {
+    "source_id": "pf_field_variation",
+    "sources": [
+      "pf_field_variation"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_mrna_dynamics": {
+    "source_id": "pf_mrna_dynamics",
+    "sources": [
+      "pf_mrna_dynamics"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_hsp90_chemoproteome": {
+    "source_id": "pf_hsp90_chemoproteome",
+    "sources": [
+      "pf_hsp90_chemoproteome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_rna_dependence": {
+    "source_id": "pf_rna_dependence",
+    "sources": [
+      "pf_rna_dependence"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_committed_proteome": {
+    "source_id": "pf_committed_proteome",
+    "sources": [
+      "pf_committed_proteome"
+    ],
+    "edges": [],
+    "gaps": []
+  },
+  "pf_resistome": {
+    "source_id": "pf_resistome",
+    "sources": [
+      "pf_resistome"
+    ],
+    "edges": [],
+    "gaps": []
+  }
+}

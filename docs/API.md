@@ -83,6 +83,25 @@ publication. Remote availability is not probed. The offline builder
 records source declarations, installed tables, retained refusals, input hashes,
 JSON/Parquet exports and an executed reconciliation notebook.
 
+## Trace a measurement to its source
+
+```python
+from starplast.provenance import read_traces
+
+traces = read_traces("results/measurement_provenance_recovered_2026_10_07/traces.json")
+pilot = next(t for t in traces if t.source_id == "host_bmdm_baseline")
+print(pilot.source_species, pilot.quantity_unit, pilot.mappings, pilot.gaps)
+for source_file in pilot.source_files:
+    source_file.verify()
+```
+
+See [measurement provenance](provenance.md) for the source-file, transform and
+mapping contracts, the exact raw-to-installed host pilot and the unresolved legacy
+audit fields. `registry_organism` is an exploration scope; actual assay species
+and their evidence reference are recorded separately. Content identities include
+units, mapping loss and explicit gaps. Schema versions and duplicate output
+addresses are validated on read and write.
+
 ## Choose among comparable datasets
 
 For competing dataset choices, use `starplast.dataset_selection.DatasetCandidate`,
