@@ -62,8 +62,8 @@ One file per task. This index is the status table; the files carry the reasoning
 | 61 | [Tutorial videos: six screen captures of the real application](done/61_tutorial_videos.md) |
 | 54 | [Many more pregenerated maps, searched for structure, and a navigable maps panel](done/54_many_umap_maps_and_the_score_table.md) — shipped in 0.50.0 |
 | 58 | [Star map: stop the hover twitch, show the larger network, define the connections](done/58_star_map_steady_larger_defined.md) — merged and shipped in 0.50.0 |
-
 | 64.01 | [Define organism-qualified entities, questions and provenance-preserving alias resolution](done/64_01_entity_query_contract.md) — 472 focused checks passed |
+| 64.02 | [Inventory registered evidence and reconcile installed storage coverage](done/64_02_dataset_inventory.md) — 162 sources, 180 rows, 16 scoped refusals; 525 focused checks passed |
 
 ## Open
 
@@ -75,7 +75,7 @@ whenever an action is completed, replacing its percentage with a green tick.
 
 | # | Task |
 |---|---|
-| 64 | [Explore published organism/host evidence and inspect precomputed inferences with ground-truth scorecards](open/64_information_space_and_inference_atlas.md) — 1/40 complete (2.5%); continue with 64.02 |
+| 64 | [Explore published organism/host evidence and inspect precomputed inferences with ground-truth scorecards](open/64_information_space_and_inference_atlas.md) — 2/40 complete (5%); continue with 64.03 |
 | 63 | [Claims: generate knowledge with a measured certainty, then test it independently](open/63_claims_generate_and_verify.md) — steps 1+2 shipped in 0.54.0; October 7 literature audit complete (no Tg candidate passes, Pf candidate adds only two claims; no promotion). Next: orthology/experimental verifier coverage, frozen prospective tests, genes outside the tested range |
 | 62 | [The hold-out track record](open/62_holdout_track_record.md) — shipped 0.52.0-0.53.0 for 12 labels; left: pooled record vs scorecard check, the questions page |
 | 38 | Build a provenance-first pan-Apicomplexan dataset archive |

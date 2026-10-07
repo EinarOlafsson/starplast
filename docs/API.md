@@ -57,6 +57,32 @@ original mapping kinds, so the adapter reports `ambiguous_alias` and index-level
 provenance rather than inventing source rows. Supplied records can include verified
 short symbols that conservative literature extraction would omit.
 
+## Inventory installed evidence
+
+```python
+from starplast.inventory import build_inventory
+
+inventory = build_inventory({(organisms.TOXOPLASMA, "gene"): nodes})
+print(inventory[["source_id", "organism", "unit", "status", "stored_fraction"]])
+```
+
+Every registered source remains visible, including absent outputs. Supply host
+tables as `(organism, "protein")`, since the current host references contain
+protein rows, and graphs/bridges separately by organism. Context and evidence
+facets reuse the slot catalogue. `table_rows` is the installed storage universe;
+`stored_fraction` counts rows with any stored value in declared columns. Zero and
+False are retained. This is storage coverage, not assay reach or measured accuracy.
+`false_cells` counts stored boolean negatives without certifying assay semantics.
+Optional typed `Observation` records retain known missingness and measured boolean
+negatives; absent observations leave those counters unknown.
+
+Pair records do not imply an assayed-pair denominator. Bridge rows lacking source
+IDs remain unattributed, and question-specific refusals do not reject an entire
+publication. Remote availability is not probed. The offline builder
+`python scripts/build_information_inventory.py --out results/NEW_DIRECTORY`
+records source declarations, installed tables, retained refusals, input hashes,
+JSON/Parquet exports and an executed reconciliation notebook.
+
 ## Build a feature matrix and embedding
 
 ```python

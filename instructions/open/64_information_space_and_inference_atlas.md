@@ -1,6 +1,6 @@
 # 64 · Explore the evidence space and inspect every inference, with ground-truth scorecards
 
-Status: OPEN — 1/40 actions complete (2.5%), 2026-10-07. Entity/query contract verified; dataset inventory next.
+Status: OPEN — 2/40 actions complete (5%), 2026-10-07. Query contract and dataset inventory verified; measurement provenance next.
 
 This is the current execution plan under the user's clarified goals. Instructions 53, 60, 62 and 63
 retain their completed work, design decisions and evidence; this plan controls their integration order.
@@ -131,7 +131,7 @@ checks add elapsed time; budget them after pilot measurements.
 | Item | Percent done | Time left | Description | Depends on |
 |---|---:|---:|---|---|
 | [64.01](../done/64_01_entity_query_contract.md) | ✅ | 0 h | Define the entities and questions | — |
-| [64.02](64_02_dataset_inventory.md) | 0% | 3–5 h | Inventory the available information space | 64.01 |
+| [64.02](../done/64_02_dataset_inventory.md) | ✅ | 0 h | Inventory the available information space | 64.01 |
 | [64.03](64_03_measurement_provenance.md) | 0% | 4–6 h | Trace each measurement to its source | 64.02 |
 | [64.04](64_04_ground_truth_registry.md) | 0% | 4–8 h | Register the ground-truth test cases | 64.01, 64.03 |
 | [64.05](64_05_heldout_split_protocols.md) | 0% | 4–8 h | Freeze the hold-outs and leakage rules | 64.04 |
