@@ -10,14 +10,16 @@ their hosts; start from a gene, class, localization or label and inspect every a
 precomputed results, agreements/conflicts and a ground-truth-tested meta-inference. Scorecards
 must make accuracy, capacity and the underlying test evidence accessible at every level.
 The controlling plan is **[instruction 64](instructions/open/64_information_space_and_inference_atlas.md)**:
-40 bounded action cards with dependencies and acceptance tests. Implementation is 0%; start at 64.01.
+40 bounded action cards with dependencies and acceptance tests. **1/40 complete (2.5%)**:
+64.01 provides the entity/query schema and provenance-preserving exact alias resolver
+(`starplast/query.py`, 472 focused checks passed). Continue at **64.02**, the dataset inventory.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
 the entire 40-item progress table. Keep the stored tracker and completion evidence current.
 
 **Source:** `/media/carruthers/mnt3/claude/repo/starplast` (the package is `starplast/` inside it),
 branch `nightly`. `main` is the release branch at 0.54.0. Nightly also contains the October 7
-literature-verifier audit and the instruction-64 action plan; runtime code and shipped claims
-remain at the released baseline.
+literature-verifier audit, the instruction-64 action plan and the entity/query contract;
+strategies, calibration, data and shipped claims remain at the released baseline.
 
 ---
 
@@ -26,7 +28,7 @@ remain at the released baseline.
 | | |
 |---|---|
 | Version | **0.54.0** on PyPI (2026-10-05), verified: wheel + sdist on PyPI, GitHub release with both |
-| Branches | Runtime/data baseline `1249c55`; nightly adds the handoff, October 7 literature audit and instruction-64 action plan |
+| Branches | Runtime/data baseline `1249c55`; nightly adds the handoff, October 7 literature audit, instruction-64 action plan and query contract |
 | Tables | *T. gondii* `nodes.parquet` 8,140 genes; *P. falciparum* `pf_nodes.parquet` 5,720; host proteins 36,579 (Hs 20,989 + Mm 15,590) |
 | Strategies | 39 in 9 families, each with method, techniques, scorecard task, calibration grade, card, explainer and worked examples |
 | Calibration | 7,640 self-tests (`results/calibration_2026-09-26b`); Tg 30 reliable / 8 weak / 1 untestable; Pf 26 / 2 tuned / 9 weak / 2 untestable |
@@ -180,7 +182,8 @@ cd <repo> && python scripts/calibrate_strategies.py --publish --out results/cali
 Follow [instruction 64](instructions/open/64_information_space_and_inference_atlas.md) and its
 linked action cards. It covers both clarified goals: evidence-space exploration and a gene/class/label
 inference atlas, backed by appropriate ground-truth tests, reusable precomputation, dependence-aware
-meta-analysis and scorecards at every level. Start at 64.01; respect each card's dependencies.
+meta-analysis and scorecards at every level. 64.01 is complete; start at **64.02** and respect
+each card's dependencies. The completed card records the fixtures, validation and limitations.
 
 The user's standing preferences still apply: **quality before quantity**, compact information with
 click-through detail, and measured leakage. The full progress table lives in instruction 64 and is

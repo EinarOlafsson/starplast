@@ -21,6 +21,42 @@ Use `pf_nodes.parquet` for *P. falciparum*. `paths.cache_file()` honours
 `STARPLAST_CACHE`. This example imports no GUI modules and does not download data.
 Keep the table row order when aligning coordinates or cluster labels with genes.
 
+## Address an evidence or inference question
+
+```python
+from starplast import organisms
+from starplast.query import BiologicalContext, Query
+
+question = Query(
+    organism=organisms.TOXOPLASMA,
+    kind="class",
+    target="compartment",
+    values=("rhoptry",),
+    context=BiologicalContext(stage="tachyzoite", host=organisms.HUMAN),
+    output="scorecard",
+)
+assert Query.from_json(question.to_json()) == question
+```
+
+Schema version 1 covers genes, proteins, gene sets, labels, classes, continuous
+traits and ordered pairs. A label names a target; a class additionally names one
+or more exact values. Context, output and each endpoint's organism survive JSON
+transport. Gene sets and class values are unordered; pair direction is preserved.
+Unknown fields, schema versions and incompatible endpoint organisms are rejected.
+This address describes the question; it does not execute a strategy or establish
+that data or a benchmark is available. Host references do not admit a host gene pack.
+
+`GeneResolver(organism, records)` accepts verified `AliasRecord` mappings with
+explicit source artifact IDs. `resolve(alias)` returns `resolved`, `ambiguous`
+or `unresolved`, retaining all candidate mappings and sources. Only `resolved`
+has an `entity`; ambiguous choices require a selection. Exact alias normalization
+uses the existing identity rules, without cross-species or substring fallback.
+`GeneResolver.from_index(index, organism, source)` also exposes an existing
+`identity.GeneIndex`'s collisions. The index did not retain those collisions'
+original mapping kinds, so the adapter reports `ambiguous_alias` and index-level
+provenance rather than inventing source rows. Supplied records can include verified
+short symbols that conservative literature extraction would omit.
+
 ## Build a feature matrix and embedding
 
 ```python
